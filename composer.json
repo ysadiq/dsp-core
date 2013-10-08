@@ -46,10 +46,10 @@
 	"require":           {
 		"php":                                  ">=5.3.10",
 		"kisma/kisma":                          ">=0.1.4",
-		"dreamfactory/yii":                     "dev-master",
-		"dreamfactory/app-admin":               "1.1.*",
-		"dreamfactory/app-launchpad":           "1.1.*",
-		"dreamfactory/lib-php-common-platform": "1.*",
+		"dreamfactory/yii":                     "*",
+		"dreamfactory/app-admin":               "*",
+		"dreamfactory/app-launchpad":           "*",
+		"dreamfactory/lib-php-common-platform": "*",
 		"dreamfactory/web-core":                "*",
 		"dreamfactory/oasys":                   "*"
 	},
