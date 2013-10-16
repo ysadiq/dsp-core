@@ -148,10 +148,10 @@ class WebController extends BaseWebController
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			 '_splash',
-			 array(
-				  'for' => PlatformStates::INIT_REQUIRED,
-			 )
+			'_splash',
+			array(
+				 'for' => PlatformStates::INIT_REQUIRED,
+			)
 		);
 
 		$this->actionInitSystem();
@@ -235,11 +235,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'activate',
-			 array(
-				  'model'     => $_model,
-				  'activated' => $this->_activated,
-			 )
+			'activate',
+			array(
+				 'model'     => $_model,
+				 'activated' => $this->_activated,
+			)
 		);
 	}
 
@@ -360,12 +360,12 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'login',
-			 array(
-				  'model'      => $_model,
-				  'activated'  => $this->_activated,
-				  'redirected' => $redirected,
-			 )
+			'login',
+			array(
+				 'model'      => $_model,
+				 'activated'  => $this->_activated,
+				 'redirected' => $redirected,
+			)
 		);
 	}
 
@@ -403,10 +403,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'initSchema',
-			 array(
-				  'model' => $_model
-			 )
+			'initSchema',
+			array(
+				 'model' => $_model
+			)
 		);
 	}
 
@@ -440,10 +440,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'initAdmin',
-			 array(
-				  'model' => $_model
-			 )
+			'initAdmin',
+			array(
+				 'model' => $_model
+			)
 		);
 	}
 
@@ -535,10 +535,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'upgradeDsp',
-			 array(
-				  'model' => $_model
-			 )
+			'upgradeDsp',
+			array(
+				 'model' => $_model
+			)
 		);
 	}
 
@@ -657,13 +657,14 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-						   $_providerModel,
-						   array(
-								'flow_type'    => $_flow,
-								'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-						   ),
-						   Pii::getState( $_providerId . '.user_config', array() )
+			$_providerModel,
+			array(
+				 'flow_type'    => $_flow,
+				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+			),
+			Pii::getState( $_providerId . '.user_config', array() )
 		);
+		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
 
 		$_provider = Oasys::getProvider( $_providerId, $_config );
 
