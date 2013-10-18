@@ -63,7 +63,6 @@ const DEFAULT_SUPPORT_EMAIL = 'support@dreamfactory.com';
  */
 const DEFAULT_ADMIN_RESOURCE_SCHEMA = '/admin.resource_schema.config.php';
 
-
 //*************************************************************************
 //* Global Configuration Settings
 //*************************************************************************
@@ -150,11 +149,11 @@ return array_merge(
 		  * DSP Information
 		  */
 		 'dsp.version'                   => DSP_VERSION,
-		 'dsp.name'                      => $_instanceSettings[ 'dsp_name' ],
+		 'dsp.name'                      => $_instanceSettings['dsp_name'],
 		 'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
 		 'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
 		 'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
- 		 /**
+		 /**
 		  * Remote Logins
 		  */
 		 'dsp.allow_remote_logins'       => true,
