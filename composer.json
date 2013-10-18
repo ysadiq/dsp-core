@@ -47,9 +47,9 @@
 		"php":                                  ">=5.3.10",
 		"kisma/kisma":                          ">=0.1.4",
 		"dreamfactory/yii":                     "*",
-		"dreamfactory/app-admin":               "*",
-		"dreamfactory/app-launchpad":           "*",
-		"dreamfactory/lib-php-common-platform": "*",
+		"dreamfactory/app-admin":               "dev-develop",
+		"dreamfactory/app-launchpad":           "dev-develop",
+		"dreamfactory/lib-php-common-platform": "dev-develop",
 		"dreamfactory/web-core":                "*",
 		"dreamfactory/oasys":                   "*",
 		"dreamfactory/jetpack-salesforce":      "*"
