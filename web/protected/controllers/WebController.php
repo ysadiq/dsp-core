@@ -642,14 +642,15 @@ class WebController extends BaseWebController
 
 		$_flow = FilterInput::request( 'flow', Flows::CLIENT_SIDE, FILTER_SANITIZE_NUMBER_INT );
 
-		$_providerModel = Fabric::getProviderCredentials( $_providerId );
-
-		if ( empty( $_providerModel ) )
+		//	Check local then global...
+		if ( null === ( $_providerModel = Provider::model()->byPortal( $_providerId )->find() ) )
 		{
 			/** @var Provider $_providerModel */
-			if ( null === ( $_providerModel = Provider::model()->byPortal( $_providerId )->find() ) )
+			$_providerModel = Fabric::getProviderCredentials( $_providerId );
+
+			if ( empty( $_providerModel ) )
 			{
-				throw new BadRequestException( 'The provider "' . $_providerId . '" is not configured for remote login.' );
+				throw new BadRequestException( 'The provider "' . $_providerId . '" is not available.' );
 			}
 		}
 
@@ -658,12 +659,13 @@ class WebController extends BaseWebController
 
 		$_config = Provider::buildConfig(
 			$_providerModel,
+			Pii::getState( $_providerId . '.user_config', array() ),
 			array(
 				 'flow_type'    => $_flow,
 				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-			),
-			Pii::getState( $_providerId . '.user_config', array() )
+			)
 		);
+
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
 
 		$_provider = Oasys::getProvider( $_providerId, $_config );
@@ -690,6 +692,61 @@ class WebController extends BaseWebController
 
 		Log::error( 'Seems that the provider rejected the login...' );
 		$this->_redirectError( 'Error during remote login sequence. Please try again.' );
+	}
+
+	/**
+	 * Handle inbound redirect from various services
+	 *
+	 * @throws DreamFactory\Common\Exceptions\RestException
+	 */
+	public function actionAuthorize()
+	{
+		Log::debug( 'Inbound $REQUEST: ' . print_r( $_REQUEST, true ) );
+
+		$_state = Storage::defrost( Option::request( 'state' ) );
+		$_origin = Option::get( $_state, 'origin' );
+		$_apiKey = Option::get( $_state, 'api_key' );
+
+		Log::debug( 'Inbound state: ' . print_r( $_state, true ) );
+
+		if ( empty( $_origin ) || empty( $_apiKey ) )
+		{
+			Log::error( 'Invalid request state.' );
+			throw new BadRequestException();
+		}
+
+		if ( $_apiKey != ( $_testKey = sha1( $_origin ) ) )
+		{
+			Log::error( 'API Key mismatch: ' . $_apiKey . ' != ' . $_testKey );
+			throw new ForbiddenException();
+		}
+
+		$_code = FilterInput::request( 'code', null, FILTER_SANITIZE_STRING );
+
+		if ( !empty( $_code ) )
+		{
+			Log::debug( 'Inbound code received: ' . $_code . ' from ' . $_state['origin'] );
+		}
+		else
+		{
+			if ( null === Option::get( $_REQUEST, 'access_token' ) )
+			{
+				Log::error( 'Inbound request code missing.' );
+				throw new RestException( HttpResponse::BadRequest );
+			}
+			else
+			{
+				Log::debug( 'Token received. Relaying to origin.' );
+			}
+		}
+
+		$_redirectUri = Option::get( $_state, 'redirect_uri', $_state['origin'] );
+		$_redirectUrl = $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
+
+		Log::debug( 'Proxying request to: ' . $_redirectUrl );
+
+		header( 'Location: ' . $_redirectUrl );
+		exit();
 	}
 
 	/**
