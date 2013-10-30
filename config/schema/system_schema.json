@@ -1,8 +1,8 @@
 {
-	"version": "1.1.3",
+	"version": "1.1.3.2",
 	"scripts": {
 		"install": null,
-		"update":  "1.1.0-update.sql"
+		"update":  "1.1.3-update.sql"
 	},
 	"table":   [
 		{
@@ -1021,11 +1021,15 @@
 					"comment":    "If this is a portal service, the api_name is the endpoint"
 				},
 				{
-					"name":       "base_provider",
-					"type":       "string",
-					"allow_null": true,
-					"is_unique":  false,
-					"length":     64
+					"name":          "base_provider_id",
+					"allow_null":    true,
+					"is_unique":     false,
+					"type":          "reference",
+					"ref_table":     "df_sys_provider",
+					"ref_fields":    "id",
+					"validation":    "api_read_only",
+					"ref_on_delete": "CASCADE",
+					"ref_on_update": "CASCADE"
 				},
 				{
 					"name":       "is_active",
