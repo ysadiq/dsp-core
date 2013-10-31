@@ -284,7 +284,12 @@ class RestController extends BaseFactoryController
 		//	Still empty?
 		if ( empty( $_appName ) )
 		{
-			RestResponse::sendErrors( new BadRequestException( 'No application name header or parameter value in request.' ) );
+			if ( false === stripos( Option::server( 'REQUEST_URI' ), '/rest/portal' ) || !isset( $_REQUEST, $_REQUEST['code'] ) )
+			{
+				RestResponse::sendErrors( new BadRequestException( 'No application name header or parameter value in request.' ) );
+			}
+
+			$_appName = 'portal';
 		}
 
 		return $_appName;
@@ -297,7 +302,8 @@ class RestController extends BaseFactoryController
 	{
 		$this->_responseFormat = ResponseFormats::RAW;
 
-		$_outputFormat = trim( strtolower( FilterInput::request( 'format', FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING ), FILTER_SANITIZE_STRING ) ) );
+		$_outputFormat =
+			trim( strtolower( FilterInput::request( 'format', FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING ), FILTER_SANITIZE_STRING ) ) );
 
 		switch ( $_outputFormat )
 		{

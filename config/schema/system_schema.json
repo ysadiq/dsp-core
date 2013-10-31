@@ -1,8 +1,8 @@
 {
-	"version": "1.1.0.3",
+	"version": "1.1.3.2",
 	"scripts": {
 		"install": null,
-		"update":  "1.1.0-update.sql"
+		"update":  "1.1.3-update.sql"
 	},
 	"table":   [
 		{
@@ -33,6 +33,38 @@
 					"allow_null":    true
 				},
 				{
+					"name":          "open_reg_email_service_id",
+					"type":          "reference",
+					"ref_table":     "df_sys_service",
+					"ref_fields":    "id",
+					"ref_on_delete": "SET NULL",
+					"allow_null":    true
+				},
+				{
+					"name":          "open_reg_email_template_id",
+					"type":          "reference",
+					"ref_table":     "df_sys_email_template",
+					"ref_fields":    "id",
+					"ref_on_delete": "SET NULL",
+					"allow_null":    true
+				},
+				{
+					"name":          "password_email_service_id",
+					"type":          "reference",
+					"ref_table":     "df_sys_service",
+					"ref_fields":    "id",
+					"ref_on_delete": "SET NULL",
+					"allow_null":    true
+				},
+				{
+					"name":          "password_email_template_id",
+					"type":          "reference",
+					"ref_table":     "df_sys_email_template",
+					"ref_fields":    "id",
+					"ref_on_delete": "SET NULL",
+					"allow_null":    true
+				},
+				{
 					"name":       "allow_guest_user",
 					"type":       "boolean",
 					"default":    false,
@@ -52,6 +84,12 @@
 					"default":    "email,display_name,first_name,last_name,phone,default_app_id,security_question,security_answer",
 					"length":     255,
 					"allow_null": false
+				},
+				{
+					"name":               "custom_settings",
+					"type":               "mediumtext",
+					"supports_multibyte": true,
+					"allow_null":         true
 				},
 				{
 					"name":       "created_date",
@@ -983,6 +1021,17 @@
 					"comment":    "If this is a portal service, the api_name is the endpoint"
 				},
 				{
+					"name":          "base_provider_id",
+					"allow_null":    true,
+					"is_unique":     false,
+					"type":          "reference",
+					"ref_table":     "df_sys_provider",
+					"ref_fields":    "id",
+					"validation":    "api_read_only",
+					"ref_on_delete": "CASCADE",
+					"ref_on_update": "CASCADE"
+				},
+				{
 					"name":       "is_active",
 					"type":       "boolean",
 					"default":    true,
@@ -990,6 +1039,12 @@
 				},
 				{
 					"name":       "is_system",
+					"type":       "boolean",
+					"default":    false,
+					"allow_null": false
+				},
+				{
+					"name":       "is_login_provider",
 					"type":       "boolean",
 					"default":    false,
 					"allow_null": false
