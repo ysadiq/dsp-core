@@ -31,6 +31,14 @@
 			"type":        "Email Service",
 			"type_id":     1,
 			"description": "Email utility access"
+		},
+		{
+			"api_name":    "portal",
+			"name":        "Local Portal Service",
+			"is_active":   1,
+			"type":        "Local Portal Service",
+			"type_id":     64,
+			"description": "Local Portal Service"
 		}
 	],
 	"df_sys_email_template": [
@@ -45,20 +53,20 @@
 			"reply_to_email": "no-reply@dreamfactory.com"
 		},
 		{
-			"name":           "Registration Confirmation",
-			"description":    "Email sent to new users to complete registration.",
-			"subject":        "Registration Confirmation",
-			"body_html":      "Hi {first_name},<br\/>\nYou have registered to become a {dsp.name} user. Go to the following url, enter the code below, and set your password to confirm your account.<br\/>\n<br\/>\n{dsp.host_url}/public/launchpad/confirm_reg.html<br\/>\n<br\/>\nConfirmation Code: {confirm_code}<br\/>\n<br\/>\nThanks,<br\/>\n{from_name}",
-			"from_name":      "DreamFactory",
-			"from_email":     "no-reply@dreamfactory.com"
+			"name":        "Registration Confirmation",
+			"description": "Email sent to new users to complete registration.",
+			"subject":     "Registration Confirmation",
+			"body_html":   "Hi {first_name},<br\/>\nYou have registered to become a {dsp.name} user. Go to the following url, enter the code below, and set your password to confirm your account.<br\/>\n<br\/>\n{dsp.host_url}/public/launchpad/confirm_reg.html<br\/>\n<br\/>\nConfirmation Code: {confirm_code}<br\/>\n<br\/>\nThanks,<br\/>\n{from_name}",
+			"from_name":   "DreamFactory",
+			"from_email":  "no-reply@dreamfactory.com"
 		},
 		{
-			"name":           "Password Reset",
-			"description":    "Email sent to users following a request to reset their password.",
-			"subject":        "Password Reset",
-			"body_html":      "Hi {first_name},<br\/>\n<br\/>\nYou have requested to reset your password. Go to the following url, enter the code below, and set your new password.<br\/>\n<br\/>\n{dsp.host_url}/public/launchpad/confirm_reset.html<br\/>\n<br\/>\nConfirmation Code: {confirm_code}<br\/>\n<br\/>\nThanks,<br\/>\n{from_name}",
-			"from_name":      "DreamFactory",
-			"from_email":     "no-reply@dreamfactory.com"
+			"name":        "Password Reset",
+			"description": "Email sent to users following a request to reset their password.",
+			"subject":     "Password Reset",
+			"body_html":   "Hi {first_name},<br\/>\n<br\/>\nYou have requested to reset your password. Go to the following url, enter the code below, and set your new password.<br\/>\n<br\/>\n{dsp.host_url}/public/launchpad/confirm_reset.html<br\/>\n<br\/>\nConfirmation Code: {confirm_code}<br\/>\n<br\/>\nThanks,<br\/>\n{from_name}",
+			"from_name":   "DreamFactory",
+			"from_email":  "no-reply@dreamfactory.com"
 		}
 	]
 }

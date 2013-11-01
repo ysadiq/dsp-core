@@ -1,12 +1,22 @@
-# DSP v1.1.0 Change Log
+# DreamFactory Services Platform Change Log
 
-## Major Bug Fixes
+## v1.1.3 (Released 2013-10-31)
+* Portal and remote authentication support
+* Bug fixes
+* More to come
+
+## v1.1.2
+* Bug fixes
+
+## v1.1.0
+
+### Major Bug Fixes
 * Add description to AppGroup and Role models
 * Current user can no longer change their own role(s)
 * Permission issues when saving new data
 * All remaining open issues from version 1.0.6 fixed
 
-## Major New Features
+### Major New Features
 * Removed most DSP-specific code from Yii routing engine
 * Most, if not all, resource access moved to a single class "ResourceStore"
 * "/rest/system/constant" call to return system constants for list building
@@ -19,7 +29,7 @@
 * Added support for "global" authentication providers for enterprise customers
 * Added ability to control CRUD access to system resources (User, App, etc.) through the Roles Admin Settings.
 
-## Major Foundational Changes
+### Major Foundational Changes
 * Most system types (i.e. service, storage, etc.) are now numeric instead of hard-coded strings
 * Services now configured from /config/services.config.php instead of being hard-coded
 * /src tree removed, replaced by new Composer libraries (lib-php-common-platform)
