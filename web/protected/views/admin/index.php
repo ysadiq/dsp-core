@@ -3,6 +3,7 @@
  * @var array $resourceColumns
  */
 use DreamFactory\Common\Enums\PageLocation;
+use DreamFactory\Platform\Enums\ResponseFormats;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Utility\Inflector;
 use Kisma\Core\Utility\Option;
@@ -146,14 +147,15 @@ jQuery(function($) {
 				bProcessing:     true,
 				bServerSide:     true,
 				bStateSave:      true,
-				sAjaxSource:     "/rest/system/" + _resource,
+				sAjaxSource: "/rest/system/" + _resource,
 				sPaginationType: "bootstrap",
 				aoColumns:       _columns,
 				oLanguage:       {
 					sSearch: "Filter:"
 				},
 				fnServerParams:  function(aoData) {
-					aoData.push({ "name": "format", "value": 100 }, { "name": "app_name", "value": "php-admin" }, { "name": "fields", "value": _fields });
+					aoData.push({ "name": "format", "value": <?php echo ResponseFormats::DATATABLES; ?> }, { "name": "app_name", "value": "php-admin" },
+						{ "name": "fields", "value": _fields });
 				}
 			});
 		}
