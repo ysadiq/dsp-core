@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.2.8
+#	Remove shared and links for launchpad, admin and web-core
+#
 # v1.2.7
 #	Remove composer cache on clean install
 #
@@ -142,7 +145,6 @@ WEB_DIR=${BASE_PATH}/web
 PUBLIC_DIR=${WEB_DIR}/public
 ASSETS_DIR=${PUBLIC_DIR}/assets
 APPS_DIR=${BASE_PATH}/apps
-SHARE_DIR=${BASE_PATH}/shared
 COMPOSER_DIR=${BASE_PATH}
 
 # Hosted or standalone?
@@ -186,9 +188,9 @@ while true ;  do
 			;;
 
 		-c|--clean)
-			rm -rf shared/ vendor/ .composer/ composer.lock >/dev/null
+			rm -rf vendor/ .composer/ composer.lock >/dev/null
 			if [ $? -ne 0 ] ; then
-				echo "  * ${B1}WARNING{B2}: Cannot remove \"shared/\", \"vendor/\", and/or \"composer.lock\"."
+				echo "  * ${B1}WARNING{B2}: Cannot remove \"vendor/\", and/or \"composer.lock\"."
 				echo "  * ${B1}WARNING{B2}: Clean installation NOT guaranteed."
 			else
 				echo "  * Clean install. Dependencies removed."
@@ -231,9 +233,6 @@ fi
 
 service mysql stop >/dev/null 2>&1
 
-# Make sure these are there...
-[ ! -d "${SHARE_DIR}" ] && mkdir -p "${SHARE_DIR}" >/dev/null && chmod ${WRITE_ACCESS} "${SHARE_DIR}" && echo "  * Created ${SHARE_DIR}"
-
 # Git submodules (not currently used, but could be in the future)
 /usr/bin/git submodule update --init -q >/dev/null 2>&1 && echo "  * External modules updated"
 
@@ -273,7 +272,7 @@ fi
 ##
 ##	Make sure our directories are in place...
 ##
-chgrp -R ${WEB_USER} ${SHARE_DIR} ${VENDOR_DIR} ./composer.lock >/dev/null 2>&1
+chgrp -R ${WEB_USER} ${VENDOR_DIR} ./composer.lock >/dev/null 2>&1
 
 if [ ! -d "${LOG_DIR}" ] ; then
 	mkdir "${LOG_DIR}" >/dev/null 2>&1 && echo "  * Created ${LOG_DIR}"
@@ -287,27 +286,6 @@ if [ ! -d "${ASSETS_DIR}" ] ; then
 	mkdir "${ASSETS_DIR}" >/dev/null 2>&1 && echo "  * Created ${ASSETS_DIR}"
 fi
 
-# Into public dir, link shared apps and junk
-cd ${PUBLIC_DIR}
-
-if [ ! -L "${PUBLIC_DIR}/web-core" ] ; then
-    ln -sf ../../shared/dreamfactory/web/web-core/ web-core >/dev/null 2>&1
-    echo "  * Core linked"
-fi
-
-if [ ! -L "${PUBLIC_DIR}/launchpad" ] ; then
-    ln -sf ../../shared/dreamfactory/app/app-launchpad/ launchpad >/dev/null 2>&1
-    echo "  * LaunchPad linked"
-fi
-
-if [ ! -L "${PUBLIC_DIR}/admin" ] ; then
-    ln -sf ../../shared/dreamfactory/app/app-admin/ admin >/dev/null 2>&1
-    echo "  * Admin linked"
-fi
-
-# Back
-cd - >/dev/null 2>&1
-
 ##
 ## make owned by user
 ##
@@ -316,7 +294,7 @@ chown -R ${INSTALL_USER}:${WEB_USER} * .git*  >/dev/null 2>&1
 ##
 ## make writable by web server
 ##
-chmod -R ${WRITE_ACCESS} shared/ vendor/ log/ web/public/assets/ >/dev/null 2>&1
+chmod -R ${WRITE_ACCESS} vendor/ log/ web/public/assets/ >/dev/null 2>&1
 
 ##
 ## Restart non-essential services
