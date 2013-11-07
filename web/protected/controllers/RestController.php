@@ -235,7 +235,7 @@ class RestController extends BaseFactoryController
 		$GLOBALS['app_name'] = $this->_determineAppName();
 		$this->_outputFormat = $this->_determineFormat();
 
-//        'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
+		//        'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
 		$path = Option::get( $_GET, 'path', '' );
 		$slashIndex = strpos( $path, '/' );
 		if ( false === $slashIndex )
@@ -250,9 +250,11 @@ class RestController extends BaseFactoryController
 			if ( !empty( $this->_resource ) )
 			{
 				$requestUri = Yii::app()->request->requestUri;
-				if ( ( false === strpos( $requestUri, '?' ) &&
-					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
-					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+				if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) || ( '/' === substr(
+							$requestUri,
+							strpos( $requestUri, '?' ) - 1,
+							1
+						) )
 				)
 				{
 					$this->_resource .= '/';
@@ -284,12 +286,19 @@ class RestController extends BaseFactoryController
 		//	Still empty?
 		if ( empty( $_appName ) )
 		{
-			if ( false === stripos( Option::server( 'REQUEST_URI' ), '/rest/portal' ) || !isset( $_REQUEST, $_REQUEST['code'] ) )
+			//	We give portal requests a break, as well as inbound OAuth redirects
+			if ( false !== stripos( Option::server( 'REQUEST_URI' ), '/rest/portal', 0 ) )
+			{
+				$_appName = 'portal';
+			}
+			elseif ( isset( $_REQUEST, $_REQUEST['code'] ) )
+			{
+				$_appName = 'auth_redirect';
+			}
+			else
 			{
 				RestResponse::sendErrors( new BadRequestException( 'No application name header or parameter value in request.' ) );
 			}
-
-			$_appName = 'portal';
 		}
 
 		return $_appName;
@@ -302,8 +311,11 @@ class RestController extends BaseFactoryController
 	{
 		$this->_responseFormat = ResponseFormats::RAW;
 
-		$_outputFormat =
-			trim( strtolower( FilterInput::request( 'format', FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING ), FILTER_SANITIZE_STRING ) ) );
+		$_outputFormat = trim(
+			strtolower(
+				FilterInput::request( 'format', FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING ), FILTER_SANITIZE_STRING )
+			)
+		);
 
 		switch ( $_outputFormat )
 		{
