@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Salesforce Example</title>
+
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body style="background-color: #fff; color: #666666;">
+<h3>Results:</h3>
+
+<div id="force-data"></div>
+<script>
+var _postExample = function(data) {
+	jQuery.ajax({
+		dataType: 'json',
+		type:     'POST',
+		url:      'https://next.cloud.dreamfactory.com/rest/portal/salesforce/data/v29.0/sobjects/Account?dfpapikey=b5e9610f7d7170e5c6bb6d7c56014e5e',
+		data:     data,
+		cache:    false,
+		success:  function(response) {
+			$('#force-data').html(JSON.stringify(response));
+		},
+		error:    function(xhr, status, thrown) {
+			$('#force-data').html(xhr.responseText);
+
+			if (xhr.responseText) {
+				var _data = JSON.parse(xhr.responseText);
+
+				if (_data && _data.details && _data.details.location) {
+					$('#force-data').html('<a href="' + _data.details.location + '">Please click here to authorize</a>');
+				}
+			} else {
+
+			}
+		}
+	});
+};
+
+jQuery(function($) {
+
+	_postExample({Name: 'TestPostWithPortal'});
+
+});
+</script>
+</body>
+</html>
