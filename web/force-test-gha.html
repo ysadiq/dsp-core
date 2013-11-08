@@ -5,6 +5,7 @@
 	<title>Salesforce Example</title>
 
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </head>
 <body style="background-color: #fff; color: #666666;">
 <h3>Results:</h3>
@@ -21,18 +22,30 @@ var _postExample = function(data) {
 			$('#force-data').html(JSON.stringify(response));
 		},
 		error:   function(xhr, status, thrown) {
-			$('#force-data').html(xhr.responseText);
+			var $_div = $('#force-data'), _text = 'Empty response received. No clue.';
 
 			if (xhr.responseText) {
 				var _data = JSON.parse(xhr.responseText);
 
-				if (_data && _data.error[0] && 307 == _data.error[0].code && _data.error[0].location) {
-					$('#force-data').html('<a href="' + _data.error[0].location + '">Please click here to authorize</a>');
+				if (_data) {
+					try {
+						var _error = _data.error[0];
+						if (307 == _error.code && _error.location) {
+							_text =
+								'<a href="' + _error.location + '">Please click here to authorize</a>';
+						}
+					}
+					catch (_ex) {
+						_text = 'Exception making request: ' + _ex.message
+					}
+				}
+				else {
+					_text = 'Unparsable response.';
 				}
 			}
-			else {
 
-			}
+			$_div.html(_text + '<br /><br /><pre class="prettyprint linenums">' + ( _data ? JSON.stringify(_data, null, 2) : xhr.responseText ) +
+				'</pre>');
 		}
 	});
 };
