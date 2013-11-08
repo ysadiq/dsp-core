@@ -291,7 +291,7 @@ class RestController extends BaseFactoryController
 			{
 				$_appName = 'portal';
 			}
-			elseif ( isset( $_REQUEST, $_REQUEST['code'] ) )
+			elseif ( isset( $_REQUEST, $_REQUEST['code'], $_REQUEST['state'], $_REQUEST['oasys'] ) )
 			{
 				$_appName = 'auth_redirect';
 			}
