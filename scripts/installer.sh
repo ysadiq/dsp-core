@@ -142,9 +142,7 @@ LOG_DIR=${BASE_PATH}/log/
 STORAGE_DIR=${BASE_PATH}/storage/
 VENDOR_DIR=${BASE_PATH}/vendor
 WEB_DIR=${BASE_PATH}/web
-PUBLIC_DIR=${WEB_DIR}/public
-ASSETS_DIR=${PUBLIC_DIR}/assets
-APPS_DIR=${BASE_PATH}/apps
+ASSETS_DIR=${WEB_DIR}/assets
 COMPOSER_DIR=${BASE_PATH}
 
 # Hosted or standalone?

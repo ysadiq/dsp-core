@@ -47,9 +47,8 @@
 		"php":                                  ">=5.3.10",
 		"kisma/kisma":                          ">=0.1.4",
 		"dreamfactory/yii":                     "*",
-		"dreamfactory/lib-php-common-platform": "dev-develop",
-		"dreamfactory/oasys":                   "dev-develop",
-		"dreamfactory/jetpack-salesforce":      "dev-develop"
+		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master",
+		"dreamfactory/oasys":                   "dev-develop as dev-master"
 	},
 	"repositories":      [
 		{
