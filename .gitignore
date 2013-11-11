@@ -2,6 +2,7 @@
 vendor
 !web/vendor/bootstrap
 log
+shared
 storage
 composer.phar
 composer.lock
