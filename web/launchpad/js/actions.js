@@ -254,7 +254,7 @@ Actions = ({
         $('#adminLink').off('click');
         $('#fs_toggle').off('click');
 
-        var name = 'admin', url = '/admin/#/app', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
+        var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
 
         this.animateNavBarClose(function() {
             this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
