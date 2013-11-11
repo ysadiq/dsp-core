@@ -49,7 +49,7 @@ class WebController extends BaseWebController
 	/**
 	 * @var string
 	 */
-	const DEFAULT_STARTUP_APP = '/public/launchpad/index.html';
+	const DEFAULT_STARTUP_APP = '/launchpad/index.html';
 
 	//*************************************************************************
 	//* Members

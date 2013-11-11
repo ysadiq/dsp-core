@@ -47,10 +47,7 @@
 		"php":                                  ">=5.3.10",
 		"kisma/kisma":                          ">=0.1.4",
 		"dreamfactory/yii":                     "*",
-		"dreamfactory/app-admin":               "dev-develop as dev-master",
-		"dreamfactory/app-launchpad":           "dev-develop as dev-master",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master",
-		"dreamfactory/web-core":                "dev-develop as dev-master",
 		"dreamfactory/oasys":                   "dev-develop as dev-master"
 	},
 	"repositories":      [

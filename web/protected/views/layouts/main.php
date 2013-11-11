@@ -32,7 +32,7 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="DreamFactory Software, Inc.">
 	<meta name="language" content="en" />
-	<link rel="shortcut icon" href="/public/images/logo-32x32.png" />
+	<link rel="shortcut icon" href="/images/logo-32x32.png" />
 	<style>
 		body {
 			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -44,8 +44,8 @@ else
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.css" rel="stylesheet">    <![endif]-->
 	<link rel="stylesheet" type="text/css" href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
 	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.4/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/public/css/df.datatables.css" />
-	<link rel="stylesheet" type="text/css" href="/public/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="/css/df.datatables.css" />
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->    <!--[if lt IE 9]>
 	<script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -61,7 +61,7 @@ else
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<img id="logo-img" src="/public/images/logo-48x48.png">
+			<img id="logo-img" src="/images/logo-48x48.png">
 
 			<a class="brand" href="#"><?php echo $_headline; ?></a>
 
