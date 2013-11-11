@@ -1,13 +1,13 @@
 .idea
 vendor
-!web/public/vendor/bootstrap
+!web/vendor/bootstrap
 log
 storage
 composer.phar
 composer.lock
 .composer/
-web/public/assets
-web/public/favicon.ico
+web/assets
+web/favicon.ico
 id_deploy
 test.php
 test.sh

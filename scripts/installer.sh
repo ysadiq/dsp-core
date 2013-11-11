@@ -294,7 +294,7 @@ chown -R ${INSTALL_USER}:${WEB_USER} * .git*  >/dev/null 2>&1
 ##
 ## make writable by web server
 ##
-chmod -R ${WRITE_ACCESS} vendor/ log/ web/public/assets/ >/dev/null 2>&1
+chmod -R ${WRITE_ACCESS} vendor/ log/ web/assets/ >/dev/null 2>&1
 
 ##
 ## Restart non-essential services

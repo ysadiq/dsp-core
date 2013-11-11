@@ -75,7 +75,7 @@ if ( false !== $_fontAwesomeVersion )
 
 if ( false !== $_dataTablesVersion )
 {
-	$_css .= '<link href="/public/css/df.datatables.css" rel="stylesheet">';
+	$_css .= '<link href="/css/df.datatables.css" rel="stylesheet">';
 }
 
 if ( false !== $_jqueryVersion )
@@ -94,12 +94,12 @@ if ( false !== $_jqueryVersion )
 	<?php echo $_scripts; ?>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
-	<script src="/public/js/html5shiv.js"></script>
-	<script src="/public/js/respond.min.js"></script>
+	<script src="/js/html5shiv.js"></script>
+	<script src="/js/respond.min.js"></script>
 	<![endif]-->
-	<link rel="icon" type="image/png" href="/public/images/logo-48x48.png">
-	<link href="/public/css/main.css" rel="stylesheet">
-	<link href="/public/css/df.effects.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="/images/logo-48x48.png">
+	<link href="/css/main.css" rel="stylesheet">
+	<link href="/css/df.effects.css" rel="stylesheet">
 </head>
 <body>
 <div id="wrap">
@@ -199,10 +199,10 @@ if ( false !== $_bootstrapVersion )
 if ( false !== $_dataTablesVersion )
 {
 	echo '<script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/' . $_dataTablesVersion . '/jquery.dataTables.min.js"></script>';
-	echo '<script src="/public/js/df.datatables.js"></script>';
+	echo '<script src="/js/df.datatables.js"></script>';
 }
 ?>
-<script src="/public/js/app.jquery.js"></script>
-<script src="/public/js/sidebarEffects.js"></script>
+<script src="/js/app.jquery.js"></script>
+<script src="/js/sidebarEffects.js"></script>
 </body>
 </html>
