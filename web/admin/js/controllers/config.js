@@ -15,6 +15,12 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
         if (data.open_reg_email_template_id === null) {
             data.open_reg_email_template_id = '';
         }
+		if (data.invite_email_service_id === null) {
+			data.invite_email_service_id = '';
+		}
+		if (data.invite_email_template_id === null) {
+			data.invite_email_template_id = '';
+		}
         if (data.password_email_service_id === null) {
             data.password_email_service_id = '';
         }
@@ -35,6 +41,12 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
         if (data.open_reg_email_template_id === '') {
             data.open_reg_email_template_id = null;
         }
+		if (data.invite_email_service_id === '') {
+			data.invite_email_service_id = null;
+		}
+		if (data.invite_email_template_id === '') {
+			data.invite_email_template_id = null;
+		}
         if (data.password_email_service_id === '') {
             data.password_email_service_id = null;
         }

@@ -130,6 +130,37 @@
                         </div>
                     </div>
                 </div>
+				<div class="section">
+					<h5>User Invite</h5>
+
+					<div class="alert alert-info">
+						<li class="icon-info-sign"></li>
+						&nbsp;To enable user invites via email services, select an email service and template below. Leave it set to --None-- to disable user invites via email.
+					</div>
+					<div>
+						<p>Select an email service for user invites</p>
+
+						<div>
+							<select data-ng-model="Config.invite_email_service_id"
+									data-ng-options="svc.id as svc.name for svc in Service.record | filter: {type:'email'}"
+									data-ng-selected="Config.invite_email_service_id">
+								<option value="">- - None - -</option>
+							</select>
+						</div>
+					</div>
+					<div>
+						<p>Optionally select an email template for user invites</p>
+
+						<div>
+							<select data-ng-disabled="!Config.invite_email_service_id"
+									data-ng-model="Config.invite_email_template_id"
+									data-ng-options="template.id as template.name for template in emailTemplates.record"
+									data-ng-selected="Config.invite_email_template_id">
+								<option value="">- - None - -</option>
+							</select>
+						</div>
+					</div>
+				</div>
                 <div class="section">
                     <h5>Password Reset</h5>
 

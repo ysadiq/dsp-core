@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, user-scalable=yes">
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-
+	<meta charset="utf-8">
 	<title>DreamFactory Services Platform&trade;</title>
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="DreamFactory Software, Inc.">
 	<meta name="language" content="en" />
 	<link rel="shortcut icon" href="/images/logo-32x32.png" />
+	<!-- Standard CSS -->
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 	<style>
@@ -75,9 +72,11 @@
 		}
 	</style>
 	<!--[if IE 7]>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.css" rel="stylesheet"><![endif]-->
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.css" rel="stylesheet">    <![endif]-->
+
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->    <!--[if lt IE 9]>
 	<script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
+	<script src="js/json2.js"></script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -95,13 +94,13 @@
 	</div>
 </div>
 <div class="container main-content step1">
-	<h2 class="headline">Register as a New User on this DSP!</h2>
+	<h2 class="headline">Invitation Confirmation</h2>
 
-	<p>Please enter your email address and name. You will be emailed a confirmation link that will allow you to set your password.</p>
+	<p>Please enter your email address and confirmation code. Then enter and confirm a password for your account.</p>
 
 	<div class="spacer"></div>
 	<!--
-		<form id="register-form">
+		<form id="confirm-form">
 	-->
 	<div class="control-group">
 		<label for="email">Email Address</label>
@@ -110,19 +109,25 @@
 		</div>
 	</div>
 	<div class="control-group">
-		<label for="firstname">First Name</label>
+		<label for="code">Confirmation Code</label>
 		<div class="controls">
-			<input id="firstname" class="required" type="text" />
+			<input id="code" class="required" type="text" />
 		</div>
 	</div>
 	<div class="control-group">
-		<label for="lastname">Last Name</label>
+		<label for="password">Password</label>
 		<div class="controls">
-			<input id="lastname" class="required" type="text" />
+			<input id="password" class="required" type="password" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label for="password_verify">Verify Password</label>
+		<div class="controls">
+			<input id="password_verify" class="required" type="password" />
 		</div>
 	</div>
 	<div class="form-actions">
-		<button onclick="createUser()" class="btn btn-success">Register!</button>
+		<button onclick="confirm()" class="btn btn-success">Confirm!</button>
 	</div>
 	<!--
 		</form>
@@ -133,68 +138,48 @@
 	</footer>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="js/json2.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
 <!--<script type="text/javascript">
     /*<![CDATA[*/
     jQuery(function($) {
-        var	_validator = $("form#register-form").validate({"ignoreTitle":true,"errorClass":"error","errorPlacement":function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");},"error_placement":function(error,element){error.appendTo(element.parent("div"));},"highlight":function( element, errorClass ) {$(element).closest('div.control-group').addClass('error');$(element).addClass(errorClass);},"unhighlight":function( element, errorClass ) {$(element).closest('div.control-group').removeClass('error');$(element).removeClass(errorClass);}});
+        var	_validator = $("form#confirm-form").validate({"ignoreTitle":true,"errorClass":"error","errorPlacement":function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");},"error_placement":function(error,element){error.appendTo(element.parent("div"));},"highlight":function( element, errorClass ) {$(element).closest('div.control-group').addClass('error');$(element).addClass(errorClass);},"unhighlight":function( element, errorClass ) {$(element).closest('div.control-group').removeClass('error');$(element).removeClass(errorClass);}});
     });
     /*]]>*/
 </script>-->
+<script src="/js/df.js"></script>
+<script src="/js/utils.js"></script>
 <script>
-var createUser = function() {
-
+$("#email").val(CommonUtilities.getQueryParameter('email'));
+var confirm = function() {
 	var data = {};
 	data.email = $("#email").val();
-	data.first_name = $("#firstname").val();
-	data.last_name = $("#lastname").val();
-	if (data.email == '' || data.first_name == '' || data.last_name == '') {
-		$("#statusMessage").addClass('alert-error').html("Please enter all fields.").show();
+	if (data.email == '') {
+		$("#statusMessage").addClass('alert-error').html("Please enter your email address.").show();
 		return;
 	}
-	var user = data;
+	data.code = $("#code").val();
+	if (data.code == '') {
+		$("#statusMessage").addClass('alert-error').html("Please enter your code from the invitation email sent to you.").show();
+		return;
+	}
+	data.new_password = $("#password").val();
+	if (data.new_password == '' || data.new_password != $("#password_verify").val()) {
+		$("#statusMessage").addClass('alert-error').html("Please enter matching passwords.").show();
+		return;
+	}
 	data = JSON.stringify(data);
-	$.post('/rest/user/register/?app_name=launchpad', data)
+	$.post('/rest/user/password/?app_name=launchpad', data)
 			.done(function() {
-				sendConfirmation(user);
+				window.location = "/";
 			}
 	)
 			.fail(function(response) {
-				$("#statusMessage").addClass('alert-error').removeClass("alert-success").html(getErrorString(response)).show();
-			}
-	)
-};
-
-var sendConfirmation = function(user) {
-
-	var data = {
-		"to":             user.email,
-		"cc":             "",
-		"bcc":            "",
-		"subject":        "Welcome to DreamFactory",
-		"body_html":      "Hi {first_name},<br/><br/>You have registered as a DreamFactory user. " +
-				"Click the confirmation link below to set your password.<br/><br/>{_invite_url_}<br/><br/>Enjoy!<br/><br/>DreamFactory",
-		"from_name":      "DreamFactory",
-		"from_email":     "no-reply@dreamfactory.com",
-		"reply_to_name":  "DreamFactory",
-		"reply_to_email": "no-reply@dreamfactory.com",
-		"first_name":     user.first_name
-	};
-	data = JSON.stringify(data);
-	$.post('/rest/Email/register/?app_name=launchpad', data)
-			.done(function() {
-				$("#statusMessage").removeClass('alert-error').addClass("alert-success").html("Registration was successful. Check your email for a confirmation link.").show();
-			}
-	)
-			.fail(function(response) {
-				$("#statusMessage").addClass('alert-error').removeClass("alert-success").html("Unable to send confirmation email. " + getErrorString(response)).show();
+				$("#statusMessage").addClass('alert-error').html(getErrorString(response)).show();
 			}
 	)
 };
 </script>
-<script src="/js/utils.js"></script>
 </body>
 </html>

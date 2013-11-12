@@ -77,8 +77,6 @@ $_vendorPath = $_basePath . '/vendor';
 $_dbCacheEnabled = true;
 //	The name of the default controller. "site" just sucks
 $_defaultController = 'web';
-//	Load the BLOB storage configuration settings
-$_blobConfig = ( file_exists( __DIR__ . BLOB_CONFIG_PATH ) ? require_once( __DIR__ . BLOB_CONFIG_PATH ) : array() );
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
@@ -161,7 +159,6 @@ return array_merge(
 		 /**
 		  * User data
 		  */
-		 'blobStorageConfig'             => $_blobConfig,
 		 'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
 		 /**
 		  * The default service configuration
@@ -173,16 +170,22 @@ return array_merge(
 		  * Default services provided by all DSPs
 		  */
 		 'dsp.default_services'          => array(
-			 array( 'api_name' => 'user', 'name' => 'User Login' ),
-			 array( 'api_name' => 'system', 'name' => 'System Configuration' ),
-			 array( 'api_name' => 'api_docs', 'name' => 'API Documentation' ),
+			 array('api_name' => 'user', 'name' => 'User Login'),
+			 array('api_name' => 'system', 'name' => 'System Configuration'),
+			 array('api_name' => 'api_docs', 'name' => 'API Documentation'),
 		 ),
 		 /**
 		  * The default application to start
 		  */
 		 'dsp.default_app'               => '/launchpad/index.html',
 		 /**
-		  * The default application to start
+		  * The default landing pages for email confirmations
+		  */
+		 'dsp.confirm_invite_url'        => '/launchpad/confirm_invite.html',
+		 'dsp.confirm_register_url'      => '/launchpad/confirm_reg.html',
+		 'dsp.confirm_reset_url'         => '/launchpad/confirm_reset.html',
+		 /**
+		  * The default number of records to return at once for database queries
 		  */
 		 'dsp.db_max_records_returned'   => 1000,
 		 /**

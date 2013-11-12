@@ -138,15 +138,10 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         }
         var data = {
             "to": info.to,
-            "cc": "",
-            "bcc": "",
-            "subject": "Welcome to DreamFactory",
-            "body_html": "Hi {first_name},<br/><br/>You have been invited to become a DreamFactory user. " +
-                "Click the confirmation link below to set your password and log in.<br/><br/>{_invite_url_}<br/><br/>Enjoy!<br/><br/>DreamFactory",
-            "from_name": "DreamFactory",
-            "from_email": "no-reply@dreamfactory.com",
-            "reply_to_name": "DreamFactory",
-            "reply_to_email": "no-reply@dreamfactory.com",
+            "subject": "Invitation",
+            "body_html": "Hi {first_name},<br/><br/>You have been invited to become a {dsp.name} user. " +
+						 "Go to the following url, enter the code below, and set your password to confirm your account.<br/><br/>" +
+						 "{dsp.confirm_invite_url}<br/><br/>Confirmation Code: {confirm_code}<br/><br/>Thanks,<br/>{from_name}",
             "first_name": info.first_name
         };
         $.ajax({
