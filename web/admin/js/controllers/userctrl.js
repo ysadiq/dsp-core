@@ -92,7 +92,9 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             newRec.display_name = newRec.first_name + ' ' + newRec.last_name;
         }
 
-        User.save(newRec,
+        var send_invite = Scope.sendInvite ? "true" : "false";
+
+        User.save({send_invite: send_invite}, newRec,
             function(response) {
 
                 Scope.Users.record.push(response);
