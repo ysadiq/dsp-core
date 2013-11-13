@@ -9,12 +9,21 @@
 # General
 ################################################################################
 
-_ME=`basename "${0}"`
-_debug=${DF_DEBUG:=0} 		# set to 1 to dump paths when running
-_df_scriptHelpers=1			#	Tells other scripts that this has been run already
+if [ ${_df_scriptHelpers:-0} -eq 1 ] ; then
+	return
+fi
+
+_debug=${DF_DEBUG:=0} 					# 	set to 1 to dump paths when running
+_df_scriptHelpers=1						#	Tells other scripts that this has been run already
+_ME=`basename "${0}"`					# 	The name of the running script
+B1=`tput bold`							#	Everyone likes bold text!
+B2=`tput sgr0`							#	Ok, so not everyone...
+SYSTEM_TYPE=`uname -s`					#	The type of system (i.e. Linux, Mac, Windows)
+FABRIC_MARKER=/var/www/.fabric_hosted	#	Our Fabric marker
+BASE_PATH=`pwd`							# 	The current path
 
 # Source gitenv.sh if available
-[ -d "./.git" ] && [ `which gitenv.sh >/dev/null 2>&1` -eq 0 ] && . gitenv.sh
+[ -d "./.git" ] && [ "`which gitenv.sh >/dev/null 2>&1 ; echo $?`" != "0" ] && . gitenv.sh
 
 ################################################################################
 # Colors
@@ -56,10 +65,6 @@ _WHITE='37m'
 
 # Initialize terminal database
 tput init
-
-# Bold on/off
-B1=`tput bold`
-B2=`tput sgr0`
 
 # Color Echo
 # $1 = string to echo
