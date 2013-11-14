@@ -92,7 +92,7 @@
 ##	Initial settings
 ##
 
-VERSION=1.2.7
+VERSION=1.2.8
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 PHP=/usr/bin/php
