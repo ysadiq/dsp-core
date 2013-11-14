@@ -113,14 +113,14 @@
                             <p><b>Public description on LaunchPad</b></p>
                             <input name="app_desc" type="text" ng-model="app.description" style="width:75%;">
                         </div>
-                        <div ng-show="app.is_url_external==0 && app.is_url_external != 0">
+                        <div ng-show="app.is_url_external==0">
                             <p><b>Default Path</b></p>
 
                             <div class="alert alert-info local">
                                 <li class="icon-info-sign"></li>
                                 &nbsp;This is the default file to load when your app is loaded.
                             </div>
-                            <input class="local" placeholder="/index.html" name="app_path" type="text"
+                            <input class="local" placeholder="index.html" name="app_path" type="text"
                                    ng-model="app.url">
 
 
