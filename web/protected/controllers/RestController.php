@@ -26,7 +26,6 @@ use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
-use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
 
 /**
@@ -40,7 +39,8 @@ class RestController extends BaseFactoryController
 	//*************************************************************************
 
 	/**
-	 * @var string Default output format, either 'json' or 'xml'. NOTE: Output format is different from RESPONSE format (inner payload format vs. envelope)
+	 * @var string Default output format, either 'json' or 'xml'.
+	 * NOTE: Output format is different from RESPONSE format (inner payload format vs. envelope)
 	 */
 	protected $_outputFormat = 'json';
 	/**
@@ -297,7 +297,9 @@ class RestController extends BaseFactoryController
 			}
 			else
 			{
-				RestResponse::sendErrors( new BadRequestException( 'No application name header or parameter value in request.' ) );
+				RestResponse::sendErrors(
+					new BadRequestException( 'No application name header or parameter value in request.' )
+				);
 			}
 		}
 
@@ -313,15 +315,32 @@ class RestController extends BaseFactoryController
 
 		$_outputFormat = trim(
 			strtolower(
-				FilterInput::request( 'format', FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING ), FILTER_SANITIZE_STRING )
+				FilterInput::request( 'format', null, FILTER_SANITIZE_STRING )
 			)
 		);
+
+		if ( empty( $_outputFormat ) )
+		{
+			$_accepted = static::parseAcceptHeader(
+				FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING )
+			);
+			$_outputFormat = trim( strtolower( Option::get( array_values( $_accepted ), 0 ) ) );
+		}
 
 		switch ( $_outputFormat )
 		{
 			case 'json':
+			case 'application/json':
+				$_outputFormat = 'json';
+				break;
 			case 'xml':
-				//	These are good...
+			case 'application/xml':
+			case 'text/xml':
+				$_outputFormat = 'xml';
+				break;
+			case 'csv':
+			case 'text/csv':
+				$_outputFormat = 'csv';
 				break;
 
 			default:
@@ -337,6 +356,56 @@ class RestController extends BaseFactoryController
 		}
 
 		return $_outputFormat;
+	}
+
+	protected static function parseAcceptHeader( $header )
+	{
+		$accept = array();
+		foreach ( preg_split( '/\s*,\s*/', $header ) as $i => $term )
+		{
+			$o = new \stdclass;
+			$o->pos = $i;
+			if ( preg_match( ",^(\S+)\s*;\s*(?:q|level)=([0-9\.]+),i", $term, $M ) )
+			{
+				$o->type = $M[1];
+				$o->q = (double)$M[2];
+			}
+			else
+			{
+				$o->type = $term;
+				$o->q = 1;
+			}
+			$accept[] = $o;
+		}
+		usort(
+			$accept,
+			function ( $a, $b )
+			{ /* first tier: highest q factor wins */
+				$diff = $b->q - $a->q;
+				if ( $diff > 0 )
+				{
+					$diff = 1;
+				}
+				else if ( $diff < 0 )
+				{
+					$diff = -1;
+				}
+				else
+				{ /* tie-breaker: first listed item wins */
+					$diff = $a->pos - $b->pos;
+				}
+
+				return $diff;
+			}
+		);
+
+		$_result = array();
+		foreach ( $accept as $a )
+		{
+			$_result[$a->type] = $a->type;
+		}
+
+		return $_result;
 	}
 
 	/**
