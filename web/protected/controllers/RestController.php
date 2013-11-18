@@ -305,7 +305,8 @@ class RestController extends BaseFactoryController
 			$_accepted = static::parseAcceptHeader(
 				FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING )
 			);
-			$_outputFormat = Option::get( array_values( $_accepted ), 0 );
+			$_accepted = array_values( $_accepted );
+			$_outputFormat = Option::get( $_accepted, 0 );
 		}
 
 		$_outputFormat = trim( strtolower( $_outputFormat ) );
