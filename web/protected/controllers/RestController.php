@@ -95,10 +95,7 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Get );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
+			$svcObj->processRequest( $this->_resource, HttpMethod::Get, $this->_outputFormat );
 		}
 		catch ( \Exception $ex )
 		{
@@ -153,11 +150,8 @@ class RestController extends BaseFactoryController
 			}
 
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Post );
-			$resultFormat = $svcObj->getNativeFormat();
-			$code = RestResponse::Created;
-
-			RestResponse::sendResults( $result, $code, $resultFormat, $this->_outputFormat );
+			$svcObj->setResponseCode(  RestResponse::Created );
+			$svcObj->processRequest( $this->_resource, HttpMethod::Post, $this->_outputFormat );
 		}
 		catch ( \Exception $ex )
 		{
@@ -173,10 +167,7 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Merge );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
+			$svcObj->processRequest( $this->_resource, HttpMethod::Merge, $this->_outputFormat );
 		}
 		catch ( \Exception $ex )
 		{
@@ -192,10 +183,7 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Put );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
+			$svcObj->processRequest( $this->_resource, HttpMethod::Put, $this->_outputFormat );
 		}
 		catch ( \Exception $ex )
 		{
@@ -211,10 +199,7 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Delete );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
+			$svcObj->processRequest( $this->_resource, HttpMethod::Delete, $this->_outputFormat );
 		}
 		catch ( \Exception $ex )
 		{
