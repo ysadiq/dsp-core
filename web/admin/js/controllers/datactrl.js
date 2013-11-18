@@ -347,15 +347,15 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
         var index = this.row.rowIndex;
 
         var newRecord = this.row.entity;
-
         if (newRecord.dfnew) {
-            delete newRecord.dfnew;
+           // delete newRecord.dfnew;
             DB.save({name: Scope.currentTable}, newRecord, function (data) {
                 $("#save_" + index).attr('disabled', true);
                 Scope.tableData = removeByAttr(Scope.tableData, 'dfnew', true);
                 Scope.tableData.unshift(data);
                 Scope.tableData.unshift({"dfnew": true});
             }, function (response) {
+                //newRecord.dfnew = true;
                 var code = response.status;
                 if (code == 401) {
                     window.top.Actions.doSignInDialog("stay");
