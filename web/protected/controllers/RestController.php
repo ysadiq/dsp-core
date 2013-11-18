@@ -298,20 +298,17 @@ class RestController extends BaseFactoryController
 	{
 		$this->_responseFormat = ResponseFormats::RAW;
 
-		$_outputFormat = trim(
-			strtolower(
-				FilterInput::request( 'format', null, FILTER_SANITIZE_STRING )
-			)
-		);
+		$_outputFormat = FilterInput::request( 'format', null, FILTER_SANITIZE_STRING );
 
 		if ( empty( $_outputFormat ) )
 		{
 			$_accepted = static::parseAcceptHeader(
 				FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING )
 			);
-			$_outputFormat = trim( strtolower( Option::get( array_values( $_accepted ), 0 ) ) );
+			$_outputFormat = Option::get( array_values( $_accepted ), 0 );
 		}
 
+		$_outputFormat = trim( strtolower( $_outputFormat ) );
 		switch ( $_outputFormat )
 		{
 			case 'json':
