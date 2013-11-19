@@ -68,8 +68,9 @@ class RestController extends BaseFactoryController
 		{
 			$_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
 			$_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
+			$_result = DataFormat::reformatData( $_result, null, $_outputFormat );
 
-			RestResponse::sendResults( $_result, RestResponse::Ok, null, $_outputFormat );
+			RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
 		}
 		catch ( \Exception $_ex )
 		{
