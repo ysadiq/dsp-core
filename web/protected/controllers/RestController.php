@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
@@ -100,11 +101,12 @@ class RestController extends BaseFactoryController
 
 			if ( empty( $_tunnelMethod ) )
 			{
-				$_tunnelMethod = strtoupper( FilterInput::request( 'method', null, FILTER_SANITIZE_STRING ) );
+				$_tunnelMethod = FilterInput::request( 'method', null, FILTER_SANITIZE_STRING );
 			}
 
 			if ( !empty( $_tunnelMethod ) )
 			{
+				$_tunnelMethod = strtoupper( $_tunnelMethod );
 				switch ( $_tunnelMethod )
 				{
 					case HttpMethod::Post:
