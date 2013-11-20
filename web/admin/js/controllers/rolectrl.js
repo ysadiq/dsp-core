@@ -74,13 +74,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
         });
     };
@@ -115,13 +114,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
         });
     };
@@ -287,13 +285,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
         });
 

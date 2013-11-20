@@ -38,13 +38,12 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
         });
 
@@ -71,13 +70,12 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
         });
     };
@@ -131,13 +129,12 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
         });
     };

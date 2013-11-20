@@ -7,7 +7,7 @@ function isErrorString(responseText) {
 
     var result = null;
 
-    if (responseText && responseText != '') {
+    if (responseText) {
         try {
             result = JSON.parse(responseText);
         } catch(e) {
@@ -32,7 +32,7 @@ function getErrorString(response) {
             code = value;
         }
         value = response.responseText;
-        if (value && value != '') {
+        if (value) {
             try {
                 result = JSON.parse(value);
             } catch(e) {
@@ -43,7 +43,7 @@ function getErrorString(response) {
         }
         if (result && result.error) {
             value = xml2text(result.error[0].message);
-            if (value && value != '') {
+            if (value) {
                 return value;
             }
             value = result.error[0].code;
@@ -66,6 +66,12 @@ function text2xml(value) {
 function xml2text(value) {
 
     return value.replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/&apos;/g, '\''); ;
+}
+
+function getFileExtension(name) {
+
+    var found = name.lastIndexOf('.') + 1;
+    return (found > 0 ? name.substr(found) : "");
 }
 
 removeByAttr = function (arr, attr, value) {
@@ -149,9 +155,3 @@ checkForDuplicate = function(arr, attr1, value1){
 };
 
 CurrentServer = location.protocol + '//' + location.host ;
-
-function getFileExtension(name)
-{
-    var found = name.lastIndexOf('.') + 1;
-    return (found > 0 ? name.substr(found) : "");
-}

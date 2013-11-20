@@ -52,14 +52,12 @@ var QuickStartCtrl = function ($scope, App, Config, Service, $location) {
 
             },
             function (response) {
-                var code = response.status;
-                var error = response.data.error;
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
                     hide: false,
                     addclass: "stack-bottomright",
-                    text: error[0].message
+                    text: getErrorString(response)
                 });
 
 
@@ -105,13 +103,12 @@ var QuickStartCtrl = function ($scope, App, Config, Service, $location) {
                         return;
                     }
                 }
-                var error = response.data.error;
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
                     hide: false,
                     addclass: "stack-bottomright",
-                    text: error[0].message
+                    text: getErrorString(response)
                 });
 
 

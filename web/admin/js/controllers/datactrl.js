@@ -46,13 +46,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
             window.top.Actions.doSignInDialog("stay");
             return;
         }
-        var error = response.data.error;
         $.pnotify({
             title: 'Error',
             type: 'error',
             hide: false,
             addclass: "stack-bottomright",
-            text: error[0].message
+            text: getErrorString(response)
         });
 
     });
@@ -85,13 +84,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
 
         });
@@ -250,13 +248,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
 
         });
@@ -287,13 +284,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
                 hide: false,
                 addclass: "stack-bottomright",
-                text: error[0].message
+                text: getErrorString(response)
             });
 
         });
@@ -361,13 +357,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                     window.top.Actions.doSignInDialog("stay");
                     return;
                 }
-                var error = response.data.error;
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
                     hide: false,
                     addclass: "stack-bottomright",
-                    text: error[0].message
+                    text: getErrorString(response)
                 });
 
             });
@@ -380,13 +375,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                     window.top.Actions.doSignInDialog("stay");
                     return;
                 }
-                var error = response.data.error;
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
                     hide: false,
                     addclass: "stack-bottomright",
-                    text: error[0].message
+                    text: getErrorString(response)
                 });
 
             });

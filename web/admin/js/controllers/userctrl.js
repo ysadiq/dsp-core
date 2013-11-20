@@ -63,7 +63,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
                 window.top.Actions.doSignInDialog("stay");
                 return;
             }
-            var error = response.data.error;
             $.pnotify({
                 title: 'Error',
                 type: 'error',
@@ -121,8 +120,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
                     window.top.Actions.doSignInDialog("stay");
                     return;
                 }
-                var error = response.data.error;
-                console.log(response);
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
@@ -290,13 +287,25 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         var params = 'app_name=admin';
         var filename = $('#userInput').val();
         if (filename == '') {
-            alert("Please specify a file to import.");
+            $.pnotify({
+                title: 'Error',
+                type: 'error',
+                hide: false,
+                addclass: "stack-bottomright",
+                text: 'Please specify a file to import.'
+            });
             return;
         }
-        var ext = getFileExtension(filename);
-        ext = ext.toUpperCase();
-        if (ext !== 'CSV' && ext !== 'JSON' && ext !== 'XML') {
-            alert("Supported file types are CSV, JSON, and XML.");
+        var fmt = getFileExtension(filename);
+        fmt = fmt.toUpperCase();
+        if (fmt !== 'CSV' && fmt !== 'JSON' && fmt !== 'XML') {
+            $.pnotify({
+                title: 'Error',
+                type: 'error',
+                hide: false,
+                addclass: "stack-bottomright",
+                text: 'Supported file types are CSV, JSON, and XML.'
+            });
             return;
         }
         $("#importUsersForm").attr('action','/rest/system/user?' + params);
@@ -310,26 +319,31 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
 
     Scope.exportUsers = function() {
 
-        var ext = Scope.selectedExportFormat;
-        ext = ext.toLowerCase();
-        var params = 'app_name=admin&file=true&format=' + ext;
+        var fmt = Scope.selectedExportFormat;
+        fmt = fmt.toLowerCase();
+        var params = 'app_name=admin&file=true&format=' + fmt;
         var url = CurrentServer + '/rest/system/user?' + params;
         $('#exportUsersFrame').attr('src', url);
         $('#exportUsersModal').modal('toggle');
     }
+};
 
-    Scope.checkResults = function(iframe) {
+var checkImportResults = function(iframe) {
 
-        var str = $(iframe).contents().text();
-        console.log(str);
-        if(str && str.length > 0) {
-            if (isErrorString(str)) {
-                var response = {};
-                response.responseText = str;
-                alertErr(response);
-            } else {
-                $('#importUsersModal').modal('toggle');
-            }
+    var str = $(iframe).contents().text();
+    if(str && str.length > 0) {
+        if (isErrorString(str)) {
+            var response = {};
+            response.responseText = str;
+            $.pnotify({
+                title: 'Error',
+                type: 'error',
+                hide: false,
+                addclass: "stack-bottomright",
+                text: getErrorString(response)
+            });
+        } else {
+            $('#importUsersModal').modal('toggle');
         }
     }
-};
+}
