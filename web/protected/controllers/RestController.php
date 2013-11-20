@@ -83,15 +83,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionGet()
 	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, HttpMethod::Get );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
+		$this->_handleAction( HttpMethod::Get );
 	}
 
 	/**
@@ -99,6 +91,8 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPost()
 	{
+		$_action = HttpMethod::Post;
+
 		try
 		{
 			//	Check for verb tunneling
@@ -106,33 +100,20 @@ class RestController extends BaseFactoryController
 
 			if ( empty( $_tunnelMethod ) )
 			{
-				$_tunnelMethod = FilterInput::request( 'method', null, FILTER_SANITIZE_STRING );
+				$_tunnelMethod = strtoupper( FilterInput::request( 'method', null, FILTER_SANITIZE_STRING ) );
 			}
 
 			if ( !empty( $_tunnelMethod ) )
 			{
-				switch ( strtoupper( $_tunnelMethod ) )
+				switch ( $_tunnelMethod )
 				{
-					case HttpMethod::Get:
-						// complex retrieves, non-standard
-						$this->actionGet();
-						break;
-
 					case HttpMethod::Post:
-						// in case they use it in the header as well
-						break;
-
+					case HttpMethod::Get:
 					case HttpMethod::Put:
-						$this->actionPut();
-						break;
-
 					case HttpMethod::Merge:
 					case HttpMethod::Patch:
-						$this->actionMerge();
-						break;
-
 					case HttpMethod::Delete:
-						$this->actionDelete();
+						$_action = $_tunnelMethod;
 						break;
 
 					default:
@@ -140,8 +121,7 @@ class RestController extends BaseFactoryController
 				}
 			}
 
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, HttpMethod::Post );
+			$this->_handleAction( $_action );
 		}
 		catch ( \Exception $ex )
 		{
@@ -154,15 +134,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionMerge()
 	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, HttpMethod::Merge );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
+		$this->_handleAction( HttpMethod::Merge );
 	}
 
 	/**
@@ -170,15 +142,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPut()
 	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, HttpMethod::Put );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
+		$this->_handleAction( HttpMethod::Put );
 	}
 
 	/**
@@ -186,10 +150,20 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionDelete()
 	{
+		$this->_handleAction( HttpMethod::Delete );
+	}
+
+	/**
+	 * Generic action handler
+	 *
+	 * @param string $action
+	 */
+	protected function _handleAction( $action )
+	{
 		try
 		{
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, HttpMethod::Delete );
+			$svcObj->processRequest( $this->_resource, $action );
 		}
 		catch ( \Exception $ex )
 		{
@@ -226,7 +200,7 @@ class RestController extends BaseFactoryController
 				$requestUri = Yii::app()->request->requestUri;
 				if ( ( false === strpos( $requestUri, '?' ) &&
 					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
-					 ( '/' === substr( $requestUri,	strpos( $requestUri, '?' ) - 1,	1 ) )
+					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
 				)
 				{
 					$this->_resource .= '/';

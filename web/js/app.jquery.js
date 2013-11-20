@@ -13,7 +13,7 @@ var _options = {
 	detailsDiv:          'div#master-detail',
 	detailsTable:        'table#details-table',
 	detailsTitle:        'h3#details-table-title',
-	detailsCallback:     function(data, status, xhr, element) {
+	detailsCallback:     function( data, status, xhr, element ) {
 	},
 	ajaxMessageFadeTime: 6000
 };
@@ -23,7 +23,7 @@ var _options = {
  * @param stop
  * @private
  */
-var _wait = function(stop) {
+var _wait = function( stop ) {
 	if (stop) {
 		$('span#background-activity').addClass('hide');
 		$('body').css({cursor: 'default'});
@@ -42,7 +42,7 @@ var _wait = function(stop) {
  * @param style
  * @param options
  */
-var notify = function(style, options) {
+var notify = function( style, options ) {
 	var $_element = $('form:visible');
 	var _message;
 
@@ -72,7 +72,7 @@ var notify = function(style, options) {
  * @param element
  * @param errorClass
  */
-var _highlightError = function(element, errorClass) {
+var _highlightError = function( element, errorClass ) {
 	$(element).closest('div.control-group').addClass('error');
 	$(element).addClass(errorClass);
 };
@@ -82,7 +82,7 @@ var _highlightError = function(element, errorClass) {
  * @param element
  * @param errorClass
  */
-var _unhighlightError = function(element, errorClass) {
+var _unhighlightError = function( element, errorClass ) {
 	$(element).closest('div.control-group').removeClass('error');
 	$(element).removeClass(errorClass);
 };
@@ -96,7 +96,7 @@ var _unhighlightError = function(element, errorClass) {
  * @private
  * @param modal
  */
-var _addBreadcrumbButton = function(text, url, type, modal) {
+var _addBreadcrumbButton = function( text, url, type, modal ) {
 	var dataToggle;
 
 	if (modal) {
@@ -114,7 +114,7 @@ $(function() {
 	/**
 	 * Breadcrumb bar button click handler. Set data-url="click url" to use
 	 */
-	$('li.crumb-button button').on('click', function(e) {
+	$('li.crumb-button button').on('click', function( e ) {
 		e.preventDefault();
 		window.location.href = $(this).data('url') || window.location.href;
 	});
