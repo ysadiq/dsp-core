@@ -67,6 +67,7 @@ function xml2text(value) {
 
     return value.replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/&apos;/g, '\''); ;
 }
+
 removeByAttr = function (arr, attr, value) {
     if(!arr){
         return false;
@@ -79,6 +80,7 @@ removeByAttr = function (arr, attr, value) {
     }
     return arr;
 };
+
 removeByAttrs = function(arr, attr1, value1, attr2, value2){
     if(!arr){
         return false;
@@ -94,6 +96,7 @@ removeByAttrs = function(arr, attr1, value1, attr2, value2){
     }
     return arr;
 };
+
 updateByAttr = function(arr, attr1, value1, newRecord){
     if(!arr){
         return false;
@@ -110,6 +113,7 @@ updateByAttr = function(arr, attr1, value1, newRecord){
     }
     return arr;
 };
+
 checkForDuplicates = function(arr, attr1, value1, attr2, value2){
     if(!arr){
         return false;
@@ -126,6 +130,7 @@ checkForDuplicates = function(arr, attr1, value1, attr2, value2){
     }
     return found;
 };
+
 checkForDuplicate = function(arr, attr1, value1){
     if(!arr){
         return false;
@@ -142,4 +147,11 @@ checkForDuplicate = function(arr, attr1, value1){
     }
     return found;
 };
+
 CurrentServer = location.protocol + '//' + location.host ;
+
+function getFileExtension(name)
+{
+    var found = name.lastIndexOf('.') + 1;
+    return (found > 0 ? name.substr(found) : "");
+}

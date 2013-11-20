@@ -21,6 +21,8 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
     Scope.user = {};
     Scope.user.password = '';
     Scope.passwordRepeat = '';
+    Scope.supportedExportFormats = ['CSV', 'JSON', 'XML'];
+    Scope.selectedExportFormat = 'CSV';
 
     Scope.formChanged = function () {
 
@@ -142,8 +144,8 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             "to": info.to,
             "subject": "Invitation",
             "body_html": "Hi {first_name},<br/><br/>You have been invited to become a {dsp.name} user. " +
-						 "Go to the following url, enter the code below, and set your password to confirm your account.<br/><br/>" +
-						 "{dsp.confirm_invite_url}<br/><br/>Confirmation Code: {confirm_code}<br/><br/>Thanks,<br/>{from_name}",
+                "Go to the following url, enter the code below, and set your password to confirm your account.<br/><br/>" +
+                "{dsp.confirm_invite_url}<br/><br/>Confirmation Code: {confirm_code}<br/><br/>Thanks,<br/>{from_name}",
             "first_name": info.first_name
         };
         $.ajax({
@@ -277,4 +279,57 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             $('#role_select').prop('disabled', false);
         }
     };
+
+    Scope.showImportModal = function() {
+
+        $('#importUsersModal').modal('toggle');
+    };
+
+    Scope.importUsers = function() {
+
+        var params = 'app_name=admin';
+        var filename = $('#userInput').val();
+        if (filename == '') {
+            alert("Please specify a file to import.");
+            return;
+        }
+        var ext = getFileExtension(filename);
+        ext = ext.toUpperCase();
+        if (ext !== 'CSV' && ext !== 'JSON' && ext !== 'XML') {
+            alert("Supported file types are CSV, JSON, and XML.");
+            return;
+        }
+        $("#importUsersForm").attr('action','/rest/system/user?' + params);
+        $("#importUsersForm").submit();
+    };
+
+    Scope.showExportModal = function() {
+
+        $('#exportUsersModal').modal('toggle');
+    };
+
+    Scope.exportUsers = function() {
+
+        var ext = Scope.selectedExportFormat;
+        ext = ext.toLowerCase();
+        var params = 'app_name=admin&file=true&format=' + ext;
+        var url = CurrentServer + '/rest/system/user?' + params;
+        $('#exportUsersFrame').attr('src', url);
+        $('#exportUsersModal').modal('toggle');
+    }
+
+    Scope.checkResults = function(iframe) {
+
+        var str = $(iframe).contents().text();
+        console.log(str);
+        if(str && str.length > 0) {
+            if (isErrorString(str)) {
+                var response = {};
+                response.responseText = str;
+                alertErr(response);
+            } else {
+                $('#importUsersModal').modal('toggle');
+            }
+        }
+    }
 };

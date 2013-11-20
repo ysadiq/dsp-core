@@ -43,12 +43,60 @@
                         <a ng-click="promptForNew()" class="btn btn-small">
                             <li class="icon-plus-sign-alt"></li>
                             Create New User</a>
+                        <a ng-click="showImportModal()" class="btn btn-small">
+                            <li class="icon-cloud-upload"></li>
+                            Import Users</a>
+                        <a ng-click="showExportModal()" class="btn btn-small">
+                            <li class="icon-cloud-download"></li>
+                            Export Users</a>
                     </div>
                 </div>
             </div>
             <div>
                 <div class="detail-view"></div>
+                <div id="importUsersModal" class="modal hide fade in" style="display: none; ">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">&times;</a>
 
+                        <h3>Import Users</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert">Select a file to import. Supported file types are CSV, JSON, and XML. You can export users to see the expected file format.</div>
+                        <p>
+                        <p>
+                        <form id="importUsersForm" method="POST" enctype="multipart/form-data" target="userIframe">
+                            <input id="userInput" type="file" name="files" size="50"/>
+                        </form>
+                        <iframe id="userIframe" style="display: none;" name="userIframe" src="about:blank" onload="checkResults(this)"></iframe>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <a  class="btn" data-dismiss="modal">Cancel</a>
+                        <a  class="btn btn-primary" ng-click="importUsers()">Import</a>
+                    </div>
+                </div>
+                <div id="exportUsersModal" class="modal hide fade in" style="display: none; ">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">&times;</a>
+
+                        <h3>Export Users</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert">Select an export file type and click Export.</div>
+                        <p>
+                        <p>
+                        <label>File Type</label>
+                        <select id="export_options" ng-model="selectedExportFormat"
+                                ng-options="option as option for option in supportedExportFormats">
+                        </select>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <a  class="btn" data-dismiss="modal">Cancel</a>
+                        <a  class="btn btn-primary" ng-click="exportUsers()">Export</a>
+                    </div>
+                </div>
+                <iframe id="exportUsersFrame" style="display:none" frameBorder="0"></iframe>
                 <form novalidate class="css-form" name="userform">
                     <div class="add_new">
                         <span class="label label-info"><i class="icon-user"></i>&nbsp;{{action}} User</span>
