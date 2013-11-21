@@ -180,6 +180,11 @@ var SchemaCtrl = function ($scope, Schema, DB, $http) {
             Scope.showForm();
             //window.top.Actions.showStatus("Created Successfully");
             Scope.schemaData.push(Scope.newTable.table);
+            Scope.schema.table = {};
+            Scope.newTable = {};
+            Scope.newTable.table = {};
+            Scope.newTable.table.field = [];
+
         }, function(response){
             var code = response.status;
             if(code == 401){
