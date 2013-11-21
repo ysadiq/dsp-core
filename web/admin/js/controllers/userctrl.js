@@ -325,25 +325,34 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         var url = CurrentServer + '/rest/system/user?' + params;
         $('#exportUsersFrame').attr('src', url);
         $('#exportUsersModal').modal('toggle');
-    }
-};
+    };
 
-var checkImportResults = function(iframe) {
+    window.checkImportResults = function(iframe) {
 
-    var str = $(iframe).contents().text();
-    if(str && str.length > 0) {
-        if (isErrorString(str)) {
-            var response = {};
-            response.responseText = str;
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
-        } else {
+        var str = $(iframe).contents().text();
+        if(str && str.length > 0) {
+            if (isErrorString(str)) {
+                var response = {};
+                response.responseText = str;
+                $.pnotify({
+                    title: 'Error',
+                    type: 'error',
+                    hide: false,
+                    addclass: "stack-bottomright",
+                    text: getErrorString(response)
+                });
+            } else {
+                $.pnotify({
+                    title: 'User Import',
+                    type: 'success',
+                    text: 'Users Imported Successfully'
+                });
+            }
+            Scope.Users = User.get();
+            Scope.promptForNew();
             $('#importUsersModal').modal('toggle');
         }
-    }
-}
+    };
+};
+
+window.checkImportResults = function(iframe) {};
