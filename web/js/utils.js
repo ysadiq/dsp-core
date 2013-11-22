@@ -44,9 +44,9 @@ function getErrorString(response) {
         if (result && result.error) {
             value = xml2text(result.error[0].message);
             if (value.indexOf("Batch Error") == 0) {
-                var details = result.error[0].details;
-                if (details.error_indices.length > 0) {
-                    var index = details.error_indices[0];
+                var details = result.error[0].context;
+                if (details.errors.length > 0) {
+                    var index = details.errors[0];
                     value = xml2text(details.record[index]);
                 }
             }
