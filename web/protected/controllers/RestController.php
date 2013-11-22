@@ -17,16 +17,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Enums\ResponseFormats;
+use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Exceptions\BadRequestException;
-use DreamFactory\Platform\Utility\ResourceStore;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
-use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
 
 /**
@@ -39,14 +37,6 @@ class RestController extends BaseFactoryController
 	//	Members
 	//*************************************************************************
 
-	/**
-	 * @var string Default output format, either 'json' or 'xml'. NOTE: Output format is different from RESPONSE format (inner payload format vs. envelope)
-	 */
-	protected $_outputFormat = 'json';
-	/**
-	 * @var int The inner payload response format
-	 */
-	protected $_responseFormat = null;
 	/**
 	 * @var string service to direct call to
 	 */
@@ -78,8 +68,10 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
+			$_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
+			$_result = DataFormat::reformatData( $_result, null, $_outputFormat );
 
-			RestResponse::sendResults( $_result, RestResponse::Ok, null, $this->_outputFormat );
+			RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
 		}
 		catch ( \Exception $_ex )
 		{
@@ -92,18 +84,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionGet()
 	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Get );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
+		$this->_handleAction( HttpMethod::Get );
 	}
 
 	/**
@@ -111,6 +92,8 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPost()
 	{
+		$_action = HttpMethod::Post;
+
 		try
 		{
 			//	Check for verb tunneling
@@ -123,28 +106,16 @@ class RestController extends BaseFactoryController
 
 			if ( !empty( $_tunnelMethod ) )
 			{
-				switch ( strtoupper( $_tunnelMethod ) )
+				$_tunnelMethod = strtoupper( $_tunnelMethod );
+				switch ( $_tunnelMethod )
 				{
-					case HttpMethod::Get:
-						// complex retrieves, non-standard
-						$this->actionGet();
-						break;
-
 					case HttpMethod::Post:
-						// in case they use it in the header as well
-						break;
-
+					case HttpMethod::Get:
 					case HttpMethod::Put:
-						$this->actionPut();
-						break;
-
 					case HttpMethod::Merge:
 					case HttpMethod::Patch:
-						$this->actionMerge();
-						break;
-
 					case HttpMethod::Delete:
-						$this->actionDelete();
+						$_action = $_tunnelMethod;
 						break;
 
 					default:
@@ -152,12 +123,7 @@ class RestController extends BaseFactoryController
 				}
 			}
 
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Post );
-			$resultFormat = $svcObj->getNativeFormat();
-			$code = RestResponse::Created;
-
-			RestResponse::sendResults( $result, $code, $resultFormat, $this->_outputFormat );
+			$this->_handleAction( $_action );
 		}
 		catch ( \Exception $ex )
 		{
@@ -170,18 +136,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionMerge()
 	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Merge );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
+		$this->_handleAction( HttpMethod::Merge );
 	}
 
 	/**
@@ -189,18 +144,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPut()
 	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Put );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
+		$this->_handleAction( HttpMethod::Put );
 	}
 
 	/**
@@ -208,13 +152,20 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionDelete()
 	{
+		$this->_handleAction( HttpMethod::Delete );
+	}
+
+	/**
+	 * Generic action handler
+	 *
+	 * @param string $action
+	 */
+	protected function _handleAction( $action )
+	{
 		try
 		{
 			$svcObj = ServiceHandler::getService( $this->_service );
-			$result = $svcObj->processRequest( $this->_resource, HttpMethod::Delete );
-			$resultFormat = $svcObj->getNativeFormat();
-
-			RestResponse::sendResults( $result, RestResponse::Ok, $resultFormat, $this->_outputFormat );
+			$svcObj->processRequest( $this->_resource, $action );
 		}
 		catch ( \Exception $ex )
 		{
@@ -232,10 +183,9 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		$GLOBALS['app_name'] = $this->_determineAppName();
-		$this->_outputFormat = $this->_determineFormat();
-
-//        'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
+		// fix the slash at the end, Yii removes trailing slash by default,
+		// but it is needed in some APIs to determine file vs folder, etc.
+		// 'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
 		$path = Option::get( $_GET, 'path', '' );
 		$slashIndex = strpos( $path, '/' );
 		if ( false === $slashIndex )
@@ -264,90 +214,6 @@ class RestController extends BaseFactoryController
 	}
 
 	/**
-	 * Determine the app_name/API key of this request
-	 *
-	 * @return mixed
-	 */
-	protected function _determineAppName()
-	{
-		// 	Determine application if any
-		$_appName = FilterInput::request( 'app_name', null, FILTER_SANITIZE_STRING );
-		if ( empty( $_appName ) )
-		{
-			if ( null === ( $_appName = Option::get( $_SERVER, 'HTTP_X_DREAMFACTORY_APPLICATION_NAME' ) ) )
-			{
-				//	Old non-name-spaced header
-				$_appName = Option::get( $_SERVER, 'HTTP_X_APPLICATION_NAME' );
-			}
-		}
-
-		//	Still empty?
-		if ( empty( $_appName ) )
-		{
-			if ( false === stripos( Option::server( 'REQUEST_URI' ), '/rest/portal' ) || !isset( $_REQUEST, $_REQUEST['code'] ) )
-			{
-				RestResponse::sendErrors( new BadRequestException( 'No application name header or parameter value in request.' ) );
-			}
-
-			$_appName = 'portal';
-		}
-
-		return $_appName;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function _determineFormat()
-	{
-		$this->_responseFormat = ResponseFormats::RAW;
-
-		$_outputFormat =
-			trim( strtolower( FilterInput::request( 'format', FilterInput::server( 'HTTP_ACCEPT', null, FILTER_SANITIZE_STRING ), FILTER_SANITIZE_STRING ) ) );
-
-		switch ( $_outputFormat )
-		{
-			case 'json':
-			case 'xml':
-				//	These are good...
-				break;
-
-			default:
-				if ( ResponseFormats::contains( $_outputFormat ) )
-				{
-					//	Set the response format here and in the store
-					ResourceStore::setResponseFormat( $this->_responseFormat = $_outputFormat );
-				}
-
-				//	Set envelope to JSON
-				$_outputFormat = 'json';
-				break;
-		}
-
-		return $_outputFormat;
-	}
-
-	/**
-	 * @param string $outputFormat
-	 *
-	 * @return RestController
-	 */
-	public function setOutputFormat( $outputFormat )
-	{
-		$this->_outputFormat = $outputFormat;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getOutputFormat()
-	{
-		return $this->_outputFormat;
-	}
-
-	/**
 	 * @param string $resource
 	 *
 	 * @return RestController
@@ -365,26 +231,6 @@ class RestController extends BaseFactoryController
 	public function getResource()
 	{
 		return $this->_resource;
-	}
-
-	/**
-	 * @param int $responseFormat
-	 *
-	 * @return RestController
-	 */
-	public function setResponseFormat( $responseFormat )
-	{
-		$this->_responseFormat = $responseFormat;
-
-		return $this;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getResponseFormat()
-	{
-		return $this->_responseFormat;
 	}
 
 	/**

@@ -10,7 +10,7 @@ use Kisma\Core\Utility\Option;
 
 $_state = $_content = $_tabs = null;
 
-Pii::scriptFile( '/public/js/df.datatables.js', PageLocation::End );
+Pii::scriptFile( '/js/df.datatables.js', PageLocation::End );
 
 //if ( null !== ( $_state = Pii::getState( 'admin.state' ) ) )
 
