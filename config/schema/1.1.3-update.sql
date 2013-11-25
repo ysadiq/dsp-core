@@ -18,7 +18,7 @@
 --
 
 --
--- DSP v1.1.3.x database update script for MySQL
+-- DSP v1.2.x database update script for MySQL
 --
 
 DROP TABLE IF EXISTS `df_sys_account_provider`;
@@ -37,21 +37,18 @@ ALTER TABLE `df_sys_provider`
 ADD CONSTRAINT `fk_provider_base_provider_id`
 FOREIGN KEY (`base_provider_id`)
 REFERENCES `df_sys_provider` (`id`)
-		ON UPDATE CASCADE
 		ON DELETE CASCADE;
 
 ALTER TABLE `df_sys_provider_user`
 ADD CONSTRAINT `fk_provider_user_user_id`
 FOREIGN KEY (`user_id`)
 REFERENCES `df_sys_user` (`id`)
-		ON UPDATE CASCADE
 		ON DELETE CASCADE;
 
 ALTER TABLE `df_sys_provider_user`
 ADD CONSTRAINT `fk_provider_user_provider_id`
 FOREIGN KEY (`provider_id`)
 REFERENCES `df_sys_provider` (`id`)
-		ON UPDATE CASCADE
 		ON DELETE CASCADE;
 
 --	A unique index on the provider user (credentials storage)

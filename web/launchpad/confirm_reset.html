@@ -1,146 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>DreamFactory Services Platform&trade;</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="author" content="DreamFactory Software, Inc.">
 	<meta name="language" content="en" />
+
+	<title>DreamFactory Services Platform&trade;</title>
+
 	<link rel="shortcut icon" href="/images/logo-32x32.png" />
-	<!-- Standard CSS -->
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-	<style>
-		body {
-			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-		}
 
-		img#logo-img {
-			margin-top:   5px;
-			margin-right: 15px;
-			float:        left;
-			height:       32px;
-		}
-
-		h2.headline {
-			border-bottom: 1px solid #ddd;
-			margin-top:    25px;
-			margin-bottom: 50px;
-		}
-
-		.main-content {
-			height:     640px;
-			font-size:  18px !important;
-			background: url(../images/bg-initial.png) 25% 0 no-repeat;
-		}
-
-		.main-content.step2 {
-			height:     640px;
-			font-size:  18px !important;
-			background: url(../images/bg-initial.png) 100% 50% no-repeat;
-		}
-
-		.main-content p {
-			font-size: 18px;
-			width:     450px;
-		}
-
-		.main-content .spacer {
-			height:        1px;
-			width:         1px;
-			margin-bottom: 25px;
-		}
-
-		.main-content label {
-			font-size: 16px;
-		}
-
-		.main-content.step1 .form-actions {
-			margin-top: 160px;
-		}
-
-		.main-content footer p {
-			width: 960px;
-		}
-
-		label.error {
-			color:       darkred;
-			padding-top: 0;
-			margin-top:  -10px;
-			font-size:   10pt;
-			display:     block;
-		}
-	</style>
+	<!-- Standard CSS from style guide -->
+	<!-- Bootstrap 3 CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 	<!--[if IE 7]>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.css" rel="stylesheet">    <![endif]-->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">
+	<![endif]-->
+	<!-- DreamFactory Typography Css -->
+	<link rel="stylesheet" href="/css/df-custom-bs.css">
+	<link rel="stylesheet" href="css/forms.css">
 
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->    <!--[if lt IE 9]>
-	<script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
-	<script src="js/json2.js"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<script src="/js/respond.min.js"></script>
+	<![endif]-->
 </head>
 <body>
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> </a> <img id="logo-img" src="/images/logo-48x48.png"><a
-				class="brand" href="#">DreamFactory Powers Activate!</a>
-
-			<div class="nav-collapse collapse">
-				<ul class="nav"></ul>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="container main-content step1">
-	<h2 class="headline">Password Reset Confirmation</h2>
+<div class="container" id="formbox">
+	<h2>Password Reset Confirmation</h2>
 
 	<p>Please enter your email address and confirmation code. Then enter and confirm a new password.</p>
 
-	<div class="spacer"></div>
-	<!--
-		<form id="confirm-form">
-	-->
-	<div class="control-group">
-		<label for="email">Email Address</label>
-		<div class="controls">
-			<input id="email" class="email required" type="text" />
+	<!-- Register Form -->
+	<form id="form-register">
+		<div class="alert-area">
+			<div class="alert alert-danger fade in hide" data-alert="alert" id="loginErrorMessage"></div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label for="code">Confirmation Code</label>
-		<div class="controls">
-			<input id="code" class="required" type="text" />
+
+		<div class="form-group">
+			<label for="email" class="sr-only">Email Address</label>
+
+			<div class="input-group">
+				<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+
+				<input tabindex="1" class="form-control email required" autofocus type="email" id="email" name="email" placeholder="Email Address" />
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label for="password">Password</label>
-		<div class="controls">
-			<input id="password" class="required" type="password" />
+
+		<div class="form-group">
+			<label for="code" class="sr-only">Confirmation Code</label>
+
+			<div class="input-group">
+				<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
+
+				<input tabindex="2" class="form-control required" type="text" id="code" name="code" placeholder="Confirmation Code" />
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label for="password_verify">Verify Password</label>
-		<div class="controls">
-			<input id="password_verify" class="required" type="password" />
+
+		<div class="form-group">
+			<label for="password" class="sr-only">Password</label>
+
+			<div class="input-group">
+				<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+				<input tabindex="3" class="form-control password required" type="password" id="password" placeholder="Password" name="password" />
+			</div>
 		</div>
-	</div>
-	<div class="form-actions">
-		<button onclick="confirm()" class="btn btn-success">Confirm!</button>
-	</div>
-	<!--
-		</form>
-	-->
-	<div class="alert hide" id="statusMessage"></div>
-	<footer>
-		<p>&copy; DreamFactory Software, Inc. 2013. All Rights Reserved.</p>
-	</footer>
+
+		<div class="form-group">
+			<label for="password" class="sr-only">Verify Password</label>
+
+			<div class="input-group">
+				<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
+
+				<input tabindex="4" class="form-control password required" type="password" id="password_verify" placeholder="Verify Password"
+					   name="password_verify" />
+			</div>
+		</div>
+
+		<div class="form-buttons">
+			<span class="pull-right"><button tabindex="5" class="btn btn-success" type="submit">Confirm</button></span>
+		</div>
+	</form>
+	<div class="alert" id="statusMessage"></div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
-<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
+<div id="footer">
+	<!--<div class="container">-->
+	<p>&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> 2013. All Rights Reserved.</p>
+	<!--</div>-->
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
+<script src="js/json2.js"></script>
+<script src="/js/df.js"></script>
+<script src="/js/utils.js"></script>
 <!--<script type="text/javascript">
     /*<![CDATA[*/
     jQuery(function($) {
@@ -148,26 +110,25 @@
     });
     /*]]>*/
 </script>-->
-<script src="/js/df.js"></script>
-<script src="/js/utils.js"></script>
 <script>
 $("#email").val(CommonUtilities.getQueryParameter('email'));
-var confirm = function() {
+$("#form-confirm").submit(function( event ) {
+	event.preventDefault();
 	var data = {};
 	data.email = $("#email").val();
 	if (data.email == '') {
 		$("#statusMessage").addClass('alert-error').html("Please enter your email address.").show();
-		return;
+		return false;
 	}
 	data.code = $("#code").val();
 	if (data.code == '') {
 		$("#statusMessage").addClass('alert-error').html("Please enter your code from the confirmation email sent to you.").show();
-		return;
+		return false;
 	}
 	data.new_password = $("#password").val();
 	if (data.new_password == '' || data.new_password != $("#password_verify").val()) {
 		$("#statusMessage").addClass('alert-error').html("Please enter matching passwords.").show();
-		return;
+		return false;
 	}
 	data = JSON.stringify(data);
 	$.post('/rest/user/password/?app_name=launchpad', data)
@@ -178,8 +139,8 @@ var confirm = function() {
 			.fail(function(response) {
 				$("#statusMessage").addClass('alert-error').html(getErrorString(response)).show();
 			}
-	)
-};
+	);
+});
 </script>
 </body>
 </html>
