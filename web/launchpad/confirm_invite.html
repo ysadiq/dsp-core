@@ -37,8 +37,8 @@
 
 	<p>Please enter your email address and confirmation code. Then enter and confirm a password for your account.</p>
 
-	<!-- Register Form -->
-	<form id="form-register">
+	<!-- Confirmation Form -->
+	<form id="form-confirm">
 		<div class="alert-area">
 			<div class="alert alert-danger fade in hide" data-alert="alert" id="loginErrorMessage"></div>
 		</div>
@@ -57,7 +57,7 @@
 			<label for="code" class="sr-only">Confirmation Code</label>
 
 			<div class="input-group">
-				<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
+				<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
 				<input tabindex="2" class="form-control required" type="text" id="code" name="code" placeholder="Confirmation Code" />
 			</div>
@@ -74,7 +74,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="password" class="sr-only">Verify Password</label>
+			<label for="password_verify" class="sr-only">Verify Password</label>
 
 			<div class="input-group">
 				<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
@@ -88,7 +88,7 @@
 			<span class="pull-right"><button tabindex="5" class="btn btn-success" type="submit">Confirm</button></span>
 		</div>
 	</form>
-	<div class="alert" id="statusMessage"></div>
+	<div class="alert" id="statusMessage" style="display: none;"></div>
 </div>
 <div id="footer">
 	<!--<div class="container">-->
@@ -100,9 +100,8 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
-<script src="js/json2.js"></script>
-<script src="/js/df.js"></script>
 <script src="/js/utils.js"></script>
+<script src="js/json2.js"></script>
 <!--<script type="text/javascript">
     /*<![CDATA[*/
     jQuery(function($) {
@@ -111,7 +110,6 @@
     /*]]>*/
 </script>-->
 <script>
-$("#email").val(CommonUtilities.getQueryParameter('email'));
 $("#form-confirm").submit(function( event ) {
 	event.preventDefault();
 	var data = {};

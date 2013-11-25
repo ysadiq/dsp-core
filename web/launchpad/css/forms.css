@@ -155,6 +155,9 @@ form, .form-buttons {
 	padding: 8px 14px;
 }
 
+.alert {
+	box-shadow: inset 0 0 0;
+}
 /** Form error message **/
 .form-group div.error {
 	color:          #eeeeee;
