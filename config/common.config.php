@@ -181,9 +181,9 @@ return array_merge(
 		 /**
 		  * The default landing pages for email confirmations
 		  */
-		 'dsp.confirm_invite_url'        => '/launchpad/confirm_invite.html',
-		 'dsp.confirm_register_url'      => '/launchpad/confirm_reg.html',
-		 'dsp.confirm_reset_url'         => '/launchpad/confirm_reset.html',
+		 'dsp.confirm_invite_url'        => '/confirm_invite.html',
+		 'dsp.confirm_register_url'      => '/confirm_reg.html',
+		 'dsp.confirm_reset_url'         => '/confirm_reset.html',
 		 /**
 		  * The default number of records to return at once for database queries
 		  */

@@ -9,7 +9,7 @@
 
 	<title>DreamFactory Services Platform&trade;</title>
 
-	<link rel="shortcut icon" href="/images/logo-32x32.png" />
+	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
 
 	<!-- Standard CSS from style guide -->
 	<!-- Bootstrap 3 CSS -->
@@ -23,7 +23,7 @@
 	<![endif]-->
 	<!-- DreamFactory Typography Css -->
 	<link rel="stylesheet" href="/css/df-custom-bs.css">
-	<link rel="stylesheet" href="css/forms.css">
+	<link rel="stylesheet" href="/css/forms.css">
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -32,68 +32,71 @@
 	<![endif]-->
 </head>
 <body>
-<div class="container" id="formbox">
-	<h2>New User Confirmation</h2>
+<div id="wrap">
+	<div class="container" id="formbox">
+		<h2>Registration Confirmation</h2>
 
-	<p>Please enter your email address and confirmation code. Then enter and confirm a password to complete your new account.</p>
+		<p>Please enter your email address and confirmation code. Then enter and confirm a password for your account.</p>
 
-	<!-- Confirmation Form -->
-	<form id="form-confirm">
-		<div class="alert-area">
-			<div class="alert alert-danger fade in hide" data-alert="alert" id="loginErrorMessage"></div>
+		<div class="row">
+			<!-- Confirmation Form -->
+			<form id="form-confirm">
+				<div class="form-group">
+					<label for="email" class="sr-only">Email Address</label>
+
+					<div class="input-group">
+						<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+
+						<input tabindex="1" class="form-control email required" autofocus type="email" id="email" name="email" placeholder="Email Address" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="code" class="sr-only">Confirmation Code</label>
+
+					<div class="input-group">
+						<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
+
+						<input tabindex="2" class="form-control required" type="text" id="code" name="code" placeholder="Confirmation Code" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="password" class="sr-only">Password</label>
+
+					<div class="input-group">
+						<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+						<input tabindex="3" class="form-control password required" type="password" id="password" placeholder="Password" name="password" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="password_verify" class="sr-only">Verify Password</label>
+
+					<div class="input-group">
+						<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
+
+						<input tabindex="4" class="form-control password required" type="password" id="password_verify" placeholder="Verify Password"
+							   name="password_verify" />
+					</div>
+				</div>
+
+				<div class="form-buttons">
+					<span class="pull-right"><button tabindex="5" class="btn btn-success" type="submit">Confirm</button></span>
+				</div>
+			</form>
 		</div>
-
-		<div class="form-group">
-			<label for="email" class="sr-only">Email Address</label>
-
-			<div class="input-group">
-				<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
-
-				<input tabindex="1" class="form-control email required" autofocus type="email" id="email" name="email" placeholder="Email Address" />
-			</div>
+		<div class="row">
+			<div class="alert" id="statusMessage" style="display: none;"></div>
 		</div>
-
-		<div class="form-group">
-			<label for="code" class="sr-only">Confirmation Code</label>
-
-			<div class="input-group">
-				<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
-
-				<input tabindex="2" class="form-control required" type="text" id="code" name="code" placeholder="Confirmation Code" />
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label for="password" class="sr-only">Password</label>
-
-			<div class="input-group">
-				<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
-
-				<input tabindex="3" class="form-control password required" type="password" id="password" placeholder="Password" name="password" />
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label for="password_verify" class="sr-only">Verify Password</label>
-
-			<div class="input-group">
-				<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
-
-				<input tabindex="4" class="form-control password required" type="password" id="password_verify" placeholder="Verify Password"
-					   name="password_verify" />
-			</div>
-		</div>
-
-		<div class="form-buttons">
-			<span class="pull-right"><button tabindex="5" class="btn btn-success" type="submit">Confirm</button></span>
-		</div>
-	</form>
-	<div class="alert" id="statusMessage" style="display: none;"></div>
+	</div>
 </div>
+<div id="push"></div>
 <div id="footer">
-	<!--<div class="container">-->
-	<p>&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> 2013. All Rights Reserved.</p>
-	<!--</div>-->
+	<div class="container align-center">
+		<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> 2013. All Rights Reserved.</p>
+	</div>
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -101,7 +104,7 @@
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
 <script src="/js/utils.js"></script>
-<script src="js/json2.js"></script>
+<script src="launchpad/js/json2.js"></script>
 <!--<script type="text/javascript">
     /*<![CDATA[*/
     jQuery(function($) {
@@ -115,24 +118,24 @@ $("#form-confirm").submit(function(event) {
 	var data = {};
 	data.email = $("#email").val();
 	if (data.email == '') {
-		$("#statusMessage").addClass('alert-error').html("Please enter your email address.").show();
+		$("#statusMessage").addClass('alert-danger').html("Please enter your email address.").show();
 		return false;
 	}
 	data.code = $("#code").val();
 	if (data.code == '') {
-		$("#statusMessage").addClass('alert-error').html("Please enter your code from the confirmation email sent to you.").show();
+		$("#statusMessage").addClass('alert-danger').html("Please enter your code from the registration email sent to you.").show();
 		return false;
 	}
 	data.new_password = $("#password").val();
 	if (data.new_password == '' || data.new_password != $("#password_verify").val()) {
-		$("#statusMessage").addClass('alert-error').html("Please enter matching passwords.").show();
+		$("#statusMessage").addClass('alert-danger').html("Please enter matching passwords.").show();
 		return false;
 	}
 	data = JSON.stringify(data);
 	$.post('/rest/user/register/?app_name=launchpad', data).done(function() {
-				window.location = "/";
-			}).fail(function(response) {
-				$("#statusMessage").addClass('alert-error').html(getErrorString(response)).show();
+		window.location = "/";
+	}).fail(function(response) {
+				$("#statusMessage").addClass('alert-danger').html(getErrorString(response)).show();
 			});
 });
 </script>

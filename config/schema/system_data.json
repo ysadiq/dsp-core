@@ -51,7 +51,7 @@
 			"from_email":  "no-reply@dreamfactory.com"
 		},
 		{
-			"name":        "Registration Confirmation",
+			"name":        "User Registration",
 			"description": "Email sent to new users to complete registration.",
 			"subject":     "Registration Confirmation",
 			"body_html":   "Hi {first_name},<br\/>\nYou have registered to become a {dsp.name} user. Go to the following url, enter the code below, and set your password to confirm your account.<br\/>\n<br\/>\n{dsp.confirm_register_url}<br\/>\n<br\/>\nConfirmation Code: {confirm_code}<br\/>\n<br\/>\nThanks,<br\/>\n{from_name}",

@@ -51,85 +51,94 @@ Validate::register(
 		 ),
 	)
 );
-?><h2 class="headline">Create a System Admin User</h2>
+?>
+<div class="container" id="formbox">
+	<h2>Create a System Admin User</h2>
 
-<p>Your DreamFactory Services Platform(tm) requires a local system administrator.</p><p>This user is a separate account that exists only
-	inside your DSP. It cannot be used elsewhere, like on the <strong>dreamfactory.com</strong> site for instance.</p><p>More administrative and
-	regular users can be easily added using the DSP's built-in 'Admin' application.</p>
-<div class="spacer"></div>
+	<p>Your DSP requires a local system administrator. This user is a separate admin user that exists only inside your DSP.
+		It is not related to the <strong>dreamfactory.com</strong> site, though you may use the same email address and password if desired.</p>
 
-<form id="init-form" method="POST" action="/web/initAdmin">
-	<?php
-	echo '<legend>Login Credentials</legend>';
+	<p>More administrative and regular users can be easily added using the DSP's built-in 'Admin' application.</p>
 
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'InitAdminForm_email' ), 'Email Address' ) . '<div class="controls">' .
-		 Bootstrap::text( array(
-							   'id'    => 'InitAdminForm_email',
-							   'name'  => 'InitAdminForm[email]',
-							   'class' => 'email required',
-							   'value' => $model->email
-						  )
-		 ) . '</div></div>';
+	<div class="row">
+		<form id="init-form" method="POST" action="/web/initAdmin">
+			<input type="hidden" name="skipped" id="skipped" value="0">
+			<legend>Login Credentials</legend>
+			<div class="form-group">
+				<label for="InitAdminForm_email" class="sr-only">Email Address</label>
 
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'InitAdminForm_password' ), 'Password' ) . '<div class="controls">' .
-		 Bootstrap::password( array(
-								   'id'    => 'InitAdminForm_password',
-								   'name'  => 'InitAdminForm[password]',
-								   'class' => 'password required',
-								   'value' => null
-							  )
-		 ) .
-		 '</div></div>';
+				<div class="input-group">
+					<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'InitAdminForm_passwordRepeat' ),
-														   'Password Again'
-		) . '<div class="controls">' .
-		 Bootstrap::password( array(
-								   'id'    => 'InitAdminForm_passwordRepeat',
-								   'name'  => 'InitAdminForm[passwordRepeat]',
-								   'class' => 'password required',
-								   'value' => null
-							  )
-		 ) .
-		 '</div></div>';
+					<input tabindex="1" class="form-control email required" autofocus type="email" id="InitAdminForm_email" name="InitAdminForm[email]"
+						   placeholder="Email Address" />
+				</div>
+			</div>
 
-	echo '<legend>User Details</legend>';
+			<div class="form-group">
+				<label for="InitAdminForm_password" class="sr-only">Password</label>
 
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'InitAdminForm_firstName' ), 'First Name' ) . '<div class="controls">' .
-		 Bootstrap::text( array(
-							   'id'    => 'InitAdminForm_firstName',
-							   'name'  => 'InitAdminForm[firstName]',
-							   'class' => 'required',
-							   'value' => $model->firstName
-						  )
-		 ) . '</div></div>';
+				<div class="input-group">
+					<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'InitAdminForm_lastName' ), 'Last Name' ) . '<div class="controls">' .
-		 Bootstrap::text( array(
-							   'id'    => 'InitAdminForm_lastName',
-							   'name'  => 'InitAdminForm[lastName]',
-							   'class' => 'required',
-							   'value' => $model->lastName
-						  )
-		 ) . '</div></div>';
+					<input tabindex="2" class="form-control password required" type="password" id="InitAdminForm_password" name="InitAdminForm[password]"
+						   placeholder="Password" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="InitAdminForm_passwordRepeat" class="sr-only">Verify Password</label>
 
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'InitAdminForm_displayName' ),
-														   'Display Name'
-		) . '<div class="controls">' .
-		 Bootstrap::text( array(
-							   'id'    => 'InitAdminForm_displayName',
-							   'name'  => 'InitAdminForm[displayName]',
-							   'class' => 'required',
-							   'value' => $model->displayName,
-						  )
-		 ) . '</div></div>';
+				<div class="input-group">
+					<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
-	?>
+					<input tabindex="3" class="form-control password required" type="password" id="InitAdminForm_passwordRepeat"
+						   name="InitAdminForm[passwordRepeat]"
+						   placeholder="Verify Password" />
+				</div>
+			</div>
+			<legend>User Details</legend>
+			<div class="form-group">
+				<label for="InitAdminForm_firstName" class="sr-only">First Name</label>
 
-	<div class="form-actions">
-		<button type="submit" class="btn btn-success btn-primary">Gimme My Mojo!</button>
+				<div class="input-group">
+					<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
+
+					<input tabindex="4" class="form-control required" type="text" id="InitAdminForm_firstName" name="InitAdminForm[firstName]"
+						   placeholder="<?php echo ($model->firstName ? $model->firstName : 'First Name'); ?>" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="InitAdminForm_lastName" class="sr-only">Last Name</label>
+
+				<div class="input-group">
+					<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
+
+					<input tabindex="5" class="form-control required" type="text" id="InitAdminForm_lastName" name="InitAdminForm[lastName]"
+						   placeholder="<?php echo ($model->lastName ? $model->lastName : 'Last Name'); ?>" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="InitAdminForm_displayName" class="sr-only">Display Name</label>
+
+				<div class="input-group">
+					<span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
+
+					<input tabindex="6" class="form-control" type="text" id="InitAdminForm_displayName" name="InitAdminForm[displayName]"
+						   placeholder="<?php echo ($model->displayName ? $model->displayName : 'Display Name'); ?>" />
+				</div>
+			</div>
+
+			<div class="form-buttons">
+				<button type="submit" class="btn btn-success btn-primary pull-right">Create</button>
+			</div>
+		</form>
 	</div>
-</form>
+	<div class="row">
+		<div class="alert" id="statusMessage" style="display: none;"></div>
+	</div>
+</div>
 <script type="text/javascript">
 jQuery(function($) {
 	$('#init-form').on('focus', 'input#InitAdminForm_displayName', function(e) {

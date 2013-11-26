@@ -22,10 +22,10 @@ Actions = ({
 
 	createAccount: function() {
 		if (Config.open_reg_email_service_id) {
-			window.location = "register_via_email.html";
+			window.location = "/register_via_email.html";
 		}
 		else {
-			window.location = "register_full.html";
+			window.location = "/register_full.html";
 		}
 	},
 

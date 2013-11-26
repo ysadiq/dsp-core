@@ -42,7 +42,6 @@ echo "<br /><br />";
 echo 'API Version: ' . API_VERSION . "<br />";
 echo 'DSP Version: ' . DSP_VERSION . "<br />";
 echo 'SQL DB Data Source Name: ' . Yii::app()->db->connectionString . "<br />";
-echo 'Blob Storage Type: ' . Yii::app()->params['BlobStorageStorageType'] . "<br />";
 echo "<br /><br />";
 phpinfo();
 
