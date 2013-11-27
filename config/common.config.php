@@ -29,15 +29,11 @@ use DreamFactory\Platform\Utility\Fabric;
 /**
  * @var string
  */
-const DSP_VERSION = '1.1.3';
+const DSP_VERSION = '1.2.0';
 /**
  * @var string
  */
 const API_VERSION = '1.0';
-/**
- * @var string
- */
-const BLOB_CONFIG_PATH = '/blob.config.php';
 /**
  * @var string
  */
@@ -80,7 +76,7 @@ $_defaultController = 'web';
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
-
+$_appName = 'DreamFactory Services Platform';
 /**
  * Aliases
  */
@@ -89,7 +85,7 @@ file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG
 /**
  * Application Paths
  */
-\Kisma::set( 'app.app_name', $_appName = 'DreamFactory Services Platform' );
+\Kisma::set( 'app.app_name', $_appName );
 \Kisma::set( 'app.doc_root', $_docRoot );
 \Kisma::set( 'app.log_path', $_logFilePath );
 \Kisma::set( 'app.vendor_path', $_vendorPath );
