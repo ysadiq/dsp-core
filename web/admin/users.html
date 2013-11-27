@@ -15,14 +15,14 @@
                     <tr ng-repeat="user in Users.record" id="row_{{user.id}}">
                         <td ng-click="showDetails()">{{user.display_name}}</td>
                         <td class="no-border">
-                            <div ng-show="user.user_source == 0 && user.confirm_code != 'y'"
+                            <div ng-show="user.user_source == 0 && !user.confirmed"
                                  class="btn-group pull-right">
                                 <a class="btn btn-small btn-inverse" title="Reinvite unconfirmed user"
-                                   ng-click="invite(false)"><i class="icon-envelope"></i></a>
+                                   ng-click="invite()"><i class="icon-envelope"></i></a>
                                 <a class="btn btn-small btn-inverse" title="Delete this user" ng-click="delete()"><i
                                         class="icon-trash"></i></a>
                             </div>
-                            <div ng-show="user.user_source > 0 || (user.user_source == 0 && user.confirm_code == 'y')"
+                            <div ng-show="user.user_source > 0 || (user.user_source == 0 && user.confirmed)"
                                  class="btn-group pull-right">
                                 <a class="btn btn-small btn-inverse" title="Delete this user" ng-click="delete()"><i
                                         class="icon-trash"></i></a>
@@ -66,6 +66,12 @@
                         <p>
                         <form id="importUsersForm" method="POST" enctype="multipart/form-data" target="userIframe">
                             <input id="userInput" type="file" name="files" size="50"/>
+                            <div ng-show="Config.invite_email_service_id != null">
+                                <br/>
+                                <p>
+                                    <input id="importUsersInvite" name="send_invite" value="true" type="checkbox" ng-disabled="Config.invite_email_service_id == null" ng-checked="true"/>&nbsp;Send invite via email
+                                </p>
+                            </div>
                         </form>
                         <iframe id="userIframe" style="display: none;" name="userIframe" src="about:blank" onload="checkImportResults(this)"></iframe>
                         </p>

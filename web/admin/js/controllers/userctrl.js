@@ -73,7 +73,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         });
     };
 
-
     Scope.create = function () {
 
         var newRec = this.user;
@@ -99,17 +98,13 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             function(response) {
 
                 Scope.Users.record.push(response);
-                if (!Scope.passwordEdit) {
-                    Scope.invite(true);
-                } else {
-                    $.pnotify({
-                        title: 'Users',
-                        type: 'success',
-                        text: 'Created Successfully'
-                    });
+                $.pnotify({
+                    title: 'Users',
+                    type: 'success',
+                    text: 'Created Successfully'
+                });
 
-                    Scope.promptForNew();
-                }
+                Scope.promptForNew();
             },
             function(response) {
 
@@ -130,81 +125,40 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             });
     };
 
-    Scope.invite = function (isCreate) {
+    Scope.invite = function() {
 
-        if (isCreate) {
-            info = {"to": Scope.user.email, "first_name": Scope.user.first_name, "success": createSuccess, "error": createError};
-        } else {
-            info = {"to": this.user.email, "first_name": this.user.first_name, "success": resendSuccess, "error": resendError};
-        }
-        var data = {
-            "to": info.to,
-            "subject": "Invitation",
-            "body_html": "Hi {first_name},<br/><br/>You have been invited to become a {dsp.name} user. " +
-                "Go to the following url, enter the code below, and set your password to confirm your account.<br/><br/>" +
-                "{dsp.confirm_invite_url}<br/><br/>Confirmation Code: {confirm_code}<br/><br/>Thanks,<br/>{from_name}",
-            "first_name": info.first_name
-        };
         $.ajax({
             dataType: 'json',
-            type: 'POST',
-            url: CurrentServer + '/rest/' + Scope.defaultEmailService +'/?app_name=admin&method=POST',
-            data: JSON.stringify(data),
+            type: 'PATCH',
+            url: CurrentServer + '/rest/system/user/' + this.user.id + '?app_name=admin&send_invite=true',
+            data: {},
             cache: false,
-            success: info.success,
-            error: info.error
+            success: function(response) {
+
+                $.pnotify({
+                    title: 'Users',
+                    type: 'success',
+                    text: 'Invite sent!'
+                });
+            },
+            error: function(response) {
+
+                var code = response.status;
+                if (code == 401) {
+                    window.top.Actions.doSignInDialog("stay");
+                    return;
+                }
+
+                $.pnotify({
+                    title: 'Error',
+                    type: 'error',
+                    hide: false,
+                    addclass: "stack-bottomright",
+                    text: 'Unable to send invite. ' + getErrorString(response)
+                });
+            }
         });
     };
-
-    function createSuccess(response) {
-
-        $.pnotify({
-            title: 'Users',
-            type: 'success',
-            text: 'User created and invite sent!'
-        });
-
-        Scope.promptForNew();
-    }
-
-    function createError(response) {
-
-        $.pnotify({
-            title: 'Error',
-            type: 'error',
-            hide: false,
-            addclass: "stack-bottomright",
-            text: 'User created but unable to send invite. ' + getErrorString(response)
-        });
-
-        Scope.promptForNew();
-    }
-
-    function resendSuccess(response) {
-
-        $.pnotify({
-            title: 'Users',
-            type: 'success',
-            text: 'Invite sent!'
-        });
-    }
-
-    function resendError(response) {
-
-        var code = response.status;
-        if (code == 401) {
-            window.top.Actions.doSignInDialog("stay");
-            return;
-        }
-
-        $.pnotify({
-            title: 'Error',
-            type: 'error',
-            hide: false,
-            addclass: "stack-bottomright",
-            text: 'Unable to send invite. ' + getErrorString(response)
-        });
-    }
 
     Scope.promptForNew = function () {
 

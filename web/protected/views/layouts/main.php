@@ -3,81 +3,56 @@
  * @var string        $content
  * @var WebController $this
  */
-$_route = $this->route;
-$_step = 'DreamFactory Powers';
-
-if ( $_route != 'web/login' )
-{
-	if ( false === strpos( $_route, 'web/', 0 ) )
-	{
-		$_step = 'light';
-		$_headline = 'DreamFactory Services Platform&trade;';
-	}
-	else
-	{
-		$_headline = 'DreamFactory Powers Activated!';
-		$_step = 'step2';
-	}
-}
-else
-{
-	$_headline = 'DreamFactory Powers Activate!';
-	$_step = 'step1';
-}
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>DreamFactory Services Platform&trade;</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="author" content="DreamFactory Software, Inc.">
 	<meta name="language" content="en" />
-	<link rel="shortcut icon" href="/images/logo-32x32.png" />
-	<style>
-		body {
-			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-		}
-	</style>
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+	<title>DreamFactory Services Platform&trade;</title>
+
+	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
+
+	<!-- Standard CSS from style guide -->
+	<!-- Bootstrap 3 CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 	<!--[if IE 7]>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.css" rel="stylesheet">    <![endif]-->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">
+	<![endif]-->
 	<link rel="stylesheet" type="text/css" href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
 	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.4/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/css/df.datatables.css" />
-	<link rel="stylesheet" type="text/css" href="/css/main.css" />
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->    <!--[if lt IE 9]>
-	<script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+	<!-- DreamFactory Typography Css -->
+	<link rel="stylesheet" href="/css/df-custom-bs.css">
+	<link rel="stylesheet" href="/css/forms.css">
+	<!--	<link rel="stylesheet" type="text/css" href="/css/main.css" />-->
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<script src="/js/respond.min.js"></script>
+	<![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<img id="logo-img" src="/images/logo-48x48.png">
-
-			<a class="brand" href="#"><?php echo $_headline; ?></a>
-
-			<div class="nav-collapse collapse">
-				<ul class="nav"></ul>
-			</div>
-		</div>
+<div id="wrap">
+	<?php echo $content; ?>
+</div>
+<div id="push"></div>
+<div id="footer">
+	<div class="container align-center">
+		<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date( 'Y' ); ?>. All Rights Reserved.</p>
 	</div>
 </div>
-<div class="container main-content <?php echo $_step; ?>">
-	<?php echo $content; ?>
-	<footer>
-		<p>&copy; DreamFactory Software, Inc. <?php echo date( 'Y' ); ?>. All Rights Reserved.</p>
-	</footer>
-</div>
-<!-- /container -->
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
 </body>
 </html>

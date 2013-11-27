@@ -92,7 +92,7 @@ return array(
 		//	Asset management
 		'assetManager' => array(
 			'class'      => 'CAssetManager',
-			'basePath'   => 'assets',
+			'basePath'   => $_docRoot . '/assets',
 			'baseUrl'    => '/assets',
 			'linkAssets' => true,
 		),
