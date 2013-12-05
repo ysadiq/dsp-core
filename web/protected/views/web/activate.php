@@ -17,12 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @var $this  WebController
- * @var $model LoginForm
- */
-use Kisma\Core\Utility\Bootstrap;
 use DreamFactory\Yii\Utility\Validate;
+
+/**
+ * @var WebController $this
+ * @var LoginForm     $model
+ * @var CActiveForm   $form
+ */
 
 Validate::register(
 	'form#login-form',
@@ -48,40 +49,49 @@ $_headline = ( isset( $activated ) && $activated ) ? 'Welcome!' : 'Activate Your
 		Otherwise, select 'Skip' to manually proceed with activation.
 	</p>
 
-	<div class="row">
-		<form id="login-form" method="POST">
-			<input type="hidden" name="skipped" id="skipped" value="0">
-			<div class="form-group">
-				<label for="LoginForm_username" class="sr-only">Email Address</label>
+	<?php $form = $this->beginWidget(
+		'CActiveForm',
+		array(
+			 'id'                     => 'login-form',
+			 'enableClientValidation' => true,
+			 'clientOptions'          => array(
+				 'validateOnSubmit' => true,
+			 ),
+		)
+	); ?>
 
-				<div class="input-group">
-					<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+	<input type="hidden" name="skipped" id="skipped" value="0">
+	<div class="form-group">
+		<label for="LoginForm_username" class="sr-only">Email Address</label>
 
-					<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
-						   placeholder="Email Address" />
-				</div>
-			</div>
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
-			<div class="form-group">
-				<label for="LoginForm_password" class="sr-only">Password</label>
-
-				<div class="input-group">
-					<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
-
-					<input tabindex="3" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
-						   placeholder="Password" />
-				</div>
-			</div>
-
-			<div class="form-buttons">
-				<button id="btn-skip" class="btn btn-secondary pull-left">Skip</button>
-				<button type="submit" class="btn btn-success btn-primary pull-right">Activate</button>
-			</div>
-		</form>
+			<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
+				   placeholder="Email Address" />
+		</div>
 	</div>
-	<div class="row">
-		<div class="alert" id="statusMessage" style="display: none;"></div>
+
+	<div class="form-group">
+		<label for="LoginForm_password" class="sr-only">Password</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+			<input tabindex="2" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
+				   placeholder="Password" />
+		</div>
 	</div>
+
+	<?php echo $form->errorSummary( $model ); ?>
+
+	<div class="form-buttons">
+		<button id="btn-skip" class="btn btn-default pull-left">Skip</button>
+		<button type="submit" class="btn btn-success pull-right">Activate</button>
+	</div>
+
+	<?php $this->endWidget(); ?>
+
 </div>
 <script type="text/javascript">
 jQuery(function($) {

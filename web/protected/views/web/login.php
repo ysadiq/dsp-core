@@ -18,12 +18,12 @@
  * limitations under the License.
  */
 use DreamFactory\Yii\Utility\Validate;
-use Kisma\Core\Utility\Bootstrap;
 
 /**
  * @var WebController $this
  * @var LoginForm     $model
  * @var bool          $redirected
+ * @var CActiveForm   $form
  */
 
 Validate::register(
@@ -37,20 +37,60 @@ Validate::register(
 
 $_headline = 'Login Required!';
 ?>
-<h2 class="headline"><?php echo $_headline; ?></h2><p>In order to proceed to the requested resource, you must be logged in.</p>
-<div class="spacer"></div>
-<form id="login-form" method="POST" action="/web/login">
-	<?php
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'LoginForm_username' ), 'DSP User Email Address' );
-	echo '<div class="controls">' . Bootstrap::text( array( 'id' => 'LoginForm_username', 'name' => 'LoginForm[username]', 'class' => 'email required' ) ) .
-		 '</div></div>';
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'LoginForm_password' ), 'Password' );
-	echo '<div class="controls">' .
-		 Bootstrap::password( array( 'id' => 'LoginForm_password', 'name' => 'LoginForm[password]', 'class' => 'password required' ) ) . '</div></div>';
-	?>
-	<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
+<div class="container" id="formbox">
+	<h2><?php echo $_headline; ?></h2>
 
-	<div class="form-actions">
-		<button type="submit" class="btn btn-success btn-primary">Login</button>
+	<p>In order to proceed to the requested resource, you must be logged in.</p>
+
+	<?php $form = $this->beginWidget(
+		'CActiveForm',
+		array(
+			 'id'                     => 'login-form',
+			 'enableClientValidation' => true,
+			 'clientOptions'          => array(
+				 'validateOnSubmit' => true,
+			 ),
+		)
+	); ?>
+
+	<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
+	<div class="form-group">
+		<label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+
+			<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
+				   placeholder="DSP User Email Address" />
+		</div>
 	</div>
-</form>
+
+	<div class="form-group">
+		<label for="LoginForm_password" class="sr-only">Password</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+			<input tabindex="3" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
+				   placeholder="Password" />
+		</div>
+	</div>
+
+	<?php echo $form->errorSummary( $model ); ?>
+
+	<div class="form-buttons">
+		<button id="btn-home" class="btn btn-link pull-left">Home</button>
+		<button type="submit" class="btn btn-success pull-right">Login</button>
+	</div>
+
+	<?php $this->endWidget(); ?>
+
+</div>
+<script type="text/javascript">
+jQuery(function($) {
+	$('#btn-home').on('click', function(e) {
+		e.preventDefault();
+		window.location.href = '/';
+	});
+});
+</script>

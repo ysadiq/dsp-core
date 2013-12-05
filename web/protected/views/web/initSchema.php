@@ -27,26 +27,41 @@ $this->breadcrumbs = array(
 );
 ?>
 
-	<h2 class="headline">Database Upgrade Available!</h2>
+<div class="container" id="formbox">
+	<h2>Database Upgrade Available!</h2>
 
-<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
+	<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
 
-	<div class="flash-success">
-		<?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
-	</div>
+		<div class="flash-success">
+			<?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
+		</div>
 
-<?php else: ?>
+	<?php else: ?>
 
-	<p>A database update is available for this DreamFactory Services Platform&trade;. Click the 'Update' button below to start the update.</p>
+		<p>A database update is available for this DreamFactory Services Platform&trade;.
+			Click the 'Update' button below to start the update.</p>
 
-	<div class="space200"></div>
-	<div class="space50"></div>
-	<form id="init-schema-form" method="POST">
+		<?php $form = $this->beginWidget(
+			'CActiveForm',
+			array(
+				 'id'                     => 'init-schema-form',
+				 'enableClientValidation' => true,
+				 'clientOptions'          => array(
+					 'validateOnSubmit' => true,
+				 ),
+			)
+		); ?>
+
 		<input type="hidden" name="InitSchemaForm[dummy]" id="InitSchemaForm_dummy" value="1">
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-success btn-primary">Update!</button>
-		</div>
-	</form>
+		<?php echo $form->errorSummary( $model ); ?>
 
-<?php endif; ?>
+
+		<div class="form-buttons">
+			<button type="submit" class="btn btn-success pull-right">Update</button>
+		</div>
+
+		<?php $this->endWidget(); ?>
+
+	<?php endif; ?>
+</div>
