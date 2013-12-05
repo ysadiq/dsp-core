@@ -13,6 +13,6 @@ test.php
 test.sh
 *.moved.php
 *.setdev-on
-web/oasys-examples
+web/portal-sandbox
 vendor/dreamfactory/*.setdev-on
 vd

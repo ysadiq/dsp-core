@@ -507,7 +507,7 @@ class WebController extends BaseWebController
 		foreach ( $_temp as $_version )
 		{
 			$_name = Option::get( $_version, 'name', '' );
-			if ( version_compare( $_current, $_name, ' < ' ) )
+			if ( version_compare( $_current, $_name, '<' ) )
 			{
 				$_versions[] = $_name;
 			}
