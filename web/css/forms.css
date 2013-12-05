@@ -53,6 +53,11 @@ body {
 	width:      480px;
 }
 
+#formbox h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
 #formbox form {
 	/*background: #2E363F;*/
 	position: relative;

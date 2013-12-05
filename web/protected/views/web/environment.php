@@ -24,25 +24,23 @@ use DreamFactory\Yii\Utility\Pii;
  */
 $this->pageTitle = Pii::appName();
 ?>
+<div class="container scrollable">
 
-<h1><i><?php echo $this->pageTitle; ?></i> Environment</h1>
+	<?php
 
-<?php
+	if ( !isset( $_SESSION ) )
+	{
+		session_start();
+	}
 
-if ( !isset( $_SESSION ) )
-{
-	session_start();
-}
+	echo '<h2>' . $this->pageTitle . ' Environment</h2>';
+	echo "Session Info: <br />";
+	echo 'Module: ' . session_module_name() . ' Name: ' . session_name() . ' Id: ' . session_id();
+	echo "<br /><br />";
+	echo 'API Version: ' . API_VERSION . "<br />";
+	echo 'DSP Version: ' . DSP_VERSION . "<br />";
+	echo 'SQL DB Data Source Name: ' . Yii::app()->db->connectionString . "<br />";
+	echo "<br /><br />";
 
-echo "Session Info: <br />";
-echo 'Module: ' . session_module_name() . ' Name: ' . session_name() . ' Id: ' . session_id();
-echo "<br /><br />";
-echo 'Session Env: ' . print_r( $_SESSION, true );
-echo "<br /><br />";
-echo 'API Version: ' . API_VERSION . "<br />";
-echo 'DSP Version: ' . DSP_VERSION . "<br />";
-echo 'SQL DB Data Source Name: ' . Yii::app()->db->connectionString . "<br />";
-echo "<br /><br />";
-phpinfo();
-
-?>
+	?>
+</div>

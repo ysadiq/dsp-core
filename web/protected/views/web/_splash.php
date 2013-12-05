@@ -19,11 +19,13 @@
  */
 /**
  * @var $this  WebController
- * @var $for   The process we're displaying for
  */
-use Kisma\Core\Utility\Bootstrap;
 
 ?>
-<h2 class="headline">One moment please...</h2>
-<p>Since this is a brand new DSP, we need to initialize the database. This is happening now...</p>
-<div class="spacer"></div>
+<div class="container">
+	<h2>One moment please...</h2>
+
+	<p>Since this is a brand new DSP, we need to initialize the database. This is happening now...</p>
+
+	<div class="spacer"></div>
+</div>

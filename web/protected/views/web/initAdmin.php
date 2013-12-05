@@ -17,12 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @var $this  WebController
- * @var $model InitAdminForm
- */
 use DreamFactory\Yii\Utility\Validate;
-use Kisma\Core\Utility\Bootstrap;
+
+/**
+ * @var WebController $this
+ * @var InitAdminForm $model
+ * @var CActiveForm   $form
+ */
 
 Validate::register(
 	'form#init-form',
@@ -60,84 +61,93 @@ Validate::register(
 
 	<p>More administrative and regular users can be easily added using the DSP's built-in 'Admin' application.</p>
 
-	<div class="row">
-		<form id="init-form" method="POST" action="/web/initAdmin">
-			<input type="hidden" name="skipped" id="skipped" value="0">
-			<legend>Login Credentials</legend>
-			<div class="form-group">
-				<label for="InitAdminForm_email" class="sr-only">Email Address</label>
+	<?php $form = $this->beginWidget(
+		'CActiveForm',
+		array(
+			 'id'                     => 'init-form',
+			 'enableClientValidation' => true,
+			 'clientOptions'          => array(
+				 'validateOnSubmit' => true,
+			 ),
+		)
+	); ?>
 
-				<div class="input-group">
-					<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+	<input type="hidden" name="skipped" id="skipped" value="0">
+	<div class="form-group">
+		<label for="InitAdminForm_email" class="sr-only">Email Address</label>
 
-					<input tabindex="1" class="form-control email required" autofocus type="email" id="InitAdminForm_email" name="InitAdminForm[email]"
-						   placeholder="Email Address" />
-				</div>
-			</div>
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
-			<div class="form-group">
-				<label for="InitAdminForm_password" class="sr-only">Password</label>
-
-				<div class="input-group">
-					<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
-
-					<input tabindex="2" class="form-control password required" type="password" id="InitAdminForm_password" name="InitAdminForm[password]"
-						   placeholder="Password" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="InitAdminForm_passwordRepeat" class="sr-only">Verify Password</label>
-
-				<div class="input-group">
-					<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
-
-					<input tabindex="3" class="form-control password required" type="password" id="InitAdminForm_passwordRepeat"
-						   name="InitAdminForm[passwordRepeat]"
-						   placeholder="Verify Password" />
-				</div>
-			</div>
-			<legend>User Details</legend>
-			<div class="form-group">
-				<label for="InitAdminForm_firstName" class="sr-only">First Name</label>
-
-				<div class="input-group">
-					<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
-
-					<input tabindex="4" class="form-control required" type="text" id="InitAdminForm_firstName" name="InitAdminForm[firstName]"
-						   placeholder="<?php echo ($model->firstName ? $model->firstName : 'First Name'); ?>" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="InitAdminForm_lastName" class="sr-only">Last Name</label>
-
-				<div class="input-group">
-					<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
-
-					<input tabindex="5" class="form-control required" type="text" id="InitAdminForm_lastName" name="InitAdminForm[lastName]"
-						   placeholder="<?php echo ($model->lastName ? $model->lastName : 'Last Name'); ?>" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="InitAdminForm_displayName" class="sr-only">Display Name</label>
-
-				<div class="input-group">
-					<span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
-
-					<input tabindex="6" class="form-control" type="text" id="InitAdminForm_displayName" name="InitAdminForm[displayName]"
-						   placeholder="<?php echo ($model->displayName ? $model->displayName : 'Display Name'); ?>" />
-				</div>
-			</div>
-
-			<div class="form-buttons">
-				<button type="submit" class="btn btn-success btn-primary pull-right">Create</button>
-			</div>
-		</form>
+			<input tabindex="1" class="form-control email required" autofocus type="email" id="InitAdminForm_email" name="InitAdminForm[email]"
+				   placeholder="Email Address" />
+		</div>
 	</div>
-	<div class="row">
-		<div class="alert" id="statusMessage" style="display: none;"></div>
+
+	<div class="form-group">
+		<label for="InitAdminForm_password" class="sr-only">Password</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+			<input tabindex="2" class="form-control password required" type="password" id="InitAdminForm_password" name="InitAdminForm[password]"
+				   placeholder="Password" />
+		</div>
 	</div>
+
+	<div class="form-group">
+		<label for="InitAdminForm_passwordRepeat" class="sr-only">Verify Password</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
+
+			<input tabindex="3" class="form-control password required" type="password" id="InitAdminForm_passwordRepeat"
+				   name="InitAdminForm[passwordRepeat]"
+				   placeholder="Verify Password" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="InitAdminForm_firstName" class="sr-only">First Name</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
+
+			<input tabindex="4" class="form-control required" type="text" id="InitAdminForm_firstName" name="InitAdminForm[firstName]"
+				   placeholder="<?php echo( $model->firstName ? $model->firstName : 'First Name' ); ?>" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="InitAdminForm_lastName" class="sr-only">Last Name</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
+
+			<input tabindex="5" class="form-control required" type="text" id="InitAdminForm_lastName" name="InitAdminForm[lastName]"
+				   placeholder="<?php echo( $model->lastName ? $model->lastName : 'Last Name' ); ?>" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="InitAdminForm_displayName" class="sr-only">Display Name</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
+
+			<input tabindex="6" class="form-control" type="text" id="InitAdminForm_displayName" name="InitAdminForm[displayName]"
+				   placeholder="<?php echo( $model->displayName ? $model->displayName : 'Display Name' ); ?>" />
+		</div>
+	</div>
+
+	<?php echo $form->errorSummary( $model ); ?>
+
+	<div class="form-buttons">
+		<button type="submit" class="btn btn-success pull-right">Create</button>
+	</div>
+
+	<?php $this->endWidget(); ?>
+
 </div>
 <script type="text/javascript">
 jQuery(function($) {
