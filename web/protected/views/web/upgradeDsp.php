@@ -27,19 +27,28 @@ $this->breadcrumbs = array(
 );
 ?>
 
-	<h2 class="headline">DreamFactory Services Platform&trade; Upgrade</h2>
+<div class="container" id="formbox">
+	<h2>DreamFactory Services Platform&trade; Upgrade</h2>
 
-<?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
+	<?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
 
-	<div class="flash-success">
-		<?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
-	</div>
+		<div class="flash-success">
+			<?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
+		</div>
 
-<?php else: ?>
+	<?php elseif ( empty( $model->versions ) ): ?>
 
-	<p>There is a software update available for this DreamFactory Services Platform&trade;. When you are ready, select the desired version and click the 'Upgrade DSP' button below. </p>
+		<p>This DSP is currently running the latest available version. </p>
 
-	<div class="form">
+		<div class="form-buttons">
+			<button id="btn-home" class="btn btn-link pull-left">Home</button>
+		</div>
+
+	<?php
+	else: ?>
+
+		<p>There is a software update available for this DSP. <br />
+			When you are ready, select the desired version and click the 'Upgrade' button below. </p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
@@ -52,21 +61,29 @@ $this->breadcrumbs = array(
 			)
 		); ?>
 
-		<?php echo $form->errorSummary( $model ); ?>
-
 		<div class="row">
 			<?php echo $form->hiddenField( $model, 'dummy' ); ?>
 		</div>
-		<div class="row">
-			<?php echo $form->dropDownList( $model, 'selected', $model->versions ); ?>
+		<div class="form-group">
+			<?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
 		</div>
 
-		<div class="row buttons">
-			<?php echo CHtml::submitButton( 'Upgrade DSP' ); ?>
+		<?php echo $form->errorSummary( $model ); ?>
+
+		<div class="form-buttons">
+			<button id="btn-home" class="btn btn-link pull-left">Home</button>
+			<button class="btn btn-success pull-right" type="submit">Upgrade</button>
 		</div>
 
 		<?php $this->endWidget(); ?>
 
-	</div><!-- form -->
-
-<?php endif; ?>
+	<?php endif; ?>
+</div>
+<script type="text/javascript">
+jQuery(function($) {
+	$('#btn-home').on('click', function(e) {
+		e.preventDefault();
+		window.location.href = '/';
+	});
+});
+</script>

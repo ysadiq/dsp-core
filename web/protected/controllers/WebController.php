@@ -512,26 +512,28 @@ class WebController extends BaseWebController
 				$_versions[] = $_name;
 			}
 		}
-		if ( empty( $_versions ) )
-		{
-			throw new \Exception( 'No upgrade available . This DSP is running the latest available version . ' );
-		}
 
 		$_model = new UpgradeDspForm();
 		$_model->versions = $_versions;
 
 		if ( isset( $_POST, $_POST['UpgradeDspForm'] ) )
 		{
-			$_model->attributes = $_POST['UpgradeDspForm'];
+			$_model->setAttributes( $_POST['UpgradeDspForm'], false);
 
 			if ( $_model->validate() )
 			{
 				$_version = Option::get( $_versions, $_model->selected, '' );
-				SystemManager::upgradeDsp( $_version );
-				$this->redirect( '/' );
-			}
+				try
+				{
+					SystemManager::upgradeDsp( $_version );
 
-			$this->refresh();
+					$this->redirect( '/' );
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( 'versions', $_ex->getMessage());
+				}
+			}
 		}
 
 		$this->render(
