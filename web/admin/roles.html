@@ -49,13 +49,13 @@
 
                         <div id="step1">
                             <div class="section">
-                                <p>Name</p>
+                                <span>Name</span>
                                 <input ng-model="role.name" type="text" required/>
                             </div>
 
                             <div class="section">
-                                <p>Description</p>
-                                <input ng-model="role.description" type="text" style="width:100%;"/>
+                                <span>Description</span>
+                                <input ng-model="role.description" type="text" style="width:80%;"/>
                             </div>
                             <div class="section">
                                 <p>Users Assigned to this Role.</p>
@@ -109,15 +109,15 @@
                                 <div ng-show="service.service_id == 0" class="alert alert-danger">
                                     This allows system access via the API, use caution.
                                 </div>
-                                <span class="access">Service :</span> <select ng-change="loadComponents()"
+                                <span class="access">Service</span> <select ng-change="loadComponents()"
                                                                               ng-model="service.service_id"
                                                                               ng-options="service.id as service.name for service in Services.record">
                             </select><br/>
-                                <span class="access">Component:</span> <select ng-model="service.component"
+                                <span class="access">Component</span> <select ng-model="service.component"
                                                                                ng-options="component.name as component.name for component in components">
 
                             </select><br/>
-                                <span class="access">Access:</span> <select ng-model="service.access" style="width:140px;">
+                                <span class="access">Access</span> <select ng-model="service.access" style="width:140px;">
                                 <option value='Full Access' selected>Full Access</option>
                                 <option value='Read and Write' selected>Read and Write</option>
                                 <option value='Read Only' selected>Read Only</option>
