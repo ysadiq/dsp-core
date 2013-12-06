@@ -63,36 +63,35 @@
 </div>
 <div id="step1">
 <div class="section" ng-show="action=='Update'">
-    <span>Type:</span>
+    <span>Type</span>
     <select ng-disabled="service.is_system || action == 'Update'" ng-init="showFields()"
             ng-change="showFields()" ng-model="service.type"
             ng-options="option.name as option.name for option in serviceOptions"></select>
 </div>
 <div class="section" ng-show="action!='Update'">
-    <span>Type:</span>
+    <span>Type</span>
     <select ng-change="showFields()" ng-model="service.type"
             ng-options="option.name as option.name for option in serviceCreateOptions"></select>
 </div>
 <div class="section" ng-show="service.type == 'Email Service'">
-    <span>Provider:</span>
+    <span>Provider</span>
     <select ng-change="showEmailFields()" ng-model="email_type" ng-options="option.name as option.name for option in emailOptions"></select>
 </div>
 <div class="section">
-    <span>Service Name</span>
-    <input ng-model="service.name" type="text" />
-</div>
-
-<div class="section">
-    <span>Api Name:</span>
+    <span>API Name</span>
     <input ng-disabled="service.is_system" ng-model="service.api_name" type="text" />
 </div>
 <div class="section">
-    <span>Description:</span>
+	<span>Name</span>
+	<input ng-model="service.name" type="text" />
+</div>
+<div class="section">
+    <span>Description</span>
     <input ng-model="service.description" type="text" style="width:80%;" />
 </div>
 <div class="section base_url">
     <span>Base URL</span>
-    <input ng-model="service.base_url" type="text" />
+    <input ng-model="service.base_url" type="text" style="width:80%;" />
 </div>
 <div class="section host">
     <span>Host</span>
@@ -120,11 +119,11 @@
            placeholder="e.g. /usr/sbin/sendmail -bs" />
 </div>
 <div class="section user">
-    <p>Username</p>
+    <span>Username</span>
     <input ng-model="service.user" type="text" />
 </div>
 <div class="section pwd">
-    <p>Password</p>
+    <span>Password</span>
     <input ng-model="service.pwd" type="password" />
 </div>
 <div class="section parameters">
@@ -136,8 +135,10 @@
     <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
     <div ng-show="service.type == 'Remote Web Service'">
         <input id="param-name" placeholder="Param Name" class="input-small" type="text"
-               ng-model="param.name" /><input id="param-value" placeholder="Param Value" type="text"
-                                              ng-model="param.value" /><br />
+               ng-model="param.name" />
+		<input id="param-value" placeholder="Param Value" type="text"
+                                              ng-model="param.value" />
+		<br />
 
         <a id="param-update" class="btn btn-inverse" ng-click="updateParams()"><i
                 class="icon-plus-sign"></i> Add Parameter
@@ -145,8 +146,13 @@
     </div>
 </div>
 <div class="section dsn">
-    <p>Connection String</p>
-    <input ng-model="service.dsn" type="text" />
+    <span>Connection String</span>
+    <input ng-model="service.dsn" type="text" style="width:80%;" placeholder="mysql:host=my_server;dbname=my_database" />
+	<div class="alert alert-info">
+		<li class="icon-info-sign"></li>
+		&nbsp;&nbsp;The connection string consist of the driver type, the server and any non-default port number and the database name.
+		For Microsoft SQL Server, use the format 'dblib:host=my_server;dbname=my_database'.
+	</div>
 </div>
 
 <div class="section headers">
@@ -171,20 +177,21 @@
 <!--</div>-->
 <div class="section salesforce" ng-show="service.type=='Salesforce'">
 
-    <p>Username</p>
+    <span>Username</span>
     <input ng-model="salesforce.username" type="text" />
-
-    <p>Password</p>
+	<div></div>
+    <span>Password</span>
     <input ng-model="salesforce.password" type="password" />
-
-    <p>Security Token</p>
+	<div></div>
+    <span>Security Token</span>
     <input ng-model="salesforce.security_token" type="text" />
-    <p>API Version</p>
+	<div></div>
+    <span>API Version</span>
     <input ng-model="salesforce.version" placeholder="v28.0" type="text" />
 
 </div>
 <div class="section nosql_type">
-    <p>NoSQL Type</p>
+    <span>NoSQL Type</span>
     <select ng-options="option.value as option.name for option in NoSQLOptions"
             ng-model="service.storage_type"></select>
 
@@ -207,7 +214,7 @@
     </div>
     <div class=" well sub-section azure_info" ng-show="service.storage_type =='couchdb'">
         <p>Connection String</p>
-        <input ng-model="couchdb.service.dsn" type="text" />
+        <input ng-model="couchdb.service.dsn" type="text" style="width:80%;" />
 
         <p>Username</p>
         <input ng-model="couchdb.service.user" type="text" />
@@ -254,7 +261,7 @@
     </div>
 </div>
 <div class="section storage_type">
-    <p>Storage Type</p>
+    <span>Storage Type</span>
     <select ng-options="option.value as option.name for option in remoteOptions"
             ng-model="service.storage_type" type="text"></select>
 

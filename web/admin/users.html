@@ -109,15 +109,14 @@
 
                         <div id="step1">
                             <div class="section">
-                                Email : <input ng-model="user.email" type="email" required/>
+                                <span>Email</span><input ng-model="user.email" type="email" required/>
                                 <br/>
-                                First Name : <input class="input-small" ng-model="user.first_name" type="text"
-                                                    required/>
-                                Last Name : <input class="input-small" ng-model="user.last_name" type="text" required/>
+								<span>First Name</span><input class="input-small" ng-model="user.first_name" type="text" required/>
+								<span>Last Name</span><input class="input-small" ng-model="user.last_name" type="text" required/>
                                 <br/>
-                                Display Name : <input ng-model="user.display_name" type="text"/>
+								<span>Display Name</span><input ng-model="user.display_name" type="text"/>
                                 <br/>
-                                Phone : <input ng-model="user.phone" type="tel"/>
+								<span>Phone</span><input ng-model="user.phone" type="tel"/>
                             </div>
                             <div class="section" ng-class="{'alert alert-success': user.is_sys_admin}">
                                 <input ng-click="toggleRoleSelect($event.target.checked)" ng-checked="user.is_sys_admin"
@@ -173,11 +172,11 @@
 
                             <div ng-show="passwordEdit ">
                                 <br/>
-                                Password : <input id="password" name="password" type="password"
-                                                  ng-model="user.password">
+                                <span>Password</span>
+								<input id="password" name="password" type="password" ng-model="user.password">
                                 <br/>
-                                Verify Password : <input id="passwordRepeat" name="passwordRepeat" type="password"
-                                                         ng-model="passwordRepeat">
+                                <span>Verify Password</span>
+								<input id="passwordRepeat" name="passwordRepeat" type="password" ng-model="passwordRepeat">
                             </div>
                         </div>
                         <br/>
