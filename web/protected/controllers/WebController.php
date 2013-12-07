@@ -49,7 +49,7 @@ class WebController extends BaseWebController
 	/**
 	 * @var string
 	 */
-	const DEFAULT_STARTUP_APP = '/public/launchpad/index.html';
+	const DEFAULT_STARTUP_APP = '/launchpad/index.html';
 
 	//*************************************************************************
 	//* Members
@@ -507,14 +507,10 @@ class WebController extends BaseWebController
 		foreach ( $_temp as $_version )
 		{
 			$_name = Option::get( $_version, 'name', '' );
-			if ( version_compare( $_current, $_name, ' < ' ) )
+			if ( version_compare( $_current, $_name, '<' ) )
 			{
 				$_versions[] = $_name;
 			}
-		}
-		if ( empty( $_versions ) )
-		{
-			throw new \Exception( 'No upgrade available . This DSP is running the latest available version . ' );
 		}
 
 		$_model = new UpgradeDspForm();
@@ -522,16 +518,22 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['UpgradeDspForm'] ) )
 		{
-			$_model->attributes = $_POST['UpgradeDspForm'];
+			$_model->setAttributes( $_POST['UpgradeDspForm'], false);
 
 			if ( $_model->validate() )
 			{
 				$_version = Option::get( $_versions, $_model->selected, '' );
-				SystemManager::upgradeDsp( $_version );
-				$this->redirect( '/' );
-			}
+				try
+				{
+					SystemManager::upgradeDsp( $_version );
 
-			$this->refresh();
+					$this->redirect( '/' );
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( 'versions', $_ex->getMessage());
+				}
+			}
 		}
 
 		$this->render(

@@ -17,33 +17,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Yii\Utility\Pii;
-
 /* @var $this WebController */
 /* @var $model InitDataForm */
 /* @var $form CActiveForm */
 
 $this->pageTitle = Yii::app()->name . ' - Install System Data';
-$this->breadcrumbs = array( 'Install System Data', );
-$_user = Pii::app()->user;
+$this->breadcrumbs = array(
+	'Install System Data',
+);
 ?>
-<h2 class="headline">Data Initialization</h2>
-<?php if ( $_user->hasFlash( 'init' ) ): ?>
+<div class="container" id="formbox">
+	<h2>Data Initialization</h2>
 
-	<div class="flash-success">
-		<?php echo $_user->getFlash( 'init' ); ?>
-	</div>
+	<?php if ( Yii::app()->user->hasFlash( 'init-data' ) ): ?>
 
-<?php else: ?>
-	<p>Your DSP requires the installation of system data in order to be properly configured. When you are ready, click the 'Install' button to add this data.</p>
-	<div class="space200"></div>
-	<div class="space50"></div>
-	<form id="init-data-form" method="POST">
+		<div class="flash-success">
+			<?php echo Yii::app()->user->getFlash( 'init-data' ); ?>
+		</div>
+
+	<?php else: ?>
+
+		<p>Your DSP requires the installation of system data in order to be properly configured. <br />
+			When you are ready, click the 'Install' button to add this data.</p>
+
+		<?php $form = $this->beginWidget(
+			'CActiveForm',
+			array(
+				 'id'                     => 'init-data-form',
+				 'enableClientValidation' => true,
+				 'clientOptions'          => array(
+					 'validateOnSubmit' => true,
+				 ),
+			)
+		); ?>
+
 		<input type="hidden" name="InitDataForm[dummy]" id="InitDataForm_dummy" value="1">
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-success btn-primary">Install</button>
-		</div>
-	</form>
+		<?php echo $form->errorSummary( $model ); ?>
 
-<?php endif; ?>
+
+		<div class="form-buttons">
+			<button type="submit" class="btn btn-success pull-right">Install</button>
+		</div>
+
+		<?php $this->endWidget(); ?>
+
+	<?php endif; ?>
+</div>

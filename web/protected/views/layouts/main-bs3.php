@@ -29,17 +29,17 @@ $_scripts .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $_jqueryVe
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="DreamFactory Software, Inc.">
 	<meta name="language" content="en" />
-	<link rel="icon" type="image/png" href="/public/images/logo-48x48.png">
-	<link rel="shortcut icon" type="image/png" href="/public/images/logo-48x48.png" />
+	<link rel="icon" type="image/png" href="/images/logo-48x48.png">
+	<link rel="shortcut icon" type="image/png" href="/images/logo-48x48.png" />
 	<?php echo $_css; ?>
 	<?php echo $_scripts; ?>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
-	<script src="/public/js/html5shiv.js"></script>
-	<script src="/public/js/respond.min.js"></script>
+	<script src="/js/html5shiv.js"></script>
+	<script src="/js/respond.min.js"></script>
 	<![endif]-->
-	<link href="/public/css/main.css" rel="stylesheet">
-	<link href="/public/css/df.effects.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
+	<link href="/css/df.effects.css" rel="stylesheet">
 </head>
 <body>
 <div id="wrap">
@@ -130,7 +130,7 @@ $_scripts .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $_jqueryVe
 <?php
 echo '<script src="//netdna.bootstrapcdn.com/bootstrap/' . $_bootstrapVersion . '/js/bootstrap.min.js"></script>';
 ?>
-<script src="/public/js/app.jquery.js"></script>
-<script src="/public/js/sidebarEffects.js"></script>
+<script src="/js/app.jquery.js"></script>
+<script src="/js/sidebarEffects.js"></script>
 </body>
 </html>

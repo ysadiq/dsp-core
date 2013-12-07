@@ -92,8 +92,8 @@ return array(
 		//	Asset management
 		'assetManager' => array(
 			'class'      => 'CAssetManager',
-			'basePath'   => 'public/assets',
-			'baseUrl'    => '/public/assets',
+			'basePath'   => $_docRoot . '/assets',
+			'baseUrl'    => '/assets',
 			'linkAssets' => true,
 		),
 		//	Database configuration

@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Oasys\Configs\BaseProviderConfig;
 use DreamFactory\Oasys\Oasys;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Utility\ResourceStore;
@@ -25,10 +24,8 @@ use DreamFactory\Platform\Yii\Models\BasePlatformSystemModel;
 use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
-use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Inflector;
-use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
 
 /**

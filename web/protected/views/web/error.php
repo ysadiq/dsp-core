@@ -25,8 +25,15 @@ $this->breadcrumbs = array(
 	'Error',
 );
 ?>
-<h2 class="headline">Houston, we have a problem...</h2>
-<h4>Error <?php echo $code; ?></h4>
-<div class="error">
-	<?php echo CHtml::encode( $message ); ?>
+<div class="container">
+	<h2><?php echo $this->pageTitle; ?></h2>
+	<p>This application has experienced a fatal error.
+		If you would like to report this error,
+		please contact our <a href="//www.dreamfactory.com/developers/support">support</a>.
+	</p>
+	<h4>Error <?php echo $code; ?></h4>
+
+	<div class="error">
+		<?php echo CHtml::encode( $message ); ?>
+	</div>
 </div>

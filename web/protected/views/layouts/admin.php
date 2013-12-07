@@ -15,7 +15,7 @@ $_headline = 'Platform Administration';
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="DreamFactory Software, Inc.">
 	<meta name="language" content="en" />
-	<link rel="shortcut icon" href="/public/images/logo-32x32.png" />
+	<link rel="shortcut icon" href="/images/logo-32x32.png" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" type="text/css">
 	<style>
 		body {
@@ -24,12 +24,12 @@ $_headline = 'Platform Administration';
 	</style>
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-	<link href="/public/css/jquery-ui.css" rel="stylesheet">
-	<!--	<link href="/public/js/jtable/themes/metro/darkorange/jtable.min.css" rel="stylesheet">-->    <!--[if IE 7]>
+	<link href="/css/jquery-ui.css" rel="stylesheet">
+	<!--	<link href="/js/jtable/themes/metro/darkorange/jtable.min.css" rel="stylesheet">-->    <!--[if IE 7]>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css" rel="stylesheet">    <![endif]-->
 	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" />
-	<link href="/public/css/jquery.dataTables.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/public/css/main.css" />
+	<link href="/css/jquery.dataTables.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->    <!--[if lt IE 9]>
 	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -44,7 +44,7 @@ $_headline = 'Platform Administration';
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<img id="logo-img" src="/public/images/logo-48x48.png">
+			<img id="logo-img" src="/images/logo-48x48.png">
 
 			<a class="brand" href="#"><?php echo $_headline; ?></a>
 
@@ -63,6 +63,6 @@ $_headline = 'Platform Administration';
 <!-- /container -->
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-<script src="/public/js/app.jquery.js"></script>
+<script src="/js/app.jquery.js"></script>
 </body>
 </html>

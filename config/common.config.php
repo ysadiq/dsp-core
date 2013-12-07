@@ -29,15 +29,11 @@ use DreamFactory\Platform\Utility\Fabric;
 /**
  * @var string
  */
-const DSP_VERSION = '1.1.3';
+const DSP_VERSION = '1.2.0';
 /**
  * @var string
  */
 const API_VERSION = '1.0';
-/**
- * @var string
- */
-const BLOB_CONFIG_PATH = '/blob.config.php';
 /**
  * @var string
  */
@@ -77,12 +73,10 @@ $_vendorPath = $_basePath . '/vendor';
 $_dbCacheEnabled = true;
 //	The name of the default controller. "site" just sucks
 $_defaultController = 'web';
-//	Load the BLOB storage configuration settings
-$_blobConfig = ( file_exists( __DIR__ . BLOB_CONFIG_PATH ) ? require_once( __DIR__ . BLOB_CONFIG_PATH ) : array() );
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
-
+$_appName = 'DreamFactory Services Platform';
 /**
  * Aliases
  */
@@ -91,7 +85,7 @@ file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG
 /**
  * Application Paths
  */
-\Kisma::set( 'app.app_name', $_appName = 'DreamFactory Services Platform' );
+\Kisma::set( 'app.app_name', $_appName );
 \Kisma::set( 'app.doc_root', $_docRoot );
 \Kisma::set( 'app.log_path', $_logFilePath );
 \Kisma::set( 'app.vendor_path', $_vendorPath );
@@ -161,7 +155,6 @@ return array_merge(
 		 /**
 		  * User data
 		  */
-		 'blobStorageConfig'             => $_blobConfig,
 		 'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
 		 /**
 		  * The default service configuration
@@ -173,16 +166,22 @@ return array_merge(
 		  * Default services provided by all DSPs
 		  */
 		 'dsp.default_services'          => array(
-			 array( 'api_name' => 'user', 'name' => 'User Login' ),
-			 array( 'api_name' => 'system', 'name' => 'System Configuration' ),
-			 array( 'api_name' => 'api_docs', 'name' => 'API Documentation' ),
+			 array('api_name' => 'user', 'name' => 'User Login'),
+			 array('api_name' => 'system', 'name' => 'System Configuration'),
+			 array('api_name' => 'api_docs', 'name' => 'API Documentation'),
 		 ),
 		 /**
 		  * The default application to start
 		  */
-		 'dsp.default_app'               => '/public/launchpad/index.html',
+		 'dsp.default_app'               => '/launchpad/index.html',
 		 /**
-		  * The default application to start
+		  * The default landing pages for email confirmations
+		  */
+		 'dsp.confirm_invite_url'        => '/confirm_invite.html',
+		 'dsp.confirm_register_url'      => '/confirm_reg.html',
+		 'dsp.confirm_reset_url'         => '/confirm_reset.html',
+		 /**
+		  * The default number of records to return at once for database queries
 		  */
 		 'dsp.db_max_records_returned'   => 1000,
 		 /**

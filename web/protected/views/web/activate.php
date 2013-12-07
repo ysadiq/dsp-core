@@ -17,12 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @var $this  WebController
- * @var $model LoginForm
- */
-use Kisma\Core\Utility\Bootstrap;
 use DreamFactory\Yii\Utility\Validate;
+
+/**
+ * @var WebController $this
+ * @var LoginForm     $model
+ * @var CActiveForm   $form
+ */
 
 Validate::register(
 	'form#login-form',
@@ -35,34 +36,63 @@ Validate::register(
 
 $_headline = ( isset( $activated ) && $activated ) ? 'Welcome!' : 'Activate Your New DSP!';
 ?>
-<h2 class="headline"><?php echo $_headline; ?></h2>
-<p>Thank you for installing the DreamFactory Services Platform&trade;. You may
-	<strong>optionally</strong> register your DSP to receive free technical support and automatic software updates. Registration is quick and easy at
-	<a href="https://www.dreamfactory.com/user/register">http://www.dreamfactory.com</a>
-	.
-</p><p>
-<div class="space50"></div>
-<p>If you've previously registered on
-	<a href="https://www.dreamfactory.com/user/register">http://www.dreamfactory.com</a>
-   , you can register your DSP with those credentials. Please enter the email address and password you used to register on the <strong>DreamFactory</strong> web site.
-</p>
-<div class="spacer"></div>
-<form id="login-form" method="POST">
-	<input type="hidden" name="skipped" id="skipped" value="0">
-	<?php
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'LoginForm_username' ), 'Email Address' );
-	echo '<div class="controls">' . Bootstrap::text( array( 'id' => 'LoginForm_username', 'name' => 'LoginForm[username]', 'class' => 'email' ) ) .
-		 '</div></div>';
-	echo '<div class="control-group">' . Bootstrap::label( array( 'for' => 'LoginForm_password' ), 'Password' );
-	echo '<div class="controls">' .
-		 Bootstrap::password( array( 'id' => 'LoginForm_password', 'name' => 'LoginForm[password]', 'class' => 'password' ) ) . '</div></div>';
-	?>
+<div class="container" id="formbox">
+	<h2><?php echo $_headline; ?></h2>
 
-	<div class="form-actions">
-		<button type="submit" class="btn btn-success btn-primary">Activate!</button>
-		<button id="btn-skip" class="btn btn-secondary pull-right">Skip</button>
+	<p>Thank you for installing the DreamFactory Services Platform&trade;. This DSP needs to be activated in order to continue.
+		If you haven't yet registered for a user account on <a href="https://www.dreamfactory.com">http://www.dreamfactory.com</a>,
+		registration allows you to receive free technical support and is quick and easy, just click
+		<a href="https://www.dreamfactory.com/user/register">here</a>.
+	</p>
+
+	<p>Once you've registered, you may enter those credentials below to speed up the activation process.
+		Otherwise, select 'Skip' to manually proceed with activation.
+	</p>
+
+	<?php $form = $this->beginWidget(
+		'CActiveForm',
+		array(
+			 'id'                     => 'login-form',
+			 'enableClientValidation' => true,
+			 'clientOptions'          => array(
+				 'validateOnSubmit' => true,
+			 ),
+		)
+	); ?>
+
+	<input type="hidden" name="skipped" id="skipped" value="0">
+	<div class="form-group">
+		<label for="LoginForm_username" class="sr-only">Email Address</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+
+			<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
+				   placeholder="Email Address" />
+		</div>
 	</div>
-</form>
+
+	<div class="form-group">
+		<label for="LoginForm_password" class="sr-only">Password</label>
+
+		<div class="input-group">
+			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+			<input tabindex="2" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
+				   placeholder="Password" />
+		</div>
+	</div>
+
+	<?php echo $form->errorSummary( $model ); ?>
+
+	<div class="form-buttons">
+		<button id="btn-skip" class="btn btn-default pull-left">Skip</button>
+		<button type="submit" class="btn btn-success pull-right">Activate</button>
+	</div>
+
+	<?php $this->endWidget(); ?>
+
+</div>
 <script type="text/javascript">
 jQuery(function($) {
 	$('#btn-skip').on('click', function(e) {
