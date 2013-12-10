@@ -18,42 +18,33 @@
  * limitations under the License.
  */
 /* @var $this WebController */
-/* @var $model UpgradeDspForm */
+/* @var $model InitSchemaForm */
 /* @var $form CActiveForm */
 
-$this->pageTitle = Yii::app()->name . ' - Upgrade';
+$this->pageTitle = Yii::app()->name . ' - Upgrade Schema';
 $this->breadcrumbs = array(
-	'Upgrade DSP',
+	'Upgrade Schema',
 );
 ?>
 
 <div class="container" id="formbox">
-	<h2>DreamFactory Services Platform&trade; Upgrade</h2>
+	<h2>Database Update Available!</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
+	<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
 
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
+			<?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
 		</div>
 
-	<?php elseif ( empty( $model->versions ) ): ?>
+	<?php else: ?>
 
-		<p>This DSP is currently running the latest available version. </p>
-
-		<div class="form-buttons">
-			<button id="btn-home" class="btn btn-link pull-left">Home</button>
-		</div>
-
-	<?php
-	else: ?>
-
-		<p>There is a software update available for this DSP. <br />
-			When you are ready, select the desired version and click the 'Upgrade' button below. </p>
+		<p>An update is available for this DreamFactory Services Platform&trade;. Click the <strong>Update</strong>
+			button below to start the update.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'upgrade-dsp-form',
+				 'id'                     => 'init-schema-form',
 				 'enableClientValidation' => true,
 				 'clientOptions'          => array(
 					 'validateOnSubmit' => true,
@@ -61,29 +52,16 @@ $this->breadcrumbs = array(
 			)
 		); ?>
 
-		<div class="row">
-			<?php echo $form->hiddenField( $model, 'dummy' ); ?>
-		</div>
-		<div class="form-group">
-			<?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
-		</div>
+		<input type="hidden" name="InitSchemaForm[dummy]" id="InitSchemaForm_dummy" value="1">
 
 		<?php echo $form->errorSummary( $model ); ?>
 
+
 		<div class="form-buttons">
-			<button id="btn-home" class="btn btn-link pull-left">Home</button>
-			<button class="btn btn-success pull-right" type="submit">Upgrade</button>
+			<button type="submit" class="btn btn-success pull-right">Update</button>
 		</div>
 
 		<?php $this->endWidget(); ?>
 
 	<?php endif; ?>
 </div>
-<script type="text/javascript">
-jQuery(function($) {
-	$('#btn-home').on('click', function(e) {
-		e.preventDefault();
-		window.location.href = '/';
-	});
-});
-</script>
