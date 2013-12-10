@@ -41,7 +41,7 @@ $this->breadcrumbs = array(
 		<p>This DSP is currently running the latest available version. </p>
 
 		<div class="form-buttons">
-			<button id="btn-home" class="btn btn-link pull-left">Home</button>
+			<button id="btn-home" class="btn btn-default pull-left">Home</button>
 		</div>
 
 	<?php
@@ -71,7 +71,7 @@ $this->breadcrumbs = array(
 		<?php echo $form->errorSummary( $model ); ?>
 
 		<div class="form-buttons">
-			<button id="btn-home" class="btn btn-link pull-left">Home</button>
+			<button id="btn-home" class="btn btn-default pull-left">Home</button>
 			<button class="btn btn-success pull-right" type="submit">Upgrade</button>
 		</div>
 

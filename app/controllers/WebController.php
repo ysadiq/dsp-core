@@ -190,7 +190,7 @@ class WebController extends BaseWebController
 			if ( 1 == Option::get( $_POST, 'skipped', 0 ) )
 			{
 				Pii::setState( 'app.registration_skipped', true );
-				$this->actionInitAdmin();
+				$this->redirect( '/' . $this->id . '/initAdmin' );
 
 				return;
 			}
