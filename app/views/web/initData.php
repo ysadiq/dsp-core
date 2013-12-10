@@ -18,33 +18,33 @@
  * limitations under the License.
  */
 /* @var $this WebController */
-/* @var $model InitSchemaForm */
+/* @var $model InitDataForm */
 /* @var $form CActiveForm */
 
-$this->pageTitle = Yii::app()->name . ' - Upgrade Schema';
+$this->pageTitle = Yii::app()->name . ' - Install System Data';
 $this->breadcrumbs = array(
-	'Upgrade Schema',
+	'Install System Data',
 );
 ?>
-
 <div class="container" id="formbox">
-	<h2>Database Upgrade Available!</h2>
+	<h2>Data Initialization</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
+	<?php if ( Yii::app()->user->hasFlash( 'init-data' ) ): ?>
 
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
+			<?php echo Yii::app()->user->getFlash( 'init-data' ); ?>
 		</div>
 
 	<?php else: ?>
 
-		<p>A database update is available for this DreamFactory Services Platform&trade;.
-			Click the 'Update' button below to start the update.</p>
+		<p>Your DSP requires the installation of system data in order to be properly configured. <br />
+			When you are ready, click the <strong>Install</strong>
+			button to add this data.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'init-schema-form',
+				 'id'                     => 'init-data-form',
 				 'enableClientValidation' => true,
 				 'clientOptions'          => array(
 					 'validateOnSubmit' => true,
@@ -52,13 +52,13 @@ $this->breadcrumbs = array(
 			)
 		); ?>
 
-		<input type="hidden" name="InitSchemaForm[dummy]" id="InitSchemaForm_dummy" value="1">
+		<input type="hidden" name="InitDataForm[dummy]" id="InitDataForm_dummy" value="1">
 
 		<?php echo $form->errorSummary( $model ); ?>
 
 
 		<div class="form-buttons">
-			<button type="submit" class="btn btn-success pull-right">Update</button>
+			<button type="submit" class="btn btn-success pull-right">Install</button>
 		</div>
 
 		<?php $this->endWidget(); ?>
