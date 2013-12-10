@@ -121,8 +121,9 @@ class WebController extends BaseWebController
 					'initAdmin',
 					'authorize',
 					'remoteLogin',
+					'maintenance',
 				),
-				'users'   => array( '*' ),
+				'users'   => array('*'),
 			),
 			//	Allow authenticated users access to init commands
 			array(
@@ -136,7 +137,7 @@ class WebController extends BaseWebController
 					'fileTree',
 					'logout',
 				),
-				'users'   => array( '@' ),
+				'users'   => array('@'),
 			),
 			//	Deny all others access to init commands
 			array(
@@ -145,13 +146,20 @@ class WebController extends BaseWebController
 		);
 	}
 
+	public function actionMaintenance()
+	{
+		$this->layout = 'maintenance';
+		$this->render( 'maintenance' );
+		die();
+	}
+
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			'_splash',
-			array(
+			 '_splash',
+			 array(
 				 'for' => PlatformStates::INIT_REQUIRED,
-			)
+			 )
 		);
 
 		$this->actionInitSystem();
@@ -239,11 +247,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'activate',
-			array(
+			 'activate',
+			 array(
 				 'model'     => $_model,
 				 'activated' => $this->_activated,
-			)
+			 )
 		);
 	}
 
@@ -364,12 +372,12 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'login',
-			array(
+			 'login',
+			 array(
 				 'model'      => $_model,
 				 'activated'  => $this->_activated,
 				 'redirected' => $redirected,
-			)
+			 )
 		);
 	}
 
@@ -407,10 +415,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'initSchema',
-			array(
+			 'initSchema',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -444,10 +452,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'initAdmin',
-			array(
+			 'initAdmin',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -522,7 +530,7 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['UpgradeDspForm'] ) )
 		{
-			$_model->setAttributes( $_POST['UpgradeDspForm'], false);
+			$_model->setAttributes( $_POST['UpgradeDspForm'], false );
 
 			if ( $_model->validate() )
 			{
@@ -535,16 +543,16 @@ class WebController extends BaseWebController
 				}
 				catch ( \Exception $_ex )
 				{
-					$_model->addError( 'versions', $_ex->getMessage());
+					$_model->addError( 'versions', $_ex->getMessage() );
 				}
 			}
 		}
 
 		$this->render(
-			'upgradeDsp',
-			array(
+			 'upgradeDsp',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -664,12 +672,12 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-			$_providerModel,
-			Pii::getState( $_providerId . '.user_config', array() ),
-			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-			)
+						   $_providerModel,
+						   Pii::getState( $_providerId . '.user_config', array() ),
+						   array(
+							   'flow_type'    => $_flow,
+							   'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+						   )
 		);
 
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
