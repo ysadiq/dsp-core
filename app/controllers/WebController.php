@@ -159,6 +159,9 @@ class WebController extends BaseWebController
 
 	public function actionActivate()
 	{
+		//	Clear the skipped flag...
+		Pii::setState( 'app.registration_skipped', false );
+
 		$_model = new \LoginForm();
 
 		//	Came from login form? Don't do drupal auth, do dsp auth
@@ -178,6 +181,7 @@ class WebController extends BaseWebController
 		{
 			if ( 1 == Option::get( $_POST, 'skipped', 0 ) )
 			{
+				Pii::setState( 'app.registration_skipped', true );
 				$this->actionInitAdmin();
 
 				return;

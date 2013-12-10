@@ -39,7 +39,7 @@ return array(
 	/**
 	 * Basics
 	 */
-	'basePath'           => $_docRoot . '/protected',
+	'basePath'           => $_basePath . '/app',
 	'name'               => $_appName,
 	'runtimePath'        => $_logFilePath,
 	'defaultController'  => $_defaultController,
