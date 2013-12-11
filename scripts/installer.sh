@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.2.9
+#	Add .htaccess to list of files to be chown'd
+#
 # v1.2.8
 #	Remove shared and links for launchpad, admin and web-core
 #
@@ -92,7 +95,7 @@
 ##	Initial settings
 ##
 
-VERSION=1.2.8
+VERSION=1.2.9
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 PHP=/usr/bin/php
@@ -287,7 +290,7 @@ fi
 ##
 ## make owned by user
 ##
-chown -R ${INSTALL_USER}:${WEB_USER} * .git*  >/dev/null 2>&1
+chown -R ${INSTALL_USER}:${WEB_USER} * .git* .ht*  >/dev/null 2>&1
 
 ##
 ## make writable by web server
