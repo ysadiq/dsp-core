@@ -37,9 +37,10 @@
 <div id="push"></div>
 <div id="footer">
 	<div class="container align-center">
-		<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date(
-				'Y'
-			); ?>. All Rights Reserved.<span class="footer-logo pull-right"><img src="/images/df-apple-touch-icon.png" alt=""></span></p>
+		<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a>
+			<?php echo date( 'Y' ); ?>. All Rights Reserved.
+			<span class="footer-logo pull-right"><img src="/images/df-apple-touch-icon.png" alt=""></span>
+		</p>
 	</div>
 </div>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>

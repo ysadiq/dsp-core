@@ -79,8 +79,8 @@ $_headline = 'Login Required!';
 	<?php echo $form->errorSummary( $model ); ?>
 
 	<div class="form-buttons">
-		<button id="btn-home" class="btn btn-default pull-left">Home</button>
 		<button type="submit" class="btn btn-success pull-right">Login</button>
+		<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
 	</div>
 
 	<?php $this->endWidget(); ?>
