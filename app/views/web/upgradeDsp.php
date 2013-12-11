@@ -18,33 +18,42 @@
  * limitations under the License.
  */
 /* @var $this WebController */
-/* @var $model InitSchemaForm */
+/* @var $model UpgradeDspForm */
 /* @var $form CActiveForm */
 
-$this->pageTitle = Yii::app()->name . ' - Upgrade Schema';
+$this->pageTitle = Yii::app()->name . ' - Upgrade';
 $this->breadcrumbs = array(
-	'Upgrade Schema',
+	'Upgrade DSP',
 );
 ?>
 
 <div class="container" id="formbox">
-	<h2>Database Upgrade Available!</h2>
+	<h2>DreamFactory Services Platform&trade; Upgrade</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
+	<?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
 
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
+			<?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
 		</div>
 
-	<?php else: ?>
+	<?php elseif ( empty( $model->versions ) ): ?>
 
-		<p>A database update is available for this DreamFactory Services Platform&trade;.
-			Click the 'Update' button below to start the update.</p>
+		<p>This DSP is currently running the latest available version. </p>
+
+		<div class="form-buttons">
+			<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
+		</div>
+
+	<?php
+	else: ?>
+
+		<p>There is a software update available for this DSP. <br />
+			When you are ready, select the desired version and click the 'Upgrade' button below. </p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'init-schema-form',
+				 'id'                     => 'upgrade-dsp-form',
 				 'enableClientValidation' => true,
 				 'clientOptions'          => array(
 					 'validateOnSubmit' => true,
@@ -52,16 +61,29 @@ $this->breadcrumbs = array(
 			)
 		); ?>
 
-		<input type="hidden" name="InitSchemaForm[dummy]" id="InitSchemaForm_dummy" value="1">
+		<div class="row">
+			<?php echo $form->hiddenField( $model, 'dummy' ); ?>
+		</div>
+		<div class="form-group">
+			<?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
+		</div>
 
 		<?php echo $form->errorSummary( $model ); ?>
 
-
 		<div class="form-buttons">
-			<button type="submit" class="btn btn-success pull-right">Update</button>
+			<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
+			<button type="submit" class="btn btn-success pull-right">Upgrade</button>
 		</div>
 
 		<?php $this->endWidget(); ?>
 
 	<?php endif; ?>
 </div>
+<script type="text/javascript">
+jQuery(function($) {
+	$('#btn-home').on('click', function(e) {
+		e.preventDefault();
+		window.location.href = '/';
+	});
+});
+</script>

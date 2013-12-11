@@ -18,42 +18,33 @@
  * limitations under the License.
  */
 /* @var $this WebController */
-/* @var $model UpgradeDspForm */
+/* @var $model InitDataForm */
 /* @var $form CActiveForm */
 
-$this->pageTitle = Yii::app()->name . ' - Upgrade';
+$this->pageTitle = Yii::app()->name . ' - Install System Data';
 $this->breadcrumbs = array(
-	'Upgrade DSP',
+	'Install System Data',
 );
 ?>
-
 <div class="container" id="formbox">
-	<h2>DreamFactory Services Platform&trade; Upgrade</h2>
+	<h2>Data Initialization</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
+	<?php if ( Yii::app()->user->hasFlash( 'init-data' ) ): ?>
 
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
+			<?php echo Yii::app()->user->getFlash( 'init-data' ); ?>
 		</div>
 
-	<?php elseif ( empty( $model->versions ) ): ?>
+	<?php else: ?>
 
-		<p>This DSP is currently running the latest available version. </p>
-
-		<div class="form-buttons">
-			<button id="btn-home" class="btn btn-link pull-left">Home</button>
-		</div>
-
-	<?php
-	else: ?>
-
-		<p>There is a software update available for this DSP. <br />
-			When you are ready, select the desired version and click the 'Upgrade' button below. </p>
+		<p>Your DSP requires the installation of system data in order to be properly configured. <br />
+			When you are ready, click the <strong>Install</strong>
+			button to add this data.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'upgrade-dsp-form',
+				 'id'                     => 'init-data-form',
 				 'enableClientValidation' => true,
 				 'clientOptions'          => array(
 					 'validateOnSubmit' => true,
@@ -61,29 +52,16 @@ $this->breadcrumbs = array(
 			)
 		); ?>
 
-		<div class="row">
-			<?php echo $form->hiddenField( $model, 'dummy' ); ?>
-		</div>
-		<div class="form-group">
-			<?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
-		</div>
+		<input type="hidden" name="InitDataForm[dummy]" id="InitDataForm_dummy" value="1">
 
 		<?php echo $form->errorSummary( $model ); ?>
 
+
 		<div class="form-buttons">
-			<button id="btn-home" class="btn btn-link pull-left">Home</button>
-			<button class="btn btn-success pull-right" type="submit">Upgrade</button>
+			<button type="submit" class="btn btn-success pull-right">Install</button>
 		</div>
 
 		<?php $this->endWidget(); ?>
 
 	<?php endif; ?>
 </div>
-<script type="text/javascript">
-jQuery(function($) {
-	$('#btn-home').on('click', function(e) {
-		e.preventDefault();
-		window.location.href = '/';
-	});
-});
-</script>
