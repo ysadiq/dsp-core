@@ -1,6 +1,6 @@
 # DreamFactory Services Platform&trade; Change Log
 
-## v1.2.2 (Released 2013-12-11)
+## v1.2.3 (Released 2013-12-11)
 
 ### Major Foundational Changes
 * Restructure of the project tree
