@@ -121,8 +121,9 @@ class WebController extends BaseWebController
 					'initAdmin',
 					'authorize',
 					'remoteLogin',
+					'maintenance',
 				),
-				'users'   => array( '*' ),
+				'users'   => array('*'),
 			),
 			//	Allow authenticated users access to init commands
 			array(
@@ -136,7 +137,7 @@ class WebController extends BaseWebController
 					'fileTree',
 					'logout',
 				),
-				'users'   => array( '@' ),
+				'users'   => array('@'),
 			),
 			//	Deny all others access to init commands
 			array(
@@ -145,13 +146,20 @@ class WebController extends BaseWebController
 		);
 	}
 
+	public function actionMaintenance()
+	{
+		$this->layout = 'maintenance';
+		$this->render( 'maintenance' );
+		die();
+	}
+
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			'_splash',
-			array(
-				'for' => PlatformStates::INIT_REQUIRED,
-			)
+			 '_splash',
+			 array(
+				 'for' => PlatformStates::INIT_REQUIRED,
+			 )
 		);
 
 		$this->actionInitSystem();
@@ -182,7 +190,7 @@ class WebController extends BaseWebController
 			if ( 1 == Option::get( $_POST, 'skipped', 0 ) )
 			{
 				Pii::setState( 'app.registration_skipped', true );
-				$this->actionInitAdmin();
+				$this->redirect( '/' . $this->id . '/initAdmin' );
 
 				return;
 			}
@@ -239,11 +247,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'activate',
-			array(
-				'model'     => $_model,
-				'activated' => $this->_activated,
-			)
+			 'activate',
+			 array(
+				 'model'     => $_model,
+				 'activated' => $this->_activated,
+			 )
 		);
 	}
 
@@ -364,12 +372,12 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'login',
-			array(
-				'model'      => $_model,
-				'activated'  => $this->_activated,
-				'redirected' => $redirected,
-			)
+			 'login',
+			 array(
+				 'model'      => $_model,
+				 'activated'  => $this->_activated,
+				 'redirected' => $redirected,
+			 )
 		);
 	}
 
@@ -407,10 +415,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'initSchema',
-			array(
-				'model' => $_model
-			)
+			 'initSchema',
+			 array(
+				 'model' => $_model
+			 )
 		);
 	}
 
@@ -444,10 +452,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'initAdmin',
-			array(
-				'model' => $_model
-			)
+			 'initAdmin',
+			 array(
+				 'model' => $_model
+			 )
 		);
 	}
 
@@ -541,10 +549,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'upgradeDsp',
-			array(
-				'model' => $_model
-			)
+			 'upgradeDsp',
+			 array(
+				 'model' => $_model
+			 )
 		);
 	}
 
@@ -572,7 +580,10 @@ class WebController extends BaseWebController
 
 		if ( !empty( $_path ) )
 		{
-			$_objects = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $_path ), RecursiveIteratorIterator::SELF_FIRST );
+			$_objects = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator( $_path ),
+				RecursiveIteratorIterator::SELF_FIRST
+			);
 
 			/** @var $_node \SplFileInfo */
 			foreach ( $_objects as $_name => $_node )
@@ -661,12 +672,12 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-			$_providerModel,
-			Pii::getState( $_providerId . '.user_config', array() ),
-			array(
-				'flow_type'    => $_flow,
-				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-			)
+						   $_providerModel,
+						   Pii::getState( $_providerId . '.user_config', array() ),
+						   array(
+							   'flow_type'    => $_flow,
+							   'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+						   )
 		);
 
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );

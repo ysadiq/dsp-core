@@ -38,7 +38,8 @@ $this->breadcrumbs = array(
 	<?php else: ?>
 
 		<p>Your DSP requires the installation of system data in order to be properly configured. <br />
-			When you are ready, click the 'Install' button to add this data.</p>
+			When you are ready, click the <strong>Install</strong>
+			button to add this data.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',

@@ -86,8 +86,8 @@ $_headline = ( isset( $activated ) && $activated ) ? 'Welcome!' : 'Activate Your
 	<?php echo $form->errorSummary( $model ); ?>
 
 	<div class="form-buttons">
-		<button id="btn-skip" class="btn btn-default pull-left">Skip</button>
 		<button type="submit" class="btn btn-success pull-right">Activate</button>
+		<button type="button" id="btn-skip" class="btn btn-default pull-left">Skip</button>
 	</div>
 
 	<?php $this->endWidget(); ?>

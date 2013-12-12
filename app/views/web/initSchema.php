@@ -28,7 +28,7 @@ $this->breadcrumbs = array(
 ?>
 
 <div class="container" id="formbox">
-	<h2>Database Upgrade Available!</h2>
+	<h2>Database Update Available!</h2>
 
 	<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
 
@@ -38,8 +38,8 @@ $this->breadcrumbs = array(
 
 	<?php else: ?>
 
-		<p>A database update is available for this DreamFactory Services Platform&trade;.
-			Click the 'Update' button below to start the update.</p>
+		<p>An update is available for this DreamFactory Services Platform&trade;. Click the <strong>Update</strong>
+			button below to start the update.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',

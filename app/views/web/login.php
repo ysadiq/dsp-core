@@ -29,9 +29,9 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#login-form',
 	array(
-		'ignoreTitle'    => true,
-		'errorClass'     => 'error',
-		'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		 'ignoreTitle'    => true,
+		 'errorClass'     => 'error',
+		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
 	)
 );
 
@@ -45,11 +45,11 @@ $_headline = 'Login Required!';
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			'id'                     => 'login-form',
-			'enableClientValidation' => true,
-			'clientOptions'          => array(
-				'validateOnSubmit' => true,
-			),
+			 'id'                     => 'login-form',
+			 'enableClientValidation' => true,
+			 'clientOptions'          => array(
+				 'validateOnSubmit' => true,
+			 ),
 		)
 	); ?>
 
@@ -79,8 +79,8 @@ $_headline = 'Login Required!';
 	<?php echo $form->errorSummary( $model ); ?>
 
 	<div class="form-buttons">
-		<button id="btn-home" class="btn btn-default pull-left">Home</button>
 		<button type="submit" class="btn btn-success pull-right">Login</button>
+		<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
 	</div>
 
 	<?php $this->endWidget(); ?>
