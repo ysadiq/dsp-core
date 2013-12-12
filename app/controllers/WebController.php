@@ -150,7 +150,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'_splash',
 			array(
-				 'for' => PlatformStates::INIT_REQUIRED,
+				'for' => PlatformStates::INIT_REQUIRED,
 			)
 		);
 
@@ -159,6 +159,9 @@ class WebController extends BaseWebController
 
 	public function actionActivate()
 	{
+		//	Clear the skipped flag...
+		Pii::setState( 'app.registration_skipped', false );
+
 		$_model = new \LoginForm();
 
 		//	Came from login form? Don't do drupal auth, do dsp auth
@@ -178,6 +181,7 @@ class WebController extends BaseWebController
 		{
 			if ( 1 == Option::get( $_POST, 'skipped', 0 ) )
 			{
+				Pii::setState( 'app.registration_skipped', true );
 				$this->actionInitAdmin();
 
 				return;
@@ -237,8 +241,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'activate',
 			array(
-				 'model'     => $_model,
-				 'activated' => $this->_activated,
+				'model'     => $_model,
+				'activated' => $this->_activated,
 			)
 		);
 	}
@@ -362,9 +366,9 @@ class WebController extends BaseWebController
 		$this->render(
 			'login',
 			array(
-				 'model'      => $_model,
-				 'activated'  => $this->_activated,
-				 'redirected' => $redirected,
+				'model'      => $_model,
+				'activated'  => $this->_activated,
+				'redirected' => $redirected,
 			)
 		);
 	}
@@ -405,7 +409,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initSchema',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -442,7 +446,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initAdmin',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -518,7 +522,7 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['UpgradeDspForm'] ) )
 		{
-			$_model->setAttributes( $_POST['UpgradeDspForm'], false);
+			$_model->setAttributes( $_POST['UpgradeDspForm'], false );
 
 			if ( $_model->validate() )
 			{
@@ -531,7 +535,7 @@ class WebController extends BaseWebController
 				}
 				catch ( \Exception $_ex )
 				{
-					$_model->addError( 'versions', $_ex->getMessage());
+					$_model->addError( 'versions', $_ex->getMessage() );
 				}
 			}
 		}
@@ -539,7 +543,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeDsp',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -568,10 +572,7 @@ class WebController extends BaseWebController
 
 		if ( !empty( $_path ) )
 		{
-			$_objects = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator( $_path ),
-				RecursiveIteratorIterator::SELF_FIRST
-			);
+			$_objects = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $_path ), RecursiveIteratorIterator::SELF_FIRST );
 
 			/** @var $_node \SplFileInfo */
 			foreach ( $_objects as $_name => $_node )
@@ -663,8 +664,8 @@ class WebController extends BaseWebController
 			$_providerModel,
 			Pii::getState( $_providerId . '.user_config', array() ),
 			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
 			)
 		);
 

@@ -39,7 +39,7 @@ return array(
 	/**
 	 * Basics
 	 */
-	'basePath'           => $_docRoot . '/protected',
+	'basePath'           => $_basePath . '/app',
 	'name'               => $_appName,
 	'runtimePath'        => $_logFilePath,
 	'defaultController'  => $_defaultController,
@@ -143,7 +143,7 @@ return array(
 					'maxFileSize' => '102400',
 					'logFile'     => $_logFileName,
 					'logPath'     => $_logFilePath,
-//					'levels'      => 'error, warning, trace, info, debug, notice',
+					//					'levels'      => 'error, warning, trace, info, debug, notice',
 				),
 				array(
 					'class'         => 'CWebLogRoute',

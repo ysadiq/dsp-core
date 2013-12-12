@@ -19,16 +19,9 @@
 
 	<!-- Standard CSS from style guide -->
 	<!-- Bootstrap 3 CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-	<!--[if IE 7]>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">
-	<![endif]-->
-	<link rel="stylesheet" type="text/css" href="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.4/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
 	<!-- DreamFactory Typography Css -->
 	<link rel="stylesheet" href="/css/df-custom-bs.css">
 	<link rel="stylesheet" href="/css/forms.css">
@@ -42,17 +35,18 @@
 </head>
 <body>
 <div id="wrap">
+	<div class="page-logo"><img src="/images/df-apple-touch-icon.png" alt=""></div>
 	<?php echo $content; ?>
 </div>
 <div id="push"></div>
 <div id="footer">
 	<div class="container align-center">
-		<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date( 'Y' ); ?>. All Rights Reserved.</p>
+		<p class="footer-text">&copy;&nbsp;<a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date( 'Y' ); ?>. All Rights Reserved.</p>
 	</div>
 </div>
 
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/additional-methods.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js"></script>
 </body>
 </html>
