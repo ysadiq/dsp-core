@@ -43,13 +43,7 @@ Validate::register(
 
 		<div class="form-group">
 			<label for="SupportForm_emailAddress" class="sr-only">Email Address</label>
-
-			<div class="input-group">
-				<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
-
 				<input tabindex="1" class="form-control email" autofocus type="email" id="SupportForm_emailAddress" name="SupportForm[emailAddress]"
-					   placeholder="Email Address" />
-			</div>
 		</div>
 
 		<div class="form-buttons">
