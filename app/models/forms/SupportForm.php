@@ -59,6 +59,7 @@ class SupportForm extends CFormModel
 	 * @param array $attributes
 	 * @param bool  $clearErrors
 	 *
+	 * @throws DreamFactory\Platform\Exceptions\ForbiddenException
 	 * @return bool
 	 */
 	public function validate( $attributes = null, $clearErrors = true )
