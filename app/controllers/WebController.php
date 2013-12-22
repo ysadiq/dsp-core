@@ -26,6 +26,7 @@ use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Services\AsgardService;
 use DreamFactory\Platform\Services\SystemManager;
 use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Platform\Utility\ResourceStore;
 use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Platform\Yii\Models\User;
 use DreamFactory\Yii\Controllers\BaseWebController;
@@ -121,6 +122,8 @@ class WebController extends BaseWebController
 					'initAdmin',
 					'authorize',
 					'remoteLogin',
+					'maintenance',
+					'welcome',
 				),
 				'users'   => array( '*' ),
 			),
@@ -145,12 +148,22 @@ class WebController extends BaseWebController
 		);
 	}
 
+	/**
+	 * Maintenance screen
+	 */
+	public function actionMaintenance()
+	{
+		$this->layout = 'maintenance';
+		$this->render( 'maintenance' );
+		die();
+	}
+
 	protected function _initSystemSplash()
 	{
 		$this->render(
 			'_splash',
 			array(
-				 'for' => PlatformStates::INIT_REQUIRED,
+				'for' => PlatformStates::INIT_REQUIRED,
 			)
 		);
 
@@ -241,8 +254,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'activate',
 			array(
-				 'model'     => $_model,
-				 'activated' => $this->_activated,
+				'model'     => $_model,
+				'activated' => $this->_activated,
 			)
 		);
 	}
@@ -329,6 +342,46 @@ class WebController extends BaseWebController
 		}
 	}
 
+	public function actionWelcome()
+	{
+		if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+		{
+			$_returnUrl = Pii::url( $this->id . '/index' );
+		}
+
+		$_model = new SupportForm();
+
+		// collect user input data
+		if ( isset( $_POST['SupportForm'] ) )
+		{
+			$_model->setAttributes( $_POST['SupportForm'] );
+
+			//	Validate user input and redirect to the previous page if valid
+			if ( $_model->validate() )
+			{
+				Pii::setState( 'app.registration_skipped', $_skip = $_model->getSkipped() );
+
+				SystemManager::registerPlatform(
+					ResourceStore::model( 'user' )->findByPk( Session::getCurrentUserId() ),
+					$_skip
+				);
+
+				$this->redirect( $_returnUrl );
+
+				return;
+			}
+
+			$_model->addError( 'emailAddress', 'Invalid or ineligible email address' );
+		}
+
+		$this->render(
+			'welcome',
+			array(
+				'model' => $_model,
+			)
+		);
+	}
+
 	/**
 	 * Displays the login page
 	 */
@@ -366,9 +419,9 @@ class WebController extends BaseWebController
 		$this->render(
 			'login',
 			array(
-				 'model'      => $_model,
-				 'activated'  => $this->_activated,
-				 'redirected' => $redirected,
+				'model'      => $_model,
+				'activated'  => $this->_activated,
+				'redirected' => $redirected,
 			)
 		);
 	}
@@ -409,7 +462,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initSchema',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -446,7 +499,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initAdmin',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -522,7 +575,7 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['UpgradeDspForm'] ) )
 		{
-			$_model->setAttributes( $_POST['UpgradeDspForm'], false);
+			$_model->setAttributes( $_POST['UpgradeDspForm'], false );
 
 			if ( $_model->validate() )
 			{
@@ -535,7 +588,7 @@ class WebController extends BaseWebController
 				}
 				catch ( \Exception $_ex )
 				{
-					$_model->addError( 'versions', $_ex->getMessage());
+					$_model->addError( 'versions', $_ex->getMessage() );
 				}
 			}
 		}
@@ -543,7 +596,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeDsp',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -572,10 +625,7 @@ class WebController extends BaseWebController
 
 		if ( !empty( $_path ) )
 		{
-			$_objects = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator( $_path ),
-				RecursiveIteratorIterator::SELF_FIRST
-			);
+			$_objects = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $_path ), RecursiveIteratorIterator::SELF_FIRST );
 
 			/** @var $_node \SplFileInfo */
 			foreach ( $_objects as $_name => $_node )
@@ -667,8 +717,8 @@ class WebController extends BaseWebController
 			$_providerModel,
 			Pii::getState( $_providerId . '.user_config', array() ),
 			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
 			)
 		);
 
