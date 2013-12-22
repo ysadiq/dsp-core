@@ -62,8 +62,8 @@ Validate::register(
 	<p>More administrative and regular users can be easily added using the DSP's built-in 'Admin' application.</p>
 
 	<?php
-		$form = $this->beginWidget(
-					 'CActiveForm',
+	$form = $this->beginWidget(
+				 'CActiveForm',
 				 array(
 					 'id'                     => 'init-form',
 					 'enableClientValidation' => true,

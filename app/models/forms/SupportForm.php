@@ -1,4 +1,8 @@
 <?php
+use DreamFactory\Platform\Exceptions\ForbiddenException;
+use DreamFactory\Platform\Resources\User\Session;
+use DreamFactory\Platform\Yii\Models\User;
+
 /**
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
@@ -46,8 +50,8 @@ class SupportForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array( 'emailAddress', 'email' ),
-			array( 'skipped', 'boolean' ),
+			array('emailAddress', 'email'),
+			array('skipped', 'boolean'),
 		);
 	}
 
@@ -64,6 +68,17 @@ class SupportForm extends CFormModel
 			$this->_emailAddress = null;
 
 			return true;
+		}
+
+		/** @var User $_user */
+		if ( null === ( $_user = User::model()->findByPk( Session::getCurrentUserId() ) ) )
+		{
+			throw new ForbiddenException();
+		}
+
+		if ( empty( $this->_emailAddress ) )
+		{
+			$this->_emailAddress = $_user->email;
 		}
 
 		return parent::validate( $attributes, $clearErrors );
@@ -118,5 +133,4 @@ class SupportForm extends CFormModel
 	{
 		return $this->_skipped;
 	}
-
 }
