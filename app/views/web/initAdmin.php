@@ -62,16 +62,16 @@ Validate::register(
 	<p>More administrative and regular users can be easily added using the DSP's built-in 'Admin' application.</p>
 
 	<?php
-	//	$form = $this->beginWidget(
-	//				 'CActiveForm',
-	//				 array(
-	//					 'id'                     => 'init-form',
-	//					 'enableClientValidation' => true,
-	//					 'clientOptions'          => array(
-	//						 'validateOnSubmit' => true,
-	//					 ),
-	//				 )
-	//	);
+		$form = $this->beginWidget(
+					 'CActiveForm',
+				 array(
+					 'id'                     => 'init-form',
+					 'enableClientValidation' => true,
+					 'clientOptions'          => array(
+						 'validateOnSubmit' => true,
+					 ),
+				 )
+	);
 	?>
 
 	<input type="hidden" name="skipped" id="skipped" value="0">
