@@ -21,6 +21,7 @@ use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
 use DreamFactory\Oasys\Stores\FileSystem;
 use DreamFactory\Platform\Exceptions\BadRequestException;
+use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
 use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Services\AsgardService;
@@ -342,11 +343,30 @@ class WebController extends BaseWebController
 		}
 	}
 
+	/**
+	 * First-time Welcome page
+	 */
 	public function actionWelcome()
 	{
 		if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
 		{
 			$_returnUrl = Pii::url( $this->id . '/index' );
+		}
+
+		//	User cool too?
+		if ( null === ( $_user = ResourceStore::model( 'user' )->findByPk( Session::getCurrentUserId() ) ) )
+		{
+			throw new ForbiddenException();
+		}
+
+		/**
+		 * If request contains a "force_remove=1" parameter,
+		 * remove the registration file and redirect
+		 */
+		if ( '1' == FilterInput::get( 'force_remove', 0 ) )
+		{
+			SystemManager::registerPlatform( $_user, 'force_remove' );
+			$this->redirect( $_returnUrl );
 		}
 
 		$_model = new SupportForm();
@@ -359,19 +379,14 @@ class WebController extends BaseWebController
 			//	Validate user input and redirect to the previous page if valid
 			if ( $_model->validate() )
 			{
-				Pii::setState( 'app.registration_skipped', $_skip = $_model->getSkipped() );
-
-				SystemManager::registerPlatform(
-							 ResourceStore::model( 'user' )->findByPk( Session::getCurrentUserId() ),
-							 $_skip
-				);
+				SystemManager::registerPlatform( $_user, $_model->getSkipped() );
 
 				$this->redirect( $_returnUrl );
 
 				return;
 			}
 
-			$_model->addError( 'emailAddress', 'Invalid or ineligible email address' );
+			$_model->addError( 'Problem', 'Registration System Unavailable' );
 		}
 
 		$this->render(
