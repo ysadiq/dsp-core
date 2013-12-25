@@ -18,8 +18,27 @@
  * limitations under the License.
  */
 /**
- * @var $this  WebController
+ * @var WebController $this
+ * @var SupportForm   $model
  */
+
+$_summary = null;
+
+if ( $model && $model->hasErrors() )
+{
+	foreach ( $model->getErrors() as $_column => $_error )
+	{
+		$_error = is_array( $_error ) ? implode( '<br/>', $_error ) : $_error;
+
+		$_summary .= <<<HTML
+<p><strong>{$_column}</strong>: {$_error}</p>
+HTML;
+	}
+
+	$_summary = <<<HTML
+<div class="alert alert-fixed alert-danger">{$_summary}</div>
+HTML;
+}
 ?>
 <div class="container" id="formbox">
 	<h2 class="lead">Welcome!</h2>
@@ -27,6 +46,8 @@
 	<p>Would you like to register for free DreamFactory support and important product information?</p>
 
 	<p>We will never share your email with anyone and you can unsubscribe at any time.</p>
+
+	<?php echo $_summary; ?>
 
 	<form class="form form-horizontal" id="register-form" method="POST">
 		<input type="hidden" name="SupportForm[skipped]" id="SupportForm_skipped" value="0">
