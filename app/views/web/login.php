@@ -29,9 +29,9 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#login-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
 	)
 );
 
@@ -42,18 +42,21 @@ $_headline = 'Login Required!';
 
 	<p>In order to proceed to the requested resource, you must be logged in.</p>
 
-	<?php $form = $this->beginWidget(
+	<?php
+	$form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'login-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'login-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
-	); ?>
+	);
+	?>
 
 	<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
+
 	<div class="form-group">
 		<label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
 
