@@ -228,7 +228,7 @@ class WebController extends BaseWebController
 				}
 				else
 				{
-					$_model->addError( 'username', 'Invalid user name and password combination.' );
+//					$_model->addError( 'username', 'Invalid user name and password combination.' );
 
 					//	Came from login form? Don't do drupal auth, do dsp auth
 					if ( $_fromLogin )
@@ -363,9 +363,10 @@ class WebController extends BaseWebController
 		 * If request contains a "force_remove=1" parameter,
 		 * remove the registration file and redirect
 		 */
-		if ( '1' == FilterInput::get( 'force_remove', 0 ) )
+		if ( '1' == FilterInput::get( INPUT_GET, 'force_remove', 0 ) )
 		{
-			SystemManager::registerPlatform( $_user, 'force_remove' );
+			Log::debug( 'Forced removal of registration marker requested.' );
+			SystemManager::registerPlatform( $_user, false, true );
 			$this->redirect( $_returnUrl );
 		}
 
@@ -427,8 +428,6 @@ class WebController extends BaseWebController
 
 				return;
 			}
-
-			$_model->addError( 'username', 'Invalid user name and password combination.' );
 		}
 
 		$this->render(

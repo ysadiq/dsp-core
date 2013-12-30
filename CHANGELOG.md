@@ -1,5 +1,12 @@
 # DreamFactory Services Platform&trade; Change Log
 
+## v1.3.2 (Release 2013-12-31)
+* Continued refactoring of Launchpad application into PHP core
+* Login page now handled by PHP core
+* Admin welcome screen and support registration added
+* Portal service updated to allow for multiple portals to the same provider
+* Bug fixes
+
 ## v1.2.3 (Released 2013-12-11)
 
 ### Major Foundational Changes
