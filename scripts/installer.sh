@@ -180,7 +180,7 @@ WEB_DIR=${BASE_PATH}/web
 ASSETS_DIR=${WEB_DIR}/assets
 COMPOSER_DIR=${BASE_PATH}
 PARSED_OPTIONS=
-MY_LOG="${LOG_DIR}/installer.log"
+MY_LOG="${LOG_DIR}installer.log"
 
 # Hosted or standalone?
 if [ -f "${FABRIC_MARKER}" ] ; then
@@ -335,11 +335,10 @@ _dbg "Updating git submodules"
 ## Check directory permissions...
 ##
 _info "Checking file system"
-chown --from=:${WEB_USER} -R ${INSTALL_USER}:${WEB_USER} * .git* >>${MY_LOG} 2>&1
+chown -R ${INSTALL_USER}:${WEB_USER} * .git* >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
-	_cmd="chown --from=:${WEB_USER} -R ${INSTALL_USER}:${WEB_USER} * .git*"
+	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} * .git*"
 	_notice "Error changing ownership of local files. Please issue the following command:"
-	_notice "\$ sudo ${_cmd}"
 	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
 
