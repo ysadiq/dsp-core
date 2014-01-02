@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.0
+#   Added checks for uid/gid and appropriate messaging
+#
 # v1.2.9
 #	Add .htaccess to list of files to be chown'd
 #
@@ -94,8 +97,7 @@
 ##
 ##	Initial settings
 ##
-
-VERSION=1.2.9
+VERSION=1.3.0
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 PHP=/usr/bin/php
@@ -109,9 +111,15 @@ WRITE_ACCESS=0777
 SCRIPT_PERMS=0775
 FILE_PERMS=0664
 DIR_PERMS=2775
+FORCE_USER=0
 
 ## Who am I?
-INSTALL_USER=${USER}
+if [ $UID -eq 0 ] ; then
+	INSTALL_USER=${SUDO_USER}
+else
+	INSTALL_USER=${USER}
+fi
+
 if [ "x" = "${INSTALL_USER}x" ] ; then
 	INSTALL_USER=`whoami`
 fi
@@ -133,13 +141,13 @@ TAG="Mode: ${B1}Local${B2}"
 BASE_PATH="`dirname "${0}" | xargs dirname`"
 
 ##	Get the REAL path of install
-pushd "${BASE_PATH}" >/dev/null 2>&1
+pushd "${BASE_PATH}" >>/dev/null 2>&1
 BASE_PATH=`pwd`
 if [ "web" = `basename ${BASE_PATH}` ] ; then
 	cd ..
 	BASE_PATH=`pwd`
 fi
-popd >/dev/null 2>&1
+popd >>/dev/null 2>&1
 
 LOG_DIR=${BASE_PATH}/log/
 STORAGE_DIR=${BASE_PATH}/storage/
@@ -157,7 +165,7 @@ fi
 echo "${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Installer [${TAG} v${VERSION}]"
 
 #	Execute getopt on the arguments passed to this program, identified by the special character $@
-PARSED_OPTIONS=$(getopt -n "$0"  -o hvcD --long "help,verbose,clean,debug"  -- "$@")
+PARSED_OPTIONS=$(getopt -n "$0"  -o hvcDf --long "help,verbose,clean,debug,force"  -- "$@")
 
 #	Bad arguments, something has gone wrong with the getopt command.
 if [ $? -ne 0 ] ; then
@@ -170,7 +178,13 @@ eval set -- "${PARSED_OPTIONS}"
 while true ;  do
 	case "$1" in
 		-h|--help)
-			echo "usage: $0 [-v|--verbose] [-c|--clean]"
+			echo "usage: $0 [-v|--verbose] [-c|--clean] [-f|--force]"
+			shift
+	    	;;
+
+		-f|--force)
+			echo "  * Force installation"
+			FORCE_USER=1
 			shift
 	    	;;
 
@@ -189,13 +203,15 @@ while true ;  do
 			;;
 
 		-c|--clean)
-			rm -rf vendor/ .composer/ composer.lock >/dev/null
+			rm -rf vendor/ .composer/ composer.lock >>.installer.log 2>&1
+
 			if [ $? -ne 0 ] ; then
 				echo "  * ${B1}WARNING{B2}: Cannot remove \"vendor/\", and/or \"composer.lock\"."
 				echo "  * ${B1}WARNING{B2}: Clean installation NOT guaranteed."
 			else
 				echo "  * Clean install. Dependencies removed."
 			fi
+
 			shift
 			;;
 
@@ -204,16 +220,6 @@ while true ;  do
 			break;;
 	esac
 done
-
-# Composer already installed?
-if [ -f "${COMPOSER_DIR}/${COMPOSER}" ] ; then
-	echo "  * Composer pre-installed: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
-	echo "  * Checking for package manager updates"
-	${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction self-update
-else
-	echo "  * No composer found, installing: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
-	curl -s https://getcomposer.org/installer | ${PHP} -- --install-dir ${COMPOSER_DIR} ${QUIET} ${VERBOSE} --no-interaction
-fi
 
 echo "  * Install user is ${B1}\"${INSTALL_USER}\"${B2}"
 
@@ -225,26 +231,63 @@ elif [ "Linux" != "${SYSTEM_TYPE}" ] ; then
 	echo "  * Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
 fi
 
-##
-## Shutdown non-essential services
-##
-if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-	service apache2 stop >/dev/null 2>&1
+PROPER_GROUP=`groups | grep -c ${WEB_USER}`
+
+if [ $UID -ne 0 ] && [ ${FORCE_USER} -eq 0 ]; then
+     echo "  * ${B1}ERROR:${B2} You are not running this script as root. This can result in a non-working DSP. Please run as root or use ${B1}sudo${B2}."
+     echo "  *        If you wish to run as a user other than root, please use the --force option."
+     exit 1
 fi
 
-service mysql stop >/dev/null 2>&1
+## Right groups?
+if [ $UID -ne 0 ] && [ ${PROPER_GROUP} -eq 0 ] ; then
+	echo "  * ${B1}ERROR:${B2} The install user (${INSTALL_USER}) is not in the web user's group (${WEB_USER})."
+	echo "  *         You may:"
+	echo "  *             1. Run this script with ${B1}sudo${B2}, as ${B1}root${B2}, or as the system's web user (${WEB_USER})"
+	echo "  *                -- or --"
+	echo "  *             2. Add your user to the system's web user's group:"
+	echo "  *                 a. Via command line: ${B1}\$ sudo usermod -a -G ${WEB_USER} ${USER}${B2}"
+	echo "  *                 b. Manually edit the /etc/groups file"
+	exit 1
+fi
+
+# Composer already installed?
+if [ -f "${COMPOSER_DIR}/${COMPOSER}" ] ; then
+	echo "  * Composer pre-installed: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
+	echo "  * Checking for package manager updates"
+	${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction self-update
+else
+	echo "  * No composer found, installing: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
+	curl -s https://getcomposer.org/installer | ${PHP} -- --install-dir ${COMPOSER_DIR} ${QUIET} ${VERBOSE} --no-interaction
+fi
+
+##
+## Shutdown non-essential services (if root)
+##
+if [ $UID -eq 0 ] ; then
+	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+		service apache2 stop >>.installer.log 2>&1
+	fi
+
+	service mysql stop >>.installer.log 2>&1
+fi
 
 # Git submodules (not currently used, but could be in the future)
-/usr/bin/git submodule update --init -q >/dev/null 2>&1 && echo "  * External modules updated"
+/usr/bin/git submodule update --init -q >>.installer.log 2>&1 && echo "  * External modules updated"
 
 ##
 ## Check directory permissions...
 ##
 echo "  * Checking file system"
-chown -R ${INSTALL_USER}:${WEB_USER} * .git* >/dev/null 2>&1
-find ./ -type d -exec chmod ${DIR_PERMS} {}  >/dev/null 2>&1 \;
-find ./ -type f -exec chmod ${FILE_PERMS} {}  >/dev/null 2>&1 \;
-find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {}  >/dev/null 2>&1 \;
+chown -R ${INSTALL_USER}:${WEB_USER} * .git* >>.installer.log 2>&1
+if [ $? -ne 0 ] ; then
+	echo "  * ${B1}WARNING:${B2} Unable to change the ownership of local files. Please issue the following command:"
+	echo "  *          \$ sudo chown -R ${INSTALL_USER}:${WEB_USER} * .git*"
+fi
+
+find ./ -type d -exec chmod ${DIR_PERMS} {}  >>.installer.log 2>&1 \;
+find ./ -type f -exec chmod ${FILE_PERMS} {}  >>.installer.log 2>&1 \;
+find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {}  >>.installer.log 2>&1 \;
 
 ##
 ## Check if composer is installed
@@ -256,7 +299,7 @@ echo "  * Working directory: ${B1}${BASE_PATH}${B2}"
 ##	Install composer dependencies
 ##
 
-pushd "${BASE_PATH}" >/dev/null
+pushd "${BASE_PATH}" >>/dev/null 2>&1
 
 if [ ! -d "${VENDOR_DIR}" ] ; then
 	echo "  * Installing dependencies"
@@ -273,40 +316,50 @@ fi
 ##
 ##	Make sure our directories are in place...
 ##
-chgrp -R ${WEB_USER} ${VENDOR_DIR} ./composer.lock >/dev/null 2>&1
+chgrp -R ${WEB_USER} ${VENDOR_DIR} ./composer.lock >>.installer.log 2>&1
 
 if [ ! -d "${LOG_DIR}" ] ; then
-	mkdir "${LOG_DIR}" >/dev/null 2>&1 && echo "  * Created ${LOG_DIR}"
+	mkdir "${LOG_DIR}" >>.installer.log 2>&1 && echo "  * Created ${LOG_DIR}" || echo "  * ${B1}ERROR:${B2} creating ${LOG_DIR}"
 fi
 
 if [ ! -d "${STORAGE_DIR}" ] ; then
-	mkdir "${STORAGE_DIR}" >/dev/null 2>&1 && echo "  * Created ${STORAGE_DIR}"
+	mkdir "${STORAGE_DIR}" >>.installer.log 2>&1 && echo "  * Created ${STORAGE_DIR}" || echo "  * ${B1}ERROR:${B2} creating ${STORAGE_DIR}"
 fi
 
 if [ ! -d "${ASSETS_DIR}" ] ; then
-	mkdir "${ASSETS_DIR}" >/dev/null 2>&1 && echo "  * Created ${ASSETS_DIR}"
+	mkdir "${ASSETS_DIR}" >>.installer.log 2>&1 && echo "  * Created ${ASSETS_DIR}" || echo "  * ${B1}ERROR:${B2} creating ${ASSETS_DIR}"
 fi
 
 ##
 ## make owned by user
 ##
-chown -R ${INSTALL_USER}:${WEB_USER} * .git* .ht*  >/dev/null 2>&1
+chown -R ${INSTALL_USER}:${WEB_USER} * .git* >>.installer.log 2>&1
+if [ $? -ne 0 ] ; then
+	echo "  * ${B1}WARNING:${B2} Unable to change the ownership of local files. Please issue the following command:"
+	echo "  *          \$ sudo chown -R ${INSTALL_USER}:${WEB_USER} * .git*"
+fi
 
 ##
 ## make writable by web server
 ##
-chmod -R ${WRITE_ACCESS} vendor/ log/ web/assets/ >/dev/null 2>&1
+chmod -R ${WRITE_ACCESS} vendor/ log/ web/assets/ >>.installer.log 2>&1
+if [ $? -ne 0 ] ; then
+	echo "  * ${B1}WARNING:${B2} Unable to change the permissions of local files. Please issue the following command:"
+	echo "  *          \$ sudo chmod -R ${WRITE_ACCESS} vendor/ log/ web/assets/"
+fi
 
 ##
-## Restart non-essential services
+## Restart non-essential services (if root)
 ##
 
-service mysql start >/dev/null 2>&1
+if [ $UID -eq 0 ] ; then
+	service mysql start >>.installer.log 2>&1
 
-if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-	service apache2 start >/dev/null 2>&1
-else
-	service apache2 reload >/dev/null 2>&1
+	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+		service apache2 start >>.installer.log 2>&1
+	else
+		service apache2 reload >>.installer.log 2>&1
+	fi
 fi
 
 echo
