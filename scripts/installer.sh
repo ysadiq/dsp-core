@@ -188,6 +188,11 @@ if [ -f "${FABRIC_MARKER}" ] ; then
 	TAG="Mode: ${B1}Fabric${B2}"
 fi
 
+## Make sure we have a log directory
+if [ ! -d "${LOG_DIR}" ] ; then
+	mkdir "${LOG_DIR}" && _info "Created ${LOG_DIR}" || _error "Error creating ${LOG_DIR}"
+fi
+
 sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Installer [${TAG} v${VERSION}]"
 
 #	Determine OS type
@@ -253,7 +258,6 @@ do
 
 		-c|--clean)
 			rm -rf ${VENDOR_DIR} .composer/ composer.lock >>${MY_LOG} 2>&1
-
 			if [ $? -ne 0 ] ; then
 				_notice "Cannot remove \"${VENDOR_DIR}\", and/or \"composer.lock\"."
 				_notice "Clean installation NOT guaranteed."
@@ -376,10 +380,6 @@ fi
 ##
 ##	Make sure our directories are in place...
 ##
-if [ ! -d "${LOG_DIR}" ] ; then
-	mkdir "${LOG_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${LOG_DIR}" || _error "Error creating ${LOG_DIR}"
-fi
-
 if [ ! -d "${STORAGE_DIR}" ] ; then
 	mkdir "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
 fi
