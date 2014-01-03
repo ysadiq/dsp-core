@@ -29,7 +29,7 @@ use DreamFactory\Platform\Utility\Fabric;
 /**
  * @var string
  */
-const DSP_VERSION = '1.3.2';
+const DSP_VERSION = '1.3.3';
 /**
  * @var string
  */
