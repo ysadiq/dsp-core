@@ -23,6 +23,7 @@
 #
 # v1.3.0
 #   Added checks for uid/gid and appropriate messaging
+#	Corrected "getopt" usage for Mac OSs
 #
 # v1.2.9
 #	Add .htaccess to list of files to be chown'd
@@ -123,6 +124,7 @@ SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 PHP=/usr/bin/php
 WEB_USER=www-data
+DARWIN_WEB_USER=_www
 BASE=`pwd`
 FABRIC=0
 FABRIC_MARKER=/var/www/.fabric_hosted
@@ -197,13 +199,13 @@ sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Inst
 
 #	Determine OS type
 if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
-	WEB_USER=_www
-	_info "OS X installation: Apache user set to \"${B1}_www${B2}\""
+	WEB_USER=${DARWIN_WEB_USER}
+	_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
 
 	PARSED_OPTIONS=`getopt hvcDfn $*`
 else
 	if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
-		_info "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+		_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
 	fi
 
 	#	Execute getopt on the arguments passed to this program, identified by the special character $@
