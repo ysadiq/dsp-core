@@ -35,6 +35,7 @@ use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Platform\Yii\Models\User;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
+use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Interfaces\HttpResponse;
 use Kisma\Core\Utility\Curl;
 use Kisma\Core\Utility\FilterInput;
@@ -437,8 +438,11 @@ class WebController extends BaseWebController
 
 		$_SERVER['HTTP_X_DREAMFACTORY_APPLICATION_NAME'] = 'launchpad';
 		/** @var Config $_config */
-		$_config =
-			ResourceStore::resource( 'config' )->setOutputFormat( OutputFormats::Raw )->setResponseFormat( ResponseFormats::RAW )->processRequest( 'config' );
+		$_config = ResourceStore::resource( 'config' )->processRequest(
+			'config',
+			HttpMethod::Get,
+			false
+		);
 
 		$this->render(
 			'login',
