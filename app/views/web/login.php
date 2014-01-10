@@ -17,6 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Yii\Models\Provider;
+use DreamFactory\Yii\Utility\Pii;
 use DreamFactory\Yii\Utility\Validate;
 
 /**
@@ -24,16 +26,49 @@ use DreamFactory\Yii\Utility\Validate;
  * @var LoginForm     $model
  * @var bool          $redirected
  * @var CActiveForm   $form
+ * @var Provider[]    $loginProviders
  */
 
 Validate::register(
-		'form#login-form',
-		array(
-			'ignoreTitle'    => true,
-			'errorClass'     => 'error',
-			'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-		)
+	'form#login-form',
+	array(
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+	)
 );
+
+//*************************************************************************
+//	Build the remote login provider icon list..
+//*************************************************************************
+
+$_providerHtml = null;
+
+if ( !empty( $loginProviders ) )
+{
+	foreach ( $loginProviders as $_provider )
+	{
+		if ( !$_provider->is_active )
+		{
+			continue;
+		}
+
+		$_icon = strtolower( $_provider->api_name );
+
+		//	Google icon has a different name
+		if ( 'google' == $_icon )
+		{
+			$_icon = 'google-plus';
+		}
+
+		$_providerHtml .= '<i class="icon-' . $_icon . ' icon-3x" data-provider="' . $_provider->api_name . '"></i>';
+	}
+
+	if ( !empty( $_providerHtml ) )
+	{
+		Pii::cssFile( 'css/remote-login.css' );
+	}
+}
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
 
@@ -46,22 +81,22 @@ $_headline = 'Login Required!';
 
 	<?php
 	$form = $this->beginWidget(
-				 'CActiveForm',
-				 array(
-					 'id'                     => 'login-form',
-					 'enableClientValidation' => true,
-					 'clientOptions'          => array(
-						 'validateOnSubmit' => true,
-					 ),
-				 )
+		'CActiveForm',
+		array(
+			'id'                     => 'login-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
+		)
 	);
 	?>
 
 	<?php echo $form->errorSummary(
-					$model,
-					'<strong>Please check your entries...</strong>',
-					null,
-					array( 'style' => 'margin-bottom: 15px;' )
+		$model,
+		'<strong>Please check your entries...</strong>',
+		null,
+		array( 'style' => 'margin-bottom: 15px;' )
 	); ?>
 
 	<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
@@ -71,8 +106,9 @@ $_headline = 'Login Required!';
 
 		<div class="input-group">
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+
 			<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
-				placeholder="DSP User Email Address" />
+				   placeholder="DSP User Email Address" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -80,8 +116,16 @@ $_headline = 'Login Required!';
 
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
 			<input tabindex="3" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
-				placeholder="Password" />
+				   placeholder="Password" />
+		</div>
+	</div>
+	<div class="remote-login hide">
+		<div class="remote-login-wrapper">
+			<h4 style="">Sign-in with one of these providers</h4>
+
+			<div class="remote-login-providers" data-owner="#loginDialog"></div>
 		</div>
 	</div>
 	<div class="form-buttons">
@@ -92,10 +136,10 @@ $_headline = 'Login Required!';
 	<?php $this->endWidget(); ?>
 </div>
 <script type="text/javascript">
-	jQuery(function ($) {
-		$('#btn-home').on('click', function (e) {
-			e.preventDefault();
-			window.location.href = '/';
-		});
+jQuery(function($) {
+	$('#btn-home').on('click', function(e) {
+		e.preventDefault();
+		window.location.href = '/';
 	});
+});
 </script>

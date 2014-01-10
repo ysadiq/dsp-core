@@ -17,12 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Common\Enums\OutputFormats;
 use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
 use DreamFactory\Oasys\Stores\FileSystem;
+use DreamFactory\Platform\Enums\ResponseFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
+use DreamFactory\Platform\Resources\System\Config;
 use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Services\AsgardService;
 use DreamFactory\Platform\Services\SystemManager;
@@ -162,10 +165,10 @@ class WebController extends BaseWebController
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			 '_splash',
-			 array(
-				 'for' => PlatformStates::INIT_REQUIRED,
-			 )
+			'_splash',
+			array(
+				'for' => PlatformStates::INIT_REQUIRED,
+			)
 		);
 
 		$this->actionInitSystem();
@@ -253,11 +256,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'activate',
-			 array(
-				 'model'     => $_model,
-				 'activated' => $this->_activated,
-			 )
+			'activate',
+			array(
+				'model'     => $_model,
+				'activated' => $this->_activated,
+			)
 		);
 	}
 
@@ -391,10 +394,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'welcome',
-			 array(
-				 'model' => $_model,
-			 )
+			'welcome',
+			array(
+				'model' => $_model,
+			)
 		);
 	}
 
@@ -430,13 +433,21 @@ class WebController extends BaseWebController
 			}
 		}
 
+		$_providers = array();
+
+		$_SERVER['HTTP_X_DREAMFACTORY_APPLICATION_NAME'] = 'launchpad';
+		/** @var Config $_config */
+		$_config =
+			ResourceStore::resource( 'config' )->setOutputFormat( OutputFormats::Raw )->setResponseFormat( ResponseFormats::RAW )->processRequest( 'config' );
+
 		$this->render(
-			 'login',
-			 array(
-				 'model'      => $_model,
-				 'activated'  => $this->_activated,
-				 'redirected' => $redirected,
-			 )
+			'login',
+			array(
+				'model'          => $_model,
+				'activated'      => $this->_activated,
+				'redirected'     => $redirected,
+				'loginProviders' => $_providers,
+			)
 		);
 	}
 
@@ -474,10 +485,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'initSchema',
-			 array(
-				 'model' => $_model
-			 )
+			'initSchema',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -511,10 +522,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'initAdmin',
-			 array(
-				 'model' => $_model
-			 )
+			'initAdmin',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -608,10 +619,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'upgradeDsp',
-			 array(
-				 'model' => $_model
-			 )
+			'upgradeDsp',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -728,12 +739,12 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-						   $_providerModel,
-						   Pii::getState( $_providerId . '.user_config', array() ),
-						   array(
-							   'flow_type'    => $_flow,
-							   'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-						   )
+			$_providerModel,
+			Pii::getState( $_providerId . '.user_config', array() ),
+			array(
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+			)
 		);
 
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
