@@ -53,7 +53,7 @@
 		"kisma/kisma":                          "~0.2.5",
 		"dreamfactory/yii":                     "*",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master",
-		"dreamfactory/portal-sandbox":          "*"
+		"dreamfactory/portal-sandbox":          "dev-develop as dev-master"
 	},
 	"repositories":      [
 		{
