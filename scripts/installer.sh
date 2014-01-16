@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.1
+#	Corrected bogus message
+#
 # v1.3.0
 #   Added checks for uid/gid and appropriate messaging
 #	Corrected "getopt" usage for Mac OSs
@@ -119,7 +122,7 @@ usage() {
 ##
 ##	Initial settings
 ##
-VERSION=1.3.0
+VERSION=1.3.1
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 PHP=/usr/bin/php
@@ -292,7 +295,7 @@ if [ $UID -ne 0 ] && [ ${PROPER_GROUP} -eq 0 ] ; then
 	_error " "
 	_error "    2. Add your user to the system's web user's group (${B1}${WEB_USER}${B2}):"
 	_error "       a. Via command line: ${B1}sudo usermod -a -G ${WEB_USER} ${USER}${B2}"
-	_error "       b. Manually edit the /etc/groups file (not recommended)"
+	_error "       b. Manually edit the /etc/group file (not recommended)"
 
 	echo
 	exit 1
@@ -344,7 +347,7 @@ _info "Checking file system"
 chown -R ${INSTALL_USER}:${WEB_USER} * .git* >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
 	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} * .git*"
-	_notice "Error changing ownership of local files. Please issue the following command:"
+	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
 	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
 
