@@ -217,7 +217,7 @@ else
 	fi
 
 	#	Execute getopt on the arguments passed to this program, identified by the special character $@
-	PARSED_OPTIONS=$(getopt -n "${_ME}"  -o hvcDfn -l "help,verbose,clean,debug,force,no-composer"  -- "$@")
+	PARSED_OPTIONS=$(getopt -n "${_ME}"  -o hvcDfni -l "help,verbose,clean,debug,force,no-composer,interactive"  -- "$@")
 fi
 
 #	Bad arguments, something has gone wrong with the getopt command.
