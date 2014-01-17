@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.2
+#	Added -i|--interactive argument
+#
 # v1.3.1
 #	Corrected bogus message
 #
@@ -104,7 +107,7 @@
 ## Functions
 
 usage() {
-	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer]"
+	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive]"
 
 	echo
 
@@ -112,7 +115,8 @@ usage() {
 	echo " -D,--debug         Same as --verbose but outputs even more information."
 	echo " -f,--force         Forces installation when running user is not ${B1}root${B2}."
 	echo " -h,--help          This information."
-	echo " -n,--no-composer   Skip the composer install/update process."
+	echo " -n,--no-composer   Skip the Composer install/update process."
+	echo " -i,--interactive   Run Composer in interactive mode."
 	echo " -v,--verbose       Outputs more information about the job run."
 	echo
 
@@ -122,9 +126,10 @@ usage() {
 ##
 ##	Initial settings
 ##
-VERSION=1.3.1
+VERSION=1.3.2
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
+NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
 DARWIN_WEB_USER=_www
@@ -212,7 +217,7 @@ else
 	fi
 
 	#	Execute getopt on the arguments passed to this program, identified by the special character $@
-	PARSED_OPTIONS=$(getopt -n "${_ME}"  -o hvcDfn -l "help,verbose,clean,debug,force,no-composer"  -- "$@")
+	PARSED_OPTIONS=$(getopt -n "${_ME}"  -o hvcDfni -l "help,verbose,clean,debug,force,no-composer,interactive"  -- "$@")
 fi
 
 #	Bad arguments, something has gone wrong with the getopt command.
@@ -230,6 +235,12 @@ fi
 for _i
 do
 	case "$_i" in
+		-i|--interactive)
+			NO_INTERACTION=
+			shift;
+			_info "Interactive mode enabled"
+			;;
+
 		-n|--no-composer)
 			_info "Composer install/update will not be performed."
 			NO_COMPOSER=1
@@ -373,10 +384,10 @@ pushd "${BASE_PATH}" >/dev/null 2>&1
 if [ ${NO_COMPOSER} -eq 0 ] ; then
 	if [ ! -d "${VENDOR_DIR}" ] ; then
 		_info "Installing dependencies"
-		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction install ; _code=$?
+		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} install ; _code=$?
 	else
 		_info "Updating dependencies"
-		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction update ; _code=$?
+		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
 	fi
 
 	[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
