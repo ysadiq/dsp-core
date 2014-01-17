@@ -78,9 +78,12 @@ if ( Fabric::fabricHosted() )
 {
 	$_instanceSettings = array(
 		'storage_base_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ),
-		'private_path'           => \Kisma::get( 'platform.private_path' ),
 		'storage_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob',
+		'private_path'           => \Kisma::get( 'platform.private_path' ),
 		'snapshot_path'          => \Kisma::get( 'platform.private_path' ) . '/snapshots',
+		'applications_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/applications',
+		'library_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/lib',
+		'plugins_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/plugins',
 		'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
 		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
 		'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
@@ -90,9 +93,12 @@ else
 {
 	$_instanceSettings = array(
 		'storage_base_path'      => $_basePath . '/storage',
-		'private_path'           => $_basePath . '/storage/.private',
 		'storage_path'           => $_basePath . '/storage',
+		'private_path'           => $_basePath . '/storage/.private',
 		'snapshot_path'          => $_basePath . '/storage/.private/snapshots',
+		'applications_path'      => $_basePath . '/storage/applications',
+		'library_path'           => $_basePath . '/storage/lib',
+		'plugins_path'           => $_basePath . '/storage/plugins',
 		'dsp_name'               => gethostname(),
 		'dsp.storage_id'         => null,
 		'dsp.private_storage_id' => null,
