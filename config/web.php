@@ -49,9 +49,12 @@ return array(
 	 * @todo have ResourceStore::resource() scan sub-directories based on $_REQUEST['path']  -- GHA
 	 */
 	'resourceNamespaces' => array(
+		'DreamFactory\\JetPack\\Examples\\CustomTrigger\\Resources',
 		'DreamFactory\\Platform\\Resources',
+		'DreamFactory\\JetPack\\Examples\\CustomTrigger\\Resources\\System',
 		'DreamFactory\\Platform\\Resources\\System',
 		'DreamFactory\\Platform\\Resources\\Portal',
+		'DreamFactory\\JetPack\\Examples\\CustomTrigger\\Resources\\User',
 		'DreamFactory\\Platform\\Resources\\User',
 	),
 	/**
@@ -60,6 +63,7 @@ return array(
 	 * @todo have ResourceStore::model() scan sub-directories based on $_REQUEST['path'] -- GHA
 	 */
 	'modelNamespaces'    => array(
+		'DreamFactory\\JetPack\\Examples\\CustomTrigger\\Yii\\Models',
 		'DreamFactory\\Platform\\Yii\\Models',
 	),
 	/**

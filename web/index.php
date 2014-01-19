@@ -32,8 +32,19 @@ defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
 defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 
 //	Create the application and run
-DreamFactory\Yii\Utility\Pii::run(
+$_app = DreamFactory\Yii\Utility\Pii::run(
 	__DIR__,
 	$_autoloader,
-	'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication'
+	'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication',
+	null,
+	null,
+	false
+);
+
+//	Inject ourselves into the namespace
+$_app->addResourceNamespace(
+	array(
+		'DreamFactory\\JetPack\\Examples\\CustomTrigger\\Resources\\System\\',
+		'DreamFactory\\JetPack\\Examples\\CustomTrigger\\Yii\\Models\\',
+	)
 );
