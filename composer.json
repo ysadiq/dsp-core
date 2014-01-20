@@ -48,17 +48,16 @@
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
 	"minimum-stability": "dev",
-	"require":           {
-		"php":                                  ">=5.3.10",
-		"kisma/kisma":                          "~0.2.5",
-		"dreamfactory/yii":                     "*",
-		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master",
-		"dreamfactory/portal-sandbox":          "dev-develop as dev-master"
-	},
 	"repositories":      [
 		{
 			"type": "pear",
 			"url":  "http://pear.php.net"
 		}
-	]
+	],
+	"require":           {
+		"php":                                  ">=5.3.10",
+		"kisma/kisma":                          "~0.2.5",
+		"dreamfactory/yii":                     "*",
+		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
+	}
 }
