@@ -82,7 +82,7 @@ if ( Fabric::fabricHosted() )
 		'private_path'           => \Kisma::get( 'platform.private_path' ),
 		'snapshot_path'          => \Kisma::get( 'platform.private_path' ) . '/snapshots',
 		'applications_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/applications',
-		'library_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/lib',
+		'library_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/plugins',
 		'plugins_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/plugins',
 		'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
 		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
@@ -97,7 +97,7 @@ else
 		'private_path'           => $_basePath . '/storage/.private',
 		'snapshot_path'          => $_basePath . '/storage/.private/snapshots',
 		'applications_path'      => $_basePath . '/storage/applications',
-		'library_path'           => $_basePath . '/storage/lib',
+		'library_path'           => $_basePath . '/storage/plugins',
 		'plugins_path'           => $_basePath . '/storage/plugins',
 		'dsp_name'               => gethostname(),
 		'dsp.storage_id'         => null,
@@ -105,6 +105,7 @@ else
 	);
 }
 
+/** @noinspection PhpIncludeInspection */
 return array_merge(
 	$_instanceSettings,
 	array(
@@ -112,23 +113,33 @@ return array_merge(
 		 * App Information
 		 */
 		'base_path'                     => $_basePath,
+		'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
+		'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
+		/**
+		 * User data
+		 */
+		'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
+		/**
+		 * The default admin resource schema
+		 */
+		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
+		'admin.default_theme'           => 'united',
 		/**
 		 * DSP Information
 		 */
-		'dsp.version'                   => DSP_VERSION,
-		'dsp.name'                      => $_instanceSettings['dsp_name'],
 		'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
-		'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
-		'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
+		'dsp.base_path'                 => $_basePath,
+		'dsp.name'                      => $_instanceSettings['dsp_name'],
+		'dsp.version'                   => DSP_VERSION,
+		'dsp.library_path'              => $_basePath . '/storage/plugins',
+		'dsp.plugins_path'              => $_basePath . '/storage/plugins',
+		'dsp.applications_path'         => $_basePath . '/storage/applications',
+		'dsp.manifest_path'             => '/.manifest',
 		/**
 		 * Remote Logins
 		 */
 		'dsp.allow_remote_logins'       => true,
 		'dsp.allow_admin_remote_logins' => true,
-		/**
-		 * User data
-		 */
-		'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
 		/**
 		 * The default service configuration
 		 */
@@ -157,10 +168,5 @@ return array_merge(
 		 * The default number of records to return at once for database queries
 		 */
 		'dsp.db_max_records_returned'   => 1000,
-		/**
-		 * The default admin resource schema
-		 */
-		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
-		'admin.default_theme'           => 'united',
 	)
 );
