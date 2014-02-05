@@ -43,7 +43,7 @@ HTML;
 <div class="container" id="formbox">
 	<h2 class="lead">Welcome!</h2>
 
-	<p>Would you like to register for free DreamFactory support and important product information?</p>
+	<p>Would you like to register for one month of free engineering support and important product information from DreamFactory?</p>
 	<p>We will never share your email with anyone and you can unsubscribe at any time.</p>
 
 	<?php echo $_summary; ?>
