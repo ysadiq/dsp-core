@@ -56,10 +56,9 @@ Validate::register(
 <div class="container" id="formbox">
 	<h2>Create a System Admin User</h2>
 
-	<p>Your DSP requires a local system administrator. This user is a separate admin user that exists only inside your DSP.
-		It is not related to the <strong>dreamfactory.com</strong> site, though you may use the same email address and password if desired.</p>
+	<p>Your DSP requires at least one system administrator. Complete this form to create your first admin user.</p>
 
-	<p>More administrative and regular users can be easily added using the DSP's built-in 'Admin' application.</p>
+	<p>More users can be easily added using the DSP's built-in 'Admin' application.</p>
 
 	<?php
 	$form = $this->beginWidget(

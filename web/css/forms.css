@@ -3,9 +3,8 @@
 **************************************************************************/
 
 body {
-	padding:          20px 0 0;
 	color:            #F2F2F2;
-	background-color: #1A1A1A;
+	background-color: #444;
 	overflow:         hidden;
 }
 
@@ -33,6 +32,8 @@ a:hover, a:focus, a:active {
 	height:     100%;
 	/* Negative indent footer by it's height */
 	margin:     0 auto -40px;
+	/* Pad top by navbar and bottom by footer height */
+	padding:    43px 0 40px;
 }
 
 #footer {
@@ -53,7 +54,7 @@ a:hover, a:focus, a:active {
 }
 
 #formbox {
-	border-top: 1px solid rgba(218, 150, 40, 0.25);
+	/*border-top: 1px solid rgba(255, 255, 255, 0.25);*/
 	overflow:   hidden !important;
 	text-align: left;
 	position:   relative;
@@ -113,7 +114,7 @@ a:hover, a:focus, a:active {
 }
 
 .form-buttons {
-	border-top: 1px solid rgba(218, 150, 40, 0.25);
+	border-top: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 form, .form-buttons {
@@ -286,4 +287,40 @@ form, .form-buttons {
 	font-size:   36px;
 	font-weight: bold;
 	color:       #ffffff;
+}
+
+/* From Launchpad*/
+
+.df-logo {
+	margin-right: 20px;
+	margin-top:   2px;
+}
+
+.df-logo img {
+	height: 38px;
+}
+
+#navbar-container {
+	border-radius:     0 !important;
+	border:            0;
+	border-bottom:     1px solid #777;
+	height:            43px;
+	padding-left:      20px;
+	padding-right:     20px;
+	background-color:  black;
+	position:          fixed;
+	left:              0;
+	right:             0;
+}
+
+@media screen and (max-width: 940px) {
+	#navbar-container {
+		padding: 0;
+		margin:  0;
+	}
+
+	.navbar-spacer {
+		padding-left:  10px;
+		padding-right: 10px;
+	}
 }

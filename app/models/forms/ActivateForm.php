@@ -17,15 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Yii\Components\PlatformUserIdentity;
+use DreamFactory\Platform\Yii\Components\DrupalUserIdentity;
 use DreamFactory\Yii\Utility\Pii;
 
 /**
- * LoginForm class.
- * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'WebController'.
+ * ActivateForm class.
+ * ActivateForm is the data structure for keeping
+ * user activate form data. It is used by the 'activate' action of 'WebController'.
  */
-class LoginForm extends CFormModel
+class ActivateForm extends CFormModel
 {
 	/**
 	 * @var string
@@ -40,7 +40,7 @@ class LoginForm extends CFormModel
 	 */
 	public $rememberMe;
 	/**
-	 * @var PlatformUserIdentity
+	 * @var DrupalUserIdentity
 	 */
 	protected $_identity;
 
@@ -77,14 +77,14 @@ class LoginForm extends CFormModel
 	{
 		if ( !$this->hasErrors() )
 		{
-			$this->_identity = new PlatformUserIdentity( $this->username, $this->password );
+			$this->_identity = new DrupalUserIdentity( $this->username, $this->password );
 
 			if ( $this->_identity->authenticate() )
 			{
 				return true;
 			}
 
-			$this->addError( null, 'Invalid user name and password combination.' );
+			$this->addError( 'password', 'The email address and/or password are not valid credentials.' );
 		}
 
 		return false;
@@ -93,15 +93,15 @@ class LoginForm extends CFormModel
 	/**
 	 * Logs in the user using the given username and password in the model.
 	 *
-	 * @return boolean whether login is successful
+	 * @return boolean whether activate is successful
 	 */
-	public function login()
+	public function activate()
 	{
 		$_identity = $this->_identity;
 
 		if ( empty( $_identity ) )
 		{
-			$_identity = new PlatformUserIdentity( $this->username, $this->password );
+			$_identity = new DrupalUserIdentity( $this->username, $this->password );
 
 			if ( !$_identity->authenticate() )
 			{
@@ -123,21 +123,21 @@ class LoginForm extends CFormModel
 	}
 
 	/**
-	 * @param PlatformUserIdentity $identity
+	 * @param DrupalUserIdentity $drupalIdentity
 	 *
-	 * @return LoginForm
+	 * @return ActivateForm
 	 */
-	public function setIdentity( $identity )
+	public function setDrupalIdentity( $drupalIdentity )
 	{
-		$this->_identity = $identity;
+		$this->_identity = $drupalIdentity;
 
 		return $this;
 	}
 
 	/**
-	 * @return PlatformUserIdentity
+	 * @return DrupalUserIdentity
 	 */
-	public function getIdentity()
+	public function getDrupalIdentity()
 	{
 		return $this->_identity;
 	}

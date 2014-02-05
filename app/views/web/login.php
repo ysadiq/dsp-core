@@ -30,12 +30,12 @@ use DreamFactory\Yii\Utility\Validate;
  */
 
 Validate::register(
-		'form#login-form',
-		array(
-			'ignoreTitle'    => true,
-			'errorClass'     => 'error',
-			'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-		)
+	'form#login-form',
+	array(
+		 'ignoreTitle'    => true,
+		 'errorClass'     => 'error',
+		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+	)
 );
 
 //*************************************************************************
@@ -72,72 +72,85 @@ if ( !empty( $loginProviders ) )
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
 
-$_headline = 'Login Required!';
+$_headline = 'User Login';
 ?>
 <div class="container" id="formbox">
 	<h2><?php echo $_headline; ?></h2>
 
-	<p>In order to proceed to the requested resource, you must be logged in.</p>
+	<?php if ( Yii::app()->user->hasFlash( 'login-form' ) ): ?>
 
-	<?php
-	$form = $this->beginWidget(
-				 'CActiveForm',
-				 array(
-					 'id'                     => 'login-form',
-					 'enableClientValidation' => true,
-					 'clientOptions'          => array(
-						 'validateOnSubmit' => true,
-					 ),
-				 )
-	);
-	?>
-
-	<?php echo $form->errorSummary(
-					$model,
-					'<strong>Please check your entries...</strong>',
-					null,
-					array( 'style' => 'margin-bottom: 15px;' )
-	); ?>
-
-	<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
-
-	<div class="form-group">
-		<label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
-
-		<div class="input-group">
-			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
-			<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
-				placeholder="DSP User Email Address" />
+		<div class="alert alert-success">
+			<?php echo Yii::app()->user->getFlash( 'login-form' ); ?>
 		</div>
-	</div>
-	<div class="form-group">
-		<label for="LoginForm_password" class="sr-only">Password</label>
 
-		<div class="input-group">
-			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
-			<input tabindex="3" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
-				placeholder="Password" />
+	<?php else: ?>
+
+		<p>In order to proceed to the requested resource, you must be logged in.</p>
+
+		<?php
+		$form = $this->beginWidget(
+			'CActiveForm',
+			array(
+				 'id'                     => 'login-form',
+				 'enableClientValidation' => true,
+				 'clientOptions'          => array(
+					 'validateOnSubmit' => true,
+				 ),
+			)
+		);
+		?>
+
+		<?php echo $form->errorSummary(
+			$model,
+			'<strong>Please check your entries...</strong>',
+			null,
+			array( 'style' => 'margin-bottom: 15px;' )
+		); ?>
+
+		<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
+		<input type="hidden" name="forgot" id="forgot" value="0">
+
+		<div class="form-group">
+			<label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
+
+			<div class="input-group">
+				<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+
+				<input tabindex="1" class="form-control email" autofocus type="email" id="LoginForm_username" name="LoginForm[username]"
+					   placeholder="DSP User Email Address" />
+			</div>
 		</div>
-	</div>
-	<div class="remote-login hide">
-		<div class="remote-login-wrapper">
-			<h4 style="">Sign-in with one of these providers</h4>
+		<div class="form-group">
+			<label for="LoginForm_password" class="sr-only">Password</label>
 
-			<div class="remote-login-providers" data-owner="#loginDialog"></div>
+			<div class="input-group">
+				<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+
+				<input tabindex="2" class="form-control password" type="password" id="LoginForm_password" name="LoginForm[password]"
+					   placeholder="Password" />
+			</div>
 		</div>
-	</div>
-	<div class="form-buttons">
-		<button type="submit" class="btn btn-success pull-right">Login</button>
-		<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
-	</div>
+		<div class="remote-login hide">
+			<div class="remote-login-wrapper">
+				<h4 style="">Sign-in with one of these providers</h4>
 
-	<?php $this->endWidget(); ?>
+				<div class="remote-login-providers" data-owner="#loginDialog"></div>
+			</div>
+		</div>
+		<div class="form-buttons">
+			<button type="submit" class="btn btn-success pull-right">Login</button>
+			<button type="button" id="btn-forgot" class="btn btn-default pull-left">Forgot Password?</button>
+		</div>
+
+		<?php $this->endWidget(); ?>
+	<?php endif; ?>
 </div>
 <script type="text/javascript">
-	jQuery(function ($) {
-		$('#btn-home').on('click', function (e) {
-			e.preventDefault();
-			window.location.href = '/';
-		});
+jQuery(function($) {
+	$('#btn-forgot').on('click', function(e) {
+		e.preventDefault();
+		$('input#forgot').val(1);
+		$('form#login-form').submit();
 	});
+});
 </script>
