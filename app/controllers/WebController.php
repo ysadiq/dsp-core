@@ -204,7 +204,6 @@ class WebController extends BaseWebController
 					break;
 
 				case PlatformStates::INIT_REQUIRED:
-					$this->_initSystemSplash();
 					$this->redirect( '/' . $this->id . '/initSystem' );
 					break;
 
