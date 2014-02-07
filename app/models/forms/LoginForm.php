@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Yii\Components\PlatformUserIdentity;
 use DreamFactory\Yii\Utility\Pii;
 
@@ -39,10 +40,6 @@ class LoginForm extends CFormModel
 	 * @var boolean
 	 */
 	public $rememberMe;
-	/**
-	 * @var PlatformUserIdentity
-	 */
-	protected $_identity;
 
 	/**
 	 * Declares the validation rules.
@@ -65,6 +62,7 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			'username'   => 'Email Address',
+			'password'   => 'Password',
 			'rememberMe' => 'Keep me logged in',
 		);
 	}
@@ -77,68 +75,27 @@ class LoginForm extends CFormModel
 	{
 		if ( !$this->hasErrors() )
 		{
-			$this->_identity = new PlatformUserIdentity( $this->username, $this->password );
-
-			if ( $this->_identity->authenticate() )
+			try
 			{
-				return true;
+				/** @var PlatformUserIdentity $_identity */
+				$_identity = Session::userLogin( $this->username, $this->password, true );
+				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
+
+				if ( Pii::user()->login( $_identity, $_duration ) )
+				{
+
+					return true;
+				}
+
+				$this->addError( null, 'Failed to login to platform.' );
+			}
+			catch ( \Exception $_ex )
+			{
+				$this->addError( null, 'Invalid user name and password combination.' );
 			}
 
-			$this->addError( null, 'Invalid user name and password combination.' );
 		}
 
 		return false;
-	}
-
-	/**
-	 * Logs in the user using the given username and password in the model.
-	 *
-	 * @return boolean whether login is successful
-	 */
-	public function login()
-	{
-		$_identity = $this->_identity;
-
-		if ( empty( $_identity ) )
-		{
-			$_identity = new PlatformUserIdentity( $this->username, $this->password );
-
-			if ( !$_identity->authenticate() )
-			{
-				$_identity = null;
-
-				return false;
-			}
-		}
-
-		if ( \CBaseUserIdentity::ERROR_NONE == $_identity->errorCode )
-		{
-			$this->_identity = $_identity;
-			$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-
-			return Pii::user()->login( $_identity, $_duration );
-		}
-
-		return false;
-	}
-
-	/**
-	 * @param PlatformUserIdentity $identity
-	 *
-	 * @return LoginForm
-	 */
-	public function setIdentity( $identity )
-	{
-		$this->_identity = $identity;
-
-		return $this;
-	}
-
-	/**
-	 * @return PlatformUserIdentity
-	 */
-	public function getIdentity()
-	{
-		return $this->_identity;
 	}
 }

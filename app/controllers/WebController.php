@@ -479,7 +479,7 @@ class WebController extends BaseWebController
 				}
 			}
 			//	Validate user input and redirect to the previous page if valid
-			elseif ( $_model->validate() && $_model->login() )
+			elseif ( $_model->validate() )
 			{
 				if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
 				{
@@ -524,8 +524,21 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_result = Password::changePasswordBySecurityAnswer( $_model->email, $_model->answer, $_model->password, false );
-					Yii::app()->user->setFlash( 'security-form', 'Your password has been reset.' );
+					$_identity = Password::changePasswordBySecurityAnswer( $_model->email, $_model->answer, $_model->password, true, true );
+
+					if ( Pii::user()->login( $_identity ) )
+					{
+						if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+						{
+							$_returnUrl = Pii::url( $this->id . '/index' );
+						}
+
+						$this->redirect( $_returnUrl );
+
+						return;
+					}
+
+					$_model->addError( null, 'Password changed successfully, but failed to automatically login.' );
 				}
 				catch ( \Exception $_ex )
 				{
