@@ -15,5 +15,6 @@ test.sh
 *.setdev-on
 web/portal-sandbox
 web/pbox
+web/dfna
 vendor/dreamfactory/*.setdev-on
 vd
