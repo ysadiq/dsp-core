@@ -71,11 +71,9 @@ if ( !empty( $loginProviders ) )
 }
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
-
-$_headline = 'User Login';
 ?>
 <div class="container" id="formbox">
-	<h2><?php echo $_headline; ?></h2>
+	<h2>User Login</h2>
 
 	<?php if ( Yii::app()->user->hasFlash( 'login-form' ) ): ?>
 

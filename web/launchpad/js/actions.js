@@ -67,12 +67,7 @@ Actions = ({
 	},
 
 	createAccount: function() {
-		if (Config.open_reg_email_service_id) {
-			window.location = "/register_via_email.html";
-		}
-		else {
-			window.location = "/register_full.html";
-		}
+		window.top.location.href = '/web/register?return_url=' + encodeURI(window.top.location);
 	},
 
 	getApps: function(data, action) {
@@ -517,87 +512,6 @@ Actions = ({
 		}
 		else {
 			$(elem).empty().removeClass('alert-error');
-		}
-	},
-
-//*************************************************************************
-//* Forgot Password
-//*************************************************************************
-
-	clearForgotPassword:    function() {
-
-		$('#Answer').val('');
-		$('#NewPassword').val('');
-		$('#ConfirmPassword').val('');
-	},
-	doForgotPasswordDialog: function() {
-		var that = this;
-		if ($('#UserEmail').val() == '') {
-			$("#loginErrorMessage").addClass('alert-error').html('You must enter your email address to continue.');
-			return;
-		}
-		$.ajax({
-			type:     'POST',
-			dataType: 'json',
-			url: CurrentServer + '/rest/user/password/?app_name=launchpad&reset=true',
-			data:     JSON.stringify({email: $('#UserEmail').val()}),
-			cache:    false,
-			success:  function(response) {
-				if (response.security_question) {
-					$("#Question").html(response.security_question);
-					$("#loginDialog").modal('hide');
-					that.clearForgotPassword();
-					$("#forgotPasswordErrorMessage").removeClass('alert-error').html('Please answer your security question and provide a new password to log in.');
-					$("#forgotPasswordDialog").modal('show');
-				}
-				else {
-					$("#loginErrorMessage").addClass('alert-error').html('Please check your email for a link to reset your password.');
-				}
-			},
-			error:    function(response) {
-				$("#loginErrorMessage").addClass('alert-error').html(getErrorString(response));
-			}
-		});
-
-	},
-	forgotPassword:         function() {
-
-		if ($('#Answer').val() == '' || $("#NewPassword").val() == '' || $("#ConfirmPassword").val() == '') {
-			$("#forgotPasswordErrorMessage").addClass('alert-error').html('You must enter the answer and a new password in both password fields.');
-			return;
-		}
-		if ($("#NewPassword").val() == $("#ConfirmPassword").val()) {
-			var data = {
-				email:           $('#UserEmail').val(),
-				security_answer: $('#Answer').val(),
-				new_password:    $("#NewPassword").val()
-			};
-			var that = this;
-			$.ajax({
-				dataType: 'json',
-				type:     'POST',
-				url: CurrentServer + '/rest/user/password/?app_name=launchpad',
-				data:     JSON.stringify(data),
-				cache:    false,
-				success:  function(response) {
-					$('#forgotPasswordErrorMessage').removeClass('alert-error');
-					$("#forgotPasswordDialog").modal('hide');
-					Actions.clearForgotPassword();
-					User = response;
-					Actions.updateSession('init');
-					Actions.getApps(response);
-					CurrentUserID = response.id;
-					if (response.is_sys_admin) {
-						Actions.buildAdminDropDown();
-					}
-				},
-				error:    function(response) {
-					$("#forgotPasswordErrorMessage").addClass('alert-error').html('Please check the answer to your security question.');
-				}
-			});
-		}
-		else {
-			$("#forgotPasswordErrorMessage").addClass('alert-error').html('<b style="color:red;">Passwords do not match!</b> New and Confirm Password fields need to match before you can submit the request.');
 		}
 	},
 
