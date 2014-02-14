@@ -25,7 +25,6 @@ use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
-use Kisma\Core\Utility\Option;
 
 /**
  * RestController
@@ -183,25 +182,24 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		// fix the slash at the end, Yii removes trailing slash by default,
-		// but it is needed in some APIs to determine file vs folder, etc.
-		// 'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
-		$path = Option::get( $_GET, 'path', '' );
-		$slashIndex = strpos( $path, '/' );
-		if ( false === $slashIndex )
+		/**
+		 * fix the slash at the end, Yii removes trailing slash by default,
+		 * but it is needed in some APIs to determine file vs folder, etc.
+		 * 'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
+		 */
+		$this->_service = $_path = FilterInput::get( $_GET, 'path', null, FILTER_SANITIZE_STRING );
+
+		if ( false !== ( $_pos = strpos( $_path, '/' ) ) )
 		{
-			$this->_service = $path;
-		}
-		else
-		{
-			$this->_service = substr( $path, 0, $slashIndex );
-			$this->_resource = substr( $path, $slashIndex + 1 );
+			$this->_service = substr( $_path, 0, $_pos );
+			$this->_resource = $_pos < strlen( $_path ) ? substr( $_path, $_pos + 1 ) : null;
+
 			// fix removal of trailing slashes from resource
 			if ( !empty( $this->_resource ) )
 			{
 				$requestUri = Yii::app()->request->requestUri;
-				if ( ( false === strpos( $requestUri, '?' ) &&
-					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+
+				if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
 					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
 				)
 				{
