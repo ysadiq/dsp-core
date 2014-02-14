@@ -4,8 +4,8 @@
 	"homepage":          "http://dreamfactorysoftware.github.io",
 	"version":           "1.3.3",
 	"config":            {
-		"home":      "./",
-		"cache-dir": "./.composer/cache",
+		"home":            "./",
+		"cache-dir":       "./.composer/cache",
 		"discard-changes": true
 	},
 	"keywords":          [
@@ -51,9 +51,21 @@
 	"minimum-stability": "dev",
 	"require":           {
 		"php":                                  ">=5.3.10",
-		"kisma/kisma":                          "~0.2.5",
+		"kisma/kisma":                          "~0.2.18",
 		"dreamfactory/yii":                     "dev-develop as dev-master",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
+	},
+	"require-dev":       {
+		"phpunit/phpunit":              "@stable",
+		"phpunit/dbunit":               "@stable",
+		"phpunit/phpunit-mock-objects": "@stable",
+		"phpunit/phpunit-selenium":     "@stable",
+		"phpunit/phpunit-story":        "@stable",
+		"phpunit/php-code-coverage":    "@stable",
+		"phpunit/php-text-template":    "@stable",
+		"phpunit/php-token-stream":     "@stable",
+		"phpunit/php-timer":            "@stable",
+		"phpunit/php-invoker":          "@stable"
 	},
 	"repositories":      [
 		{
