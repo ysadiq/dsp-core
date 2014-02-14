@@ -2,10 +2,9 @@
 namespace DreamFactory\Platform;
 
 use DreamFactory\Platform\Events\Enums\ResourceServiceEvents;
-use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Utility\FilterInput;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 require_once dirname( __DIR__ ) . '/bootstrap.php';
 require_once dirname( dirname( __DIR__ ) ) . '/app/controllers/RestController.php';
@@ -15,25 +14,22 @@ require_once dirname( dirname( __DIR__ ) ) . '/app/controllers/RestController.ph
  */
 class EventTests extends \PHPUnit_Framework_TestCase
 {
-	protected $_preProcessFired = 0;
-	protected $_postProcessFired = 0;
-
 	//*************************************************************************
 	//	Methods
 	//*************************************************************************
 
 	public function testServiceRequestEvents()
 	{
-		$this->_preProcessFired = $this->_postProcessFired = 0;
-
 		$_config = require( dirname( dirname( __DIR__ ) ) . '/config/web.php' );
 
 		/** @var \RestController $_controller */
-		list( $_controller, $_actionId ) = Pii::app()->createController( 'rest/user' );
+		$_controller = new \RestController( 'rest' );
+		$_controller->setAction( $_action = new \CInlineAction( $_controller, 'user' ) );
 
 		try
 		{
-			$_controller->setService( 'user' );
+			list( $_service, $_resource ) = $this->_beforeAction( $_action );
+
 			$_service = ServiceHandler::getService( $_controller->getService() );
 
 			$_service->on(
@@ -41,30 +37,34 @@ class EventTests extends \PHPUnit_Framework_TestCase
 				function ( $event, $eventName, $dispatcher )
 				{
 					$this->assertEquals( 'user.get.pre_process', $eventName );
-					$this->_preProcessFired = 1;
+					/**
+					 * @var \DreamFactory\Platform\Events\PlatformEvent $event
+					 * @var string                                      $eventName
+					 * @var EventDispatcherInterface                    $dispatcher
+					 */
+					$event->getResponse();
 				}
 			);
-
 			$_service->on(
 				ResourceServiceEvents::POST_PROCESS,
 				function ( $event, $eventName, $dispatcher )
 				{
-					$this->assertEquals( 'user.get.post_process', $eventName );
-					$this->_postProcessFired = 1;
+					/**
+					 * @var \DreamFactory\Platform\Events\PlatformEvent $event
+					 * @var string                                      $eventName
+					 * @var EventDispatcherInterface                    $dispatcher
+					 */
+					$event->getResponse();
 				}
 			);
-
-			//	Test GET
-			$_REQUEST['app_name'] = __CLASS__;
-
-			$_response = $_service->processRequest( null, 'GET', false );
-
-			$this->assertTrue( 1 == $this->_preProcessFired && 1 == $this->_postProcessFired );
+			$svcObj->processRequest( $this->_resource, $action );
 		}
 		catch ( \Exception $ex )
 		{
 			RestResponse::sendErrors( $ex );
 		}
+
+		$_result = $_controller->actionGet();
 	}
 
 	/**
