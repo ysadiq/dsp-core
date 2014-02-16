@@ -261,7 +261,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'_splash',
 			array(
-				 'for' => PlatformStates::INIT_REQUIRED,
+				'for' => PlatformStates::INIT_REQUIRED,
 			)
 		);
 	}
@@ -305,7 +305,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeSchema',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -341,7 +341,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initAdmin',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -395,8 +395,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'activate',
 			array(
-				 'model'     => $_model,
-				 'activated' => $this->_activated,
+				'model'     => $_model,
+				'activated' => $this->_activated,
 			)
 		);
 	}
@@ -445,7 +445,8 @@ class WebController extends BaseWebController
 		// collect user input data
 		if ( isset( $_POST['LoginForm'] ) )
 		{
-			$_model->attributes = $_POST['LoginForm'];
+			$_model->setAttributes( $_POST['LoginForm'] );
+			$_model->rememberMe = Option::getBool( $_POST, 'check-remember-ind' );
 
 			if ( 1 == Option::get( $_POST, 'forgot', 0 ) )
 			{
@@ -461,8 +462,8 @@ class WebController extends BaseWebController
 						$_question = Option::get( $_result, 'security_question' );
 						if ( !empty( $_question ) )
 						{
-							Yii::app()->user->setFlash( 'security-email', $_model->username );
-							Yii::app()->user->setFlash( 'security-question', $_question );
+							Pii::setFlash( 'security-email', $_model->username );
+							Pii::setFlash( 'security-question', $_question );
 							$this->redirect( '/' . $this->id . '/securityQuestion' );
 
 							return;
@@ -479,7 +480,7 @@ class WebController extends BaseWebController
 				}
 			}
 			//	Validate user input and redirect to the previous page if valid
-			elseif ( $_model->validate() )
+			else if ( $_model->validate() )
 			{
 				if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
 				{
@@ -497,10 +498,10 @@ class WebController extends BaseWebController
 		$this->render(
 			'login',
 			array(
-				 'model'          => $_model,
-				 'activated'      => $this->_activated,
-				 'redirected'     => $redirected,
-				 'loginProviders' => $_providers,
+				'model'          => $_model,
+				'activated'      => $this->_activated,
+				'redirected'     => $redirected,
+				'loginProviders' => $_providers,
 			)
 		);
 	}
@@ -560,7 +561,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'securityQuestion',
 			array(
-				 'model' => $_model,
+				'model' => $_model,
 			)
 		);
 	}
@@ -615,7 +616,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'welcome',
 			array(
-				 'model' => $_model,
+				'model' => $_model,
 			)
 		);
 	}
@@ -683,7 +684,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeDsp',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -804,8 +805,8 @@ class WebController extends BaseWebController
 			$_providerModel,
 			Pii::getState( $_providerId . '.user_config', array() ),
 			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
 			)
 		);
 
@@ -926,8 +927,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'password',
 			array(
-				 'model'      => $_model,
-				 'redirected' => $redirected,
+				'model'      => $_model,
+				'redirected' => $redirected,
 			)
 		);
 	}

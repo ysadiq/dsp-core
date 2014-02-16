@@ -32,11 +32,13 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#login-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div.form-group"));error.css("margin","-10px 0 0");}',
 	)
 );
+
+Pii::cssFile( '/css/login.css', 'all' );
 
 //*************************************************************************
 //	Build the remote login provider icon list..
@@ -91,11 +93,11 @@ $_headline = 'User Login';
 		$form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'login-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
+				'id'                     => 'login-form',
+				'enableClientValidation' => true,
+				'clientOptions'          => array(
+					'validateOnSubmit' => true,
+				),
 			)
 		);
 		?>
@@ -109,6 +111,7 @@ $_headline = 'User Login';
 
 		<input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
 		<input type="hidden" name="forgot" id="forgot" value="0">
+		<input type="hidden" name="check-remember-ind" id="check-remember-ind" value="<?php echo $model->rememberMe ? 1 : 0; ?>">
 
 		<div class="form-group">
 			<label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
@@ -130,6 +133,17 @@ $_headline = 'User Login';
 					   placeholder="Password" />
 			</div>
 		</div>
+
+		<div class="form-group">
+			<div class="input-group remember-me">
+				<span class="input-group-addon bg_db"><i class="fa fa-<?php echo !empty( $model->rememberMe ) ? 'check-' : null; ?>circle-o fa-fw"></i></span>
+
+				<input tabindex="3" class="form-control strong-disabled" id="remember-control"
+					   placeholder="<?php echo( $model->rememberMe ? null : 'Do Not ' ); ?>Keep Me Signed In" type="text"
+					   disabled />
+			</div>
+		</div>
+
 		<div class="remote-login hide">
 			<div class="remote-login-wrapper">
 				<h4 style="">Sign-in with one of these providers</h4>
@@ -147,10 +161,34 @@ $_headline = 'User Login';
 </div>
 <script type="text/javascript">
 jQuery(function($) {
+	var $_rememberMe = $('#check-remember-ind');
+	var _remembered = ( 1 == $_rememberMe.val());
+	var $_rememberHint = $('#remember-control');
+
 	$('#btn-forgot').on('click', function(e) {
 		e.preventDefault();
 		$('input#forgot').val(1);
 		$('form#login-form').submit();
+	});
+
+	$('.input-group.remember-me').on('click', function(e) {
+		e.preventDefault();
+		var $_icon = $('i.fa', $(this));
+
+		if (_remembered) {
+			//	Disable
+			_remembered = 0;
+			$_icon.removeClass('fa-check-circle-o').addClass('fa-circle-o');
+			$_rememberHint.attr({placeHolder: 'Do Not Keep Me Signed In'});
+		}
+		else {
+			//	Enable
+			_remembered = 1;
+			$_icon.removeClass('fa-circle-o').addClass('fa-check-circle-o');
+			$_rememberHint.attr({placeHolder: 'Keep Me Signed In'});
+		}
+
+		$_rememberMe.val(_remembered);
 	});
 });
 </script>
