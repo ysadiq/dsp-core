@@ -21,7 +21,7 @@ use DreamFactory\Yii\Utility\Validate;
 
 /**
  * @var WebController $this
- * @var PasswordForm $model
+ * @var PasswordForm  $model
  * @var CActiveForm   $form
  */
 
@@ -32,15 +32,15 @@ Validate::register(
 		 'errorClass'     => 'error',
 		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
 		 'rules'          => array(
-			 'PasswordForm[oldPassword]'    => array(
+			 'PasswordForm[old_password]'    => array(
 				 'required'  => true,
 				 'minlength' => 5,
 			 ),
-			 'PasswordForm[newPassword]'       => array(
+			 'PasswordForm[new_password]'    => array(
 				 'required'  => true,
 				 'minlength' => 5,
 			 ),
-			 'PasswordForm[repeatPassword]' => array(
+			 'PasswordForm[repeat_password]' => array(
 				 'required'  => true,
 				 'minlength' => 5,
 				 'equalTo'   => '#PasswordForm_newPassword',
@@ -67,15 +67,24 @@ Validate::register(
 	);
 	?>
 
-	<input type="hidden" name="skipped" id="skipped" value="0">
+	<?php if ( Yii::app()->user->hasFlash( 'password-form' ) ): ?>
+
+		<div class="alert alert-success">
+			<?php echo Yii::app()->user->getFlash( 'password-form' ); ?>
+		</div>
+
+	<?php endif; ?>
+
+	<input type="hidden" name="back" id="back" value="0">
 
 	<div class="form-group">
 		<label for="PasswordForm_oldPassword" class="sr-only">Old Password</label>
 
 		<div class="input-group">
 			<span class="input-group-addon bg_dg"><i class="fa fa-lock fa-fw"></i></span>
-			<input tabindex="1" class="form-control password required" autofocus type="password" id="PasswordForm_oldPassword" name="PasswordForm[oldPassword]"
-				   placeholder="Old Password" />
+
+			<input tabindex="1" class="form-control password required" autofocus type="password"
+				   id="PasswordForm_oldPassword" name="PasswordForm[old_password]" placeholder="Old Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -83,8 +92,9 @@ Validate::register(
 
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
-			<input tabindex="2" class="form-control password required" type="password" id="PasswordForm_newPassword" name="PasswordForm[newPassword]"
-				   placeholder="New Password" />
+
+			<input tabindex="2" class="form-control password required" type="password"
+				   id="PasswordForm_newPassword" name="PasswordForm[new_password]" placeholder="New Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -92,21 +102,27 @@ Validate::register(
 
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
-			<input tabindex="3" class="form-control password required" type="password" id="PasswordForm_repeatPassword"
-				   name="PasswordForm[repeatPassword]"
-				   placeholder="Verify NewPassword" />
+
+			<input tabindex="3" class="form-control password required" type="password"
+				   id="PasswordForm_repeatPassword" name="PasswordForm[repeat_password]" placeholder="Verify NewPassword" />
 		</div>
 	</div>
 
 	<?php echo $form->errorSummary( $model ); ?>
 
 	<div class="form-buttons">
-		<button type="submit" class="btn btn-success pull-right">Change</button>
+		<button type="submit" class="btn btn-success pull-right">Save</button>
+		<button type="button" id="btn-back" class="btn btn-default pull-left">Back</button>
 	</div>
 
 	<?php $this->endWidget(); ?>
 </div>
 <script type="text/javascript">
-jQuery(function ($) {
+jQuery(function($) {
+	$('#btn-back').on('click', function(e) {
+		e.preventDefault();
+		$('input#back').val(1);
+		$('form#password-form').submit();
+	});
 });
 </script>

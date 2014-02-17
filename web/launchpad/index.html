@@ -32,69 +32,6 @@
 <div id="navbar-container"></div>
 <div id="app-list-container"></div>
 <div id="app-container"></div>
-<div id="changeProfileDialog" class="modal hide">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-				onclick="Actions.clearProfile()">&times;</button>
-		<h3>Change Profile</h3>
-	</div>
-	<div class="alert-area">
-		<div class="alert alert-block" id="changeProfileErrorMessage"></div>
-	</div>
-	<div class="modal-body">
-		<div class="modal-body-form">
-			<label for="email">Email:</label>
-			<input type="email" class="input-xlarge ONKEYUP" id="email" value="" />
-			<label for="firstname">First Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="firstname" value="" />
-			<label for="lastname">Last Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="lastname" value="" />
-			<label for="displayname">Display Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="displayname" value="" />
-
-			<label for="displayname">Default Application:</label>
-			<select class="input-xlarge ONKEYUP" id="default_app">
-				<option value>None</option>
-			</select>
-
-			<label for="displayname">Phone:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="phone" value="" />
-			<label for="displayname">Security Question:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="security_question" value="" />
-			<label for="displayname">Security Answer:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="security_answer" value="" />
-		</div>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" onclick="Actions.clearProfile()">Close</a>
-		<a href="#" class="btn btn-primary" onclick="Actions.updateProfile()">Save changes</a>
-	</div>
-</div>
-
-<div id="changePasswordDialog" class="modal hide" >
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-				onclick="Actions.clearChangePassword()">&times;</button>
-		<h3>Change Password</h3>
-	</div>
-	<div class="alert-area">
-		<div class="alert alert-block" id="changePasswordErrorMessage"></div>
-	</div>
-	<div class="modal-body">
-		<div class="modal-body-form">
-			<label for="OPassword">Old Password:</label>
-			<input type="password" class="input-xlarge" id="OPassword" value="" />
-			<label for="NPassword">New Password:</label>
-			<input type="password" class="input-xlarge" id="NPassword" value="" />
-			<label for="VPassword">Verify Password:</label>
-			<input type="password" class="input-xlarge" id="VPassword" value="" />
-		</div>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" onclick="Actions.clearChangePassword()">Close</a>
-		<a href="#" class="btn btn-primary" onclick="Actions.checkPassword()">Save changes</a>
-	</div>
-</div>
 
 <div id="logoffDialog" class="modal hide fade">
 	<div class="modal-header">
