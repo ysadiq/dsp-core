@@ -18,18 +18,20 @@
  * limitations under the License.
  */
 /**
- * InitAdminForm class.
- * InitAdminForm is the data structure for keeping system admin initialization data.
- * It is used by the 'initAdmin' action of 'WebController'.
+ * ProfileForm class.
+ * ProfileForm is the data structure for keeping user profile data.
+ * It is used by the 'profile' action of 'WebController'.
  */
-class InitAdminForm extends CFormModel
+class ProfileForm extends CFormModel
 {
 	public $email;
-	public $password;
-	public $password_repeat;
 	public $first_name;
 	public $last_name;
 	public $display_name;
+	public $security_question;
+	public $security_answer;
+	public $phone;
+	public $default_app_id;
 
 	/**
 	 * Declares the validation rules.
@@ -38,12 +40,11 @@ class InitAdminForm extends CFormModel
 	{
 		return array(
 			// names, password, and email are required
-			array( 'email, password, password_repeat, last_name, first_name, display_name', 'required' ),
-			// password repeat must match password
-			array( 'password_repeat', 'required' ),
-			array( 'password_repeat', 'compare', 'compareAttribute' => 'password' ),
+			array( 'email, last_name, first_name, display_name', 'required' ),
 			// email has to be a valid email address
 			array( 'email', 'email' ),
+			array( 'default_app_id', 'numerical', 'integerOnly' => true ),
+			array( 'security_question, security_answer, phone, default_app_id', 'safe' ),
 		);
 	}
 
@@ -55,12 +56,14 @@ class InitAdminForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'email'           => 'Email Address',
-			'password'        => 'Desired Password',
-			'password_repeat' => 'Verify Password',
-			'first_name'      => 'First Name',
-			'last_name'       => 'Last Name',
-			'display_name'    => 'Display Name',
+			'email'             => 'Email Address',
+			'first_name'        => 'First Name',
+			'last_name'         => 'Last Name',
+			'display_name'      => 'Display Name',
+			'security_question' => 'Security Question',
+			'security_answer'   => 'Security Answer',
+			'phone'             => 'Phone',
+			'default_app_id'    => 'Default Application',
 		);
 	}
 

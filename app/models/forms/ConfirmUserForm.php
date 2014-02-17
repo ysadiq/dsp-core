@@ -42,8 +42,6 @@ class ConfirmUserForm extends CFormModel
 	 */
 	public $passwordRepeat;
 
-	protected $reason = 'password';
-
 	/**
 	 * Declares the validation rules.
 	 */
@@ -71,25 +69,5 @@ class ConfirmUserForm extends CFormModel
 			'password'       => 'Desired Password',
 			'passwordRepeat' => 'Verify Password',
 		);
-	}
-
-	/**
-	 * @param $reason
-	 *
-	 * @return ConfirmUserForm
-	 */
-	public function setReason( $reason )
-	{
-		$this->reason = $reason;
-
-		return $this;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getReason()
-	{
-		return $this->reason;
 	}
 }

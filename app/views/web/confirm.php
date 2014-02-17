@@ -23,6 +23,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController   $this
  * @var ConfirmUserForm $model
  * @var CActiveForm     $form
+ * @var string          $reason
  */
 
 Validate::register(
@@ -54,7 +55,7 @@ Validate::register(
 ?>
 <div class="container" id="formbox">
 	<?php
-	switch ( $model->getReason() )
+	switch ( $reason )
 	{
 		case 'register':
 			echo '<h2>Registration Confirmation</h2>';
@@ -83,7 +84,7 @@ Validate::register(
 	);
 	?>
 
-	<input type="hidden" name="reason" id="reason" value="<?php echo( $model->getReason() ); ?>">
+	<input type="hidden" name="reason" id="reason" value="<?php echo( $reason ); ?>">
 
 	<div class="form-group">
 		<label for="ConfirmUserForm_email" class="sr-only">Email Address</label>
@@ -91,8 +92,9 @@ Validate::register(
 		<div class="input-group">
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
-			<input tabindex="1" class="form-control email required" autofocus type="email" id="ConfirmUserForm_email" name="ConfirmUserForm[email]"
-				   placeholder="Email Address" />
+			<input tabindex="1" class="form-control email required" autofocus type="email" id="ConfirmUserForm_email"
+				   name="ConfirmUserForm[email]" placeholder="Email Address"
+				   value="<?php echo( $model->email ? $model->email : '' ); ?>" />
 		</div>
 	</div>
 
@@ -100,10 +102,11 @@ Validate::register(
 		<label for="ConfirmUserForm_code" class="sr-only">Confirmation Code</label>
 
 		<div class="input-group">
-			<span class="input-group-addon bg_dg"><i class="fa fa-lock fa-fw"></i></span>
+			<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
-			<input tabindex="1" class="form-control required" autofocus type="password" id="ConfirmUserForm_code" name="ConfirmUserForm[code]"
-				   placeholder="Confirmation Code" />
+			<input tabindex="2" class="form-control required" type="text" id="ConfirmUserForm_code"
+				   name="ConfirmUserForm[code]" placeholder="Confirmation Code"
+				   value="<?php echo( $model->code ? $model->code : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -112,8 +115,8 @@ Validate::register(
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
-			<input tabindex="2" class="form-control password required" type="password" id="ConfirmUserForm_newPassword" name="ConfirmUserForm[newPassword]"
-				   placeholder="New Password" />
+			<input tabindex="3" class="form-control password required" type="password" id="ConfirmUserForm_newPassword"
+				   name="ConfirmUserForm[newPassword]" placeholder="New Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -122,9 +125,8 @@ Validate::register(
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
-			<input tabindex="3" class="form-control password required" type="password" id="ConfirmUserForm_repeatPassword"
-				   name="ConfirmUserForm[repeatPassword]"
-				   placeholder="Verify NewPassword" />
+			<input tabindex="4" class="form-control password required" type="password" id="ConfirmUserForm_repeatPassword"
+				   name="ConfirmUserForm[repeatPassword]" placeholder="Verify NewPassword" />
 		</div>
 	</div>
 

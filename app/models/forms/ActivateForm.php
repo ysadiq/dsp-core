@@ -22,8 +22,8 @@ use DreamFactory\Yii\Utility\Pii;
 
 /**
  * ActivateForm class.
- * ActivateForm is the data structure for keeping
- * user activate form data. It is used by the 'activate' action of 'WebController'.
+ * ActivateForm is the data structure for keeping DSP activate form data.
+ * It is used by the 'activate' action of 'WebController'.
  */
 class ActivateForm extends CFormModel
 {
@@ -35,10 +35,6 @@ class ActivateForm extends CFormModel
 	 * @var string
 	 */
 	public $password;
-	/**
-	 * @var boolean
-	 */
-	public $rememberMe;
 	/**
 	 * @var DrupalUserIdentity
 	 */
@@ -53,7 +49,6 @@ class ActivateForm extends CFormModel
 	{
 		return array(
 			array( 'username, password', 'required' ),
-			array( 'rememberMe', 'boolean' ),
 			array( 'password', 'authenticate' ),
 		);
 	}
@@ -64,8 +59,8 @@ class ActivateForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'username'   => 'Email Address',
-			'rememberMe' => 'Keep me logged in',
+			'username' => 'Email Address',
+			'password' => 'Password',
 		);
 	}
 
@@ -114,9 +109,8 @@ class ActivateForm extends CFormModel
 		if ( \CBaseUserIdentity::ERROR_NONE == $_identity->errorCode )
 		{
 			$this->_identity = $_identity;
-			$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
 
-			return Pii::user()->login( $_identity, $_duration );
+			return Pii::user()->login( $_identity );
 		}
 
 		return false;

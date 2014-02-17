@@ -530,26 +530,27 @@ Actions = ({
 		$("#security_answer").val('');
 	},
 	doProfileDialog: function() {
-		this.animateNavBarClose();
-		var that = this;
-		$.ajax({
-			dataType: 'json',
-			url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/',
-			data:     'method=GET&app_name=launchpad',
-			cache:    false,
-			success:  function(response) {
-				Profile = response;
-				that.fillProfileForm();
-				$("#changeProfileErrorMessage").removeClass('alert-error').html('Use the form below to change your user profile.');
-				$('#changeProfileDialog').modal('show');
-
-			},
-			error:    function(response) {
-				if (response.status == 401) {
-					that.doSignInDialog();
-				}
-			}
-		});
+		window.top.location.href = '/web/profile';
+//		this.animateNavBarClose();
+//		var that = this;
+//		$.ajax({
+//			dataType: 'json',
+//			url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/',
+//			data:     'method=GET&app_name=launchpad',
+//			cache:    false,
+//			success:  function(response) {
+//				Profile = response;
+//				that.fillProfileForm();
+//				$("#changeProfileErrorMessage").removeClass('alert-error').html('Use the form below to change your user profile.');
+//				$('#changeProfileDialog').modal('show');
+//
+//			},
+//			error:    function(response) {
+//				if (response.status == 401) {
+//					that.doSignInDialog();
+//				}
+//			}
+//		});
 	},
 	fillProfileForm: function() {
 
@@ -639,12 +640,13 @@ Actions = ({
 		$('#VPassword').val('');
 	},
 	doChangePasswordDialog: function() {
+		window.top.location.href = '/web/password';
 
-		$('#changePasswordErrorMessage').removeClass('alert-error').html('Use the form below to change your password.');
-		this.clearChangePassword();
-		this.animateNavBarClose(function() {
-			$("#changePasswordDialog").modal('show')
-		});
+//		$('#changePasswordErrorMessage').removeClass('alert-error').html('Use the form below to change your password.');
+//		this.clearChangePassword();
+//		this.animateNavBarClose(function() {
+//			$("#changePasswordDialog").modal('show')
+//		});
 	},
 	checkPassword:          function() {
 
