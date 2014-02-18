@@ -19,14 +19,14 @@
  */
 /**
  * PasswordForm class.
- * PasswordForm is the data structure for keeping system admin initialization data.
+ * PasswordForm is the data structure password change data.
  * It is used by the 'password' action of 'WebController'.
  */
 class PasswordForm extends CFormModel
 {
-	public $oldPassword;
-	public $newPassword;
-	public $repeatPassword;
+	public $old_password;
+	public $new_password;
+	public $repeat_password;
 
 	/**
 	 * Declares the validation rules.
@@ -35,10 +35,10 @@ class PasswordForm extends CFormModel
 	{
 		return array(
 			// all fields are required
-			array( 'oldPassword, newPassword, repeatPassword', 'required' ),
+			array( 'old_password, new_password, repeat_password', 'required' ),
 			// password repeat must match new password
-			array( 'repeatPassword', 'required' ),
-			array( 'repeatPassword', 'compare', 'compareAttribute' => 'newPassword' ),
+			array( 'repeat_password', 'required' ),
+			array( 'repeat_password', 'compare', 'compareAttribute' => 'new_password' ),
 		);
 	}
 
@@ -50,9 +50,9 @@ class PasswordForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'oldPassword'    => 'Old Password',
-			'newPassword'    => 'New Password',
-			'repeatPassword' => 'Verify New Password',
+			'old_password'    => 'Old Password',
+			'new_password'    => 'New Password',
+			'repeat_password' => 'Verify New Password',
 		);
 	}
 

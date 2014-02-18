@@ -31,13 +31,20 @@ Validate::register(
 		 'ignoreTitle'    => true,
 		 'errorClass'     => 'error',
 		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		 'rules'          => array(
+			 'ActivateForm[username]' => array(
+				 'required'  => true,
+				 'minlength' => 5,
+			 ),
+			 'ActivateForm[password]' => array(
+				 'required' => true,
+			 ),
+		 ),
 	)
 );
-
-$_headline = 'Activate Your New DSP!';
 ?>
 <div class="container" id="formbox">
-	<h2><?php echo $_headline; ?></h2>
+	<h2>DSP Activation</h2>
 
 	<p>To activate this DSP, please enter your <a href="https://www.dreamfactory.com">www.dreamfactory.com</a>
 		email and password. You will automatically be made an admin user of this DSP. You may modify this user or
@@ -61,8 +68,9 @@ $_headline = 'Activate Your New DSP!';
 		<div class="input-group">
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
-			<input tabindex="1" class="form-control email" autofocus type="email" id="ActivateForm_username" name="ActivateForm[username]"
-				   placeholder="Email Address" />
+			<input tabindex="1" class="form-control email required" autofocus type="email" id="ActivateForm_username"
+				   name="ActivateForm[username]" placeholder="Email Address"
+				   value="<?php echo( $model->username ? $model->username : '' ); ?>" />
 		</div>
 	</div>
 
@@ -72,8 +80,8 @@ $_headline = 'Activate Your New DSP!';
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
-			<input tabindex="2" class="form-control password" type="password" id="ActivateForm_password" name="ActivateForm[password]"
-				   placeholder="Password" />
+			<input tabindex="2" class="form-control password required" type="password" id="ActivateForm_password"
+				   name="ActivateForm[password]" placeholder="Password" />
 		</div>
 	</div>
 
