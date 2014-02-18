@@ -129,6 +129,10 @@ class WebController extends BaseWebController
 					'maintenance',
 					'welcome',
 					'securityQuestion',
+					'register',
+					'confirmRegister',
+					'confirmInvite',
+					'confirmPassword',
 				),
 				'users'   => array( '*' ),
 			),
@@ -262,7 +266,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'_splash',
 			array(
-				 'for' => PlatformStates::INIT_REQUIRED,
+				'for' => PlatformStates::INIT_REQUIRED,
 			)
 		);
 	}
@@ -306,7 +310,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeSchema',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -342,7 +346,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initAdmin',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -396,8 +400,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'activate',
 			array(
-				 'model'     => $_model,
-				 'activated' => $this->_activated,
+				'model'     => $_model,
+				'activated' => $this->_activated,
 			)
 		);
 	}
@@ -441,7 +445,7 @@ class WebController extends BaseWebController
 			$this->redirect( '/' );
 		}
 
-		$_model = new \LoginForm();
+		$_model = new LoginForm();
 
 		// collect user input data
 		if ( isset( $_POST['LoginForm'] ) )
@@ -499,10 +503,10 @@ class WebController extends BaseWebController
 		$this->render(
 			'login',
 			array(
-				 'model'          => $_model,
-				 'activated'      => $this->_activated,
-				 'redirected'     => $redirected,
-				 'loginProviders' => $_providers,
+				'model'          => $_model,
+				'activated'      => $this->_activated,
+				'redirected'     => $redirected,
+				'loginProviders' => $_providers,
 			)
 		);
 	}
@@ -562,7 +566,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'securityQuestion',
 			array(
-				 'model' => $_model,
+				'model' => $_model,
 			)
 		);
 	}
@@ -618,6 +622,151 @@ class WebController extends BaseWebController
 			'welcome',
 			array(
 				 'model' => $_model,
+			)
+		);
+	}
+
+	/**
+	 * Adds the registering user from a form
+	 */
+	public function actionRegister()
+	{
+		if ( !Pii::guest() )
+		{
+			$this->redirect( '/' );
+		}
+
+		$_model = new RegisterUserForm();
+
+		/** @var $_config Config */
+		if ( false === ( $_config = Config::getOpenRegistration() ) )
+		{
+			throw new BadRequestException( "Open registration for users is not currently enabled for this system." );
+		}
+
+		$_viaEmail = ( null !== Option::get( $_config, 'open_reg_email_service_id' ) );
+		$_model->setViaEmail( $_viaEmail );
+
+		if ( isset( $_POST, $_POST['RegisterUserForm'] ) )
+		{
+			$_model->attributes = $_POST['RegisterUserForm'];
+
+			if ( $_model->validate() )
+			{
+				try
+				{
+					$_result = Register::userRegister( $_model->attributes, true, true );
+
+					if ( $_viaEmail )
+					{
+						if ( Option::getBool( $_result, 'success' ) )
+						{
+							Yii::app()->user->setFlash( 'register-user-form', 'A registration confirmation has been sent to this email.' );
+						}
+					}
+					else
+					{
+						// result should be identity
+						if ( Pii::user()->login( $_result ) )
+						{
+							if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+							{
+								$_returnUrl = Pii::url( $this->id . '/index' );
+							}
+
+							$this->redirect( $_returnUrl );
+
+							return;
+						}
+
+						$_model->addError( null, 'Registration successful, but failed to automatically login.' );
+					}
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( null, $_ex->getMessage() );
+				}
+			}
+		}
+
+		$this->render(
+			'register',
+			array(
+				 'model' => $_model
+			)
+		);
+	}
+
+	public function actionConfirmRegister()
+	{
+		$this->_userConfirm( 'register' );
+	}
+
+	public function actionConfirmInvite()
+	{
+		$this->_userConfirm( 'invite' );
+	}
+
+	public function actionConfirmPassword()
+	{
+		$this->_userConfirm( 'password' );
+	}
+
+	protected function _userConfirm( $reason )
+	{
+		if ( !Pii::guest() )
+		{
+			$this->redirect( '/' );
+		}
+
+		$_model = new ConfirmUserForm();
+		$_model->setReason( $reason );
+
+		// collect user input data
+		if ( isset( $_POST['ConfirmUserForm'] ) )
+		{
+			$_model->attributes = $_POST['ConfirmUserForm'];
+
+			//	Validate user input and redirect to the previous page if valid
+			if ( $_model->validate() )
+			{
+				try
+				{
+					switch ( $reason )
+					{
+						case 'register':
+							$_identity = Register::userConfirm( $_model->email, $_model->code, $_model->password, true, true );
+							break;
+						default:
+							$_identity = Password::changePasswordByCode( $_model->email, $_model->code, $_model->password, true, true );
+							break;
+					}
+
+					if ( Pii::user()->login( $_identity ) )
+					{
+						if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+						{
+							$_returnUrl = Pii::url( $this->id . '/index' );
+						}
+
+						$this->redirect( $_returnUrl );
+
+						return;
+					}
+
+					$_model->addError( null, 'Password changed successfully, but failed to automatically login.' );
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( 'email', $_ex->getMessage() );
+				}
+			}
+		}
+
+		$this->render(
+			'confirm',
+			array(
+				'model' => $_model,
 			)
 		);
 	}
@@ -685,7 +834,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeDsp',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -806,8 +955,8 @@ class WebController extends BaseWebController
 			$_providerModel,
 			Pii::getState( $_providerId . '.user_config', array() ),
 			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
 			)
 		);
 
@@ -928,8 +1077,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'password',
 			array(
-				 'model'      => $_model,
-				 'redirected' => $redirected,
+				'model'      => $_model,
+				'redirected' => $redirected,
 			)
 		);
 	}
