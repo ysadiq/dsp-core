@@ -775,6 +775,151 @@ class WebController extends BaseWebController
 	}
 
 	/**
+	 * Adds the registering user from a form
+	 */
+	public function actionRegister()
+	{
+		if ( !Pii::guest() )
+		{
+			$this->redirect( '/' );
+		}
+
+		$_model = new RegisterUserForm();
+
+		/** @var $_config Config */
+		if ( false === ( $_config = Config::getOpenRegistration() ) )
+		{
+			throw new BadRequestException( "Open registration for users is not currently enabled for this system." );
+		}
+
+		$_viaEmail = ( null !== Option::get( $_config, 'open_reg_email_service_id' ) );
+		$_model->setViaEmail( $_viaEmail );
+
+		if ( isset( $_POST, $_POST['RegisterUserForm'] ) )
+		{
+			$_model->attributes = $_POST['RegisterUserForm'];
+
+			if ( $_model->validate() )
+			{
+				try
+				{
+					$_result = Register::userRegister( $_model->attributes, true, true );
+
+					if ( $_viaEmail )
+					{
+						if ( Option::getBool( $_result, 'success' ) )
+						{
+							Yii::app()->user->setFlash( 'register-user-form', 'A registration confirmation has been sent to this email.' );
+						}
+					}
+					else
+					{
+						// result should be identity
+						if ( Pii::user()->login( $_result ) )
+						{
+							if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+							{
+								$_returnUrl = Pii::url( $this->id . '/index' );
+							}
+
+							$this->redirect( $_returnUrl );
+
+							return;
+						}
+
+						$_model->addError( null, 'Registration successful, but failed to automatically login.' );
+					}
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( null, $_ex->getMessage() );
+				}
+			}
+		}
+
+		$this->render(
+			'register',
+			array(
+				 'model' => $_model
+			)
+		);
+	}
+
+	public function actionConfirmRegister()
+	{
+		$this->_userConfirm( 'register' );
+	}
+
+	public function actionConfirmInvite()
+	{
+		$this->_userConfirm( 'invite' );
+	}
+
+	public function actionConfirmPassword()
+	{
+		$this->_userConfirm( 'password' );
+	}
+
+	protected function _userConfirm( $reason )
+	{
+		if ( !Pii::guest() )
+		{
+			$this->redirect( '/' );
+		}
+
+		$_model = new ConfirmUserForm();
+		$_model->setReason( $reason );
+
+		// collect user input data
+		if ( isset( $_POST['ConfirmUserForm'] ) )
+		{
+			$_model->attributes = $_POST['ConfirmUserForm'];
+
+			//	Validate user input and redirect to the previous page if valid
+			if ( $_model->validate() )
+			{
+				try
+				{
+					switch ( $reason )
+					{
+						case 'register':
+							$_identity = Register::userConfirm( $_model->email, $_model->code, $_model->password, true, true );
+							break;
+						default:
+							$_identity = Password::changePasswordByCode( $_model->email, $_model->code, $_model->password, true, true );
+							break;
+					}
+
+					if ( Pii::user()->login( $_identity ) )
+					{
+						if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+						{
+							$_returnUrl = Pii::url( $this->id . '/index' );
+						}
+
+						$this->redirect( $_returnUrl );
+
+						return;
+					}
+
+					$_model->addError( null, 'Password changed successfully, but failed to automatically login.' );
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( 'email', $_ex->getMessage() );
+				}
+			}
+		}
+
+		$this->render(
+			'confirm',
+			array(
+				'model' => $_model,
+			)
+		);
+	}
+
+	/**
 	 * @throws \Exception
 	 */
 	public function actionUpgrade()
