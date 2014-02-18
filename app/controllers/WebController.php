@@ -485,16 +485,19 @@ class WebController extends BaseWebController
 				}
 			}
 			//	Validate user input and redirect to the previous page if valid
-			else if ( $_model->validate() )
+			else
 			{
-				if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+				if ( $_model->validate() )
 				{
-					$_returnUrl = Pii::url( $this->id . '/index' );
+					if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+					{
+						$_returnUrl = Pii::url( $this->id . '/index' );
+					}
+
+					$this->redirect( $_returnUrl );
+
+					return;
 				}
-
-				$this->redirect( $_returnUrl );
-
-				return;
 			}
 		}
 

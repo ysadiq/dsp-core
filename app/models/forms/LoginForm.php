@@ -1,4 +1,4 @@
-+<?php
+<?php
 /**
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
@@ -30,6 +30,19 @@ use DreamFactory\Yii\Utility\Pii;
 class LoginForm extends CFormModel
 {
 	//*************************************************************************
+	//	Constants
+	//*************************************************************************
+
+	/**
+	 * @var string The faux-attribute to hold any authentication errors
+	 */
+	const ERROR_ATTRIBUTE = 'Authentication';
+	/**
+	 * @var string The standard authentication error message
+	 */
+	const ERROR_MESSAGE = 'Invalid user name and password combination.';
+
+	//*************************************************************************
 	//	Members
 	//*************************************************************************
 
@@ -45,6 +58,10 @@ class LoginForm extends CFormModel
 	 * @var boolean
 	 */
 	public $rememberMe = false;
+	/**
+	 * @var array The session data populated once logged in
+	 */
+	protected $_sessionData = null;
 	/**
 	 * @var PlatformUserIdentity
 	 */
@@ -91,46 +108,38 @@ class LoginForm extends CFormModel
 	/**
 	 * Authenticates the password.
 	 * This is the 'authenticate' validator as declared in rules().
+	 *
+	 * @param string $attribute
+	 * @param string $params
+	 *
+	 * @return bool
 	 */
 	public function authenticate( $attribute, $params )
 	{
-		if ( false !== $this->_drupalAuth )
+		if ( 'password' != $attribute )
 		{
-			return $this->authenticateDrupal( $attribute, $params );
+			$this->addError( static::ERROR_ATTRIBUTE, 'Invalid authentication request' );
+
+			return false;
 		}
 
-		if ( !$this->hasErrors() )
-		{
-			/** @var PlatformUserIdentity $_identity */
-			$this->_identity = Session::userLogin( $this->username, $this->password, true );
-			$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-
-			if ( Pii::user()->login( $_identity, $_duration ) )
-			{
-				return true;
-			}
-
-			$this->addError( 'username', 'Invalid user name and password combination' );
-		}
-
-		return false;
+		return !$this->hasErrors() && $this->login();
 	}
 
 	/**
 	 * Authenticates the password.
 	 * This is the 'authenticate' validator as declared in rules().
 	 */
-	public function authenticateDrupal( $attribute, $params )
+	protected function _authenticateDrupal( $attribute, $params )
 	{
-		if ( !$this->hasErrors() )
-		{
-			$this->_drupalIdentity = new DrupalUserIdentity( $this->username, $this->password );
+		$this->_drupalIdentity = new DrupalUserIdentity( $this->username, $this->password );
 
-			if ( $this->_drupalIdentity->authenticate() )
-			{
-				return true;
-			}
+		if ( $this->_drupalIdentity->authenticate() )
+		{
+			return true;
 		}
+
+		$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
 
 		return false;
 	}
@@ -142,47 +151,60 @@ class LoginForm extends CFormModel
 	 */
 	public function login()
 	{
-		$_identity = ( $this->_drupalAuth ? $this->_drupalIdentity : $this->_identity );
+		$_identity =
+			( $this->_drupalAuth
+				? ( $this->_drupalIdentity ? : new DrupalUserIdentity( $this->username, $this->password ) ) : ( $this->_identity
+					? : new PlatformUserIdentity( $this->username, $this->password ) ) );
 
-		if ( empty( $_identity ) )
+		if ( !$this->_processLogin( $_identity ) )
 		{
-			if ( $this->_drupalAuth )
-			{
-				$_identity = new DrupalUserIdentity( $this->username, $this->password );
-			}
-			else
-			{
-				$_identity = new PlatformUserIdentity( $this->username, $this->password );
-				$_identity->setDrupalIdentity( $this->_drupalIdentity );
-			}
+			$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
 
-			if ( !$_identity->authenticate() )
-			{
-				$_identity = null;
-				$this->addError( 'username', 'Invalid user name and password combination.' );
+			return false;
+		}
 
+		return ( PlatformUserIdentity::ERROR_NONE == $_identity->errorCode );
+	}
+
+	/**
+	 * Logs in the user using the given username and password in the model.
+	 * Sets no errors, just return true or false
+	 *
+	 * @param PlatformUserIdentity|DrupalUserIdentity $identity     The identity to work on
+	 * @param bool                                    $authenticate If true, identity will be authenticated
+	 * @param bool                                    $login        If true, or if $authenticate is false, identity
+	 *                                                              will be logged in. After login, this form's $sessionData
+	 *                                                              property is populated with the DSP session data.
+	 *
+	 * @return bool
+	 */
+	protected function _processLogin( $identity, $authenticate = true, $login = true )
+	{
+		if ( $authenticate )
+		{
+			if ( !$identity->authenticate() )
+			{
 				return false;
 			}
 		}
 
-		if ( \CBaseUserIdentity::ERROR_NONE == $_identity->errorCode )
+		if ( !$authenticate || $login )
 		{
-			if ( $this->_drupalAuth )
+			if ( PlatformUserIdentity::ERROR_NONE == $identity->errorCode )
 			{
-				$this->_drupalIdentity = $_identity;
-			}
-			else
-			{
-				$this->_identity = $_identity;
-				$_identity->setDrupalIdentity( $this->_drupalIdentity ? : $_identity );
-			}
+				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
 
-			$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
+				if ( !Pii::user()->login( $identity, $_duration ) )
+				{
+					return false;
+				}
 
-			return Pii::user()->login( $_identity, $_duration );
+				/** @var PlatformUserIdentity $_identity */
+				$this->_sessionData = Session::generateSessionFromIdentity( $identity );
+			}
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -244,4 +266,25 @@ class LoginForm extends CFormModel
 	{
 		return $this->_drupalAuth;
 	}
+
+	/**
+	 * @param array $sessionData
+	 *
+	 * @return LoginForm
+	 */
+	public function setSessionData( $sessionData )
+	{
+		$this->_sessionData = $sessionData;
+
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSessionData()
+	{
+		return $this->_sessionData;
+	}
+
 }

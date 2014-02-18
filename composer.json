@@ -51,6 +51,7 @@
 	"minimum-stability": "dev",
 	"require":           {
 		"php":                                  ">=5.3.10",
+		"monolog/monolog":                      "*",
 		"kisma/kisma":                          "~0.2.18",
 		"dreamfactory/yii":                     "dev-develop as dev-master",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
