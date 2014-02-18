@@ -17,28 +17,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Oasys\Enums\Flows;
-use DreamFactory\Oasys\Oasys;
-use DreamFactory\Oasys\Stores\FileSystem;
-use DreamFactory\Platform\Exceptions\BadRequestException;
-use DreamFactory\Platform\Exceptions\ForbiddenException;
+use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
 use DreamFactory\Platform\Resources\System\Config;
 use DreamFactory\Platform\Resources\User\Password;
-use DreamFactory\Platform\Resources\User\Register;
-use DreamFactory\Platform\Resources\User\Session;
-use DreamFactory\Platform\Services\AsgardService;
 use DreamFactory\Platform\Services\SystemManager;
 use DreamFactory\Platform\Utility\Fabric;
-use DreamFactory\Platform\Utility\ResourceStore;
-use DreamFactory\Platform\Yii\Models\Provider;
-use DreamFactory\Platform\Yii\Models\User;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
-use Kisma\Core\Interfaces\HttpResponse;
-use Kisma\Core\Utility\Curl;
+use Kisma\Core\Enums\HttpResponse;
 use Kisma\Core\Utility\FilterInput;
-use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
 
 /**
@@ -124,6 +112,7 @@ class WebController extends BaseWebController
 					'initSchema',
 					'initData',
 					'initAdmin',
+					'upgradeSchema',
 					'authorize',
 					'remoteLogin',
 					'maintenance',
@@ -141,7 +130,6 @@ class WebController extends BaseWebController
 				'allow',
 				'actions' => array(
 					'upgrade',
-					'upgradeSchema',
 					'password',
 					'profile',
 					'environment',
@@ -209,31 +197,34 @@ class WebController extends BaseWebController
 					break;
 
 				case PlatformStates::INIT_REQUIRED:
-					$this->redirect( '/' . $this->id . '/initSystem' );
+					$this->redirect( $this->_getRedirectUrl( 'initSystem' ) );
 					break;
 
 				case PlatformStates::SCHEMA_REQUIRED:
+					$this->redirect( $this->_getRedirectUrl( 'upgradeSchema' ) );
+					break;
+
 				case PlatformStates::UPGRADE_REQUIRED:
-					$this->redirect( '/' . $this->id . '/upgradeSchema' );
+					$this->redirect( $this->_getRedirectUrl( 'upgrade' ) );
 					break;
 
 				case PlatformStates::ADMIN_REQUIRED:
 					if ( Fabric::fabricHosted() )
 					{
-						$this->redirect( '/' . $this->id . '/activate' );
+						$this->redirect( $this->_getRedirectUrl( 'activate' ) );
 					}
 					else
 					{
-						$this->redirect( '/' . $this->id . '/initAdmin' );
+						$this->redirect( $this->_getRedirectUrl( 'initAdmin' ) );
 					}
 					break;
 
 				case PlatformStates::DATA_REQUIRED:
-					$this->redirect( '/' . $this->id . '/initData' );
+					$this->redirect( $this->_getRedirectUrl( 'initData' ) );
 					break;
 
 				case PlatformStates::WELCOME_REQUIRED:
-					$this->redirect( '/' . $this->id . '/welcome' );
+					$this->redirect( $this->_getRedirectUrl( 'welcome' ) );
 					break;
 			}
 		}
@@ -298,6 +289,8 @@ class WebController extends BaseWebController
 			{
 				SystemManager::upgradeSchema();
 				$this->redirect( '/' );
+
+				return;
 			}
 			else
 			{
@@ -336,11 +329,18 @@ class WebController extends BaseWebController
 
 			if ( $_model->validate() )
 			{
-				SystemManager::initAdmin( $_model->attributes );
-				$this->redirect( '/' );
-			}
+				try
+				{
+					SystemManager::initAdmin( $_model->attributes );
+					$this->redirect( '/' );
 
-			$this->refresh();
+					return;
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( 'email', $_ex->getMessage() );
+				}
+			}
 		}
 
 		$this->render(
@@ -367,33 +367,25 @@ class WebController extends BaseWebController
 		if ( isset( $_POST, $_POST['ActivateForm'] ) )
 		{
 			$_model->attributes = $_POST['ActivateForm'];
-			if ( !empty( $_model->username ) && !empty( $_model->password ) )
+
+			//	Validate user input and redirect to the previous page if valid
+			if ( $_model->validate() && $_model->activate() )
 			{
-				//	Validate user input and redirect to the previous page if valid
-				if ( $_model->validate() && $_model->activate() )
+				try
 				{
-					if ( !$this->_activated )
-					{
-						SystemManager::initAdmin();
-					}
-
-					if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-					{
-						$_returnUrl = Pii::url( $this->id . '/index' );
-					}
-
-					$this->redirect( $_returnUrl );
+					SystemManager::initAdmin();
+					$this->redirect( $this->_getRedirectUrl() );
 
 					return;
 				}
-				else
+				catch ( \Exception $_ex )
 				{
-					$_model->addError( 'username', 'Invalid username and password combination.' );
+					$_model->addError( 'username', $_ex->getMessage() );
 				}
 			}
 			else
 			{
-				$_model->addError( 'username', 'Username or password can not be empty.' );
+				$_model->addError( 'username', 'Invalid username and password combination.' );
 			}
 		}
 
@@ -448,20 +440,18 @@ class WebController extends BaseWebController
 		$_model = new LoginForm();
 
 		// collect user input data
-		if ( isset( $_POST['LoginForm'] ) )
+		if ( isset( $_POST, $_POST['LoginForm'] ) )
 		{
 			$_model->setAttributes( $_POST['LoginForm'] );
 			$_model->rememberMe = Option::getBool( $_POST, 'check-remember-ind' );
 
 			if ( 1 == Option::get( $_POST, 'forgot', 0 ) )
 			{
-				if ( empty( $_model->username ) )
+				try
 				{
-					$_model->addError( 'username', 'Email address is required to continue.' );
-				}
-				else
-				{
-					try
+					$_result = Password::passwordReset( $_model->username );
+					$_question = Option::get( $_result, 'security_question' );
+					if ( !empty( $_question ) )
 					{
 						$_result = Password::passwordReset( $_model->username );
 						$_question = Option::get( $_result, 'security_question' );
@@ -470,18 +460,18 @@ class WebController extends BaseWebController
 							Pii::setFlash( 'security-email', $_model->username );
 							Pii::setFlash( 'security-question', $_question );
 							$this->redirect( '/' . $this->id . '/securityQuestion' );
+						}
 
-							return;
-						}
-						elseif ( Option::getBool( $_result, 'success' ) )
-						{
-							Yii::app()->user->setFlash( 'login-form', 'A password reset confirmation has been sent to this email.' );
-						}
+						return;
 					}
-					catch ( \Exception $_ex )
+					elseif ( Option::getBool( $_result, 'success' ) )
 					{
-						$_model->addError( 'username', $_ex->getMessage() );
+						Yii::app()->user->setFlash( 'login-form', 'A password reset confirmation has been sent to this email.' );
 					}
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( 'username', $_ex->getMessage() );
 				}
 			}
 			//	Validate user input and redirect to the previous page if valid
@@ -494,7 +484,7 @@ class WebController extends BaseWebController
 						$_returnUrl = Pii::url( $this->id . '/index' );
 					}
 
-					$this->redirect( $_returnUrl );
+					$this->redirect( $this->_getRedirectUrl() );
 
 					return;
 				}
@@ -524,7 +514,7 @@ class WebController extends BaseWebController
 		$_model = new SecurityForm();
 
 		// collect user input data
-		if ( isset( $_POST['SecurityForm'] ) )
+		if ( isset( $_POST, $_POST['SecurityForm'] ) )
 		{
 			$_model->attributes = $_POST['SecurityForm'];
 
@@ -533,16 +523,17 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_identity = Password::changePasswordBySecurityAnswer( $_model->email, $_model->answer, $_model->password, true, true );
+					$_identity = Password::changePasswordBySecurityAnswer(
+						$_model->email,
+						$_model->answer,
+						$_model->password,
+						true,
+						true
+					);
 
 					if ( Pii::user()->login( $_identity ) )
 					{
-						if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-						{
-							$_returnUrl = Pii::url( $this->id . '/index' );
-						}
-
-						$this->redirect( $_returnUrl );
+						$this->redirect( $this->_getRedirectUrl() );
 
 						return;
 					}
@@ -579,11 +570,6 @@ class WebController extends BaseWebController
 	 */
 	public function actionWelcome()
 	{
-		if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-		{
-			$_returnUrl = Pii::url( $this->id . '/index' );
-		}
-
 		//	User cool too?
 		if ( null === ( $_user = ResourceStore::model( 'user' )->findByPk( Session::getCurrentUserId() ) ) )
 		{
@@ -598,24 +584,30 @@ class WebController extends BaseWebController
 		{
 			Log::debug( 'Forced removal of registration marker requested.' );
 			SystemManager::registerPlatform( $_user, false, true );
-			$this->redirect( $_returnUrl );
+			$this->redirect( $this->_getRedirectUrl() );
 		}
 
 		$_model = new SupportForm();
 
 		// collect user input data
-		if ( isset( $_POST['SupportForm'] ) )
+		if ( isset( $_POST, $_POST['SupportForm'] ) )
 		{
 			$_model->setAttributes( $_POST['SupportForm'] );
 
 			//	Validate user input and redirect to the previous page if valid
 			if ( $_model->validate() )
 			{
-				SystemManager::registerPlatform( $_user, $_model->getSkipped() );
+				try
+				{
+					SystemManager::registerPlatform( $_user, $_model->getSkipped() );
+					$this->redirect( $this->_getRedirectUrl() );
 
-				$this->redirect( $_returnUrl );
-
-				return;
+					return;
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( null, $_ex->getMessage() );
+				}
 			}
 
 			$_model->addError( 'Problem', 'Registration System Unavailable' );
@@ -652,6 +644,13 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['RegisterUserForm'] ) )
 		{
+			if ( 1 == Option::get( $_POST, 'back', 0 ) )
+			{
+				$this->redirect( $this->_getRedirectUrl() );
+
+				return;
+			}
+
 			$_model->attributes = $_POST['RegisterUserForm'];
 
 			if ( $_model->validate() )
@@ -672,12 +671,7 @@ class WebController extends BaseWebController
 						// result should be identity
 						if ( Pii::user()->login( $_result ) )
 						{
-							if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-							{
-								$_returnUrl = Pii::url( $this->id . '/index' );
-							}
-
-							$this->redirect( $_returnUrl );
+							$this->redirect( $this->_getRedirectUrl() );
 
 							return;
 						}
@@ -725,7 +719,7 @@ class WebController extends BaseWebController
 		$_model = new ConfirmUserForm();
 
 		// collect user input data
-		if ( isset( $_POST['ConfirmUserForm'] ) )
+		if ( isset( $_POST, $_POST['ConfirmUserForm'] ) )
 		{
 			$_model->attributes = $_POST['ConfirmUserForm'];
 
@@ -737,22 +731,29 @@ class WebController extends BaseWebController
 					switch ( $reason )
 					{
 						case 'register':
-							$_identity = Register::userConfirm( $_model->email, $_model->code, $_model->password, true, true );
+							$_identity = Register::userConfirm(
+								$_model->email,
+								$_model->code,
+								$_model->password,
+								true,
+								true
+							);
 							break;
 
 						default:
-							$_identity = Password::changePasswordByCode( $_model->email, $_model->code, $_model->password, true, true );
+							$_identity = Password::changePasswordByCode(
+								$_model->email,
+								$_model->code,
+								$_model->password,
+								true,
+								true
+							);
 							break;
 					}
 
 					if ( Pii::user()->login( $_identity ) )
 					{
-						if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-						{
-							$_returnUrl = Pii::url( $this->id . '/index' );
-						}
-
-						$this->redirect( $_returnUrl );
+						$this->redirect( $this->_getRedirectUrl() );
 
 						return;
 					}
@@ -769,7 +770,115 @@ class WebController extends BaseWebController
 		$this->render(
 			'confirm',
 			array(
+				'model'  => $_model,
+				'reason' => $reason,
+			)
+		);
+	}
+
+	/**
+	 * Displays the password reset page
+	 */
+	public function actionPassword()
+	{
+		if ( Pii::guest() )
+		{
+			$this->_redirectError( 'You must be logged in to change your password.' );
+		}
+
+		$_model = new PasswordForm();
+
+		// collect user input data
+		if ( isset( $_POST, $_POST['PasswordForm'] ) )
+		{
+			if ( 1 == Option::get( $_POST, 'back', 0 ) )
+			{
+				$this->redirect( $this->_getRedirectUrl() );
+
+				return;
+			}
+
+			$_model->attributes = $_POST['PasswordForm'];
+
+			//	Validate user input and redirect to the previous page if valid
+			if ( $_model->validate() )
+			{
+				try
+				{
+					$_userId = Session::getCurrentUserId();
+					$_result = Password::changePassword( $_userId, $_model->old_password, $_model->new_password );
+
+					if ( Option::getBool( $_result, 'success' ) )
+					{
+						Yii::app()->user->setFlash( 'password-form', 'Your password has been successfully updated.' );
+					}
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( null, $_ex->getMessage() );
+				}
+			}
+		}
+
+		$this->render(
+			'password',
+			array(
 				'model' => $_model,
+			)
+		);
+	}
+
+	/**
+	 * Updates the user profile from a form
+	 */
+	public function actionProfile()
+	{
+		if ( Pii::guest() )
+		{
+			$this->_redirectError( 'You must be logged in to change your profile.' );
+		}
+
+		$_model = new ProfileForm();
+
+		if ( isset( $_POST, $_POST['ProfileForm'] ) )
+		{
+			if ( 1 == Option::get( $_POST, 'back', 0 ) )
+			{
+				$this->redirect( $this->_getRedirectUrl() );
+
+				return;
+			}
+
+			$_model->attributes = $_POST['ProfileForm'];
+
+			if ( $_model->validate() )
+			{
+				try
+				{
+					$_userId = Session::getCurrentUserId();
+					$_result = Profile::changeProfile( $_userId, $_model->attributes );
+
+					if ( Option::getBool( $_result, 'success' ) )
+					{
+						Yii::app()->user->setFlash( 'profile-form', 'Your profile has been successfully updated.' );
+					}
+				}
+				catch ( \Exception $_ex )
+				{
+					$_model->addError( null, $_ex->getMessage() );
+				}
+			}
+		}
+		else
+		{
+			$_userId = Session::getCurrentUserId();
+			$_model->attributes = Profile::getProfile( $_userId );
+		}
+
+		$this->render(
+			'profile',
+			array(
+				'model' => $_model
 			)
 		);
 	}
@@ -1047,51 +1156,31 @@ class WebController extends BaseWebController
 	}
 
 	/**
-	 * Displays the login page
-	 */
-	public function actionPassword( $redirected = false )
-	{
-		if ( Pii::guest() )
-		{
-			$this->_redirectError( 'You must be logged in to change your password.' );
-		}
-
-		$_model = new \PasswordForm();
-
-		// collect user input data
-		if ( isset( $_POST['PasswordForm'] ) )
-		{
-			$_model->attributes = $_POST['PasswordForm'];
-
-			//	Validate user input and redirect to the previous page if valid
-			if ( $_model->validate() )
-			{
-				if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-				{
-					$_returnUrl = Pii::url( $this->id . '/index' );
-				}
-
-				$this->redirect( $_returnUrl );
-
-				return;
-			}
-		}
-
-		$this->render(
-			'password',
-			array(
-				'model'      => $_model,
-				'redirected' => $redirected,
-			)
-		);
-	}
-
-	/**
 	 * @param string $message
 	 * @param string $url
 	 */
 	protected function _redirectError( $message, $url = '/' )
 	{
 		$this->redirect( $url . '?error=' . urlencode( $message ) );
+	}
+
+	protected function _getRedirectUrl( $action = null )
+	{
+		if ( !empty( $action ) )
+		{
+			// forward to that action page
+			$_returnUrl = '/' . $this->id . '/' . $action;
+		}
+		else
+		{
+			// redirect to back from which you came
+			if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
+			{
+				// or take me home
+				$_returnUrl = Pii::url( $this->id . '/index' );
+			}
+		}
+
+		return $_returnUrl;
 	}
 }
