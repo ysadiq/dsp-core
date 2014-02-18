@@ -44,7 +44,7 @@ $_dbCacheEnabled = true;
 $_defaultController = 'web';
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
-$_logFileName = basename( \Kisma::get( 'app.log_file' ) );
+$_logFileName = 'web.' . ( isset( $_SERVER, $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'unknown' ) . '.log';
 $_appName = 'DreamFactory Services Platform';
 /**
  * Aliases
