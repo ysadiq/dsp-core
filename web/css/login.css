@@ -55,11 +55,23 @@
 }
 
 /** Form error message **/
-.form-group div.error {
-	color:          #eeeeee;
-	text-align:     left;
-	font-size:      15px;
-	letter-spacing: normal;
+.form-group .error {
+	/*color:          #eeeeee;*/
+	/*text-align:     left;*/
+	/*font-size:      15px;*/
+	/*letter-spacing: normal;*/
+}
+
+#formbox .form-group label.error {
+	text-align:   right;
+	margin-left:  0;
+	margin-right: 5px;
+	width:        100%;
+	color:        goldenrod;
+}
+
+.form-group.has-error span.input-group-addon {
+	height: 34px;
 }
 
 .input-group.remember-me {

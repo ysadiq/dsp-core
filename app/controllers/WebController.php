@@ -17,16 +17,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Oasys\Oasys;
+use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
 use DreamFactory\Platform\Resources\System\Config;
 use DreamFactory\Platform\Resources\User\Password;
+use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Services\SystemManager;
 use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Platform\Utility\ResourceStore;
+use DreamFactory\Platform\Yii\Models\User;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpResponse;
 use Kisma\Core\Utility\FilterInput;
+use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
 
 /**
@@ -451,14 +457,17 @@ class WebController extends BaseWebController
 				{
 					$_result = Password::passwordReset( $_model->username );
 					$_question = Option::get( $_result, 'security_question' );
+
 					if ( !empty( $_question ) )
 					{
 						$_result = Password::passwordReset( $_model->username );
 						$_question = Option::get( $_result, 'security_question' );
+
 						if ( !empty( $_question ) )
 						{
 							Pii::setFlash( 'security-email', $_model->username );
 							Pii::setFlash( 'security-question', $_question );
+
 							$this->redirect( '/' . $this->id . '/securityQuestion' );
 						}
 
@@ -466,7 +475,7 @@ class WebController extends BaseWebController
 					}
 					elseif ( Option::getBool( $_result, 'success' ) )
 					{
-						Yii::app()->user->setFlash( 'login-form', 'A password reset confirmation has been sent to this email.' );
+						Pii::setFlash( 'login-form', 'A password reset confirmation has been sent to this email.' );
 					}
 				}
 				catch ( \Exception $_ex )
@@ -479,11 +488,6 @@ class WebController extends BaseWebController
 			{
 				if ( $_model->validate() )
 				{
-					if ( null === ( $_returnUrl = Pii::user()->getReturnUrl() ) )
-					{
-						$_returnUrl = Pii::url( $this->id . '/index' );
-					}
-
 					$this->redirect( $this->_getRedirectUrl() );
 
 					return;
@@ -709,6 +713,9 @@ class WebController extends BaseWebController
 		$this->_userConfirm( 'password' );
 	}
 
+	/**
+	 * @param $reason
+	 */
 	protected function _userConfirm( $reason )
 	{
 		if ( !Pii::guest() )
@@ -1164,6 +1171,11 @@ class WebController extends BaseWebController
 		$this->redirect( $url . '?error=' . urlencode( $message ) );
 	}
 
+	/**
+	 * @param null $action
+	 *
+	 * @return string
+	 */
 	protected function _getRedirectUrl( $action = null )
 	{
 		if ( !empty( $action ) )

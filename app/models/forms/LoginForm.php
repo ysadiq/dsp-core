@@ -18,7 +18,6 @@
  * limitations under the License.
  */
 use DreamFactory\Platform\Resources\User\Session;
-use DreamFactory\Platform\Yii\Components\DrupalUserIdentity;
 use DreamFactory\Platform\Yii\Components\PlatformUserIdentity;
 use DreamFactory\Yii\Utility\Pii;
 
@@ -58,22 +57,6 @@ class LoginForm extends CFormModel
 	 * @var boolean
 	 */
 	public $rememberMe = false;
-	/**
-	 * @var array The session data populated once logged in
-	 */
-	protected $_sessionData = null;
-	/**
-	 * @var PlatformUserIdentity
-	 */
-	protected $_identity;
-	/**
-	 * @var DrupalUserIdentity
-	 */
-	protected $_drupalIdentity;
-	/**
-	 * @var bool
-	 */
-	protected $_drupalAuth = true;
 
 	//*************************************************************************
 	//	Methods
@@ -108,183 +91,31 @@ class LoginForm extends CFormModel
 	/**
 	 * Authenticates the password.
 	 * This is the 'authenticate' validator as declared in rules().
-	 *
-	 * @param string $attribute
-	 * @param string $params
-	 *
-	 * @return bool
 	 */
 	public function authenticate( $attribute, $params )
 	{
-		if ( 'password' != $attribute )
+		if ( !$this->hasErrors() )
 		{
-			$this->addError( static::ERROR_ATTRIBUTE, 'Invalid authentication request' );
+			try
+			{
+				/** @var PlatformUserIdentity $_identity */
+				$_identity = Session::userLogin( $this->username, $this->password, true );
+				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
 
-			return false;
+				if ( !Pii::user()->login( $_identity, $_duration ) )
+				{
+					throw new Exception();
+				}
+
+				return true;
+			}
+			catch ( \Exception $_ex )
+			{
+				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
+			}
+
 		}
-
-		return !$this->hasErrors() && $this->login();
-	}
-
-	/**
-	 * Authenticates the password.
-	 * This is the 'authenticate' validator as declared in rules().
-	 */
-	protected function _authenticateDrupal( $attribute, $params )
-	{
-		$this->_drupalIdentity = new DrupalUserIdentity( $this->username, $this->password );
-
-		if ( $this->_drupalIdentity->authenticate() )
-		{
-			return true;
-		}
-
-		$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
 
 		return false;
 	}
-
-	/**
-	 * Logs in the user using the given username and password in the model.
-	 *
-	 * @return boolean whether login is successful
-	 */
-	public function login()
-	{
-		$_identity =
-			( $this->_drupalAuth
-				? ( $this->_drupalIdentity ? : new DrupalUserIdentity( $this->username, $this->password ) ) : ( $this->_identity
-					? : new PlatformUserIdentity( $this->username, $this->password ) ) );
-
-		if ( !$this->_processLogin( $_identity ) )
-		{
-			$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
-
-			return false;
-		}
-
-		return ( PlatformUserIdentity::ERROR_NONE == $_identity->errorCode );
-	}
-
-	/**
-	 * Logs in the user using the given username and password in the model.
-	 * Sets no errors, just return true or false
-	 *
-	 * @param PlatformUserIdentity|DrupalUserIdentity $identity     The identity to work on
-	 * @param bool                                    $authenticate If true, identity will be authenticated
-	 * @param bool                                    $login        If true, or if $authenticate is false, identity
-	 *                                                              will be logged in. After login, this form's $sessionData
-	 *                                                              property is populated with the DSP session data.
-	 *
-	 * @return bool
-	 */
-	protected function _processLogin( $identity, $authenticate = true, $login = true )
-	{
-		if ( $authenticate )
-		{
-			if ( !$identity->authenticate() )
-			{
-				return false;
-			}
-		}
-
-		if ( !$authenticate || $login )
-		{
-			if ( PlatformUserIdentity::ERROR_NONE == $identity->errorCode )
-			{
-				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-
-				if ( !Pii::user()->login( $identity, $_duration ) )
-				{
-					return false;
-				}
-
-				/** @var PlatformUserIdentity $_identity */
-				$this->_sessionData = Session::generateSessionFromIdentity( $identity );
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param DrupalUserIdentity $drupalIdentity
-	 *
-	 * @return LoginForm
-	 */
-	public function setDrupalIdentity( $drupalIdentity )
-	{
-		$this->_drupalIdentity = $drupalIdentity;
-
-		return $this;
-	}
-
-	/**
-	 * @return DrupalUserIdentity
-	 */
-	public function getDrupalIdentity()
-	{
-		return $this->_drupalIdentity;
-	}
-
-	/**
-	 * @param PlatformUserIdentity $identity
-	 *
-	 * @return LoginForm
-	 */
-	public function setIdentity( $identity )
-	{
-		$this->_identity = $identity;
-
-		return $this;
-	}
-
-	/**
-	 * @return PlatformUserIdentity
-	 */
-	public function getIdentity()
-	{
-		return $this->_identity;
-	}
-
-	/**
-	 * @param boolean $drupalAuth
-	 *
-	 * @return LoginForm
-	 */
-	public function setDrupalAuth( $drupalAuth )
-	{
-		$this->_drupalAuth = $drupalAuth;
-
-		return $this;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getDrupalAuth()
-	{
-		return $this->_drupalAuth;
-	}
-
-	/**
-	 * @param array $sessionData
-	 *
-	 * @return LoginForm
-	 */
-	public function setSessionData( $sessionData )
-	{
-		$this->_sessionData = $sessionData;
-
-		return $this;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getSessionData()
-	{
-		return $this->_sessionData;
-	}
-
 }
