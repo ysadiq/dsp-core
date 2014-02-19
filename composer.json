@@ -3,8 +3,8 @@
 	"description":       "DreamFactory Services Platform(tm) Core",
 	"homepage":          "http://dreamfactorysoftware.github.io",
 	"config":            {
-		"home":      "./",
-		"cache-dir": "./.composer/cache",
+		"home":            "./",
+		"cache-dir":       "./.composer/cache",
 		"discard-changes": true
 	},
 	"keywords":          [

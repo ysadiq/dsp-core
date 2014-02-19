@@ -46,10 +46,13 @@ $_defaultController = 'web';
 $_logFilePath = $_basePath . '/log';
 $_logFileName = 'web.' . ( isset( $_SERVER, $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'unknown' ) . '.log';
 $_appName = 'DreamFactory Services Platform';
+$_salts = array();
+
 /**
- * Aliases
+ * Aliases & Salts
  */
 file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG_PATH;
+file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . SALT_CONFIG_PATH );
 
 /**
  * Application Paths
@@ -162,5 +165,6 @@ return array_merge(
 		 */
 		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
 		'admin.default_theme'           => 'united',
+		'dsp.salts'                     => $_salts,
 	)
 );
