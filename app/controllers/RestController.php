@@ -82,6 +82,7 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
+
 			$_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
 			$_result = DataFormat::reformatData( $_result, null, $_outputFormat );
 
@@ -204,14 +205,14 @@ class RestController extends BaseFactoryController
 	protected function beforeAction( $action )
 	{
 		$_request = ( $this->_requestObject = $this->_requestObject ? : Request::createFromGlobals() );
-		$_pos = strpos( $this->_service = $_path = $_request->request->get( 'path' ), '/' );
+		$_pos = strpos( $this->_service = $_path = $_request->query->get( 'path' ), '/' );
 
 		if ( false !== $_pos )
 		{
 			$this->_service = substr( $_path, 0, $_pos );
 			$this->_resource = substr( $_path, $_pos + 1 );
 
-			// fix removal of trailing slashes from resource
+			//	Removal of trailing slashes from resource
 			if ( !empty( $this->_resource ) )
 			{
 				$_pos = strpos( $_requestUri = $_request->getUri(), '?' );
