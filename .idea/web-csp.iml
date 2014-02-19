@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.composer" />
+      <excludeFolder url="file://$MODULE_DIR$/.composer/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/app/views/admin/codemirror-3.21" />
+      <excludeFolder url="file://$MODULE_DIR$/log" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/lib/dreamfactory/jetpack-custom-trigger.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/plugins/.manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/plugins/kisma" />
+      <excludeFolder url="file://$MODULE_DIR$/vd" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii/DreamFactory/Yii.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/.composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/log" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/tests" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/yii/demos" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/yii/framework/gii" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/yii/framework/zii" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/yii/requirements" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kisma/kisma.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kisma/kisma/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kisma/kisma/examples" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kisma/kisma/tests" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kisma/kisma/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/web/log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Bootstrap JS 3.0.2" level="application" />
+    <orderEntry type="library" name="jQuery 2.0.3" level="application" />
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar:///usr/share/php/composer.phar" />
+          <root url="phar://$MODULE_DIR$/composer.phar" />
+        </CLASSES>
+        <SOURCES>
+          <root url="phar:///usr/share/php/composer.phar" />
+          <root url="phar://$MODULE_DIR$/composer.phar" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHP">
+        <CLASSES>
+          <root url="file:///usr/share/php" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/share/php" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="ace" level="application" />
+    <orderEntry type="library" name="ext-elastic_tabstops_lite" level="application" />
+    <orderEntry type="library" name="ext-emmet" level="application" />
+    <orderEntry type="library" name="ext-keybinding_menu" level="application" />
+    <orderEntry type="library" name="ext-modelist" level="application" />
+    <orderEntry type="library" name="ext-themelist" level="application" />
+    <orderEntry type="library" name="ext-textarea" level="application" />
+    <orderEntry type="library" name="ext-whitespace" level="application" />
+    <orderEntry type="library" name="source-code-pro" level="application" />
+  </component>
+</module>
+

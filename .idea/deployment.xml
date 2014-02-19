@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="next.cloud">
+    <serverData>
+      <paths name="dsp.local">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="next.cloud">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/var/www/next" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="nextboard.cloud">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/var/www/cloud/nextboard" local="$PROJECT_DIR$/../../cloud/dashboard" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
+
