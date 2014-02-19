@@ -25,6 +25,7 @@ use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * RestController
@@ -44,10 +45,24 @@ class RestController extends BaseFactoryController
 	 * @var string resource to be handled by service
 	 */
 	protected $_resource;
+	/**
+	 * @var Request The inbound request
+	 */
+	protected $_requestObject;
 
 	//*************************************************************************
 	//	Methods
 	//*************************************************************************
+
+	/**
+	 * Initialize controller and populate request object
+	 */
+	public function init()
+	{
+		parent::init();
+
+		$this->_requestObject = Request::createFromGlobals();
+	}
 
 	/**
 	 * All authorization handled by services
@@ -173,7 +188,13 @@ class RestController extends BaseFactoryController
 	}
 
 	/**
-	 * Override base method to do some processing of incoming requests
+	 * Override base method to do some processing of incoming requests.
+	 *
+	 * Fixes the slash at the end of the parsed path. Yii removes the trailing
+	 * slash by default. However, some DSP APIs require it to determine the
+	 * difference between a file and a folder.
+	 *
+	 * Routes look like this:        rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>
 	 *
 	 * @param \CAction $action
 	 *
@@ -182,26 +203,20 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		/**
-		 * fix the slash at the end, Yii removes trailing slash by default,
-		 * but it is needed in some APIs to determine file vs folder, etc.
-		 * 'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
-		 */
-		$this->_service = $_path = FilterInput::get( $_GET, 'path', null, FILTER_SANITIZE_STRING );
+		$_request = ( $this->_requestObject = $this->_requestObject ? : Request::createFromGlobals() );
+		$_pos = strpos( $this->_service = $_path = $_request->request->get( 'path' ), '/' );
 
-		if ( false !== ( $_pos = strpos( $_path, '/' ) ) )
+		if ( false !== $_pos )
 		{
 			$this->_service = substr( $_path, 0, $_pos );
-			$this->_resource = $_pos < strlen( $_path ) ? substr( $_path, $_pos + 1 ) : null;
+			$this->_resource = substr( $_path, $_pos + 1 );
 
 			// fix removal of trailing slashes from resource
 			if ( !empty( $this->_resource ) )
 			{
-				$requestUri = Yii::app()->request->requestUri;
+				$_pos = strpos( $_requestUri = $_request->getUri(), '?' );
 
-				if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
-					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
-				)
+				if ( ( false !== $_pos && '/' == $_requestUri[strlen( $_requestUri ) - 1] ) || ( '/' == $_requestUri[$_pos - 1] ) )
 				{
 					$this->_resource .= '/';
 				}
@@ -250,4 +265,13 @@ class RestController extends BaseFactoryController
 	{
 		return $this->_service;
 	}
+
+	/**
+	 * @return \Symfony\Component\HttpFoundation\Request
+	 */
+	public function getRequestObject()
+	{
+		return $this->_requestObject;
+	}
+
 }
