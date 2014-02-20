@@ -166,5 +166,6 @@ return array_merge(
 		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
 		'admin.default_theme'           => 'united',
 		'dsp.salts'                     => $_salts,
+		'dsp.enable_profiler'           => true,
 	)
 );

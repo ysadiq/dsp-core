@@ -17,6 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Yii\Components\PlatformWebApplication;
+use DreamFactory\Yii\Utility\Pii;
+
 /**
  * index.php
  * Main entry point/bootstrap for all processes
@@ -27,13 +30,17 @@ $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 //	Load up Yii
 require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
 
-//	Yii debug settings
+/**
+ * Debug-level output is enabled by default below.
+ * For production mode, you'll want to comment-out the section below.
+ */
 defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
 defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+PlatformWebApplication::setProfilerEnabled( true );
 
 //	Create the application and run
-DreamFactory\Yii\Utility\Pii::run(
-	__DIR__,
-	$_autoloader,
-	'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication'
+Pii::run(
+   __DIR__,
+   $_autoloader,
+   'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication'
 );

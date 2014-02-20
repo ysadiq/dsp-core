@@ -4,7 +4,6 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.composer" />
       <excludeFolder url="file://$MODULE_DIR$/.composer/cache" />
-      <excludeFolder url="file://$MODULE_DIR$/app/views/admin/codemirror-3.21" />
       <excludeFolder url="file://$MODULE_DIR$/log" />
       <excludeFolder url="file://$MODULE_DIR$/storage/lib/dreamfactory/jetpack-custom-trigger.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/storage/plugins/.manifest" />
