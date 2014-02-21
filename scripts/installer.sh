@@ -361,7 +361,7 @@ _dbg "Updating git submodules"
 ##
 _info "Checking file system"
 [ -d "${COMPOSER_CACHE}" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} ${COMPOSER_CACHE}"
-chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
+chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1f
 if [ $? -ne 0 ] ; then
 	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
 	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
@@ -426,26 +426,18 @@ chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
 	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
 	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
+	_dbg "$_cmd"
 	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
 
 ##
-## make writable by web server
+## make writable by web server and ensure group write bits are set properly...
 ##
-chmod -R ${WRITE_ACCESS} ${STORAGE_DIR} ${VENDOR_DIR} ${LOG_DIR} ${ASSETS_DIR} >>${MY_LOG} 2>&1
+chmod -R ${DIR_PERMS} ${STORAGE_DIR} ${VENDOR_DIR} ${LOG_DIR} ${ASSETS_DIR} >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
-	_cmd="chmod -R ${WRITE_ACCESS} ${STORAGE_DIR} ${VENDOR_DIR} ${LOG_DIR} ${ASSETS_DIR}"
+	_cmd="chmod -R ${WRITE_ACCESS} ${STORAGE_DIR} ${LOG_DIR}"
 	_notice "Error changing permissions of web-accessible assets. Additional steps required. See note at end of run."
-	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
-fi
-
-##
-## ensure group write bits are set properly...
-##
-chmod -R g+ws ${STORAGE_DIR} ${VENDOR_DIR} ${LOG_DIR} ${ASSETS_DIR} >>${MY_LOG} 2>&1
-if [ $? -ne 0 ] ; then
-	_cmd="chmod -R g+ws ${STORAGE_DIR} ${VENDOR_DIR} ${LOG_DIR} ${ASSETS_DIR}"
-	_notice "Error changing group write permissions of web-accessible assets. Additional steps required. See note at end of run."
+	_dbg "$_cmd"
 	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
 
