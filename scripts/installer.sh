@@ -1,6 +1,6 @@
 #!/bin/bash
 # DSP install/update utility
-# Copyright (C) 2012-2013 DreamFactory Software, Inc. All Rights Reserved
+# Copyright (C) 2012-2014 DreamFactory Software, Inc. All Rights Reserved
 #
 # This file is part of the DreamFactory Services Platform(tm) (DSP)
 # DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
@@ -22,7 +22,7 @@
 # CHANGELOG:
 #
 # v1.3.3
-#	Added ".composer" to permission checks/sets
+#	Check for ".composer" directory and add to permission checks/sets
 #
 # v1.3.2
 #	Added -i|--interactive argument
@@ -105,7 +105,7 @@
 #
 
 ## Get some help
-. colors.sh
+. `dirname $0`/colors.sh
 
 ## Functions
 

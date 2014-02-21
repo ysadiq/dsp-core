@@ -29,5 +29,6 @@
     <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myAdditionalRequiredHtmlAttributes" value="content" />
     </inspection_tool>
+    <inspection_tool class="Simple use of array variable" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
   </profile>
 </component>

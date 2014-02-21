@@ -3,7 +3,11 @@
   <component name="BashSupportProjectSettings">
     <option name="globalVariables">
       <set>
+        <option value="SUDO_USER" />
         <option value="TERM" />
+        <option value="USER" />
+        <option value="_ME" />
+        <option value="_YELLOW" />
       </set>
     </option>
   </component>
