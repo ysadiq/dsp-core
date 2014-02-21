@@ -19,15 +19,16 @@
  */
 
 /**
- * salt.config.php
  * This file should contain any private keys used by your DSP.
- * To use, copy this file to sale.config.php and add your keys to the array below.
- * They will then be available via the Pii::getParam('dsp.salts.<key>') call.
  *
- * We recommend naming the keys like this: [purpose].salt
+ * To use, copy this file to /path/to/dsp/install/config/salt.config.php and
+ * add your keys to the array below. They will then be available via the
+ * Pii::getParam('dsp.salts.<key>') call.
  *
- * Like "oauth.salt" or "my_facebook_app.salt", etc.
+ * The only predefined key is "secure_json". This salt will be used to encrypt
+ * and data stored securely in a database. If not supplied, or you're on a free
+ * DSP, your database password will be used.
  */
 return array(
-	'some_key' => 'some_salt',
+	'secure_json' => null,
 );

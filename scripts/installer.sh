@@ -105,7 +105,7 @@
 #
 
 ## Get some help
-. `dirname $0`/scriptHelpers.sh
+. colors.sh
 
 ## Functions
 
@@ -192,8 +192,10 @@ VENDOR_DIR=${BASE_PATH}/vendor
 WEB_DIR=${BASE_PATH}/web
 ASSETS_DIR=${WEB_DIR}/assets
 COMPOSER_DIR=${BASE_PATH}
+COMPOSER_CACHE="$COMPOSER_DIR/.composer"
 PARSED_OPTIONS=
 MY_LOG="${LOG_DIR}installer.log"
+DIRS_TO_CHOWN='* .git*'
 
 # Hosted or standalone?
 if [ -f "${FABRIC_MARKER}" ] ; then
@@ -358,9 +360,10 @@ _dbg "Updating git submodules"
 ## Check directory permissions...
 ##
 _info "Checking file system"
-chown -R ${INSTALL_USER}:${WEB_USER} * .git* .composer >>${MY_LOG} 2>&1
+[ -d "${COMPOSER_CACHE}" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} ${COMPOSER_CACHE}"
+chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
-	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} * .git * .composer"
+	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
 	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
 	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
@@ -419,9 +422,9 @@ fi
 ##
 ## make owned by user with group of web-user
 ##
-chown -R ${INSTALL_USER}:${WEB_USER} * .git* .composer >>${MY_LOG} 2>&1
+chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
-	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} * .git* .composer"
+	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
 	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
 	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi

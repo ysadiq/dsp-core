@@ -46,13 +46,31 @@ $_defaultController = 'web';
 $_logFilePath = $_basePath . '/log';
 $_logFileName = 'web.' . ( isset( $_SERVER, $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'unknown' ) . '.log';
 $_appName = 'DreamFactory Services Platform';
-$_salts = array();
 
 /**
  * Aliases & Salts
  */
+/** @noinspection PhpIncludeInspection */
 file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG_PATH;
-file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . SALT_CONFIG_PATH );
+
+$_dspSalts = array();
+
+/** @noinspection PhpIncludeInspection */
+if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . SALT_CONFIG_PATH ) )
+{
+	if ( !empty( $_salts ) )
+	{
+		foreach ( $_salts as $_key => $_salt )
+		{
+			if ( $_salt )
+			{
+				$_dspSalts['dsp.salts.' . $_key] = $_salt;
+			}
+		}
+	}
+
+	unset( $_salts );
+}
 
 /**
  * Application Paths
@@ -108,6 +126,7 @@ else
 	);
 }
 
+/** @noinspection PhpIncludeInspection */
 return array_merge(
 	$_instanceSettings,
 	array(
@@ -165,7 +184,7 @@ return array_merge(
 		 */
 		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
 		'admin.default_theme'           => 'united',
-		'dsp.salts'                     => $_salts,
 		'dsp.enable_profiler'           => true,
-	)
+	),
+	$_dspSalts
 );

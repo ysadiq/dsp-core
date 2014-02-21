@@ -50,13 +50,13 @@
 	"minimum-stability": "dev",
 	"require":           {
 		"php":                                  ">=5.3.10",
-		"monolog/monolog":                      "*",
-		"kisma/kisma":                          ">=0.2.13",
-		"dreamfactory/yii":                     "dev-develop as dev-master",
-		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
+		"kisma/kisma":                          "~0.2.22",
+		"dreamfactory/yii":                     "*",
+		"dreamfactory/oasys":                   "~0.4.5@dev",
+		"dreamfactory/lib-php-common-platform": "dev-feature/sse-basics as dev-master"
 	},
 	"require-dev":       {
-		"phpunit/phpunit":              "@stable",
+		"phpunit/phpunit":              "~3.7@stable",
 		"phpunit/dbunit":               "@stable",
 		"phpunit/phpunit-mock-objects": "@stable",
 		"phpunit/phpunit-selenium":     "@stable",

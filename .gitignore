@@ -21,3 +21,5 @@ web/dfna
 vendor/dreamfactory/*.setdev-on
 vd
 config/salt.config.php
+tests/config/salt.config.php
+
