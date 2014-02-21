@@ -50,7 +50,7 @@
 	"minimum-stability": "dev",
 	"require":           {
 		"php":                                  ">=5.3.10",
-		"kisma/kisma":                          "~0.2.22",
+		"kisma/kisma":                          "~0.2.22@dev",
 		"dreamfactory/yii":                     "*",
 		"dreamfactory/oasys":                   "~0.4.5@dev",
 		"dreamfactory/lib-php-common-platform": "dev-feature/sse-basics as dev-master"
