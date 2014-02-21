@@ -107,25 +107,6 @@
 ## Get some help
 . `dirname $0`/colors.sh
 
-## Functions
-
-usage() {
-	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive]"
-
-	echo
-
-	echo " -c,--clean         Removes the transient data and performs a clean install."
-	echo " -D,--debug         Same as --verbose but outputs even more information."
-	echo " -f,--force         Forces installation when running user is not ${B1}root${B2}."
-	echo " -h,--help          This information."
-	echo " -n,--no-composer   Skip the Composer install/update process."
-	echo " -i,--interactive   Run Composer in interactive mode."
-	echo " -v,--verbose       Outputs more information about the job run."
-	echo
-
-	exit ${EXIT_CODE}
-}
-
 ##
 ##	Initial settings
 ##
@@ -196,6 +177,8 @@ COMPOSER_CACHE="$COMPOSER_DIR/.composer"
 PARSED_OPTIONS=
 MY_LOG="${LOG_DIR}installer.log"
 DIRS_TO_CHOWN='* .git*'
+SHORT_OPTIONS="hvcDfni"
+LONG_OPTIONS="help,verbose,clean,debug,force,no-composer,interactive"
 
 # Hosted or standalone?
 if [ -f "${FABRIC_MARKER}" ] ; then
@@ -210,20 +193,77 @@ fi
 
 sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Installer [${TAG} v${VERSION}]"
 
-#	Determine OS type
-if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
-	WEB_USER=${DARWIN_WEB_USER}
-	_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
+## Functions
 
-	PARSED_OPTIONS=`getopt hvcDfn $*`
-else
-	if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
-		_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+#
+# Basic usage statement
+#
+usage() {
+	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive]"
+
+	echo
+
+	echo " -c,--clean         Removes the transient data and performs a clean install."
+	echo " -D,--debug         Like --verbose plus even more information."
+	echo " -f,--force         Forces installation when running user is not ${B1}root${B2}."
+	echo " -i,--interactive   Run Composer in interactive mode."
+	echo " -n,--no-composer   Skip the Composer install/update process."
+	echo " -v,--verbose       Outputs more information about the job run."
+	echo " -h,--help          This information."
+	echo
+
+	exit ${EXIT_CODE}
+}
+
+#
+# Determine the OS type and parse arguments accordingly
+#
+_parse_arguments() {
+	if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
+		WEB_USER=${DARWIN_WEB_USER}
+		_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
+
+		PARSED_OPTIONS=`getopt ${SHORT_OPTIONS} $*`
+	else
+		if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
+			_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+		fi
+
+		#	Execute getopt on the arguments passed to this program, identified by the special character $@
+		PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
+	fi
+}
+
+##
+##	Makes sure our directories are in place...
+##
+_check_structure() {
+	if [ ! -d "${STORAGE_DIR}" ] ; then
+		mkdir "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
 	fi
 
-	#	Execute getopt on the arguments passed to this program, identified by the special character $@
-	PARSED_OPTIONS=$(getopt -n "${_ME}"  -o hvcDfni -l "help,verbose,clean,debug,force,no-composer,interactive"  -- "$@")
-fi
+	if [ ! -d "${ASSETS_DIR}" ] ; then
+		mkdir "${ASSETS_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${ASSETS_DIR}" || _error "Error creating ${ASSETS_DIR}"
+	fi
+
+	_dbg "${B1}chown${B2}ing directories (${DIRS_TO_CHOWN}) and files to \"${INSTALL_USER}:${WEB_USER}\""
+	chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
+
+	if [ $? -ne 0 ] ; then
+		_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
+		_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
+		_dbg "$_cmd"
+		EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
+	fi
+
+	_dbg "Finding all directories & files needing permissions change..."
+	find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod ${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
+	_dbg "Finding all scripts for permissions change..."
+	find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {} >>${MY_LOG} 2>&1 \;
+}
+
+#	Determine OS type & parse args
+_parse_arguments "$@"
 
 #	Bad arguments, something has gone wrong with the getopt command.
 if [ $? -ne 0 ] ; then
@@ -356,26 +396,14 @@ fi
 _dbg "Updating git submodules"
 /usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
 
+# Ensure our needed directories are in place
+_dbg "Checking file system structure"
+_check_structure
+
 ##
 ## Check directory permissions...
 ##
 _info "Checking file system"
-
-[ -d "${COMPOSER_CACHE}" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} ${COMPOSER_CACHE}"
-
-chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
-
-if [ $? -ne 0 ] ; then
-	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
-	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
-	_dbg "$_cmd"
-	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
-fi
-
-_dbg "Finding all directories & files needing permissions change..."
-find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod ${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
-_dbg "Finding all scripts for permissions change..."
-find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {} >>${MY_LOG} 2>&1 \;
 
 ##
 ## Check if composer is installed
@@ -399,17 +427,6 @@ if [ ${NO_COMPOSER} -eq 0 ] ; then
 	fi
 
 	[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
-fi
-
-##
-##	Make sure our directories are in place...
-##
-if [ ! -d "${STORAGE_DIR}" ] ; then
-	mkdir "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
-fi
-
-if [ ! -d "${ASSETS_DIR}" ] ; then
-	mkdir "${ASSETS_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${ASSETS_DIR}" || _error "Error creating ${ASSETS_DIR}"
 fi
 
 if [ -d "${VENDOR_DIR}" ] ; then
@@ -436,7 +453,7 @@ fi
 ##
 ## make writable by web server and ensure group write bits are set properly...
 ##
-chmod -R ${DIR_PERMS} ${STORAGE_DIR} ${VENDOR_DIR} ${LOG_DIR} ${ASSETS_DIR} >>${MY_LOG} 2>&1
+chmod -R ${DIR_PERMS} ${STORAGE_DIR} ${LOG_DIR} >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
 	_cmd="chmod -R ${WRITE_ACCESS} ${STORAGE_DIR} ${LOG_DIR}"
 	_notice "Error changing permissions of web-accessible assets. Additional steps required. See note at end of run."
