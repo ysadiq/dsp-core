@@ -48,11 +48,14 @@ $_logFileName = 'web.' . ( isset( $_SERVER, $_SERVER['HTTP_HOST'] ) ? $_SERVER['
 $_appName = 'DreamFactory Services Platform';
 
 /**
- * Aliases & Salts
+ * Aliases
  */
 /** @noinspection PhpIncludeInspection */
 file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG_PATH;
 
+/**
+ * Salts
+ */
 $_dspSalts = array();
 
 /** @noinspection PhpIncludeInspection */
