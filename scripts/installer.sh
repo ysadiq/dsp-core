@@ -342,7 +342,7 @@ fi
 ##
 ## Shutdown non-essential services (if root)
 ##
-if [ $UID -eq 0 ] ; then
+if [ $UID -eq 0 ] && [ FABRIC -ne 1 ] ; then
 	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
 		_dbg "Stopping Apache Web Server"
 		service apache2 stop >>${MY_LOG} 2>&1
@@ -361,7 +361,7 @@ _dbg "Updating git submodules"
 ##
 _info "Checking file system"
 [ -d "${COMPOSER_CACHE}" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} ${COMPOSER_CACHE}"
-chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1f
+chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
 if [ $? -ne 0 ] ; then
 	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
 	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
@@ -371,7 +371,7 @@ fi
 _dbg "Finding all directories for permissions change (to ${DIR_PERMS})..."
 find ./ -path ./.git -prune -o -type d -exec chmod ${DIR_PERMS} {}  >>${MY_LOG} 2>&1 \;
 _dbg "Finding all files for permissions change (to ${FILE_PERMS})..."
-find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} \;
+find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod ${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
 _dbg "Finding all scripts for permissions change (to ${SCRIPT_PERMS})..."
 find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {}  >>${MY_LOG} 2>&1 \;
 
@@ -444,7 +444,7 @@ fi
 ##
 ## Restart non-essential services (if root)
 ##
-if [ $UID -eq 0 ] ; then
+if [ $UID -eq 0 ] && [ FABRIC -ne 1 ] ; then
 	service mysql start >>${MY_LOG} 2>&1
 
 	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
