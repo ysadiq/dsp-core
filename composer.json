@@ -52,8 +52,8 @@
 		"pear/mail_mime":                       "*",
 		"pear/mail_mime-decode":                "*",
 		"dreamfactory/yii":                     "=1.1.13",
-		"dreamfactory/lib-php-common":		"dev-develop as dev-master",
-		"dreamfactory/lib-php-common-yii":	"dev-develop as dev-master",
+		"dreamfactory/lib-php-common":		    "dev-develop as dev-master",
+		"dreamfactory/lib-php-common-yii":	    "dev-develop as dev-master",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
 	},
 	"require-dev":       {
