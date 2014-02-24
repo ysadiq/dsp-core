@@ -23,10 +23,9 @@ use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
-use Symfony\Component\HttpFoundation\Request;
+use Kisma\Core\Utility\Option;
 
 /**
  * RestController
@@ -175,13 +174,7 @@ class RestController extends BaseFactoryController
 	}
 
 	/**
-	 * Override base method to do some processing of incoming requests.
-	 *
-	 * Fixes the slash at the end of the parsed path. Yii removes the trailing
-	 * slash by default. However, some DSP APIs require it to determine the
-	 * difference between a file and a folder.
-	 *
-	 * Routes look like this:        rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>
+	 * Override base method to do some processing of incoming requests
 	 *
 	 * @param \CAction $action
 	 *
@@ -190,27 +183,27 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		/** @var Request $_request */
-		$_request = Pii::app()->getRequestObject();
-
-		if ( null !== ( $_path = isset( $_GET, $_GET['path'] ) ? $_GET['path'] : null ) )
+		// fix the slash at the end, Yii removes trailing slash by default,
+		// but it is needed in some APIs to determine file vs folder, etc.
+		// 'rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>'
+		$path = Option::get( $_GET, 'path', '' );
+		$slashIndex = strpos( $path, '/' );
+		if ( false === $slashIndex )
 		{
-			$_request->query->add( array( 'path' => $_path ) );
+			$this->_service = $path;
 		}
-
-		$_pos = strpos( $this->_service = $_path, '/' );
-
-		if ( false !== $_pos )
+		else
 		{
-			$this->_service = substr( $_path, 0, $_pos );
-			$this->_resource = substr( $_path, $_pos + 1 );
-
+			$this->_service = substr( $path, 0, $slashIndex );
+			$this->_resource = substr( $path, $slashIndex + 1 );
 			// fix removal of trailing slashes from resource
 			if ( !empty( $this->_resource ) )
 			{
-				$_pos = strpos( $_requestUri = $_request->getUri(), '?' );
-
-				if ( ( false !== $_pos && '/' == $_requestUri[strlen( $_requestUri ) - 1] ) || ( '/' == $_requestUri[$_pos - 1] ) )
+				$requestUri = Yii::app()->request->requestUri;
+				if ( ( false === strpos( $requestUri, '?' ) &&
+					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+				)
 				{
 					$this->_resource .= '/';
 				}
