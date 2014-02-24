@@ -5,7 +5,6 @@ vendor
 log
 storage
 composer.phar
-composer.lock
 .composer/
 web/assets
 web/favicon.ico
