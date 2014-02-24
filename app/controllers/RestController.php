@@ -85,7 +85,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionGet()
 	{
-		$this->_handleAction( HttpMethod::Get );
+		$this->_handleAction( HttpMethod::GET );
 	}
 
 	/**
@@ -93,29 +93,23 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPost()
 	{
-		$_action = HttpMethod::Post;
+		$_action = HttpMethod::POST;
 
 		try
 		{
 			//	Check for verb tunneling
-			$_tunnelMethod = FilterInput::server( 'HTTP_X_HTTP_METHOD', null, FILTER_SANITIZE_STRING );
-
-			if ( empty( $_tunnelMethod ) )
-			{
-				$_tunnelMethod = FilterInput::request( 'method', null, FILTER_SANITIZE_STRING );
-			}
+			$_tunnelMethod = strtoupper( Option::server( 'HTTP_X_HTTP_METHOD', FilterInput::request( 'method', null, FILTER_SANITIZE_STRING ) ) );
 
 			if ( !empty( $_tunnelMethod ) )
 			{
-				$_tunnelMethod = strtoupper( $_tunnelMethod );
 				switch ( $_tunnelMethod )
 				{
-					case HttpMethod::Post:
-					case HttpMethod::Get:
-					case HttpMethod::Put:
-					case HttpMethod::Merge:
-					case HttpMethod::Patch:
-					case HttpMethod::Delete:
+					case HttpMethod::POST:
+					case HttpMethod::GET:
+					case HttpMethod::PUT:
+					case HttpMethod::MERGE:
+					case HttpMethod::PATCH:
+					case HttpMethod::DELETE:
 						$_action = $_tunnelMethod;
 						break;
 
@@ -137,7 +131,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionMerge()
 	{
-		$this->_handleAction( HttpMethod::Merge );
+		$this->_handleAction( HttpMethod::MERGE );
 	}
 
 	/**
@@ -145,7 +139,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPut()
 	{
-		$this->_handleAction( HttpMethod::Put );
+		$this->_handleAction( HttpMethod::PUT );
 	}
 
 	/**
@@ -153,7 +147,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionDelete()
 	{
-		$this->_handleAction( HttpMethod::Delete );
+		$this->_handleAction( HttpMethod::DELETE );
 	}
 
 	/**
@@ -190,27 +184,23 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		/** @var Request $_request */
-		$_request = Pii::app()->getRequestObject();
-
-		if ( null !== ( $_path = isset( $_GET, $_GET['path'] ) ? $_GET['path'] : null ) )
+		if ( false === ( $slashIndex = strpos( $path = Option::get( $_GET, 'path' ), '/' ) ) )
 		{
-			$_request->query->add( array( 'path' => $_path ) );
+			$this->_service = $path;
 		}
-
-		$_pos = strpos( $this->_service = $_path, '/' );
-
-		if ( false !== $_pos )
+		else
 		{
-			$this->_service = substr( $_path, 0, $_pos );
-			$this->_resource = substr( $_path, $_pos + 1 );
+			$this->_service = substr( $path, 0, $slashIndex );
+			$this->_resource = substr( $path, $slashIndex + 1 );
 
 			// fix removal of trailing slashes from resource
 			if ( !empty( $this->_resource ) )
 			{
-				$_pos = strpos( $_requestUri = $_request->getUri(), '?' );
-
-				if ( ( false !== $_pos && '/' == $_requestUri[strlen( $_requestUri ) - 1] ) || ( '/' == $_requestUri[$_pos - 1] ) )
+				$requestUri = Yii::app()->request->requestUri;
+				if ( ( false === strpos( $requestUri, '?' ) &&
+					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+				)
 				{
 					$this->_resource .= '/';
 				}
@@ -259,4 +249,5 @@ class RestController extends BaseFactoryController
 	{
 		return $this->_service;
 	}
+
 }

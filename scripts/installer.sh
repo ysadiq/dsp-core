@@ -260,6 +260,8 @@ _check_structure() {
 	find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod ${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
 	_dbg "Finding all scripts for permissions change..."
 	find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {} >>${MY_LOG} 2>&1 \;
+
+    [ -d "${COMPOSER_CACHE}" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} ${COMPOSER_CACHE}"
 }
 
 #	Determine OS type & parse args
