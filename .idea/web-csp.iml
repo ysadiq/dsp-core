@@ -4,8 +4,6 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/vendor" />
-    </content>
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="PHARS">
