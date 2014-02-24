@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "13f38de63999cddf8e2bc53cee6b9460e8f292f6"
+                "reference": "d80f371982ccb5a9ad4cb3a28b7c49a50763042a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/13f38de63999cddf8e2bc53cee6b9460e8f292f6.zip",
-                "reference": "13f38de63999cddf8e2bc53cee6b9460e8f292f6",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/d80f371982ccb5a9ad4cb3a28b7c49a50763042a.zip",
+                "reference": "d80f371982ccb5a9ad4cb3a28b7c49a50763042a",
                 "shasum": ""
             },
             "require": {
@@ -340,7 +340,7 @@
                 "dsp",
                 "sdk"
             ],
-            "time": "2014-02-24 16:16:44"
+            "time": "2014-02-24 17:41:59"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -348,17 +348,17 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-yii.git",
-                "reference": "46371669272c104688135e3fa51afc82df684e1f"
+                "reference": "17d2879bbcffb7954df69aa793717742902c4bfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-yii/get/46371669272c104688135e3fa51afc82df684e1f.zip",
-                "reference": "46371669272c104688135e3fa51afc82df684e1f",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-yii/get/17d2879bbcffb7954df69aa793717742902c4bfc.zip",
+                "reference": "17d2879bbcffb7954df69aa793717742902c4bfc",
                 "shasum": ""
             },
             "require": {
                 "dreamfactory/lib-php-common": "dev-develop as dev-master",
-                "dreamfactory/yii": "=1.1.13@dev",
+                "dreamfactory/yii": "=1.1.13",
                 "kisma/kisma": "~0.2@stable",
                 "php": ">=5.3.10"
             },
@@ -398,7 +398,7 @@
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Guinea Pig, server-side/client-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
@@ -412,7 +412,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-02-24 15:32:58"
+            "time": "2014-02-24 17:38:35"
         },
         {
             "name": "dreamfactory/oasys",
@@ -1440,12 +1440,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "3a60a660998e8d41d5ea81ff8d96ead546bce150"
+                "reference": "e8ffe3fd66479fe502c4a566e9828075f3fffaec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/3a60a660998e8d41d5ea81ff8d96ead546bce150",
-                "reference": "3a60a660998e8d41d5ea81ff8d96ead546bce150",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/e8ffe3fd66479fe502c4a566e9828075f3fffaec",
+                "reference": "e8ffe3fd66479fe502c4a566e9828075f3fffaec",
                 "shasum": ""
             },
             "require": {
@@ -1493,7 +1493,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-16 12:11:19"
+            "time": "2014-02-24 18:18:21"
         },
         {
             "name": "phpunit/php-file-iterator",

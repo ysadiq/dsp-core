@@ -26,6 +26,7 @@ use DreamFactory\Yii\Controllers\BaseFactoryController;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * RestController
@@ -189,8 +190,15 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
+		/** @var Request $_request */
 		$_request = Pii::app()->getRequestObject();
-		$_pos = strpos( $this->_service = $_path = $_request->request->get( 'path' ), '/' );
+
+		if ( null !== ( $_path = isset( $_GET, $_GET['path'] ) ? $_GET['path'] : null ) )
+		{
+			$_request->query->add( array( 'path' => $_path ) );
+		}
+
+		$_pos = strpos( $this->_service = $_path, '/' );
 
 		if ( false !== $_pos )
 		{
