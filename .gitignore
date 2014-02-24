@@ -1,4 +1,5 @@
-.idea
+.idea/workspace.xml
+.idea/tasks.xml
 vendor
 !web/vendor/bootstrap
 log
@@ -17,4 +18,4 @@ web/portal-sandbox
 web/pbox
 web/dfna
 vendor/dreamfactory/*.setdev-on
-vd
+build/

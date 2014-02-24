@@ -1,3 +1,4 @@
+<?php
 /**
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
@@ -16,3 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * console.config.php
+ * This is the main configuration file all CLI applications
+ */
+if ( 'cli' == PHP_SAPI )
+{
+//	throw new Exception( 'Console mode not yet supported.' );
+}
