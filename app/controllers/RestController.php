@@ -23,10 +23,9 @@ use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
-use Symfony\Component\HttpFoundation\Request;
+use Kisma\Core\Utility\Option;
 
 /**
  * RestController
@@ -85,7 +84,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionGet()
 	{
-		$this->_handleAction( HttpMethod::GET );
+		$this->_handleAction( HttpMethod::Get );
 	}
 
 	/**
@@ -93,7 +92,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPost()
 	{
-		$_action = HttpMethod::POST;
+		$_action = HttpMethod::Post;
 
 		try
 		{
@@ -131,7 +130,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionMerge()
 	{
-		$this->_handleAction( HttpMethod::MERGE );
+		$this->_handleAction( HttpMethod::Merge );
 	}
 
 	/**
@@ -139,7 +138,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPut()
 	{
-		$this->_handleAction( HttpMethod::PUT );
+		$this->_handleAction( HttpMethod::Put );
 	}
 
 	/**
@@ -147,7 +146,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionDelete()
 	{
-		$this->_handleAction( HttpMethod::DELETE );
+		$this->_handleAction( HttpMethod::Delete );
 	}
 
 	/**
@@ -249,5 +248,4 @@ class RestController extends BaseFactoryController
 	{
 		return $this->_service;
 	}
-
 }
