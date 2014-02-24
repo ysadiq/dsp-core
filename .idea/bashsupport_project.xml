@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BashSupportProjectSettings">
+    <option name="autocompleteBuiltinVars" value="true" />
+    <option name="globalVariables">
+      <set>
+        <option value="ARSED_OPTIONS}" />
+        <option value="TERM" />
+      </set>
+    </option>
+    <option name="supportBash4" value="true" />
+  </component>
+</project>
+
