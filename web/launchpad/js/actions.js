@@ -1,13 +1,14 @@
-Actions = ({
+Actions = (
+{
 
-	/**
-	 * @var {*}
-	 */
-	_config: {},
-	/**
-	 * @var {*}[]
-	 */
-	_apps:   [],
+	/** @type {*} */
+	_config:             {},
+	/** @type {*}[] */
+	_apps:               [],
+	/** @type bool */
+	_enableLocalStorage: simpleStorage.canUse(),
+	/** @type int Storage time-to-live. Defaults to 2 minutes (120000)*/
+	_localStorageTTL:    120000,
 
 	init: function() {
 		this.getConfig();
@@ -25,7 +26,7 @@ Actions = ({
 		if (_appToRun && this._apps.length) {
 			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
 			//	Strip off any hash
-			if (-1 != ( _pos = _appToRun.indexOf('#'))) {
+			if (-1 != (_pos = _appToRun.indexOf('#'))) {
 				_appToRun = _appToRun.substr(0, _pos);
 			}
 
@@ -44,26 +45,70 @@ Actions = ({
 	},
 
 	getConfig: function() {
-		if (this._config.length) {
-			return this._config;
+		var _config = (
+			this._enableLocalStorage && simpleStorage.get('dsp.config', this._config)
+			) || this._config || {};
+
+		if ($.isPlainObject(_config) && _config.hasOwnProperty('dsp_version')) {
+			this.loadConfig(_config);
 		}
 
 		var that = this;
 
 		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad').done(function(configInfo) {
-			Config = that._config = configInfo;
-			document.title = "Launchpad " + configInfo.dsp_version;
-			that.updateSession("init");
-			var data = {
-				allow_open_registration: Config.allow_open_registration,
-				allow_guest_user:        Config.allow_guest_user
-			};
-			Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+			that.loadConfig(configInfo, true);
 		}).fail(function(response) {
+			if (response.status == 401 || response.status == 403) {
+				that.requireLogin();
+			} else if (response.status == 500) {
+				that.showStatus(response.statusText, "error");
+			} else
 				alertErr(response);
-			});
+		});
 
 		return false;
+	},
+
+	/**
+	 * Set up the page for a login
+	 */
+	requireLogin: function() {
+		window.top.location.href = '/web/login?redirected=1';
+	},
+
+	/**
+	 * Load the configuration from the DSP optionally caching to local storage
+	 *
+	 * @param config
+	 * @param [fresh]
+	 *
+	 * @returns {*}
+	 */
+	loadConfig: function(config, fresh) {
+		if (this._enableLocalStorage) {
+			if (!fresh) {
+				//  Touch the stored config for another 5 minutes
+				simpleStorage.setTTL('dsp.config', this._localStorageTTL);
+			} else {
+				//  Store the config for later...
+				simpleStorage.set('dsp.config', config, {TTL: this._localStorageTTL});
+			}
+		}
+
+		//	Everyone gets the rest...
+		Config = this._config = config;
+		document.title = 'Launchpad ' + config.dsp_version;
+
+		this.updateSession('init');
+
+		var data = {
+			allow_open_registration: config.allow_open_registration,
+			allow_guest_user:        config.allow_guest_user
+		};
+
+		Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+
+		return this._config;
 	},
 
 	createAccount: function() {
@@ -128,26 +173,21 @@ Actions = ({
 
 		if (data.is_sys_admin && _defaultShown) {
 			return;
-		}
-		else if (data.is_sys_admin && !_defaultShown) {
+		} else if (data.is_sys_admin && !_defaultShown) {
 			this.showApp('admin', '/admin/#/', '0', false);
 			$('#adminLink').off('click');
 			$('#fs_toggle').off('click');
-		}
-		else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
+		} else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
 			$('#app-list-container').hide();
 			this.showApp(data.app_groups[0].apps[0].api_name, data.app_groups[0].apps[0].launch_url, data.app_groups[0].apps[0].is_url_external,
-				data.app_groups[0].apps[0].requires_fullscreen, data.app_groups[0].apps[0].allow_fullscreen_toggle);
-		}
-		else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
+						 data.app_groups[0].apps[0].requires_fullscreen, data.app_groups[0].apps[0].allow_fullscreen_toggle);
+		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
 			$('#app-list-container').hide();
 			this.showApp(data.no_group_apps[0].api_name, data.no_group_apps[0].launch_url, data.no_group_apps[0].is_url_external,
-				data.no_group_apps[0].requires_fullscreen, data.no_group_apps[0].allow_fullscreen_toggle);
-		}
-		else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
+						 data.no_group_apps[0].requires_fullscreen, data.no_group_apps[0].allow_fullscreen_toggle);
+		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
 			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
-		}
-		else {
+		} else {
 			Actions.showAppList();
 		}
 	},
@@ -168,13 +208,14 @@ Actions = ({
 				// Angular hasn't populated the DOM because it's fallen out of scope
 				// I think
 				$('#admin').replaceWith($('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
-						CurrentServer + url).appendTo('#app-container'));
+																																						CurrentServer +
+																																							url).appendTo('#app-container'));
 				//$('#admin').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src', CurrentServer + url).show();
-			}
-			else {
+			} else {
 				$('#adminLink').addClass('disabled');
 				$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
-					CurrentServer + url).appendTo('#app-container');
+																																CurrentServer +
+																																	url).appendTo('#app-container');
 			}
 			return;
 		}
@@ -199,8 +240,7 @@ Actions = ({
 				$('#fs_toggle').off('click', function() {
 					Actions.toggleFullScreen(false);
 				});
-			}
-			else if (allowfullscreentoggle) {
+			} else if (allowfullscreentoggle) {
 				$('#fs_toggle').removeClass('disabled');
 				$('#fs_toggle').on('click', function() {
 					Actions.toggleFullScreen(true);
@@ -230,14 +270,12 @@ Actions = ({
 
 				// It does so fire it up in fullscreen mode
 				Actions.requireFullScreen();
-			}
-			else {
+			} else {
 				if (!allowfullscreentoggle) {
 					$('#fs_toggle').off('click', function() {
 						Actions.toggleFullScreen(false);
 					});
-				}
-				else if (allowfullscreentoggle) {
+				} else if (allowfullscreentoggle) {
 					$('#fs_toggle').removeClass('disabled');
 					$('#fs_toggle').on('click', function() {
 						Actions.toggleFullScreen(true);
@@ -256,8 +294,8 @@ Actions = ({
 
 		var navbarH = $('#main-nav').height();
 		$('#main-nav').animate({
-			height: 0
-		}).removeClass('in');
+								   height: 0
+							   }).removeClass('in');
 
 		if (typeof callback == 'function') {
 			callback.call(this);
@@ -288,19 +326,17 @@ Actions = ({
 
 		this.animateNavBarClose(function() {
 			this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
-
 		});
 
 	},
 
-	appGrouper:    function(sessionInfo) {
+	appGrouper: function(sessionInfo) {
 		// Check if sessionInfo has any apps in the no_group_apps array
 		if (sessionInfo.no_group_apps == 0) {
 			// It doesn't have any apps
 			// Fail silently
 			//console.log('fail');
-		}
-		else {
+		} else {
 			// It does have apps!
 
 			//create an array variable to store these apps
@@ -337,8 +373,8 @@ Actions = ({
 			// I know there is a better way...
 		}
 	},
-	updateSession: function(action) {
 
+	updateSession: function(action) {
 		var that = this;
 		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad').done(function(sessionInfo) {
 			//$.data(document.body, 'session', data);
@@ -369,18 +405,12 @@ Actions = ({
 			}
 
 		}).fail(function(response) {
-				if (response.status == 401 || response.status == 403) {
-					var data = {
-						allow_open_registration: Config.allow_open_registration,
-						allow_guest_user:        Config.allow_guest_user
-					};
-					Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-					that.doSignInDialog();
-				}
-				else if (response.status == 500) {
-					that.showStatus(response.statusText, "error");
-				}
-			});
+			if (response.status == 401 || response.status == 403) {
+				that.requireLogin();
+			} else if (response.status == 500) {
+				that.showStatus(response.statusText, "error");
+			}
+		});
 	},
 
 	//*************************************************************************
@@ -410,8 +440,7 @@ Actions = ({
 			});
 
 			$('.remote-login', $_dlg).show();
-		}
-		else {
+		} else {
 			$('.remote-login', $_dlg).hide();
 		}
 	},
@@ -462,41 +491,41 @@ Actions = ({
 		}
 		$('#loading').show();
 		$.post(CurrentServer + '/rest/user/session?app_name=launchpad',
-				JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
-				if (Stay) {
-					$("#loginDialog").modal('hide');
-					$("#loading").hide();
-					return;
-				}
-
-				if (data.redirect_uri) {
-					var _popup = window.open(data.redirect_uri, 'Remote Login', 'scrollbars=0');
-				}
-
-				$.data(document.body, 'session', data);
-
-				var sessionInfo = $.data(document.body, 'session');
-
-				Actions.appGrouper(sessionInfo);
-
-				CurrentUserID = sessionInfo.id;
-				if (CurrentUserID) {
-					sessionInfo.activeSession = true;
-				}
-				sessionInfo.allow_open_registration = Config.allow_open_registration;
-				sessionInfo.allow_guest_user = Config.allow_guest_user;
-
-				Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
-				Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
-				Actions.getApps(sessionInfo);
+			   JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
+			if (Stay) {
 				$("#loginDialog").modal('hide');
 				$("#loading").hide();
-				$('#adminLink').on('click', function() {
-					Actions.showAdmin()
-				});
-			}).fail(function(response) {
-				Actions.displayModalError('#loginErrorMessage', getErrorString(response));
+				return;
+			}
+
+			if (data.redirect_uri) {
+				var _popup = window.open(data.redirect_uri, 'Remote Login', 'scrollbars=0');
+			}
+
+			$.data(document.body, 'session', data);
+
+			var sessionInfo = $.data(document.body, 'session');
+
+			Actions.appGrouper(sessionInfo);
+
+			CurrentUserID = sessionInfo.id;
+			if (CurrentUserID) {
+				sessionInfo.activeSession = true;
+			}
+			sessionInfo.allow_open_registration = Config.allow_open_registration;
+			sessionInfo.allow_guest_user = Config.allow_guest_user;
+
+			Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
+			Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
+			Actions.getApps(sessionInfo);
+			$("#loginDialog").modal('hide');
+			$("#loading").hide();
+			$('#adminLink').on('click', function() {
+				Actions.showAdmin()
 			});
+		}).fail(function(response) {
+			Actions.displayModalError('#loginErrorMessage', getErrorString(response));
+		});
 
 	},
 	/**
@@ -509,8 +538,7 @@ Actions = ({
 			$("#loading").hide();
 			$(elem).addClass('alert-error').html(message);
 //			$(elem).addClass('alert-error').append('<p><i style="vertical-align: middle; padding-right: 8px;" class="icon-exclamation-sign icon-2x"></i>' + message + '</p>');
-		}
-		else {
+		} else {
 			$(elem).empty().removeClass('alert-error');
 		}
 	},
@@ -533,23 +561,23 @@ Actions = ({
 		this.animateNavBarClose();
 		var that = this;
 		$.ajax({
-			dataType: 'json',
-			url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/',
-			data:     'method=GET&app_name=launchpad',
-			cache:    false,
-			success:  function(response) {
-				Profile = response;
-				that.fillProfileForm();
-				$("#changeProfileErrorMessage").removeClass('alert-error').html('Use the form below to change your user profile.');
-				$('#changeProfileDialog').modal('show');
+				   dataType: 'json',
+				   url:      CurrentServer + '/rest/user/profile/' + CurrentUserID + '/',
+				   data:     'method=GET&app_name=launchpad',
+				   cache:    false,
+				   success:  function(response) {
+					   Profile = response;
+					   that.fillProfileForm();
+					   $("#changeProfileErrorMessage").removeClass('alert-error').html('Use the form below to change your user profile.');
+					   $('#changeProfileDialog').modal('show');
 
-			},
-			error:    function(response) {
-				if (response.status == 401) {
-					that.doSignInDialog();
-				}
-			}
-		});
+				   },
+				   error:    function(response) {
+					   if (response.status == 401 || response.status == 403) {
+						   that.requireLogin();
+					   }
+				   }
+			   });
 	},
 	fillProfileForm: function() {
 
@@ -561,8 +589,7 @@ Actions = ({
 		$("#default_app").val(Profile.default_app_id);
 		if (Profile.security_question) {
 			$("#security_question").val(Profile.security_question);
-		}
-		else {
+		} else {
 			$("#security_question").val('');
 		}
 		$("#security_answer").val('');
@@ -587,14 +614,12 @@ Actions = ({
 		if (!q) {
 			NewUser.security_question = '';
 			NewUser.security_answer = '';
-		}
-		else if (q == Profile.security_question) {
+		} else if (q == Profile.security_question) {
 			if (a) {
 				NewUser.security_question = q;
 				NewUser.security_answer = a;
 			}
-		}
-		else {
+		} else {
 			if (!a) {
 				$("#changeProfileErrorMessage").addClass('alert-error').html('You changed your security question. Please enter a security answer.');
 				return;
@@ -604,28 +629,26 @@ Actions = ({
 		}
 
 		$.ajax({
-			dataType: 'json',
-			type:     'POST',
-			url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/?method=MERGE&app_name=launchpad',
-			data:     JSON.stringify(NewUser),
-			cache:    false,
-			success:  function(response) {
-				// update display name
+				   dataType: 'json',
+				   type:     'POST',
+				   url:      CurrentServer + '/rest/user/profile/' + CurrentUserID + '/?method=MERGE&app_name=launchpad',
+				   data:     JSON.stringify(NewUser),
+				   cache:    false,
+				   success:  function(response) {
+					   // update display name
 
-				that.updateSession();
-				$("#changeProfileDialog").modal('hide');
-				that.clearProfile();
-			},
-			error:    function(response) {
-				if (response.status == 401) {
-					$("#changeProfileDialog").modal('hide');
-					that.doSignInDialog();
-				}
-				else {
-					$("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
-				}
-			}
-		});
+					   that.updateSession();
+					   $("#changeProfileDialog").modal('hide');
+					   that.clearProfile();
+				   },
+				   error:    function(response) {
+					   if (response.status == 401 || response.status == 403) {
+						   that.requireLogin();
+					   } else {
+						   $("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
+					   }
+				   }
+			   });
 	},
 
 //*************************************************************************
@@ -659,33 +682,30 @@ Actions = ({
 				new_password: $("#NPassword").val()
 			};
 			this.updatePassword(JSON.stringify(data));
-		}
-		else {
+		} else {
 			$("#changePasswordErrorMessage").addClass('alert-error').html('<b style="color:red;">Passwords do not match!</b> New and Verify Password fields need to match before you can submit the request.');
 		}
 	},
 	updatePassword:         function(pass) {
 		var that = this;
 		$.ajax({
-			dataType: 'json',
-			type:     'POST',
-			url: CurrentServer + '/rest/user/password/?method=MERGE&app_name=launchpad',
-			data:     pass,
-			cache:    false,
-			success:  function(response) {
-				$("#changePasswordDialog").modal('hide');
-				that.clearChangePassword();
-			},
-			error:    function(response) {
-				if (response.status == 401) {
-					$("#changePasswordDialog").modal('hide');
-					that.doSignInDialog();
-				}
-				else {
-					$("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
-				}
-			}
-		});
+				   dataType: 'json',
+				   type:     'POST',
+				   url:      CurrentServer + '/rest/user/password/?method=MERGE&app_name=launchpad',
+				   data:     pass,
+				   cache:    false,
+				   success:  function(response) {
+					   $("#changePasswordDialog").modal('hide');
+					   that.clearChangePassword();
+				   },
+				   error:    function(response) {
+					   if (response.status == 401 || response.status == 403) {
+						   that.requireLogin();
+					   } else {
+						   $("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
+					   }
+				   }
+			   });
 	},
 
 	//*************************************************************************
@@ -698,30 +718,24 @@ Actions = ({
 	signOut:                function() {
 		var that = this;
 		$.ajax({
-			dataType: 'json',
-			type:     'POST',
-			url: CurrentServer + '/rest/user/session/' + CurrentUserID + '/',
-			data:     'app_name=launchpad&method=DELETE',
-			cache:    false,
-			success:  function(response) {
-				$('#app-container').empty();
-				$('#app-list-container').empty();
-				$("#logoffDialog").modal('hide');
-				that.updateSession("init");
+				   dataType: 'json',
+				   type:     'POST',
+				   url:      CurrentServer + '/rest/user/session/' + CurrentUserID + '/',
+				   data:     'app_name=launchpad&method=DELETE',
+				   cache:    false,
+				   success:  function(response) {
+					   $('#app-container').empty();
+					   $('#app-list-container').empty();
+					   $("#logoffDialog").modal('hide');
+					   that.updateSession("init");
 
-			},
-			error:    function(response) {
-				if (response.status == 401) {
-					//that.showSignInButton();
-					var data = {
-						allow_open_registration: Config.allow_open_registration,
-						allow_guest_user:        Config.allow_guest_user
-					};
-					Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-					that.doSignInDialog();
-				}
-			}
-		});
+				   },
+				   error:    function(response) {
+					   if (response.status == 401 || response.status == 403) {
+						   that.requireLogin();
+					   }
+				   }
+			   });
 	},
 	showSignInButton:       function() {
 
@@ -733,8 +747,7 @@ Actions = ({
 	showStatus:             function(message, type) {
 		if (type == "error") {
 			$('#error-container').html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
-		}
-		else {
+		} else {
 			$('#error-container').html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
 		}
 	},
@@ -744,17 +757,16 @@ Actions = ({
 			Actions.animateNavBarClose(function() {
 				$('#app-container').css({"top": "0px", "z-index": 998});
 				$('#navbar-container').css({
-					"z-index": 10
-				});
+											   "z-index": 10
+										   });
 				$('#rocket').show();
 			});
 
-		}
-		else {
+		} else {
 			$('#app-container').css({"top": "44px", "z-index": 997});
 			$('#navbar-container').css({
-				"z-index": 999
-			})
+										   "z-index": 999
+									   })
 			$('#fs_toggle').removeClass('disabled');
 			$('#rocket').hide();
 		}
@@ -762,7 +774,8 @@ Actions = ({
 	requireFullScreen:      function() {
 		$('#app-container').css({"top": "0px", "z-index": 998});
 	}
-});
+}
+	);
 
 /**
  * DocReady
@@ -774,10 +787,14 @@ jQuery(function($) {
 		e.stopPropagation();
 	});
 
-	$_body.css('height', ($(window).height() + 44) + 'px');
+	$_body.css('height', (
+		$(window).height() + 44
+		) + 'px');
 
 	$(window).resize(function() {
-		$_body.css('height', ($(window).height() + 44) + 'px');
+		$_body.css('height', (
+			$(window).height() + 44
+			) + 'px');
 	});
 
 	//@todo use jquery validate cuz this ain't working
@@ -788,13 +805,11 @@ jQuery(function($) {
 			if (value == verify) {
 				$_password.removeClass("RedBorder").addClass("GreenBorder");
 				$_passwordConfirm.removeClass("RedBorder").addClass("GreenBorder");
-			}
-			else {
+			} else {
 				$_password.removeClass("GreenBorder").addClass("RedBorder");
 				$_passwordConfirm.removeClass("GreenBorder").addClass("RedBorder");
 			}
-		}
-		else {
+		} else {
 			$_password.removeClass("RedBorder").removeClass("GreenBorder");
 			$_passwordConfirm.removeClass("RedBorder").removeClass("GreenBorder");
 		}

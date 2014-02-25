@@ -22,6 +22,7 @@ use DreamFactory\Oasys\Oasys;
 use DreamFactory\Oasys\Stores\FileSystem;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
+use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
 use DreamFactory\Platform\Resources\System\Config;
 use DreamFactory\Platform\Resources\User\Password;
@@ -268,10 +269,10 @@ class WebController extends BaseWebController
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			'_splash',
-			array(
+			 '_splash',
+			 array(
 				 'for' => PlatformStates::INIT_REQUIRED,
-			)
+			 )
 		);
 	}
 
@@ -314,10 +315,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'upgradeSchema',
-			array(
+			 'upgradeSchema',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -357,10 +358,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'initAdmin',
-			array(
+			 'initAdmin',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -403,10 +404,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'activate',
-			array(
+			 'activate',
+			 array(
 				 'model' => $_model,
-			)
+			 )
 		);
 	}
 
@@ -492,13 +493,13 @@ class WebController extends BaseWebController
 		$_providers = array();
 
 		$this->render(
-			'login',
-			array(
+			 'login',
+			 array(
 				 'model'          => $_model,
 				 'activated'      => $this->_activated,
 				 'redirected'     => $redirected,
 				 'loginProviders' => $_providers,
-			)
+			 )
 		);
 	}
 
@@ -522,11 +523,11 @@ class WebController extends BaseWebController
 				try
 				{
 					$_identity = Password::changePasswordBySecurityAnswer(
-						$_model->email,
-						$_model->answer,
-						$_model->password,
-						true,
-						true
+										 $_model->email,
+										 $_model->answer,
+										 $_model->password,
+										 true,
+										 true
 					);
 
 					if ( Pii::user()->login( $_identity ) )
@@ -556,10 +557,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'securityQuestion',
-			array(
+			 'securityQuestion',
+			 array(
 				 'model' => $_model,
-			)
+			 )
 		);
 	}
 
@@ -612,10 +613,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'welcome',
-			array(
+			 'welcome',
+			 array(
 				 'model' => $_model,
-			)
+			 )
 		);
 	}
 
@@ -685,10 +686,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'register',
-			array(
+			 'register',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -730,20 +731,20 @@ class WebController extends BaseWebController
 					{
 						case 'register':
 							$_identity = Register::userConfirm(
-								$_model->email,
-								$_model->code,
-								$_model->password,
-								true,
-								true
+												 $_model->email,
+												 $_model->code,
+												 $_model->password,
+												 true,
+												 true
 							);
 							break;
 						default:
 							$_identity = Password::changePasswordByCode(
-								$_model->email,
-								$_model->code,
-								$_model->password,
-								true,
-								true
+												 $_model->email,
+												 $_model->code,
+												 $_model->password,
+												 true,
+												 true
 							);
 							break;
 					}
@@ -765,11 +766,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'confirm',
-			array(
+			 'confirm',
+			 array(
 				 'model'  => $_model,
 				 'reason' => $reason,
-			)
+			 )
 		);
 	}
 
@@ -818,10 +819,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'password',
-			array(
+			 'password',
+			 array(
 				 'model' => $_model,
-			)
+			 )
 		);
 	}
 
@@ -873,10 +874,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'profile',
-			array(
+			 'profile',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -941,10 +942,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			'upgradeDsp',
-			array(
+			 'upgradeDsp',
+			 array(
 				 'model' => $_model
-			)
+			 )
 		);
 	}
 
@@ -1061,12 +1062,12 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-			$_providerModel,
-			Pii::getState( $_providerId . '.user_config', array() ),
-			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-			)
+						   $_providerModel,
+						   Pii::getState( $_providerId . '.user_config', array() ),
+						   array(
+							   'flow_type'    => $_flow,
+							   'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+						   )
 		);
 
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
@@ -1099,8 +1100,6 @@ class WebController extends BaseWebController
 
 	/**
 	 * Handle inbound redirect from various services
-	 *
-	 * @throws DreamFactory\Common\Exceptions\RestException
 	 */
 	public function actionAuthorize()
 	{
@@ -1135,7 +1134,7 @@ class WebController extends BaseWebController
 			if ( null === Option::get( $_REQUEST, 'access_token' ) )
 			{
 				Log::error( 'Inbound request code missing.' );
-				throw new \DreamFactory\Platform\Exceptions\RestException( HttpResponse::BadRequest );
+				throw new RestException( HttpResponse::BadRequest );
 			}
 			else
 			{
@@ -1163,7 +1162,7 @@ class WebController extends BaseWebController
 
 	protected function _getRedirectUrl( $action = null )
 	{
-		if (!empty( $action ))
+		if ( !empty( $action ) )
 		{
 			// forward to that action page
 			$_returnUrl = '/' . $this->id . '/' . $action;
