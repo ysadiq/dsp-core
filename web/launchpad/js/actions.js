@@ -6,7 +6,7 @@ Actions = (
 	/** @type {*}[] */
 	_apps:               [],
 	/** @type bool */
-	_enableLocalStorage: simpleStorage.canUse(),
+	_enableLocalStorage: false, /*simpleStorage.canUse(),*/
 	/** @type int Storage time-to-live. Defaults to 2 minutes (120000)*/
 	_localStorageTTL:    120000,
 
