@@ -76,18 +76,25 @@ $_dbCache = $_dbCacheEnabled ? array(
  */
 if ( Fabric::fabricHosted() )
 {
+	$_storageBasePath = '/data/storage/' . \Kisma::get( 'platform.storage_key' );
+	$_privatePath = \Kisma::get( 'platform.private_path' );
+	$_storagePath = $_storageBasePath . '/blob';
+
 	$_instanceSettings = array(
-		'storage_base_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ),
-		'storage_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob',
-		'private_path'           => \Kisma::get( 'platform.private_path' ),
-		'snapshot_path'          => \Kisma::get( 'platform.private_path' ) . '/snapshots',
-		'applications_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/applications',
-		'library_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/lib',
-		'plugins_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/plugins',
+		'storage_base_path'      => $_storageBasePath,
+		'storage_path'           => $_storagePath,
+		'private_path'           => $_privatePath,
+		'snapshot_path'          => $_privatePath . '/snapshots',
+		'applications_path'      => $_storagePath . '/applications',
+		'library_path'           => $_storagePath . '/lib',
+		'plugins_path'           => $_storagePath . '/plugins',
+		'swagger_path'           => $_storagePath . '/swagger',
 		'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
 		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
 		'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
 	);
+
+	unset( $_storageBasePath, $_privatePath, $_storagePath );
 }
 else
 {
@@ -99,6 +106,7 @@ else
 		'applications_path'      => $_basePath . '/storage/applications',
 		'library_path'           => $_basePath . '/storage/lib',
 		'plugins_path'           => $_basePath . '/storage/plugins',
+		'swagger_path'           => $_basePath . '/storage/swagger',
 		'dsp_name'               => gethostname(),
 		'dsp.storage_id'         => null,
 		'dsp.private_storage_id' => null,

@@ -1,9 +1,10 @@
-.idea/
+.idea
 vendor
 !web/vendor/bootstrap
 log
 storage
 composer.phar
+composer.lock
 .composer/
 web/assets
 web/favicon.ico
@@ -16,4 +17,6 @@ web/portal-sandbox
 web/pbox
 web/dfna
 vendor/dreamfactory/*.setdev-on
+config/salt.config.php
+tests/config/salt.config.php
 build/
