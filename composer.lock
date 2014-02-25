@@ -235,12 +235,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "DreamFactory Package Maintainer"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "Lead Guinea Pig, server-side/client-side"
                 }
             ],
             "description": "Common PHP Components Library for the DreamFactory Services Platform(tm)",
@@ -298,7 +298,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -361,7 +361,7 @@
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Guinea Pig, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
