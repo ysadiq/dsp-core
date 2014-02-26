@@ -1,6 +1,23 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 Actions = (
 {
-
 	/** @type {*} */
 	_config:             {},
 	/** @type {*}[] */
@@ -26,7 +43,9 @@ Actions = (
 		if (_appToRun && this._apps.length) {
 			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
 			//	Strip off any hash
-			if (-1 != (_pos = _appToRun.indexOf('#'))) {
+			if (-1 != (
+				_pos = _appToRun.indexOf('#')
+				)) {
 				_appToRun = _appToRun.substr(0, _pos);
 			}
 
@@ -60,10 +79,13 @@ Actions = (
 		}).fail(function(response) {
 			if (response.status == 401 || response.status == 403) {
 				that.requireLogin();
-			} else if (response.status == 500) {
+			}
+			else if (response.status == 500) {
 				that.showStatus(response.statusText, "error");
-			} else
+			}
+			else {
 				alertErr(response);
+			}
 		});
 
 		return false;
@@ -89,7 +111,8 @@ Actions = (
 			if (!fresh) {
 				//  Touch the stored config for another 5 minutes
 				simpleStorage.setTTL('dsp.config', this._localStorageTTL);
-			} else {
+			}
+			else {
 				//  Store the config for later...
 				simpleStorage.set('dsp.config', config, {TTL: this._localStorageTTL});
 			}
@@ -173,21 +196,26 @@ Actions = (
 
 		if (data.is_sys_admin && _defaultShown) {
 			return;
-		} else if (data.is_sys_admin && !_defaultShown) {
+		}
+		else if (data.is_sys_admin && !_defaultShown) {
 			this.showApp('admin', '/admin/#/', '0', false);
 			$('#adminLink').off('click');
 			$('#fs_toggle').off('click');
-		} else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
+		}
+		else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
 			$('#app-list-container').hide();
 			this.showApp(data.app_groups[0].apps[0].api_name, data.app_groups[0].apps[0].launch_url, data.app_groups[0].apps[0].is_url_external,
 						 data.app_groups[0].apps[0].requires_fullscreen, data.app_groups[0].apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
+		}
+		else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
 			$('#app-list-container').hide();
 			this.showApp(data.no_group_apps[0].api_name, data.no_group_apps[0].launch_url, data.no_group_apps[0].is_url_external,
 						 data.no_group_apps[0].requires_fullscreen, data.no_group_apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
+		}
+		else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
 			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
-		} else {
+		}
+		else {
 			Actions.showAppList();
 		}
 	},
@@ -211,7 +239,8 @@ Actions = (
 																																						CurrentServer +
 																																							url).appendTo('#app-container'));
 				//$('#admin').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src', CurrentServer + url).show();
-			} else {
+			}
+			else {
 				$('#adminLink').addClass('disabled');
 				$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
 																																CurrentServer +
@@ -240,7 +269,8 @@ Actions = (
 				$('#fs_toggle').off('click', function() {
 					Actions.toggleFullScreen(false);
 				});
-			} else if (allowfullscreentoggle) {
+			}
+			else if (allowfullscreentoggle) {
 				$('#fs_toggle').removeClass('disabled');
 				$('#fs_toggle').on('click', function() {
 					Actions.toggleFullScreen(true);
@@ -270,12 +300,14 @@ Actions = (
 
 				// It does so fire it up in fullscreen mode
 				Actions.requireFullScreen();
-			} else {
+			}
+			else {
 				if (!allowfullscreentoggle) {
 					$('#fs_toggle').off('click', function() {
 						Actions.toggleFullScreen(false);
 					});
-				} else if (allowfullscreentoggle) {
+				}
+				else if (allowfullscreentoggle) {
 					$('#fs_toggle').removeClass('disabled');
 					$('#fs_toggle').on('click', function() {
 						Actions.toggleFullScreen(true);
@@ -336,7 +368,8 @@ Actions = (
 			// It doesn't have any apps
 			// Fail silently
 			//console.log('fail');
-		} else {
+		}
+		else {
 			// It does have apps!
 
 			//create an array variable to store these apps
@@ -407,7 +440,8 @@ Actions = (
 		}).fail(function(response) {
 			if (response.status == 401 || response.status == 403) {
 				that.requireLogin();
-			} else if (response.status == 500) {
+			}
+			else if (response.status == 500) {
 				that.showStatus(response.statusText, "error");
 			}
 		});
@@ -440,7 +474,8 @@ Actions = (
 			});
 
 			$('.remote-login', $_dlg).show();
-		} else {
+		}
+		else {
 			$('.remote-login', $_dlg).hide();
 		}
 	},
@@ -492,40 +527,48 @@ Actions = (
 		$('#loading').show();
 		$.post(CurrentServer + '/rest/user/session?app_name=launchpad',
 			   JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
-			if (Stay) {
-				$("#loginDialog").modal('hide');
-				$("#loading").hide();
-				return;
-			}
+																										if (Stay) {
+																											$("#loginDialog").modal('hide');
+																											$("#loading").hide();
+																											return;
+																										}
 
-			if (data.redirect_uri) {
-				var _popup = window.open(data.redirect_uri, 'Remote Login', 'scrollbars=0');
-			}
+																										if (data.redirect_uri) {
+																											var _popup = window.open(data.redirect_uri,
+																																	 'Remote Login',
+																																	 'scrollbars=0');
+																										}
 
-			$.data(document.body, 'session', data);
+																										$.data(document.body, 'session', data);
 
-			var sessionInfo = $.data(document.body, 'session');
+																										var sessionInfo = $.data(document.body, 'session');
 
-			Actions.appGrouper(sessionInfo);
+																										Actions.appGrouper(sessionInfo);
 
-			CurrentUserID = sessionInfo.id;
-			if (CurrentUserID) {
-				sessionInfo.activeSession = true;
-			}
-			sessionInfo.allow_open_registration = Config.allow_open_registration;
-			sessionInfo.allow_guest_user = Config.allow_guest_user;
+																										CurrentUserID = sessionInfo.id;
+																										if (CurrentUserID) {
+																											sessionInfo.activeSession = true;
+																										}
+																										sessionInfo.allow_open_registration =
+																											Config.allow_open_registration;
+																										sessionInfo.allow_guest_user = Config.allow_guest_user;
 
-			Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
-			Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
-			Actions.getApps(sessionInfo);
-			$("#loginDialog").modal('hide');
-			$("#loading").hide();
-			$('#adminLink').on('click', function() {
-				Actions.showAdmin()
-			});
-		}).fail(function(response) {
-			Actions.displayModalError('#loginErrorMessage', getErrorString(response));
-		});
+																										Templates.loadTemplate(Templates.navBarTemplate,
+																															   {User: sessionInfo},
+																															   'navbar-container');
+																										Templates.loadTemplate(Templates.appIconTemplate,
+																															   {Applications: sessionInfo},
+																															   'app-list-container');
+																										Actions.getApps(sessionInfo);
+																										$("#loginDialog").modal('hide');
+																										$("#loading").hide();
+																										$('#adminLink').on('click', function() {
+																											Actions.showAdmin()
+																										});
+																									}).fail(function(response) {
+																												Actions.displayModalError('#loginErrorMessage',
+																																		  getErrorString(response));
+																											});
 
 	},
 	/**
@@ -538,7 +581,8 @@ Actions = (
 			$("#loading").hide();
 			$(elem).addClass('alert-error').html(message);
 //			$(elem).addClass('alert-error').append('<p><i style="vertical-align: middle; padding-right: 8px;" class="icon-exclamation-sign icon-2x"></i>' + message + '</p>');
-		} else {
+		}
+		else {
 			$(elem).empty().removeClass('alert-error');
 		}
 	},
@@ -589,7 +633,8 @@ Actions = (
 		$("#default_app").val(Profile.default_app_id);
 		if (Profile.security_question) {
 			$("#security_question").val(Profile.security_question);
-		} else {
+		}
+		else {
 			$("#security_question").val('');
 		}
 		$("#security_answer").val('');
@@ -614,12 +659,14 @@ Actions = (
 		if (!q) {
 			NewUser.security_question = '';
 			NewUser.security_answer = '';
-		} else if (q == Profile.security_question) {
+		}
+		else if (q == Profile.security_question) {
 			if (a) {
 				NewUser.security_question = q;
 				NewUser.security_answer = a;
 			}
-		} else {
+		}
+		else {
 			if (!a) {
 				$("#changeProfileErrorMessage").addClass('alert-error').html('You changed your security question. Please enter a security answer.');
 				return;
@@ -644,7 +691,8 @@ Actions = (
 				   error:    function(response) {
 					   if (response.status == 401 || response.status == 403) {
 						   that.requireLogin();
-					   } else {
+					   }
+					   else {
 						   $("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
 					   }
 				   }
@@ -682,7 +730,8 @@ Actions = (
 				new_password: $("#NPassword").val()
 			};
 			this.updatePassword(JSON.stringify(data));
-		} else {
+		}
+		else {
 			$("#changePasswordErrorMessage").addClass('alert-error').html('<b style="color:red;">Passwords do not match!</b> New and Verify Password fields need to match before you can submit the request.');
 		}
 	},
@@ -701,7 +750,8 @@ Actions = (
 				   error:    function(response) {
 					   if (response.status == 401 || response.status == 403) {
 						   that.requireLogin();
-					   } else {
+					   }
+					   else {
 						   $("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
 					   }
 				   }
@@ -747,7 +797,8 @@ Actions = (
 	showStatus:             function(message, type) {
 		if (type == "error") {
 			$('#error-container').html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
-		} else {
+		}
+		else {
 			$('#error-container').html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
 		}
 	},
@@ -762,7 +813,8 @@ Actions = (
 				$('#rocket').show();
 			});
 
-		} else {
+		}
+		else {
 			$('#app-container').css({"top": "44px", "z-index": 997});
 			$('#navbar-container').css({
 										   "z-index": 999
@@ -805,11 +857,13 @@ jQuery(function($) {
 			if (value == verify) {
 				$_password.removeClass("RedBorder").addClass("GreenBorder");
 				$_passwordConfirm.removeClass("RedBorder").addClass("GreenBorder");
-			} else {
+			}
+			else {
 				$_password.removeClass("GreenBorder").addClass("RedBorder");
 				$_passwordConfirm.removeClass("GreenBorder").addClass("RedBorder");
 			}
-		} else {
+		}
+		else {
 			$_password.removeClass("RedBorder").removeClass("GreenBorder");
 			$_passwordConfirm.removeClass("RedBorder").removeClass("GreenBorder");
 		}

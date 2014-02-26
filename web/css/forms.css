@@ -128,7 +128,7 @@ form, .form-buttons {
 	padding-top:   15px;
 }
 
-f.form-buttons button {
+.form-buttons button {
 	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 	font-weight: 300;
 }
