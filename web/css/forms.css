@@ -72,6 +72,10 @@ a:hover, a:focus, a:active {
 	margin-bottom: 20px;
 }
 
+#formbox.container p:first-of-type {
+	text-align: center;
+}
+
 #formbox form {
 	/*background: #2E363F;*/
 	position: relative;
