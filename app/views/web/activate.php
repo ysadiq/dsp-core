@@ -30,7 +30,7 @@ Validate::register(
 	array(
 		 'ignoreTitle'    => true,
 		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
 		 'rules'          => array(
 			 'ActivateForm[username]' => array(
 				 'required'  => true,

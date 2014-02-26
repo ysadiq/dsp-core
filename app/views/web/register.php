@@ -26,67 +26,49 @@ use DreamFactory\Yii\Utility\Validate;
  * @var string           $backUrl
  */
 
-if ( $model->getViaEmail() )
+$_rules = array(
+	'RegisterUserForm[email]'        => array(
+		'required'  => true,
+		'minlength' => 5,
+	),
+	'RegisterUserForm[first_name]'   => array(
+		'required' => true,
+	),
+	'RegisterUserForm[last_name]'    => array(
+		'required' => true,
+	),
+	'RegisterUserForm[display_name]' => array(
+		'required' => true,
+	),
+);
+
+if ( !$model->getViaEmail() )
 {
-	Validate::register(
-		'form#register-user-form',
+	$_rules = array_merge(
+		$_rules,
 		array(
-			 'ignoreTitle'    => true,
-			 'errorClass'     => 'error',
-			 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-			 'rules'          => array(
-				 'RegisterUserForm[email]'        => array(
-					 'required'  => true,
-					 'minlength' => 5,
-				 ),
-				 'RegisterUserForm[first_name]'   => array(
-					 'required' => true,
-				 ),
-				 'RegisterUserForm[last_name]'    => array(
-					 'required' => true,
-				 ),
-				 'RegisterUserForm[display_name]' => array(
-					 'required' => true,
-				 ),
+			 'RegisterUserForm[password]'        => array(
+				 'required'  => true,
+				 'minlength' => 5,
 			 ),
+			 'RegisterUserForm[password_repeat]' => array(
+				 'required'  => true,
+				 'minlength' => 5,
+				 'equalTo'   => '#RegisterUserForm_password',
+			 )
 		)
 	);
 }
-else
-{
-	Validate::register(
-		'form#register-user-form',
-		array(
-			 'ignoreTitle'    => true,
-			 'errorClass'     => 'error',
-			 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-			 'rules'          => array(
-				 'RegisterUserForm[email]'           => array(
-					 'required'  => true,
-					 'minlength' => 5,
-				 ),
-				 'RegisterUserForm[first_name]'      => array(
-					 'required' => true,
-				 ),
-				 'RegisterUserForm[last_name]'       => array(
-					 'required' => true,
-				 ),
-				 'RegisterUserForm[display_name]'    => array(
-					 'required' => true,
-				 ),
-				 'RegisterUserForm[password]'        => array(
-					 'required'  => true,
-					 'minlength' => 5,
-				 ),
-				 'RegisterUserForm[password_repeat]' => array(
-					 'required'  => true,
-					 'minlength' => 5,
-					 'equalTo'   => '#RegisterUserForm_password',
-				 ),
-			 ),
-		)
-	);
-}
+
+Validate::register(
+	'form#register-user-form',
+	array(
+		 'ignoreTitle'    => true,
+		 'errorClass'     => 'error',
+		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		 'rules'          => $_rules,
+	)
+);
 ?>
 <div class="container" id="formbox">
 	<h2>DSP User Registration</h2>
@@ -102,7 +84,8 @@ else
 	?>
 
 	<?php
-	$form = $this->beginWidget(
+	$form
+		= $this->beginWidget(
 		'CActiveForm',
 		array(
 			 'id'                     => 'register-user-form',
@@ -156,7 +139,7 @@ else
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="4" class="form-control required" type="text" id="RegisterUserForm_firstName"
-				   name="RegisterUserForm[first_ame]" placeholder="First Name"
+				   name="RegisterUserForm[first_name]" placeholder="First Name"
 				   value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
 		</div>
 	</div>
