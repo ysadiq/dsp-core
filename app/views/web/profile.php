@@ -23,6 +23,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController $this
  * @var ProfileForm   $model
  * @var CActiveForm   $form
+ * @var string        $backUrl
  */
 
 Validate::register(
@@ -72,8 +73,6 @@ Validate::register(
 		</div>
 
 	<?php endif; ?>
-
-	<input type="hidden" name="back" id="back" value="0">
 
 	<div class="form-group">
 		<label for="ProfileForm_email" class="sr-only">Email Address</label>
@@ -185,8 +184,7 @@ jQuery(function($) {
 	});
 	$('#btn-back').on('click', function(e) {
 		e.preventDefault();
-		$('input#back').val(1);
-		$('form#profile-form').submit();
+		window.location = '<?php echo $backUrl?>';
 	});
 });
 </script>

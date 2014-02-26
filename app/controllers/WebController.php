@@ -269,10 +269,10 @@ class WebController extends BaseWebController
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			 '_splash',
-			 array(
+			'_splash',
+			array(
 				 'for' => PlatformStates::INIT_REQUIRED,
-			 )
+			)
 		);
 	}
 
@@ -315,10 +315,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'upgradeSchema',
-			 array(
+			'upgradeSchema',
+			array(
 				 'model' => $_model
-			 )
+			)
 		);
 	}
 
@@ -358,10 +358,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'initAdmin',
-			 array(
+			'initAdmin',
+			array(
 				 'model' => $_model
-			 )
+			)
 		);
 	}
 
@@ -404,10 +404,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'activate',
-			 array(
+			'activate',
+			array(
 				 'model' => $_model,
-			 )
+			)
 		);
 	}
 
@@ -493,13 +493,13 @@ class WebController extends BaseWebController
 		$_providers = array();
 
 		$this->render(
-			 'login',
-			 array(
+			'login',
+			array(
 				 'model'          => $_model,
 				 'activated'      => $this->_activated,
 				 'redirected'     => $redirected,
 				 'loginProviders' => $_providers,
-			 )
+			)
 		);
 	}
 
@@ -523,11 +523,11 @@ class WebController extends BaseWebController
 				try
 				{
 					$_identity = Password::changePasswordBySecurityAnswer(
-										 $_model->email,
-										 $_model->answer,
-										 $_model->password,
-										 true,
-										 true
+						$_model->email,
+						$_model->answer,
+						$_model->password,
+						true,
+						true
 					);
 
 					if ( Pii::user()->login( $_identity ) )
@@ -557,10 +557,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'securityQuestion',
-			 array(
+			'securityQuestion',
+			array(
 				 'model' => $_model,
-			 )
+			)
 		);
 	}
 
@@ -613,10 +613,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'welcome',
-			 array(
+			'welcome',
+			array(
 				 'model' => $_model,
-			 )
+			)
 		);
 	}
 
@@ -643,13 +643,6 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['RegisterUserForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['RegisterUserForm'];
 
 			if ( $_model->validate() )
@@ -686,10 +679,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'register',
-			 array(
-				 'model' => $_model
-			 )
+			'register',
+			array(
+				 'model' => $_model,
+				 'backUrl' => $this->_getRedirectUrl()
+			)
 		);
 	}
 
@@ -731,20 +725,20 @@ class WebController extends BaseWebController
 					{
 						case 'register':
 							$_identity = Register::userConfirm(
-												 $_model->email,
-												 $_model->code,
-												 $_model->password,
-												 true,
-												 true
+								$_model->email,
+								$_model->code,
+								$_model->password,
+								true,
+								true
 							);
 							break;
 						default:
 							$_identity = Password::changePasswordByCode(
-												 $_model->email,
-												 $_model->code,
-												 $_model->password,
-												 true,
-												 true
+								$_model->email,
+								$_model->code,
+								$_model->password,
+								true,
+								true
 							);
 							break;
 					}
@@ -766,11 +760,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'confirm',
-			 array(
+			'confirm',
+			array(
 				 'model'  => $_model,
 				 'reason' => $reason,
-			 )
+			)
 		);
 	}
 
@@ -789,13 +783,6 @@ class WebController extends BaseWebController
 		// collect user input data
 		if ( isset( $_POST, $_POST['PasswordForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['PasswordForm'];
 
 			//	Validate user input and redirect to the previous page if valid
@@ -819,10 +806,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'password',
-			 array(
-				 'model' => $_model,
-			 )
+			'password',
+			array(
+				 'model'   => $_model,
+				 'backUrl' => $this->_getRedirectUrl()
+			)
 		);
 	}
 
@@ -840,13 +828,6 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['ProfileForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['ProfileForm'];
 
 			if ( $_model->validate() )
@@ -874,10 +855,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'profile',
-			 array(
-				 'model' => $_model
-			 )
+			'profile',
+			array(
+				 'model' => $_model,
+				 'backUrl' => $this->_getRedirectUrl()
+			)
 		);
 	}
 
@@ -942,10 +924,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'upgradeDsp',
-			 array(
+			'upgradeDsp',
+			array(
 				 'model' => $_model
-			 )
+			)
 		);
 	}
 
@@ -1062,12 +1044,12 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-						   $_providerModel,
-						   Pii::getState( $_providerId . '.user_config', array() ),
-						   array(
-							   'flow_type'    => $_flow,
-							   'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-						   )
+			$_providerModel,
+			Pii::getState( $_providerId . '.user_config', array() ),
+			array(
+				 'flow_type'    => $_flow,
+				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+			)
 		);
 
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
