@@ -209,12 +209,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common.git",
-                "reference": "a6a19c6837acb81b9b621214e58fc7aa4cb89f60"
+                "reference": "aba7c2a7258e6448b578742633548f88332c045e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common/get/a6a19c6837acb81b9b621214e58fc7aa4cb89f60.zip",
-                "reference": "a6a19c6837acb81b9b621214e58fc7aa4cb89f60",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common/get/aba7c2a7258e6448b578742633548f88332c045e.zip",
+                "reference": "aba7c2a7258e6448b578742633548f88332c045e",
                 "shasum": ""
             },
             "require": {
@@ -227,7 +227,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.2.x-dev"
+                    "dev-develop": "1.4.x-dev"
                 }
             },
             "autoload": {
@@ -243,12 +243,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Sr. Software Engineer"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Sr. Software Engineer"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -257,7 +257,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-02-25 20:08:56"
+            "time": "2014-02-26 07:19:16"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -266,12 +266,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "e09af9d7e63141095ceea9022fdbae40f0bf51fd"
+                "reference": "c9520f4472d9dfa88d14e31a35dca45fb3426504"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/e09af9d7e63141095ceea9022fdbae40f0bf51fd.zip",
-                "reference": "e09af9d7e63141095ceea9022fdbae40f0bf51fd",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/c9520f4472d9dfa88d14e31a35dca45fb3426504.zip",
+                "reference": "c9520f4472d9dfa88d14e31a35dca45fb3426504",
                 "shasum": ""
             },
             "require": {
@@ -334,7 +334,7 @@
                 "dsp",
                 "sdk"
             ],
-            "time": "2014-02-25 20:11:25"
+            "time": "2014-02-26 14:01:41"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -392,7 +392,7 @@
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Guinea Pig, server-side/client-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
@@ -548,12 +548,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "8d39ffa70ac1aecd297e93d4185092f51877edb4"
+                "reference": "edbcaaa5d38267a499289da215d3a9702c65ab1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8d39ffa70ac1aecd297e93d4185092f51877edb4",
-                "reference": "8d39ffa70ac1aecd297e93d4185092f51877edb4",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/edbcaaa5d38267a499289da215d3a9702c65ab1f",
+                "reference": "edbcaaa5d38267a499289da215d3a9702c65ab1f",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-02-20 17:01:46"
+            "time": "2014-02-26 01:49:03"
         },
         {
             "name": "kisma/kisma",
@@ -693,12 +693,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "6b81ac8153be8ae33a877a79be3f61809f1448d9"
+                "reference": "0ac27c8089d0ec41728d96b5aa0dcad18fb0d459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/6b81ac8153be8ae33a877a79be3f61809f1448d9",
-                "reference": "6b81ac8153be8ae33a877a79be3f61809f1448d9",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0ac27c8089d0ec41728d96b5aa0dcad18fb0d459",
+                "reference": "0ac27c8089d0ec41728d96b5aa0dcad18fb0d459",
                 "shasum": ""
             },
             "require": {
@@ -706,8 +706,8 @@
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "~2.4.8",
-                "doctrine/couchdb": "dev-master",
+                "aws/aws-sdk-php": "~2.4, >2.4.8",
+                "doctrine/couchdb": "~1.0@dev",
                 "graylog2/gelf-php": "~1.0",
                 "phpunit/phpunit": "~3.7.0",
                 "raven/raven": "~0.5",
@@ -752,7 +752,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-02-23 15:06:45"
+            "time": "2014-02-26 12:30:17"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
@@ -1363,273 +1363,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "fpoirotte/http_request2",
-            "version": "dev-trunk",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fpoirotte/HTTP_Request2.git",
-                "reference": "2c9b238d2296d60111b063a27183630d8688b196"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fpoirotte/HTTP_Request2/zipball/2c9b238d2296d60111b063a27183630d8688b196",
-                "reference": "2c9b238d2296d60111b063a27183630d8688b196",
-                "shasum": ""
-            },
-            "require": {
-                "pear/net_url2": "~2.0.0",
-                "pear/pear_exception": "dev-master",
-                "php": ">=5.2.0"
-            },
-            "provide": {
-                "pear/http_request2": "2.1.1-patch1"
-            },
-            "suggest": {
-                "ext-curl": "Adds support for the curl wrappers",
-                "ext-fileinfo": "Retrieves information on files",
-                "ext-openssl": "Adds support for HTTPS requests",
-                "ext-zlib": "Adds support for compressed HTTP responses"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-trunk": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "HTTP_Request2": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
-            "license": [
-                "BSD"
-            ],
-            "authors": [
-                {
-                    "name": "Alexey Borzov",
-                    "email": "avb@php.net",
-                    "role": "Developer HTML_Common2"
-                }
-            ],
-            "description": "Provides an easy way to perform HTTP requests.",
-            "homepage": "https://github.com/fpoirotte/HTTP_Request2",
-            "time": "2013-10-27 10:13:43"
-        },
-        {
-            "name": "pear/mail_mime",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Mail_Mime.git",
-                "reference": "8607cd83c59601dccca6ea4da985406083c6ac46"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Mail_Mime/zipball/8607cd83c59601dccca6ea4da985406083c6ac46",
-                "reference": "8607cd83c59601dccca6ea4da985406083c6ac46",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mail": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD Style"
-            ],
-            "authors": [
-                {
-                    "name": "Cipriano Groenendal",
-                    "email": "cipri@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Aleksander Machniak",
-                    "email": "alec@php.net",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Mail_Mime",
-            "time": "2014-02-21 08:52:50"
-        },
-        {
-            "name": "pear/mail_mime-decode",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dreamfactorysoftware/Mail_mimeDecode.git",
-                "reference": "749a32a7a79df2ccdba00937bd5cdcebe9487c7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/Mail_mimeDecode/zipball/749a32a7a79df2ccdba00937bd5cdcebe9487c7f",
-                "reference": "749a32a7a79df2ccdba00937bd5cdcebe9487c7f",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mail_mimeDecode": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cipriano Groenendal",
-                    "email": "cipri@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Aleksander Machniak",
-                    "email": "alec@php.net",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Mail_mimeDecode",
-            "time": "2014-02-21 22:56:36"
-        },
-        {
-            "name": "pear/net_url2",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Net_URL2.git",
-                "reference": "68d6a20bc82c0d4bedbcae082e2c1739932dcb93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Net_URL2/zipball/68d6a20bc82c0d4bedbcae082e2c1739932dcb93",
-                "reference": "68d6a20bc82c0d4bedbcae082e2c1739932dcb93",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.1.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Net_URL2": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "David Coallier",
-                    "email": "davidc@php.net"
-                },
-                {
-                    "name": "Tom Klingenberg",
-                    "email": "tkli@php.net"
-                },
-                {
-                    "name": "Christian Schmidt",
-                    "email": "chmidt@php.net"
-                }
-            ],
-            "description": "Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
-            "homepage": "https://github.com/pear/Net_URL2",
-            "keywords": [
-                "PEAR",
-                "RFC 3986",
-                "net",
-                "networking",
-                "uri",
-                "url"
-            ],
-            "time": "2014-01-01 22:23:14"
-        },
-        {
-            "name": "pear/pear_exception",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/PEAR_Exception.git",
-                "reference": "d5a3e9597040dcc56a4a2053a605e07214951202"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/PEAR_Exception/zipball/d5a3e9597040dcc56a4a2053a605e07214951202",
-                "reference": "d5a3e9597040dcc56a4a2053a605e07214951202",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=4.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "class",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PEAR": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "."
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Helgi Thormar",
-                    "email": "dufuz@php.net"
-                },
-                {
-                    "name": "Greg Beaver",
-                    "email": "cellog@php.net",
-                    "role": "lead"
-                }
-            ],
-            "description": "The PEAR Exception base class.",
-            "homepage": "https://github.com/pear/PEAR_Exception",
-            "keywords": [
-                "exception"
-            ],
-            "time": "2014-02-21 17:39:41"
-        },
         {
             "name": "phpunit/dbunit",
             "version": "1.3.0",

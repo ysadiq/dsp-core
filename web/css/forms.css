@@ -72,6 +72,10 @@ a:hover, a:focus, a:active {
 	margin-bottom: 20px;
 }
 
+#formbox.container p:first-of-type {
+	text-align: center;
+}
+
 #formbox form {
 	/*background: #2E363F;*/
 	position: relative;
@@ -128,7 +132,7 @@ form, .form-buttons {
 	padding-top:   15px;
 }
 
-f.form-buttons button {
+.form-buttons button {
 	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 	font-weight: 300;
 }

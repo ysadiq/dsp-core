@@ -23,7 +23,7 @@ a:hover {
 }
 
 #header h1 {
-	background:  url("/img/logo.png") no-repeat scroll 0 0 transparent;
+	background:  url(../../img/logo.png) no-repeat scroll 0 0 transparent;
 	height:      31px;
 	left:        15px;
 	line-height: 600px;
@@ -622,7 +622,7 @@ div.dataTables_wrapper .ui-widget-header {
 }
 
 .line {
-	background: url("/img/line.png") repeat-x scroll 0 0 transparent;
+	background: url(../../img/line.png) repeat-x scroll 0 0 transparent;
 	display:    block;
 	height:     8px;
 }
