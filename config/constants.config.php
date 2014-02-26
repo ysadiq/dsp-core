@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 //	Already loaded? Bail...
-if ( defined( DSP_VERSION ) )
+if ( defined( 'DSP_VERSION' ) )
 {
 	return true;
 }

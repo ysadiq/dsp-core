@@ -21,7 +21,19 @@
  * console.config.php
  * This is the main configuration file all CLI applications
  */
+if ( !defined( 'DSP_VERSION' ) )
+{
+	require __DIR__ . '/constants.config.php';
+}
+
 if ( 'cli' == PHP_SAPI )
 {
 //	throw new Exception( 'Console mode not yet supported.' );
 }
+
+/**
+ * Aliases
+ */
+file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG_PATH;
+
+return array();

@@ -17,12 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Utility\Fabric;
 
 /**
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
  */
+require __DIR__ . '/constants.config.php';
 
 /**
  * Load up the database and common configurations between the web and background apps,
