@@ -23,6 +23,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController    $this
  * @var RegisterUserForm $model
  * @var CActiveForm      $form
+ * @var string           $backUrl
  */
 
 if ( $model->getViaEmail() )
@@ -112,8 +113,6 @@ else
 		)
 	);
 	?>
-
-	<input type="hidden" name="back" id="back" value="0">
 
 	<div class="form-group">
 		<label for="RegisterUserForm_email" class="sr-only">Email Address</label>
@@ -209,8 +208,7 @@ jQuery(function($) {
 	});
 	$('#btn-back').on('click', function(e) {
 		e.preventDefault();
-		$('input#back').val(1);
-		$('form#register-form').submit();
+		window.location = '<?php echo $backUrl?>';
 	});
 });
 </script>

@@ -23,6 +23,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController $this
  * @var PasswordForm  $model
  * @var CActiveForm   $form
+ * @var string        $backUrl
  */
 
 Validate::register(
@@ -75,8 +76,6 @@ Validate::register(
 
 	<?php endif; ?>
 
-	<input type="hidden" name="back" id="back" value="0">
-
 	<div class="form-group">
 		<label for="PasswordForm_oldPassword" class="sr-only">Old Password</label>
 
@@ -121,8 +120,7 @@ Validate::register(
 jQuery(function($) {
 	$('#btn-back').on('click', function(e) {
 		e.preventDefault();
-		$('input#back').val(1);
-		$('form#password-form').submit();
+		window.location = '<?php echo $backUrl?>';
 	});
 });
 </script>

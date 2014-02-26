@@ -197,8 +197,8 @@ class RestController extends BaseFactoryController
 			{
 				$requestUri = Yii::app()->request->requestUri;
 				if ( ( false === strpos( $requestUri, '?' ) &&
-					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
-					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+						'/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+					( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
 				)
 				{
 					$this->_resource .= '/';
