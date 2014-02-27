@@ -13,7 +13,6 @@ angular.module('AdminApp.apisdk', []).
 
 
                 $scope.init = function() {
-                    console.log('swagger init');
                   $scope.activateTab('swagger');
                     $scope.getCurrentServer();
                 };
@@ -24,7 +23,6 @@ angular.module('AdminApp.apisdk', []).
 
                 $scope.activateTab = function(tabIdStr) {
 
-                    console.log('activate called');
                     $scope.activeTab = tabIdStr;
                     $scope.$broadcast('tab:activate:tab', tabIdStr);
                 };
@@ -50,10 +48,17 @@ angular.module('AdminApp.apisdk', []).
                 });
 
 
-                $scope.$on('get:server', function(e) {
+                $scope.$on('swagger:getServer', function(e) {
 
-                    $scope.$broadcast('get:server:address', $scope.getCurrentServer());
+                    $scope.$broadcast('swagger:getServer:address', $scope.getCurrentServer());
                 });
+
+                $scope.$on('sdk:getServer', function(e) {
+
+                    console.log('sdk message')
+                    $scope.$broadcast('sdk:getServer:address', $scope.getCurrentServer());
+                });
+
 
 
                 $scope.init();
@@ -83,31 +88,26 @@ angular.module('AdminApp.apisdk', []).
                 scope.init = function() {
 
                     scope.$emit('tab:active');
-                    scope.$emit('get:server');
+                    scope.$emit('swagger:getServer');
                 };
-
-
 
                 scope.$on('tab:activate:tab', function(e, tabIdStr) {
 
                     scope.active = scope.id === tabIdStr;
-                    console.log('swagger respond to activate ' + scope.active);
 
+                    if (scope.active && !scope.iframeUrl) {
+                        scope.$emit('swagger:getServer');
+                    }
                 });
 
                 scope.$on('tab:active:tab', function(e, tabIdStr) {
 
-                    console.log('asdf');
                     scope.active = scope.id === tabIdStr;
-                    console.log(scope.active);
                 });
 
-                scope.$on('get:server:address', function(e, addressStr) {
-
-                    console.log('setting iframe address')
+                scope.$on('swagger:getServer:address', function(e, addressStr) {
 
                     scope.iframeUrl = addressStr + '/swagger/';
-                    console.log(scope.iframeUrl);
                 });
 
 
@@ -129,41 +129,38 @@ angular.module('AdminApp.apisdk', []).
                 scope.id = 'sdk';
                 scope.iframeUrl = null;
 
+
                 scope.init = function() {
 
                     scope.$emit('tab:active');
-                    scope.$emit('get:server');
+                    scope.$emit('sdk:getServer');
                 };
 
                 scope.$on('tab:activate:tab', function(e, tabIdStr) {
 
                     scope.active = scope.id === tabIdStr;
-                    console.log('sdk respond to activate ' + scope.active);
 
+                    if (scope.active && !scope.iframeUrl) {
+                        scope.$emit('sdk:getServer');
+                    }
                 });
 
                 scope.$on('tab:active:tab', function(e, tabIdStr) {
 
                     scope.active = scope.id === tabIdStr
+
                 });
 
-                scope.$on('get:server:address', function(e, addressStr) {
+                scope.$on('sdk:getServer:address', function(e, addressStr) {
 
-                    console.log('setting iframe address');
                     scope.iframeUrl = addressStr + '/docs/';
+
+                    angular.element('#docsFrame').attr('src', scope.iframeUrl);
+                    console.log(angular.element('#docsFrame'));
                 });
+
+                scope.init();
             }
         }
-    }])
-    .service('ApiSDKPageData', [function() {
-
-        var pageData = {};
-
-
-        return {
-
-        }
-
-
     }]);
 
