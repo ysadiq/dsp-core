@@ -108,6 +108,7 @@ var setCurrentApp = function (currentApp) {
     $('.active').removeClass('active');
     $("#nav_" + currentApp).addClass("active");
 };
+
 var showFileManager = function () {
     $("#root-file-manager iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/').show();
 

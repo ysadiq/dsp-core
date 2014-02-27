@@ -19,8 +19,6 @@ angular.module('AdminApp.apisdk', []).
 
 
 
-
-
                 $scope.activateTab = function(tabIdStr) {
 
                     $scope.activeTab = tabIdStr;
@@ -68,14 +66,16 @@ angular.module('AdminApp.apisdk', []).
             templateUrl: 'views/directives/apisdk/main.html',
             link: function(scope, elem, attrs) {
 
+
+
             }
         }
     }])
-    .directive('swagger', [function() {
+    .directive('swagger', ['$window', function($window) {
 
         return {
             restrict: 'E',
-            require: '^apisdk',
+            require: '^?apisdk',
             replace: true,
             scope: {},
             templateUrl: 'views/directives/apisdk/swagger.html',
@@ -87,9 +87,34 @@ angular.module('AdminApp.apisdk', []).
 
                 scope.init = function() {
 
+                    if (attrs.standAlone === 'true') {
+
+                        scope.iframeUrl = scope.getCurrentServer() + '/swagger/'
+                    }
+
                     scope.$emit('tab:active');
                     scope.$emit('swagger:getServer');
                 };
+
+
+                scope.getCurrentServer = function() {
+
+                    return $window.location.protocol + '\/\/' + $window.location.host;
+                };
+
+                scope.$on('swagger:on', function(e, serviceNameStr) {
+
+                    if (serviceNameStr) {
+                        scope.iframeUrl = scope.getCurrentServer() + '/swagger/#/' + serviceNameStr
+                    }
+
+                    scope.active = true;
+                });
+
+                scope.$on('swagger:off', function(e) {
+
+                    scope.active = false;
+                });
 
                 scope.$on('tab:activate:tab', function(e, tabIdStr) {
 
