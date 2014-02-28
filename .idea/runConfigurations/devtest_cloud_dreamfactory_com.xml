@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="devtest.cloud.dreamfactory.com" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" singleton="true" browser="CHROME" server_name="devtest.cloud.dreamfactory.com">
+    <RunnerSettings RunnerId="PhpWebAppDebugRunner" />
+    <ConfigurationWrapper RunnerId="PhpWebAppDebugRunner" />
+    <method />
+  </configuration>
+</component>
