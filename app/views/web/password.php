@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController $this
  * @var PasswordForm  $model
  * @var CActiveForm   $form
+ * @var string        $backUrl
  */
 
 Validate::register(
@@ -30,7 +31,7 @@ Validate::register(
 	array(
 		 'ignoreTitle'    => true,
 		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
 		 'rules'          => array(
 			 'PasswordForm[old_password]'    => array(
 				 'required'  => true,
@@ -74,8 +75,6 @@ Validate::register(
 		</div>
 
 	<?php endif; ?>
-
-	<input type="hidden" name="back" id="back" value="0">
 
 	<div class="form-group">
 		<label for="PasswordForm_oldPassword" class="sr-only">Old Password</label>
@@ -121,8 +120,7 @@ Validate::register(
 jQuery(function($) {
 	$('#btn-back').on('click', function(e) {
 		e.preventDefault();
-		$('input#back').val(1);
-		$('form#password-form').submit();
+		window.location = '<?php echo $backUrl?>';
 	});
 });
 </script>

@@ -2,9 +2,14 @@
 ** Form Template Classes
 **************************************************************************/
 
+html {
+	background-color: #444;
+}
+
 body {
 	color:            #F2F2F2;
-	background-color: #444;
+	background-color: transparent;
+
 	/*overflow:         hidden;*/
 }
 
@@ -65,6 +70,10 @@ a:hover, a:focus, a:active {
 #formbox h2 {
 	text-align:    center;
 	margin-bottom: 20px;
+}
+
+#formbox.container p:first-of-type {
+	text-align: center;
 }
 
 #formbox form {
@@ -314,6 +323,18 @@ form, .form-buttons {
 	z-index:          99999;
 }
 
+/** style for "remember me" label on login view */
+#LoginForm_rememberMe {
+	vertical-align: top;
+}
+
+#login-form > div:nth-child(6) > label {
+	margin-bottom:  0;
+	padding-bottom: 0;
+	margin-left:    4px;
+}
+
+/** media queries */
 @media screen and (max-width: 940px) {
 	#navbar-container {
 		padding: 0;

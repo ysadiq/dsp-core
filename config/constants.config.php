@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//	Already loaded? Bail...
+if ( defined( 'DSP_VERSION' ) )
+{
+	return true;
+}
+
 //*************************************************************************
 //* Constants
 //*************************************************************************
@@ -24,7 +30,7 @@
 /**
  * @var string
  */
-const DSP_VERSION = '1.3.3';
+const DSP_VERSION = '1.4.0';
 /**
  * @var string
  */

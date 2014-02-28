@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ Validate::register(
 	array(
 		 'ignoreTitle'    => true,
 		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
+		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
 		 'rules'          => array(
 			 'ConfirmUserForm[email]'          => array(
 				 'required'  => true,
@@ -40,14 +40,14 @@ Validate::register(
 			 'ConfirmUserForm[code]'           => array(
 				 'required' => true,
 			 ),
-			 'ConfirmUserForm[newPassword]'    => array(
+			 'ConfirmUserForm[password]'    => array(
 				 'required'  => true,
 				 'minlength' => 5,
 			 ),
-			 'ConfirmUserForm[repeatPassword]' => array(
+			 'ConfirmUserForm[passwordRepeat]' => array(
 				 'required'  => true,
 				 'minlength' => 5,
-				 'equalTo'   => '#ConfirmUserForm_newPassword',
+				 'equalTo'   => '#ConfirmUserForm_password',
 			 ),
 		 ),
 	)
@@ -110,23 +110,23 @@ Validate::register(
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="ConfirmUserForm_newPassword" class="sr-only">New Password</label>
+		<label for="ConfirmUserForm_password" class="sr-only">New Password</label>
 
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
-			<input tabindex="3" class="form-control password required" type="password" id="ConfirmUserForm_newPassword"
-				   name="ConfirmUserForm[newPassword]" placeholder="New Password" />
+			<input tabindex="3" class="form-control password required" type="password" id="ConfirmUserForm_password"
+				   name="ConfirmUserForm[password]" placeholder="New Password" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="ConfirmUserForm_repeatPassword" class="sr-only">Verify New Password</label>
+		<label for="ConfirmUserForm_passwordRepeat" class="sr-only">Verify New Password</label>
 
 		<div class="input-group">
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
-			<input tabindex="4" class="form-control password required" type="password" id="ConfirmUserForm_repeatPassword"
-				   name="ConfirmUserForm[repeatPassword]" placeholder="Verify NewPassword" />
+			<input tabindex="4" class="form-control password required" type="password" id="ConfirmUserForm_passwordRepeat"
+				   name="ConfirmUserForm[passwordRepeat]" placeholder="Verify New Password" />
 		</div>
 	</div>
 

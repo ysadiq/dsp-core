@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,6 @@ use DreamFactory\Platform\Utility\Fabric;
  * common.config.php
  * This file contains any application-level parameters that are to be shared between the background and web services
  */
-if ( !defined( 'DSP_VERSION' ) )
-{
-	require __DIR__ . '/constants.config.php';
-}
-
 //*************************************************************************
 //* Global Configuration Settings
 //*************************************************************************
@@ -46,10 +41,6 @@ $_defaultController = 'web';
 $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
 $_appName = 'DreamFactory Services Platform';
-/**
- * Aliases
- */
-file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG_PATH;
 
 /**
  * Application Paths
@@ -76,18 +67,25 @@ $_dbCache = $_dbCacheEnabled ? array(
  */
 if ( Fabric::fabricHosted() )
 {
+	$_storageBasePath = '/data/storage/' . \Kisma::get( 'platform.storage_key' );
+	$_privatePath = \Kisma::get( 'platform.private_path' );
+	$_storagePath = $_storageBasePath . '/blob';
+
 	$_instanceSettings = array(
-		'storage_base_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ),
-		'storage_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob',
-		'private_path'           => \Kisma::get( 'platform.private_path' ),
-		'snapshot_path'          => \Kisma::get( 'platform.private_path' ) . '/snapshots',
-		'applications_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/applications',
-		'library_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/lib',
-		'plugins_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/plugins',
+		'storage_base_path'      => $_storageBasePath,
+		'storage_path'           => $_storagePath,
+		'private_path'           => $_privatePath,
+		'snapshot_path'          => $_privatePath . '/snapshots',
+		'applications_path'      => $_storagePath . '/applications',
+		'library_path'           => $_storagePath . '/lib',
+		'plugins_path'           => $_storagePath . '/plugins',
+		'swagger_path'           => $_storagePath . '/swagger',
 		'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
 		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
 		'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
 	);
+
+	unset( $_storageBasePath, $_privatePath, $_storagePath );
 }
 else
 {
@@ -99,14 +97,14 @@ else
 		'applications_path'      => $_basePath . '/storage/applications',
 		'library_path'           => $_basePath . '/storage/lib',
 		'plugins_path'           => $_basePath . '/storage/plugins',
+		'swagger_path'           => $_basePath . '/storage/swagger',
 		'dsp_name'               => gethostname(),
 		'dsp.storage_id'         => null,
 		'dsp.private_storage_id' => null,
 	);
 }
 
-return array_merge(
-	$_instanceSettings,
+return array_merge( $_instanceSettings,
 	array(
 		/**
 		 * App Information
@@ -162,5 +160,4 @@ return array_merge(
 		 */
 		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
 		'admin.default_theme'           => 'united',
-	)
-);
+	) );

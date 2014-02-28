@@ -6,7 +6,6 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 
 	<title>LaunchPad</title>
-
 	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
 
 	<!-- Standard CSS -->
@@ -14,8 +13,7 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 	<!--[if IE 7]>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">
-	<![endif]-->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">    <![endif]-->
 
 	<link rel="stylesheet" href="css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="css/launch.css" type="text/css" />
@@ -32,6 +30,45 @@
 <div id="navbar-container"></div>
 <div id="app-list-container"></div>
 <div id="app-container"></div>
+<div id="changeProfileDialog" class="modal hide">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+				onclick="Actions.clearProfile()">&times;</button>
+		<h3>Change Profile</h3>
+	</div>
+	<div class="alert-area">
+		<div class="alert alert-block" id="changeProfileErrorMessage"></div>
+	</div>
+	<div class="modal-body">
+		<div class="modal-body-form">
+			<label for="email">Email:</label>
+			<input type="email" class="input-xlarge ONKEYUP" id="email" value="" />
+			<label for="firstname">First Name:</label>
+			<input type="text" class="input-xlarge ONKEYUP" id="firstname" value="" />
+			<label for="lastname">Last Name:</label>
+			<input type="text" class="input-xlarge ONKEYUP" id="lastname" value="" />
+			<label for="displayname">Display Name:</label>
+			<input type="text" class="input-xlarge ONKEYUP" id="displayname" value="" />
+
+			<label for="displayname">Default Application:</label>
+			<select class="input-xlarge ONKEYUP" id="default_app">
+				<option value>None</option>
+			</select>
+
+			<label for="displayname">Phone:</label>
+			<input type="text" class="input-xlarge ONKEYUP" id="phone" value="" />
+			<label for="displayname">Security Question:</label>
+			<input type="text" class="input-xlarge ONKEYUP" id="security_question" value="" />
+			<label for="displayname">Security Answer:</label>
+			<input type="text" class="input-xlarge ONKEYUP" id="security_answer" value="" />
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal" onclick="Actions.clearProfile()">Close</a> <a href="#"
+																								   class="btn btn-primary"
+																								   onclick="Actions.updateProfile()">Save changes</a>
+	</div>
+</div>
 
 <div id="logoffDialog" class="modal hide fade">
 	<div class="modal-header">
@@ -40,13 +77,11 @@
 	</div>
 	<div class="modal-body">
 		<div class="modal-body-form" style="margin-top: 20px; font-size: 14px;">
-			Are you sure you want to sign out of the application?<br /><br />
-			<strong style="font-size:18px;">Any unsaved changes will be lost!</strong>
+			Are you sure you want to sign out of the application?<br /><br /> <strong style="font-size:18px;">Any unsaved changes will be lost!</strong>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal">Close</a>
-		<a href="#" class="btn btn-primary" onclick="Actions.signOut()">Sign Out</a>
+		<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#" class="btn btn-primary" onclick="Actions.signOut()">Sign Out</a>
 	</div>
 </div>
 
@@ -56,18 +91,16 @@
 <script src="/js/utils.js"></script>
 <script src="/js/pnotify/pnotify.js"></script>
 <script src="js/querystring-0.9.0-min.js"></script>
-<script src="js/actions.js"></script>
 <script src="js/templates.js"></script>
+<script src="/js/simpleStorage.min.js"></script>
+<script src="js/actions.js"></script>
+<script type="application/javascript">
+function modalBodySizer() {
+	var h = $(window).height();
+	$('.modal-body').css({'max-height': (h * .4) + 'px'});
+}
 
-<script type="text/javascript">
-
-    function modalBodySizer() {
-        var h = $(window).height();
-        $('.modal-body').css({
-            "max-height" : (h *.4) + "px"
-        });
-    }
-    modalBodySizer();
+modalBodySizer();
 </script>
 </body>
 </html>

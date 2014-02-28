@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ use DreamFactory\Oasys\Oasys;
 use DreamFactory\Oasys\Stores\FileSystem;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
+use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
 use DreamFactory\Platform\Resources\System\Config;
 use DreamFactory\Platform\Resources\User\Password;
@@ -41,6 +42,7 @@ use Kisma\Core\Utility\Curl;
 use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
+use Kisma\Core\Utility\Storage;
 
 /**
  * WebController.php
@@ -642,13 +644,6 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['RegisterUserForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['RegisterUserForm'];
 
 			if ( $_model->validate() )
@@ -687,7 +682,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'register',
 			array(
-				 'model' => $_model
+				 'model' => $_model,
+				 'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -788,13 +784,6 @@ class WebController extends BaseWebController
 		// collect user input data
 		if ( isset( $_POST, $_POST['PasswordForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['PasswordForm'];
 
 			//	Validate user input and redirect to the previous page if valid
@@ -820,7 +809,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'password',
 			array(
-				 'model' => $_model,
+				 'model'   => $_model,
+				 'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -839,13 +829,6 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['ProfileForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['ProfileForm'];
 
 			if ( $_model->validate() )
@@ -875,7 +858,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'profile',
 			array(
-				 'model' => $_model
+				 'model' => $_model,
+				 'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -1099,8 +1083,6 @@ class WebController extends BaseWebController
 
 	/**
 	 * Handle inbound redirect from various services
-	 *
-	 * @throws DreamFactory\Common\Exceptions\RestException
 	 */
 	public function actionAuthorize()
 	{
@@ -1135,7 +1117,7 @@ class WebController extends BaseWebController
 			if ( null === Option::get( $_REQUEST, 'access_token' ) )
 			{
 				Log::error( 'Inbound request code missing.' );
-				throw new \DreamFactory\Platform\Exceptions\RestException( HttpResponse::BadRequest );
+				throw new RestException( HttpResponse::BadRequest );
 			}
 			else
 			{
@@ -1163,7 +1145,7 @@ class WebController extends BaseWebController
 
 	protected function _getRedirectUrl( $action = null )
 	{
-		if (!empty( $action ))
+		if ( !empty( $action ) )
 		{
 			// forward to that action page
 			$_returnUrl = '/' . $this->id . '/' . $action;
