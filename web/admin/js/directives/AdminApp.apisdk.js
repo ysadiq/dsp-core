@@ -87,13 +87,15 @@ angular.module('AdminApp.apisdk', []).
 
                 scope.init = function() {
 
+
                     if (attrs.standAlone === 'true') {
 
                         scope.iframeUrl = scope.getCurrentServer() + '/swagger/'
-                    }
+                    }else {
 
-                    scope.$emit('tab:active');
-                    scope.$emit('swagger:getServer');
+                        scope.$emit('tab:active');
+                        scope.$emit('swagger:getServer');
+                    }
                 };
 
 
@@ -104,8 +106,10 @@ angular.module('AdminApp.apisdk', []).
 
                 scope.$on('swagger:on', function(e, serviceNameStr) {
 
+                    console.log(serviceNameStr);
+
                     if (serviceNameStr) {
-                        scope.iframeUrl = scope.getCurrentServer() + '/swagger/#/' + serviceNameStr
+                        scope.iframeUrl = scope.getCurrentServer() + '/swagger/#!/' + serviceNameStr;
                     }
 
                     scope.active = true;
@@ -114,6 +118,7 @@ angular.module('AdminApp.apisdk', []).
                 scope.$on('swagger:off', function(e) {
 
                     scope.active = false;
+                    scope.iframeUrl = null;
                 });
 
                 scope.$on('tab:activate:tab', function(e, tabIdStr) {
