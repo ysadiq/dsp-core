@@ -49,9 +49,9 @@
 	},
 	"require":           {
 		"php":                                  ">=5.3.10",
-		"kisma/kisma":                          "~0.2.22",
-		"dreamfactory/yii":                     "*",
-		"dreamfactory/oasys":                   "~0.4.6",
+		"kisma/kisma":                          "~0.2@dev",
+		"dreamfactory/yii":                     "=1.1.13@stable",
+		"dreamfactory/oasys":                   "~0.4@stable",
 		"dreamfactory/lib-php-common-platform": "~1.4@dev",
 		"pear/net_url2":                        "*",
 		"pear/http_request2":                   "*",
@@ -63,8 +63,12 @@
 		"phpunit/dbunit":           "@stable",
 		"phpunit/phpunit-selenium": "@stable",
 		"phpunit/phpunit-story":    "@stable",
-		"phpunit/php-timer":        "@stable",
-		"phpunit/php-invoker":      "@stable"
+		"phpunit/php-timer":        "@stable"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+	"extra":             {
+		"branch-alias": {
+			"dev-develop": "1.4.x-dev"
+		}
+	}
 }
