@@ -52,7 +52,7 @@
 		"kisma/kisma":                          "~0.2@dev",
 		"dreamfactory/yii":                     "=1.1.13@stable",
 		"dreamfactory/oasys":                   "~0.4@stable",
-		"dreamfactory/lib-php-common-platform": "~1.4@dev",
+		"dreamfactory/lib-php-common-platform": "dev-feature/sse-basics as dev-master",
 		"pear/net_url2":                        "*",
 		"pear/http_request2":                   "*",
 		"pear/mail_mime":                       "*",
