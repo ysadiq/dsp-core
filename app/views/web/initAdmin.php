@@ -61,9 +61,10 @@ Validate::register(
 <div class="container" id="formbox">
 	<h2>Create a System Admin User</h2>
 
-	<p>Your DSP requires at least one system administrator. Complete this form to create your first admin user.</p>
-
-	<p>More users can be easily added using the DSP's built-in 'Admin' application.</p>
+	<p>Your DSP requires at least one system administrator.
+		Complete this form to create your first admin user.
+		More users can be easily added using the DSP's built-in 'Admin' application.
+	</p>
 
 	<?php
 	$form = $this->beginWidget(
