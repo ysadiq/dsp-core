@@ -142,6 +142,7 @@ return array(
 					'logFile'     => $_logFileName,
 					'logPath'     => $_logFilePath,
 					'levels'      => '',
+					//					'levels'      => 'error, warning, trace, info, debug, notice',
 				),
 				array(
 					'class'         => 'CWebLogRoute',

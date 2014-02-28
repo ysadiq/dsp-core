@@ -101,13 +101,15 @@ $_dbCache = $_dbCacheEnabled ? array(
 if ( Fabric::fabricHosted() )
 {
 	$_instanceSettings = array(
-		'storage_base_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ),
-		'storage_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob',
-		'private_path'           => \Kisma::get( 'platform.private_path' ),
-		'snapshot_path'          => \Kisma::get( 'platform.private_path' ) . '/snapshots',
-		'applications_path'      => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/applications',
-		'library_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/lib',
-		'plugins_path'           => '/data/storage/' . \Kisma::get( 'platform.storage_key' ) . '/blob/plugins',
+		'private_path'           => $_privatePath,
+		'local_config_path'      => $_privatePath . '/config',
+		'snapshot_path'          => $_privatePath . '/snapshots',
+		'storage_base_path'      => $_storageBasePath,
+		'storage_path'           => $_storagePath,
+		'applications_path'      => $_storagePath . '/applications',
+		'library_path'           => $_storagePath . '/plugins',
+		'plugins_path'           => $_storagePath . '/plugins',
+		'swagger_path'           => $_storagePath . '/swagger',
 		'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
 		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
 		'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
@@ -115,14 +117,19 @@ if ( Fabric::fabricHosted() )
 }
 else
 {
+	$_storagePath = $_basePath . '/storage';
+	$_privatePath = $_basePath . '/storage/.private';
+
 	$_instanceSettings = array(
-		'storage_base_path'      => $_basePath . '/storage',
-		'storage_path'           => $_basePath . '/storage',
-		'private_path'           => $_basePath . '/storage/.private',
-		'snapshot_path'          => $_basePath . '/storage/.private/snapshots',
-		'applications_path'      => $_basePath . '/storage/applications',
-		'library_path'           => $_basePath . '/storage/lib',
-		'plugins_path'           => $_basePath . '/storage/plugins',
+		'private_path'           => $_privatePath,
+		'local_config_path'      => $_privatePath . '/config',
+		'snapshot_path'          => $_privatePath . '/snapshots',
+		'storage_base_path'      => $_storagePath,
+		'storage_path'           => $_storagePath,
+		'applications_path'      => $_storagePath . '/applications',
+		'library_path'           => $_storagePath . '/plugins',
+		'plugins_path'           => $_storagePath . '/plugins',
+		'swagger_path'           => $_storagePath . '/swagger',
 		'dsp_name'               => gethostname(),
 		'dsp.storage_id'         => null,
 		'dsp.private_storage_id' => null,
