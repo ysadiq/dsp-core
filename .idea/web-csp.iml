@@ -10,10 +10,12 @@
       <excludeFolder url="file://$MODULE_DIR$/storage/plugins/kisma" />
       <excludeFolder url="file://$MODULE_DIR$/tests/config" />
       <excludeFolder url="file://$MODULE_DIR$/vd" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/tests" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii/DreamFactory/Yii.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/.composer" />

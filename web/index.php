@@ -17,8 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Yii\Components\PlatformWebApplication;
-use DreamFactory\Yii\Utility\Pii;
 
 /**
  * index.php
@@ -36,11 +34,12 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
  */
 defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
 defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+
 PlatformWebApplication::setProfilerEnabled( true );
 
 //	Create the application and run
 Pii::run(
-   __DIR__,
-   $_autoloader,
-   'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication'
+	__DIR__,
+	$_autoloader,
+	'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication'
 );
