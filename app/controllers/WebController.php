@@ -192,10 +192,10 @@ class WebController extends BaseWebController
 	protected function _initSystemSplash()
 	{
 		$this->render(
-			 '_splash',
-			 array(
-				 'for' => PlatformStates::INIT_REQUIRED,
-			 )
+			'_splash',
+			array(
+				'for' => PlatformStates::INIT_REQUIRED,
+			)
 		);
 	}
 
@@ -238,10 +238,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'upgradeSchema',
-			 array(
-				 'model' => $_model
-			 )
+			'upgradeSchema',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -281,10 +281,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'initAdmin',
-			 array(
-				 'model' => $_model
-			 )
+			'initAdmin',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -327,11 +327,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'activate',
-			 array(
-				 'model'     => $_model,
-				 'activated' => $this->_activated,
-			 )
+			'activate',
+			array(
+				'model'     => $_model,
+				'activated' => $this->_activated,
+			)
 		);
 	}
 
@@ -340,28 +340,8 @@ class WebController extends BaseWebController
 	 */
 	public function actionInitData()
 	{
-		// just do, no need to ask
-		//		$_model = new InitDataForm();
-		//
-		//		if ( isset( $_POST, $_POST['InitDataForm'] ) )
-		//		{
-		//			$_model->attributes = $_POST['InitDataForm'];
-		//
-		//			if ( $_model->validate() )
-		//			{
 		SystemManager::initData();
 		$this->redirect( '/' );
-		//			}
-		//
-		//			$this->refresh();
-		//		}
-		//
-		//		$this->render(
-		//			'initData',
-		//			array(
-		//				 'model' => $_model
-		//			)
-		//		);
 	}
 
 	/**
@@ -429,13 +409,13 @@ class WebController extends BaseWebController
 		$_providers = array();
 
 		$this->render(
-			 'login',
-			 array(
-				 'model'          => $_model,
-				 'activated'      => $this->_activated,
-				 'redirected'     => $redirected,
-				 'loginProviders' => $_providers,
-			 )
+			'login',
+			array(
+				'model'          => $_model,
+				'activated'      => $this->_activated,
+				'redirected'     => $redirected,
+				'loginProviders' => $_providers,
+			)
 		);
 	}
 
@@ -459,11 +439,11 @@ class WebController extends BaseWebController
 				try
 				{
 					$_identity = Password::changePasswordBySecurityAnswer(
-										 $_model->email,
-										 $_model->answer,
-										 $_model->password,
-										 true,
-										 true
+						$_model->email,
+						$_model->answer,
+						$_model->password,
+						true,
+						true
 					);
 
 					if ( Pii::user()->login( $_identity ) )
@@ -493,10 +473,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'securityQuestion',
-			 array(
-				 'model' => $_model,
-			 )
+			'securityQuestion',
+			array(
+				'model' => $_model,
+			)
 		);
 	}
 
@@ -549,10 +529,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'welcome',
-			 array(
-				 'model' => $_model,
-			 )
+			'welcome',
+			array(
+				'model' => $_model,
+			)
 		);
 	}
 
@@ -622,10 +602,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'register',
-			 array(
-				 'model' => $_model
-			 )
+			'register',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -670,21 +650,21 @@ class WebController extends BaseWebController
 					{
 						case 'register':
 							$_identity = Register::userConfirm(
-												 $_model->email,
-												 $_model->code,
-												 $_model->password,
-												 true,
-												 true
+								$_model->email,
+								$_model->code,
+								$_model->password,
+								true,
+								true
 							);
 							break;
 
 						default:
 							$_identity = Password::changePasswordByCode(
-												 $_model->email,
-												 $_model->code,
-												 $_model->password,
-												 true,
-												 true
+								$_model->email,
+								$_model->code,
+								$_model->password,
+								true,
+								true
 							);
 							break;
 					}
@@ -706,11 +686,11 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'confirm',
-			 array(
-				 'model'  => $_model,
-				 'reason' => $reason,
-			 )
+			'confirm',
+			array(
+				'model'  => $_model,
+				'reason' => $reason,
+			)
 		);
 	}
 
@@ -759,10 +739,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'password',
-			 array(
-				 'model' => $_model,
-			 )
+			'password',
+			array(
+				'model' => $_model,
+			)
 		);
 	}
 
@@ -814,10 +794,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'profile',
-			 array(
-				 'model' => $_model
-			 )
+			'profile',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -882,10 +862,10 @@ class WebController extends BaseWebController
 		}
 
 		$this->render(
-			 'upgradeDsp',
-			 array(
-				 'model' => $_model
-			 )
+			'upgradeDsp',
+			array(
+				'model' => $_model
+			)
 		);
 	}
 
@@ -1002,12 +982,12 @@ class WebController extends BaseWebController
 		Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
 
 		$_config = Provider::buildConfig(
-						   $_providerModel,
-						   Pii::getState( $_providerId . '.user_config', array() ),
-						   array(
-							   'flow_type'    => $_flow,
-							   'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
-						   )
+			$_providerModel,
+			Pii::getState( $_providerId . '.user_config', array() ),
+			array(
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+			)
 		);
 
 		Log::debug( 'remote login config: ' . print_r( $_config, true ) );
@@ -1149,11 +1129,7 @@ class WebController extends BaseWebController
 			//	Try local launchpad
 			if ( is_file( \Kisma::get( 'app.app_path' ) . $_defaultApp ) )
 			{
-				if ( $_error )
-				{
-					$_defaultApp = $_defaultApp . Curl::urlSeparator( $_defaultApp ) . $_error;
-				}
-
+				$_defaultApp = $_defaultApp . Curl::urlSeparator( $_defaultApp ) . $_error;
 				$this->redirect( $_defaultApp );
 			}
 

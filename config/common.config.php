@@ -78,12 +78,16 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
 /**
  * Application Paths
  */
-\Kisma::set( 'app.app_name', $_appName );
-\Kisma::set( 'app.doc_root', $_docRoot );
-\Kisma::set( 'app.log_path', $_logFilePath );
-\Kisma::set( 'app.vendor_path', $_vendorPath );
-\Kisma::set( 'app.log_file_name', $_logFileName );
-\Kisma::set( 'app.project_root', $_basePath );
+\Kisma::set(
+	array(
+		'app.app_name'      => $_appName,
+		'app.doc_root'      => $_docRoot,
+		'app.log_path'      => $_logFilePath,
+		'app.vendor_path'   => $_vendorPath,
+		'app.log_file_name' => $_logFileName,
+		'app.project_root'  => $_basePath,
+	)
+);
 
 /**
  * Database Caching
@@ -100,6 +104,10 @@ $_dbCache = $_dbCacheEnabled ? array(
  */
 if ( Fabric::fabricHosted() )
 {
+	$_storageBasePath = '/data/storage/' . \Kisma::get( 'platform.storage_key' );
+	$_privatePath = \Kisma::get( 'platform.private_path' );
+	$_storagePath = $_storageBasePath . '/blob';
+
 	$_instanceSettings = array(
 		'private_path'           => $_privatePath,
 		'local_config_path'      => $_privatePath . '/config',
@@ -114,6 +122,8 @@ if ( Fabric::fabricHosted() )
 		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
 		'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
 	);
+
+	unset( $_storageBasePath, $_privatePath, $_storagePath );
 }
 else
 {

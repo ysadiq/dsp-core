@@ -37,7 +37,7 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
 defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
 defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 
-PlatformWebApplication::setProfilerEnabled( true );
+PlatformWebApplication::setEnableProfiler( true );
 
 //	Create the application and run
 Pii::run(

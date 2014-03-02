@@ -141,8 +141,6 @@ return array(
 					'maxFileSize' => '102400',
 					'logFile'     => $_logFileName,
 					'logPath'     => $_logFilePath,
-					'levels'      => '',
-					//					'levels'      => 'error, warning, trace, info, debug, notice',
 				),
 				array(
 					'class'         => 'CWebLogRoute',
