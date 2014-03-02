@@ -17,6 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Yii\Components\PlatformWebApplication;
+use DreamFactory\Yii\Utility\Pii;
 
 /**
  * index.php
