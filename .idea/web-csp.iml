@@ -2,6 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.composer" />
       <excludeFolder url="file://$MODULE_DIR$/.composer/cache" />
       <excludeFolder url="file://$MODULE_DIR$/log" />
@@ -15,6 +16,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/tests" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/log" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii/DreamFactory/Yii.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys.setdev-on" />
@@ -42,19 +45,19 @@
       <library name="PHARS">
         <CLASSES>
           <root url="phar:///usr/share/php/data/phpDocumentor/vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar" />
-          <root url="phar:///usr/share/php/phpDocumentor/tests/data/test.phar" />
-          <root url="phar:///usr/share/php/data/phpDocumentor/vendor/phpdocumentor/fileset/tests/data/test.phar" />
-          <root url="phar:///usr/share/php/composer.phar" />
           <root url="phar:///usr/share/php/data/phpDocumentor/box.phar" />
           <root url="phar://$MODULE_DIR$/composer.phar" />
+          <root url="phar:///usr/share/php/composer.phar" />
+          <root url="phar:///usr/share/php/phpDocumentor/tests/data/test.phar" />
+          <root url="phar:///usr/share/php/data/phpDocumentor/vendor/phpdocumentor/fileset/tests/data/test.phar" />
         </CLASSES>
         <SOURCES>
           <root url="phar:///usr/share/php/data/phpDocumentor/vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar" />
-          <root url="phar:///usr/share/php/phpDocumentor/tests/data/test.phar" />
-          <root url="phar:///usr/share/php/data/phpDocumentor/vendor/phpdocumentor/fileset/tests/data/test.phar" />
-          <root url="phar:///usr/share/php/composer.phar" />
           <root url="phar:///usr/share/php/data/phpDocumentor/box.phar" />
           <root url="phar://$MODULE_DIR$/composer.phar" />
+          <root url="phar:///usr/share/php/composer.phar" />
+          <root url="phar:///usr/share/php/phpDocumentor/tests/data/test.phar" />
+          <root url="phar:///usr/share/php/data/phpDocumentor/vendor/phpdocumentor/fileset/tests/data/test.phar" />
         </SOURCES>
       </library>
     </orderEntry>

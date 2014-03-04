@@ -24,6 +24,11 @@ use DreamFactory\Yii\Utility\Pii;
  * index.php
  * Main entry point/bootstrap for all processes
  */
+/**
+ * @type bool If true, your logs will grow large.
+ */
+const DSP_DEBUG = true;
+
 //	Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
@@ -34,10 +39,12 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
  * Debug-level output is enabled by default below.
  * For production mode, you'll want to comment-out the section below.
  */
-defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
-defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
-
-PlatformWebApplication::setEnableProfiler( true );
+if ( DSP_DEBUG )
+{
+	defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
+	defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+	PlatformWebApplication::setEnableProfiler( true );
+}
 
 //	Create the application and run
 Pii::run(

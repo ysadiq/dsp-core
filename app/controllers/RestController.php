@@ -121,21 +121,12 @@ class RestController extends BaseFactoryController
 
 			if ( !empty( $_tunnelMethod ) )
 			{
-				$_tunnelMethod = strtoupper( $_tunnelMethod );
-				switch ( $_tunnelMethod )
+				if ( !HttpMethod::contains( $_tunnelMethod = strtoupper( $_tunnelMethod ) ) )
 				{
-					case HttpMethod::Post:
-					case HttpMethod::Get:
-					case HttpMethod::Put:
-					case HttpMethod::Merge:
-					case HttpMethod::Patch:
-					case HttpMethod::Delete:
-						$_action = $_tunnelMethod;
-						break;
-
-					default:
-						throw new BadRequestException( 'Unknown tunneling verb "' . $_tunnelMethod . '" in request.' );
+					throw new BadRequestException( 'Unknown tunneling verb "' . $_tunnelMethod . '" in request.' );
 				}
+
+				$_action = $_tunnelMethod;
 			}
 
 			$this->_handleAction( $_action );
