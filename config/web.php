@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Utility\Fabric;
-
 /**
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
@@ -39,7 +37,7 @@ return array(
 	/**
 	 * Basics
 	 */
-	'basePath'           => $_docRoot . '/protected',
+	'basePath'           => $_basePath . '/app',
 	'name'               => $_appName,
 	'runtimePath'        => $_logFilePath,
 	'defaultController'  => $_defaultController,
@@ -51,7 +49,6 @@ return array(
 	'resourceNamespaces' => array(
 		'DreamFactory\\Platform\\Resources',
 		'DreamFactory\\Platform\\Resources\\System',
-		'DreamFactory\\Platform\\Resources\\Portal',
 		'DreamFactory\\Platform\\Resources\\User',
 	),
 	/**
@@ -92,8 +89,8 @@ return array(
 		//	Asset management
 		'assetManager' => array(
 			'class'      => 'CAssetManager',
-			'basePath'   => 'public/assets',
-			'baseUrl'    => '/public/assets',
+			'basePath'   => $_docRoot . '/assets',
+			'baseUrl'    => '/assets',
 			'linkAssets' => true,
 		),
 		//	Database configuration
@@ -126,7 +123,7 @@ return array(
 		//	User configuration
 		'user'         => array(
 			'allowAutoLogin' => true,
-			'loginUrl'       => array( $_defaultController . '/activate' ),
+			'loginUrl'       => array( $_defaultController . '/login' ),
 		),
 		'clientScript' => array(
 			'scriptMap' => array(
@@ -143,7 +140,7 @@ return array(
 					'maxFileSize' => '102400',
 					'logFile'     => $_logFileName,
 					'logPath'     => $_logFilePath,
-					'levels'      => 'error, warning, trace, info, debug, notice',
+					//					'levels'      => 'error, warning, trace, info, debug, notice',
 				),
 				array(
 					'class'         => 'CWebLogRoute',

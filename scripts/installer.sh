@@ -1,10 +1,10 @@
 #!/bin/bash
 # DSP install/update utility
-# Copyright (C) 2012-2013 DreamFactory Software, Inc. All Rights Reserved
+# Copyright (C) 2012-2014 DreamFactory Software, Inc. All Rights Reserved
 #
 # This file is part of the DreamFactory Services Platform(tm) (DSP)
 # DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
-# Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+# Copyright 2012-2013 DreamFactory Software, Inc. <support@dreamfactory.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,25 @@
 #
 #
 # CHANGELOG:
+#
+# v1.3.3
+#	Check for ".composer" directory and add to permission checks/sets
+#
+# v1.3.2
+#	Added -i|--interactive argument
+#
+# v1.3.1
+#	Corrected bogus message
+#
+# v1.3.0
+#   Added checks for uid/gid and appropriate messaging
+#	Corrected "getopt" usage for Mac OSs
+#
+# v1.2.9
+#	Add .htaccess to list of files to be chown'd
+#
+# v1.2.8
+#	Remove shared and links for launchpad, admin and web-core
 #
 # v1.2.7
 #	Remove composer cache on clean install
@@ -85,27 +104,40 @@
 #	Added better support for checking if a user name was passed in as an argument
 #
 
+## Get some help
+. `dirname $0`/colors.sh
+
 ##
 ##	Initial settings
 ##
-
-VERSION=1.2.7
+VERSION=1.3.3
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
+NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
+DARWIN_WEB_USER=_www
 BASE=`pwd`
 FABRIC=0
 FABRIC_MARKER=/var/www/.fabric_hosted
 VERBOSE=
 QUIET="--quiet"
-WRITE_ACCESS=0777
+WRITE_ACCESS=0775
 SCRIPT_PERMS=0775
 FILE_PERMS=0664
 DIR_PERMS=2775
+FORCE_USER=0
+EXIT_CODE=0
+EXIT_CMD=()
+NO_COMPOSER=0
 
 ## Who am I?
-INSTALL_USER=${USER}
+if [ $UID -eq 0 ] ; then
+	INSTALL_USER=${SUDO_USER}
+else
+	INSTALL_USER=${USER}
+fi
+
 if [ "x" = "${INSTALL_USER}x" ] ; then
 	INSTALL_USER=`whoami`
 fi
@@ -139,11 +171,14 @@ LOG_DIR=${BASE_PATH}/log/
 STORAGE_DIR=${BASE_PATH}/storage/
 VENDOR_DIR=${BASE_PATH}/vendor
 WEB_DIR=${BASE_PATH}/web
-PUBLIC_DIR=${WEB_DIR}/public
-ASSETS_DIR=${PUBLIC_DIR}/assets
-APPS_DIR=${BASE_PATH}/apps
-SHARE_DIR=${BASE_PATH}/shared
+ASSETS_DIR=${WEB_DIR}/assets
 COMPOSER_DIR=${BASE_PATH}
+COMPOSER_CACHE="$COMPOSER_DIR/.composer"
+PARSED_OPTIONS=
+MY_LOG="${LOG_DIR}installer.log"
+DIRS_TO_CHOWN='* .git*'
+SHORT_OPTIONS="hvcDfni"
+LONG_OPTIONS="help,verbose,clean,debug,force,no-composer,interactive"
 
 # Hosted or standalone?
 if [ -f "${FABRIC_MARKER}" ] ; then
@@ -151,48 +186,148 @@ if [ -f "${FABRIC_MARKER}" ] ; then
 	TAG="Mode: ${B1}Fabric${B2}"
 fi
 
-echo "${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Installer [${TAG} v${VERSION}]"
+## Make sure we have a log directory
+if [ ! -d "${LOG_DIR}" ] ; then
+	mkdir "${LOG_DIR}" && _info "Created ${LOG_DIR}" || _error "Error creating ${LOG_DIR}"
+fi
 
-#	Execute getopt on the arguments passed to this program, identified by the special character $@
-PARSED_OPTIONS=$(getopt -n "$0"  -o hvcD --long "help,verbose,clean,debug"  -- "$@")
+sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Installer [${TAG} v${VERSION}]"
+
+## Functions
+
+#
+# Basic usage statement
+#
+usage() {
+	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive]"
+
+	echo
+
+	echo " -c,--clean         Removes the transient data and performs a clean install."
+	echo " -D,--debug         Like --verbose plus even more information."
+	echo " -f,--force         Forces installation when running user is not ${B1}root${B2}."
+	echo " -i,--interactive   Run Composer in interactive mode."
+	echo " -n,--no-composer   Skip the Composer install/update process."
+	echo " -v,--verbose       Outputs more information about the job run."
+	echo " -h,--help          This information."
+	echo
+
+	exit ${EXIT_CODE}
+}
+
+#
+# Determine the OS type and parse arguments accordingly
+#
+_parse_arguments() {
+	if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
+		WEB_USER=${DARWIN_WEB_USER}
+		_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
+
+		PARSED_OPTIONS=`getopt ${SHORT_OPTIONS} $*`
+	else
+		if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
+			_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+		fi
+
+		#	Execute getopt on the arguments passed to this program, identified by the special character $@
+		PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
+	fi
+}
+
+##
+##	Makes sure our directories are in place...
+##
+_check_structure() {
+	if [ ! -d "${STORAGE_DIR}" ] ; then
+		mkdir "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
+	fi
+
+	if [ ! -d "${ASSETS_DIR}" ] ; then
+		mkdir "${ASSETS_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${ASSETS_DIR}" || _error "Error creating ${ASSETS_DIR}"
+	fi
+
+	_dbg "${B1}chown${B2}ing directories (${DIRS_TO_CHOWN}) and files to \"${INSTALL_USER}:${WEB_USER}\""
+	chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
+
+	if [ $? -ne 0 ] ; then
+		_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
+		_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
+		_dbg "$_cmd"
+		EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
+	fi
+
+	_dbg "Finding all directories & files needing permissions change..."
+	find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod ${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
+	_dbg "Finding all scripts for permissions change..."
+	find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {} >>${MY_LOG} 2>&1 \;
+
+    [ -d "${COMPOSER_CACHE}" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} ${COMPOSER_CACHE}"
+}
+
+#	Determine OS type & parse args
+_parse_arguments "$@"
 
 #	Bad arguments, something has gone wrong with the getopt command.
 if [ $? -ne 0 ] ; then
-	exit 1
+	usage
 fi
 
 #	A little magic, necessary when using getopt.
-eval set -- "${PARSED_OPTIONS}"
+if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
+	set -- ${PARSED_OPTIONS}
+else
+	eval set -- ${PARSED_OPTIONS}
+fi
 
-while true ;  do
-	case "$1" in
+for _i
+do
+	case "$_i" in
+		-i|--interactive)
+			NO_INTERACTION=
+			shift;
+			_info "Interactive mode enabled"
+			;;
+
+		-n|--no-composer)
+			_info "Composer install/update will not be performed."
+			NO_COMPOSER=1
+			shift;
+			;;
+
 		-h|--help)
-			echo "usage: $0 [-v|--verbose] [-c|--clean]"
+			usage
+	    	;;
+
+		-f|--force)
+			_notice "Forced non-root installation"
+			FORCE_USER=1
 			shift
 	    	;;
 
 		-v|--verbose)
 			VERBOSE="-v"
 			QUIET=
-			echo "  * Verbose mode enabled"
+			_info "Verbose mode enabled"
 			shift
 			;;
 
 		-D|--debug)
 			VERBOSE="-vvv"
 			QUIET=
-			echo "  * Debug verbosity enabled"
+			_info "Extra verbose/debug logging enabled"
+			DF_DEBUG=1
 			shift
 			;;
 
 		-c|--clean)
-			rm -rf shared/ vendor/ .composer/ composer.lock >/dev/null
+			rm -rf ${VENDOR_DIR} .composer/ composer.lock >>${MY_LOG} 2>&1
 			if [ $? -ne 0 ] ; then
-				echo "  * ${B1}WARNING{B2}: Cannot remove \"shared/\", \"vendor/\", and/or \"composer.lock\"."
-				echo "  * ${B1}WARNING{B2}: Clean installation NOT guaranteed."
+				_notice "Cannot remove \"${VENDOR_DIR}\", and/or \"composer.lock\"."
+				_notice "Clean installation NOT guaranteed."
 			else
-				echo "  * Clean install. Dependencies removed."
+				_info "Clean install. Dependencies removed."
 			fi
+
 			shift
 			;;
 
@@ -202,135 +337,160 @@ while true ;  do
 	esac
 done
 
+_info "Install user is ${B1}\"${INSTALL_USER}\"${B2}"
+
+## Right groups?
+PROPER_GROUP=`groups | grep -c ${WEB_USER}`
+if [ $UID -ne 0 ] && [ ${PROPER_GROUP} -eq 0 ] ; then
+	_error
+	_error "The install user (${INSTALL_USER}) is not in the web user's group (${WEB_USER})."
+	_error " "
+	_error "To fix this, perform one of the following options:"
+	_error " "
+	_error "    1. Run this script again but: with ${B1}sudo${B2}; as ${B1}root${B2}; or as the system's web user (${B1}${WEB_USER}${B2})"
+	_error " "
+	_error "       -- or --"
+	_error " "
+	_error "    2. Add your user to the system's web user's group (${B1}${WEB_USER}${B2}):"
+	_error "       a. Via command line: ${B1}sudo usermod -a -G ${WEB_USER} ${USER}${B2}"
+	_error "       b. Manually edit the /etc/group file (not recommended)"
+
+	echo
+	exit 1
+fi
+
+if [ $UID -ne 0 ] && [ ${FORCE_USER} -eq 0 ]; then
+	_error
+	_error "You are not running this script as root. This can result in a non-working DSP. Please run as root or use ${B1}sudo${B2}."
+	_error "If you wish to run as a user other than root, please use the --force option."
+
+	echo
+	exit 1
+fi
+
 # Composer already installed?
-if [ -f "${COMPOSER_DIR}/${COMPOSER}" ] ; then
-	echo "  * Composer pre-installed: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
-	echo "  * Checking for package manager updates"
-	${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction self-update
-else
-	echo "  * No composer found, installing: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
-	curl -s https://getcomposer.org/installer | ${PHP} -- --install-dir ${COMPOSER_DIR} ${QUIET} ${VERBOSE} --no-interaction
-fi
+if [ ${NO_COMPOSER} -eq 0 ] ; then
+	if [ -f "${COMPOSER_DIR}/${COMPOSER}" ] ; then
+		_info "Composer pre-installed: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
+		_info "Checking for package manager updates"
 
-echo "  * Install user is ${B1}\"${INSTALL_USER}\"${B2}"
-
-#	Determine OS type
-if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
-	WEB_USER=_www
-	echo "  * OS X installation: Apache user set to \"${B1}_www${B2}\""
-elif [ "Linux" != "${SYSTEM_TYPE}" ] ; then
-	echo "  * Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction self-update
+	else
+		_info "No composer found, installing: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
+		curl -s https://getcomposer.org/installer | ${PHP} -- --install-dir ${COMPOSER_DIR} ${QUIET} ${VERBOSE} --no-interaction
+	fi
 fi
 
 ##
-## Shutdown non-essential services
+## Shutdown non-essential services (if root)
 ##
-if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-	service apache2 stop >/dev/null 2>&1
+if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
+	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+		_dbg "Stopping Apache Web Server"
+		service apache2 stop >>${MY_LOG} 2>&1
+	fi
+
+	_dbg "Stopping MySQL Database Server"
+	service mysql stop >>${MY_LOG} 2>&1
 fi
-
-service mysql stop >/dev/null 2>&1
-
-# Make sure these are there...
-[ ! -d "${SHARE_DIR}" ] && mkdir -p "${SHARE_DIR}" >/dev/null && chmod ${WRITE_ACCESS} "${SHARE_DIR}" && echo "  * Created ${SHARE_DIR}"
 
 # Git submodules (not currently used, but could be in the future)
-/usr/bin/git submodule update --init -q >/dev/null 2>&1 && echo "  * External modules updated"
+_dbg "Updating git submodules"
+/usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
+
+# Ensure our needed directories are in place
+_dbg "Checking file system structure"
+_check_structure
 
 ##
 ## Check directory permissions...
 ##
-echo "  * Checking file system"
-chown -R ${INSTALL_USER}:${WEB_USER} * .git* >/dev/null 2>&1
-find ./ -type d -exec chmod ${DIR_PERMS} {}  >/dev/null 2>&1 \;
-find ./ -type f -exec chmod ${FILE_PERMS} {}  >/dev/null 2>&1 \;
-find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {}  >/dev/null 2>&1 \;
+_info "Checking file system"
 
 ##
 ## Check if composer is installed
 ## If not, install. If it is, make sure it's current
 ##
-echo "  * Working directory: ${B1}${BASE_PATH}${B2}"
+_dbg "Working directory: ${B1}${BASE_PATH}${B2}"
 
 ##
 ##	Install composer dependencies
 ##
 
-pushd "${BASE_PATH}" >/dev/null
+pushd "${BASE_PATH}" >/dev/null 2>&1
 
-if [ ! -d "${VENDOR_DIR}" ] ; then
-	echo "  * Installing dependencies"
-	${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction install
-#	${PHP} ${COMPOSER_DIR}/${COMPOSER} -v install
-else
-	echo "  * Updating dependencies"
-	${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction update
-#	${PHP} ${COMPOSER_DIR}/${COMPOSER} -v update
+if [ ${NO_COMPOSER} -eq 0 ] ; then
+	if [ ! -d "${VENDOR_DIR}" ] ; then
+		_info "Installing dependencies"
+		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} install ; _code=$?
+	else
+		_info "Updating dependencies"
+		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
+	fi
+
+	[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
 fi
 
-[ $? -ne 0 ] && echo "  * ${B1}ERROR:${B2} Composer did not complete successfully ($?). Some features may not operate properly."
-
-##
-##	Make sure our directories are in place...
-##
-chgrp -R ${WEB_USER} ${SHARE_DIR} ${VENDOR_DIR} ./composer.lock >/dev/null 2>&1
-
-if [ ! -d "${LOG_DIR}" ] ; then
-	mkdir "${LOG_DIR}" >/dev/null 2>&1 && echo "  * Created ${LOG_DIR}"
+if [ -d "${VENDOR_DIR}" ] ; then
+	chown -R :${WEB_USER} ${VENDOR_DIR} ./composer.lock >>${MY_LOG} 2>&1
+	if [ $? -ne 0 ] ; then
+		_cmd="chown -R :${WEB_USER} ${VENDOR_DIR} ./composer.lock"
+		_notice "Error changing group of vendor and/or composer.lock. Additional steps required. See note at end of run."
+		_dbg "$_cmd"
+		EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
+	fi
 fi
 
-if [ ! -d "${STORAGE_DIR}" ] ; then
-	mkdir "${STORAGE_DIR}" >/dev/null 2>&1 && echo "  * Created ${STORAGE_DIR}"
+##
+## make owned by user with group of web-user
+##
+chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
+if [ $? -ne 0 ] ; then
+	_cmd="chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN}"
+	_notice "Error changing ownership of local files. Additional steps required. See note at end of run."
+	_dbg "$_cmd"
+	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
 
-if [ ! -d "${ASSETS_DIR}" ] ; then
-	mkdir "${ASSETS_DIR}" >/dev/null 2>&1 && echo "  * Created ${ASSETS_DIR}"
+##
+## make writable by web server and ensure group write bits are set properly...
+##
+chmod -R ${DIR_PERMS} ${STORAGE_DIR} ${LOG_DIR} >>${MY_LOG} 2>&1
+if [ $? -ne 0 ] ; then
+	_cmd="chmod -R ${WRITE_ACCESS} ${STORAGE_DIR} ${LOG_DIR}"
+	_notice "Error changing permissions of web-accessible assets. Additional steps required. See note at end of run."
+	_dbg "$_cmd"
+	EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
 fi
 
-# Into public dir, link shared apps and junk
-cd ${PUBLIC_DIR}
+##
+## Restart non-essential services (if root)
+##
+if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
+	service mysql start >>${MY_LOG} 2>&1
 
-if [ ! -L "${PUBLIC_DIR}/web-core" ] ; then
-    ln -sf ../../shared/dreamfactory/web/web-core/ web-core >/dev/null 2>&1
-    echo "  * Core linked"
+	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+		service apache2 start >>${MY_LOG} 2>&1
+	else
+		service apache2 reload >>${MY_LOG} 2>&1
+	fi
 fi
 
-if [ ! -L "${PUBLIC_DIR}/launchpad" ] ; then
-    ln -sf ../../shared/dreamfactory/app/app-launchpad/ launchpad >/dev/null 2>&1
-    echo "  * LaunchPad linked"
+if [ ! -z "${EXIT_CMD}" ] ; then
+	EXIT_CODE=2
+	_notice
+	_notice "Be sure to run the following commands (with ${B1}sudo${B2} as shown) in order to complete installation:"
+
+	for _cmd in "${EXIT_CMD[@]}" ;
+	do
+		_notice "    ${B1}sudo $_cmd${B2}"
+	done
+
+	_notice
 fi
 
-if [ ! -L "${PUBLIC_DIR}/admin" ] ; then
-    ln -sf ../../shared/dreamfactory/app/app-admin/ admin >/dev/null 2>&1
-    echo "  * Admin linked"
-fi
-
-# Back
-cd - >/dev/null 2>&1
-
-##
-## make owned by user
-##
-chown -R ${INSTALL_USER}:${WEB_USER} * .git*  >/dev/null 2>&1
-
-##
-## make writable by web server
-##
-chmod -R ${WRITE_ACCESS} shared/ vendor/ log/ web/public/assets/ >/dev/null 2>&1
-
-##
-## Restart non-essential services
-##
-
-service mysql start >/dev/null 2>&1
-
-if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-	service apache2 start >/dev/null 2>&1
-else
-	service apache2 reload >/dev/null 2>&1
-fi
-
+## And we're spent...
+_info "Complete. Enjoy the rest of your day!"
 echo
-echo "Complete. Enjoy the rest of your day!"
 
 exit 0

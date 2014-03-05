@@ -1,29 +1,20 @@
 {
 	"name":              "dreamfactory/dsp-core",
 	"description":       "DreamFactory Services Platform(tm) Core",
-	"homepage":          "http://dreamfactorysoftware.github.io",
-	"version":           "1.1.2",
 	"config":            {
-		"home":      "./",
-		"cache-dir": "./.composer/cache"
+		"home":            "./",
+		"cache-dir":       "./.composer/cache",
+		"discard-changes": true
 	},
-	"keywords":          [
-		"php", "php5", "rest", "framework", "cloud-computing", "remote web services", "library", "dsp-core", "dsp"
-	],
-	"type":              "library",
+	"keywords":          ["rest", "framework", "cloud-computing", "remote web services", "dsp-core", "dsp"],
 	"license":           [
 		"Apache-2.0"
 	],
 	"authors":           [
 		{
-			"name":  "Lee Hicks",
-			"email": "leehicks@dreamfactory.com",
+			"name":  "Jerry Ablan",
+			"email": "jerryablan@dreamfactory.com",
 			"role":  "Lead Developer, server-side"
-		},
-		{
-			"name":  "Jason Sykes",
-			"email": "jasonsykes@dreamfactory.com",
-			"role":  "Lead Developer, client-side"
 		},
 		{
 			"name":  "Todd Appleton",
@@ -31,32 +22,57 @@
 			"role":  "Lead Developer and QA, client-side"
 		},
 		{
-			"name":  "Jerry Ablan",
-			"email": "jerryablan@dreamfactory.com",
-			"role":  "Black Ops"
+			"name":  "Lee Hicks",
+			"email": "leehicks@dreamfactory.com",
+			"role":  "Lead Developer, server-side"
+		},
+		{
+			"name":  "Michael Mandato",
+			"email": "michaelmandato@dreamfactory.com",
+			"role":  "Lead Developer, client-side"
+		},
+		{
+			"name":  "Jason Sykes",
+			"email": "jasonsykes@dreamfactory.com",
+			"role":  "Lead Developer, client-side"
 		}
 	],
+	"homepage":          "http://dreamfactorysoftware.github.io",
 	"support":           {
 		"email":  "support@dreamfactory.com",
 		"issues": "https://github.com/dreamfactorysoftware/dsp-core/issues",
 		"wiki":   "https://github.com/dreamfactorysoftware/dsp-core/wiki",
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
-	"minimum-stability": "dev",
 	"require":           {
 		"php":                                  ">=5.3.10",
-		"kisma/kisma":                          ">=0.1.4",
-		"dreamfactory/yii":                     "dev-master",
-		"dreamfactory/app-admin":               "1.1.*",
-		"dreamfactory/app-launchpad":           "1.1.*",
-		"dreamfactory/lib-php-common-platform": "1.*",
-		"dreamfactory/web-core":                "*",
-		"dreamfactory/oasys":                   "*"
+		"pear-pear.php.net/Net_URL2":           "*",
+		"pear-pear.php.net/HTTP_Request2":      "*",
+		"pear-pear.php.net/Mail_mimeDecode":    "*",
+		"pear-pear.php.net/Mail_Mime":          "*",
+		"kisma/kisma":                          "~0.2@stable",
+		"dreamfactory/yii":                     "=1.1.13",
+		"dreamfactory/lib-php-common":          "~1.4@stable",
+		"dreamfactory/lib-php-common-yii":      "~1.4@stable",
+		"dreamfactory/oasys":                   "~0.4@stable",
+		"dreamfactory/lib-php-common-platform": "~1.4@stable"
+	},
+	"require-dev":       {
+		"phpunit/phpunit":          "~3.7@stable",
+		"phpunit/dbunit":           "@stable",
+		"phpunit/phpunit-selenium": "@stable",
+		"phpunit/phpunit-story":    "@stable"
 	},
 	"repositories":      [
 		{
 			"type": "pear",
 			"url":  "http://pear.php.net"
 		}
-	]
+	],
+	"minimum-stability": "dev",
+	"extra":             {
+		"branch-alias": {
+			"dev-develop": "1.4.x-dev"
+		}
+	}
 }

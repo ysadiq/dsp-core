@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,24 @@
  * limitations under the License.
  */
 use DreamFactory\Platform\Utility\Fabric;
-use Kisma\Core\Utility\FilterInput;
-use Kisma\Core\Utility\Log;
 
 /**
  * database.config.php
  * The database configuration file for the DSP
  */
-//require_once __DIR__ . '/../web/protected/components/Fabric.php';
-
 if ( Fabric::fabricHosted() )
 {
 	return Fabric::initialize();
 }
+
+/**
+ * Database names vary by type of DSP:
+ *
+ *        1. Free Edition/Hosted:   DSP name
+ *        2. Hosted Private:        hpp_<DSP Name>
+ *        3. All others:            dreamfactory
+ *
+ */
 
 if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
 {
@@ -50,7 +55,7 @@ return array(
 	'password'              => $_dbPassword,
 	'emulatePrepare'        => true,
 	'charset'               => 'utf8',
-	'enableProfiling'       => YII_DEBUG,
-	'enableParamLogging'    => true,
+	'enableProfiling'       => defined( 'YII_DEBUG' ),
+	'enableParamLogging'    => defined( 'YII_DEBUG' ),
 	'schemaCachingDuration' => 3600,
 );
