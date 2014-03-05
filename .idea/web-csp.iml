@@ -12,6 +12,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tests/config" />
       <excludeFolder url="file://$MODULE_DIR$/vd" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/DreamFactory/Platform/tests" />
