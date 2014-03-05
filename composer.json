@@ -3,17 +3,10 @@
 	"description":       "DreamFactory Services Platform(tm) Core",
 	"homepage":          "http://dreamfactorysoftware.github.io",
 	"config":            {
-		"home":            "./",
-		"cache-dir":       "./.composer/cache",
 		"discard-changes": true
 	},
-	"keywords":          [
-		"php", "php5", "rest", "framework", "cloud-computing", "remote web services", "library", "dsp-core", "dsp"
-	],
-	"type":              "library",
-	"license":           [
-		"Apache-2.0"
-	],
+	"keywords":          ["rest", "framework", "cloud-computing", "remote web services", "dsp-core", "dsp"],
+	"license":           ["Apache-2.0"],
 	"authors":           [
 		{
 			"name":  "Jerry Ablan",
@@ -48,10 +41,10 @@
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
 	"require":           {
-		"php":                                  ">=5.3.10",
+		"php":                                  ">=5.3.18",
 		"kisma/kisma":                          "~0.2@dev",
 		"dreamfactory/yii":                     "=1.1.13",
-		"dreamfactory/oasys":                   "~0.4@stable",
+		"dreamfactory/oasys":                   "~0.4@dev",
 		"dreamfactory/lib-php-common-platform": "dev-feature/sse-basics as dev-master",
 		"pear/net_url2":                        "*",
 		"pear/http_request2":                   "*",
@@ -59,7 +52,7 @@
 		"pear/mail_mime-decode":                "*"
 	},
 	"require-dev":       {
-		"phpunit/phpunit":          "*",
+		"phpunit/phpunit":          "~3.7@stable",
 		"phpunit/dbunit":           "@stable",
 		"phpunit/phpunit-selenium": "@stable",
 		"phpunit/phpunit-story":    "@stable",
