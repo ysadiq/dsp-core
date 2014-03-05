@@ -23,6 +23,7 @@ use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +62,7 @@ class RestController extends BaseFactoryController
 	{
 		parent::init();
 
-		$this->_requestObject = Request::createFromGlobals();
+		$this->_requestObject = Pii::app()->getRequestObject();
 	}
 
 	/**
@@ -195,23 +196,31 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		$_request = ( $this->_requestObject = $this->_requestObject ? : Request::createFromGlobals() );
-		$_pos = strpos( $this->_service = $_path = $_request->query->get( 'path' ), '/' );
-
-		if ( false !== $_pos )
+		if ( !$this->_requestObject )
 		{
-			$this->_service = substr( $_path, 0, $_pos );
-			$this->_resource = substr( $_path, $_pos + 1 );
+			$this->_requestObject ? : Request::createFromGlobals();
+		}
 
-			//	Removal of trailing slashes from resource
-			if ( !empty( $this->_resource ) )
+		$_pathInfo = $this->_requestObject->getPathInfo();
+		$_trailingSlash = ( '/' == $_pathInfo[strlen( $_pathInfo ) - 1] );
+		$_path = trim( $this->_requestObject->getPathInfo(), '/' );
+		$_pathParts = explode( '/', $_path );
+
+		if ( !empty( $_pathParts ) )
+		{
+			//	Shift off the controller ID
+			if ( $this->id != ( $_controllerId = array_shift( $_pathParts ) ) )
 			{
-				$_pos = strpos( $_requestUri = $_request->getUri(), '?' );
+				Log::notice( 'Requested path controller ID "' . $_controllerId . '" does not match mine: ' . $this->id );
+			}
 
-				if ( ( false !== $_pos && '/' == $_requestUri[strlen( $_requestUri ) - 1] ) || ( '/' == $_requestUri[$_pos - 1] ) )
-				{
-					$this->_resource .= '/';
-				}
+			$this->_service = array_shift( $_pathParts );
+			$this->_resource = implode( '/', $_pathParts );
+
+			//	Fix removal of trailing slashes from resource
+			if ( !empty( $this->_resource ) && $_trailingSlash )
+			{
+				$this->_resource .= '/';
 			}
 		}
 
