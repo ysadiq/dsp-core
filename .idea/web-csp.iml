@@ -20,7 +20,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/build" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/log" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-platform/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii/DreamFactory/Yii.setdev-on" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/lib-php-common-yii/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys.setdev-on" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/.composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dreamfactory/oasys/DreamFactory/Oasys/.idea" />

@@ -1,8 +1,5 @@
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries/
+.idea
 vendor
-!web/vendor/bootstrap
 log
 storage
 composer.phar
@@ -10,6 +7,7 @@ composer.lock
 .composer/
 web/assets
 web/favicon.ico
+!web/vendor/
 id_deploy
 test.php
 test.sh
@@ -22,4 +20,5 @@ vendor/dreamfactory/*.setdev-on
 vd
 config/salt.config.php
 tests/config/salt.config.php
+tests/config/keys.config.php
 
