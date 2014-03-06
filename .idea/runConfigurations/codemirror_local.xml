@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="codemirror.local" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true" uri="http://dsp.local">
-    <mapping url="http://dsp.local/admin/events" local-file="$PROJECT_DIR$/app/views/admin" />
-    <RunnerSettings RunnerId="JavascriptDebugRunner" />
-    <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
-    <method />
-  </configuration>
-</component>

@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="portal-sandbox" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true" uri="http://next.cloud.dreamfactory.com/web/portal-sandbox/index.php">
-    <mapping url="http:///var/www/next" local-file="$PROJECT_DIR$" />
-    <RunnerSettings RunnerId="JavascriptDebugRunner" />
-    <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
-    <method />
-  </configuration>
-</component>
