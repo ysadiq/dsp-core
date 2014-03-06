@@ -1,29 +1,52 @@
 <h2>ConfigRequest</h2>
-<ul class="parameter">
-  <li  style="font-weight:bold" class="param-required-">open_reg_role_id : integer
-	  <br/><span style="font-weight:normal" class="param-description">Default Role Id assigned to newly registered users, set to null to turn off open registration.</span>
+  <ul class="parameter">
+  <li class="param-required-">open_reg_role_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">open_reg_email_service_id : integer
-	  <br/><span style="font-weight:normal" class="param-description">Set to an email-type service id to require email confirmation of newly registered users.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">open_reg_email_service_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">open_reg_email_template_id : integer
-	  <br/><span style="font-weight:normal" class="param-description">Default email template used for open registration email confirmations.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">open_reg_email_template_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">password_email_service_id : integer
-	  <br/><span style="font-weight:normal" class="param-description">Set to an email-type service id to require email confirmation to reset passwords, otherwise defaults to security question and answer.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">invite_email_service_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">password_email_template_id : integer
-	  <br/><span style="font-weight:normal" class="param-description">Default email template used for password reset email confirmations.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">invite_email_template_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">guest_role_id : integer
-	  <br/><span style="font-weight:normal" class="param-description">Role Id assigned for all guest sessions, set to null to require authenticated sessions.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">password_email_service_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">editable_profile_fields : string
-	  <br/><span style="font-weight:normal" class="param-description">Comma-delimited list of fields the user is allowed to edit.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">password_email_template_id : int
+	  <br/>{description}}
   </li>
-  <li  style="font-weight:bold" class="param-required-">allowed_hosts : List[HostInfo]
-	  <br/><span style="font-weight:normal" class="param-description">CORS whitelist of allowed remote hosts.</span>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">guest_role_id : int
+	  <br/>{description}}
   </li>
-  </ul>
-
-
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">editable_profile_fields : string
+	  <br/>{description}}
+  </li>
+</ul>
+  <ul class="parameter">
+  <li class="param-required-">allowed_hosts : List[HostInfo]
+	  <br/>{description}}
+  </li>
+</ul>
+  
