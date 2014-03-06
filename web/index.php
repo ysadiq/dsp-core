@@ -27,7 +27,7 @@ use DreamFactory\Yii\Utility\Pii;
 /**
  * @type bool If true, your logs will grow large.
  */
-const DSP_DEBUG = false;
+const DSP_DEBUG = true;
 
 //	Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
