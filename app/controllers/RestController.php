@@ -25,7 +25,6 @@ use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
-use Kisma\Core\Utility\FilterInput;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -100,7 +99,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionGet()
 	{
-		$this->_handleAction( HttpMethod::Get );
+		$this->_handleAction( HttpMethod::GET );
 	}
 
 	/**
@@ -108,23 +107,26 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPost()
 	{
-		$_action = HttpMethod::Post;
+		$_action = HttpMethod::POST;
 
 		try
 		{
-			//	Check for verb tunneling
-			$_tunnelMethod = FilterInput::server( 'HTTP_X_HTTP_METHOD', null, FILTER_SANITIZE_STRING );
-
-			if ( empty( $_tunnelMethod ) )
-			{
-				$_tunnelMethod = FilterInput::request( 'method', null, FILTER_SANITIZE_STRING );
-			}
+			//	Check for verb tunneling via X-Http-Method/X-Http-Method-Override header
+			$_tunnelMethod = strtoupper(
+				$this->_requestObject->headers->get(
+					'X-HTTP-METHOD',
+					$this->_requestObject->headers->get(
+						'X-HTTP-METHOD-OVERRIDE',
+						$this->_requestObject->query->get( 'method' )
+					)
+				)
+			);
 
 			if ( !empty( $_tunnelMethod ) )
 			{
-				if ( !HttpMethod::contains( $_tunnelMethod = strtoupper( $_tunnelMethod ) ) )
+				if ( !HttpMethod::contains( $_tunnelMethod ) )
 				{
-					throw new BadRequestException( 'Unknown tunneling verb "' . $_tunnelMethod . '" in request.' );
+					throw new BadRequestException( 'Invalid verb "' . $_tunnelMethod . '" in request.' );
 				}
 
 				$_action = $_tunnelMethod;
@@ -171,8 +173,8 @@ class RestController extends BaseFactoryController
 	{
 		try
 		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, $action );
+			$_service = ServiceHandler::getService( $this->_service );
+			$_service->processRequest( $this->_resource, $action );
 		}
 		catch ( \Exception $ex )
 		{
