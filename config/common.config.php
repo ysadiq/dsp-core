@@ -160,6 +160,8 @@ return array_merge(
 		'dsp.version'                   => DSP_VERSION,
 		'dsp.name'                      => $_instanceSettings['dsp_name'],
 		'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
+		'dsp.enable_profiler'           => false,
+		'dsp.log_events'                => false,
 		'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
 		'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
 		/**
@@ -204,7 +206,6 @@ return array_merge(
 		 */
 		'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
 		'admin.default_theme'           => 'united',
-		'dsp.enable_profiler'           => true,
 	),
 	$_dspSalts
 );
