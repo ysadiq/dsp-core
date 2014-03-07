@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Fabric;
 
 /**
@@ -46,12 +47,6 @@ $_defaultController = 'web';
 $_logFilePath = $_basePath . '/log';
 $_logFileName = 'web.' . ( isset( $_SERVER, $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'unknown' ) . '.log';
 $_appName = 'DreamFactory Services Platform';
-
-/**
- * Aliases
- */
-/** @noinspection PhpIncludeInspection */
-file_exists( __DIR__ . ALIASES_CONFIG_PATH ) && require __DIR__ . ALIASES_CONFIG_PATH;
 
 /**
  * Salts
@@ -99,52 +94,51 @@ $_dbCache = $_dbCacheEnabled ? array(
 	'autoCreateCacheTable' => true,
 ) : null;
 
+$_storageKey = \Kisma::get( 'platform.storage_key' );
+
 /**
  * Set up and return the common settings...
  */
 if ( Fabric::fabricHosted() )
 {
-	$_storageBasePath = '/data/storage/' . \Kisma::get( 'platform.storage_key' );
+	$_storagePath = $_storageBasePath = LocalStorageTypes::FABRIC_STORAGE_BASE_PATH . '/' . $_storageKey;
 	$_privatePath = \Kisma::get( 'platform.private_path' );
-	$_storagePath = $_storageBasePath . '/blob';
+	$_storagePath = $_storageBasePath . ( version_compare( DSP_VERSION, '2.0.0', '<' ) ? '/blob' : null );
 
-	$_instanceSettings = array(
-		'private_path'           => $_privatePath,
-		'local_config_path'      => $_privatePath . '/config',
-		'snapshot_path'          => $_privatePath . '/snapshots',
-		'storage_base_path'      => $_storageBasePath,
-		'storage_path'           => $_storagePath,
-		'applications_path'      => $_storagePath . '/applications',
-		'library_path'           => $_storagePath . '/plugins',
-		'plugins_path'           => $_storagePath . '/plugins',
-		'swagger_path'           => $_storagePath . '/swagger',
-		'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
-		'dsp.storage_id'         => \Kisma::get( 'platform.storage_key' ),
+	$_identity = array(
+		'dsp.storage_id'         => $_storageKey,
 		'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
 	);
-
-	unset( $_storageBasePath, $_privatePath, $_storagePath );
 }
 else
 {
-	$_storagePath = $_basePath . '/storage';
+	$_storagePath = $_storageBasePath = $_basePath . LocalStorageTypes::LOCAL_STORAGE_BASE_PATH;
 	$_privatePath = $_basePath . '/storage/.private';
 
-	$_instanceSettings = array(
-		'private_path'           => $_privatePath,
-		'local_config_path'      => $_privatePath . '/config',
-		'snapshot_path'          => $_privatePath . '/snapshots',
-		'storage_base_path'      => $_storagePath,
-		'storage_path'           => $_storagePath,
-		'applications_path'      => $_storagePath . '/applications',
-		'library_path'           => $_storagePath . '/plugins',
-		'plugins_path'           => $_storagePath . '/plugins',
-		'swagger_path'           => $_storagePath . '/swagger',
-		'dsp_name'               => gethostname(),
+	$_identity = array(
 		'dsp.storage_id'         => null,
 		'dsp.private_storage_id' => null,
 	);
 }
+
+//	Merge the common junk with specifics
+$_instanceSettings = array_merge(
+	$_identity,
+	array(
+		LocalStorageTypes::STORAGE_BASE_PATH => $_storageBasePath,
+		LocalStorageTypes::STORAGE_PATH      => $_storagePath,
+		LocalStorageTypes::PRIVATE_PATH      => $_privatePath,
+		LocalStorageTypes::LOCAL_CONFIG_PATH => $_privatePath . '/config',
+		LocalStorageTypes::SNAPSHOT_PATH     => $_privatePath . '/snapshots',
+		LocalStorageTypes::APPLICATIONS_PATH => $_storagePath . '/applications',
+		LocalStorageTypes::LIBRARY_PATH      => $_storagePath . '/plugins',
+		LocalStorageTypes::PLUGINS_PATH      => $_storagePath . '/plugins',
+		LocalStorageTypes::SWAGGER_PATH      => $_storagePath . '/swagger',
+	)
+);
+
+//	Keep these out of the global space
+unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey );
 
 /** @noinspection PhpIncludeInspection */
 return array_merge(
@@ -158,11 +152,12 @@ return array_merge(
 		 * DSP Information
 		 */
 		'dsp.version'                   => DSP_VERSION,
-		'dsp.name'                      => $_instanceSettings['dsp_name'],
+		'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
 		'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
-		'dsp.enable_profiler'           => false,
-		'dsp.log_events'                => false,
 		'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
+		/** Logging/Debug options */
+		'dsp.enable_profiler'           => false,
+		'dsp.log_events'                => true,
 		'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
 		/**
 		 * Remote Logins
