@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 use DreamFactory\Oasys\Oasys;
+use DreamFactory\Platform\Components\ActionEventManager;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
@@ -93,6 +94,15 @@ class WebController extends BaseWebController
 	}
 
 	/**
+	 * Proxy test supporting function
+	 */
+	public function actionEventReceiver()
+	{
+		/** @noinspection PhpExpressionResultUnusedInspection */
+		file_put_contents( '/tmp/.action-event-receiver-data', Pii::app()->getRequestObject()->getContent() );
+	}
+
+	/**
 	 * {@InheritDoc}
 	 */
 	public function filters()
@@ -129,6 +139,7 @@ class WebController extends BaseWebController
 					'confirmRegister',
 					'confirmInvite',
 					'confirmPassword',
+					'eventReceiver',
 				),
 				'users'   => array( '*' ),
 			),
@@ -1200,3 +1211,5 @@ class WebController extends BaseWebController
 	}
 
 }
+
+ActionEventManager::on( 'user.list', 'http://dsp.local/web/eventReceiver', 'nada' );

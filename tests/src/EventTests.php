@@ -1,11 +1,15 @@
 <?php
 namespace DreamFactory\Platform;
 
+use DreamFactory\Platform\Components\ActionEventManager;
+use DreamFactory\Platform\Components\EventProxy;
 use DreamFactory\Platform\Events\Enums\ResourceServiceEvents;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Yii\Utility\Pii;
+use Kisma\Core\Interfaces\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
+use Kisma\Core\Utility\Inflector;
 
 require_once dirname( __DIR__ ) . '/bootstrap.php';
 require_once dirname( dirname( __DIR__ ) ) . '/app/controllers/RestController.php';
@@ -15,15 +19,39 @@ require_once dirname( dirname( __DIR__ ) ) . '/app/controllers/RestController.ph
  */
 class EventTests extends \PHPUnit_Framework_TestCase
 {
+	const API_KEY = 'some-api-key';
+
 	protected $_preProcessFired = 0;
 	protected $_postProcessFired = 0;
+	protected $_actionEventFired = 0;
 
 	//*************************************************************************
 	//	Methods
 	//*************************************************************************
 
+	protected function setUp()
+	{
+		parent::setUp();
+		@unlink( '/tmp/.action-event-receiver-data' );
+	}
+
 	public function testServiceRequestEvents()
 	{
+		//	A post test
+		ActionEventManager::on( 'user.list', 'http://dsp.local/web/eventReceiver', static::API_KEY );
+
+		//	An inline test
+		ActionEventManager::on(
+			'user.list',
+			function ( $event, $eventName, $dispatcher )
+			{
+				$this->assertEquals( 'user.list', $eventName );
+				$this->_actionEventFired = 1;
+
+			},
+			static::API_KEY
+		);
+
 		$this->_preProcessFired = $this->_postProcessFired = 0;
 
 		$_config = require( dirname( dirname( __DIR__ ) ) . '/config/web.php' );
@@ -55,11 +83,11 @@ class EventTests extends \PHPUnit_Framework_TestCase
 			);
 
 			//	Test GET
-			$_REQUEST['app_name'] = __CLASS__;
+			Pii::app()->getRequestObject()->query->set( 'app_name', Inflector::neutralize( __CLASS__ ) );
 
-			$_response = $_service->processRequest( null, 'GET', false );
-
-			$this->assertTrue( 1 == $this->_preProcessFired && 1 == $this->_postProcessFired );
+			$_response = $_service->processRequest( null, HttpMethod::GET, false );
+			$this->assertTrue( is_array( $_response ) && isset( $_response['resource'] ) );
+			$this->assertTrue( 1 == $this->_preProcessFired && 1 == $this->_postProcessFired && 1 == $this->_actionEventFired );
 		}
 		catch ( \Exception $ex )
 		{
