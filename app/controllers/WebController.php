@@ -18,7 +18,6 @@
  * limitations under the License.
  */
 use DreamFactory\Oasys\Oasys;
-use DreamFactory\Platform\Components\ActionEventManager;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
@@ -1211,5 +1210,3 @@ class WebController extends BaseWebController
 	}
 
 }
-
-ActionEventManager::on( 'user.list', 'http://dsp.local/web/eventReceiver', 'nada' );

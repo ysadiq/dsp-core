@@ -62,6 +62,7 @@ class RestController extends BaseFactoryController
 		parent::init();
 
 		$this->_requestObject = Pii::app()->getRequestObject();
+		Pii::app()->on( 'user.list', 'http://dsp.local/web/eventReceiver', 'nada' );
 	}
 
 	/**
