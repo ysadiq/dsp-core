@@ -3,12 +3,63 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         $(window).resize();
     });
     Scope = $scope;
-    Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[]};
+    Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[], lookup_keys: []};
+    Scope.keyData = [];
     Scope.action = "Create new ";
     Scope.actioned = "Created";
     $('#update_button').hide();
     //$("#alert-container").empty().hide();
     //$("#success-container").empty().hide();
+
+	// keys
+	var keyInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableKeySave()" />';
+	var keyCheckTemplate = '<div style="text-align:center;"><input style="vertical-align: middle;" type="checkbox" ng-model="row.entity[col.field]" ng-change="enableKeySave()"/></div>';
+	var keyButtonTemplate = '<div><button id="key_save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveKeyRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteKeyRow()"><li class="icon-remove"></li></button></div>';
+	Scope.keyColumnDefs = [
+		{field:'name', width:100},
+		{field:'value', enableFocusedCellEdit:true, width:200, enableCellSelection:true, editableCellTemplate:keyInputTemplate },
+		{field:'private', cellTemplate:keyCheckTemplate, width:75},
+		{field:'Update', cellTemplate:keyButtonTemplate, width:80}
+	];
+	Scope.keyOptions = {data:'keyData', width:500, columnDefs:'keyColumnDefs', canSelectRows:false, displaySelectionCheckbox:false};
+	Scope.updateKeys = function () {
+		$("#key-error-container").hide();
+		if (!Scope.key) {
+			return false;
+		}
+		if (!Scope.key.name || !Scope.key.value) {
+			$("#key-error-container").html("Both name and value are required").show();
+			return false;
+		}
+		if (checkForDuplicate(Scope.keyData, 'name', Scope.key.name)) {
+			$("#key-error-container").html("Key already exists").show();
+			$('#key-name, #key-value').val('');
+			return false;
+		}
+		var newRecord = {};
+		newRecord.name = Scope.key.name;
+		newRecord.value = Scope.key.value;
+		newRecord.private = !!Scope.key.private;
+		Scope.keyData.push(newRecord);
+		Scope.key = null;
+		$('#key-name, #key-value').val('');
+	}
+	Scope.deleteKeyRow = function () {
+		var name = this.row.entity.name;
+		Scope.keyData = removeByAttr(Scope.keyData, 'name', name);
+
+	}
+	Scope.saveKeyRow = function () {
+		var index = this.row.rowIndex;
+		var newRecord = this.row.entity;
+		var name = this.row.entity.name;
+		updateByAttr(Scope.keyData, "name", name, newRecord);
+		$("#key_save_" + index).prop('disabled', true);
+	};
+	Scope.enableKeySave = function () {
+		$("#key_save_" + this.row.rowIndex).prop('disabled', false);
+	};
+
     Scope.AllUsers = User.get();
     Scope.Apps = App.get();
     // service access
@@ -90,6 +141,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         Scope.cleanServiceAccess();
 
         var id = this.role.id;
+        Scope.role.lookup_keys = Scope.keyData;
         RolesRelated.update({id: id}, Scope.role, function () {
             updateByAttr(Scope.Roles.record, 'id', id, Scope.role);
             Scope.promptForNew();
@@ -138,7 +190,8 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         }
         Scope.cleanServiceAccess();
 
-        RolesRelated.save(Scope.role, function (data) {
+		Scope.role.lookup_keys = Scope.keyData;
+		RolesRelated.save(Scope.role, function (data) {
             Scope.Roles.record.push(data);
             //window.top.Actions.showStatus("Created Successfully");
             Scope.promptForNew();
@@ -353,7 +406,8 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         angular.element(":checkbox").attr('checked', false);
         Scope.action = "Create new";
         Scope.actioned = "Created";
-        Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[]};
+        Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[], lookup_keys: []};
+        Scope.keyData = [];
         $('#save_button').show();
         $('#update_button').hide();
         //$("#alert-container").empty().hide();
@@ -367,6 +421,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         Scope.role = angular.copy(this.role);
         Scope.users = angular.copy(Scope.role.users);
         Scope.apps = angular.copy(Scope.role.apps);
+		Scope.keyData = Scope.role.lookup_keys;
         $('#save_button').hide();
         $('#update_button').show();
         $("tr.info").removeClass('info');
@@ -378,4 +433,11 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     $scope.clearDefault = function(){
         Scope.role.default_app_id = null;
     };
+
+    $("#key-value").keyup(function (event) {
+        if (event.keyCode == 13) {
+
+            $("#key-update").click();
+        }
+    });
 };

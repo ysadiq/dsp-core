@@ -267,6 +267,24 @@
                                 <input ng-checked="role.is_active" type="checkbox" ng-model="role.is_active"/>&nbsp;Active
 
                             </div>
+                            <div class="section keys">
+                                <p>Role Keys</p>
+
+                                <div>
+                                    <div id="key-grid" ng-grid="keyOptions"></div>
+                                </div>
+                                <div style="display:none" id="key-error-container" class="alert alert-danger">Key already exists
+                                </div>
+                                <input id="key-name" placeholder="Key Name" class="input-small" type="text"
+                                       ng-model="key.name" />
+                                <input id="key-value" placeholder="Key Value" type="text"
+                                       ng-model="key.value" />
+                                <div style="display:inline-block;"><input id="key-private" type="checkbox" ng-model="key.private"/>&nbsp;Private</div><br />
+
+                                <a id="key-update" class="btn btn-inverse" ng-click="updateKeys()"><i class="icon-plus-sign"></i>
+                                    Add Key
+                                </a>
+                            </div>
                             <div style="display:none;padding-left:10px;" id="success-container"
                                  class="alert alert-success"></div>
                             <div id="button_holder">
@@ -287,4 +305,3 @@
         </td>
     </tr>
 </table>
-
