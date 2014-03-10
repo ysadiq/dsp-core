@@ -55,7 +55,7 @@ return array(
 	'password'              => $_dbPassword,
 	'emulatePrepare'        => true,
 	'charset'               => 'utf8',
-	'enableProfiling'       => defined( YII_DEBUG ),
-	'enableParamLogging'    => defined( YII_DEBUG ),
+	'enableProfiling'       => false, //defined( YII_DEBUG ),
+	'enableParamLogging'    => false, //defined( YII_DEBUG ),
 	'schemaCachingDuration' => 3600,
 );

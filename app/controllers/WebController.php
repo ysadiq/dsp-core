@@ -93,15 +93,6 @@ class WebController extends BaseWebController
 	}
 
 	/**
-	 * Proxy test supporting function
-	 */
-	public function actionEventReceiver()
-	{
-		/** @noinspection PhpExpressionResultUnusedInspection */
-		file_put_contents( '/tmp/.action-event-receiver-data', Pii::app()->getRequestObject()->getContent() );
-	}
-
-	/**
 	 * {@InheritDoc}
 	 */
 	public function filters()
@@ -1081,6 +1072,38 @@ class WebController extends BaseWebController
 
 		header( 'Location: ' . $_redirectUrl );
 		exit();
+	}
+
+	/**
+	 * Testing endpoint for events
+	 */
+	public function actionEventReceiver()
+	{
+		$_request = Pii::app()->getRequestObject();
+
+		$_data = $_request->getContent();
+
+		if ( is_string( $_data ) )
+		{
+			$_data = json_decode( $_data, true );
+
+			if ( JSON_ERROR_NONE != json_last_error() )
+			{
+				Log::error( '  * DSP event could not be converted from JSON.' );
+
+				return;
+			}
+		}
+
+		if ( isset( $_data['details'] ) )
+		{
+			$_eventName = Option::getDeep( $_data, 'details', 'event_name' );
+			Log::debug( 'DSP event "' . $_eventName . '" received' );
+
+			return;
+		}
+
+		Log::error( 'Weird event received: ' . var_export( $_data, true ) );
 	}
 
 	/**

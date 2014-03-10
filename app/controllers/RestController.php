@@ -115,10 +115,10 @@ class RestController extends BaseFactoryController
 			//	Check for verb tunneling via X-Http-Method/X-Http-Method-Override header
 			$_tunnelMethod = strtoupper(
 				$this->_requestObject->headers->get(
-					'X-HTTP-METHOD',
+					'x-http-method',
 					$this->_requestObject->headers->get(
-						'X-HTTP-METHOD-OVERRIDE',
-						$this->_requestObject->query->get( 'method' )
+						'x-http-method-override',
+						$this->_requestObject->get( 'method' )
 					)
 				)
 			);
