@@ -1,36 +1,6 @@
 var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
     Scope = $scope;
     Scope.allVerbs = ["GET","POST", "PUT", "MERGE", "PATCH", "DELETE", "COPY"];
-    // convert between null and empty string for menus
-    Scope.fixValues = function (data, fromVal, toVal) {
-        if (data.guest_role_id === fromVal) data.guest_role_id = toVal;
-        if (data.open_reg_role_id === fromVal) data.open_reg_role_id = toVal;
-        if (data.open_reg_email_service_id === fromVal) data.open_reg_email_service_id = toVal;
-        if (data.open_reg_email_template_id === fromVal) data.open_reg_email_template_id = toVal;
-        if (data.invite_email_service_id === fromVal) data.invite_email_service_id = toVal;
-        if (data.invite_email_template_id === fromVal) data.invite_email_template_id = toVal;
-        if (data.password_email_service_id === fromVal) data.password_email_service_id = toVal;
-        if (data.password_email_template_id === fromVal) data.password_email_template_id = toVal;
-    }
-    Scope.Config = Config.get(function (response) {
-        Scope.fixValues(response, null, '');
-        Scope.keyData = Scope.Config.lookup_keys;
-    }, function (response) {
-        var code = response.status;
-        if (code == 401) {
-            window.top.Actions.doSignInDialog("stay");
-            return;
-        }
-        $.pnotify({
-            title: 'Error',
-            type: 'error',
-            hide: false,
-            addclass: "stack-bottomright",
-            text: getErrorString(response)
-        });
-
-
-    });
     // keys
     Scope.keyData = [];
     var keyInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableKeySave()" />';
@@ -80,6 +50,36 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
     Scope.enableKeySave = function () {
         $("#key_save_" + this.row.rowIndex).prop('disabled', false);
     };
+    // convert between null and empty string for menus
+    Scope.fixValues = function (data, fromVal, toVal) {
+        if (data.guest_role_id === fromVal) data.guest_role_id = toVal;
+        if (data.open_reg_role_id === fromVal) data.open_reg_role_id = toVal;
+        if (data.open_reg_email_service_id === fromVal) data.open_reg_email_service_id = toVal;
+        if (data.open_reg_email_template_id === fromVal) data.open_reg_email_template_id = toVal;
+        if (data.invite_email_service_id === fromVal) data.invite_email_service_id = toVal;
+        if (data.invite_email_template_id === fromVal) data.invite_email_template_id = toVal;
+        if (data.password_email_service_id === fromVal) data.password_email_service_id = toVal;
+        if (data.password_email_template_id === fromVal) data.password_email_template_id = toVal;
+    }
+    Scope.Config = Config.get(function (response) {
+        Scope.fixValues(response, null, '');
+        Scope.keyData = Scope.Config.lookup_keys;
+    }, function (response) {
+        var code = response.status;
+        if (code == 401) {
+            window.top.Actions.doSignInDialog("stay");
+            return;
+        }
+        $.pnotify({
+            title: 'Error',
+            type: 'error',
+            hide: false,
+            addclass: "stack-bottomright",
+            text: getErrorString(response)
+        });
+
+
+    });
     // roles
     Scope.Roles = Role.get(function () {
     }, function (response) {

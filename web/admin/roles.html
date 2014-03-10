@@ -149,6 +149,11 @@
                                                 </span>
                                                 <span ng-show="!allowFilters(service_access.service_id)">N/A</span>
                                             </div>
+                                            <div class="alert alert-info"
+                                                 ng-show="allowFilters(service_access.service_id) && service_access.show_filters && service_access.filters.length>0">
+                                                <li class="icon-info-sign"></li>
+                                                String values should be single or double quoted.
+                                            </div>
                                             <table ng-show="allowFilters(service_access.service_id) && service_access.show_filters" class="table field-list">
                                                 <thead>
                                                     <tr>
@@ -263,10 +268,6 @@
                                     No system access for this role. Click the plus button to add.
                                 </p>
                             </div>
-                            <div class="section">
-                                <input ng-checked="role.is_active" type="checkbox" ng-model="role.is_active"/>&nbsp;Active
-
-                            </div>
                             <div class="section keys">
                                 <p>Role Keys</p>
 
@@ -284,6 +285,10 @@
                                 <a id="key-update" class="btn btn-inverse" ng-click="updateKeys()"><i class="icon-plus-sign"></i>
                                     Add Key
                                 </a>
+                            </div>
+                            <div class="section">
+                                <input ng-checked="role.is_active" type="checkbox" ng-model="role.is_active"/>&nbsp;Active
+
                             </div>
                             <div style="display:none;padding-left:10px;" id="success-container"
                                  class="alert alert-success"></div>
