@@ -3,58 +3,145 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         $(window).resize();
     });
     Scope = $scope;
-    Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[]};
+    Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[], lookup_keys: []};
+    Scope.keyData = [];
     Scope.action = "Create new ";
     Scope.actioned = "Created";
     $('#update_button').hide();
     //$("#alert-container").empty().hide();
     //$("#success-container").empty().hide();
-    Scope.components = [
-        {name: "*", label: "All"}
-    ];
 
-    Scope.systemComponents = [];
+	// keys
+	var keyInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableKeySave()" />';
+	var keyCheckTemplate = '<div style="text-align:center;"><input style="vertical-align: middle;" type="checkbox" ng-model="row.entity[col.field]" ng-change="enableKeySave()"/></div>';
+	var keyButtonTemplate = '<div><button id="key_save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveKeyRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteKeyRow()"><li class="icon-remove"></li></button></div>';
+	Scope.keyColumnDefs = [
+		{field:'name', width:100},
+		{field:'value', enableFocusedCellEdit:true, width:200, enableCellSelection:true, editableCellTemplate:keyInputTemplate },
+		{field:'private', cellTemplate:keyCheckTemplate, width:75},
+		{field:'Update', cellTemplate:keyButtonTemplate, width:80}
+	];
+	Scope.keyOptions = {data:'keyData', width:500, columnDefs:'keyColumnDefs', canSelectRows:false, displaySelectionCheckbox:false};
+	Scope.updateKeys = function () {
+		$("#key-error-container").hide();
+		if (!Scope.key) {
+			return false;
+		}
+		if (!Scope.key.name || !Scope.key.value) {
+			$("#key-error-container").html("Both name and value are required").show();
+			return false;
+		}
+		if (checkForDuplicate(Scope.keyData, 'name', Scope.key.name)) {
+			$("#key-error-container").html("Key already exists").show();
+			$('#key-name, #key-value').val('');
+			return false;
+		}
+		var newRecord = {};
+		newRecord.name = Scope.key.name;
+		newRecord.value = Scope.key.value;
+		newRecord.private = !!Scope.key.private;
+		Scope.keyData.push(newRecord);
+		Scope.key = null;
+		$('#key-name, #key-value').val('');
+	}
+	Scope.deleteKeyRow = function () {
+		var name = this.row.entity.name;
+		Scope.keyData = removeByAttr(Scope.keyData, 'name', name);
 
-    Scope.component = '*';
+	}
+	Scope.saveKeyRow = function () {
+		var index = this.row.rowIndex;
+		var newRecord = this.row.entity;
+		var name = this.row.entity.name;
+		updateByAttr(Scope.keyData, "name", name, newRecord);
+		$("#key_save_" + index).prop('disabled', true);
+	};
+	Scope.enableKeySave = function () {
+		$("#key_save_" + this.row.rowIndex).prop('disabled', false);
+	};
+
     Scope.AllUsers = User.get();
     Scope.Apps = App.get();
-    Scope.service = {service_id: null, access: "Full Access", component: "*"};
-    Scope.selectServices = {};
+    // service access
+    Scope.ServiceComponents = {};
     Scope.Services = Service.get(function (data) {
         var services = data.record;
-        services.unshift({id: null, name: "All", type: ""});
-        services.unshift({id: "0", name: "System", type: "System", api_name:"system"});
-        services.forEach(function (service) {
-            //if (service.type.indexOf("SQL") != -1) {
-            if(service.id != null){
-                $http.get('/rest/' + service.api_name + '/?app_name=admin&fields=*').success(function (data) {
-                    try{
-                        service.components = data.resource;
-                        Scope.selectServices[service.id] = data.resource;
-                        var allRecord = {name: '*', label: 'All', plural: 'All'};
-                        Scope.selectServices[service.id].unshift(allRecord);
-                    }catch(err){}
+        services.unshift({id: 0, name: "All", type: ""});
+        services.forEach(function (service, index) {
+            Scope.ServiceComponents[index] = [];
+            var allRecord = {name: '*', label: 'All', plural: 'All'};
+            Scope.ServiceComponents[index].push(allRecord);
+            if(service.id > 0) {
+                $http.get('/rest/' + service.api_name + '?app_name=admin&fields=*').success(function (data) {
+                    // some services return no resource array
+                    if (data.resource != undefined) {
+                        Scope.ServiceComponents[index] = Scope.ServiceComponents[index].concat(data.resource);
+                    }
                 }).error(function(){});
             }
-            //}
         });
-
     });
+    Scope.uniqueServiceAccess = function () {
+        var size = Scope.role.role_service_accesses.length;
+        for (i = 0; i < size; i++) {
+            var access = Scope.role.role_service_accesses[i];
+            var matches = Scope.role.role_service_accesses.filter(function(itm){return itm.service_id === access.service_id && itm.component === access.component;});
+            if (matches.length > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    // system access
+    Scope.SystemComponents = [];
+    var allRecord = {name: '*', label: 'All', plural: 'All'};
+    Scope.SystemComponents.push(allRecord);
+    $http.get('/rest/system?app_name=admin&fields=*').success(function (data) {
+        Scope.SystemComponents = Scope.SystemComponents.concat(data.resource);
+    }).error(function(){});
+    Scope.uniqueSystemAccess = function () {
+        var size = Scope.role.role_system_accesses.length;
+        for (i = 0; i < size; i++) {
+            var access = Scope.role.role_system_accesses[i];
+            var matches = Scope.role.role_system_accesses.filter(function(itm){return itm.component === access.component;});
+            if (matches.length > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    Scope.cleanServiceAccess = function () {
+        var size = Scope.role.role_service_accesses.length;
+        for (i = 0; i < size; i++) {
+            delete Scope.role.role_service_accesses[i].show_filters;
+        }
+    }
+    Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains"];
 
     Scope.Roles = RolesRelated.get();
+
     Scope.save = function () {
-        Scope.role.role_system_accesses = [];
-        Scope.role.role_service_accesses.forEach(function(access){
-            if(access.service_id == "0"){
 
-                //delete access.service_id;
-                Scope.role.role_system_accesses.push(access);
-            }
+        if (!Scope.uniqueServiceAccess()) {
+            $.pnotify({
+                title: 'Roles',
+                type: 'error',
+                text: 'Duplicate service access entries are not allowed.'
+            });
+            return;
+        }
+        if (!Scope.uniqueSystemAccess()) {
+            $.pnotify({
+                title: 'Roles',
+                type: 'error',
+                text: 'Duplicate system access entries are not allowed.'
+            });
+            return;
+        }
+        Scope.cleanServiceAccess();
 
-        });
-
-        Scope.role.role_service_accesses=Scope.role.role_service_accesses.filter(function(itm){return itm.service_id !== "0"});
         var id = this.role.id;
+        Scope.role.lookup_keys = Scope.keyData;
         RolesRelated.update({id: id}, Scope.role, function () {
             updateByAttr(Scope.Roles.record, 'id', id, Scope.role);
             Scope.promptForNew();
@@ -84,17 +171,27 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         });
     };
     Scope.create = function () {
-        Scope.role.role_system_accesses = [];
-        Scope.role.role_service_accesses.forEach(function(access){
-            if(access.service_id == "0"){
-                Scope.role.role_system_accesses.push(access);
-            }
 
-        });
+        if (!Scope.uniqueServiceAccess()) {
+            $.pnotify({
+                title: 'Roles',
+                type: 'error',
+                text: 'Duplicate service access entries are not allowed.'
+            });
+            return;
+        }
+        if (!Scope.uniqueSystemAccess()) {
+            $.pnotify({
+                title: 'Roles',
+                type: 'error',
+                text: 'Duplicate system access entries are not allowed.'
+            });
+            return;
+        }
+        Scope.cleanServiceAccess();
 
-        Scope.role.role_service_accesses=Scope.role.role_service_accesses.filter(function(itm){return itm.service_id !== "0"});
-
-        RolesRelated.save(Scope.role, function (data) {
+		Scope.role.lookup_keys = Scope.keyData;
+		RolesRelated.save(Scope.role, function (data) {
             Scope.Roles.record.push(data);
             //window.top.Actions.showStatus("Created Successfully");
             Scope.promptForNew();
@@ -164,95 +261,103 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             Scope.role.users.push(this.user);
         }
     };
-    Scope.loadComponents = function () {
-        Scope.components = [];
-        Scope.components.push({ name: "*", label: "All"});
-        Scope.components = angular.copy(Scope.selectServices[Scope.service.service_id]);
-    };
-    Scope.loadIndComponents = function () {
-        this.components = [];
-        this.components.push({ name: "*", label: "All"});
-        //this.components.push({name:"System", label:"System"});
-        this.components = angular.copy(Scope.selectServices[this.service_access.service_id]);
-    };
 
-    Scope.removeAccess = function () {
+    // service access
+
+    Scope.removeServiceAccess = function () {
+
         var rows = Scope.role.role_service_accesses;
-        var row = this.service_access;
-        angular.forEach(rows, function(access, index){
-            if(access.service_id === row.service_id && access.component == row.component){
-                // console.log(index);
-                rows.splice(index, 1);
-            }
-        });
-        //Scope.role.role_service_accesses = removeByAttrs(Scope.role.role_service_accesses, 'service_id', this.service_access.service_id, 'component', this.service_access.component);
+        rows.splice(this.$index, 1);
     };
 
-    Scope.addServiceAccess = function () {
-        //$("#alert-container").empty().hide();
-        var newAccess = angular.copy(Scope.service);
-        if (checkForDuplicates(Scope.role.role_service_accesses, 'service_id', Scope.service.service_id, 'component', Scope.service.component)) {
-            //$("#alert-container").html("<b>Service access already exists.</b>").show();
-            $.pnotify({
-                title: 'Roles',
-                type: 'error',
-                text: 'Service access already exists.'
-            });
-        } else if (Scope.service.service_id === null) {
+    Scope.newServiceAccess = function () {
 
-            if (Scope.role.role_service_accesses.length > 0) {
-                var inRole = false;
-                angular.forEach(Scope.role.role_service_accesses, function (access) {
-                    if (access.service_id === null) {
-                        inRole = true;
-                    }
-                });
-                if (inRole) {
-                    //$("#alert-container").html("<b>Service access already exists for all components.</b>").show();
+        var newAccess = {"access": "Full Access", "component": "*", "service_id": 0};
+        newAccess.filters = [];
+        newAccess.filter_op = "AND";
+        newAccess.show_filters = false;
+        Scope.role.role_service_accesses.push(newAccess);
+    }
 
-                    $.pnotify({
-                        title: 'Roles',
-                        type: 'error',
-                        text: 'Service access already exists for all components.'
-                    });
+    Scope.newServiceAccessFilter = function () {
 
-                } else {
-                    Scope.role.role_service_accesses.push(newAccess);
-                    $.pnotify({
-                        title: 'Roles',
-                        type: 'success',
-                        text: 'Added below, press save/update to finalize'
-                    });
+        var newFilter = {"name": "", "operator": "=", "value": ""};
+        this.service_access.filters.push(newFilter);
+    }
 
-                }
-            } else {
+    Scope.removeServiceAccessFilter = function () {
 
-                Scope.role.role_service_accesses.push(newAccess);
-                $.pnotify({
-                    title: 'Roles',
-                    type: 'success',
-                    text: 'Added below, press save/update to finalize'
-                });
+        console.log(this);
+        var rows = this.service_access.filters;
+        rows.splice(this.$index, 1);
+    };
 
-            }
+    Scope.selectService = function () {
 
-        } else {
-
-            Scope.role.role_service_accesses.push(newAccess);
-            $.pnotify({
-                title: 'Roles',
-                type: 'success',
-                text: 'Added below, press save/update to finalize'
-            });
+        this.service_access.component = "*";
+        if (!Scope.allowFilters(this.service_access.service_id)) {
+            this.service_access.filter_op = "AND";
+            this.service_access.filters = [];
         }
     }
-    Scope.editServiceAccess = function () {
-        //$("#alert-container").empty().hide();
-        var newAccess = this.service_access;
-        Scope.role.role_service_accesses = removeByAttrs(Scope.role.role_service_accesses, 'service_id', this.service_access.service_id, 'component', this.service_access.component);
-        Scope.role.role_service_accesses.push(newAccess);
+
+    Scope.serviceId2Index = function (id) {
+
+        var size = Scope.Services.record.length;
+        for (i = 0; i < size; i++) {
+            if (Scope.Services.record[i].id === id) {
+                return i;
+            }
+        }
+        return -1;
     };
 
+    Scope.allowFilters = function (id) {
+
+        var size = Scope.Services.record.length;
+        for (i = 0; i < size; i++) {
+            if (Scope.Services.record[i].id === id) {
+                switch (Scope.Services.record[i].type) {
+                    case "Local SQL DB":
+                    case "Remote SQL DB":
+                    case "NoSQL DB":
+                    case "Salesforce":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+        return false;
+    };
+
+    Scope.toggleServiceAccessFilter = function () {
+
+        this.service_access.show_filters = !this.service_access.show_filters;
+    };
+
+    Scope.toggleServiceAccessOp = function () {
+
+        if (this.service_access.filter_op === "AND") {
+            this.service_access.filter_op = "OR";
+        } else {
+            this.service_access.filter_op = "AND";
+        }
+    };
+
+    // system access
+
+    Scope.removeSystemAccess = function () {
+
+        var rows = Scope.role.role_system_accesses;
+        rows.splice(this.$index, 1);
+    };
+
+    Scope.newSystemAccess = function () {
+
+        var newAccess = {"access": "Read Only", "component": "user"};
+        Scope.role.role_system_accesses.push(newAccess);
+    }
 
     //ADDED PNOTIFY
     $scope.delete = function () {
@@ -301,9 +406,8 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         angular.element(":checkbox").attr('checked', false);
         Scope.action = "Create new";
         Scope.actioned = "Created";
-        Scope.service = {service_id: null, access: "Full Access", component: "*"};
-        //Scope.selectServices = {};
-        Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[]};
+        Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[], lookup_keys: []};
+        Scope.keyData = [];
         $('#save_button').show();
         $('#update_button').hide();
         //$("#alert-container").empty().hide();
@@ -315,15 +419,9 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         Scope.action = "Edit this ";
         Scope.actioned = "Updated";
         Scope.role = angular.copy(this.role);
-        Scope.service = {service_id: null, access: "Full Access", component: "*"};
-        Scope.service.role_id = angular.copy(Scope.role.id);
         Scope.users = angular.copy(Scope.role.users);
         Scope.apps = angular.copy(Scope.role.apps);
-        Scope.role.role_system_accesses.forEach(function(access){
-            access.service_id = "0";
-            Scope.role.role_service_accesses.push(access);
-        });
-        //Scope.accesses = angular.copy(Scope.role.role_service_accesses);
+		Scope.keyData = Scope.role.lookup_keys;
         $('#save_button').hide();
         $('#update_button').show();
         $("tr.info").removeClass('info');
@@ -335,4 +433,11 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     $scope.clearDefault = function(){
         Scope.role.default_app_id = null;
     };
+
+    $("#key-value").keyup(function (event) {
+        if (event.keyCode == 13) {
+
+            $("#key-update").click();
+        }
+    });
 };
