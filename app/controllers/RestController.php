@@ -62,7 +62,6 @@ class RestController extends BaseFactoryController
 		parent::init();
 
 		$this->_requestObject = Pii::app()->getRequestObject();
-		Pii::app()->on( 'user.list', 'http://dsp.local/web/eventReceiver', 'nada' );
 	}
 
 	/**
@@ -146,7 +145,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionMerge()
 	{
-		$this->_handleAction( HttpMethod::Merge );
+		$this->_handleAction( HttpMethod::MERGE );
 	}
 
 	/**
@@ -154,7 +153,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPut()
 	{
-		$this->_handleAction( HttpMethod::Put );
+		$this->_handleAction( HttpMethod::PUT );
 	}
 
 	/**
@@ -162,7 +161,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionDelete()
 	{
-		$this->_handleAction( HttpMethod::Delete );
+		$this->_handleAction( HttpMethod::DELETE );
 	}
 
 	/**
@@ -199,14 +198,11 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		if ( !$this->_requestObject )
-		{
-			$this->_requestObject ? : Request::createFromGlobals();
-		}
+		$_request = Pii::app()->getRequestObject();
 
-		$_pathInfo = $this->_requestObject->getPathInfo();
+		$_pathInfo = $_request->getPathInfo();
 		$_trailingSlash = ( '/' == $_pathInfo[strlen( $_pathInfo ) - 1] );
-		$_path = trim( $this->_requestObject->getPathInfo(), '/' );
+		$_path = trim( $_pathInfo, '/' );
 		$_pathParts = explode( '/', $_path );
 
 		if ( !empty( $_pathParts ) )
