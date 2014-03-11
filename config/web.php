@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Utility\Fabric;
 
 /**
  * web.php
@@ -142,12 +141,7 @@ return array(
 					'maxFileSize' => '102400',
 					'logFile'     => $_logFileName,
 					'logPath'     => $_logFilePath,
-					//					'levels'      => 'error, warning, trace, info, debug, notice',
-				),
-				array(
-					'class'         => 'CWebLogRoute',
-					'categories'    => 'system.db.CDbCommand',
-					'showInFireBug' => true,
+					'levels'      => 'error, warning, info, debug, notice',
 				),
 			),
 		),

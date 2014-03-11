@@ -204,7 +204,6 @@ return array_merge(
 		 *****************************************************************************************/
 		'dsp.enable_profiler'           => false,
 		'dsp.log_events'                => true,
-
 	),
 	$_dspSalts
 );
