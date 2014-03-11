@@ -523,15 +523,15 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_identity = Password::changePasswordBySecurityAnswer(
+					$_result = Password::changePasswordBySecurityAnswer(
 						$_model->email,
 						$_model->answer,
 						$_model->password,
 						true,
-						true
+						false
 					);
 
-					if ( Pii::user()->login( $_identity ) )
+					if ( $_result )
 					{
 						$this->redirect( $this->_getRedirectUrl() );
 
@@ -650,7 +650,7 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_result = Register::userRegister( $_model->attributes, true, true );
+					$_result = Register::userRegister( $_model->attributes, true, false );
 
 					if ( $_viaEmail )
 					{
@@ -661,8 +661,8 @@ class WebController extends BaseWebController
 					}
 					else
 					{
-						// result should be identity
-						if ( Pii::user()->login( $_result ) )
+						// result should be true
+						if ( $_result )
 						{
 							$this->redirect( $this->_getRedirectUrl() );
 
@@ -725,26 +725,26 @@ class WebController extends BaseWebController
 					switch ( $reason )
 					{
 						case 'register':
-							$_identity = Register::userConfirm(
+							$_result = Register::userConfirm(
 								$_model->email,
 								$_model->code,
 								$_model->password,
 								true,
-								true
+								false
 							);
 							break;
 						default:
-							$_identity = Password::changePasswordByCode(
+							$_result = Password::changePasswordByCode(
 								$_model->email,
 								$_model->code,
 								$_model->password,
 								true,
-								true
+								false
 							);
 							break;
 					}
 
-					if ( Pii::user()->login( $_identity ) )
+					if ( $_result )
 					{
 						$this->redirect( $this->_getRedirectUrl() );
 

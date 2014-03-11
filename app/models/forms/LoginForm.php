@@ -77,13 +77,10 @@ class LoginForm extends CFormModel
 		{
 			try
 			{
-				/** @var PlatformUserIdentity $_identity */
-				$_identity = Session::userLogin( $this->username, $this->password, true );
 				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-
-				if ( Pii::user()->login( $_identity, $_duration ) )
+				/** @var PlatformUserIdentity $_identity */
+				if ( Session::userLogin( $this->username, $this->password, $_duration, false ) )
 				{
-
 					return true;
 				}
 
