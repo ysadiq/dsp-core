@@ -29,27 +29,27 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#confirm-user-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
-		 'rules'          => array(
-			 'ConfirmUserForm[email]'          => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'ConfirmUserForm[code]'           => array(
-				 'required' => true,
-			 ),
-			 'ConfirmUserForm[password]'    => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'ConfirmUserForm[passwordRepeat]' => array(
-				 'required'  => true,
-				 'minlength' => 5,
-				 'equalTo'   => '#ConfirmUserForm_password',
-			 ),
-		 ),
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => array(
+			'ConfirmUserForm[email]'          => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'ConfirmUserForm[code]'           => array(
+				'required' => true,
+			),
+			'ConfirmUserForm[password]'       => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'ConfirmUserForm[passwordRepeat]' => array(
+				'required'  => true,
+				'minlength' => 5,
+				'equalTo'   => '#ConfirmUserForm_password',
+			),
+		),
 	)
 );
 ?>
@@ -75,11 +75,11 @@ Validate::register(
 	$form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'confirm-user-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'confirm-user-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	);
 	?>
@@ -93,8 +93,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control email required" autofocus type="email" id="ConfirmUserForm_email"
-				   name="ConfirmUserForm[email]" placeholder="Email Address"
-				   value="<?php echo( $model->email ? $model->email : '' ); ?>" />
+				name="ConfirmUserForm[email]" placeholder="Email Address"
+				value="<?php echo( $model->email ? $model->email : '' ); ?>" />
 		</div>
 	</div>
 
@@ -105,8 +105,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
 			<input tabindex="2" class="form-control required" type="text" id="ConfirmUserForm_code"
-				   name="ConfirmUserForm[code]" placeholder="Confirmation Code"
-				   value="<?php echo( $model->code ? $model->code : '' ); ?>" />
+				name="ConfirmUserForm[code]" placeholder="Confirmation Code"
+				value="<?php echo( $model->code ? $model->code : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -116,7 +116,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 			<input tabindex="3" class="form-control password required" type="password" id="ConfirmUserForm_password"
-				   name="ConfirmUserForm[password]" placeholder="New Password" />
+				name="ConfirmUserForm[password]" placeholder="New Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -126,7 +126,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
 			<input tabindex="4" class="form-control password required" type="password" id="ConfirmUserForm_passwordRepeat"
-				   name="ConfirmUserForm[passwordRepeat]" placeholder="Verify New Password" />
+				name="ConfirmUserForm[passwordRepeat]" placeholder="Verify New Password" />
 		</div>
 	</div>
 

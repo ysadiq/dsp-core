@@ -38,17 +38,16 @@ $this->breadcrumbs = array(
 
 	<?php else: ?>
 
-		<p>An update is available for this DreamFactory Services Platform&trade;. Click the <strong>Update</strong>
-			button below to start the update.</p>
+		<p>An update is available for this DreamFactory Services Platform&trade;. Click the <strong>Update</strong> button below to start the update.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'init-schema-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
+				'id'                     => 'init-schema-form',
+				'enableClientValidation' => true,
+				'clientOptions'          => array(
+					'validateOnSubmit' => true,
+				),
 			)
 		); ?>
 

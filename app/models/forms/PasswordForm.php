@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * PasswordForm class.
  * PasswordForm is the data structure password change data.

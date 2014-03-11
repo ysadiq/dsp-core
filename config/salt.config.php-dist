@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,16 @@
  */
 
 /**
- * InitDataForm class.
- * InitDataForm is the data structure for keeping system initialization data.
- * It is used by the 'initData' action of 'WebController'.
+ * This file should contain any private keys used by your DSP.
+ *
+ * To use, copy this file to /path/to/dsp/install/config/salt.config.php and
+ * add your keys to the array below. They will then be available via the
+ * Pii::getParam('dsp.salts.<key>') call.
+ *
+ * The only predefined key is "secure_json". This salt will be used to encrypt
+ * and data stored securely in a database. If not supplied, or you're on a free
+ * DSP, your database password will be used.
  */
-class InitDataForm extends CFormModel
-{
-	public $dummy;
-}
+return array(
+	'secure_json' => null,
+);

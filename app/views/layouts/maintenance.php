@@ -14,8 +14,7 @@
 	<meta name="language" content="en" />
 	<title>We are terribly sorry...</title>
 	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
-	<!-- Standard CSS from style guide -->
-	<!-- Bootstrap 3 CSS -->
+	<!-- Standard CSS from style guide -->	<!-- Bootstrap 3 CSS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
@@ -31,17 +30,17 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body class="maintenance-page">
-<div id="wrap">
-	<div class="page-logo"><img src="/images/df-apple-touch-icon.png" alt=""></div>
-	<?php echo $content; ?>
-</div>
-<div id="push"></div>
-<div id="footer">
-	<div class="container align-center">
-		<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date(
-				'Y'
-			); ?>. All Rights Reserved.<span class="footer-logo pull-right"><img src="/images/df-apple-touch-icon.png" alt=""></span></p>
+	<div id="wrap">
+		<div class="page-logo"><img src="/images/df-apple-touch-icon.png" alt=""></div>
+		<?php echo $content; ?>
 	</div>
-</div>
+	<div id="push"></div>
+	<div id="footer">
+		<div class="container align-center">
+			<p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date(
+					'Y'
+				); ?>. All Rights Reserved.<span class="footer-logo pull-right"><img src="/images/df-apple-touch-icon.png" alt=""></span></p>
+		</div>
+	</div>
 </body>
 </html>

@@ -36,33 +36,29 @@ $_headline = 'Platform Administration';
 	<script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<img id="logo-img" src="/images/logo-48x48.png">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					<span class="icon-bar"></span> </a> <img id="logo-img" src="/images/logo-48x48.png">
 
-			<a class="brand" href="#"><?php echo $_headline; ?></a>
+				<a class="brand" href="#"><?php echo $_headline; ?></a>
 
-			<div class="nav-collapse collapse">
-				<ul class="nav"></ul>
+				<div class="nav-collapse collapse">
+					<ul class="nav"></ul>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="container admin-content <?php echo $_step; ?>">
-	<?php echo $content; ?>
-	<footer>
-		<p class="pull-right">&copy; DreamFactory Software, Inc. <?php echo date( 'Y' ); ?>. All Rights Reserved.</p>
-	</footer>
-</div>
-<!-- /container -->
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-<script src="/js/app.jquery.js"></script>
+	<div class="container admin-content <?php echo $_step; ?>">
+		<?php echo $content; ?>
+		<footer>
+			<p class="pull-right">&copy; DreamFactory Software, Inc. <?php echo date( 'Y' ); ?>. All Rights Reserved.</p>
+		</footer>
+	</div>
+	<!-- /container -->
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+	<script src="/js/app.jquery.js"></script>
 </body>
 </html>

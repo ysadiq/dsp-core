@@ -57,14 +57,14 @@ HTML;
 	</form>
 </div>
 <script type="text/javascript">
-	jQuery(function ($) {
-		var $_form = $('#register-form');
+jQuery(function($) {
+	var $_form = $('#register-form');
 
-		$('#btn-skip').on('click', function (e) {
-			e.preventDefault();
-			$('#SupportForm_emailAddress').val('');
-			$('#SupportForm_skipped').val(1);
-			$_form.submit();
-		});
+	$('#btn-skip').on('click', function(e) {
+		e.preventDefault();
+		$('#SupportForm_emailAddress').val('');
+		$('#SupportForm_skipped').val(1);
+		$_form.submit();
 	});
+});
 </script>

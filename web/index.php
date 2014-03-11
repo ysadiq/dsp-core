@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Yii\Utility\Pii;
+
 /**
  * index.php
  * Main entry point/bootstrap for all processes
  */
+/**
+ * @type bool If true, your logs will grow large.
+ */
+const DSP_DEBUG = true;
+
 //	Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
 //	Load up Yii
 require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
 
-//	Yii debug settings
-//defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
-//defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+/**
+ * Debug-level output is enabled by default below.
+ * For production mode, you'll want to comment-out the section below.
+ */
+if ( DSP_DEBUG )
+{
+	defined( YII_DEBUG ) or define( YII_DEBUG, true );
+	defined( YII_TRACE_LEVEL ) or define( YII_TRACE_LEVEL, 3 );
+}
 
 //	Create the application and run
-DreamFactory\Yii\Utility\Pii::run(
+Pii::run(
 	__DIR__,
 	$_autoloader,
 	'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication'

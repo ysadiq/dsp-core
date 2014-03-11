@@ -74,11 +74,11 @@ $_hashedId = $model->isNewRecord ? null : $this->hashId( $model->id );
 $_form = new BootstrapForm(
 	Bootstrap::Horizontal,
 	array(
-		 'id'             => 'update-resource',
-		 'method'         => 'POST',
-		 'x_editable_url' => '/admin/' . $resourceName . '/update',
-		 'x_editable_pk'  => $_hashedId,
-		 'prefix'         => $_prefix,
+		'id'             => 'update-resource',
+		'method'         => 'POST',
+		'x_editable_url' => '/admin/' . $resourceName . '/update',
+		'x_editable_pk'  => $_hashedId,
+		'prefix'         => $_prefix,
 	)
 );
 
@@ -127,9 +127,9 @@ $_fields = array(
 <div class="row-fluid">
 	<div class="span12">
 		<form id="update-platform"
-			  method="POST"
-			  class="form-horizontal tab-form"
-			  action="/admin/<?php echo $resourceName; ?>/update<?php echo isset( $model, $model->id ) ? '/' . $model->id : null; ?>">
+			method="POST"
+			class="form-horizontal tab-form"
+			action="/admin/<?php echo $resourceName; ?>/update<?php echo isset( $model, $model->id ) ? '/' . $model->id : null; ?>">
 			<?php $_form->renderFields( $_fields, $_prefix ); ?>
 
 			<div class="pull-right" style="display: inline-block; margin-top: 10px;">
@@ -155,19 +155,19 @@ jQuery(function($) {
 			}
 		}
 
-		$.ajax({url:  '/admin/provider/update',
-			method:   'POST',
-			dataType: 'json',
-			data:     {id: _id, action: _cmd },
-			async:    false,
-			success:  function(data) {
-				if (data && data.success) {
-					alert('Your provider request has been queued.');
-				} else {
-					alert('There was an error: ' + data.details.message);
-				}
-			}
-		});
+		$.ajax({url:         '/admin/provider/update',
+				   method:   'POST',
+				   dataType: 'json',
+				   data:     {id: _id, action: _cmd },
+				   async:    false,
+				   success:  function(data) {
+					   if (data && data.success) {
+						   alert('Your provider request has been queued.');
+					   } else {
+						   alert('There was an error: ' + data.details.message);
+					   }
+				   }
+			   });
 
 		return false;
 	});
@@ -178,15 +178,15 @@ jQuery(function($) {
 
 	$.fn.editable.defaults.mode = 'inline';
 	$('a.x-editable').editable({
-		url:         '/admin/provider/update',
-		emptytext:   'None',
-		ajaxOptions: {
-			dataType: 'json'
-		},
-		error:       function(errors) {
-			var _data = JSON.parse(errors.responseText);
-			return _data.details.message;
-		}
-	});
+								   url:         '/admin/provider/update',
+								   emptytext:   'None',
+								   ajaxOptions: {
+									   dataType: 'json'
+								   },
+								   error:       function(errors) {
+									   var _data = JSON.parse(errors.responseText);
+									   return _data.details.message;
+								   }
+							   });
 });
 </script>

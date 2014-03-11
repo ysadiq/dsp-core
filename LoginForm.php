@@ -17,33 +17,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Yii\Components\PlatformUserIdentity;
+use DreamFactory\Yii\Utility\Pii;
 
 /**
  * LoginForm class.
- * LoginForm is the data structure for keeping user login form data.
- * It is used by the 'login' action of 'WebController'.
+ * LoginForm is the data structure for keeping
+ * user login form data. It is used by the 'login' action of 'WebController'.
  */
 class LoginForm extends CFormModel
 {
-	//*************************************************************************
-	//	Constants
-	//*************************************************************************
-
-	/**
-	 * @var string The faux-attribute to hold any authentication errors
-	 */
-	const ERROR_ATTRIBUTE = 'Authentication';
-	/**
-	 * @var string The standard authentication error message
-	 */
-	const ERROR_MESSAGE = 'Invalid user name and password combination.';
-
-	//*************************************************************************
-	//	Members
-	//*************************************************************************
-
 	/**
 	 * @var string
 	 */
@@ -55,11 +38,11 @@ class LoginForm extends CFormModel
 	/**
 	 * @var boolean
 	 */
-	public $rememberMe = false;
-
-	//*************************************************************************
-	//	Methods
-	//*************************************************************************
+	public $rememberMe;
+	/**
+	 * @var PlatformUserIdentity
+	 */
+	protected $_identity;
 
 	/**
 	 * Declares the validation rules.
@@ -82,7 +65,6 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			'username'   => 'Email Address',
-			'password'   => 'Password',
 			'rememberMe' => 'Keep me logged in',
 		);
 	}
@@ -95,24 +77,68 @@ class LoginForm extends CFormModel
 	{
 		if ( !$this->hasErrors() )
 		{
-			try
-			{
-				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-				/** @var PlatformUserIdentity $_identity */
-				if ( Session::userLogin( $this->username, $this->password, $_duration, false ) )
-				{
-					return true;
-				}
+			$this->_identity = new PlatformUserIdentity( $this->username, $this->password );
 
-				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
-			}
-			catch ( \Exception $_ex )
+			if ( $this->_identity->authenticate() )
 			{
-				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
+				return true;
 			}
 
+			$this->addError( null, 'Invalid user name and password combination.' );
 		}
 
 		return false;
+	}
+
+	/**
+	 * Logs in the user using the given username and password in the model.
+	 *
+	 * @return boolean whether login is successful
+	 */
+	public function login()
+	{
+		$_identity = $this->_identity;
+
+		if ( empty( $_identity ) )
+		{
+			$_identity = new PlatformUserIdentity( $this->username, $this->password );
+
+			if ( !$_identity->authenticate() )
+			{
+				$_identity = null;
+
+				return false;
+			}
+		}
+
+		if ( \CBaseUserIdentity::ERROR_NONE == $_identity->errorCode )
+		{
+			$this->_identity = $_identity;
+			$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
+
+			return Pii::user()->login( $_identity, $_duration );
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param PlatformUserIdentity $identity
+	 *
+	 * @return LoginForm
+	 */
+	public function setIdentity( $identity )
+	{
+		$this->_identity = $identity;
+
+		return $this;
+	}
+
+	/**
+	 * @return PlatformUserIdentity
+	 */
+	public function getIdentity()
+	{
+		return $this->_identity;
 	}
 }

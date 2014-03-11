@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ if ( defined( 'DSP_VERSION' ) )
 /**
  * @var string
  */
-const DSP_VERSION = '1.4.0';
+const DSP_VERSION = '1.5.x-dev';
 /**
  * @var string
  */
@@ -39,6 +39,10 @@ const API_VERSION = '1.0';
  * @var string
  */
 const ALIASES_CONFIG_PATH = '/aliases.config.php';
+/**
+ * @var string
+ */
+const SALT_CONFIG_PATH = '/salt.config.php';
 /**
  * @var string
  */

@@ -28,23 +28,23 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#security-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
-		 'rules'          => array(
-			 'SecurityForm[answer]'         => array(
-				 'required' => true,
-			 ),
-			 'SecurityForm[password]'       => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'SecurityForm[passwordRepeat]' => array(
-				 'required'  => true,
-				 'minlength' => 5,
-				 'equalTo'   => '#SecurityForm_password',
-			 ),
-		 ),
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => array(
+			'SecurityForm[answer]'         => array(
+				'required' => true,
+			),
+			'SecurityForm[password]'       => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'SecurityForm[passwordRepeat]' => array(
+				'required'  => true,
+				'minlength' => 5,
+				'equalTo'   => '#SecurityForm_password',
+			),
+		),
 	)
 );
 
@@ -62,11 +62,11 @@ CHtml::$errorSummaryCss = 'alert alert-danger';
 	$form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'security-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'security-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	);
 	?>
@@ -94,7 +94,7 @@ CHtml::$errorSummaryCss = 'alert alert-danger';
 			<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
 			<input class="form-control" type="text" readonly id="SecurityForm_question" name="SecurityForm[question]"
-				   value="<?php echo $model->question; ?>" />
+				value="<?php echo $model->question; ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -104,7 +104,7 @@ CHtml::$errorSummaryCss = 'alert alert-danger';
 			<span class="input-group-addon bg_dg"><i class="fa fa-key fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control password required" autofocus type="password" id="SecurityForm_answer"
-				   name="SecurityForm[answer]" placeholder="Security Answer" />
+				name="SecurityForm[answer]" placeholder="Security Answer" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -114,7 +114,7 @@ CHtml::$errorSummaryCss = 'alert alert-danger';
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 			<input tabindex="2" class="form-control password required" type="password" id="SecurityForm_password"
-				   name="SecurityForm[password]" placeholder="Password" />
+				name="SecurityForm[password]" placeholder="Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -124,7 +124,7 @@ CHtml::$errorSummaryCss = 'alert alert-danger';
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
 			<input tabindex="3" class="form-control password required" type="password" id="SecurityForm_passwordRepeat"
-				   name="SecurityForm[passwordRepeat]" placeholder="Verify Password" />
+				name="SecurityForm[passwordRepeat]" placeholder="Verify Password" />
 		</div>
 	</div>
 

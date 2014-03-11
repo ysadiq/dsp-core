@@ -47,17 +47,16 @@ $this->breadcrumbs = array(
 	<?php
 	else: ?>
 
-		<p>There is a software update available for this DSP. <br />
-			When you are ready, select the desired version and click the 'Upgrade' button below. </p>
+		<p>There is a software update available for this DSP. <br /> When you are ready, select the desired version and click the 'Upgrade' button below. </p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'upgrade-dsp-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
+				'id'                     => 'upgrade-dsp-form',
+				'enableClientValidation' => true,
+				'clientOptions'          => array(
+					'validateOnSubmit' => true,
+				),
 			)
 		); ?>
 

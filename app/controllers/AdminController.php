@@ -153,12 +153,12 @@ class AdminController extends BaseWebController
 		$this->render(
 			'update',
 			array(
-				 'model'        => $_model,
-				 'schema'       => $_schema,
-				 'errors'       => $_errors,
-				 'resourceName' => $_resourceId,
-				 'displayName'  => $_displayName,
-				 'update'       => ( null !== $_id ),
+				'model'        => $_model,
+				'schema'       => $_schema,
+				'errors'       => $_errors,
+				'resourceName' => $_resourceId,
+				'displayName'  => $_displayName,
+				'update'       => ( null !== $_id ),
 			)
 		);
 	}

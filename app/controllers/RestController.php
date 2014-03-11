@@ -23,9 +23,10 @@ use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
-use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Option;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * RestController
@@ -45,10 +46,24 @@ class RestController extends BaseFactoryController
 	 * @var string resource to be handled by service
 	 */
 	protected $_resource;
+	/**
+	 * @var Request The inbound request
+	 */
+	protected $_requestObject;
 
 	//*************************************************************************
 	//	Methods
 	//*************************************************************************
+
+	/**
+	 * Initialize controller and populate request object
+	 */
+	public function init()
+	{
+		parent::init();
+
+		$this->_requestObject = Pii::app()->getRequestObject();
+	}
 
 	/**
 	 * All authorization handled by services
@@ -68,6 +83,7 @@ class RestController extends BaseFactoryController
 		try
 		{
 			$_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
+
 			$_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
 			$_result = DataFormat::reformatData( $_result, null, $_outputFormat );
 
@@ -84,7 +100,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionGet()
 	{
-		$this->_handleAction( HttpMethod::Get );
+		$this->_handleAction( HttpMethod::GET );
 	}
 
 	/**
@@ -92,29 +108,29 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPost()
 	{
-		$_action = HttpMethod::Post;
+		$_action = HttpMethod::POST;
 
 		try
 		{
-			//	Check for verb tunneling
-			$_tunnelMethod = strtoupper( Option::server( 'HTTP_X_HTTP_METHOD', FilterInput::request( 'method', null, FILTER_SANITIZE_STRING ) ) );
+			//	Check for verb tunneling via X-Http-Method/X-Http-Method-Override header
+			$_tunnelMethod = strtoupper(
+				$this->_requestObject->headers->get(
+					'x-http-method',
+					$this->_requestObject->headers->get(
+						'x-http-method-override',
+						$this->_requestObject->get( 'method' )
+					)
+				)
+			);
 
 			if ( !empty( $_tunnelMethod ) )
 			{
-				switch ( $_tunnelMethod )
+				if ( !HttpMethod::contains( $_tunnelMethod ) )
 				{
-					case HttpMethod::POST:
-					case HttpMethod::GET:
-					case HttpMethod::PUT:
-					case HttpMethod::MERGE:
-					case HttpMethod::PATCH:
-					case HttpMethod::DELETE:
-						$_action = $_tunnelMethod;
-						break;
-
-					default:
-						throw new BadRequestException( 'Unknown tunneling verb "' . $_tunnelMethod . '" in request.' );
+					throw new BadRequestException( 'Invalid verb "' . $_tunnelMethod . '" in request.' );
 				}
+
+				$_action = $_tunnelMethod;
 			}
 
 			$this->_handleAction( $_action );
@@ -130,7 +146,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionMerge()
 	{
-		$this->_handleAction( HttpMethod::Merge );
+		$this->_handleAction( HttpMethod::MERGE );
 	}
 
 	/**
@@ -138,7 +154,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionPut()
 	{
-		$this->_handleAction( HttpMethod::Put );
+		$this->_handleAction( HttpMethod::PUT );
 	}
 
 	/**
@@ -146,7 +162,7 @@ class RestController extends BaseFactoryController
 	 */
 	public function actionDelete()
 	{
-		$this->_handleAction( HttpMethod::Delete );
+		$this->_handleAction( HttpMethod::DELETE );
 	}
 
 	/**
@@ -158,8 +174,8 @@ class RestController extends BaseFactoryController
 	{
 		try
 		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, $action );
+			$_service = ServiceHandler::getService( $this->_service );
+			$_service->processRequest( $this->_resource, $action );
 		}
 		catch ( \Exception $ex )
 		{
@@ -197,8 +213,8 @@ class RestController extends BaseFactoryController
 			{
 				$requestUri = Yii::app()->request->requestUri;
 				if ( ( false === strpos( $requestUri, '?' ) &&
-						'/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
-					( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
 				)
 				{
 					$this->_resource .= '/';
@@ -248,4 +264,13 @@ class RestController extends BaseFactoryController
 	{
 		return $this->_service;
 	}
+
+	/**
+	 * @return \Symfony\Component\HttpFoundation\Request
+	 */
+	public function getRequestObject()
+	{
+		return $this->_requestObject;
+	}
+
 }
