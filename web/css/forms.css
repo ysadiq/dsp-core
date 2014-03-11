@@ -2,6 +2,10 @@
 ** Form Template Classes
 **************************************************************************/
 
+html {
+	background-color: #444;
+}
+
 body {
 	color:            #F2F2F2;
 	background-color: transparent;

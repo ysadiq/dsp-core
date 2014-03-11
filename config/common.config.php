@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Fabric;
 
 /**
