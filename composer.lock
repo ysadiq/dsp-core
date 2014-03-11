@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "be51feef54e608b112d464318c262112",
+    "hash": "c0e07e149d3f11cbf0d49e6c9d88cf84",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -269,16 +269,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-develop",
+            "version": "dev-feature/scripting",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "95204d79d810e3c29f179d52d0821df0ebcc75e1"
+                "reference": "dfb6462bba721c4a45955b74cff53016de315962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/95204d79d810e3c29f179d52d0821df0ebcc75e1.zip",
-                "reference": "95204d79d810e3c29f179d52d0821df0ebcc75e1",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/dfb6462bba721c4a45955b74cff53016de315962.zip",
+                "reference": "dfb6462bba721c4a45955b74cff53016de315962",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
                 "dreamfactory/javascript-sdk": "~1.0@dev",
                 "dreamfactory/lib-php-common": "~1.4@dev",
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
-                "dreamfactory/oasys": "~0.4@dev",
+                "dreamfactory/oasys": "~0.4.0@dev",
                 "dreamfactory/yii": "=1.1.13",
                 "kisma/kisma": "~0.2@dev",
                 "pear/http_request2": "*",
@@ -302,6 +302,7 @@
             },
             "require-dev": {
                 "phpunit/dbunit": "@stable",
+                "phpunit/php-invoker": "@stable",
                 "phpunit/phpunit": "~3.7@stable",
                 "phpunit/phpunit-selenium": "@stable",
                 "phpunit/phpunit-story": "@stable"
@@ -340,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-11 19:00:04"
+            "time": "2014-03-11 20:58:15"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1968,7 +1969,7 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
+            "version": "dev-feature/scripting",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
