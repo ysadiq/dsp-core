@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "51d2c15097c899bec0030b8e37c3684e",
+    "hash": "be51feef54e608b112d464318c262112",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -261,17 +261,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-feature/sse-basics",
-            "target-dir": "DreamFactory/Platform",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "b77d2a406ca3bff3de4526a60a7029b449deec45"
+                "reference": "95204d79d810e3c29f179d52d0821df0ebcc75e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/b77d2a406ca3bff3de4526a60a7029b449deec45.zip",
-                "reference": "b77d2a406ca3bff3de4526a60a7029b449deec45",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/95204d79d810e3c29f179d52d0821df0ebcc75e1.zip",
+                "reference": "95204d79d810e3c29f179d52d0821df0ebcc75e1",
                 "shasum": ""
             },
             "require": {
@@ -306,8 +305,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "DreamFactory\\Platform\\": ""
+                "psr-4": {
+                    "DreamFactory\\Platform\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -333,7 +332,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-11 18:42:10"
+            "time": "2014-03-11 19:00:04"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -2203,7 +2202,13 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-feature/sse-basics",
+            "version": "dev-develop",
+            "package": "dreamfactory/lib-php-common-yii"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
