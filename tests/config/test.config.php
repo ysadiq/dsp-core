@@ -17,11 +17,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Utility\Fabric;
 
 /**
- * web.php
- * This is the main configuration file for the DreamFactory Services Platform server application.
+ * test.php
+ * This is the main configuration file for the DreamFactory Services Platform server application test suite.
  */
 
 /**
@@ -50,7 +49,6 @@ return array(
 	'resourceNamespaces' => array(
 		'DreamFactory\\Platform\\Resources',
 		'DreamFactory\\Platform\\Resources\\System',
-		'DreamFactory\\Platform\\Resources\\Portal',
 		'DreamFactory\\Platform\\Resources\\User',
 	),
 	/**

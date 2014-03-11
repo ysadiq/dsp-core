@@ -1,7 +1,6 @@
 <?php
 namespace DreamFactory\Platform;
 
-use DreamFactory\Platform\Components\ActionEventManager;
 use DreamFactory\Platform\Components\EventProxy;
 use DreamFactory\Platform\Events\Enums\ResourceServiceEvents;
 use DreamFactory\Platform\Utility\RestResponse;
@@ -11,7 +10,6 @@ use Kisma\Core\Interfaces\HttpMethod;
 use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Inflector;
 
-require_once dirname( __DIR__ ) . '/bootstrap.php';
 require_once dirname( dirname( __DIR__ ) ) . '/app/controllers/RestController.php';
 
 /**
@@ -38,15 +36,16 @@ class EventTests extends \PHPUnit_Framework_TestCase
 	public function testServiceRequestEvents()
 	{
 		//	A post test
-		ActionEventManager::on( 'user.list', 'http://dsp.local/web/eventReceiver', static::API_KEY );
+		Pii::app()->on( 'user.list', 'http://dsp.local/web/eventReceiver', static::API_KEY );
 
 		//	An inline test
-		ActionEventManager::on(
+		Pii::app()->on(
 			'user.list',
 			function ( $event, $eventName, $dispatcher )
 			{
 				$this->assertEquals( 'user.list', $eventName );
 				$this->_actionEventFired = 1;
+				echo 'event "user.list" has been fired.';
 
 			},
 			static::API_KEY
@@ -83,7 +82,9 @@ class EventTests extends \PHPUnit_Framework_TestCase
 			);
 
 			//	Test GET
-			Pii::app()->getRequestObject()->query->set( 'app_name', Inflector::neutralize( __CLASS__ ) );
+			$_request = Pii::app()->getRequestObject();
+			$_request->query->set( 'app_name', Inflector::neutralize( __CLASS__ ) );
+			$_request->overrideGlobals();
 
 			$_response = $_service->processRequest( null, HttpMethod::GET, false );
 			$this->assertTrue( is_array( $_response ) && isset( $_response['resource'] ) );

@@ -1,9 +1,8 @@
 <?php
 /**
- * This file is part of the DreamFactory Oasys (Open Authentication SYStem)
+ * This file is part of the DreamFactory Services Platform(tm) SDK For PHP
  *
- * DreamFactory Oasys (Open Authentication SYStem) <http://dreamfactorysoftware.github.io>
- * Copyright 2013 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
  * bootstrap.php
  * Bootstrap script for PHPUnit tests
@@ -25,17 +23,22 @@
 $_basePath = dirname( __DIR__ );
 $_vendorPath = $_basePath . '/vendor';
 
+if ( !is_dir( $_vendorPath ) )
+{
+	echo 'Please run composer install/update before running tests.';
+	exit( 1 );
+}
 //	Composer
-$_autoloader = require( $_vendorPath . '/autoload.php' );
+$_autoloader = require( $_basePath . '/vendor/autoload.php' );
 
 //	Load up Yii
-require_once $_vendorPath . '/dreamfactory/yii/framework/yii.php';
+require_once $_basePath . '/vendor/dreamfactory/yii/framework/yii.php';
 
 //	Yii debug settings
-defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
-defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+defined( YII_DEBUG ) or define( YII_DEBUG, true );
+defined( YII_TRACE_LEVEL ) or define( YII_TRACE_LEVEL, 3 );
 
-$_config = require( $_basePath . '/config/web.php' );
+$_config = require( __DIR__ . '/config/test.config.php' );
 
 //	Testing keys
 if ( file_exists( __DIR__ . '/config/keys.php' ) )
@@ -46,10 +49,11 @@ if ( file_exists( __DIR__ . '/config/keys.php' ) )
 
 //	Create the application but don't run (false at the end)
 $_app = DreamFactory\Yii\Utility\Pii::run(
-	__DIR__,
+	$_basePath,
 	$_autoloader,
-	'DreamFactory\\Platform\\Yii\\Components\\PlatformWebApplication',
+	'DreamFactory\\Platform\\Yii\\Components\\PlatformConsoleApplication',
 	$_config,
+	false,
+	true,
 	false
 );
-
