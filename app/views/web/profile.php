@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,29 +23,30 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController $this
  * @var ProfileForm   $model
  * @var CActiveForm   $form
+ * @var string        $backUrl
  */
 
 Validate::register(
 	'form#profile-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-		 'rules'          => array(
-			 'ProfileForm[email]'        => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'ProfileForm[first_name]'   => array(
-				 'required' => true,
-			 ),
-			 'ProfileForm[last_name]'    => array(
-				 'required' => true,
-			 ),
-			 'ProfileForm[display_name]' => array(
-				 'required' => true,
-			 ),
-		 ),
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => array(
+			'ProfileForm[email]'        => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'ProfileForm[first_name]'   => array(
+				'required' => true,
+			),
+			'ProfileForm[last_name]'    => array(
+				'required' => true,
+			),
+			'ProfileForm[display_name]' => array(
+				'required' => true,
+			),
+		),
 	)
 );
 ?>
@@ -56,11 +57,11 @@ Validate::register(
 	$form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'profile-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'profile-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	);
 	?>
@@ -73,8 +74,6 @@ Validate::register(
 
 	<?php endif; ?>
 
-	<input type="hidden" name="back" id="back" value="0">
-
 	<div class="form-group">
 		<label for="ProfileForm_email" class="sr-only">Email Address</label>
 
@@ -82,8 +81,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control email required" autofocus type="email" id="ProfileForm_email"
-				   name="ProfileForm[email]" placeholder="Email Address"
-				   value="<?php echo( $model->email ? $model->email : '' ); ?>" />
+				name="ProfileForm[email]" placeholder="Email Address"
+				value="<?php echo( $model->email ? $model->email : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -93,8 +92,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="2" class="form-control required" type="text" id="ProfileForm_firstName"
-				   name="ProfileForm[first_name]" placeholder="First Name"
-				   value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
+				name="ProfileForm[first_name]" placeholder="First Name"
+				value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -104,8 +103,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="3" class="form-control required" type="text" id="ProfileForm_lastName"
-				   name="ProfileForm[last_name]" placeholder="Last Name"
-				   value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
+				name="ProfileForm[last_name]" placeholder="Last Name"
+				value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -115,8 +114,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
 
 			<input tabindex="4" class="form-control" type="text" id="ProfileForm_displayName"
-				   name="ProfileForm[display_name]" placeholder="Display Name"
-				   value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
+				name="ProfileForm[display_name]" placeholder="Display Name"
+				value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -126,8 +125,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-phone fa-fw"></i></span>
 
 			<input tabindex="5" class="form-control" type="text" id="ProfileForm_phone"
-				   name="ProfileForm[phone]" placeholder="Phone"
-				   value="<?php echo( $model->phone ? $model->phone : '' ); ?>" />
+				name="ProfileForm[phone]" placeholder="Phone"
+				value="<?php echo( $model->phone ? $model->phone : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -137,8 +136,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
 			<input tabindex="6" class="form-control" type="text" id="ProfileForm_securityQuestion"
-				   name="ProfileForm[security_question]" placeholder="Security Question"
-				   value="<?php echo( $model->security_question ? $model->security_question : '' ); ?>" />
+				name="ProfileForm[security_question]" placeholder="Security Question"
+				value="<?php echo( $model->security_question ? $model->security_question : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -148,8 +147,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
 			<input tabindex="7" class="form-control" type="text" id="ProfileForm_securityAnswer"
-				   name="ProfileForm[security_answer]" placeholder="Security Answer"
-				   value="<?php echo( $model->security_answer ? $model->security_answer : '' ); ?>" />
+				name="ProfileForm[security_answer]" placeholder="Security Answer"
+				value="<?php echo( $model->security_answer ? $model->security_answer : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -185,8 +184,7 @@ jQuery(function($) {
 	});
 	$('#btn-back').on('click', function(e) {
 		e.preventDefault();
-		$('input#back').val(1);
-		$('form#profile-form').submit();
+		window.location = '<?php echo $backUrl?>';
 	});
 });
 </script>

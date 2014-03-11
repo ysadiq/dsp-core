@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,29 +23,30 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController $this
  * @var PasswordForm  $model
  * @var CActiveForm   $form
+ * @var string        $backUrl
  */
 
 Validate::register(
 	'form#password-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-		 'rules'          => array(
-			 'PasswordForm[old_password]'    => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'PasswordForm[new_password]'    => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'PasswordForm[repeat_password]' => array(
-				 'required'  => true,
-				 'minlength' => 5,
-				 'equalTo'   => '#PasswordForm_newPassword',
-			 ),
-		 ),
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => array(
+			'PasswordForm[old_password]'    => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'PasswordForm[new_password]'    => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'PasswordForm[repeat_password]' => array(
+				'required'  => true,
+				'minlength' => 5,
+				'equalTo'   => '#PasswordForm_newPassword',
+			),
+		),
 	)
 );
 ?>
@@ -58,11 +59,11 @@ Validate::register(
 	$form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'password-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'password-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	);
 	?>
@@ -75,8 +76,6 @@ Validate::register(
 
 	<?php endif; ?>
 
-	<input type="hidden" name="back" id="back" value="0">
-
 	<div class="form-group">
 		<label for="PasswordForm_oldPassword" class="sr-only">Old Password</label>
 
@@ -84,7 +83,7 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-lock fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control password required" autofocus type="password"
-				   id="PasswordForm_oldPassword" name="PasswordForm[old_password]" placeholder="Old Password" />
+				id="PasswordForm_oldPassword" name="PasswordForm[old_password]" placeholder="Old Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -94,7 +93,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 			<input tabindex="2" class="form-control password required" type="password"
-				   id="PasswordForm_newPassword" name="PasswordForm[new_password]" placeholder="New Password" />
+				id="PasswordForm_newPassword" name="PasswordForm[new_password]" placeholder="New Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -104,7 +103,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
 			<input tabindex="3" class="form-control password required" type="password"
-				   id="PasswordForm_repeatPassword" name="PasswordForm[repeat_password]" placeholder="Verify NewPassword" />
+				id="PasswordForm_repeatPassword" name="PasswordForm[repeat_password]" placeholder="Verify NewPassword" />
 		</div>
 	</div>
 
@@ -121,8 +120,7 @@ Validate::register(
 jQuery(function($) {
 	$('#btn-back').on('click', function(e) {
 		e.preventDefault();
-		$('input#back').val(1);
-		$('form#password-form').submit();
+		window.location = '<?php echo $backUrl?>';
 	});
 });
 </script>

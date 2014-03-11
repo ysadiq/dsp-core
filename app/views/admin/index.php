@@ -144,20 +144,20 @@ jQuery(function($) {
 			var _columns = _dtColumns[_type].columns;
 
 			$(_id).dataTable({
-				bProcessing:     true,
-				bServerSide:     true,
-				bStateSave:      true,
-				sAjaxSource: "/rest/system/" + _resource,
-				sPaginationType: "bootstrap",
-				aoColumns:       _columns,
-				oLanguage:       {
-					sSearch: "Filter:"
-				},
-				fnServerParams:  function(aoData) {
-					aoData.push({ "name": "format", "value": <?php echo ResponseFormats::DATATABLES; ?> }, { "name": "app_name", "value": "php-admin" },
-						{ "name": "fields", "value": _fields });
-				}
-			});
+								 bProcessing:     true,
+								 bServerSide:     true,
+								 bStateSave:      true,
+								 sAjaxSource: "/rest/system/" + _resource,
+								 sPaginationType: "bootstrap",
+								 aoColumns:       _columns,
+								 oLanguage:       {
+									 sSearch: "Filter:"
+								 },
+								 fnServerParams:  function(aoData) {
+									 aoData.push({ "name": "format", "value": <?php echo ResponseFormats::DATATABLES; ?> },
+												 { "name": "app_name", "value": "php-admin" }, { "name": "fields", "value": _fields });
+								 }
+							 });
 		}
 	});
 

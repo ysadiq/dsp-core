@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,18 +38,17 @@ $this->breadcrumbs = array(
 
 	<?php else: ?>
 
-		<p>A database schema upgrade is required for this DreamFactory Services Platform&trade;.
-			If you would like to backup your database, now is the time to do so.
-			Click the <strong>Upgrade</strong> button below to proceed.</p>
+		<p>A database schema upgrade is required for this DreamFactory Services Platform&trade;. If you would like to backup your database, now is the time to do so. Click the
+			<strong>Upgrade</strong> button below to proceed.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'upgrade-schema-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
+				'id'                     => 'upgrade-schema-form',
+				'enableClientValidation' => true,
+				'clientOptions'          => array(
+					'validateOnSubmit' => true,
+				),
 			)
 		); ?>
 

@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var WebController $this
  * @var LoginForm     $model
  * @var bool          $redirected
+ * @var CActiveForm   $form
  * @var Provider[]    $loginProviders
  */
 
@@ -111,9 +112,9 @@ HTML;
 				<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
 				<input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-					   name="LoginForm[username]" placeholder="DSP User Email Address"
-					   spellcheck="false" autocapitalize="off" autocorrect="off"
-					   value="<?php echo $model->username; ?>" />
+					name="LoginForm[username]" placeholder="DSP User Email Address"
+					spellcheck="false" autocapitalize="off" autocorrect="off"
+					value="<?php echo $model->username; ?>" />
 			</div>
 		</div>
 
@@ -124,7 +125,7 @@ HTML;
 				<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 				<input tabindex="2" class="form-control" type="password" id="LoginForm_password" name="LoginForm[password]"
-					   autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" required value="" />
+					autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" required value="" />
 			</div>
 		</div>
 
@@ -133,8 +134,8 @@ HTML;
 				<span class="input-group-addon bg_db"><i class="fa fa-<?php echo !empty( $model->rememberMe ) ? 'check-' : null; ?>circle-o fa-fw"></i></span>
 
 				<input tabindex="3" class="form-control strong-disabled" id="remember-control"
-					   placeholder="<?php echo( $model->rememberMe ? null : 'Do Not ' ); ?>Keep Me Signed In" type="text"
-					   disabled />
+					placeholder="<?php echo( $model->rememberMe ? null : 'Do Not ' ); ?>Keep Me Signed In" type="text"
+					disabled />
 			</div>
 		</div>
 
@@ -156,7 +157,8 @@ HTML;
 <script type="text/javascript">
 jQuery(function($) {
 	var $_rememberMe = $('#check-remember-ind');
-	var _remembered = ( 1 == $_rememberMe.val());
+	var _remembered = ( 1 == $_rememberMe.val()
+		);
 	var $_rememberHint = $('#remember-control');
 	var $_form = $('form#login-form');
 
@@ -169,8 +171,7 @@ jQuery(function($) {
 	$_form.on('blur focusin focus invalid-form', function(e) {
 		if (e.type != 'invalid-form' && $_form.validate().valid()) {
 			$('#btn-submit').removeClass('disabled').removeAttr('disabled');
-		}
-		else {
+		} else {
 			$('#btn-submit').addClass('disabled').attr({disabled: 'disabled'});
 		}
 	});
@@ -184,8 +185,7 @@ jQuery(function($) {
 			_remembered = 0;
 			$_icon.removeClass('fa-check-circle-o').addClass('fa-circle-o');
 			$_rememberHint.attr({placeHolder: 'Do Not Keep Me Signed In'});
-		}
-		else {
+		} else {
 			//	Enable
 			_remembered = 1;
 			$_icon.removeClass('fa-circle-o').addClass('fa-check-circle-o');

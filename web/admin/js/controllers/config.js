@@ -1,61 +1,69 @@
 var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
     Scope = $scope;
     Scope.allVerbs = ["GET","POST", "PUT", "MERGE", "PATCH", "DELETE", "COPY"];
-    // convert between null and empty string for menus
-    Scope.nullToString = function (data) {
-        if (data.guest_role_id === null) {
-            data.guest_role_id = '';
+    // keys
+    Scope.keyData = [];
+    var keyInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableKeySave()" />';
+    var keyCheckTemplate = '<div style="text-align:center;"><input style="vertical-align: middle;" type="checkbox" ng-model="row.entity[col.field]" ng-change="enableKeySave()"/></div>';
+    var keyButtonTemplate = '<div><button id="key_save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveKeyRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteKeyRow()"><li class="icon-remove"></li></button></div>';
+    Scope.keyColumnDefs = [
+        {field:'name', width:100},
+        {field:'value', enableFocusedCellEdit:true, width:200, enableCellSelection:true, editableCellTemplate:keyInputTemplate },
+        {field:'private', cellTemplate:keyCheckTemplate, width:75},
+        {field:'Update', cellTemplate:keyButtonTemplate, width:80}
+    ];
+    Scope.keyOptions = {data:'keyData', width:500, columnDefs:'keyColumnDefs', canSelectRows:false, displaySelectionCheckbox:false};
+    Scope.updateKeys = function () {
+        $("#key-error-container").hide();
+        if (!Scope.key) {
+            return false;
         }
-        if (data.open_reg_role_id === null) {
-            data.open_reg_role_id = '';
+        if (!Scope.key.name || !Scope.key.value) {
+            $("#key-error-container").html("Both name and value are required").show();
+            return false;
         }
-        if (data.open_reg_email_service_id === null) {
-            data.open_reg_email_service_id = '';
+        if (checkForDuplicate(Scope.keyData, 'name', Scope.key.name)) {
+            $("#key-error-container").html("Key already exists").show();
+            $('#key-name, #key-value').val('');
+            return false;
         }
-        if (data.open_reg_email_template_id === null) {
-            data.open_reg_email_template_id = '';
-        }
-		if (data.invite_email_service_id === null) {
-			data.invite_email_service_id = '';
-		}
-		if (data.invite_email_template_id === null) {
-			data.invite_email_template_id = '';
-		}
-        if (data.password_email_service_id === null) {
-            data.password_email_service_id = '';
-        }
-        if (data.password_email_template_id === null) {
-            data.password_email_template_id = '';
-        }
+        var newRecord = {};
+        newRecord.name = Scope.key.name;
+        newRecord.value = Scope.key.value;
+        newRecord.private = !!Scope.key.private;
+        Scope.keyData.push(newRecord);
+        Scope.key = null;
+        $('#key-name, #key-value').val('');
     }
-    Scope.stringToNull = function (data) {
-        if (data.guest_role_id === '') {
-            data.guest_role_id = null;
-        }
-        if (data.open_reg_role_id === '') {
-            data.open_reg_role_id = null;
-        }
-        if (data.open_reg_email_service_id === '') {
-            data.open_reg_email_service_id = null;
-        }
-        if (data.open_reg_email_template_id === '') {
-            data.open_reg_email_template_id = null;
-        }
-		if (data.invite_email_service_id === '') {
-			data.invite_email_service_id = null;
-		}
-		if (data.invite_email_template_id === '') {
-			data.invite_email_template_id = null;
-		}
-        if (data.password_email_service_id === '') {
-            data.password_email_service_id = null;
-        }
-        if (data.password_email_template_id === '') {
-            data.password_email_template_id = null;
-        }
+    Scope.deleteKeyRow = function () {
+        var name = this.row.entity.name;
+        Scope.keyData = removeByAttr(Scope.keyData, 'name', name);
+
+    }
+    Scope.saveKeyRow = function () {
+        var index = this.row.rowIndex;
+        var newRecord = this.row.entity;
+        var name = this.row.entity.name;
+        updateByAttr(Scope.keyData, "name", name, newRecord);
+        $("#key_save_" + index).prop('disabled', true);
+    };
+    Scope.enableKeySave = function () {
+        $("#key_save_" + this.row.rowIndex).prop('disabled', false);
+    };
+    // convert between null and empty string for menus
+    Scope.fixValues = function (data, fromVal, toVal) {
+        if (data.guest_role_id === fromVal) data.guest_role_id = toVal;
+        if (data.open_reg_role_id === fromVal) data.open_reg_role_id = toVal;
+        if (data.open_reg_email_service_id === fromVal) data.open_reg_email_service_id = toVal;
+        if (data.open_reg_email_template_id === fromVal) data.open_reg_email_template_id = toVal;
+        if (data.invite_email_service_id === fromVal) data.invite_email_service_id = toVal;
+        if (data.invite_email_template_id === fromVal) data.invite_email_template_id = toVal;
+        if (data.password_email_service_id === fromVal) data.password_email_service_id = toVal;
+        if (data.password_email_template_id === fromVal) data.password_email_template_id = toVal;
     }
     Scope.Config = Config.get(function (response) {
-        Scope.nullToString(response);
+        Scope.fixValues(response, null, '');
+        Scope.keyData = Scope.Config.lookup_keys;
     }, function (response) {
         var code = response.status;
         if (code == 401) {
@@ -72,6 +80,7 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
 
 
     });
+    // roles
     Scope.Roles = Role.get(function () {
     }, function (response) {
         var code = response.status;
@@ -111,9 +120,9 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
         Scope.CORS.host = "";
     }
     Scope.save = function () {
-        // make a copy
-        var data = JSON.parse(JSON.stringify(Scope.Config));
-        Scope.stringToNull(data);
+        Scope.Config.lookup_keys = Scope.keyData;
+        var data = angular.copy(Scope.Config);
+        Scope.fixValues(data, '', null);
         Config.update(data, function () {
                 $.pnotify({
                     title: 'Configuration',
@@ -172,6 +181,12 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
         Scope.Config.allowed_hosts.unshift(newhost);
     }
 
+    $("#key-value").keyup(function (event) {
+        if (event.keyCode == 13) {
+
+            $("#key-update").click();
+        }
+    });
 
     // EMAIL TEMPLATES
     // ------------------------------------

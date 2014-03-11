@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
+use Kisma\Core\Utility\Option;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -198,28 +199,26 @@ class RestController extends BaseFactoryController
 	 */
 	protected function beforeAction( $action )
 	{
-		$_request = Pii::app()->getRequestObject();
-
-		$_pathInfo = $_request->getPathInfo();
-		$_trailingSlash = ( '/' == $_pathInfo[strlen( $_pathInfo ) - 1] );
-		$_path = trim( $_pathInfo, '/' );
-		$_pathParts = explode( '/', $_path );
-
-		if ( !empty( $_pathParts ) )
+		if ( false === ( $slashIndex = strpos( $path = Option::get( $_GET, 'path' ), '/' ) ) )
 		{
-			//	Shift off the controller ID
-			if ( $this->id != ( $_controllerId = array_shift( $_pathParts ) ) )
-			{
-				Log::notice( 'Requested path controller ID "' . $_controllerId . '" does not match mine: ' . $this->id );
-			}
+			$this->_service = $path;
+		}
+		else
+		{
+			$this->_service = substr( $path, 0, $slashIndex );
+			$this->_resource = substr( $path, $slashIndex + 1 );
 
-			$this->_service = array_shift( $_pathParts );
-			$this->_resource = implode( '/', $_pathParts );
-
-			//	Fix removal of trailing slashes from resource
-			if ( !empty( $this->_resource ) && $_trailingSlash )
+			// fix removal of trailing slashes from resource
+			if ( !empty( $this->_resource ) )
 			{
-				$this->_resource .= '/';
+				$requestUri = Yii::app()->request->requestUri;
+				if ( ( false === strpos( $requestUri, '?' ) &&
+					   '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+					 ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+				)
+				{
+					$this->_resource .= '/';
+				}
 			}
 		}
 

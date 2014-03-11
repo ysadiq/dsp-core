@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,37 +28,36 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#activate-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.parent("div"));error.css("margin","-10px 0 0");}',
-		 'rules'          => array(
-			 'ActivateForm[username]' => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'ActivateForm[password]' => array(
-				 'required' => true,
-			 ),
-		 ),
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => array(
+			'ActivateForm[username]' => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'ActivateForm[password]' => array(
+				'required' => true,
+			),
+		),
 	)
 );
 ?>
 <div class="container" id="formbox">
 	<h2>DSP Activation</h2>
 
-	<p>To activate this DSP, please enter your <a href="https://www.dreamfactory.com">www.dreamfactory.com</a>
-		email and password. You will automatically be made an admin user of this DSP. You may modify this user or
-		add more users once you've logged in.
+	<p>To activate this DSP, please enter your
+		<a href="https://www.dreamfactory.com">www.dreamfactory.com</a> email and password. You will automatically be made an admin user of this DSP. You may modify this user or add more users once you've logged in.
 	</p>
 
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'activate-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'activate-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	); ?>
 
@@ -69,8 +68,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control email required" autofocus type="email" id="ActivateForm_username"
-				   name="ActivateForm[username]" placeholder="Email Address"
-				   value="<?php echo( $model->username ? $model->username : '' ); ?>" />
+				name="ActivateForm[username]" placeholder="Email Address"
+				value="<?php echo( $model->username ? $model->username : '' ); ?>" />
 		</div>
 	</div>
 
@@ -81,7 +80,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 			<input tabindex="2" class="form-control password required" type="password" id="ActivateForm_password"
-				   name="ActivateForm[password]" placeholder="Password" />
+				name="ActivateForm[password]" placeholder="Password" />
 		</div>
 	</div>
 

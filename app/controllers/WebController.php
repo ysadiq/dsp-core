@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ use Kisma\Core\Utility\Curl;
 use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
+use Kisma\Core\Utility\Storage;
 
 /**
  * WebController.php
@@ -439,15 +440,15 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_identity = Password::changePasswordBySecurityAnswer(
+					$_result = Password::changePasswordBySecurityAnswer(
 						$_model->email,
 						$_model->answer,
 						$_model->password,
 						true,
-						true
+						false
 					);
 
-					if ( Pii::user()->login( $_identity ) )
+					if ( $_result )
 					{
 						$this->redirect( $this->_getRedirectUrl() );
 
@@ -560,20 +561,13 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['RegisterUserForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['RegisterUserForm'];
 
 			if ( $_model->validate() )
 			{
 				try
 				{
-					$_result = Register::userRegister( $_model->attributes, true, true );
+					$_result = Register::userRegister( $_model->attributes, true, false );
 
 					if ( $_viaEmail )
 					{
@@ -584,8 +578,8 @@ class WebController extends BaseWebController
 					}
 					else
 					{
-						// result should be identity
-						if ( Pii::user()->login( $_result ) )
+						// result should be true
+						if ( $_result )
 						{
 							$this->redirect( $this->_getRedirectUrl() );
 
@@ -605,7 +599,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'register',
 			array(
-				'model' => $_model
+				'model'   => $_model,
+				'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -650,27 +645,27 @@ class WebController extends BaseWebController
 					switch ( $reason )
 					{
 						case 'register':
-							$_identity = Register::userConfirm(
+							$_result = Register::userConfirm(
 								$_model->email,
 								$_model->code,
 								$_model->password,
 								true,
-								true
+								false
 							);
 							break;
 
 						default:
-							$_identity = Password::changePasswordByCode(
+							$_result = Password::changePasswordByCode(
 								$_model->email,
 								$_model->code,
 								$_model->password,
 								true,
-								true
+								false
 							);
 							break;
 					}
 
-					if ( Pii::user()->login( $_identity ) )
+					if ( $_result )
 					{
 						$this->redirect( $this->_getRedirectUrl() );
 
@@ -710,13 +705,6 @@ class WebController extends BaseWebController
 		// collect user input data
 		if ( isset( $_POST, $_POST['PasswordForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['PasswordForm'];
 
 			//	Validate user input and redirect to the previous page if valid
@@ -742,7 +730,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'password',
 			array(
-				'model' => $_model,
+				'model'   => $_model,
+				'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -761,13 +750,6 @@ class WebController extends BaseWebController
 
 		if ( isset( $_POST, $_POST['ProfileForm'] ) )
 		{
-			if ( 1 == Option::get( $_POST, 'back', 0 ) )
-			{
-				$this->redirect( $this->_getRedirectUrl() );
-
-				return;
-			}
-
 			$_model->attributes = $_POST['ProfileForm'];
 
 			if ( $_model->validate() )
@@ -797,7 +779,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'profile',
 			array(
-				'model' => $_model
+				'model'   => $_model,
+				'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -1188,40 +1171,33 @@ class WebController extends BaseWebController
 		switch ( $state )
 		{
 			case PlatformStates::INIT_REQUIRED:
-//				$this->redirect( $this->_getRedirectUrl( 'initSystem' ) );
 				$this->actionInitSystem();
 				break;
 
 			case PlatformStates::SCHEMA_REQUIRED:
-//				$this->redirect( $this->_getRedirectUrl( 'upgradeSchema' ) );
 				$this->actionUpgradeSchema();
 				break;
 
 			case PlatformStates::UPGRADE_REQUIRED:
-//				$this->redirect( $this->_getRedirectUrl( 'upgrade' ) );
 				$this->actionUpgrade();
 				break;
 
 			case PlatformStates::ADMIN_REQUIRED:
 				if ( Fabric::fabricHosted() )
 				{
-//					$this->redirect( $this->_getRedirectUrl( 'activate' ) );
 					$this->actionActivate();
 				}
 				else
 				{
-//					$this->redirect( $this->_getRedirectUrl( 'initAdmin' ) );
 					$this->actionInitAdmin();
 				}
 				break;
 
 			case PlatformStates::DATA_REQUIRED:
-//				$this->redirect( $this->_getRedirectUrl( 'initData' ) );
 				$this->actionInitData();
 				break;
 
 			case PlatformStates::WELCOME_REQUIRED:
-//				$this->redirect( $this->_getRedirectUrl( 'welcome' ) );
 				$this->actionWelcome();
 				break;
 

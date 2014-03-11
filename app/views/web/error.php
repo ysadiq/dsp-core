@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ $this->breadcrumbs = array(
 ?>
 <div class="container">
 	<h2><?php echo $this->pageTitle; ?></h2>
-	<p>This application has experienced a fatal error.
-		If you would like to report this error,
-		please contact our <a href="//www.dreamfactory.com/developers/support">support</a>.
+
+	<p>This application has experienced a fatal error. If you would like to report this error, please contact our
+		<a href="//www.dreamfactory.com/developers/support">support</a>.
 	</p>
 	<h4>Error <?php echo $code; ?></h4>
 

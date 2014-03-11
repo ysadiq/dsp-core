@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,18 +37,17 @@ $this->breadcrumbs = array(
 
 	<?php else: ?>
 
-		<p>Your DSP requires the installation of system data in order to be properly configured. <br />
-			When you are ready, click the <strong>Install</strong>
-			button to add this data.</p>
+		<p>Your DSP requires the installation of system data in order to be properly configured. <br /> When you are ready, click the
+			<strong>Install</strong> button to add this data.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'init-data-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
+				'id'                     => 'init-data-form',
+				'enableClientValidation' => true,
+				'clientOptions'          => array(
+					'validateOnSubmit' => true,
+				),
 			)
 		); ?>
 

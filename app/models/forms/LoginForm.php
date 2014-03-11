@@ -19,7 +19,6 @@
  */
 use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Yii\Components\PlatformUserIdentity;
-use DreamFactory\Yii\Utility\Pii;
 
 /**
  * LoginForm class.
@@ -98,16 +97,14 @@ class LoginForm extends CFormModel
 		{
 			try
 			{
-				/** @var PlatformUserIdentity $_identity */
-				$_identity = Session::userLogin( $this->username, $this->password, true );
 				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-
-				if ( !Pii::user()->login( $_identity, $_duration ) )
+				/** @var PlatformUserIdentity $_identity */
+				if ( Session::userLogin( $this->username, $this->password, $_duration, false ) )
 				{
-					throw new Exception();
+					return true;
 				}
 
-				return true;
+				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
 			}
 			catch ( \Exception $_ex )
 			{

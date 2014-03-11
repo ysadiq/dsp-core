@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Interfaces\FileServiceLike;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
@@ -44,6 +45,7 @@ class StorageController extends BaseWebController
 		$_service = FilterInput::get( INPUT_GET, 'service', '' );
 		try
 		{
+			/** @var FileServiceLike $_obj */
 			$_obj = ServiceHandler::getServiceObject( $_service );
 			switch ( $_obj->getType() )
 			{

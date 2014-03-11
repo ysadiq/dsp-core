@@ -179,6 +179,24 @@
 								<input id="passwordRepeat" name="passwordRepeat" type="password" ng-model="passwordRepeat">
                             </div>
                         </div>
+                        <div class="section keys">
+                            <p>User Keys</p>
+
+                            <div>
+                                <div id="key-grid" ng-grid="keyOptions"></div>
+                            </div>
+                            <div style="display:none" id="key-error-container" class="alert alert-danger">Key already exists
+                            </div>
+                            <input id="key-name" placeholder="Key Name" class="input-small" type="text"
+                                   ng-model="key.name" />
+                            <input id="key-value" placeholder="Key Value" type="text"
+                                   ng-model="key.value" />
+                            <div style="display:inline-block;"><input id="key-private" type="checkbox" ng-model="key.private"/>&nbsp;Private</div><br />
+
+                            <a id="key-update" class="btn btn-inverse" ng-click="updateKeys()"><i class="icon-plus-sign"></i>
+                                Add Key
+                            </a>
+                        </div>
                         <br/>
 
                         <div id="button_holder">

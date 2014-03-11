@@ -15,11 +15,9 @@
 	<!-- DreamFactory Typography Css -->
 	<link rel="stylesheet" href="/css/df-custom-bs.css">
 	<link rel="stylesheet" href="/css/forms.css">
-	<!--[if lt IE 9]>
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->	<!--[if lt IE 9]>
 	<script src="/js/html5shiv.js"></script>
-	<script src="/js/respond.min.js"></script>
-	<![endif]-->
+	<script src="/js/respond.min.js"></script>	<![endif]-->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
@@ -29,28 +27,28 @@
 	<title>DreamFactory Services Platform&trade;</title>
 </head>
 <body>
-<div id="navbar-container">
-	<div class="navbar navbar-static-top">
+	<div id="navbar-container">
+		<div class="navbar navbar-static-top">
 
-		<div class="navbar-spacer">
-			<div class="pull-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>
+			<div class="navbar-spacer">
+				<div class="pull-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>
+			</div>
+
 		</div>
-
 	</div>
-</div>
-<div id="wrap">
-	<?php echo $content; ?>
-	<div id="push"></div>
-</div>
-<div id="footer">
-	<div class="container align-center">
-		<p class="footer-text">&copy; <a href="http://www.dreamfactory.com">DreamFactory Software, Inc.</a>
-			<?php echo date( 'Y' ); ?>. All Rights Reserved.
-		</p>
+	<div id="wrap">
+		<?php echo $content; ?>
+		<div id="push"></div>
 	</div>
-</div>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js"></script>
+	<div id="footer">
+		<div class="container align-center">
+			<p class="footer-text">&copy; <a href="http://www.dreamfactory.com">DreamFactory Software, Inc.</a>
+				<?php echo date( 'Y' ); ?>. All Rights Reserved.
+			</p>
+		</div>
+	</div>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js"></script>
 </body>
 </html>
