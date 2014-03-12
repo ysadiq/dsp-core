@@ -34,7 +34,7 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 		Scope.mongohq = {};
 		Scope.couch = {};
 		Scope.salesforce = {};
-		Scope.runner = {};
+		Scope.script = {};
 
 		Scope.service.is_active = true;
 		$(window).scrollTop(0);
@@ -104,7 +104,7 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 	];
 	Scope.service.storage_type = "aws s3";
 	Scope.serviceOptions = [
-		{name: "Local Runner Service"},
+		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Local SQL DB"},
 		{name: "Remote SQL DB"},
@@ -117,7 +117,7 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 		{name: "Email Service"}
 	];
 	Scope.serviceCreateOptions = [
-		{name: "Local Runner Service"},
+		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Remote SQL DB"},
 		{name: "Remote SQL DB Schema"},
@@ -382,7 +382,7 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 				$(".base_url,.host,.command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type").hide();
 				$(".user, .pwd, .dsn").show();
 				break;
-			case "Local Runner Service":
+			case "Script Service":
 			case "Remote Web Service":
 				$(".user, .pwd,.host, .command, .security, .port, .dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type").hide();
 				$(".base_url, .parameters, .headers").show();

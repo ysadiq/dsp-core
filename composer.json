@@ -42,6 +42,7 @@
 	},
 	"require":           {
 		"php":                                  ">=5.3.18",
+		"ext-json":				"*",
 		"kisma/kisma":                          "~0.2@dev",
 		"dreamfactory/yii":                     "=1.1.13",
 		"dreamfactory/oasys":                   "~0.4.0@dev",

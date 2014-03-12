@@ -88,8 +88,8 @@ return array(
     PlatformServiceTypes::LOCAL_PORTAL_SERVICE => array(
         'class' => 'DreamFactory\\Platform\\Services\\Portal',
     ),
-    PlatformServiceTypes::LOCAL_RUNNER_SERVICE => array(
-        'class' => 'DreamFactory\\Platform\\Services\\Runner',
+    PlatformServiceTypes::SCRIPT_SERVICE       => array(
+        'class' => 'DreamFactory\\Platform\\Services\\Script',
     ),
     PlatformServiceTypes::REMOTE_WEB_SERVICE   => array(
         'class' => 'DreamFactory\\Platform\\Services\\RemoteWebSvc',
