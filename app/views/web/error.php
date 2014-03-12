@@ -27,9 +27,9 @@ $this->breadcrumbs = array(
 ?>
 <div class="container">
 	<h2><?php echo $this->pageTitle; ?></h2>
-	<p>This application has experienced a fatal error.
-		If you would like to report this error,
-		please contact our <a href="//www.dreamfactory.com/developers/support">support</a>.
+
+	<p>This application has experienced a fatal error. If you would like to report this error, please contact our
+		<a href="//www.dreamfactory.com/developers/support">support</a>.
 	</p>
 	<h4>Error <?php echo $code; ?></h4>
 

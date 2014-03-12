@@ -17,27 +17,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
-use DreamFactory\Oasys\Stores\FileSystem;
-use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\RestException;
 use DreamFactory\Platform\Interfaces\PlatformStates;
 use DreamFactory\Platform\Resources\System\Config;
 use DreamFactory\Platform\Resources\User\Password;
-use DreamFactory\Platform\Resources\User\Profile;
-use DreamFactory\Platform\Resources\User\Register;
 use DreamFactory\Platform\Resources\User\Session;
-use DreamFactory\Platform\Services\AsgardService;
 use DreamFactory\Platform\Services\SystemManager;
 use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Platform\Utility\ResourceStore;
-use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Platform\Yii\Models\User;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
-use Kisma\Core\Interfaces\HttpResponse;
+use Kisma\Core\Enums\HttpResponse;
 use Kisma\Core\Utility\Curl;
 use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Log;
@@ -137,6 +130,7 @@ class WebController extends BaseWebController
 					'confirmRegister',
 					'confirmInvite',
 					'confirmPassword',
+					'eventReceiver',
 				),
 				'users'   => array( '*' ),
 			),
@@ -176,77 +170,7 @@ class WebController extends BaseWebController
 	 */
 	public function actionIndex()
 	{
-		try
-		{
-			$_error = false;
-			$_state = SystemManager::getSystemState();
-
-			if ( !$this->_activated && $_state != PlatformStates::INIT_REQUIRED )
-			{
-				$_state = PlatformStates::ADMIN_REQUIRED;
-			}
-
-			if ( !empty( $this->_remoteError ) )
-			{
-				$_error = 'error=' . urlencode( $this->_remoteError );
-			}
-
-			switch ( $_state )
-			{
-				case PlatformStates::READY:
-					$_defaultApp = Pii::getParam( 'dsp.default_app', static::DEFAULT_STARTUP_APP );
-
-					//	Try local launchpad
-					if ( is_file( \Kisma::get( 'app.app_path' ) . $_defaultApp ) )
-					{
-						if ( $_error )
-						{
-							$_defaultApp = $_defaultApp . ( false !== strpos( $_defaultApp, '?' ) ? '&' : '?' ) . $_error;
-						}
-
-						$this->redirect( $_defaultApp );
-					}
-
-					//	Fall back to this app default site
-					$this->render( 'index' );
-					break;
-
-				case PlatformStates::INIT_REQUIRED:
-					$this->redirect( $this->_getRedirectUrl( 'initSystem' ) );
-					break;
-
-				case PlatformStates::SCHEMA_REQUIRED:
-					$this->redirect( $this->_getRedirectUrl( 'upgradeSchema' ) );
-					break;
-
-				case PlatformStates::UPGRADE_REQUIRED:
-					$this->redirect( $this->_getRedirectUrl( 'upgrade' ) );
-					break;
-
-				case PlatformStates::ADMIN_REQUIRED:
-					if ( Fabric::fabricHosted() )
-					{
-						$this->redirect( $this->_getRedirectUrl( 'activate' ) );
-					}
-					else
-					{
-						$this->redirect( $this->_getRedirectUrl( 'initAdmin' ) );
-					}
-					break;
-
-				case PlatformStates::DATA_REQUIRED:
-					$this->redirect( $this->_getRedirectUrl( 'initData' ) );
-					break;
-
-				case PlatformStates::WELCOME_REQUIRED:
-					$this->redirect( $this->_getRedirectUrl( 'welcome' ) );
-					break;
-			}
-		}
-		catch ( \Exception $_ex )
-		{
-			die( $_ex->getMessage() );
-		}
+		$this->_checkSystemState();
 	}
 
 	/**
@@ -272,7 +196,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'_splash',
 			array(
-				 'for' => PlatformStates::INIT_REQUIRED,
+				'for' => PlatformStates::INIT_REQUIRED,
 			)
 		);
 	}
@@ -318,7 +242,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeSchema',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -361,7 +285,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'initAdmin',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -407,7 +331,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'activate',
 			array(
-				 'model' => $_model,
+				'model'     => $_model,
+				'activated' => $this->_activated,
 			)
 		);
 	}
@@ -417,28 +342,8 @@ class WebController extends BaseWebController
 	 */
 	public function actionInitData()
 	{
-		// just do, no need to ask
-		//		$_model = new InitDataForm();
-		//
-		//		if ( isset( $_POST, $_POST['InitDataForm'] ) )
-		//		{
-		//			$_model->attributes = $_POST['InitDataForm'];
-		//
-		//			if ( $_model->validate() )
-		//			{
 		SystemManager::initData();
 		$this->redirect( '/' );
-		//			}
-		//
-		//			$this->refresh();
-		//		}
-		//
-		//		$this->render(
-		//			'initData',
-		//			array(
-		//				 'model' => $_model
-		//			)
-		//		);
 	}
 
 	/**
@@ -456,7 +361,8 @@ class WebController extends BaseWebController
 		// collect user input data
 		if ( isset( $_POST, $_POST['LoginForm'] ) )
 		{
-			$_model->attributes = $_POST['LoginForm'];
+			$_model->setAttributes( $_POST['LoginForm'] );
+			$_model->rememberMe = Option::getBool( $_POST, 'check-remember-ind' );
 
 			if ( 1 == Option::get( $_POST, 'forgot', 0 ) )
 			{
@@ -464,17 +370,25 @@ class WebController extends BaseWebController
 				{
 					$_result = Password::passwordReset( $_model->username );
 					$_question = Option::get( $_result, 'security_question' );
+
 					if ( !empty( $_question ) )
 					{
-						Yii::app()->user->setFlash( 'security-email', $_model->username );
-						Yii::app()->user->setFlash( 'security-question', $_question );
-						$this->redirect( $this->_getRedirectUrl( 'securityQuestion' ) );
+						$_result = Password::passwordReset( $_model->username );
+						$_question = Option::get( $_result, 'security_question' );
+
+						if ( !empty( $_question ) )
+						{
+							Pii::setFlash( 'security-email', $_model->username );
+							Pii::setFlash( 'security-question', $_question );
+
+							$this->redirect( '/' . $this->id . '/securityQuestion' );
+						}
 
 						return;
 					}
 					elseif ( Option::getBool( $_result, 'success' ) )
 					{
-						Yii::app()->user->setFlash( 'login-form', 'A password reset confirmation has been sent to this email.' );
+						Pii::setFlash( 'login-form', 'A password reset confirmation has been sent to this email.' );
 					}
 				}
 				catch ( \Exception $_ex )
@@ -483,11 +397,14 @@ class WebController extends BaseWebController
 				}
 			}
 			//	Validate user input and redirect to the previous page if valid
-			elseif ( $_model->validate() )
+			else
 			{
-				$this->redirect( $this->_getRedirectUrl() );
+				if ( $_model->validate() )
+				{
+					$this->redirect( $this->_getRedirectUrl() );
 
-				return;
+					return;
+				}
 			}
 		}
 
@@ -496,10 +413,10 @@ class WebController extends BaseWebController
 		$this->render(
 			'login',
 			array(
-				 'model'          => $_model,
-				 'activated'      => $this->_activated,
-				 'redirected'     => $redirected,
-				 'loginProviders' => $_providers,
+				'model'          => $_model,
+				'activated'      => $this->_activated,
+				'redirected'     => $redirected,
+				'loginProviders' => $_providers,
 			)
 		);
 	}
@@ -523,15 +440,15 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_identity = Password::changePasswordBySecurityAnswer(
+					$_result = Password::changePasswordBySecurityAnswer(
 						$_model->email,
 						$_model->answer,
 						$_model->password,
 						true,
-						true
+						false
 					);
 
-					if ( Pii::user()->login( $_identity ) )
+					if ( $_result )
 					{
 						$this->redirect( $this->_getRedirectUrl() );
 
@@ -560,7 +477,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'securityQuestion',
 			array(
-				 'model' => $_model,
+				'model' => $_model,
 			)
 		);
 	}
@@ -616,7 +533,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'welcome',
 			array(
-				 'model' => $_model,
+				'model' => $_model,
 			)
 		);
 	}
@@ -650,7 +567,7 @@ class WebController extends BaseWebController
 			{
 				try
 				{
-					$_result = Register::userRegister( $_model->attributes, true, true );
+					$_result = Register::userRegister( $_model->attributes, true, false );
 
 					if ( $_viaEmail )
 					{
@@ -661,8 +578,8 @@ class WebController extends BaseWebController
 					}
 					else
 					{
-						// result should be identity
-						if ( Pii::user()->login( $_result ) )
+						// result should be true
+						if ( $_result )
 						{
 							$this->redirect( $this->_getRedirectUrl() );
 
@@ -682,8 +599,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'register',
 			array(
-				 'model' => $_model,
-				 'backUrl' => $this->_getRedirectUrl()
+				'model'   => $_model,
+				'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -703,6 +620,9 @@ class WebController extends BaseWebController
 		$this->_userConfirm( 'password' );
 	}
 
+	/**
+	 * @param $reason
+	 */
 	protected function _userConfirm( $reason )
 	{
 		if ( !Pii::guest() )
@@ -725,26 +645,27 @@ class WebController extends BaseWebController
 					switch ( $reason )
 					{
 						case 'register':
-							$_identity = Register::userConfirm(
+							$_result = Register::userConfirm(
 								$_model->email,
 								$_model->code,
 								$_model->password,
 								true,
-								true
+								false
 							);
 							break;
+
 						default:
-							$_identity = Password::changePasswordByCode(
+							$_result = Password::changePasswordByCode(
 								$_model->email,
 								$_model->code,
 								$_model->password,
 								true,
-								true
+								false
 							);
 							break;
 					}
 
-					if ( Pii::user()->login( $_identity ) )
+					if ( $_result )
 					{
 						$this->redirect( $this->_getRedirectUrl() );
 
@@ -763,8 +684,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'confirm',
 			array(
-				 'model'  => $_model,
-				 'reason' => $reason,
+				'model'  => $_model,
+				'reason' => $reason,
 			)
 		);
 	}
@@ -809,8 +730,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'password',
 			array(
-				 'model'   => $_model,
-				 'backUrl' => $this->_getRedirectUrl()
+				'model'   => $_model,
+				'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -858,8 +779,8 @@ class WebController extends BaseWebController
 		$this->render(
 			'profile',
 			array(
-				 'model' => $_model,
-				 'backUrl' => $this->_getRedirectUrl()
+				'model'   => $_model,
+				'backUrl' => $this->_getRedirectUrl()
 			)
 		);
 	}
@@ -927,7 +848,7 @@ class WebController extends BaseWebController
 		$this->render(
 			'upgradeDsp',
 			array(
-				 'model' => $_model
+				'model' => $_model
 			)
 		);
 	}
@@ -1048,8 +969,8 @@ class WebController extends BaseWebController
 			$_providerModel,
 			Pii::getState( $_providerId . '.user_config', array() ),
 			array(
-				 'flow_type'    => $_flow,
-				 'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+				'flow_type'    => $_flow,
+				'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
 			)
 		);
 
@@ -1083,6 +1004,8 @@ class WebController extends BaseWebController
 
 	/**
 	 * Handle inbound redirect from various services
+	 *
+	 * @throws DreamFactory\Common\Exceptions\RestException
 	 */
 	public function actionAuthorize()
 	{
@@ -1135,6 +1058,38 @@ class WebController extends BaseWebController
 	}
 
 	/**
+	 * Testing endpoint for events
+	 */
+	public function actionEventReceiver()
+	{
+		$_request = Pii::app()->getRequestObject();
+
+		$_data = $_request->getContent();
+
+		if ( is_string( $_data ) )
+		{
+			$_data = json_decode( $_data, true );
+
+			if ( JSON_ERROR_NONE != json_last_error() )
+			{
+				Log::error( '  * DSP event could not be converted from JSON.' );
+
+				return;
+			}
+		}
+
+		if ( isset( $_data['details'] ) )
+		{
+			$_eventName = Option::getDeep( $_data, 'details', 'event_name' );
+			Log::debug( 'DSP event "' . $_eventName . '" received' );
+
+			return;
+		}
+
+		Log::error( 'Weird event received: ' . var_export( $_data, true ) );
+	}
+
+	/**
 	 * @param string $message
 	 * @param string $url
 	 */
@@ -1143,6 +1098,11 @@ class WebController extends BaseWebController
 		$this->redirect( $url . '?error=' . urlencode( $message ) );
 	}
 
+	/**
+	 * @param null $action
+	 *
+	 * @return string
+	 */
 	protected function _getRedirectUrl( $action = null )
 	{
 		if ( !empty( $action ) )
@@ -1162,4 +1122,90 @@ class WebController extends BaseWebController
 
 		return $_returnUrl;
 	}
+
+	protected function _checkSystemState()
+	{
+		$_error = false;
+		$_state = SystemManager::getSystemState();
+
+		if ( !$this->_activated && $_state != PlatformStates::INIT_REQUIRED )
+		{
+			$_state = PlatformStates::ADMIN_REQUIRED;
+		}
+
+		if ( !empty( $this->_remoteError ) )
+		{
+			$_error = 'error=' . urlencode( $this->_remoteError );
+		}
+
+		if ( PlatformStates::READY == $_state )
+		{
+			$_defaultApp = Pii::getParam( 'dsp.default_app', static::DEFAULT_STARTUP_APP );
+
+			//	Try local launchpad
+			if ( is_file( \Kisma::get( 'app.app_path' ) . $_defaultApp ) )
+			{
+				$_defaultApp = $_defaultApp . Curl::urlSeparator( $_defaultApp ) . $_error;
+				$this->redirect( $_defaultApp );
+			}
+
+			//	Fall back to this app default site
+			$this->render( 'index' );
+		}
+		else if ( !$this->_handleAction( $_state ) )
+		{
+			Log::error( 'Invalid state "' . $_state . '" or no handler configured.' );
+		}
+
+	}
+
+	/**
+	 * Perform the appropriate action based on the current DSP state
+	 *
+	 * @param int $state
+	 *
+	 * @return bool
+	 */
+	protected function _handleAction( $state )
+	{
+		switch ( $state )
+		{
+			case PlatformStates::INIT_REQUIRED:
+				$this->actionInitSystem();
+				break;
+
+			case PlatformStates::SCHEMA_REQUIRED:
+				$this->actionUpgradeSchema();
+				break;
+
+			case PlatformStates::UPGRADE_REQUIRED:
+				$this->actionUpgrade();
+				break;
+
+			case PlatformStates::ADMIN_REQUIRED:
+				if ( Fabric::fabricHosted() )
+				{
+					$this->actionActivate();
+				}
+				else
+				{
+					$this->actionInitAdmin();
+				}
+				break;
+
+			case PlatformStates::DATA_REQUIRED:
+				$this->actionInitData();
+				break;
+
+			case PlatformStates::WELCOME_REQUIRED:
+				$this->actionWelcome();
+				break;
+
+			default:
+				return false;
+		}
+
+		return true;
+	}
+
 }

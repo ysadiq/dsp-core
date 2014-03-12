@@ -28,53 +28,51 @@ use DreamFactory\Yii\Utility\Validate;
 Validate::register(
 	'form#init-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
-		 'rules'          => array(
-			 'InitAdminForm[email]'          => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'InitAdminForm[first_name]'     => array(
-				 'required' => true,
-			 ),
-			 'InitAdminForm[last_name]'      => array(
-				 'required' => true,
-			 ),
-			 'InitAdminForm[display_name]'   => array(
-				 'required' => true,
-			 ),
-			 'InitAdminForm[password]'       => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'InitAdminForm[passwordRepeat]' => array(
-				 'required'  => true,
-				 'minlength' => 5,
-				 'equalTo'   => '#InitAdminForm_password',
-			 ),
-		 ),
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => array(
+			'InitAdminForm[email]'          => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'InitAdminForm[first_name]'     => array(
+				'required' => true,
+			),
+			'InitAdminForm[last_name]'      => array(
+				'required' => true,
+			),
+			'InitAdminForm[display_name]'   => array(
+				'required' => true,
+			),
+			'InitAdminForm[password]'       => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'InitAdminForm[passwordRepeat]' => array(
+				'required'  => true,
+				'minlength' => 5,
+				'equalTo'   => '#InitAdminForm_password',
+			),
+		),
 	)
 );
 ?>
 <div class="container" id="formbox">
 	<h2>Create a System Admin User</h2>
 
-	<p>Your DSP requires at least one system administrator.
-		Complete this form to create your first admin user.
-		More users can be easily added using the DSP's built-in 'Admin' application.
+	<p>Your DSP requires at least one system administrator. Complete this form to create your first admin user. More users can be easily added using the DSP's built-in 'Admin' application.
 	</p>
 
 	<?php
 	$form = $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'init-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'init-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	);
 	?>
@@ -86,8 +84,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control email required" autofocus type="email" id="InitAdminForm_email"
-				   name="InitAdminForm[email]" placeholder="Email Address"
-				   value="<?php echo( $model->email ? $model->email : '' ); ?>" />
+				name="InitAdminForm[email]" placeholder="Email Address"
+				value="<?php echo( $model->email ? $model->email : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -97,7 +95,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 			<input tabindex="2" class="form-control password required" type="password" id="InitAdminForm_password"
-				   name="InitAdminForm[password]" placeholder="Password" />
+				name="InitAdminForm[password]" placeholder="Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -107,7 +105,7 @@ Validate::register(
 			<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
 			<input tabindex="3" class="form-control password required" type="password" id="InitAdminForm_passwordRepeat"
-				   name="InitAdminForm[password_repeat]" placeholder="Verify Password" />
+				name="InitAdminForm[password_repeat]" placeholder="Verify Password" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -117,8 +115,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="4" class="form-control required" type="text" id="InitAdminForm_firstName"
-				   name="InitAdminForm[first_name]" placeholder="First Name"
-				   value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
+				name="InitAdminForm[first_name]" placeholder="First Name"
+				value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -128,8 +126,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="5" class="form-control required" type="text" id="InitAdminForm_lastName"
-				   name="InitAdminForm[last_name]" placeholder="Last Name"
-				   value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
+				name="InitAdminForm[last_name]" placeholder="Last Name"
+				value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -139,8 +137,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
 
 			<input tabindex="6" class="form-control" type="text" id="InitAdminForm_displayName"
-				   name="InitAdminForm[display_name]" placeholder="Display Name"
-				   value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
+				name="InitAdminForm[display_name]" placeholder="Display Name"
+				value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
 		</div>
 	</div>
 

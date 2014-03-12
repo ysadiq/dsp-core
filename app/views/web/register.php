@@ -47,15 +47,15 @@ if ( !$model->getViaEmail() )
 	$_rules = array_merge(
 		$_rules,
 		array(
-			 'RegisterUserForm[password]'        => array(
-				 'required'  => true,
-				 'minlength' => 5,
-			 ),
-			 'RegisterUserForm[password_repeat]' => array(
-				 'required'  => true,
-				 'minlength' => 5,
-				 'equalTo'   => '#RegisterUserForm_password',
-			 )
+			'RegisterUserForm[password]'        => array(
+				'required'  => true,
+				'minlength' => 5,
+			),
+			'RegisterUserForm[password_repeat]' => array(
+				'required'  => true,
+				'minlength' => 5,
+				'equalTo'   => '#RegisterUserForm_password',
+			)
 		)
 	);
 }
@@ -63,10 +63,10 @@ if ( !$model->getViaEmail() )
 Validate::register(
 	'form#register-user-form',
 	array(
-		 'ignoreTitle'    => true,
-		 'errorClass'     => 'error',
-		 'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
-		 'rules'          => $_rules,
+		'ignoreTitle'    => true,
+		'errorClass'     => 'error',
+		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+		'rules'          => $_rules,
 	)
 );
 ?>
@@ -88,11 +88,11 @@ Validate::register(
 		= $this->beginWidget(
 		'CActiveForm',
 		array(
-			 'id'                     => 'register-user-form',
-			 'enableClientValidation' => true,
-			 'clientOptions'          => array(
-				 'validateOnSubmit' => true,
-			 ),
+			'id'                     => 'register-user-form',
+			'enableClientValidation' => true,
+			'clientOptions'          => array(
+				'validateOnSubmit' => true,
+			),
 		)
 	);
 	?>
@@ -104,8 +104,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
 			<input tabindex="1" class="form-control email required" autofocus type="email" id="RegisterUserForm_email"
-				   name="RegisterUserForm[email]" placeholder="Email Address"
-				   value="<?php echo( $model->email ? $model->email : '' ); ?>" />
+				name="RegisterUserForm[email]" placeholder="Email Address"
+				value="<?php echo( $model->email ? $model->email : '' ); ?>" />
 		</div>
 	</div>
 
@@ -117,7 +117,7 @@ Validate::register(
 				<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 				<input tabindex="2" class="form-control password required" type="password" id="RegisterUserForm_password"
-					   name="RegisterUserForm[password]" placeholder="Password" />
+					name="RegisterUserForm[password]" placeholder="Password" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -127,7 +127,7 @@ Validate::register(
 				<span class="input-group-addon bg_ly"><i class="fa fa-check fa-fw"></i></span>
 
 				<input tabindex="3" class="form-control password required" type="password" id="RegisterUserForm_passwordRepeat"
-					   name="RegisterUserForm[password_repeat]" placeholder="Verify Password" />
+					name="RegisterUserForm[password_repeat]" placeholder="Verify Password" />
 			</div>
 		</div>
 	<?php endif; ?>
@@ -139,8 +139,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="4" class="form-control required" type="text" id="RegisterUserForm_firstName"
-				   name="RegisterUserForm[first_name]" placeholder="First Name"
-				   value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
+				name="RegisterUserForm[first_name]" placeholder="First Name"
+				value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -150,8 +150,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
 			<input tabindex="5" class="form-control required" type="text" id="RegisterUserForm_lastName"
-				   name="RegisterUserForm[last_name]" placeholder="Last Name"
-				   value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
+				name="RegisterUserForm[last_name]" placeholder="Last Name"
+				value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -161,8 +161,8 @@ Validate::register(
 			<span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
 
 			<input tabindex="6" class="form-control" type="text" id="RegisterUserForm_displayName"
-				   name="RegisterUserForm[display_name]" placeholder="Display Name"
-				   value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
+				name="RegisterUserForm[display_name]" placeholder="Display Name"
+				value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
 		</div>
 	</div>
 

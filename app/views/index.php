@@ -8,10 +8,6 @@ use DreamFactory\Common\Enums\PageLocation;
 use DreamFactory\Fabric\Yii\Models\Auth\User;
 use DreamFactory\Fabric\Yii\Models\Deploy\Instance;
 use DreamFactory\Yii\Utility\Pii;
-use Kisma\Core\Utility\Log;
-use Kisma\Core\Tools\DataReader;
-use Kisma\Core\Utility\HtmlMarkup;
-use Kisma\Core\Utility\Sql;
 
 if ( !isset( $models ) || empty( $models ) )
 {
@@ -24,8 +20,8 @@ $_pdo = Pii::pdo( 'db.fabric_auth' );
 Pii::cssFile( '/css/df.datatables.css' );
 Pii::scriptFile(
 	array(
-		 '/vendor/datatables/js/jquery.dataTables.js',
-		 '/js/df.datatables.js'
+		'/vendor/datatables/js/jquery.dataTables.js',
+		'/js/df.datatables.js'
 	),
 	PageLocation::End
 );
@@ -47,7 +43,10 @@ foreach ( $models as $_model )
 	}
 
 	$_html .= '<tr id="' . $this->hashId( $_model['id'] ) . '">';
-	$_html .= '<td>' . $_model['instance_name_text'] . '<a title="Click to edit this row" class="pull-right" href="#"><i class="icon-pencil hide edit-row"></i></a></td>';
+	$_html .=
+		'<td>' .
+		$_model['instance_name_text'] .
+		'<a title="Click to edit this row" class="pull-right" href="#"><i class="icon-pencil hide edit-row"></i></a></td>';
 	$_html
 		.= '<td><a title="Click to browse this URL" target="_blank" href="http://' . $_model['public_host_text'] . '">' .
 		   $_model['public_host_text'] .
@@ -102,15 +101,15 @@ jQuery(function($) {
 	$_table = $('#platforms-table');
 
 	$_table.dataTable({
-		"sDom":            "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
-		"sPaginationType": "bootstrap",
-		"oLanguage":       {
-			"sSearch":     "Filter:",
-			"sLengthMenu": "_MENU_ records per page"
-		}
-	});
+						  "sDom":            "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+						  "sPaginationType": "bootstrap",
+						  "oLanguage":       {
+							  "sSearch":     "Filter:",
+							  "sLengthMenu": "_MENU_ records per page"
+						  }
+					  });
 
-	$_delete.on('click', function (e) {
+	$_delete.on('click', function(e) {
 		e.preventDefault();
 
 		if ($(this).attr('rel')) {
@@ -153,8 +152,7 @@ jQuery(function($) {
 	$_table.on('mouseenter mouseleave', 'tbody tr td:first-child', function(e) {
 		if ('mouseenter' == e.type) {
 			$('a i.edit-row', $(this)).show();
-		}
-		else {
+		} else {
 			$('a i.edit-row', $(this)).hide();
 		}
 	});

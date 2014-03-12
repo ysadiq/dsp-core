@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
@@ -140,12 +141,7 @@ return array(
 					'maxFileSize' => '102400',
 					'logFile'     => $_logFileName,
 					'logPath'     => $_logFilePath,
-					//					'levels'      => 'error, warning, trace, info, debug, notice',
-				),
-				array(
-					'class'         => 'CWebLogRoute',
-					'categories'    => 'system.db.CDbCommand',
-					'showInFireBug' => true,
+					'levels'      => 'error, warning, info, debug, notice',
 				),
 			),
 		),

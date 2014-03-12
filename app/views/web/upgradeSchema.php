@@ -38,18 +38,17 @@ $this->breadcrumbs = array(
 
 	<?php else: ?>
 
-		<p>A database schema upgrade is required for this DreamFactory Services Platform&trade;.
-			If you would like to backup your database, now is the time to do so.
-			Click the <strong>Upgrade</strong> button below to proceed.</p>
+		<p>A database schema upgrade is required for this DreamFactory Services Platform&trade;. If you would like to backup your database, now is the time to do so. Click the
+			<strong>Upgrade</strong> button below to proceed.</p>
 
 		<?php $form = $this->beginWidget(
 			'CActiveForm',
 			array(
-				 'id'                     => 'upgrade-schema-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
+				'id'                     => 'upgrade-schema-form',
+				'enableClientValidation' => true,
+				'clientOptions'          => array(
+					'validateOnSubmit' => true,
+				),
 			)
 		); ?>
 
