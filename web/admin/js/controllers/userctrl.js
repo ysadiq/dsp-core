@@ -23,58 +23,34 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
     Scope.passwordRepeat = '';
     Scope.supportedExportFormats = ['CSV', 'JSON', 'XML'];
     Scope.selectedExportFormat = 'CSV';
-
     // keys
     Scope.user.lookup_keys = [];
-    Scope.keyData = [];
-    var keyInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableKeySave()" />';
-    var keyCheckTemplate = '<div style="text-align:center;"><input style="vertical-align: middle;" type="checkbox" ng-model="row.entity[col.field]" ng-change="enableKeySave()"/></div>';
-    var keyButtonTemplate = '<div><button id="key_save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveKeyRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteKeyRow()"><li class="icon-remove"></li></button></div>';
-    Scope.keyColumnDefs = [
-        {field:'name', width:100},
-        {field:'value', enableFocusedCellEdit:true, width:200, enableCellSelection:true, editableCellTemplate:keyInputTemplate },
-        {field:'private', cellTemplate:keyCheckTemplate, width:75},
-        {field:'Update', cellTemplate:keyButtonTemplate, width:80}
-    ];
-    Scope.keyOptions = {data:'keyData', width:500, columnDefs:'keyColumnDefs', canSelectRows:false, displaySelectionCheckbox:false};
-    Scope.updateKeys = function () {
-        $("#key-error-container").hide();
-        if (!Scope.key) {
-            return false;
-        }
-        if (!Scope.key.name || !Scope.key.value) {
-            $("#key-error-container").html("Both name and value are required").show();
-            return false;
-        }
-        if (checkForDuplicate(Scope.keyData, 'name', Scope.key.name)) {
-            $("#key-error-container").html("Key already exists").show();
-            $('#key-name, #key-value').val('');
-            return false;
-        }
-        var newRecord = {};
-        newRecord.name = Scope.key.name;
-        newRecord.value = Scope.key.value;
-        newRecord.private = !!Scope.key.private;
-        Scope.keyData.push(newRecord);
-        Scope.key = null;
-        $('#key-name, #key-value').val('');
-    }
-    Scope.deleteKeyRow = function () {
-        var name = this.row.entity.name;
-        Scope.keyData = removeByAttr(Scope.keyData, 'name', name);
+    Scope.removeKey = function () {
 
-    }
-    Scope.saveKeyRow = function () {
-        var index = this.row.rowIndex;
-        var newRecord = this.row.entity;
-        var name = this.row.entity.name;
-        updateByAttr(Scope.keyData, "name", name, newRecord);
-        $("#key_save_" + index).prop('disabled', true);
+        var rows = Scope.user.lookup_keys;
+        rows.splice(this.$index, 1);
     };
-    Scope.enableKeySave = function () {
-        $("#key_save_" + this.row.rowIndex).prop('disabled', false);
-    };
+    Scope.newKey = function () {
 
+        var newKey = {"name": "", "value": "", "private": false};
+        Scope.user.lookup_keys.push(newKey);
+    }
+    Scope.uniqueKey = function () {
+        var size = Scope.user.lookup_keys.length;
+        for (i = 0; i < size; i++) {
+            var key = Scope.user.lookup_keys[i];
+            var matches = Scope.user.lookup_keys.filter(function(itm){return itm.name === key.name;});
+            if (matches.length > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    Scope.emptyKey = function () {
+
+        var matches = Scope.user.lookup_keys.filter(function(itm){return itm.name === '';});
+        return matches.length > 0;
+    }
     Scope.formChanged = function () {
 
         $('#save_' + this.user.id).removeClass('disabled');
@@ -82,6 +58,22 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
 
     Scope.save = function () {
 
+        if (Scope.emptyKey()) {
+            $.pnotify({
+                title: 'Users',
+                type: 'error',
+                text: 'Empty key names are not allowed.'
+            });
+            return;
+        }
+        if (!Scope.uniqueKey()) {
+            $.pnotify({
+                title: 'Users',
+                type: 'error',
+                text: 'Duplicate key names are not allowed.'
+            });
+            return;
+        }
         if(!this.user.display_name){
             this.user.display_name = this.user.first_name + ' ' + this.user.last_name;
         }
@@ -98,7 +90,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             delete this.user.password;
         }
         var id = Scope.user.id;
-        Scope.user.lookup_keys = Scope.keyData;
         User.update({id:id}, Scope.user, function() {
             updateByAttr(Scope.Users.record, 'id', id, Scope.user);
             Scope.promptForNew();
@@ -127,6 +118,22 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
 
     Scope.create = function () {
 
+        if (Scope.emptyKey()) {
+            $.pnotify({
+                title: 'Users',
+                type: 'error',
+                text: 'Empty key names are not allowed.'
+            });
+            return;
+        }
+        if (!Scope.uniqueKey()) {
+            $.pnotify({
+                title: 'Users',
+                type: 'error',
+                text: 'Duplicate key names are not allowed.'
+            });
+            return;
+        }
         var newRec = this.user;
         if (this.passwordEdit) {
             if (newRec.password == '' || newRec.password != this.passwordRepeat) {
@@ -145,7 +152,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         }
 
         var send_invite = Scope.sendInvite ? "true" : "false";
-        newRec.lookup_keys = Scope.keyData;
         User.save({send_invite: send_invite}, newRec,
             function(response) {
 
@@ -220,7 +226,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         Scope.user.password = '';
         Scope.passwordRepeat = '';
         Scope.user.lookup_keys = [];
-        Scope.keyData = [];
         $("tr.info").removeClass('info');
         $(window).scrollTop(0);
         Scope.userform.$setPristine();
@@ -271,7 +276,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         Scope.user = angular.copy(this.user);
         Scope.user.password = '';
         Scope.passwordRepeat = '';
-        Scope.keyData = Scope.user.lookup_keys;
         $("tr.info").removeClass('info');
         $('#row_' + Scope.user.id).addClass('info');
         Scope.userform.$setPristine();
@@ -362,13 +366,6 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             $('#importUsersModal').modal('toggle');
         }
     };
-
-    $("#key-value").keyup(function (event) {
-        if (event.keyCode == 13) {
-
-            $("#key-update").click();
-        }
-    });
 };
 
 window.checkImportResults = function(iframe) {};

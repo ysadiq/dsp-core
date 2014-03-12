@@ -157,11 +157,10 @@
                                             <table ng-show="allowFilters(service_access.service_id) && service_access.show_filters" class="table field-list">
                                                 <thead>
                                                     <tr>
-                                                        <th>
-                                                            <span style="width:140px;">Field</span>
-                                                            <span style="width:140px;">Operator</span>
-                                                            <span style="width:140px;">Value</span>
-                                                        </th>
+                                                        <th style="width:160px;">Field</th>
+                                                        <th style="width:100px;">Operator</th>
+                                                        <th style="width:160px;">Value</th>
+                                                        <th style="width:50px;"></th>
                                                         <th class="no-border">
                                                             <div class="btn-group pull-left">
                                                                 <a class="btn btn-mini btn-inverse" ng-click="">
@@ -173,13 +172,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr ng-repeat="service_access_filter in service_access.filters">
-                                                        <td>
+                                                        <td style="width:160px;">
                                                             <input ng-model="service_access_filter.name" type="text" style="display:inline-block;width:140px;"/>
-                                                            <select style="display:inline-block;width:140px;"
+                                                        </td>
+                                                        <td style="width:100px;">
+                                                            <select style="display:inline-block;width:80px;"
                                                                     ng-model="service_access_filter.operator"
                                                                     ng-options="op as op for op in FilterOps">
                                                             </select>
+                                                        </td>
+                                                        <td style="width:160px;">
                                                             <input ng-model="service_access_filter.value" type="text" style="display:inline-block;width:140px;"/>
+                                                        <td style="width:160px;">
                                                             <a href="" style="font-weight:bold;"
                                                                ng-click="toggleServiceAccessOp()"
                                                                ng-show="!$last">
@@ -223,10 +227,8 @@
                                 <table class="table table-hover table-striped field-list">
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <span style="width:140px;">Component</span>
-                                            <span style="width:140px;">Access</span>
-                                        </th>
+                                        <th style="width:220px;">Component</th>
+                                        <th style="width:160px;">Access</th>
                                         <th class="no-border">
                                             <div class="btn-group pull-left">
                                                 <a class="btn btn-small btn-inverse" ng-click="">
@@ -241,11 +243,13 @@
 
                                     <tr ng-repeat="system_access in role.role_system_accesses">
                                         <td>
-                                            <select style="width:140px;"
+                                            <select style="width:200px;"
                                                     ng-model="system_access.component"
                                                     ng-options="component.name as component.label for component in SystemComponents">
                                             </select>
-                                            <select ng-model="system_access.access" style="width:140px;">
+                                        </td>
+                                        <td>
+                                           <select ng-model="system_access.access" style="width:140px;">
                                                 <option value='Full Access' selected>Full Access</option>
                                                 <option value='Read and Write' selected>Read and Write</option>
                                                 <option value='Read Only' selected>Read Only</option>
@@ -268,23 +272,50 @@
                                     No system access for this role. Click the plus button to add.
                                 </p>
                             </div>
-                            <div class="section keys">
-                                <p>Role Keys</p>
+                            <div class="section limit-big-list">
+                                <p>Role Lookup Keys</p>
+                                <table class="table table-hover table-striped field-list">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:220px;">Name</th>
+                                        <th style="width:220px;">Value</th>
+                                        <th style="width:35px;">Private</th>
+                                        <th class="no-border">
+                                            <div class="btn-group pull-left">
+                                                <a class="btn btn-small btn-inverse" ng-click="">
+                                                    <i class="icon-plus" ng-click="newKey()"></i>
+                                                </a>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    </thead>
 
-                                <div>
-                                    <div id="key-grid" ng-grid="keyOptions"></div>
-                                </div>
-                                <div style="display:none" id="key-error-container" class="alert alert-danger">Key already exists
-                                </div>
-                                <input id="key-name" placeholder="Key Name" class="input-small" type="text"
-                                       ng-model="key.name" />
-                                <input id="key-value" placeholder="Key Value" type="text"
-                                       ng-model="key.value" />
-                                <div style="display:inline-block;"><input id="key-private" type="checkbox" ng-model="key.private"/>&nbsp;Private</div><br />
+                                    <tbody>
 
-                                <a id="key-update" class="btn btn-inverse" ng-click="updateKeys()"><i class="icon-plus-sign"></i>
-                                    Add Key
-                                </a>
+                                    <tr ng-repeat="key in role.lookup_keys">
+                                        <td style="width: 220px;">
+                                            <input ng-model="key.name" type="text" style="width:200px;"/>
+                                        </td>
+                                        <td style="width:220px;">
+                                            <input ng-model="key.value" type="text" style="width:200px;"/>
+                                        </td>
+                                        <td style="width:35px;text-align:center;">
+                                            <input ng-model="key.private" type="checkbox" style="width:25px;vertical-align:middle;"/>
+                                        </td>
+                                        <td class="no-border">
+                                            <div class="btn-group pull-left">
+                                                <a class="btn btn-small btn-inverse" ng-click="removeKey()">
+                                                    <i class="icon-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <p ng-show="role.lookup_keys.length==0">
+                                    No lookup keys for this role. Click the plus button to add.
+                                </p>
                             </div>
                             <div class="section">
                                 <input ng-checked="role.is_active" type="checkbox" ng-model="role.is_active"/>&nbsp;Active

@@ -132,13 +132,12 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                     window.top.Actions.doSignInDialog("stay");
                     return;
                 }
-                var error = data.data.error;
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
                     hide: false,
                     addclass: "stack-bottomright",
-                    text: error[0].message
+                    text: getErrorString(data)
                 });
             });
 
