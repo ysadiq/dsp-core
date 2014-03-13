@@ -3,11 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-<<<<<<< HEAD
     "hash": "c0e07e149d3f11cbf0d49e6c9d88cf84",
-=======
-    "hash": "1997515b18b05362ccf1af7302b0abc6",
->>>>>>> 0c9038f35bd847ab9730ad1beb1e884cfcbb96c6
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -269,21 +265,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-<<<<<<< HEAD
-                "reference": "dfb6462bba721c4a45955b74cff53016de315962"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/dfb6462bba721c4a45955b74cff53016de315962.zip",
-                "reference": "dfb6462bba721c4a45955b74cff53016de315962",
-=======
                 "reference": "ae09d12a2fd686be1d81d6b3a11e9ab625d017e0"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/ae09d12a2fd686be1d81d6b3a11e9ab625d017e0.zip",
                 "reference": "ae09d12a2fd686be1d81d6b3a11e9ab625d017e0",
->>>>>>> 0c9038f35bd847ab9730ad1beb1e884cfcbb96c6
                 "shasum": ""
             },
             "require": {
@@ -346,11 +333,7 @@
                 "dsp-core",
                 "sdk"
             ],
-<<<<<<< HEAD
-            "time": "2014-03-11 20:58:15"
-=======
             "time": "2014-03-12 23:07:58"
->>>>>>> 0c9038f35bd847ab9730ad1beb1e884cfcbb96c6
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
