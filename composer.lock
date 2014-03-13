@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e703f5e37e65861a57cea978406e9fda",
+    "hash": "1997515b18b05362ccf1af7302b0abc6",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -261,16 +261,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-develop",
+            "version": "dev-feature/scripting",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "c45196d2edad561166fafd5c7e6f1697be9c4a9b"
+                "reference": "ae09d12a2fd686be1d81d6b3a11e9ab625d017e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/c45196d2edad561166fafd5c7e6f1697be9c4a9b.zip",
-                "reference": "c45196d2edad561166fafd5c7e6f1697be9c4a9b",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/ae09d12a2fd686be1d81d6b3a11e9ab625d017e0.zip",
+                "reference": "ae09d12a2fd686be1d81d6b3a11e9ab625d017e0",
                 "shasum": ""
             },
             "require": {
@@ -333,7 +333,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-11 21:18:40"
+            "time": "2014-03-12 23:07:58"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -542,12 +542,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "eb1f3693243e1686ce4014c6de32ae7295883d76"
+                "reference": "045ade85d801ce932b9e85bd94be4931110393e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/eb1f3693243e1686ce4014c6de32ae7295883d76",
-                "reference": "eb1f3693243e1686ce4014c6de32ae7295883d76",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/045ade85d801ce932b9e85bd94be4931110393e6",
+                "reference": "045ade85d801ce932b9e85bd94be4931110393e6",
                 "shasum": ""
             },
             "require": {
@@ -626,7 +626,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-03-09 16:11:27"
+            "time": "2014-03-12 21:51:50"
         },
         {
             "name": "kisma/kisma",
@@ -634,12 +634,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "4b8daa4da1cc872cf645eb69481c8ca8e05766fe"
+                "reference": "921d073b5588f5ec5722a3f054cd3f0792bd2165"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/4b8daa4da1cc872cf645eb69481c8ca8e05766fe",
-                "reference": "4b8daa4da1cc872cf645eb69481c8ca8e05766fe",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/921d073b5588f5ec5722a3f054cd3f0792bd2165",
+                "reference": "921d073b5588f5ec5722a3f054cd3f0792bd2165",
                 "shasum": ""
             },
             "require": {
@@ -683,7 +683,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-03-11 01:11:34"
+            "time": "2014-03-13 05:56:30"
         },
         {
             "name": "monolog/monolog",
@@ -2209,7 +2209,7 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
+            "version": "dev-feature/scripting",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
