@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b4efdd97050e860c37d8dfeda4fdc5b4",
+    "hash": "70ff01b0edfbba567d903f121483d44b",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -261,8 +261,7 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-master",
-            "target-dir": "DreamFactory/Platform",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
@@ -277,22 +276,21 @@
             "require": {
                 "aws/aws-sdk-php": "~2.4.0@stable",
                 "dready92/php-on-couch": "dev-master",
-                "dreamfactory/azure-sdk-for-php": "~0.4@stable",
-                "dreamfactory/javascript-sdk": "1.*",
-                "dreamfactory/lib-php-common": "~1.4@stable",
-                "dreamfactory/lib-php-common-yii": "~1.4@stable",
-                "dreamfactory/oasys": "~0.4@stable",
+                "dreamfactory/azure-sdk-for-php": "~0.4.0@stable",
+                "dreamfactory/javascript-sdk": "~1.0@dev",
+                "dreamfactory/lib-php-common": "~1.4@dev",
+                "dreamfactory/lib-php-common-yii": "~1.4@dev",
+                "dreamfactory/oasys": "~0.4.0@dev",
                 "dreamfactory/yii": "=1.1.13",
-                "kisma/kisma": "~0.2@stable",
-                "pear-pear.php.net/http_request2": "*",
-                "pear-pear.php.net/mail_mime": "*",
-                "pear-pear.php.net/mail_mimedecode": "*",
-                "pear-pear.php.net/net_url2": "*",
+                "kisma/kisma": "~0.2@dev",
+                "pear/http_request2": "*",
+                "pear/mail_mime": "*",
+                "pear/mail_mime-decode": "*",
+                "pear/net_url2": "*",
                 "php": ">=5.3.10",
                 "phpforce/soap-client": "dev-master",
-                "rackspace/php-opencloud": "~1.5@stable",
-                "swiftmailer/swiftmailer": "~4.3@stable",
-                "symfony/http-foundation": "~2.4@stable"
+                "rackspace/php-opencloud": "~1.5.0@stable",
+                "swiftmailer/swiftmailer": "~4.3.0@stable"
             },
             "require-dev": {
                 "phpunit/dbunit": "@stable",
@@ -304,12 +302,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.4.x-dev"
+                    "dev-develop": "1.5.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "DreamFactory\\Platform\\": ""
+                "psr-4": {
+                    "DreamFactory\\Platform\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -332,6 +330,7 @@
             "homepage": "http://dreamfactorysoftware.github.io",
             "keywords": [
                 "dsp",
+                "dsp-core",
                 "sdk"
             ],
             "time": "2014-03-13 17:30:28"
@@ -1407,35 +1406,27 @@
         },
         {
             "name": "rackspace/php-opencloud",
-            "version": "v1.9.2",
+            "version": "V1.5.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rackspace/php-opencloud.git",
-                "reference": "6551de7aebcebb369d025662f99ab27c9b4527ac"
+                "reference": "f4c4bbbae8b108c572b346a7cd350c62122451d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rackspace/php-opencloud/zipball/6551de7aebcebb369d025662f99ab27c9b4527ac",
-                "reference": "6551de7aebcebb369d025662f99ab27c9b4527ac",
+                "url": "https://api.github.com/repos/rackspace/php-opencloud/zipball/f4c4bbbae8b108c572b346a7cd350c62122451d5",
+                "reference": "f4c4bbbae8b108c572b346a7cd350c62122451d5",
                 "shasum": ""
             },
             "require": {
-                "guzzle/http": "3.8.*@dev",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "guzzle/guzzle": "dev-master",
-                "psr/log": "1.0.*",
-                "satooshi/php-coveralls": "0.6.*@dev"
+                "ext-curl": "*",
+                "php": ">=5.3.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "OpenCloud": [
-                        "lib/",
-                        "tests/"
-                    ]
-                }
+                "classmap": [
+                    "lib/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1452,15 +1443,12 @@
                     "homepage": "https://github.com/jamiehannaford"
                 }
             ],
-            "description": "PHP SDK for Rackspace/OpenStack APIs",
+            "description": "Rackspace open cloud php library",
             "keywords": [
-                "Openstack",
-                "nova",
-                "opencloud",
-                "rackspace",
-                "swift"
+                "cloudfiles",
+                "opencloud"
             ],
-            "time": "2014-02-06 20:53:21"
+            "time": "2013-08-01 16:12:19"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2217,6 +2205,12 @@
             "alias_normalized": "9999999-dev",
             "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-yii"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/lib-php-common-platform"
         }
     ],
     "minimum-stability": "dev",
@@ -2224,6 +2218,7 @@
         "kisma/kisma": 20,
         "dreamfactory/oasys": 20,
         "dreamfactory/lib-php-common-yii": 20,
+        "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/dbunit": 0,
         "phpunit/phpunit-selenium": 0,
