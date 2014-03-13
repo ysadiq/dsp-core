@@ -20,7 +20,7 @@
 //	Already loaded? Bail...
 if ( defined( 'DSP_VERSION' ) )
 {
-	return true;
+    return true;
 }
 
 //*************************************************************************
