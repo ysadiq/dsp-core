@@ -47,7 +47,7 @@
 		"dreamfactory/yii":                     "=1.1.13",
 		"dreamfactory/oasys":                   "~0.4@dev",
 		"dreamfactory/lib-php-common-yii":      "dev-develop as dev-master",
-		"dreamfactory/lib-php-common-platform": "dev-feature/scripting as dev-master",
+		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master",
 		"pear/net_url2":                        "*",
 		"pear/http_request2":                   "*",
 		"pear/mail_mime":                       "*",
