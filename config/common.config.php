@@ -112,7 +112,7 @@ if ( Fabric::fabricHosted() )
 }
 else
 {
-    $_storagePath = $_storageBasePath = $_basePath . LocalStorageTypes::LOCAL_STORAGE_BASE_PATH;
+    $_storagePath = $_storageBasePath = $_basePath . LocalStorageTypes::STORAGE_BASE_PATH;
     $_privatePath = $_basePath . '/storage/.private';
 
     $_identity = array(
