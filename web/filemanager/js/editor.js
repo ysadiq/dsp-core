@@ -14,10 +14,11 @@ EditorActions = {
             success:function (response) {
                 var filename = EditorActions.getFileName();
                 if(filename.indexOf(".json") != -1){
-                    response = JSON.stringify(response);
+                    response = JSON.stringify(response)
+                    mode = 'json';
                 }
 
-                EditorActions.loadEditor(response);
+                EditorActions.loadEditor(response, mode);
             },
             error:function (response) {
                 if (response.status == 401) {
@@ -61,10 +62,15 @@ EditorActions = {
             }
         });
     },
-    loadEditor:function(contents){
+    loadEditor:function(contents, mode){
         Editor = ace.edit("editor");
         Editor.setTheme("ace/theme/twilight");
-        Editor.getSession().setMode("ace/mode/javascript");
+        if(mode){
+            Editor.getSession().setMode("ace/mode/json");
+        }else{
+            Editor.getSession().setMode("ace/mode/javascript");
+        }
+
         Editor.setValue(contents);
 
         $("#save").click(function(){
