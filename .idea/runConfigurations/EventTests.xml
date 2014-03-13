@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="EventTests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" singleton="true">
+    <TestRunner class="DreamFactory\Platform\EventTests" file="$PROJECT_DIR$/tests/src/EventTests.php" scope="Class" />
+    <RunnerSettings RunnerId="PhpUnitCoverageRunner" />
+    <RunnerSettings RunnerId="PhpUnitDebugRunner" />
+    <ConfigurationWrapper RunnerId="PhpUnitCoverageRunner" />
+    <ConfigurationWrapper RunnerId="PhpUnitDebugRunner" />
+    <method />
+  </configuration>
+</component>

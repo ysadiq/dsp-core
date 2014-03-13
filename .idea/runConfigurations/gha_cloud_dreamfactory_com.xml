@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="gha.cloud.dreamfactory.com" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" singleton="true" browser="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" server_name="gha.cloud.dreamfactory.com">
+    <RunnerSettings RunnerId="PhpWebAppDebugRunner" />
+    <ConfigurationWrapper RunnerId="PhpWebAppDebugRunner" />
+    <method />
+  </configuration>
+</component>
