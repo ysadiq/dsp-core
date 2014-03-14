@@ -51,7 +51,7 @@ angular.module("AdminApp")
         } });
     })
     .factory('User', function ($resource) {
-        return $resource('/rest/system/user/:id/?app_name=admin&fields=*&order=display_name%20ASC', {send_invite: false}, { update: { method: 'PUT' }, query: {
+        return $resource('/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {send_invite: false}, { update: { method: 'PUT' }, query: {
             method: 'GET',
             isArray: false
         } });
@@ -63,7 +63,7 @@ angular.module("AdminApp")
         } })
     })
     .factory('RolesRelated', function ($resource) {
-        return $resource('/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses', {}, { update: { method: 'PUT' }, query: {
+        return $resource('/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, { update: { method: 'PUT' }, query: {
             method: 'GET',
             isArray: false
         } });
