@@ -227,6 +227,7 @@ class WebController extends BaseWebController
             if ( $_model->validate() )
             {
                 SystemManager::upgradeSchema();
+				SystemManager::initData();
                 $this->redirect( '/' );
 
                 return;
