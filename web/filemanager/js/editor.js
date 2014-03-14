@@ -38,9 +38,16 @@ EditorActions = {
         return pathArray[pathArray.length - 1];
     },
     saveFile:function(){
+        var fileData = Editor.getValue();
+        var filename = EditorActions.getFileName();
+        if(filename.indexOf(".json") != -1){
+            fileData = unescape(fileData);
+            fileData = fileData.replace("\n","");
+        }
+
         $.ajax({
             url:CurrentServer + '/rest' + EditorActions.getQueryParameter('path') + '?&app_name=admin',
-            data: Editor.getValue(),
+            data: fileData,
             type:'PUT',
             processData: false,
             cache:false,
