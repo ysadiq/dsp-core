@@ -14,7 +14,8 @@ EditorActions = {
             success:function (response) {
                 var filename = EditorActions.getFileName();
                 if(filename.indexOf(".json") != -1){
-                    response = JSON.stringify(response)
+                    response = JSON.stringify(response, undefined, 2); // indentation level = 2
+                    //response = JSON.stringify(response)
                     mode = 'json';
                 }
 
