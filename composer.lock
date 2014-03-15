@@ -470,12 +470,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/package-installer.git",
-                "reference": "0c282878d35e26c9ff7360ef67ce329e0f4efc09"
+                "reference": "a4ae7c65608283cdbeb5e1e7402268c7157876e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/0c282878d35e26c9ff7360ef67ce329e0f4efc09",
-                "reference": "0c282878d35e26c9ff7360ef67ce329e0f4efc09",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/a4ae7c65608283cdbeb5e1e7402268c7157876e6",
+                "reference": "a4ae7c65608283cdbeb5e1e7402268c7157876e6",
                 "shasum": ""
             },
             "require": {
@@ -521,7 +521,7 @@
                 "jetpack",
                 "plugin"
             ],
-            "time": "2014-03-15 06:43:54"
+            "time": "2014-03-15 06:58:46"
         },
         {
             "name": "dreamfactory/yii",
@@ -701,12 +701,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "02a182094fa567c58ff02db9135dfbdb0a04c855"
+                "reference": "2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/02a182094fa567c58ff02db9135dfbdb0a04c855",
-                "reference": "02a182094fa567c58ff02db9135dfbdb0a04c855",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd",
+                "reference": "2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd",
                 "shasum": ""
             },
             "require": {
@@ -750,7 +750,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-03-13 14:29:36"
+            "time": "2014-03-15 21:36:38"
         },
         {
             "name": "monolog/monolog",
