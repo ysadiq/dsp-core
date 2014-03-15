@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6f8e9d0ce0d1f1d34b25fd858c7f0587",
+    "hash": "cda7c874f2dfd7815b2edde7a82475ed",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -463,6 +463,65 @@
                 "oauth2"
             ],
             "time": "2014-03-07 00:08:26"
+        },
+        {
+            "name": "dreamfactory/package-installer",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dreamfactorysoftware/package-installer.git",
+                "reference": "0c282878d35e26c9ff7360ef67ce329e0f4efc09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/0c282878d35e26c9ff7360ef67ce329e0f4efc09",
+                "reference": "0c282878d35e26c9ff7360ef67ce329e0f4efc09",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "1.0.0",
+                "kisma/kisma": "~0.2@stable"
+            },
+            "require-dev": {
+                "composer/composer": "*",
+                "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "DreamFactory\\Tools\\Composer\\Package\\Plugin",
+                "_comment.supported-types": "provides a way to extend the types and locations of plug-ins which we can install",
+                "supported-types": {
+                    "dreamfactory-application": "/applications",
+                    "dreamfactory-jetpack": "/plugins",
+                    "dreamfactory-library": "/plugins",
+                    "dreamfactory-plugin": "/plugins"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DreamFactory\\Tools\\Composer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ablan, Jerry",
+                    "email": "jerryablan@dreamfactory.com",
+                    "role": "Sr. Software Engineer"
+                }
+            ],
+            "description": "DreamFactory Services Platform(tm) Package Installer",
+            "homepage": "http://dreamfactorysoftware.github.io/",
+            "keywords": [
+                "cloud",
+                "dsp",
+                "jetpack",
+                "plugin"
+            ],
+            "time": "2014-03-15 06:43:54"
         },
         {
             "name": "dreamfactory/yii",
@@ -1964,11 +2023,18 @@
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
             "version": "dev-develop",
+            "package": "dreamfactory/package-installer"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "dreamfactory/package-installer": 20,
         "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/dbunit": 0,
