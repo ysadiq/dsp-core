@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "70ff01b0edfbba567d903f121483d44b",
+    "hash": "6f8e9d0ce0d1f1d34b25fd858c7f0587",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Sr. Software Engineer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "9f44b2c28b17e7dc324f2222e75355f914e7e6c6"
+                "reference": "4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/9f44b2c28b17e7dc324f2222e75355f914e7e6c6.zip",
-                "reference": "9f44b2c28b17e7dc324f2222e75355f914e7e6c6",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701.zip",
+                "reference": "4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-13 20:43:37"
+            "time": "2014-03-14 12:28:45"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "dc75a998d83ebb285b94b1a6fd96644b457ed33c"
+                "reference": "db7e2aa311869aaf3c2cc76237b2beff05322629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/dc75a998d83ebb285b94b1a6fd96644b457ed33c",
-                "reference": "dc75a998d83ebb285b94b1a6fd96644b457ed33c",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/db7e2aa311869aaf3c2cc76237b2beff05322629",
+                "reference": "db7e2aa311869aaf3c2cc76237b2beff05322629",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-09 20:51:48"
+            "time": "2014-03-14 09:32:58"
         },
         {
             "name": "pear/http_request2",
@@ -1964,20 +1964,11 @@
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
             "version": "dev-develop",
-            "package": "dreamfactory/lib-php-common-yii"
-        },
-        {
-            "alias": "dev-master",
-            "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kisma/kisma": 20,
-        "dreamfactory/oasys": 20,
-        "dreamfactory/lib-php-common-yii": 20,
         "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/dbunit": 0,
@@ -1985,10 +1976,9 @@
         "phpunit/phpunit-story": 0,
         "phpunit/php-timer": 0
     },
-    "platform": {
-        "php": ">=5.3.18",
-        "ext-json": "*"
-    },
+    "platform": [
+
+    ],
     "platform-dev": [
 
     ]
