@@ -4,12 +4,13 @@
 
 ### Major Foundational Changes
 * Standardized code formatting style based on a slightly modified PSR-1/2. One notable change is that we have dropped tabs for spaces.
+* Leverage the Symfony HttpFoundation components in processing inbound requests in a drive towards framework neutrality.
 
 ### New Features
 * Server-side events now generated
     * Client event handler registration via new /rest/system/event API. See live API for more info.
-* Server-side scripts now supported for all events
-    * Client script registration via new /rest/system/script API. See live API for more info.
+* Server-side scripts now supported for REST events
+    * Client event script registration via new /rest/system/script API. See live API for more info.
 
 ### Miscellaneous
 * More code cleanup
