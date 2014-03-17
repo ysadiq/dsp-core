@@ -41,7 +41,6 @@
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
 	"require":           {
-		"dreamfactory/package-installer": "dev-develop as dev-master",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
 	},
 	"require-dev":       {
