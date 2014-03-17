@@ -42,6 +42,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         }
         return true;
     }
+    Scope.cleanServiceAccess = function () {
+        var size = Scope.role.role_service_accesses.length;
+        for (i = 0; i < size; i++) {
+            delete Scope.role.role_service_accesses[i].show_filters;
+        }
+    }
     // system access
     Scope.SystemComponents = [];
     var allRecord = {name: '*', label: 'All', plural: 'All'};
@@ -60,10 +66,10 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         }
         return true;
     }
-    Scope.cleanServiceAccess = function () {
-        var size = Scope.role.role_service_accesses.length;
+    Scope.cleanSystemAccess = function () {
+        var size = Scope.role.role_system_accesses.length;
         for (i = 0; i < size; i++) {
-            delete Scope.role.role_service_accesses[i].show_filters;
+            delete Scope.role.role_system_accesses[i].show_filters;
         }
     }
     Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains"];
@@ -105,6 +111,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             return;
         }
         Scope.cleanServiceAccess();
+        Scope.cleanSystemAccess();
 
         var id = this.role.id;
         RolesRelated.update({id: id}, Scope.role, function (response) {
@@ -169,6 +176,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             return;
         }
         Scope.cleanServiceAccess();
+        Scope.cleanSystemAccess();
 		RolesRelated.save(Scope.role, function (data) {
             Scope.Roles.record.push(data);
             //window.top.Actions.showStatus("Created Successfully");
@@ -263,7 +271,6 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
     Scope.removeServiceAccessFilter = function () {
 
-        console.log(this);
         var rows = this.service_access.filters;
         rows.splice(this.$index, 1);
     };
@@ -332,8 +339,37 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     Scope.newSystemAccess = function () {
 
         var newAccess = {"access": "Read Only", "component": "user"};
+        newAccess.filters = [];
+        newAccess.filter_op = "AND";
+        newAccess.show_filters = false;
         Scope.role.role_system_accesses.push(newAccess);
     }
+
+    Scope.newSystemAccessFilter = function () {
+
+        var newFilter = {"name": "", "operator": "=", "value": ""};
+        this.system_access.filters.push(newFilter);
+    }
+
+    Scope.removeSystemAccessFilter = function () {
+
+        var rows = this.system_access.filters;
+        rows.splice(this.$index, 1);
+    };
+
+    Scope.toggleSystemAccessFilter = function () {
+
+        this.system_access.show_filters = !this.system_access.show_filters;
+    };
+
+    Scope.toggleSystemAccessOp = function () {
+
+        if (this.system_access.filter_op === "AND") {
+            this.system_access.filter_op = "OR";
+        } else {
+            this.system_access.filter_op = "AND";
+        }
+    };
 
     // keys
 

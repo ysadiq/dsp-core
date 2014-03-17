@@ -183,7 +183,8 @@
                                                         </td>
                                                         <td style="width:160px;">
                                                             <input ng-model="service_access_filter.value" type="text" style="display:inline-block;width:140px;"/>
-                                                        <td style="width:160px;">
+                                                        </td>
+                                                        <td>
                                                             <a href="" style="font-weight:bold;"
                                                                ng-click="toggleServiceAccessOp()"
                                                                ng-show="!$last">
@@ -227,8 +228,11 @@
                                 <table class="table table-hover table-striped field-list">
                                     <thead>
                                     <tr>
-                                        <th style="width:220px;">Component</th>
-                                        <th style="width:160px;">Access</th>
+                                        <th>
+                                            <span style="width:140px;">Component</span>
+                                            <span style="width:140px;">Access</span>
+                                            <span style="width:140px;">Advanced Filters</span>
+                                        </th>
                                         <th class="no-border">
                                             <div class="btn-group pull-left">
                                                 <a class="btn btn-small btn-inverse" ng-click="">
@@ -243,19 +247,77 @@
 
                                     <tr ng-repeat="system_access in role.role_system_accesses">
                                         <td>
-                                            <select style="width:200px;"
+                                            <select style="width:140px;"
                                                     ng-model="system_access.component"
                                                     ng-options="component.name as component.label for component in SystemComponents">
                                             </select>
-                                        </td>
-                                        <td>
-                                           <select ng-model="system_access.access" style="width:140px;">
+                                            <select ng-model="system_access.access" style="width:140px;">
                                                 <option value='Full Access' selected>Full Access</option>
                                                 <option value='Read and Write' selected>Read and Write</option>
                                                 <option value='Read Only' selected>Read Only</option>
                                                 <option value='Write Only' selected>Write Only</option>
                                                 <option value='No Access' selected>No Access</option>
                                             </select>
+                                            <div class="filter-control" style="width:140px;">
+                                                <span>{{system_access.filters.length}}
+                                                    <a href="" style="color:#AAA;padding-left:5px;" ng-click="toggleSystemAccessFilter()">Show/Hide</a>
+                                                </span>
+                                            </div>
+                                            <div class="alert alert-info"
+                                                 ng-show="system_access.show_filters && system_access.filters.length>0">
+                                                <li class="icon-info-sign"></li>
+                                                String values should be single or double quoted.
+                                            </div>
+                                            <table ng-show="system_access.show_filters" class="table field-list">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width:160px;">Field</th>
+                                                    <th style="width:100px;">Operator</th>
+                                                    <th style="width:160px;">Value</th>
+                                                    <th style="width:50px;"></th>
+                                                    <th class="no-border">
+                                                        <div class="btn-group pull-left">
+                                                            <a class="btn btn-mini btn-inverse" ng-click="">
+                                                                <i class="icon-plus" ng-click="newSystemAccessFilter()"></i>
+                                                            </a>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="system_access_filter in system_access.filters">
+                                                    <td style="width:160px;">
+                                                        <input ng-model="system_access_filter.name" type="text" style="display:inline-block;width:140px;"/>
+                                                    </td>
+                                                    <td style="width:100px;">
+                                                        <select style="display:inline-block;width:80px;"
+                                                                ng-model="system_access_filter.operator"
+                                                                ng-options="op as op for op in FilterOps">
+                                                        </select>
+                                                    </td>
+                                                    <td style="width:160px;">
+                                                        <input ng-model="system_access_filter.value" type="text" style="display:inline-block;width:140px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" style="font-weight:bold;"
+                                                           ng-click="toggleSystemAccessOp()"
+                                                           ng-show="!$last">
+                                                            {{system_access.filter_op}}
+                                                        </a>
+                                                    </td>
+                                                    <td class="no-border">
+                                                        <div class="btn-group pull-left">
+                                                            <a class="btn btn-mini btn-inverse" ng-click="removeSystemAccessFilter()">
+                                                                <i class="icon-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <p ng-show="system_access.show_filters && system_access.filters.length==0">
+                                                No filters for this system access. Click the plus button to add.<br/>
+                                            </p>
                                         </td>
                                         <td class="no-border">
                                             <div class="btn-group pull-left">
