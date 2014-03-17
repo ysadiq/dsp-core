@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701"
+                "reference": "b408ce75ea76373f8458a552b8104d3e0de0a591"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701.zip",
-                "reference": "4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/b408ce75ea76373f8458a552b8104d3e0de0a591.zip",
+                "reference": "b408ce75ea76373f8458a552b8104d3e0de0a591",
                 "shasum": ""
             },
             "require": {
@@ -289,7 +289,7 @@
                 "dreamfactory/lib-php-common": "~1.4@dev",
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
                 "dreamfactory/oasys": "~0.4.0@dev",
-                "dreamfactory/yii": "=1.1.13",
+                "dreamfactory/yii": "1.1.13",
                 "kisma/kisma": "~0.2@dev",
                 "pear/http_request2": "*",
                 "pear/mail_mime": "*",
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-14 12:28:45"
+            "time": "2014-03-16 23:07:56"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -608,13 +608,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "045ade85d801ce932b9e85bd94be4931110393e6"
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "8a0a8d72cbff0c58752af0badd6820f5f87c9c84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/045ade85d801ce932b9e85bd94be4931110393e6",
-                "reference": "045ade85d801ce932b9e85bd94be4931110393e6",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/8a0a8d72cbff0c58752af0badd6820f5f87c9c84",
+                "reference": "8a0a8d72cbff0c58752af0badd6820f5f87c9c84",
                 "shasum": ""
             },
             "require": {
@@ -693,7 +693,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-03-12 21:51:50"
+            "time": "2014-03-15 23:37:34"
         },
         {
             "name": "kisma/kisma",
@@ -701,12 +701,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd"
+                "reference": "254c1aed9de18d87e048f43bceda1aca1d477c94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd",
-                "reference": "2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/254c1aed9de18d87e048f43bceda1aca1d477c94",
+                "reference": "254c1aed9de18d87e048f43bceda1aca1d477c94",
                 "shasum": ""
             },
             "require": {
@@ -750,7 +750,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-03-15 21:36:38"
+            "time": "2014-03-15 21:37:30"
         },
         {
             "name": "monolog/monolog",
