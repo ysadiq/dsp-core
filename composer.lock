@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cda7c874f2dfd7815b2edde7a82475ed",
+    "hash": "6f8e9d0ce0d1f1d34b25fd858c7f0587",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701"
+                "reference": "b25ca31f158f5208064ed336540b5c358fd48812"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701.zip",
-                "reference": "4e0e6dce1e6f234ed7c7d2372c1582fdc5fde701",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/b25ca31f158f5208064ed336540b5c358fd48812.zip",
+                "reference": "b25ca31f158f5208064ed336540b5c358fd48812",
                 "shasum": ""
             },
             "require": {
@@ -289,7 +289,7 @@
                 "dreamfactory/lib-php-common": "~1.4@dev",
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
                 "dreamfactory/oasys": "~0.4.0@dev",
-                "dreamfactory/yii": "=1.1.13",
+                "dreamfactory/yii": "1.1.13",
                 "kisma/kisma": "~0.2@dev",
                 "pear/http_request2": "*",
                 "pear/mail_mime": "*",
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-14 12:28:45"
+            "time": "2014-03-17 18:23:05"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -465,65 +465,6 @@
             "time": "2014-03-07 00:08:26"
         },
         {
-            "name": "dreamfactory/package-installer",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dreamfactorysoftware/package-installer.git",
-                "reference": "a4ae7c65608283cdbeb5e1e7402268c7157876e6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/a4ae7c65608283cdbeb5e1e7402268c7157876e6",
-                "reference": "a4ae7c65608283cdbeb5e1e7402268c7157876e6",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "1.0.0",
-                "kisma/kisma": "~0.2@stable"
-            },
-            "require-dev": {
-                "composer/composer": "*",
-                "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "DreamFactory\\Tools\\Composer\\Package\\Plugin",
-                "_comment.supported-types": "provides a way to extend the types and locations of plug-ins which we can install",
-                "supported-types": {
-                    "dreamfactory-application": "/applications",
-                    "dreamfactory-jetpack": "/plugins",
-                    "dreamfactory-library": "/plugins",
-                    "dreamfactory-plugin": "/plugins"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DreamFactory\\Tools\\Composer\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Ablan, Jerry",
-                    "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
-                }
-            ],
-            "description": "DreamFactory Services Platform(tm) Package Installer",
-            "homepage": "http://dreamfactorysoftware.github.io/",
-            "keywords": [
-                "cloud",
-                "dsp",
-                "jetpack",
-                "plugin"
-            ],
-            "time": "2014-03-15 06:58:46"
-        },
-        {
             "name": "dreamfactory/yii",
             "version": "1.1.13",
             "source": {
@@ -608,13 +549,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "045ade85d801ce932b9e85bd94be4931110393e6"
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "8a0a8d72cbff0c58752af0badd6820f5f87c9c84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/045ade85d801ce932b9e85bd94be4931110393e6",
-                "reference": "045ade85d801ce932b9e85bd94be4931110393e6",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/8a0a8d72cbff0c58752af0badd6820f5f87c9c84",
+                "reference": "8a0a8d72cbff0c58752af0badd6820f5f87c9c84",
                 "shasum": ""
             },
             "require": {
@@ -693,7 +634,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-03-12 21:51:50"
+            "time": "2014-03-15 23:37:34"
         },
         {
             "name": "kisma/kisma",
@@ -701,12 +642,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd"
+                "reference": "254c1aed9de18d87e048f43bceda1aca1d477c94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd",
-                "reference": "2fd3f5f3f7f537588565dff7c535cb1f72b8e2bd",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/254c1aed9de18d87e048f43bceda1aca1d477c94",
+                "reference": "254c1aed9de18d87e048f43bceda1aca1d477c94",
                 "shasum": ""
             },
             "require": {
@@ -750,7 +691,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-03-15 21:36:38"
+            "time": "2014-03-15 21:37:30"
         },
         {
             "name": "monolog/monolog",
@@ -2023,18 +1964,11 @@
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
             "version": "dev-develop",
-            "package": "dreamfactory/package-installer"
-        },
-        {
-            "alias": "dev-master",
-            "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "dreamfactory/package-installer": 20,
         "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/dbunit": 0,
