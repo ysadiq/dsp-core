@@ -32,7 +32,7 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
     };
     Scope.newKey = function () {
 
-        var newKey = {"name": "", "value": "", "private": false};
+        var newKey = {"name": "", "value": "", "private": false, "allow_user_update": false};
         Scope.user.lookup_keys.push(newKey);
     }
     Scope.uniqueKey = function () {
