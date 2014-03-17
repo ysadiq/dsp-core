@@ -41,17 +41,8 @@
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
 	"require":           {
-		"php":                                  ">=5.3.18",
-		"ext-json":                             "*",
-		"kisma/kisma":                          "~0.2@dev",
-		"dreamfactory/yii":                     "=1.1.13",
-		"dreamfactory/oasys":                   "~0.4@dev",
-		"dreamfactory/lib-php-common-yii":      "dev-develop as dev-master",
-		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master",
-		"pear/net_url2":                        "*",
-		"pear/http_request2":                   "*",
-		"pear/mail_mime":                       "*",
-		"pear/mail_mime-decode":                "*"
+		"dreamfactory/package-installer": "dev-develop as dev-master",
+		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
 	},
 	"require-dev":       {
 		"phpunit/phpunit":          "~3.7@stable",
