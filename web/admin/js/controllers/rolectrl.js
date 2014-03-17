@@ -107,7 +107,8 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         Scope.cleanServiceAccess();
 
         var id = this.role.id;
-        RolesRelated.update({id: id}, Scope.role, function () {
+        RolesRelated.update({id: id}, Scope.role, function (response) {
+            Scope.role.lookup_keys = angular.copy(response.lookup_keys);
             updateByAttr(Scope.Roles.record, 'id', id, Scope.role);
             Scope.promptForNew();
             //window.top.Actions.showStatus("Updated Successfully");
