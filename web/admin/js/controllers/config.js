@@ -115,7 +115,9 @@ var ConfigCtrl = function ($scope, Config, Role, EmailTemplates, Service) {
         }
         var data = angular.copy(Scope.Config);
         Scope.fixValues(data, '', null);
-        Config.update(data, function () {
+        Config.update(data, function (response) {
+
+                Scope.Config.lookup_keys = angular.copy(response.lookup_keys);
                 $.pnotify({
                     title: 'Configuration',
                     type: 'success',

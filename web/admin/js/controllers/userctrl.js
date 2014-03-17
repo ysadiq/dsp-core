@@ -90,7 +90,8 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             delete this.user.password;
         }
         var id = Scope.user.id;
-        User.update({id:id}, Scope.user, function() {
+        User.update({id:id}, Scope.user, function(response) {
+            Scope.user.lookup_keys = angular.copy(response.lookup_keys);
             updateByAttr(Scope.Users.record, 'id', id, Scope.user);
             Scope.promptForNew();
             $.pnotify({
