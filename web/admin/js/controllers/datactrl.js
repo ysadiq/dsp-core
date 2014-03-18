@@ -12,9 +12,6 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
 
         var parentHeight = $(window).height() - 150;
 
-        console.log(parentHeight);
-
-
         $('#schema-main').css({
             'height': parentHeight
         })
