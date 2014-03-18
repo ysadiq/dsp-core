@@ -72,7 +72,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             delete Scope.role.role_system_accesses[i].show_filters;
         }
     }
-    Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains"];
+    Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
     Scope.Roles = RolesRelated.get();
 
@@ -314,6 +314,15 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         return false;
     };
 
+    Scope.updateServiceAccessFilter = function () {
+
+        angular.forEach(this.service_access.filters, function (filter) {
+            if (filter.operator === "is null" || filter.operator === "is not null") {
+                filter.value = "";
+            }
+        });
+    };
+
     Scope.toggleServiceAccessFilter = function () {
 
         this.service_access.show_filters = !this.service_access.show_filters;
@@ -355,6 +364,15 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
         var rows = this.system_access.filters;
         rows.splice(this.$index, 1);
+    };
+
+    Scope.updateSystemAccessFilter = function () {
+
+        angular.forEach(this.system_access.filters, function (filter) {
+            if (filter.operator === "is null" || filter.operator === "is not null") {
+                filter.value = "";
+            }
+        });
     };
 
     Scope.toggleSystemAccessFilter = function () {
