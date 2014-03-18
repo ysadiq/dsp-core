@@ -1,7 +1,27 @@
 var DataCtrl = function ($scope, Schema, DB, $http) {
     $scope.$on('$routeChangeSuccess', function () {
         $(window).resize();
+        setDataTableSize();
     });
+
+    jQuery(window).resize(function() {
+        setDataTableSize();
+    });
+
+    var setDataTableSize = function() {
+
+        var parentHeight = $(window).height() - 150;
+
+        console.log(parentHeight);
+
+
+        $('#schema-main').css({
+            'height': parentHeight
+        })
+    };
+
+
+
     $("#grid-container").hide();
     Scope = $scope;
     Scope.tableData = [];
