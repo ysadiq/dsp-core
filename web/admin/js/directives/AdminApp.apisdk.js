@@ -67,7 +67,6 @@ angular.module('AdminApp.apisdk', []).
             link: function(scope, elem, attrs) {
 
 
-
             }
         }
     }])
@@ -139,6 +138,20 @@ angular.module('AdminApp.apisdk', []).
 
                     scope.iframeUrl = addressStr + '/swagger/';
                 });
+//                var swaggerIframe = $("#swaggerFrame");
+//                var swaggerDiv = $('#swagger');
+//                var docsIframe = $('#docsFrame');
+//                var apiContainer = $('#swagctrl');
+//                var docsDiv = $('#docs');
+//                var mainDiv = $('.main');
+//
+//
+//                    swaggerIframe.css('height', mainDiv.height() - 230).css('width', '100%')
+//                    swaggerDiv.css({
+//                        'height': mainDiv.height() - 220,
+//                        'width': '95%'
+//                    })
+
 
 
                 scope.init();
