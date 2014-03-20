@@ -808,11 +808,7 @@ class WebController extends BaseWebController
         // Create and login first admin user
         if ( !$_user->getState( 'df_authenticated' ) )
         {
-            try
-            {
-                Session::checkSessionPermission( 'admin', 'system' );
-            }
-            catch ( \Exception $ex )
+            if ( !Session::isSystemAdmin() )
             {
                 throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials . ' );
             }
