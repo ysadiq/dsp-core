@@ -1,8 +1,30 @@
-Actions = ({
+Actions = {
 	/**
 	 * @var {*}
 	 */
-	_config: {},
+	_config: {
+	},
+	_events: {
+		enabled:   false,
+		source:    null,
+		url:       '/rest/system/event/stream',
+		outputDiv: null,
+		listener:  function(event) {
+			var _type = event.type;
+
+			//	Ricochet the event off the client
+			switch (_type) {
+				case 'error':
+					break;
+
+				case 'dsp.event':
+					$.trigger(event.data.event_name, event.data);
+					break;
+			}
+
+			console.log('Event received: ' + _type + ' -> ' + (_type === 'message' ? event.data : Actions._events.url ));
+		}
+	},
 	/**
 	 * @var {*}[]
 	 */
@@ -10,6 +32,26 @@ Actions = ({
 
 	init: function() {
 		this.getConfig();
+		this.getEventStream();
+	},
+
+	/**
+	 * Opens up the connection to the server
+	 */
+	getEventStream: function() {
+
+		if ( !this._events.enabled )
+			return null;
+
+		if (!this._events.source) {
+			this._events.source = new EventSource(this._events.url);
+			this._events.source.addEventListener('open', this._events.listener);
+			this._events.source.addEventListener('message', this._events.listener);
+			this._events.source.addEventListener('error', this._events.listener);
+			console.log('EventStream/Source initialized.');
+		}
+
+		return this._events.source
 	},
 
 	/**
@@ -287,7 +329,7 @@ Actions = ({
 
 	},
 
-	appGrouper:    function(sessionInfo) {
+	appGrouper: function(sessionInfo) {
 		// Check if sessionInfo has any apps in the no_group_apps array
 		if (sessionInfo.no_group_apps == 0) {
 			// It doesn't have any apps
@@ -375,9 +417,9 @@ Actions = ({
 		});
 	},
 
-	//*************************************************************************
-	//* Login
-	//*************************************************************************
+//*************************************************************************
+//* Login
+//*************************************************************************
 
 	clearSignIn: function() {
 		var $_dlg = $('#loginDialog');
@@ -681,9 +723,9 @@ Actions = ({
 			   });
 	},
 
-	//*************************************************************************
-	//* Logout Functions
-	//*************************************************************************
+//*************************************************************************
+//* Logout Functions
+//*************************************************************************
 	doSignOutDialog:        function() {
 
 		$("#logoffDialog").modal('show');
@@ -753,7 +795,7 @@ Actions = ({
 	requireFullScreen:      function() {
 		$('#app-container').css({"top": "0px", "z-index": 998});
 	}
-});
+};
 
 /**
  * DocReady
