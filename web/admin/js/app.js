@@ -27,6 +27,7 @@ angular.module("AdminApp", [
         $routeProvider.when('/package', { controller: PackageCtrl, templateUrl: 'package.html' });
         $routeProvider.when('/config', { controller: ConfigCtrl, templateUrl: 'config.html' });
         $routeProvider.when('/data', { controller: DataCtrl, templateUrl: 'data.html' });
+//        $routeProvider.when('/scripts', { controller: ScriptCtrl, templateUrl: 'scripts.html' });
 
         $routeProvider.when('/api', { controller: 'ApiSDKCtrl', templateUrl: 'apisdk.html' });
     });
