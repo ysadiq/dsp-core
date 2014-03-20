@@ -21,7 +21,11 @@ var SchemaCtrl = function ($scope, Schema, DB, $http) {
         {value:"datetime", text: "datetime"},
         {value:"date", text: "date"},
         {value:"time", text: "time"},
-        {value:"reference", text: "reference"}
+        {value:"reference", text: "reference"},
+        {value:"user_id_on_create", text: "user_id_on_create"},
+        {value:"user_id_on_update", text: "user_id_on_update"},
+        {value:"timestamp_on_create", text: "timestamp_on_create"},
+        {value:"timestamp_on_update", text: "timestamp_on_update"}
     ]
     var booleanTemplate = '<select class="ngCellText colt{{$index}}" ng-options="option.value as option.text for option in booleanOptions" ng-model="row.entity[col.field]" ng-change="enableSave()"></select>';
     var inputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
