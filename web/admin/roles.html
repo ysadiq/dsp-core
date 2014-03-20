@@ -158,7 +158,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th style="width:160px;">Field</th>
-                                                        <th style="width:100px;">Operator</th>
+                                                        <th style="width:130px;">Operator</th>
                                                         <th style="width:160px;">Value</th>
                                                         <th style="width:50px;"></th>
                                                         <th class="no-border">
@@ -175,14 +175,18 @@
                                                         <td style="width:160px;">
                                                             <input ng-model="service_access_filter.name" type="text" style="display:inline-block;width:140px;"/>
                                                         </td>
-                                                        <td style="width:100px;">
-                                                            <select style="display:inline-block;width:80px;"
+                                                        <td style="width:130px;">
+                                                            <select style="display:inline-block;width:110px;"
+                                                                    ng-change="updateServiceAccessFilter()"
                                                                     ng-model="service_access_filter.operator"
                                                                     ng-options="op as op for op in FilterOps">
                                                             </select>
                                                         </td>
                                                         <td style="width:160px;">
-                                                            <input ng-model="service_access_filter.value" type="text" style="display:inline-block;width:140px;"/>
+                                                            <input ng-model="service_access_filter.value"
+                                                                   ng-disabled="service_access_filter.operator==='is null' || service_access_filter.operator==='is not null'"
+                                                                   type="text"
+                                                                   style="display:inline-block; width:140px;"/>
                                                         </td>
                                                         <td>
                                                             <a href="" style="font-weight:bold;"
@@ -272,7 +276,7 @@
                                                 <thead>
                                                 <tr>
                                                     <th style="width:160px;">Field</th>
-                                                    <th style="width:100px;">Operator</th>
+                                                    <th style="width:130px;">Operator</th>
                                                     <th style="width:160px;">Value</th>
                                                     <th style="width:50px;"></th>
                                                     <th class="no-border">
@@ -289,14 +293,18 @@
                                                     <td style="width:160px;">
                                                         <input ng-model="system_access_filter.name" type="text" style="display:inline-block;width:140px;"/>
                                                     </td>
-                                                    <td style="width:100px;">
-                                                        <select style="display:inline-block;width:80px;"
+                                                    <td style="width:130px;">
+                                                        <select style="display:inline-block;width:110px;"
+                                                                ng-change="updateSystemAccessFilter()"
                                                                 ng-model="system_access_filter.operator"
                                                                 ng-options="op as op for op in FilterOps">
                                                         </select>
                                                     </td>
                                                     <td style="width:160px;">
-                                                        <input ng-model="system_access_filter.value" type="text" style="display:inline-block;width:140px;"/>
+                                                        <input ng-model="system_access_filter.value"
+                                                               ng-disabled="system_access_filter.operator==='is null' || system_access_filter.operator==='is not null'"
+                                                               type="text"
+                                                               style="display:inline-block; width:140px;"/>
                                                     </td>
                                                     <td>
                                                         <a href="" style="font-weight:bold;"
