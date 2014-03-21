@@ -125,7 +125,7 @@ HTML;
 				<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
 
 				<input tabindex="2" class="form-control" type="password" id="LoginForm_password" name="LoginForm[password]"
-					autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" required value="" />
+					autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
 			</div>
 		</div>
 
