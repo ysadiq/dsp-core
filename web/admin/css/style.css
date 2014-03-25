@@ -2139,7 +2139,18 @@ span.label {
     height: 0;
     overflow: auto;
 }
-#swaggerFrame, #docsFrame{
+#login-page {
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding-bottom: 65.25%;
+    padding-top: 30px;
+    position: absolute;
+    top: -50px;
+    width: 100%;
+    z-index: 999999;
+}
+#swaggerFrame, #docsFrame, #login-frame{
     position: absolute;
     top: 0;
     left: 0;
@@ -2168,3 +2179,4 @@ span.label {
 	margin:     3px;
 
 }
+
