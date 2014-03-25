@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 <body id="admin-body">
-
+<div  style="display:none" id="login-page"><iframe  onload="checkLogin()" frameborder=0 src="../web/login/" id="login-frame"></iframe></div>
 <table id="container">
     <tr>
         <td class="ie-width-fix"><img src="img/trans.png" style="height:1px;width:225px" /></td>
@@ -21,14 +21,15 @@
         <td id="sidebar" ng-include src="'navigation.html'"></td>
         <td>&nbsp;&nbsp;</td>
         <td id="main-content">
-            <div ng-view></div>
+            <div id="angular-content" ng-view></div>
         </td>
     </tr>
 </table>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular-resource.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-resource.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="/js/json2.js"></script>
 <script src="/js/utils.js"></script>

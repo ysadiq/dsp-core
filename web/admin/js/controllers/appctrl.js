@@ -1,102 +1,73 @@
-var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
+var AppCtrl = function ($scope, AppsRelated, Role, Session, $http, Service, $location) {
     $scope.$on('$routeChangeSuccess', function () {
         $(window).resize();
     });
     Scope = $scope;
 
-    $('#alert_container').empty();
+    $scope.getResources = function(resources){
+        resources.forEach(function(resource){
+            $scope.getResource(resource.factory, resource.collection, resource.success);
+        })
+    };
+    $scope.getResource = function(factory, collection, success){
 
-    Scope.alerts = [];
-    Scope.currentServer = CurrentServer;
-    Scope.action = "Create";
-    setCurrentApp('applications');
-    Scope.app = {is_url_external: 0, native: true, allow_fullscreen_toggle: 0, requires_fullscreen: '0', roles: [], storage_service_id: null};
-    //$('#update_button').hide();
-    $('.external').hide();
+        factory.get()
+            .$promise.then(function(resource){
+                $scope[collection] = resource;
+                if(success) success();
+            }).catch(function(error){
 
-    Scope.storageOptions = [];
+            });
 
-    Scope.Apps = AppsRelated.get(function (data) {
-        Scope.Apps.record.reverse();
-    }, function (response) {
-        var code = response.status;
-        if (code == 401) {
-            window.top.Actions.doSignInDialog("stay");
-            return;
-        }
-        $.pnotify({
-            title: 'Error',
-            type: 'error',
-            hide: false,
-            addclass: "stack-bottomright",
-            text: getErrorString(response)
-        });
+    };
 
-
-    });
-    Scope.Roles = Role.get(function () {
-    }, function (response) {
-        var code = response.status;
-        if (code == 401) {
-            window.top.Actions.doSignInDialog("stay");
-            return;
-        }
-        $.pnotify({
-            title: 'Error',
-            type: 'error',
-            hide: false,
-            addclass: "stack-bottomright",
-            text: getErrorString(response)
-        });
-
-
-    });
-    Scope.Services = Service.get(function () {
-        Scope.storageServices = [];
-        Scope.storageContainers = {}
-        Scope.Services.record.forEach(function (service) {
+    $scope.buildServices = function(){
+        $scope.storageServices = [];
+        $scope.storageContainers = {}
+        $scope.Services.record.forEach(function (service) {
             if (service.type.indexOf("Local File Storage") != -1){
-                Scope.defaultStorageID = service.id;
-                Scope.defaultStorageName = service.api_name;
+                $scope.defaultStorageID = service.id;
+                $scope.defaultStorageName = service.api_name;
             }
             if (service.type.indexOf("File Storage") != -1) {
-                Scope.storageServices.push(service);
+                $scope.storageServices.push(service);
 
                 $http.get('/rest/' + service.api_name + '?app_name=admin').success(function (data) {
 
-                    Scope.storageContainers[service.id] = {options: []};
+                    $scope.storageContainers[service.id] = {options: []};
                     if (data.resource) {
                         data.resource.forEach(function (container) {
-                            if (service.api_name == Scope.defaultStorageName) {
-                                Scope.app.storage_service_id = service.id;
+                            if (service.api_name == $scope.defaultStorageName) {
+                                $scope.app.storage_service_id = service.id;
                                 //Scope.defaultStorageID = service.id;
-                                Scope.app.storage_container = "applications";
-                                Scope.storageContainers[service.id].options.push({name: container.name});
-                                Scope.storageContainers[service.id].name = service.api_name;
-                                Scope.loadStorageContainers();
+                                $scope.app.storage_container = "applications";
+                                $scope.storageContainers[service.id].options.push({name: container.name});
+                                $scope.storageContainers[service.id].name = service.api_name;
+                                $scope.loadStorageContainers();
                             } else {
-                                Scope.storageContainers[service.id].options.push({name: container.name});
-                                Scope.storageContainers[service.id].name = service.api_name;
+                                $scope.storageContainers[service.id].options.push({name: container.name});
+                                $scope.storageContainers[service.id].name = service.api_name;
                             }
 
                         })
                     }
                     if(Service.newApp){
-                        Scope.showDetails(Service.newApp);
-                        Scope.showAppPreview(Scope.app.launch_url);
+                        $scope.showDetails(Service.newApp);
+                        $scope.showAppPreview($scope.app.launch_url);
                         delete Service.newApp;
                     }
                 }).error(function (data) {
-                        //console.log(data);
-                    });
+                    //console.log(data);
+                });
             }
 
 
         });
-    });
-    Scope.showAppPreview = function (appUrl) {
+    };
 
-        Scope.action = "Preview ";
+    $scope.showAppPreview = function (appUrl) {
+
+        $scope.action = "Preview ";
         $('#step1').hide();
 
         $("#app-preview").show();
@@ -109,17 +80,17 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
     };
 
 
-    Scope.loadStorageContainers = function () {
+    $scope.loadStorageContainers = function () {
 
-        Scope.storageOptions = Scope.storageContainers[Scope.app.storage_service_id].options;
+        $scope.storageOptions = $scope.storageContainers[Scope.app.storage_service_id].options;
 
 
     }
-    Scope.formChanged = function () {
+    $scope.formChanged = function () {
         $('#save_' + this.app.id).removeClass('disabled');
     };
-    Scope.promptForNew = function () {
-        Scope.action = "Create";
+    $scope.promptForNew = function () {
+        $scope.action = "Create";
         Scope.app = {is_url_external: '0', native: true, requires_fullscreen: '0', roles: []};
         Scope.app.storage_service_id = Scope.defaultStorageID;
         Scope.app.storage_container = "applications";
@@ -145,7 +116,7 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
             Scope.app.storage_container = null;
         }
         var id = Scope.app.id;
-        AppsRelated.update({id: id}, Scope.app, function (data) {
+        AppsRelated.update({id: id}, Scope.app).$promise.then(function (data) {
                 updateByAttr(Scope.Apps.record, 'id', id, data);
 
                 if(window.top.Actions){
@@ -160,7 +131,7 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
                 $(document).scrollTop();
                 Scope.promptForNew();
 
-            },
+            }).catch(
             function (response) {
                 var code = response.status;
                 if (code == 401) {
@@ -198,7 +169,8 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
             Scope.app.storage_service_id = null;
             Scope.app.storage_container = null;
         }
-        AppsRelated.save(Scope.app, function (data) {
+        AppsRelated.save(Scope.app).$promise.then(
+            function (data) {
                 Scope.Apps.record.unshift(data);
                 //Scope.app.id = data.id;
                 //Scope.app = data;
@@ -215,13 +187,14 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
                 if (!Scope.app.native) {
                     Scope.showAppPreview(data.launch_url);
                 }
-            },
+            }).catch(
             function (response) {
                 var code = response.status;
-                if (code == 401) {
-                    window.top.Actions.doSignInDialog("stay");
-                    return;
-                }
+                if (code === 401 || code === 403) {
+                    //window.top.Actions.doSignInDialog("stay");
+                    showLogin();
+
+                }else{
                 $.pnotify({
                     title: 'Error',
                     type: 'error',
@@ -229,7 +202,7 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
                     addclass: "stack-bottomright",
                     text: getErrorString(response)
                 });
-
+                }
 
             });
 
@@ -278,7 +251,7 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
             });
     };
     Scope.postFile = function (target) {
-        console.log(target);
+        //console.log(target);
     }
     Scope.showLocal = function () {
         $('.local').show();
@@ -392,6 +365,41 @@ var AppCtrl = function ($scope, AppsRelated, Role, $http, Service, $location) {
 
         });
     }
+    $scope.init = function(){
+        $scope.currentServer = CurrentServer;
+        $scope.action = "Create";
+        setCurrentApp('applications');
+        $scope.app = {is_url_external: 0, native: true, allow_fullscreen_toggle: 0, requires_fullscreen: '0', roles: [], storage_service_id: null};
+        $('.external').hide();
+        $scope.storageOptions = [];
 
+        $scope.getResources([
+            {
+                factory : AppsRelated ,
+                collection: "Apps",
+                success : function(){$scope.Apps.record.reverse();}
+            },
+            {
+                factory : Role ,
+                collection: "Roles"
+            },
+            {
+                factory : Service ,
+                collection: "Services",
+                success: function(){$scope.buildServices()}
+            }
+
+        ]);
+        //$scope.Apps.record.reverse();
+        //$scope.buildServices();
+//        $scope.getResource(AppsRelated, "Apps", function(){
+//            $scope.Apps.record.reverse();
+//        });
+//        $scope.getResource(Role, "Roles");
+//        $scope.getResource(Service, "Services", function(){
+//            $scope.buildServices();
+//        })
+    };
+    $scope.init();
 };
 
