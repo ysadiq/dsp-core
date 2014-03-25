@@ -1066,8 +1066,7 @@ class WebController extends BaseWebController
      */
     public function actionEventReceiver()
     {
-        $_request = Pii::app()->getRequestObject();
-
+        $_request = Pii::requestObject();
         $_data = $_request->getContent();
 
         if ( is_string( $_data ) )

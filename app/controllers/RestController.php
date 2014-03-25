@@ -63,7 +63,7 @@ class RestController extends BaseFactoryController
     {
         parent::init();
 
-        $this->_requestObject = Pii::app()->getRequestObject();
+        $this->_requestObject = Pii::requestObject();
     }
 
     /**
