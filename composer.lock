@@ -251,7 +251,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "c7973d5e549e913bf5aecc2a667ac0fe5fe6caec"
+                "reference": "15ab78ce6b22aa15f807678081b0b55a8dcd473e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/c7973d5e549e913bf5aecc2a667ac0fe5fe6caec.zip",
-                "reference": "c7973d5e549e913bf5aecc2a667ac0fe5fe6caec",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/15ab78ce6b22aa15f807678081b0b55a8dcd473e.zip",
+                "reference": "15ab78ce6b22aa15f807678081b0b55a8dcd473e",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-20 20:47:31"
+            "time": "2014-03-24 19:59:49"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "db7e2aa311869aaf3c2cc76237b2beff05322629"
+                "reference": "98b2d0ba0a9a8f6d0e3b8fda31ce0fb227208fbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/db7e2aa311869aaf3c2cc76237b2beff05322629",
-                "reference": "db7e2aa311869aaf3c2cc76237b2beff05322629",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/98b2d0ba0a9a8f6d0e3b8fda31ce0fb227208fbd",
+                "reference": "98b2d0ba0a9a8f6d0e3b8fda31ce0fb227208fbd",
                 "shasum": ""
             },
             "require": {
@@ -732,7 +732,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -759,7 +759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-14 09:32:58"
+            "time": "2014-03-24 11:36:34"
         },
         {
             "name": "pear/http_request2",
