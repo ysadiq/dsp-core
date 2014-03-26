@@ -6,11 +6,13 @@
 
 EditorActions = {
     getFile : function(){
+
         $.ajax({
             url:CurrentServer + '/rest' + EditorActions.getQueryParameter('path'),
             data:'app_name=admin&method=GET',
             cache:false,
             processData: false,
+            dataType: "text",
             success:function (response) {
                 var filename = EditorActions.getFileName();
                 var mode = null;
@@ -84,6 +86,7 @@ EditorActions = {
         }
 
         Editor.setValue(contents);
+        Editor.focus();
 
         $("#save").click(function(){
             EditorActions.saveFile();
