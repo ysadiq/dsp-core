@@ -20,3 +20,4 @@ config/salt.config.php
 tests/config/salt.config.php
 tests/config/keys.config.php
 build/
+vendor/dreamfactory/oasys
