@@ -2128,7 +2128,15 @@ span.label {
 	max-height: 300px;
 	overflow:   auto;
 }
-
+#root-file-manager {
+    height: 0;
+    margin-left: 10px;
+    overflow: auto;
+    padding-bottom: 100%;
+    padding-top: 30px;
+    position: relative;
+    width: 100%;
+}
 #swagger, #docs {
 	margin-left:           10px;
 	border:           1px solid #cccccc;
@@ -2150,7 +2158,7 @@ span.label {
     width: 100%;
     z-index: 999999;
 }
-#swaggerFrame, #docsFrame, #login-frame{
+#swaggerFrame, #docsFrame, #login-frame , #root-file-manager iframe {
     position: absolute;
     top: 0;
     left: 0;
