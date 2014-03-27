@@ -1,10 +1,11 @@
 <?php
 namespace DreamFactory\Samples\Events;
 
-use Composer\EventDispatcher\EventSubscriberInterface;
 use DreamFactory\Platform\Events\EventDispatcher;
 use DreamFactory\Platform\Events\RestServiceEvent;
+use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Yii\Utility\Pii;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * SessionEventSubscriber.php
