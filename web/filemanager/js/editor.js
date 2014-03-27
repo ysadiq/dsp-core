@@ -16,11 +16,11 @@ EditorActions = {
             success:function (response) {
                 var filename = EditorActions.getFileName();
                 var mode = null;
-                if(filename.indexOf(".json") != -1){
-                    response = JSON.stringify(response, undefined, 2); // indentation level = 2
-                    //response = JSON.stringify(response)
-                    mode = 'json';
-                }
+//                if(filename.indexOf(".json") != -1){
+//                    response = JSON.stringify(response, undefined, 2); // indentation level = 2
+//                    //response = JSON.stringify(response)
+//                    mode = 'json';
+//                }
                 if(mode){
                 EditorActions.loadEditor(response, mode);
                 }else{

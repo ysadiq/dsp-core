@@ -152,7 +152,7 @@ function buildEditor(mime,path) {
 
 
     if (allowEdit(mime)) {
-        return '<a href="#" class="btn btn-small fmSquareButton cRight editor" data-mime="' + mime + '" data-path="' + path + '"><i class="icon-pencil"></i></a>';
+        return '<a href="#" class="btn btn-small fmSquareButton cRight download_file" data-mime="' + mime + '" data-path="' + path + '"><i class="icon-download-alt"></i></a><a href="#" class="btn btn-small fmSquareButton cRight editor" data-mime="' + mime + '" data-path="' + path + '"><i class="icon-pencil"></i></a>';
     }
     return '';
 }
@@ -258,7 +258,12 @@ function buildListingUI(json, svc) {
         w.focus();
         return false;
     });
+    $('.download_file').click(function(){
+        var target = $(this).data('path');
 
+            window.location.href = CurrentServer + '/rest'+ target +"?app_name=admin&download=true";
+
+    });
     $('.folder_open').click(function() {
         loadFolder($(this).data('path'));
         return false;
@@ -281,14 +286,22 @@ function buildListingUI(json, svc) {
         document.getSelection().removeAllRanges();
         updateButtons();
     }).dblclick(function(){
-            var target = $(this).data('target');
-            var type = $(this).data('type');
-            if(type == 'folder') {
-                loadFolder(target);
-            } else {
-                window.location.href = CurrentServer + '/rest'+ target +"?app_name=admin&download=true";
-            }
-        });
+
+
+        var target = $(this).data('target');
+        var type = $(this).data('type');
+        if(type == 'folder') {
+            loadFolder(target);
+        } else {
+
+        var path = target;
+            var mime = null;
+        //var mime = $(this).data('mime');
+
+        var w = window.open('editor.html?path='+path+'&mime='+mime+'&',path+" "+mime,'width=800,height=400,toolbars=no,statusbar=no,resizable=no');
+        w.focus();
+        return false;
+        }});
 
     $('.fmObject').bind('dragover',handleDragOver).bind('drop',handleFileSelect);
 }
