@@ -49,9 +49,16 @@ $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
 $_appName = 'DreamFactory Services Platform';
 
 /**
- * Salts
+ * Keys and salts
  */
-$_dspSalts = array();
+$_keys = $_dspSalts = array();
+
+//  Load some keys
+if ( file_exists( __DIR__ . '/keys.config.php' ) )
+{
+    /** @noinspection PhpIncludeInspection */
+    $_keys = @require( __DIR__ . '/keys.config.php' );
+}
 
 /** @noinspection PhpIncludeInspection */
 if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . SALT_CONFIG_PATH ) )
@@ -211,11 +218,12 @@ return array_merge(
         //  If true, REST events will be generated
         'dsp.enable_rest_events'        => true,
         //  If true, event scripts will be ran
-        'dsp.enable_event_scripts'        => true,
+        'dsp.enable_event_scripts'      => true,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
         // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events.
         'dsp.log_all_events'            => true,
+        'keys'                          => $_keys,
     ),
     $_dspSalts
 );
