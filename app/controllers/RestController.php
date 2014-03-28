@@ -170,13 +170,16 @@ class RestController extends BaseFactoryController
      * Generic action handler
      *
      * @param string $action
+     *
+     * @return mixed
      */
     protected function _handleAction( $action )
     {
         try
         {
             $_service = ServiceHandler::getService( $this->_service );
-            $_service->processRequest( $this->_resource, $action );
+
+            return $_service->processRequest( $this->_resource, $action );
         }
         catch ( \Exception $ex )
         {
