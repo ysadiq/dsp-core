@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "9f99da34449d0c17b2ea9cc45f69491effd2bd2f"
+                "reference": "6f633c30d39042b2f970a573932882b1ce843eab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/9f99da34449d0c17b2ea9cc45f69491effd2bd2f.zip",
-                "reference": "9f99da34449d0c17b2ea9cc45f69491effd2bd2f",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/6f633c30d39042b2f970a573932882b1ce843eab.zip",
+                "reference": "6f633c30d39042b2f970a573932882b1ce843eab",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-27 18:59:45"
+            "time": "2014-03-28 06:14:56"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -349,12 +349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "73f6f4af558db96a576bf1449fda1637a3e1fbff"
+                "reference": "5b5012d1c939eb38f3928810f9cd4808d998cfe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/73f6f4af558db96a576bf1449fda1637a3e1fbff",
-                "reference": "73f6f4af558db96a576bf1449fda1637a3e1fbff",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/5b5012d1c939eb38f3928810f9cd4808d998cfe8",
+                "reference": "5b5012d1c939eb38f3928810f9cd4808d998cfe8",
                 "shasum": ""
             },
             "require": {
@@ -388,7 +388,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Jason Sykes",
@@ -412,7 +412,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-03-27 19:00:34"
+            "time": "2014-03-28 06:16:31"
         },
         {
             "name": "dreamfactory/oasys",
@@ -1919,12 +1919,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "6194137af5f12fbcfc0cb21e269f47542b8beb47"
+                "reference": "cee3067d680232674c6505d91db9d3d635a9a8f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6194137af5f12fbcfc0cb21e269f47542b8beb47",
-                "reference": "6194137af5f12fbcfc0cb21e269f47542b8beb47",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/cee3067d680232674c6505d91db9d3d635a9a8f4",
+                "reference": "cee3067d680232674c6505d91db9d3d635a9a8f4",
                 "shasum": ""
             },
             "require": {
@@ -1959,7 +1959,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-03-03 12:53:01"
+            "time": "2014-03-26 11:51:10"
         }
     ],
     "aliases": [
