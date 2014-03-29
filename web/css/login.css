@@ -95,3 +95,10 @@
 .strong-disabled:-moz-placeholder {
 	color: #333;
 }
+
+.remote-login-providers {
+	display:    block;
+	overflow:   hidden;
+	background: transparent url(../img/bg-remote-login.png) center center no-repeat;
+}
+
