@@ -1009,7 +1009,7 @@ class WebController extends BaseWebController
     /**
      * Handle inbound redirect from various services
      *
-     * @throws DreamFactory\Common\Exceptions\RestException
+     * @throws DreamFactory\Platform\Exceptions\RestException
      */
     public function actionAuthorize()
     {
