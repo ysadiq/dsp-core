@@ -16,12 +16,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     Scope.ServiceComponents = {};
     Scope.Services = Service.get(function (data) {
         var services = data.record;
-        services.unshift({id: 0, name: "All", type: ""});
+        services.unshift({id: "", name: "All", type: ""});
         services.forEach(function (service, index) {
             Scope.ServiceComponents[index] = [];
             var allRecord = {name: '*', label: 'All', plural: 'All'};
             Scope.ServiceComponents[index].push(allRecord);
-            if(service.id > 0) {
+            if(service.id != "") {
                 $http.get('/rest/' + service.api_name + '?app_name=admin&fields=*').success(function (data) {
                     // some services return no resource array
                     if (data.resource != undefined) {
@@ -256,7 +256,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
     Scope.newServiceAccess = function () {
 
-        var newAccess = {"access": "Full Access", "component": "*", "service_id": 0};
+        var newAccess = {"access": "Full Access", "component": "*", "service_id": ""};
         newAccess.filters = [];
         newAccess.filter_op = "AND";
         newAccess.show_filters = false;

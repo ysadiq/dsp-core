@@ -19,6 +19,7 @@
  */
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Fabric;
+use Kisma\Core\Interfaces\Levels;
 
 /**
  * common.config.php
@@ -151,65 +152,51 @@ unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey
 return array_merge(
     $_instanceSettings,
     array(
-        /**
-         * App Information
-         */
+        //-------------------------------------------------------------------------
+        // General Application Settings
+        //-------------------------------------------------------------------------
+
+        /** App Information */
         'base_path'                     => $_basePath,
-        /**
-         * DSP Information
-         */
+        /** DSP Information */
         'dsp.version'                   => DSP_VERSION,
         'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
-        /**
-         * Remote Logins
-         */
+        /** Remote Logins */
         'dsp.allow_remote_logins'       => true,
         'dsp.allow_admin_remote_logins' => true,
-        /**
-         * User data
-         */
+        /** User data */
         'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
-        /**
-         * The default service configuration
-         */
+        /** Default services */
         'dsp.service_config'            => require( __DIR__ . SERVICES_CONFIG_PATH ),
         /** Array of namespaces to locations for service discovery */
         'dsp.service_location_map'      => array(),
-        /**
-         * Default services provided by all DSPs
-         */
+        /** Default services provided by all DSPs */
         'dsp.default_services'          => array(
             array( 'api_name' => 'user', 'name' => 'User Login' ),
             array( 'api_name' => 'system', 'name' => 'System Configuration' ),
             array( 'api_name' => 'api_docs', 'name' => 'API Documentation' ),
         ),
-        /**
-         * The default application to start
-         */
+        /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
-        /**
-         * The default landing pages for email confirmations
-         */
+        /** The default landing pages for email confirmations */
         'dsp.confirm_invite_url'        => '/web/confirmInvite',
         'dsp.confirm_register_url'      => '/web/confirmRegister',
         'dsp.confirm_reset_url'         => '/web/confirmPassword',
-        /**
-         * The default number of records to return at once for database queries
-         */
+        /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
-        /**
-         * The default admin resource schema
-         */
+        /** The default admin resource schema */
         'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
         'admin.default_theme'           => 'united',
-        /******************************************************************************************
-         * Logging/Debug options
-         *****************************************************************************************/
+        //-------------------------------------------------------------------------
+        //	Logging/Debug Options
+        //-------------------------------------------------------------------------
+        /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
+        'dsp.debug_level'               => Levels::DEBUG,
         /******************************************************************************************
          * Event system options
          *****************************************************************************************/
@@ -219,11 +206,12 @@ return array_merge(
         'dsp.enable_rest_events'        => true,
         //  If true, event scripts will be ran
         'dsp.enable_event_scripts'      => true,
+        //  Any keys included from config/keys.config.php
+        'keys'                          => $_keys,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
         // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events.
         'dsp.log_all_events'            => false,
-        'keys'                          => $_keys,
     ),
     $_dspSalts
 );
