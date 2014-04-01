@@ -16,12 +16,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     Scope.ServiceComponents = {};
     Scope.Services = Service.get(function (data) {
         var services = data.record;
-        services.unshift({id: "", name: "All", type: ""});
+        services.unshift({id: 0, name: "All", type: ""});
         services.forEach(function (service, index) {
             Scope.ServiceComponents[index] = [];
             var allRecord = {name: '*', label: 'All', plural: 'All'};
             Scope.ServiceComponents[index].push(allRecord);
-            if(service.id != "") {
+            if(service.id > 0) {
                 $http.get('/rest/' + service.api_name + '?app_name=admin&fields=*').success(function (data) {
                     // some services return no resource array
                     if (data.resource != undefined) {
@@ -74,7 +74,20 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     }
     Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
-    Scope.Roles = RolesRelated.get();
+    Scope.Roles = RolesRelated.get(
+        {}, //params
+        function (data) {   //success
+            angular.forEach(data.record, function (role) {
+                angular.forEach(role.role_service_accesses, function (access) {
+                    // ng-options doesn't play nice with null so we change it to 0
+                    // server will accept 0 for "all services" but returns null
+                    if (!access.service_id) {
+                        access.service_id = 0;
+                    }
+                });
+            });
+        }
+    );
 
     Scope.save = function () {
 
@@ -256,7 +269,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
     Scope.newServiceAccess = function () {
 
-        var newAccess = {"access": "Full Access", "component": "*", "service_id": ""};
+        var newAccess = {"access": "Full Access", "component": "*", "service_id": 0};
         newAccess.filters = [];
         newAccess.filter_op = "AND";
         newAccess.show_filters = false;
