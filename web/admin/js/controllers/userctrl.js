@@ -2,63 +2,99 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
     $scope.$on('$routeChangeSuccess', function () {
         $(window).resize();
     });
-    Scope = $scope;
-    Scope.defaultEmailService = null;
-    Scope.Services = Service.get(function(data){
-            data.record.forEach(function(service){
-                if(service.type.indexOf("Email Service") != -1){
-                    Scope.defaultEmailService = service.api_name;
-                }
-            })
+    $scope.getResources = function (resources) {
+        resources.forEach(function (resource) {
+            $scope.getResource(resource.factory, resource.collection, resource.success);
+        })
+    };
+    $scope.getResource = function (factory, collection, success) {
+
+        factory.get()
+            .$promise.then(function (resource) {
+                $scope[collection] = resource;
+                if (success) success();
+            }).
+            catch (function (error) {
+
+        });
+
+    };
+    $scope.init = function(){
+        $scope.defaultEmailService = null;
+        $scope.getResources([{
+            factory: User,
+            collection: "Users"
+        }, {
+            factory: Role,
+            collection: "Roles"
+        }, {
+            factory: Service,
+            collection: "Services",
+            success: function () {
+                $scope.buildServices()
+            }
+        }, {
+            factory: Config,
+            collection: "Config"
         }
 
-    );
-    Scope.Config = Config.get();
-    Scope.Users = User.get();
-    Scope.action = "Create";
-    Scope.Roles = Role.get();
-    Scope.passwordEdit = false;
-    Scope.user = {};
-    Scope.user.password = '';
-    Scope.passwordRepeat = '';
-    Scope.supportedExportFormats = ['CSV', 'JSON', 'XML'];
-    Scope.selectedExportFormat = 'CSV';
-    // keys
-    Scope.user.lookup_keys = [];
-    Scope.removeKey = function () {
+        ]);
+        $scope.action = "Create";
 
-        var rows = Scope.user.lookup_keys;
+        $scope.passwordEdit = false;
+        $scope.user = {};
+        $scope.user.password = '';
+        $scope.passwordRepeat = '';
+        $scope.supportedExportFormats = ['CSV', 'JSON', 'XML'];
+        $scope.selectedExportFormat = 'CSV';
+        // keys
+        $scope.user.lookup_keys = [];
+    };
+
+
+   $scope.buildServices = function(){
+       $scope.Services.record.forEach(function(service){
+           if(service.type.indexOf("Email Service") != -1){
+               $scope.defaultEmailService = service.api_name;
+           }
+       })
+   };
+
+
+    $scope.removeKey = function () {
+
+        var rows = $scope.user.lookup_keys;
         rows.splice(this.$index, 1);
     };
-    Scope.newKey = function () {
+    $scope.newKey = function () {
 
         var newKey = {"name": "", "value": "", "private": false, "allow_user_update": false};
-        Scope.user.lookup_keys.push(newKey);
+        $scope.user.lookup_keys.push(newKey);
     }
-    Scope.uniqueKey = function () {
-        var size = Scope.user.lookup_keys.length;
+    $scope.uniqueKey = function () {
+        var size = $scope.user.lookup_keys.length;
         for (i = 0; i < size; i++) {
-            var key = Scope.user.lookup_keys[i];
-            var matches = Scope.user.lookup_keys.filter(function(itm){return itm.name === key.name;});
+            var key = $scope.user.lookup_keys[i];
+            var matches = $scope.user.lookup_keys.filter(function(itm){return itm.name === key.name;});
             if (matches.length > 1) {
                 return false;
             }
         }
         return true;
     }
-    Scope.emptyKey = function () {
+    $scope.emptyKey = function () {
 
-        var matches = Scope.user.lookup_keys.filter(function(itm){return itm.name === '';});
+        var matches = $scope.user.lookup_keys.filter(function(itm){return itm.name === '';});
         return matches.length > 0;
     }
-    Scope.formChanged = function () {
+    $scope.formChanged = function () {
 
         $('#save_' + this.user.id).removeClass('disabled');
     };
 
-    Scope.save = function () {
+    $scope.save = function () {
 
-        if (Scope.emptyKey()) {
+        if ($scope.emptyKey()) {
             $.pnotify({
                 title: 'Users',
                 type: 'error',
@@ -66,7 +102,7 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             });
             return;
         }
-        if (!Scope.uniqueKey()) {
+        if (!$scope.uniqueKey()) {
             $.pnotify({
                 title: 'Users',
                 type: 'error',
@@ -89,37 +125,22 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         } else {
             delete this.user.password;
         }
-        var id = Scope.user.id;
-        User.update({id:id}, Scope.user, function(response) {
-            Scope.user.lookup_keys = angular.copy(response.lookup_keys);
-            updateByAttr(Scope.Users.record, 'id', id, Scope.user);
-            Scope.promptForNew();
+        var id = $scope.user.id;
+        User.update({id:id}, $scope.user, function(response) {
+            $scope.user.lookup_keys = angular.copy(response.lookup_keys);
+            updateByAttr($scope.Users.record, 'id', id, $scope.user);
+            $scope.promptForNew();
             $.pnotify({
                 title: 'Users',
                 type: 'success',
                 text: 'Updated Successfully'
             });
-        }, function(response) {
-            Scope.user.password = '';
-            Scope.passwordRepeat = '';
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
         });
     };
 
-    Scope.create = function () {
+    $scope.create = function () {
 
-        if (Scope.emptyKey()) {
+        if ($scope.emptyKey()) {
             $.pnotify({
                 title: 'Users',
                 type: 'error',
@@ -127,7 +148,7 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             });
             return;
         }
-        if (!Scope.uniqueKey()) {
+        if (!$scope.uniqueKey()) {
             $.pnotify({
                 title: 'Users',
                 type: 'error',
@@ -152,39 +173,22 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             newRec.display_name = newRec.first_name + ' ' + newRec.last_name;
         }
 
-        var send_invite = Scope.sendInvite ? "true" : "false";
+        var send_invite = $scope.sendInvite ? "true" : "false";
         User.save({send_invite: send_invite}, newRec,
             function(response) {
 
-                Scope.Users.record.push(response);
+                $scope.Users.record.push(response);
                 $.pnotify({
                     title: 'Users',
                     type: 'success',
                     text: 'Created Successfully'
                 });
 
-                Scope.promptForNew();
-            },
-            function(response) {
-
-                Scope.user.password = '';
-                Scope.passwordRepeat = '';
-                var code = response.status;
-                if (code == 401) {
-                    window.top.Actions.doSignInDialog("stay");
-                    return;
-                }
-                $.pnotify({
-                    title: 'Error',
-                    type: 'error',
-                    hide: false,
-                    addclass: "stack-bottomright",
-                    text: getErrorString(response)
-                });
+                $scope.promptForNew();
             });
     };
 
-    Scope.invite = function() {
+    $scope.invite = function() {
 
         $.ajax({
             dataType: 'json',
@@ -192,47 +196,31 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
             url: CurrentServer + '/rest/system/user/' + this.user.id + '?app_name=admin&send_invite=true',
             data: {},
             cache: false,
-            success: function(response) {
+            success: function() {
 
                 $.pnotify({
                     title: 'Users',
                     type: 'success',
                     text: 'Invite sent!'
                 });
-            },
-            error: function(response) {
-
-                var code = response.status;
-                if (code == 401) {
-                    window.top.Actions.doSignInDialog("stay");
-                    return;
-                }
-
-                $.pnotify({
-                    title: 'Error',
-                    type: 'error',
-                    hide: false,
-                    addclass: "stack-bottomright",
-                    text: 'Unable to send invite. ' + getErrorString(response)
-                });
             }
         });
     };
 
-    Scope.promptForNew = function () {
+    $scope.promptForNew = function () {
 
-        Scope.action = "Create";
-        Scope.passwordEdit = false;
-        Scope.user = {};
-        Scope.user.password = '';
-        Scope.passwordRepeat = '';
-        Scope.user.lookup_keys = [];
+        $scope.action = "Create";
+        $scope.passwordEdit = false;
+        $scope.user = {};
+        $scope.user.password = '';
+        $scope.passwordRepeat = '';
+        $scope.user.lookup_keys = [];
         $("tr.info").removeClass('info');
         $(window).scrollTop(0);
-        Scope.userform.$setPristine();
+        $scope.userform.$setPristine();
     };
 
-    Scope.delete = function () {
+    $scope.delete = function () {
 
         var which = this.user.display_name;
         if (!which || which == '') {
@@ -245,44 +233,29 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         }
         var id = this.user.id;
         User.delete({ id:id }, function () {
-            Scope.promptForNew();
+            $scope.promptForNew();
             $("#row_" + id).fadeOut();
             $.pnotify({
                 title: 'Users',
                 type: 'success',
                 text: 'Deleted Successfully.'
             });
-        }, function(response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            var error = response.error;
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
-
         });
     };
 
-    Scope.showDetails = function(){
+    $scope.showDetails = function(){
 
-        Scope.action = "Edit";
-        Scope.passwordEdit = false;
-        Scope.user = angular.copy(this.user);
-        Scope.user.password = '';
-        Scope.passwordRepeat = '';
+        $scope.action = "Edit";
+        $scope.passwordEdit = false;
+        $scope.user = angular.copy(this.user);
+        $scope.user.password = '';
+        $scope.passwordRepeat = '';
         $("tr.info").removeClass('info');
-        $('#row_' + Scope.user.id).addClass('info');
-        Scope.userform.$setPristine();
+        $('#row_' + $scope.user.id).addClass('info');
+        $scope.userform.$setPristine();
     }
 
-    Scope.toggleRoleSelect = function (checked) {
+    $scope.toggleRoleSelect = function (checked) {
 
         if(checked == true){
             $('#role_select').prop('disabled', true);
@@ -291,12 +264,12 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         }
     };
 
-    Scope.showImportModal = function() {
+    $scope.showImportModal = function() {
 
         $('#importUsersModal').modal('toggle');
     };
 
-    Scope.importUsers = function() {
+    $scope.importUsers = function() {
 
         var params = 'app_name=admin';
         var filename = $('#userInput').val();
@@ -326,14 +299,14 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
         $("#importUsersForm").submit();
     };
 
-    Scope.showExportModal = function() {
+    $scope.showExportModal = function() {
 
         $('#exportUsersModal').modal('toggle');
     };
 
-    Scope.exportUsers = function() {
+    $scope.exportUsers = function() {
 
-        var fmt = Scope.selectedExportFormat;
+        var fmt = $scope.selectedExportFormat;
         fmt = fmt.toLowerCase();
         var params = 'app_name=admin&file=true&format=' + fmt;
         var url = CurrentServer + '/rest/system/user?' + params;
@@ -362,11 +335,12 @@ var UserCtrl = function ($scope, Config, User, Role, Service) {
                     text: 'Users Imported Successfully'
                 });
             }
-            Scope.Users = User.get();
-            Scope.promptForNew();
+            $scope.Users = User.get();
+            $scope.promptForNew();
             $('#importUsersModal').modal('toggle');
         }
     };
+    $scope.init();
 };
 
 window.checkImportResults = function(iframe) {};
