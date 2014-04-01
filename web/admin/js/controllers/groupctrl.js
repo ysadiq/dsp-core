@@ -9,80 +9,42 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
     $scope.$on('$routeChangeSuccess', function () {
         $(window).resize();
     });
-    Scope = $scope;
-    Scope.group = {apps:[]};
-    Scope.Groups = Group.get();
-    Scope.Apps = App.get();
-    Scope.action = "Create";
+    $scope.group = {apps:[]};
+    $scope.Groups = Group.get();
+    $scope.Apps = App.get();
+    $scope.action = "Create";
     $('#update_button').hide();
 
-    Scope.save = function () {
+    $scope.save = function () {
 
-        var id = Scope.group.id;
-        Group.update({id:id}, Scope.group, function(){
-            Scope.promptForNew();
+        var id = $scope.group.id;
+        Group.update({id:id}, $scope.group, function(){
+            $scope.promptForNew();
             window.top.Actions.updateSession("update");
-            /*
-            $timeout(function(){
-                window.top.Actions.showStatus("Updated Successfully");
-            },1000);
-            */
             $.pnotify({
                 title: 'App Groups',
                 type: 'success',
                 text: 'Updated Successfully.'
             });
-        }, function(response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
         });
-
     };
-    Scope.create = function () {
+    $scope.create = function () {
 
-        Group.save(Scope.group, function(data){
-            Scope.Groups.record.push(data);
-            Scope.promptForNew();
+        Group.save($scope.group, function(data){
+            $scope.Groups.record.push(data);
+            $scope.promptForNew();
             window.top.Actions.updateSession("update");
-            /*
-            $timeout(function(){
-                window.top.Actions.showStatus("Created Successfully");
-            },1000);
-            */
             $.pnotify({
                 title: 'App Groups',
                 type: 'success',
                 text: 'Created Successfully.'
             });
-        }, function(response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
         });
     };
-    Scope.isAppInGroup = function(){
-        if(Scope.group){
+    $scope.isAppInGroup = function(){
+        if($scope.group){
             var id = this.app.id;
-            var assignedApps = Scope.group.apps;
+            var assignedApps = $scope.group.apps;
             assignedApps = $(assignedApps);
             var inGroup =false;
             assignedApps.each(function(index, val){
@@ -94,15 +56,15 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
         }
         return inGroup;
     };
-    Scope.addAppToGroup = function (checked) {
+    $scope.addAppToGroup = function (checked) {
 
         if(checked == true){
-            Scope.group.apps.push(this.app);
+            $scope.group.apps.push(this.app);
         }else{
-            Scope.group.apps = removeByAttr(Scope.group.apps, 'id', this.app.id);
+            $scope.group.apps = removeByAttr($scope.group.apps, 'id', this.app.id);
         }
     };
-    Scope.delete = function () {
+    $scope.delete = function () {
         var which = this.group.name;
         if (!which || which == '') {
             which = "the group?";
@@ -114,8 +76,7 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
         }
         var id = this.group.id;
         Group.delete({ id:id }, function () {
-            Scope.promptForNew();
-            //window.top.Actions.showStatus("Deleted Successfully");
+            $scope.promptForNew();
             $.pnotify({
                 title: 'App Groups',
                 type: 'success',
@@ -138,21 +99,21 @@ var GroupCtrl = function ($scope, Group, App, $timeout) {
             });
         });
     };
-    Scope.promptForNew = function () {
-        Scope.action = "Create";
-        Scope.group = {apps:[]};
+    $scope.promptForNew = function () {
+        $scope.action = "Create";
+        $scope.group = {apps:[]};
         $('#save_button').show();
         $('#update_button').hide();
         $("tr.info").removeClass('info');
         $(window).scrollTop(0);
     };
-    Scope.showDetails = function(){
-        Scope.action = "Update";
-        Scope.group = this.group;
+    $scope.showDetails = function(){
+        $scope.action = "Update";
+        $scope.group = this.group;
         $('#save_button').hide();
         $('#update_button').show();
         $("tr.info").removeClass('info');
-        $('#row_' + Scope.group.id).addClass('info');
+        $('#row_' + $scope.group.id).addClass('info');
     }
 
 };
