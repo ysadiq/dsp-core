@@ -206,8 +206,7 @@ return array_merge(
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------
-        'login.remember_me_copy' => 'Remember Me',
-
+        'login.remember_me_copy'        => 'Remember Me',
     ),
     $_dspSalts
 );

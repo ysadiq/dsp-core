@@ -36,12 +36,18 @@ Validate::register(
     array(
         'ignoreTitle'    => true,
         'errorClass'     => 'error',
-        'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
+        'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));}',
         'rules'          => array(
-            'LoginFormForm[username]' => array(
-                'required'  => true,
-                'email'     => true,
-                'minlength' => 5,
+            'LoginForm[username]' => 'required email',
+            'LoginForm[password]' => array(
+                'minlength' => 3
+            ),
+        ),
+        'messages'       => array(
+            'LoginForm[username]' => 'Please enter a non-bogus email address',
+            'LoginForm[password]' => array(
+                'required'  => 'You must enter a password to continue',
+                'minlength' => 'Your password must be at least 3 characters long',
             ),
         ),
     )
@@ -51,6 +57,8 @@ $_checkboxClass = !empty( $model->rememberMe ) ? 'fa-check-circle-o' : 'fa-times
 
 Pii::cssFile( '/css/login.css', 'all' );
 Pii::cssFile( '/css/remote-login.css', 'all' );
+
+$_rememberMeCopy = Pii::getParam( 'login.remember_me_copy', 'Remember Me' );
 
 //*************************************************************************
 //	Build the remote login provider icon list..
@@ -99,10 +107,10 @@ HTML;
 <div class="container" id="formbox">
     <h2>User Login</h2>
 
-    <h4 style="text-align:center;">Please sign in for access to the requested resource</h4>
+    <h4 style="text-align:center;">You must be logged in to continue</h4>
 
     <?php echo $_flash; ?>
-    <?php echo CHtml::errorSummary( $model ); ?>
+    <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
 
     <form id="login-form" method="POST" role="form">
         <input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
@@ -110,15 +118,15 @@ HTML;
         <input type="hidden" name="check-remember-ind" id="check-remember-ind" value="<?php echo $model->rememberMe ? 1 : 0; ?>">
 
         <div class="form-group">
-            <label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
+            <label for="LoginForm_username" class="sr-only">DSP Email Address</label>
 
             <div class="input-group">
                 <span class="input-group-addon bg_dg bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
                 <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-                       name="LoginForm[username]" placeholder="DSP User Email Address"
-                       spellcheck="false" autocapitalize="off" autocorrect="off"
-                       value="<?php echo $model->username; ?>" />
+                    name="LoginForm[username]" placeholder="DSP User Email Address"
+                    spellcheck="false" autocapitalize="off" autocorrect="off"
+                    value="<?php echo $model->username; ?>" />
             </div>
         </div>
 
@@ -128,8 +136,8 @@ HTML;
             <div class="input-group">
                 <span class="input-group-addon bg_ly bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
-                <input tabindex="2" class="form-control" type="password" id="LoginForm_password" name="LoginForm[password]"
-                       autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
+                <input tabindex="2" class="form-control required" type="password" id="LoginForm_password" name="LoginForm[password]"
+                    autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
             </div>
         </div>
 
@@ -139,8 +147,9 @@ HTML;
                     <span class="input-group-addon bg-control remember-checkbox"><i class="fa fa-fw <?php echo $_checkboxClass; ?> fa-2x"></i></span>
 
                     <input tabindex="3" class="form-control strong-disabled" id="remember-control"
-                           placeholder="<?php echo( $model->rememberMe ? null : 'Do Not ' ); ?>Remember Me" type="text"
-                           disabled />
+                        value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>" type="text"
+                        disabled />
+                    <div class="event-grabber" style="position:absolute; left:0; right:0; top:0; bottom:0; cursor: pointer;"></div>
                 </div>
             </div>
         </div>
@@ -161,43 +170,31 @@ HTML;
 </div>
 
 <script type="text/javascript">
-jQuery(function($) {
-    var $_rememberMe = $('#check-remember-ind');
-    var _remembered = (1 == $_rememberMe.val());
-    var $_rememberHint = $('#remember-control');
-    var $_form = $('form#login-form');
+jQuery(
+    function($) {
+        var $_rememberMe = $('#check-remember-ind');
+        var _wasRemembered = (1 == $_rememberMe.val());
+        var $_rememberHint = $('#remember-control');
+        var $_form = $('form#login-form');
 
-    $('#btn-forgot').on('click', function(e) {
-        e.preventDefault();
-        $('input#forgot').val(1);
-        $('form#login-form').submit();
-    });
+        $('#btn-forgot').on(
+            'click', function(e) {
+                e.preventDefault();
+                $('#LoginForm_password').removeProp('required').removeClass('required');
+                $('input#forgot').val(1);
+                $('form#login-form').submit();
+            }
+        );
 
-    $_form.on('blur focusin focus invalid-form', function(e) {
-        if (e.type != 'invalid-form' && $_form.validate().valid()) {
-            $('#btn-submit').removeClass('disabled').removeAttr('disabled');
-        } else {
-            $('#btn-submit').addClass('disabled').attr({disabled: 'disabled'});
-        }
-    });
-
-    $('.input-group.remember-me').on('click', function(e) {
-        e.preventDefault();
-        var $_icon = $('i.fa', $(this));
-
-        if (_remembered) {
-            //	Disable
-            _remembered = 0;
-            $_icon.toggleClass('fa-check-circle-o fa-times-circle-o');
-            $_rememberHint.attr({placeHolder: 'Do Not Remember Me'}).toggleClass('remember-checked');
-        } else {
-            //	Enable
-            _remembered = 1;
-            $_icon.toggleClass('fa-check-circle-o fa-times-circle-o');
-            $_rememberHint.attr({placeHolder: 'Remember Me'}).toggleClass('remember-checked');
-        }
-
-        $_rememberMe.val(_remembered);
-    });
-});
+        $('.input-group.remember-me, .event-grabber').on(
+            'click', function(e) {
+//                e.preventDefault();
+                $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
+                $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
+                $_rememberMe.val(_wasRemembered = !_wasRemembered);
+                return false;
+            }
+        );
+    }
+);
 </script>
