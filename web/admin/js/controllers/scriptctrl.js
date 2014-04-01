@@ -1,7 +1,10 @@
-var ScriptCtrl = function($scope, $http){
+var ScriptCtrl = function ($scope, Event) {
+    //get all events
+    Event.get({"all_events": "true"})
+        .$promise.then(function (response) {
+            $scope.Events = response.record;
+        }
 
-    $http.get('https://next.cloud.dreamfactory.com/rest/script').then(function(result){
-        console.log(result)
-    })
+    )
 
-}
+};
