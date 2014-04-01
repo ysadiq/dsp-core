@@ -67,11 +67,11 @@
 	margin-left:  0;
 	margin-right: 5px;
 	width:        100%;
-	color:        goldenrod;
+	color:        rgb(230, 212, 12);
 }
 
 .form-group.has-error span.input-group-addon {
-	height: 34px;
+	/*height: 34px;*/
 }
 
 .input-group.remember-me {
@@ -96,9 +96,81 @@
 	color: #333;
 }
 
-.remote-login-providers {
-	display:    block;
-	overflow:   hidden;
-	background: transparent url(../img/bg-remote-login.png) center center no-repeat;
+/**
+ * Input add-on/checkbox tweaks
+ */
+.input-group-addon.bg-control {
+	padding:    0 10px;
+	text-align: center;
+	margin:     0 auto;
+	font-size:  18px;
 }
 
+.input-group-addon.bg-control i.fa {
+	text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.input-group-addon.bg-control i.fa.fa-2x {
+	font-size: 22px;
+}
+
+.input-group .bg-control i.fa.fa-times-circle-o, .input-group .bg-control i.fa.fa-check-circle-o {
+	font-size: 26px;
+}
+
+.remember-me .bg-control {
+	background-color: #D17F3E;
+}
+
+.remember-me #remember-control {
+	cursor:     pointer;
+	text-align: center;
+}
+
+.remember-me .fa-times-circle-o {
+	color: #EED0B9;
+}
+
+.remember-me .fa-check-circle-o {
+	color: #D4DF56;
+}
+
+.remember-me #remember-control {
+	cursor: pointer;
+}
+
+/**
+ * Placeholder text color toned down.
+ * Must remain separate or will not work.
+ */
+.remember-me ::-webkit-input-placeholder {
+	color: #666;
+}
+
+.remember-checked::-webkit-input-placeholder {
+	color: #258347;
+}
+
+.remember-me :-moz-placeholder {
+	color: #666;
+}
+
+.remember-checked:-moz-placeholder {
+	color: #258347;
+}
+
+.remember-me ::-moz-placeholder {
+	color: #666;
+}
+
+.remember-checked::-moz-placeholder {
+	color: #258347;
+}
+
+.remember-me :-ms-input-placeholder {
+	color: #666;
+}
+
+.remember-checked:-ms-input-placeholder {
+	color: #258347;
+}

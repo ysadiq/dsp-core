@@ -47,6 +47,8 @@ Validate::register(
     )
 );
 
+$_checkboxClass = !empty( $model->rememberMe ) ? 'fa-check-circle-o' : 'fa-times-circle-o';
+
 Pii::cssFile( '/css/login.css', 'all' );
 Pii::cssFile( '/css/remote-login.css', 'all' );
 
@@ -111,7 +113,7 @@ HTML;
             <label for="LoginForm_username" class="sr-only">DSP User Email Address</label>
 
             <div class="input-group">
-                <span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
+                <span class="input-group-addon bg_dg bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
                 <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
                        name="LoginForm[username]" placeholder="DSP User Email Address"
@@ -124,7 +126,7 @@ HTML;
             <label for="LoginForm_password" class="sr-only">Password</label>
 
             <div class="input-group">
-                <span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
+                <span class="input-group-addon bg_ly bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
                 <input tabindex="2" class="form-control" type="password" id="LoginForm_password" name="LoginForm[password]"
                        autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
@@ -132,12 +134,14 @@ HTML;
         </div>
 
         <div class="form-group">
-            <div class="input-group remember-me">
-                <span class="input-group-addon bg_db"><i class="fa fa-<?php echo !empty( $model->rememberMe ) ? 'check-' : null; ?>circle-o fa-fw"></i></span>
+            <div class="col-md-7" style="display: block; float: none; margin: 0 auto;">
+                <div class="input-group remember-me">
+                    <span class="input-group-addon bg-control remember-checkbox"><i class="fa fa-fw <?php echo $_checkboxClass; ?> fa-2x"></i></span>
 
-                <input tabindex="3" class="form-control strong-disabled" id="remember-control"
-                       placeholder="<?php echo( $model->rememberMe ? null : 'Do Not ' ); ?>Keep Me Signed In" type="text"
-                       disabled />
+                    <input tabindex="3" class="form-control strong-disabled" id="remember-control"
+                           placeholder="<?php echo( $model->rememberMe ? null : 'Do Not ' ); ?>Remember Me" type="text"
+                           disabled />
+                </div>
             </div>
         </div>
 
@@ -184,13 +188,13 @@ jQuery(function($) {
         if (_remembered) {
             //	Disable
             _remembered = 0;
-            $_icon.removeClass('fa-check-circle-o').addClass('fa-circle-o');
-            $_rememberHint.attr({placeHolder: 'Do Not Keep Me Signed In'});
+            $_icon.toggleClass('fa-check-circle-o fa-times-circle-o');
+            $_rememberHint.attr({placeHolder: 'Do Not Remember Me'}).toggleClass('remember-checked');
         } else {
             //	Enable
             _remembered = 1;
-            $_icon.removeClass('fa-circle-o').addClass('fa-check-circle-o');
-            $_rememberHint.attr({placeHolder: 'Keep Me Signed In'});
+            $_icon.toggleClass('fa-check-circle-o fa-times-circle-o');
+            $_rememberHint.attr({placeHolder: 'Remember Me'}).toggleClass('remember-checked');
         }
 
         $_rememberMe.val(_remembered);

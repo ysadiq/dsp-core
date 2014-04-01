@@ -419,7 +419,7 @@ class WebController extends BaseWebController
         $_providers = array();
 
         $this->render(
-            'login',
+            'social-login',
             array(
                 'model'          => $_model,
                 'activated'      => $this->_activated,
