@@ -212,6 +212,11 @@ return array_merge(
         'dsp.log_events'                => true,
         // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events.
         'dsp.log_all_events'            => false,
+        //-------------------------------------------------------------------------
+        //	Login Form Settings
+        //-------------------------------------------------------------------------
+        'login.remember_me_copy'        => 'Remember Me',
+
     ),
     $_dspSalts
 );
