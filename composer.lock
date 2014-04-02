@@ -273,21 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-<<<<<<< HEAD
                 "reference": "5bfa45eb04ea6a319a733255c8c65b6876cb79c0"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/5bfa45eb04ea6a319a733255c8c65b6876cb79c0.zip",
                 "reference": "5bfa45eb04ea6a319a733255c8c65b6876cb79c0",
-=======
-                "reference": "a860331c64485210ee0632cf70c77318e0e38363"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/a860331c64485210ee0632cf70c77318e0e38363.zip",
-                "reference": "a860331c64485210ee0632cf70c77318e0e38363",
->>>>>>> investigating remote login providers not showing
                 "shasum": ""
             },
             "require": {
@@ -350,11 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-<<<<<<< HEAD
             "time": "2014-04-04 21:58:31"
-=======
-            "time": "2014-03-28 19:57:47"
->>>>>>> investigating remote login providers not showing
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
