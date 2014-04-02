@@ -2,13 +2,12 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,700);
 
 html, body {
-	height: 100%;
-	/* The html and body elements cannot have any padding or margin. */
+	height:  100%;
 }
 
 body {
-	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
-	font-weight: 300;
+	font-family:    'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+	font-weight:    300;
 }
 
 /* Wrapper for page content to push down footer */
@@ -19,19 +18,43 @@ body {
 	/*noinspection CssOverwrittenProperties*/
 	height:     100%;
 	/* Negative indent footer by its height */
-	margin:     0 auto -64px;
+	margin:     0 auto -43px;
 	/* Pad bottom by footer height */
-	padding:    0 0 64px;
+	padding:    0 0 43px;
 }
 
+#push, #footer {
+	height: 43px;
+}
+
+#footer {
+	position:         fixed;
+	bottom:           0;
+	width:            100%;
+	background-color: #4D4D4D;
+}
+
+.footer-text {
+	margin: 10px 0;
+}
+
+.align-center {
+	text-align: center;
+	margin:     auto;
+}
+
+
 /* Set the fixed height of the footer here */
+#push, #footer {
+	height: 43px;
+}
+
 #footer {
 	background-color: rgba(0, 0, 0, 0.08);
-	height:           64px;
 }
 
 #wrap > .container {
-	padding: 64px 15px 0;
+	/*padding: 43px 15px 0;*/
 }
 
 .container .credit {

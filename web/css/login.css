@@ -2,7 +2,7 @@
  * Classes specific to the login page
  */
 
-/*Metro Background color class*/
+/** Metro Background color class **/
 .bg_lb {
 	background: #27a9e3;
 }
@@ -115,7 +115,8 @@
 }
 
 .remember-checked {
-	color: #258347;
+	color:       #111;
+	font-weight: bold;
 }
 
 .remember-me .bg-control {
