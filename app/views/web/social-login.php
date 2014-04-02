@@ -55,9 +55,6 @@ Validate::register(
 
 $_checkboxClass = !empty( $model->rememberMe ) ? 'fa-check-circle-o' : 'fa-times-circle-o';
 
-Pii::cssFile( '/css/login.css', 'all' );
-Pii::cssFile( '/css/remote-login.css', 'all' );
-
 $_rememberMeCopy = Pii::getParam( 'login.remember_me_copy', 'Remember Me' );
 
 //*************************************************************************
@@ -65,6 +62,7 @@ $_rememberMeCopy = Pii::getParam( 'login.remember_me_copy', 'Remember Me' );
 //*************************************************************************
 
 $_providerHtml = null;
+$_providerHider = 'hide';
 
 if ( !empty( $loginProviders ) )
 {
@@ -83,12 +81,10 @@ if ( !empty( $loginProviders ) )
             $_icon = 'google-plus';
         }
 
-        $_providerHtml .= '<i class="icon-' . $_icon . ' icon-3x" data-provider="' . $_provider->api_name . '"></i>';
+        $_providerHtml .= '<i class="fa fa-' . $_icon . ' fa-3x" data-provider="' . $_provider->api_name . '"></i>';
     }
 
-    if ( !empty( $_providerHtml ) )
-    {
-    }
+    $_providerHider = !empty( $_providerHtml ) ? null : ' hide ';
 
     Pii::cssFile( 'css/remote-login.css' );
 }
@@ -154,11 +150,11 @@ HTML;
             </div>
         </div>
 
-        <div class="remote-login hide">
+        <div class="remote-login <?php echo $_providerHider; ?>">
             <div class="remote-login-wrapper">
                 <h4 style="">Sign-in with one of these providers</h4>
 
-                <div class="remote-login-providers"></div>
+                <div class="remote-login-providers"><?php echo $_providerHtml; ?></div>
             </div>
         </div>
 

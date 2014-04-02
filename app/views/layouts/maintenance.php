@@ -15,9 +15,9 @@
 	<title>We are terribly sorry...</title>
 	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
 	<!-- Standard CSS from style guide -->	<!-- Bootstrap 3 CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 	<!-- DreamFactory Typography Css -->
 	<link rel="stylesheet" href="/css/df-custom-bs.css">
 	<link rel="stylesheet" href="/css/forms.css">
@@ -27,7 +27,7 @@
 	<script src="/js/html5shiv.js"></script>
 	<script src="/js/respond.min.js"></script>
 	<![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body class="maintenance-page">
 	<div id="wrap">
