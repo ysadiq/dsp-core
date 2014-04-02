@@ -40,9 +40,10 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
         {value: "datetime", text: "datetime"},
         {value: "date", text: "date"},
         {value: "time", text: "time"}
-    ]
-    var booleanTemplate = '<select class="ngCellText colt{{$index}}" ng-options="option.value as option.text for option in booleanOptions" ng-model="row.entity[col.field]" ng-change="enableSave()"></select>';
-    var inputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
+    ];
+    //var booleanTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><span ng-cell-text>{{COL_FIELD CUSTOM_FILTERS}}</span></div>';
+    var booleanTemplate = '<select class="ngCellText"  ng-class="col.colIndex()" ng-options="option.value as option.text for option in booleanOptions" ng-model="row.entity[col.field]" ng-change="enableSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
+    var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
     //var inputTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><input class="ngCellText colt{{$index}}" ng-change="enableSave()"/></div>';
     var schemaInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableSchemaSave()" />';
     var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
@@ -54,30 +55,14 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
     var typeTemplate = '<select class="ngCellText colt{{$index}}" ng-options="option.value as option.text for option in typeOptions" ng-model="row.entity[col.field]" ng-change="enableSave()"></select>';
     Scope.columnDefs = [];
     Scope.browseOptions = {};
-    Scope.browseOptions = {data: 'tableData', enableCellSelection: true, selectedItems: Scope.selectedRow, enableCellEdit: true, multiSelect: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
+    Scope.browseOptions = {data: 'tableData', enableCellSelection: true, selectedItems: Scope.selectedRow, enableCellEditOnFocus: true, enableRowSelection:false, multiSelect: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
     Scope.Schemas = Schema.get(function (data) {
         Scope.schemaData = data.resource;
-    }, function (response) {
-        var code = response.status;
-        if (code == 401) {
-            window.top.Actions.doSignInDialog("stay");
-            return;
-        }
-        $.pnotify({
-            title: 'Error',
-            type: 'error',
-            hide: false,
-            addclass: "stack-bottomright",
-            text: getErrorString(response)
-        });
-
     });
     Scope.showData = function () {
         $("#grid-container").show();
         $(".detail-view").show();
         $("#splash").hide();
-        //$("#json_upload").hide();
-        //$("#create-form").hide();
         Scope.currentTable = this.table.name;
         Scope.browseOptions = {};
         Scope.tableData = [];
@@ -94,20 +79,6 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
             Scope.currentSchema = data.meta.schema.field;
             Scope.currentIdentity = data.meta.schema.primary_key;
             Scope.buildColumns();
-
-        }, function (response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
 
         });
 
@@ -142,20 +113,6 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 Scope.buildColumns();
                 $("tr.info").removeClass('info');
                 $('#row_' + Scope.currentTable).addClass('info');
-            }).
-            error(function (data, status, headers, config) {
-                var code = data.status;
-                if (code == 401) {
-                    window.top.Actions.doSignInDialog("stay");
-                    return;
-                }
-                $.pnotify({
-                    title: 'Error',
-                    type: 'error',
-                    hide: false,
-                    addclass: "stack-bottomright",
-                    text: getErrorString(data)
-                });
             });
 
 
@@ -165,6 +122,7 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
         var saveColumn = {};
         saveColumn.field = '';
         saveColumn.cellTemplate = buttonTemplate;
+        saveColumn.enableCellEdit = false;
         saveColumn.width = '70px';
         columnDefs.push(saveColumn);
         var column = {};
@@ -174,20 +132,23 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 case "boolean":
                     column.cellTemplate = booleanTemplate;
                     //column.enableFocusedCellEdit = true;
+                    column.enableCellEdit = false;
                     column.minWidth = '100px';
                     column.width = '50px';
+                    column.resizable = true;
                     break;
                 case "id":
                     column.width = '50px';
+                    column.enableCellEdit = false;
                     break;
                 case "string":
                     column.editableCellTemplate = inputTemplate;
-                    column.enableFocusedCellEdit = true;
+                    column.enableCellEdit = true;
                     column.width = '100px';
                     break;
                 default:
                     column.editableCellTemplate = inputTemplate;
-                    column.enableFocusedCellEdit = true;
+                    column.enableCellEdit = true;
                     column.width = '100px';
             }
             columnDefs.push(column);
@@ -231,7 +192,7 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
     Scope.schemaDeleteField = function (gridOnly) {
         var table = this.tableSchema.name;
         var name = this.row.entity.name;
-        which = name;
+        var which = name;
         if (!which || which == '') {
             which = "the field?";
         } else {
@@ -244,8 +205,7 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
             $http.delete('/rest/schema/' + table + '/' + name + '?app_name=admin');
         }
         Scope.tableData = removeByAttr(Scope.tableData, 'name', name);
-        //Scope.tableData.shift();
-        //Scope.tableData.unshift({"new":true});
+
     };
 
     Scope.create = function () {
@@ -256,22 +216,7 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 text: 'Created Successfully'
             });
             Scope.showForm();
-            //window.top.Actions.showStatus("Created Successfully");
             Scope.schemaData.push(Scope.newTable.table);
-        }, function (response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
-
         });
     };
     Scope.delete = function () {
@@ -294,20 +239,6 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
             Scope.showForm();
             //window.top.Actions.showStatus("Deleted Successfully");
             $("#row_" + name).fadeOut();
-        }, function (response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
-
         });
     };
 
@@ -366,39 +297,10 @@ var DataCtrl = function ($scope, Schema, DB, $http) {
                 Scope.tableData = removeByAttr(Scope.tableData, 'dfnew', true);
                 Scope.tableData.unshift(data);
                 Scope.tableData.unshift({"dfnew": true});
-            }, function (response) {
-                //newRecord.dfnew = true;
-                var code = response.status;
-                if (code == 401) {
-                    window.top.Actions.doSignInDialog("stay");
-                    return;
-                }
-                $.pnotify({
-                    title: 'Error',
-                    type: 'error',
-                    hide: false,
-                    addclass: "stack-bottomright",
-                    text: getErrorString(response)
-                });
-
             });
         } else {
             DB.update({name: Scope.currentTable}, newRecord, function () {
                 $("#save_" + index).attr('disabled', true);
-            }, function (response) {
-                var code = response.status;
-                if (code == 401) {
-                    window.top.Actions.doSignInDialog("stay");
-                    return;
-                }
-                $.pnotify({
-                    title: 'Error',
-                    type: 'error',
-                    hide: false,
-                    addclass: "stack-bottomright",
-                    text: getErrorString(response)
-                });
-
             });
         }
 
