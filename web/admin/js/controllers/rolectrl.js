@@ -18,6 +18,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     $scope.ServiceComponents = {};
     $scope.Services = Service.get(function (data) {
         var services = data.record;
+<<<<<<< HEAD
         services.unshift({
             id: 0,
             name: "All",
@@ -32,6 +33,14 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             };
             $scope.ServiceComponents[index].push(allRecord);
             if (service.id > 0) {
+=======
+        services.unshift({id: 0, name: "All", type: ""});
+        services.forEach(function (service, index) {
+            Scope.ServiceComponents[index] = [];
+            var allRecord = {name: '*', label: 'All', plural: 'All'};
+            Scope.ServiceComponents[index].push(allRecord);
+            if(service.id > 0) {
+>>>>>>> ba6092429cee7c540fc41fc79b2ed02bb6530bf7
                 $http.get('/rest/' + service.api_name + '?app_name=admin&fields=*').success(function (data) {
                     // some services return no resource array
                     if (data.resource != undefined) {
@@ -90,10 +99,18 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             delete $scope.role.role_system_accesses[i].show_filters;
         }
     }
+<<<<<<< HEAD
     $scope.FilterOps = ["=", "!=", ">", "<", ">=", "<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
     $scope.Roles = RolesRelated.get({}, //params
         function (data) { //success
+=======
+    Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
+
+    Scope.Roles = RolesRelated.get(
+        {}, //params
+        function (data) {   //success
+>>>>>>> ba6092429cee7c540fc41fc79b2ed02bb6530bf7
             angular.forEach(data.record, function (role) {
                 angular.forEach(role.role_service_accesses, function (access) {
                     // ng-options doesn't play nice with null so we change it to 0
@@ -262,11 +279,15 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
     $scope.newServiceAccess = function () {
 
+<<<<<<< HEAD
         var newAccess = {
             "access": "Full Access",
             "component": "*",
             "service_id": 0
         };
+=======
+        var newAccess = {"access": "Full Access", "component": "*", "service_id": 0};
+>>>>>>> ba6092429cee7c540fc41fc79b2ed02bb6530bf7
         newAccess.filters = [];
         newAccess.filter_op = "AND";
         newAccess.show_filters = false;
