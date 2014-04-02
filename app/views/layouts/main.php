@@ -43,7 +43,6 @@ $_versions = array(
     <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script><![endif]-->
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/<?php echo $_versions['jquery']; ?>/jquery.min.js"></script>
-
     <script src="/js/dsp.ui.js" defer="defer"></script>
     <style>
         #wrap {

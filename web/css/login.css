@@ -47,6 +47,12 @@
 	background: #b6b3b3;
 }
 
+/** Disable glow around selected fields on form **/
+.form-group .form-control:focus {
+	box-shadow:      none;
+	-moz-box-shadow: none;
+}
+
 .input-group-addon {
 	color:         rgba(255, 255, 255, 0.80);
 	border:        1px solid rgba(255, 255, 255, 0.25);
@@ -152,13 +158,6 @@
 	display:       block;
 	width:         100%;
 	margin-bottom: 10px;
-}
-
-.alert.alert-danger ul li {
-	font-size:       14px;
-	font-weight:     lighter;
-	text-align:      left;
-	list-style-type: circle;
 }
 
 /** style for "remember me" label on login view */
