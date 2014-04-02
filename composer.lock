@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "DreamFactory Package Maintainer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "a860331c64485210ee0632cf70c77318e0e38363"
+                "reference": "e625bc2ebc7a9799f3aa244331fdd72029e8926a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/a860331c64485210ee0632cf70c77318e0e38363.zip",
-                "reference": "a860331c64485210ee0632cf70c77318e0e38363",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/e625bc2ebc7a9799f3aa244331fdd72029e8926a.zip",
+                "reference": "e625bc2ebc7a9799f3aa244331fdd72029e8926a",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-28 19:57:47"
+            "time": "2014-04-01 16:52:20"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -526,14 +526,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Black Ops"
                 },
                 {
-                    "name": "Lee Hicks",
+                    "name": "Hicks, Lee",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -642,12 +642,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "935c28e8a312f1e4dbf162994711097bbd2ea4ef"
+                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/935c28e8a312f1e4dbf162994711097bbd2ea4ef",
-                "reference": "935c28e8a312f1e4dbf162994711097bbd2ea4ef",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
+                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
                 "shasum": ""
             },
             "require": {
@@ -691,7 +691,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-03-26 05:36:19"
+            "time": "2014-04-02 14:41:37"
         },
         {
             "name": "monolog/monolog",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "4cf49e5496857532f4ca4bbb69d1eee591b88234"
+                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4cf49e5496857532f4ca4bbb69d1eee591b88234",
-                "reference": "4cf49e5496857532f4ca4bbb69d1eee591b88234",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f3032a2b9874aa76efcc155eff776eabdf322d05",
+                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-26 11:12:35"
+            "time": "2014-04-01 19:53:04"
         },
         {
             "name": "pear/http_request2",
