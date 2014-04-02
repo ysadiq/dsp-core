@@ -234,7 +234,7 @@ class WebController extends BaseWebController
             if ( $_model->validate() )
             {
                 SystemManager::upgradeSchema();
-				SystemManager::initData();
+                SystemManager::initData();
                 $this->redirect( '/' );
 
                 return;
@@ -416,15 +416,16 @@ class WebController extends BaseWebController
             }
         }
 
-        $_providers = array();
-
         $this->render(
             'social-login',
             array(
                 'model'          => $_model,
                 'activated'      => $this->_activated,
                 'redirected'     => $redirected,
-                'loginProviders' => $_providers,
+                'loginProviders' => ResourceStore::model( 'provider' )->findAll(
+                    'is_login_provider = :is_login_provider AND is_active = :is_active',
+                    array( ':is_login_provider' => 1, ':is_active' => 1 )
+                ),
             )
         );
     }

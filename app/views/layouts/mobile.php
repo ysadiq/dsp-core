@@ -13,14 +13,14 @@ $_headline = 'DSP Settings';
 $_themeList = null;
 
 //	Change these to update the CDN versions used. Set to false to disable
-$_bootstrapVersion = '3.0.0'; // Set to false to disable
-$_bootswatchVersion = '3.0.0';
+$_bootstrapVersion = '3.1.1'; // Set to false to disable
+$_bootswatchVersion = '3.1.1';
 $_dataTablesVersion = '1.9.4';
 $_bootswatchTheme = FilterInput::request( 'theme', Pii::getState( 'admin.default_theme', 'default' ), FILTER_SANITIZE_STRING );
 Pii::setState( 'dsp.admin_theme', $_bootswatchTheme );
 $_useBootswatchThemes = ( 'default' != $_bootswatchTheme );
-$_fontAwesomeVersion = '3.2.1'; // Set to false to disable
-$_jqueryVersion = '1.9.1';
+$_fontAwesomeVersion = '4.0.3'; // Set to false to disable
+$_jqueryVersion = '1.11.0';
 
 $_themes = array(
 	'Default',
@@ -65,12 +65,12 @@ if ( $_useBootswatchThemes )
 }
 else if ( false !== $_bootstrapVersion )
 {
-	$_css .= '<link href="//netdna.bootstrapcdn.com/bootstrap/' . $_bootstrapVersion . '/css/bootstrap.no-icons.min.css" rel="stylesheet"  media="screen">';
+	$_css .= '<link href="//netdna.bootstrapcdn.com/bootstrap/' . $_bootstrapVersion . '/css/bootstrap.min.css" rel="stylesheet"  media="screen">';
 }
 
 if ( false !== $_fontAwesomeVersion )
 {
-	$_css .= '<link href="//netdna.bootstrapcdn.com/font-awesome/' . $_fontAwesomeVersion . '/css/font-awesome.css" rel="stylesheet">';
+	$_css .= '<link href="//netdna.bootstrapcdn.com/font-awesome/' . $_fontAwesomeVersion . '/css/font-awesome.min.css" rel="stylesheet">';
 }
 
 if ( false !== $_dataTablesVersion )
@@ -83,7 +83,7 @@ if ( false !== $_jqueryVersion )
 	$_scripts .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $_jqueryVersion . '/jquery.min.js"></script>';
 }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html><!-- m -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -199,6 +199,5 @@ if ( false !== $_jqueryVersion )
 	}
 	?>
 	<script src="/js/app.jquery.js"></script>
-	<script src="/js/sidebarEffects.js"></script>
 </body>
 </html>
