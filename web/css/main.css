@@ -14,19 +14,6 @@ body {
 	margin-bottom: 43px;
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-	min-height: 100%;
-	/*noinspection CssOverwrittenProperties*/
-	height:     auto !important;
-	/*noinspection CssOverwrittenProperties*/
-	height:     100%;
-	/* Negative indent footer by its height */
-	margin:     0 auto -43px;
-	/* Pad bottom by footer height */
-	padding:    0 0 43px;
-}
-
 #footer {
 	position:         fixed;
 	bottom:           0;

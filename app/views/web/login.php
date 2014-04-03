@@ -92,7 +92,7 @@ if ( null !== ( $_flash = Pii::getFlash( 'login-form' ) ) )
 HTML;
 }
 ?>
-<div class="container" id="formbox">
+<div id="formbox">
 	<h2>User Login</h2>
 
 	<h4 style="text-align:center;">Please sign in for access to the requested resource</h4>

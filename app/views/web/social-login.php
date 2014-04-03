@@ -85,8 +85,6 @@ if ( !empty( $loginProviders ) )
     }
 
     $_providerHider = !empty( $_providerHtml ) ? null : ' hide ';
-
-    Pii::cssFile( 'css/remote-login.css' );
 }
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
@@ -100,97 +98,92 @@ if ( null !== ( $_flash = Pii::getFlash( 'login-form' ) ) )
 HTML;
 }
 ?>
-<div class="container" id="formbox">
-    <h2>User Login</h2>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">User Login</h2>
+        <h4>You must be logged in to continue</h4>
 
-    <h4 style="text-align:center;">You must be logged in to continue</h4>
+        <?php echo $_flash; ?>
+        <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
 
-    <?php echo $_flash; ?>
-    <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
+        <form id="login-form" method="POST" role="form">
+            <input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
+            <input type="hidden" name="forgot" id="forgot" value="0">
+            <input type="hidden" name="check-remember-ind" id="check-remember-ind" value="<?php echo $model->rememberMe ? 1 : 0; ?>">
 
-    <form id="login-form" method="POST" role="form">
-        <input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
-        <input type="hidden" name="forgot" id="forgot" value="0">
-        <input type="hidden" name="check-remember-ind" id="check-remember-ind" value="<?php echo $model->rememberMe ? 1 : 0; ?>">
+            <div class="form-group">
+                <label for="LoginForm_username" class="sr-only">DSP Email Address</label>
 
-        <div class="form-group">
-            <label for="LoginForm_username" class="sr-only">DSP Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-addon bg_dg bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
-            <div class="input-group">
-                <span class="input-group-addon bg_dg bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
-
-                <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-                    name="LoginForm[username]" placeholder="DSP User Email Address"
-                    spellcheck="false" autocapitalize="off" autocorrect="off"
-                    value="<?php echo $model->username; ?>" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="LoginForm_password" class="sr-only">Password</label>
-
-            <div class="input-group">
-                <span class="input-group-addon bg_ly bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
-
-                <input tabindex="2" class="form-control required" type="password" id="LoginForm_password" name="LoginForm[password]"
-                    autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-7" style="display: block; float: none; margin: 0 auto;">
-                <div class="input-group remember-me">
-                    <span class="input-group-addon bg-control remember-checkbox"><i class="fa fa-fw <?php echo $_checkboxClass; ?> fa-2x"></i></span>
-
-                    <input tabindex="3" class="form-control strong-disabled" id="remember-control"
-                        value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>" type="text"
-                        disabled />
-                    <div class="event-grabber" style="position:absolute; left:0; right:0; top:0; bottom:0; cursor: pointer;"></div>
+                    <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
+                           name="LoginForm[username]" placeholder="DSP User Email Address"
+                           spellcheck="false" autocapitalize="off" autocorrect="off"
+                           value="<?php echo $model->username; ?>" />
                 </div>
             </div>
-        </div>
 
-        <div class="remote-login <?php echo $_providerHider; ?>">
-            <div class="remote-login-wrapper">
-                <h4 style="">Sign-in with one of these providers</h4>
+            <div class="form-group">
+                <label for="LoginForm_password" class="sr-only">Password</label>
 
-                <div class="remote-login-providers"><?php echo $_providerHtml; ?></div>
+                <div class="input-group">
+                    <span class="input-group-addon bg_ly bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
+
+                    <input tabindex="2" class="form-control required" type="password" id="LoginForm_password" name="LoginForm[password]"
+                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
+                </div>
             </div>
-        </div>
 
-        <div class="form-buttons">
-            <button type="submit" id="btn-submit" class="btn btn-success pull-right">Login</button>
-            <button type="button" id="btn-forgot" class="btn btn-default pull-left">Forgot Password?</button>
-        </div>
-    </form>
+            <div class="form-group">
+                <div class="col-md-7" style="display: block; float: none; margin: 0 auto;">
+                    <div class="input-group remember-me">
+                        <span class="input-group-addon bg-control remember-checkbox"><i class="fa fa-fw <?php echo $_checkboxClass; ?> fa-2x"></i></span>
+
+                        <input tabindex="3" class="form-control strong-disabled" id="remember-control"
+                               value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>" type="text"
+                               disabled />
+                        <div class="event-grabber" style="position:absolute; left:0; right:0; top:0; bottom:0; cursor: pointer;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="remote-login <?php echo $_providerHider; ?>">
+                <div class="remote-login-wrapper">
+                    <h4 style="">Sign-in with one of these providers</h4>
+
+                    <div class="remote-login-providers"><?php echo $_providerHtml; ?></div>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" id="btn-submit" class="btn btn-success pull-right">Login</button>
+                <button type="button" id="btn-forgot" class="btn btn-default pull-left">Forgot Password?</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript">
-jQuery(
-    function($) {
-        var $_rememberMe = $('#check-remember-ind');
-        var _wasRemembered = (1 == $_rememberMe.val());
-        var $_rememberHint = $('#remember-control');
-        var $_form = $('form#login-form');
+jQuery(function($) {
+    var $_rememberMe = $('#check-remember-ind');
+    var _wasRemembered = (1 == $_rememberMe.val());
+    var $_rememberHint = $('#remember-control');
+    var $_form = $('form#login-form');
 
-        $('#btn-forgot').on(
-            'click', function(e) {
-                e.preventDefault();
-                $('#LoginForm_password').removeProp('required').removeClass('required');
-                $('input#forgot').val(1);
-                $('form#login-form').submit();
-            }
-        );
+    $('#btn-forgot').on('click', function(e) {
+        e.preventDefault();
+        $('#LoginForm_password').removeProp('required').removeClass('required');
+        $('input#forgot').val(1);
+        $('form#login-form').submit();
+    });
 
-        $('.input-group.remember-me, .event-grabber').on(
-            'click', function(e) {
+    $('.input-group.remember-me, .event-grabber').on('click', function(e) {
 //                e.preventDefault();
-                $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
-                $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
-                $_rememberMe.val(_wasRemembered = !_wasRemembered);
-                return false;
-            }
-        );
-    }
-);
+        $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
+        $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
+        $_rememberMe.val(_wasRemembered = !_wasRemembered);
+        return false;
+    });
+});
 </script>
