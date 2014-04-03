@@ -115,13 +115,8 @@ a:hover, a:focus, a:active {
 }
 
 #formbox {
-	min-width: 480px;
-	/*border-top: 1px solid rgba(255, 255, 255, 0.25);*/
-	/*overflow:   hidden !important;*/
-	/*text-align: left;*/
-	/*position:   relative;*/
-	/*margin-top: 15px;*/
-	/*width:      480px;*/
+	min-width:     480px;
+	margin-bottom: 35px;
 }
 
 #formbox h2 {
