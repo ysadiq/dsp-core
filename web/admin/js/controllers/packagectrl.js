@@ -24,6 +24,7 @@ var PackageCtrl = function ($scope, AppsRelatedToService, Service, $http) {
     $scope.showDetails = function () {
         $("#splash").hide();
         this.app.app_service_relations = [];
+        $("input:checkbox").attr('checked', false);
         $scope.app = angular.copy(this.app);
         $("tr.info").removeClass('info');
         $('#row_' + Scope.app.id).addClass('info');
@@ -46,39 +47,44 @@ var PackageCtrl = function ($scope, AppsRelatedToService, Service, $http) {
     Scope.addServiceToAppWithComponents = function (checked) {
         var currentService = this.service;
         var currentComponent = this.component;
-        if (checked == true) {
-            if (Scope.app.app_service_relations.length < 1) {
-                var packagedService = {"service_id": this.service.id, "api_name": this.service.api_name, component: [this.component.name]};
-                Scope.app.app_service_relations.push(packagedService);
-            } else {
-                angular.forEach(Scope.app.app_service_relations, function (service) {
-                    if (currentService.id == service.service_id) {
-                        service.component.push(currentComponent.name)
-                        return;
-                    } else {
-                        console.log('im adding');
-                        var packagedService = {"service_id": currentService.id, "api_name": currentService.api_name, "component": [currentComponent.name]};
-                        Scope.app.app_service_relations.push(packagedService);
+        if (checked) {
+            var found = false;
+            angular.forEach(Scope.app.app_service_relations, function (service) {
+                if (service.service_id === currentService.id) {
+                    found = true;
+                    if (service.component.indexOf(currentComponent.name) === -1) {
+                        service.component.push(currentComponent.name);
                     }
-
-                });
+                }
+            });
+            if (!found) {
+                var packagedService = {"service_id": currentService.id, "api_name": currentService.api_name, component: [currentComponent.name]};
+                Scope.app.app_service_relations.push(packagedService);
             }
         } else {
-
-            //Scope.app.roles = removeByAttr(Scope.app.roles, 'id', this.role.id);
+            var goodRelations = [];
+            angular.forEach(Scope.app.app_service_relations, function (service) {
+                if (service.service_id === currentService.id) {
+                    var index;
+                    while ((index = service.component.indexOf(currentComponent.name)) !== -1) {
+                        service.component.splice(index, 1);
+                    }
+                    if (service.component.length !== 0) {
+                        goodRelations.push(service);
+                    }
+                }
+            });
+            Scope.app.app_service_relations = goodRelations;
         }
     };
     Scope.addServiceToApp = function (checked) {
-        if (checked == true) {
+        if (checked) {
             var packagedService = {"service_id": this.service.id, "api_name": this.service.api_name};
             Scope.app.app_service_relations.push(packagedService);
         } else {
             Scope.app.app_service_relations = removeByAttr(Scope.app.app_service_relations, 'service_id', this.service.id);
         }
     };
-    Scope.isComponentMapped = function(){
-        //
-    }
     Scope.export = function(){
         var id = Scope.app.id;
         var exportLink = CurrentServer + '/rest/system/app/' + id + '/?app_name=admin&pkg=true';
