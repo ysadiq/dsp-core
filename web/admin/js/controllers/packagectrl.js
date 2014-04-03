@@ -20,7 +20,7 @@ var PackageCtrl = function ($scope, AppsRelatedToService, Service, $http) {
                 });
             }
         })
-    });
+        });
     $scope.showDetails = function () {
         $("#splash").hide();
         this.app.app_service_relations = [];
@@ -69,9 +69,9 @@ var PackageCtrl = function ($scope, AppsRelatedToService, Service, $http) {
                     while ((index = service.component.indexOf(currentComponent.name)) !== -1) {
                         service.component.splice(index, 1);
                     }
-                    if (service.component.length !== 0) {
-                        goodRelations.push(service);
-                    }
+                }
+                if (!service.component || service.component.length !== 0) {
+                    goodRelations.push(service);
                 }
             });
             Scope.app.app_service_relations = goodRelations;
