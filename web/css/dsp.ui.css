@@ -1,5 +1,3 @@
-@import url(//fonts.googleapis.com/css?family=Roboto);
-
 body.body-white {
 	background-color: #ffffff;
 }
@@ -9,7 +7,10 @@ body.body-light {
 }
 
 .navbar {
-	min-height: 43px;
+	min-height:            43px;
+	border-radius:         0;
+	-moz-border-radius:    0;
+	-webkit-border-radius: 0;
 }
 
 .navbar-fixed-top {
@@ -33,7 +34,8 @@ body.body-dark {
 }
 
 body.body-starburst {
-	background-image:    url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAKICAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiIHZpZXdCb3g9Ii0yNTYgLTI1NiA1MTIgNTEyIgogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiAKICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5VbnRpdGxlZDwvdGl0bGU+CjxkZWZzPgogIDxnIGlkPSJidXJzdCI+CiAgICA8ZyBpZD0icXVhZCI+CiAgICAgIDxwYXRoIGlkPSJyYXkiIGQ9Ik0wLDAgLTY5LC01MDAgNjksLTUwMCB6IiAvPgogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNyYXkiIHRyYW5zZm9ybT0icm90YXRlKDMwKSIvPgogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNyYXkiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNyYXkiIHRyYW5zZm9ybT0icm90YXRlKDkwKSIvPgogICAgPC9nPgogICAgPHVzZSB4bGluazpocmVmPSIjcXVhZCIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwKSIvPgogICAgPHVzZSB4bGluazpocmVmPSIjcXVhZCIgdHJhbnNmb3JtPSJyb3RhdGUoMjQwKSIvPgogIDwvZz4KICA8cmFkaWFsR3JhZGllbnQgaWQ9ImdyYWQiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSIgZng9IjUwJSIgZnk9IjUwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIwLjY1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9ImJsYWNrIiBzdG9wLW9wYWNpdHk9IjAuNjUiLz4KICA8L3JhZGlhbEdyYWRpZW50Pgo8L2RlZnM+Cjx1c2UgeGxpbms6aHJlZj0iI2J1cnN0IiBmaWxsPSJsaWdodHNsYXRlYmx1ZSIvPgo8dXNlIHhsaW5rOmhyZWY9IiNidXJzdCIgZmlsbD0iZGFya3NsYXRlYmx1ZSIgdHJhbnNmb3JtPSJyb3RhdGUoMTUpIi8+CjxjaXJjbGUgcj0iMzYwcHgiIGZpbGw9InVybCgjZ3JhZCkiIC8+Cjwvc3ZnPgo=");
+	background-image:    url(/img/burst.svg);
+	/*url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAKICAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiIHZpZXdCb3g9Ii0yNTYgLTI1NiA1MTIgNTEyIgogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiAKICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5VbnRpdGxlZDwvdGl0bGU+CjxkZWZzPgogIDxnIGlkPSJidXJzdCI+CiAgICA8ZyBpZD0icXVhZCI+CiAgICAgIDxwYXRoIGlkPSJyYXkiIGQ9Ik0wLDAgLTY5LC01MDAgNjksLTUwMCB6IiAvPgogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNyYXkiIHRyYW5zZm9ybT0icm90YXRlKDMwKSIvPgogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNyYXkiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNyYXkiIHRyYW5zZm9ybT0icm90YXRlKDkwKSIvPgogICAgPC9nPgogICAgPHVzZSB4bGluazpocmVmPSIjcXVhZCIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwKSIvPgogICAgPHVzZSB4bGluazpocmVmPSIjcXVhZCIgdHJhbnNmb3JtPSJyb3RhdGUoMjQwKSIvPgogIDwvZz4KICA8cmFkaWFsR3JhZGllbnQgaWQ9ImdyYWQiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSIgZng9IjUwJSIgZnk9IjUwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIwLjY1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9ImJsYWNrIiBzdG9wLW9wYWNpdHk9IjAuNjUiLz4KICA8L3JhZGlhbEdyYWRpZW50Pgo8L2RlZnM+Cjx1c2UgeGxpbms6aHJlZj0iI2J1cnN0IiBmaWxsPSJsaWdodHNsYXRlYmx1ZSIvPgo8dXNlIHhsaW5rOmhyZWY9IiNidXJzdCIgZmlsbD0iZGFya3NsYXRlYmx1ZSIgdHJhbnNmb3JtPSJyb3RhdGUoMTUpIi8+CjxjaXJjbGUgcj0iMzYwcHgiIGZpbGw9InVybCgjZ3JhZCkiIC8+Cjwvc3ZnPgo=");*/
 	background-size:     cover;
 	background-position: center left;
 }
@@ -43,8 +45,15 @@ body.body-starburst {
 	margin-top:    10px;
 }
 
+#formbox.form-light form p.lead {
+	color:       #333;
+	font-size:   16px;
+	font-weight: bold;
+	text-align:  center;
+}
+
 .is-awesome {
-	font-family:   Roboto, "Open Sans", "Lato", Arial, sans-serif;
+	font-family:   "Droid Sans", "Open Sans", "Lato", Arial, sans-serif;
 	color:         rgba(255, 255, 255, 0.15);
 	font-size:     2em;
 	margin-top:    8px;
@@ -157,4 +166,38 @@ body.body-starburst {
 	margin:  10% auto 0;
 	padding: 0;
 
+}
+
+/**
+ * Error pages
+ */
+.container-error h1, .container-error h3 {
+	font-family: "Droid Sans", "Open Sans", "Lato", Arial, sans-serif;
+	font-weight: normal;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.30);
+}
+
+.container-error a {
+	color: #111;
+}
+
+.container-error a:hover {
+	color: #000;
+}
+
+.container-error {
+	color: #fff;
+}
+
+.body-starburst .container-error {
+	color: #333;
+}
+
+.container-error h3 {
+	margin-top: 45px;
+}
+
+.container-error .error {
+	font-size:   1.2em;
+	font-weight: normal;
 }

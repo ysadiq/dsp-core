@@ -17,23 +17,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* @var $this WebController */
-/* @var $error array */
+use Kisma\Core\Utility\HtmlMarkup;
+use Kisma\Core\Utility\Option;
 
-$this->pageTitle = Yii::app()->name . ' - Error';
-$this->breadcrumbs = array(
-	'Error',
-);
+/**
+ * @var $this    WebController
+ * @var $error   array
+ * @var $message string
+ */
+
+$_html = null;
+$_message = Option::get( $error, 'message', CHtml::encode( $message ) );
+
+if ( isset( $error ) && is_array( $error ) )
+{
+    $_html = '<table>';
+
+    foreach ( $error as $_key => $_value )
+    {
+        $_html .= HtmlMarkup::tag(
+            'tr',
+            null,
+            HtmlMarkup::tag( 'td', null, $_key ) .
+            HtmlMarkup::tag( 'td', null, $_value )
+        );
+    }
+
+    $_html .= '</table>';
+}
+
+if ( empty( $_html ) )
+{
+    $_html = 'None provided. Sorry...';
+}
+
 ?>
-<div class="container">
-	<h2><?php echo $this->pageTitle; ?></h2>
+<div class="container container-error">
+    <h1>Well, this is embarrassing...</h1>
 
-	<p>This application has experienced a fatal error. If you would like to report this error, please contact our
-		<a href="//www.dreamfactory.com/developers/support">support</a>.
-	</p>
-	<h4>Error <?php echo $code; ?></h4>
+    <p class="lead">The server has experienced a fatal error. Our administrators will automatically be notified. However, if you would like to report additional information regarding this particular error, please open a case on our
+        <a target="_blank" href="https://github.com/dreamfactorysoftware/dsp-core/issues">bug tracker</a>.
+    </p>
 
-	<div class="error">
-		<?php echo CHtml::encode( $message ); ?>
-	</div>
+    <h3>Error <?php echo $code; ?></h3>
+
+    <div class="error">
+        <p class="lead"><?php echo $_message; ?></p>
+
+        <h3>Error Details</h3>
+
+        <p><?php echo $_html; ?></p>
+    </div>
 </div>
+<script>
+jQuery(
+    function($) {
+        $('body').css('background-position', 'top center');
+    }
+);
+</script>

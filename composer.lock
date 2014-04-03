@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6f8e9d0ce0d1f1d34b25fd858c7f0587",
+    "hash": "b700b1ba11bbd52a124094c393a25bd1",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "DreamFactory Package Maintainer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -269,25 +269,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-develop",
+            "version": "dev-feature/remote-login",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-<<<<<<< HEAD
-                "reference": "e625bc2ebc7a9799f3aa244331fdd72029e8926a"
+                "reference": "59e6dfeaeb9e13eee392fc9ecc2096665e6f08fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/e625bc2ebc7a9799f3aa244331fdd72029e8926a.zip",
-                "reference": "e625bc2ebc7a9799f3aa244331fdd72029e8926a",
-=======
-                "reference": "a860331c64485210ee0632cf70c77318e0e38363"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/a860331c64485210ee0632cf70c77318e0e38363.zip",
-                "reference": "a860331c64485210ee0632cf70c77318e0e38363",
->>>>>>> ba6092429cee7c540fc41fc79b2ed02bb6530bf7
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/59e6dfeaeb9e13eee392fc9ecc2096665e6f08fd.zip",
+                "reference": "59e6dfeaeb9e13eee392fc9ecc2096665e6f08fd",
                 "shasum": ""
             },
             "require": {
@@ -350,11 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-<<<<<<< HEAD
-            "time": "2014-04-01 16:52:20"
-=======
-            "time": "2014-03-28 19:57:47"
->>>>>>> ba6092429cee7c540fc41fc79b2ed02bb6530bf7
+            "time": "2014-04-03 04:25:43"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -539,14 +526,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Black Ops"
                 },
                 {
-                    "name": "Lee Hicks",
+                    "name": "Hicks, Lee",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -1281,12 +1268,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "8b345992d9e850798f46a6c68804ac9e4965e91a"
+                "reference": "4b9a8defce833386224bdbf9045128a6e51fb0b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/8b345992d9e850798f46a6c68804ac9e4965e91a",
-                "reference": "8b345992d9e850798f46a6c68804ac9e4965e91a",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/4b9a8defce833386224bdbf9045128a6e51fb0b4",
+                "reference": "4b9a8defce833386224bdbf9045128a6e51fb0b4",
                 "shasum": ""
             },
             "require": {
@@ -1330,7 +1317,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:21"
+            "time": "2014-04-03 05:23:50"
         },
         {
             "name": "symfony/http-foundation",
@@ -1979,7 +1966,7 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
+            "version": "dev-feature/remote-login",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
