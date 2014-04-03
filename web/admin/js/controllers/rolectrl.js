@@ -2,81 +2,98 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     $scope.$on('$routeChangeSuccess', function () {
         $(window).resize();
     });
-    Scope = $scope;
-    Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[], lookup_keys: []};
-    Scope.action = "Create new ";
-    Scope.actioned = "Created";
+    $scope.role = {
+        users: [],
+        apps: [],
+        role_service_accesses: [],
+        role_system_accesses: [],
+        lookup_keys: []
+    };
+    $scope.action = "Create new ";
+    $scope.actioned = "Created";
     $('#update_button').hide();
-    //$("#alert-container").empty().hide();
-    //$("#success-container").empty().hide();
-
-    Scope.AllUsers = User.get();
-    Scope.Apps = App.get();
+    $scope.AllUsers = User.get();
+    $scope.Apps = App.get();
     // service access
-    Scope.ServiceComponents = {};
-    Scope.Services = Service.get(function (data) {
+    $scope.ServiceComponents = {};
+    $scope.Services = Service.get(function (data) {
         var services = data.record;
-        services.unshift({id: 0, name: "All", type: ""});
+        services.unshift({
+            id: 0,
+            name: "All",
+            type: ""
+        });
         services.forEach(function (service, index) {
-            Scope.ServiceComponents[index] = [];
-            var allRecord = {name: '*', label: 'All', plural: 'All'};
-            Scope.ServiceComponents[index].push(allRecord);
-            if(service.id > 0) {
+            $scope.ServiceComponents[index] = [];
+            var allRecord = {
+                name: '*',
+                label: 'All',
+                plural: 'All'
+            };
+            $scope.ServiceComponents[index].push(allRecord);
+            if (service.id > 0) {
                 $http.get('/rest/' + service.api_name + '?app_name=admin&fields=*').success(function (data) {
                     // some services return no resource array
                     if (data.resource != undefined) {
-                        Scope.ServiceComponents[index] = Scope.ServiceComponents[index].concat(data.resource);
+                        $scope.ServiceComponents[index] = $scope.ServiceComponents[index].concat(data.resource);
                     }
-                }).error(function(){});
+                }).error(function () {});
             }
         });
     });
-    Scope.uniqueServiceAccess = function () {
-        var size = Scope.role.role_service_accesses.length;
+    $scope.uniqueServiceAccess = function () {
+        var size = $scope.role.role_service_accesses.length;
         for (i = 0; i < size; i++) {
-            var access = Scope.role.role_service_accesses[i];
-            var matches = Scope.role.role_service_accesses.filter(function(itm){return itm.service_id === access.service_id && itm.component === access.component;});
+            var access = $scope.role.role_service_accesses[i];
+            var matches = $scope.role.role_service_accesses.filter(function (itm) {
+                return itm.service_id === access.service_id && itm.component === access.component;
+            });
             if (matches.length > 1) {
                 return false;
             }
         }
         return true;
     }
-    Scope.cleanServiceAccess = function () {
-        var size = Scope.role.role_service_accesses.length;
+    $scope.cleanServiceAccess = function () {
+        var size = $scope.role.role_service_accesses.length;
         for (i = 0; i < size; i++) {
-            delete Scope.role.role_service_accesses[i].show_filters;
+            delete $scope.role.role_service_accesses[i].show_filters;
         }
     }
     // system access
-    Scope.SystemComponents = [];
-    var allRecord = {name: '*', label: 'All', plural: 'All'};
-    Scope.SystemComponents.push(allRecord);
+    $scope.SystemComponents = [];
+    var allRecord = {
+        name: '*',
+        label: 'All',
+        plural: 'All'
+    };
+    $scope.SystemComponents.push(allRecord);
     $http.get('/rest/system?app_name=admin&fields=*').success(function (data) {
-        Scope.SystemComponents = Scope.SystemComponents.concat(data.resource);
-    }).error(function(){});
-    Scope.uniqueSystemAccess = function () {
-        var size = Scope.role.role_system_accesses.length;
+        $scope.SystemComponents = $scope.SystemComponents.concat(data.resource);
+    }).error(function () {});
+    $scope.uniqueSystemAccess = function () {
+        var size = $scope.role.role_system_accesses.length;
         for (i = 0; i < size; i++) {
-            var access = Scope.role.role_system_accesses[i];
-            var matches = Scope.role.role_system_accesses.filter(function(itm){return itm.component === access.component;});
+            var access = $scope.role.role_system_accesses[i];
+            var matches = $scope.role.role_system_accesses.filter(function (itm) {
+                return itm.component === access.component;
+            });
             if (matches.length > 1) {
                 return false;
             }
         }
         return true;
     }
-    Scope.cleanSystemAccess = function () {
-        var size = Scope.role.role_system_accesses.length;
+    $scope.cleanSystemAccess = function () {
+        var size = $scope.role.role_system_accesses.length;
         for (i = 0; i < size; i++) {
-            delete Scope.role.role_system_accesses[i].show_filters;
+            delete $scope.role.role_system_accesses[i].show_filters;
         }
     }
-    Scope.FilterOps = ["=", "!=",">","<",">=","<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
+    $scope.FilterOps = ["=", "!=", ">", "<", ">=", "<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
-    Scope.Roles = RolesRelated.get(
-        {}, //params
-        function (data) {   //success
+    $scope.Roles = RolesRelated.get({}, //params
+        function (data) { //success
             angular.forEach(data.record, function (role) {
                 angular.forEach(role.role_service_accesses, function (access) {
                     // ng-options doesn't play nice with null so we change it to 0
@@ -89,9 +106,9 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         }
     );
 
-    Scope.save = function () {
+    $scope.save = function () {
 
-        if (!Scope.uniqueServiceAccess()) {
+        if (!$scope.uniqueServiceAccess()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -99,7 +116,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        if (!Scope.uniqueSystemAccess()) {
+        if (!$scope.uniqueSystemAccess()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -107,7 +124,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        if (Scope.emptyKey()) {
+        if ($scope.emptyKey()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -115,7 +132,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        if (!Scope.uniqueKey()) {
+        if (!$scope.uniqueKey()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -123,14 +140,16 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        Scope.cleanServiceAccess();
-        Scope.cleanSystemAccess();
+        $scope.cleanServiceAccess();
+        $scope.cleanSystemAccess();
 
         var id = this.role.id;
-        RolesRelated.update({id: id}, Scope.role, function (response) {
-            Scope.role.lookup_keys = angular.copy(response.lookup_keys);
-            updateByAttr(Scope.Roles.record, 'id', id, Scope.role);
-            Scope.promptForNew();
+        RolesRelated.update({
+            id: id
+        }, $scope.role, function (response) {
+            $scope.role.lookup_keys = angular.copy(response.lookup_keys);
+            updateByAttr($scope.Roles.record, 'id', id, $scope.role);
+            $scope.promptForNew();
             //window.top.Actions.showStatus("Updated Successfully");
 
             // Success Message
@@ -139,24 +158,11 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                 type: 'success',
                 text: 'Role Updated Successfully'
             });
-        }, function (response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
         });
     };
-    Scope.create = function () {
+    $scope.create = function () {
 
-        if (!Scope.uniqueServiceAccess()) {
+        if (!$scope.uniqueServiceAccess()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -164,7 +170,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        if (!Scope.uniqueSystemAccess()) {
+        if (!$scope.uniqueSystemAccess()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -172,7 +178,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        if (Scope.emptyKey()) {
+        if ($scope.emptyKey()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -180,7 +186,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        if (!Scope.uniqueKey()) {
+        if (!$scope.uniqueKey()) {
             $.pnotify({
                 title: 'Roles',
                 type: 'error',
@@ -188,12 +194,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             });
             return;
         }
-        Scope.cleanServiceAccess();
-        Scope.cleanSystemAccess();
-		RolesRelated.save(Scope.role, function (data) {
-            Scope.Roles.record.push(data);
+        $scope.cleanServiceAccess();
+        $scope.cleanSystemAccess();
+        RolesRelated.save($scope.role, function (data) {
+            $scope.Roles.record.push(data);
             //window.top.Actions.showStatus("Created Successfully");
-            Scope.promptForNew();
+            $scope.promptForNew();
 
             // Success Message
             $.pnotify({
@@ -202,27 +208,14 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                 text: 'Role Created Successfully'
             });
 
-        }, function (response) {
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
         });
     };
 
-    Scope.isUserInRole = function () {
+    $scope.isUserInRole = function () {
         var currentUser = this.user;
         var inRole = false;
-        if (Scope.role.users) {
-            angular.forEach(Scope.role.users, function (user) {
+        if ($scope.role.users) {
+            angular.forEach($scope.role.users, function (user) {
                 if (angular.equals(user.id, currentUser.id)) {
                     inRole = true;
                 }
@@ -231,12 +224,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         return inRole;
     };
 
-    Scope.isAppInRole = function () {
+    $scope.isAppInRole = function () {
 
         var currentApp = this.app;
         var inRole = false;
-        if (Scope.role.apps) {
-            angular.forEach(Scope.role.apps, function (app) {
+        if ($scope.role.apps) {
+            angular.forEach($scope.role.apps, function (app) {
                 if (angular.equals(app.id, currentApp.id)) {
                     inRole = true;
                 }
@@ -244,76 +237,84 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         }
         return inRole;
     };
-    Scope.addAppToRole = function () {
-        if (checkForDuplicate(Scope.role.apps, 'id', this.app.id)) {
-            Scope.role.apps = removeByAttr(Scope.role.apps, 'id', this.app.id);
+    $scope.addAppToRole = function () {
+        if (checkForDuplicate($scope.role.apps, 'id', this.app.id)) {
+            $scope.role.apps = removeByAttr($scope.role.apps, 'id', this.app.id);
         } else {
-            Scope.role.apps.push(this.app);
+            $scope.role.apps.push(this.app);
         }
     };
     $scope.updateUserToRole = function () {
-        if (checkForDuplicate(Scope.role.users, 'id', this.user.id)) {
-            Scope.role.users = removeByAttr(Scope.role.users, 'id', this.user.id);
+        if (checkForDuplicate($scope.role.users, 'id', this.user.id)) {
+            $scope.role.users = removeByAttr($scope.role.users, 'id', this.user.id);
         } else {
-            Scope.role.users.push(this.user);
+            $scope.role.users.push(this.user);
         }
     };
 
     // service access
 
-    Scope.removeServiceAccess = function () {
+    $scope.removeServiceAccess = function () {
 
-        var rows = Scope.role.role_service_accesses;
+        var rows = $scope.role.role_service_accesses;
         rows.splice(this.$index, 1);
     };
 
-    Scope.newServiceAccess = function () {
+    $scope.newServiceAccess = function () {
 
-        var newAccess = {"access": "Full Access", "component": "*", "service_id": 0};
+        var newAccess = {
+            "access": "Full Access",
+            "component": "*",
+            "service_id": 0
+        };
         newAccess.filters = [];
         newAccess.filter_op = "AND";
         newAccess.show_filters = false;
-        Scope.role.role_service_accesses.push(newAccess);
+        $scope.role.role_service_accesses.push(newAccess);
     }
 
-    Scope.newServiceAccessFilter = function () {
+    $scope.newServiceAccessFilter = function () {
 
-        var newFilter = {"name": "", "operator": "=", "value": ""};
+        var newFilter = {
+            "name": "",
+            "operator": "=",
+            "value": ""
+        };
         this.service_access.filters.push(newFilter);
     }
 
-    Scope.removeServiceAccessFilter = function () {
+    $scope.removeServiceAccessFilter = function () {
 
         var rows = this.service_access.filters;
         rows.splice(this.$index, 1);
     };
 
-    Scope.selectService = function () {
+    $scope.selectService = function () {
 
         this.service_access.component = "*";
-        if (!Scope.allowFilters(this.service_access.service_id)) {
+        if (!$scope.allowFilters(this.service_access.service_id)) {
             this.service_access.filter_op = "AND";
             this.service_access.filters = [];
         }
     }
 
-    Scope.serviceId2Index = function (id) {
+    $scope.serviceId2Index = function (id) {
 
-        var size = Scope.Services.record.length;
+        var size = $scope.Services.record.length;
         for (i = 0; i < size; i++) {
-            if (Scope.Services.record[i].id === id) {
+            if ($scope.Services.record[i].id === id) {
                 return i;
             }
         }
         return -1;
     };
 
-    Scope.allowFilters = function (id) {
+    $scope.allowFilters = function (id) {
 
-        var size = Scope.Services.record.length;
+        var size = $scope.Services.record.length;
         for (i = 0; i < size; i++) {
-            if (Scope.Services.record[i].id === id) {
-                switch (Scope.Services.record[i].type) {
+            if ($scope.Services.record[i].id === id) {
+                switch ($scope.Services.record[i].type) {
                     case "Local SQL DB":
                     case "Remote SQL DB":
                     case "NoSQL DB":
@@ -327,7 +328,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         return false;
     };
 
-    Scope.updateServiceAccessFilter = function () {
+    $scope.updateServiceAccessFilter = function () {
 
         angular.forEach(this.service_access.filters, function (filter) {
             if (filter.operator === "is null" || filter.operator === "is not null") {
@@ -336,12 +337,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         });
     };
 
-    Scope.toggleServiceAccessFilter = function () {
+    $scope.toggleServiceAccessFilter = function () {
 
         this.service_access.show_filters = !this.service_access.show_filters;
     };
 
-    Scope.toggleServiceAccessOp = function () {
+    $scope.toggleServiceAccessOp = function () {
 
         if (this.service_access.filter_op === "AND") {
             this.service_access.filter_op = "OR";
@@ -352,34 +353,41 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
     // system access
 
-    Scope.removeSystemAccess = function () {
+    $scope.removeSystemAccess = function () {
 
-        var rows = Scope.role.role_system_accesses;
+        var rows = $scope.role.role_system_accesses;
         rows.splice(this.$index, 1);
     };
 
-    Scope.newSystemAccess = function () {
+    $scope.newSystemAccess = function () {
 
-        var newAccess = {"access": "Read Only", "component": "user"};
+        var newAccess = {
+            "access": "Read Only",
+            "component": "user"
+        };
         newAccess.filters = [];
         newAccess.filter_op = "AND";
         newAccess.show_filters = false;
-        Scope.role.role_system_accesses.push(newAccess);
+        $scope.role.role_system_accesses.push(newAccess);
     }
 
-    Scope.newSystemAccessFilter = function () {
+    $scope.newSystemAccessFilter = function () {
 
-        var newFilter = {"name": "", "operator": "=", "value": ""};
+        var newFilter = {
+            "name": "",
+            "operator": "=",
+            "value": ""
+        };
         this.system_access.filters.push(newFilter);
     }
 
-    Scope.removeSystemAccessFilter = function () {
+    $scope.removeSystemAccessFilter = function () {
 
         var rows = this.system_access.filters;
         rows.splice(this.$index, 1);
     };
 
-    Scope.updateSystemAccessFilter = function () {
+    $scope.updateSystemAccessFilter = function () {
 
         angular.forEach(this.system_access.filters, function (filter) {
             if (filter.operator === "is null" || filter.operator === "is not null") {
@@ -388,12 +396,12 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         });
     };
 
-    Scope.toggleSystemAccessFilter = function () {
+    $scope.toggleSystemAccessFilter = function () {
 
         this.system_access.show_filters = !this.system_access.show_filters;
     };
 
-    Scope.toggleSystemAccessOp = function () {
+    $scope.toggleSystemAccessOp = function () {
 
         if (this.system_access.filter_op === "AND") {
             this.system_access.filter_op = "OR";
@@ -404,23 +412,29 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
 
     // keys
 
-    Scope.removeKey = function () {
+    $scope.removeKey = function () {
 
-        var rows = Scope.role.lookup_keys;
+        var rows = $scope.role.lookup_keys;
         rows.splice(this.$index, 1);
     };
 
-    Scope.newKey = function () {
+    $scope.newKey = function () {
 
-        var newKey = {"name": "", "value": "", "private": false};
-        Scope.role.lookup_keys.push(newKey);
+        var newKey = {
+            "name": "",
+            "value": "",
+            "private": false
+        };
+        $scope.role.lookup_keys.push(newKey);
     }
 
-    Scope.uniqueKey = function () {
-        var size = Scope.role.lookup_keys.length;
+    $scope.uniqueKey = function () {
+        var size = $scope.role.lookup_keys.length;
         for (i = 0; i < size; i++) {
-            var key = Scope.role.lookup_keys[i];
-            var matches = Scope.role.lookup_keys.filter(function(itm){return itm.name === key.name;});
+            var key = $scope.role.lookup_keys[i];
+            var matches = $scope.role.lookup_keys.filter(function (itm) {
+                return itm.name === key.name;
+            });
             if (matches.length > 1) {
                 return false;
             }
@@ -428,9 +442,11 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
         return true;
     }
 
-    Scope.emptyKey = function () {
+    $scope.emptyKey = function () {
 
-        var matches = Scope.role.lookup_keys.filter(function(itm){return itm.name === '';});
+        var matches = $scope.role.lookup_keys.filter(function (itm) {
+            return itm.name === '';
+        });
         return matches.length > 0;
     }
 
@@ -446,10 +462,11 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             return;
         }
         var id = this.role.id;
-        RolesRelated.delete({ id: id }, function () {
-            Scope.promptForNew();
+        RolesRelated.delete({
+            id: id
+        }, function () {
+            $scope.promptForNew();
 
-            //window.top.Actions.showStatus("Deleted Successfully");
             $("#row_" + id).fadeOut();
 
             // Success message
@@ -458,52 +475,40 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                 type: 'success',
                 text: 'Role deleted.'
             });
-        }, function(response) {
-
-            var code = response.status;
-            if (code == 401) {
-                window.top.Actions.doSignInDialog("stay");
-                return;
-            }
-            $.pnotify({
-                title: 'Error',
-                type: 'error',
-                hide: false,
-                addclass: "stack-bottomright",
-                text: getErrorString(response)
-            });
         });
 
-        // Shouldn't prompt for new on failure
-        //Scope.promptForNew();
     };
     $scope.promptForNew = function () {
         angular.element(":checkbox").attr('checked', false);
-        Scope.action = "Create new";
-        Scope.actioned = "Created";
-        Scope.role = {users: [], apps: [], role_service_accesses: [], role_system_accesses:[], lookup_keys: []};
+        $scope.action = "Create new";
+        $scope.actioned = "Created";
+        $scope.role = {
+            users: [],
+            apps: [],
+            role_service_accesses: [],
+            role_system_accesses: [],
+            lookup_keys: []
+        };
         $('#save_button').show();
         $('#update_button').hide();
-        //$("#alert-container").empty().hide();
         $("tr.info").removeClass('info');
         $(window).scrollTop(0);
     };
     $scope.showDetails = function () {
-        //angular.element(":checkbox").attr('checked',false);
-        Scope.action = "Edit this ";
-        Scope.actioned = "Updated";
-        Scope.role = angular.copy(this.role);
-        Scope.users = angular.copy(Scope.role.users);
-        Scope.apps = angular.copy(Scope.role.apps);
+        $scope.action = "Edit this ";
+        $scope.actioned = "Updated";
+        $scope.role = angular.copy(this.role);
+        $scope.users = angular.copy($scope.role.users);
+        $scope.apps = angular.copy($scope.role.apps);
         $('#save_button').hide();
         $('#update_button').show();
         $("tr.info").removeClass('info');
-        $('#row_' + Scope.role.id).addClass('info');
+        $('#row_' + $scope.role.id).addClass('info');
     }
-    $scope.makeDefault = function(){
-        Scope.role.default_app_id = this.app.id;
+    $scope.makeDefault = function () {
+        $scope.role.default_app_id = this.app.id;
     };
-    $scope.clearDefault = function(){
-        Scope.role.default_app_id = null;
+    $scope.clearDefault = function () {
+        $scope.role.default_app_id = null;
     };
 };

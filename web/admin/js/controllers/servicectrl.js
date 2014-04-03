@@ -41,27 +41,27 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 		Scope.email_type = "Server Default";
 	};
 
-	var inputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
-	var emailInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="updateEmailScope()" />';
+    var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
+    var emailInputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="updateEmailScope()" />';
 	//var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
 	var buttonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteRow()"><li class="icon-remove"></li></button></div>';
-	var headerInputTemplate = '<input class="ngCellText colt{{$index}}" ng-model="row.entity[col.field]" ng-change="enableHeaderSave()" />';
+	var headerInputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableHeaderSave()" />';
 	//var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
 	var headerButtonTemplate = '<div><button id="header_save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveHeaderRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteHeaderRow()"><li class="icon-remove"></li></button></div>';
 	var emailButtonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button></div>';
 	Scope.columnDefs = [
-		{field: 'name', width: 100},
-		{field: 'value', enableFocusedCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
-		{field: 'Update', cellTemplate: buttonTemplate, width: 80}
+		{field: 'name', width: 100,enableCellEdit:false},
+		{field: 'value',  width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate,enableCellEdit:true },
+		{field: 'Update', cellTemplate: buttonTemplate, width: 80,enableCellEdit:false}
 	];
 
-	Scope.browseOptions = {data: 'tableData', width: 500, columnDefs: 'columnDefs', canSelectRows: false, displaySelectionCheckbox: false};
+	Scope.browseOptions = {data: 'tableData', width: 500, columnDefs: 'columnDefs', enableCellEditOnFocus: true, enableRowSelection:false,canSelectRows: false, displaySelectionCheckbox: false};
 	Scope.headerColumnDefs = [
-		{field: 'name', width: 100},
-		{field: 'value', enableFocusedCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: headerInputTemplate },
-		{field: 'Update', cellTemplate: headerButtonTemplate, width: 80}
+		{field: 'name', width: 100, enableCellEdit:false},
+		{field: 'value',  width: 200, enableCellSelection: true, editableCellTemplate: headerInputTemplate ,enableCellEdit:true},
+		{field: 'Update', cellTemplate: headerButtonTemplate, width: 80,enableCellEdit:false}
 	];
-	Scope.headerOptions = {data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, displaySelectionCheckbox: false};
+	Scope.headerOptions = {data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, enableCellEditOnFocus: true, enableRowSelection:false,displaySelectionCheckbox: false};
 
 	Scope.service = {};
 	Scope.Services = Service.get();
@@ -211,21 +211,6 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 						  text:  'Updated Successfully.'
 					  });
 
-		}, function(data) {
-			//alert(data.error[0].message);
-			var code = data.status;
-			if (code == 401) {
-				window.top.Actions.doSignInDialog("stay");
-				return;
-			}
-			var error = data.data.error;
-			$.pnotify({
-						  title:    'Error',
-						  type:     'error',
-						  hide:     false,
-						  addclass: "stack-bottomright",
-						  text:     error[0].message
-					  });
 		});
 
 	};
@@ -322,21 +307,6 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 						  text:  'Created Successfully.'
 					  });
 			Scope.Services.record.push(data);
-		}, function(data) {
-
-			var code = data.status;
-			if (code == 401) {
-				window.top.Actions.doSignInDialog("stay");
-				return;
-			}
-			var error = data.data.error;
-			$.pnotify({
-						  title:    'Error',
-						  type:     'error',
-						  hide:     false,
-						  addclass: "stack-bottomright",
-						  text:     error[0].message
-					  });
 		});
 	};
 
@@ -358,9 +328,9 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 			];
 		} else {
 			Scope.columnDefs = [
-				{field: 'name', width: 100},
-				{field: 'value', enableFocusedCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
-				{field: 'Update', cellTemplate: buttonTemplate, width: 100}
+				{field: 'name', enableCellEdit:false,width: 100},
+				{field: 'value', enableCellEdit:true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
+				{field: 'Update', cellTemplate: buttonTemplate,enableCellEdit:false, width: 100}
 			];
 			Scope.tableData = [];
 		}
@@ -464,21 +434,6 @@ var ServiceCtrl = function($scope, Service, $rootScope) {
 					  });
 
 			$("#row_" + id).fadeOut();
-		}, function(data) {
-
-			var code = data.status;
-			if (code == 401) {
-				window.top.Actions.doSignInDialog("stay");
-				return;
-			}
-			var error = data.data.error;
-			$.pnotify({
-						  title:    'Error',
-						  type:     'error',
-						  hide:     false,
-						  addclass: "stack-bottomright",
-						  text:     error[0].message
-					  });
 		});
 	};
 
