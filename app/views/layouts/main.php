@@ -44,37 +44,26 @@ $_versions = array(
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/<?php echo $_versions['jquery']; ?>/jquery.min.js"></script>
     <script src="/js/dsp.ui.js" defer="defer"></script>
-    <style>
-        #wrap {
-            padding-bottom: 60px;
-        }
-    </style>
 </head>
-<body class="body-dark">
+<body class="body-starburst">
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
+            <div class="navbar-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></div>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
-            <div class="navbar-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>
-        </div>
-
-        <div class="collapse navbar-collapse navbar-right">
-            <div class="navbar-right">
-                <span class="is-awesome">Totes Awesome!</span>
-            </div>
         </div>
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid container-inner">
     <?php echo $content; ?>
 </div>
 
 <div id="footer">
-    <div class="container-fluid align-center">
+    <div class="container align-center">
         <p class="footer-text">&copy; <a href="http://www.dreamfactory.com">DreamFactory Software, Inc.</a>
             <?php echo date( 'Y' ); ?>. All Rights Reserved.
         </p>
