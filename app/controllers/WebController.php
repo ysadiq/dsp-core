@@ -19,7 +19,6 @@
  */
 use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
-use DreamFactory\Oasys\Stores\FileSystem;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\RestException;
@@ -35,6 +34,7 @@ use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Platform\Utility\ResourceStore;
 use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Platform\Yii\Models\User;
+use DreamFactory\Platform\Yii\Stores\ProviderUserStore;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpResponse;
@@ -968,7 +968,7 @@ class WebController extends BaseWebController
         }
 
         //	Set our store...
-        Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
+        Oasys::setStore( $_store = new ProviderUserStore( Session::getCurrentUserId(), $_providerModel->id ) );
 
         $_config = Provider::buildConfig(
             $_providerModel,

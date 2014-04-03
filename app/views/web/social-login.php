@@ -115,12 +115,12 @@ HTML;
                 <label for="LoginForm_username" class="sr-only">DSP Email Address</label>
 
                 <div class="input-group">
-                    <span class="input-group-addon bg_dg bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
+                    <span class="input-group-addon bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
                     <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-                           name="LoginForm[username]" placeholder="DSP User Email Address"
-                           spellcheck="false" autocapitalize="off" autocorrect="off"
-                           value="<?php echo $model->username; ?>" />
+                        name="LoginForm[username]" placeholder="DSP User Email Address"
+                        spellcheck="false" autocapitalize="off" autocorrect="off"
+                        value="<?php echo $model->username; ?>" />
                 </div>
             </div>
 
@@ -128,25 +128,27 @@ HTML;
                 <label for="LoginForm_password" class="sr-only">Password</label>
 
                 <div class="input-group">
-                    <span class="input-group-addon bg_ly bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
+                    <span class="input-group-addon bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
                     <input tabindex="2" class="form-control required" type="password" id="LoginForm_password" name="LoginForm[password]"
-                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
+                        autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-md-7" style="display: block; float: none; margin: 0 auto;">
-                    <div class="input-group remember-me">
-                        <span class="input-group-addon bg-control remember-checkbox"><i class="fa fa-fw <?php echo $_checkboxClass; ?> fa-2x"></i></span>
-
-                        <input tabindex="3" class="form-control strong-disabled" id="remember-control"
-                               value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>" type="text"
-                               disabled />
-                        <div class="event-grabber" style="position:absolute; left:0; right:0; top:0; bottom:0; cursor: pointer;"></div>
-                    </div>
+                <div class="checkbox remember-me pull-right">
+                    <label>
+                        <input type="checkbox"
+                            tabindex="3"
+                            id="remember-control"
+                            value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>">
+                        Keep me logged in
+                    </label>
                 </div>
+                <div class="clearfix"></div>
             </div>
+
+            <p class="lead">Or</p>
 
             <div class="remote-login <?php echo $_providerHider; ?>">
                 <div class="remote-login-wrapper">
@@ -165,25 +167,33 @@ HTML;
 </div>
 
 <script type="text/javascript">
-jQuery(function($) {
-    var $_rememberMe = $('#check-remember-ind');
-    var _wasRemembered = (1 == $_rememberMe.val());
-    var $_rememberHint = $('#remember-control');
-    var $_form = $('form#login-form');
+jQuery(
+    function($) {
+        var $_rememberMe = $('#check-remember-ind');
+        var _wasRemembered = (1 == $_rememberMe.val());
+        var $_rememberHint = $('#remember-control');
+        var $_form = $('form#login-form');
 
-    $('#btn-forgot').on('click', function(e) {
-        e.preventDefault();
-        $('#LoginForm_password').removeProp('required').removeClass('required');
-        $('input#forgot').val(1);
-        $('form#login-form').submit();
-    });
+        $('#btn-forgot').on(
+            'click', function(e) {
+                e.preventDefault();
+                $('#LoginForm_password').removeProp('required').removeClass('required');
+                $('input#forgot').val(1);
+                $('form#login-form').submit();
+            }
+        );
 
-    $('.input-group.remember-me, .event-grabber').on('click', function(e) {
+        $('.input-group.remember-me, .event-grabber').on(
+            'click', function(e) {
 //                e.preventDefault();
-        $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
-        $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
-        $_rememberMe.val(_wasRemembered = !_wasRemembered);
-        return false;
-    });
-});
+                $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
+                $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
+                $_rememberMe.val(_wasRemembered = !_wasRemembered);
+                return false;
+            }
+        );
+
+        $('body').addClass('bg-starburst');
+    }
+);
 </script>

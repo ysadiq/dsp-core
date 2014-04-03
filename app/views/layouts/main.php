@@ -71,6 +71,5 @@ $_versions = array(
 </div>
 
 <script src="//netdna.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/js/bootstrap.min.js"></script>
-<!--<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/--><?php //echo $_versions['jquery.validate']; ?><!--/jquery.validate.min.js"></script>--><!--<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/--><?php //echo $_versions['jquery.validate']; ?><!--/additional-methods.min.js"></script>-->
 </body>
 </html>
