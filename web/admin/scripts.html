@@ -1,0 +1,42 @@
+<div class="navbar" style="margin-bottom:5px;margin-right:10px;">
+    <div class="navbar-inner">
+        <div class="brand">Server Side Scripts</div>
+    </div>
+</div>
+<br/>
+<div style="width:750px" class="alert alert-info">
+    <li class="icon-info-sign"></li>
+    Choose a service and event from the list below to edit or create scripts when that event is fired.
+</div>
+
+
+<table id="event-container">
+    <tr>
+        <td>
+            <div id="event-listing">
+                <div class="event-name search-box">Filter : <input ng-model="searchText"></div>
+                <div data-ng-repeat="event in Events | filter:searchText" class="event-list" >
+                    <div class="event-name" data-ng-click="loadEvent()">{{event.name}}</div>
+                    <ul data-ng-if="event.name === currentEvent || searchText">
+                        <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path">
+                            <div data-ng-if="path.verbs" class="path-name">Path : {{path.path}}</div>
+                            <ul>
+                                <li data-ng-repeat="verb in path.verbs | filter:searchText" class="path-verb" data-ng-click="loadScript()">
+                                    {{verb.event}}&nbsp;({{verb.type}})
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div id="editor"></div>
+        </td>
+    </tr>
+</table>
+<div class="form-actions">
+    <button data-ng-click="saveScript()" class="btn btn-primary">Save</button>
+    <button type="button" class="btn">Cancel</button>
+</div>

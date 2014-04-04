@@ -2188,3 +2188,39 @@ span.label {
 
 }
 
+.event-name{
+    background-color:#dfdfdf;
+    padding-left:5px;
+    border-bottom:1px solid #cccccc;
+    height:25px;
+    font-weight:bold;
+    font-size:1.1em;
+}
+.event-list{
+    background-color:#dfdfdf;
+
+}
+.path-name{
+    background-color:#cfcfcf;
+    padding-left:10px;
+    height:25px;
+    border-bottom: 1px solid #bbbbbb;
+    border-left: 1px solid #bbbbbb;
+}
+.path-verb{
+    background-color: #FCFCFC;
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    height: 25px;
+    padding-left: 10px;
+}
+.form-actions {
+    margin-top: 1px;
+    text-align: right;
+    width: 764px;
+}
+.search-box{
+    padding:5px;
+    font-size:.9em;
+    color:#787878;
+}
