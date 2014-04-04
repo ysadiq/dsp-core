@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Sr. Software Engineer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "6f633c30d39042b2f970a573932882b1ce843eab"
+                "reference": "205bc05dcc09350f854b753463545b5af5d7d67b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/6f633c30d39042b2f970a573932882b1ce843eab.zip",
-                "reference": "6f633c30d39042b2f970a573932882b1ce843eab",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/205bc05dcc09350f854b753463545b5af5d7d67b.zip",
+                "reference": "205bc05dcc09350f854b753463545b5af5d7d67b",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-03-28 06:14:56"
+            "time": "2014-04-04 14:40:22"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -416,16 +416,16 @@
         },
         {
             "name": "dreamfactory/oasys",
-            "version": "0.4.8",
+            "version": "0.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "e755f316344f47b49d7ae1289fd861522c6932bc"
+                "reference": "682a2a84c0d38f4f33e9f450fdcec8340de99c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/e755f316344f47b49d7ae1289fd861522c6932bc",
-                "reference": "e755f316344f47b49d7ae1289fd861522c6932bc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/682a2a84c0d38f4f33e9f450fdcec8340de99c9e",
+                "reference": "682a2a84c0d38f4f33e9f450fdcec8340de99c9e",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-03-07 00:08:26"
+            "time": "2014-04-03 17:30:40"
         },
         {
             "name": "dreamfactory/yii",
@@ -526,14 +526,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Exterminator"
                 },
                 {
-                    "name": "Hicks, Lee",
+                    "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Exterminator"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -642,12 +642,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "935c28e8a312f1e4dbf162994711097bbd2ea4ef"
+                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/935c28e8a312f1e4dbf162994711097bbd2ea4ef",
-                "reference": "935c28e8a312f1e4dbf162994711097bbd2ea4ef",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
+                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
                 "shasum": ""
             },
             "require": {
@@ -691,7 +691,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-03-26 05:36:19"
+            "time": "2014-04-02 14:41:37"
         },
         {
             "name": "monolog/monolog",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "4cf49e5496857532f4ca4bbb69d1eee591b88234"
+                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4cf49e5496857532f4ca4bbb69d1eee591b88234",
-                "reference": "4cf49e5496857532f4ca4bbb69d1eee591b88234",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f3032a2b9874aa76efcc155eff776eabdf322d05",
+                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-26 11:12:35"
+            "time": "2014-04-01 19:53:04"
         },
         {
             "name": "pear/http_request2",
@@ -1268,12 +1268,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "8b345992d9e850798f46a6c68804ac9e4965e91a"
+                "reference": "4b9a8defce833386224bdbf9045128a6e51fb0b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/8b345992d9e850798f46a6c68804ac9e4965e91a",
-                "reference": "8b345992d9e850798f46a6c68804ac9e4965e91a",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/4b9a8defce833386224bdbf9045128a6e51fb0b4",
+                "reference": "4b9a8defce833386224bdbf9045128a6e51fb0b4",
                 "shasum": ""
             },
             "require": {
@@ -1317,7 +1317,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:21"
+            "time": "2014-04-03 05:23:50"
         },
         {
             "name": "symfony/http-foundation",
