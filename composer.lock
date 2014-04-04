@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Sr. Software Engineer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -416,16 +416,16 @@
         },
         {
             "name": "dreamfactory/oasys",
-            "version": "0.4.8",
+            "version": "0.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "e755f316344f47b49d7ae1289fd861522c6932bc"
+                "reference": "682a2a84c0d38f4f33e9f450fdcec8340de99c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/e755f316344f47b49d7ae1289fd861522c6932bc",
-                "reference": "e755f316344f47b49d7ae1289fd861522c6932bc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/682a2a84c0d38f4f33e9f450fdcec8340de99c9e",
+                "reference": "682a2a84c0d38f4f33e9f450fdcec8340de99c9e",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-03-07 00:08:26"
+            "time": "2014-04-03 17:30:40"
         },
         {
             "name": "dreamfactory/yii",
@@ -526,14 +526,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Exterminator"
                 },
                 {
-                    "name": "Hicks, Lee",
+                    "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Exterminator"
                 }
             ],
             "description": "Yii Web Programming Framework",
