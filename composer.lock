@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "DreamFactory Package Maintainer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "205bc05dcc09350f854b753463545b5af5d7d67b"
+                "reference": "77e7bfadf6fbec34c69d6169e99dab719263c0ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/205bc05dcc09350f854b753463545b5af5d7d67b.zip",
-                "reference": "205bc05dcc09350f854b753463545b5af5d7d67b",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/77e7bfadf6fbec34c69d6169e99dab719263c0ae.zip",
+                "reference": "77e7bfadf6fbec34c69d6169e99dab719263c0ae",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-04 14:40:22"
+            "time": "2014-04-04 15:04:08"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -526,14 +526,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Black Ops"
                 },
                 {
-                    "name": "Lee Hicks",
+                    "name": "Hicks, Lee",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05"
+                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f3032a2b9874aa76efcc155eff776eabdf322d05",
-                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c3dd9b972b8e070580f0660b842a898871fadf13",
+                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-01 19:53:04"
+            "time": "2014-04-04 15:22:02"
         },
         {
             "name": "pear/http_request2",
