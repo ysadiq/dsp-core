@@ -119,7 +119,7 @@ angular.module("AdminApp", [
                             $.pnotify({
                                 title: "Error",
                                 type: 'error',
-                                text: response.data.error[0].message
+                                text: getErrorString(response)
                             });
                             return $q.reject(response);
                         }
@@ -261,6 +261,17 @@ angular.module("AdminApp", [
     })
     .factory('Event', function ($resource) {
         return $resource('/rest/system/event/?app_name=admin', {}, {
+            update: {
+                method: 'PUT'
+            },
+            query: {
+                method: 'GET',
+                isArray: false
+            }
+        });
+    })
+    .factory('Script', function ($resource) {
+        return $resource('/rest/system/script/:script_id/?app_name=admin', {}, {
             update: {
                 method: 'PUT'
             },
