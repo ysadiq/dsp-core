@@ -22,6 +22,7 @@ var SchemaCtrl = function ($scope, Schema, DB, $http) {
         {value:"date", text: "date"},
         {value:"time", text: "time"},
         {value:"reference", text: "reference"},
+        {value:"user_id", text: "user_id"},
         {value:"user_id_on_create", text: "user_id_on_create"},
         {value:"user_id_on_update", text: "user_id_on_update"},
         {value:"timestamp_on_create", text: "timestamp_on_create"},
