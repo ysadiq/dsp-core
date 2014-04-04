@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "59e6dfeaeb9e13eee392fc9ecc2096665e6f08fd"
+                "reference": "bf6c6a387b7ca51d91f0cb5a20a867418266f500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/59e6dfeaeb9e13eee392fc9ecc2096665e6f08fd.zip",
-                "reference": "59e6dfeaeb9e13eee392fc9ecc2096665e6f08fd",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/bf6c6a387b7ca51d91f0cb5a20a867418266f500.zip",
+                "reference": "bf6c6a387b7ca51d91f0cb5a20a867418266f500",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-03 04:25:43"
+            "time": "2014-04-04 15:06:44"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -699,12 +699,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05"
+                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f3032a2b9874aa76efcc155eff776eabdf322d05",
-                "reference": "f3032a2b9874aa76efcc155eff776eabdf322d05",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c3dd9b972b8e070580f0660b842a898871fadf13",
+                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-01 19:53:04"
+            "time": "2014-04-04 15:22:02"
         },
         {
             "name": "pear/http_request2",
