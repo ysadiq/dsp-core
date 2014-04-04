@@ -5,11 +5,8 @@ var ScriptCtrl = function ($scope, Event, Script) {
         Event.get({"all_events": "true"})
             .$promise.then(function (response) {
                 $scope.Events = response.record;
-                // buildListing($scope.Events);
             }
         );
-        //bind editor
-
     }());
 
     $scope.loadScript = function(){
@@ -26,9 +23,18 @@ var ScriptCtrl = function ($scope, Event, Script) {
         if($scope.currentEvent === this.event.name){
             $scope.currentEvent = null;
         }else{
-        $scope.currentEvent = this.event.name;
+            $scope.currentEvent = this.event.name;
         }
+    }
+    $scope.saveScript = function(){
+        var script_id = {"script_id":$scope.currentScript};
+        var post_body = editor.getValue();
+        Script.update(script_id, post_body)
+            .$promise.then(function (response) {
+                console.log(response);
+            }
+        );
+    };
 
-    )
 
 };
