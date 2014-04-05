@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Sr. Software Engineer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "119daa5f1a2b931e5f0cf87467aaa7a0ac204cf4"
+                "reference": "5bfa45eb04ea6a319a733255c8c65b6876cb79c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/119daa5f1a2b931e5f0cf87467aaa7a0ac204cf4.zip",
-                "reference": "119daa5f1a2b931e5f0cf87467aaa7a0ac204cf4",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/5bfa45eb04ea6a319a733255c8c65b6876cb79c0.zip",
+                "reference": "5bfa45eb04ea6a319a733255c8c65b6876cb79c0",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-04 19:28:47"
+            "time": "2014-04-04 21:58:31"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -526,14 +526,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Exterminator"
                 },
                 {
-                    "name": "Hicks, Lee",
+                    "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Exterminator"
                 }
             ],
             "description": "Yii Web Programming Framework",
