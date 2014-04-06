@@ -103,16 +103,6 @@ class WebController extends BaseWebController
     /**
      * {@InheritDoc}
      */
-    public function filters()
-    {
-        return array(
-            'accessControl',
-        );
-    }
-
-    /**
-     * {@InheritDoc}
-     */
     public function accessRules()
     {
         return array(
@@ -370,7 +360,7 @@ class WebController extends BaseWebController
         if ( isset( $_POST, $_POST['LoginForm'] ) )
         {
             $_model->setAttributes( $_POST['LoginForm'] );
-            $_model->rememberMe = Option::getBool( $_POST, 'check-remember-ind' );
+            $_model->rememberMe = ( 'on' == Option::getBool( $_POST['LoginForm'], 'rememberMe', 'off' ) );
 
             if ( 1 == Option::get( $_POST, 'forgot', 0 ) )
             {
@@ -417,7 +407,7 @@ class WebController extends BaseWebController
         }
 
         $this->render(
-            'social-login',
+            'login',
             array(
                 'model'          => $_model,
                 'activated'      => $this->_activated,

@@ -16,21 +16,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-jQuery(
-	function($) {
-		/**
-		 * Support for remote logins
-		 */
-		$('.remote-login-providers').on(
-			'click', 'i', function(e) {
-				e.preventDefault();
-
-				var _provider = $(this).data('provider');
-
-				if (_provider) {
-					window.top.location.href = '/web/remoteLogin?pid=' + _provider + '&return_url=' + encodeURI(window.top.location);
-				}
-			}
-		);
-	}
-);
+jQuery(function($) {
+});

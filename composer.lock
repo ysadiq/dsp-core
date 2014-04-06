@@ -159,9 +159,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "DreamFactory Package Maintainer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -251,12 +251,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Black Ops"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "bf6c6a387b7ca51d91f0cb5a20a867418266f500"
+                "reference": "cbfe3a5b583b8c5794fdb1ebdd65d9f77989e860"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/bf6c6a387b7ca51d91f0cb5a20a867418266f500.zip",
-                "reference": "bf6c6a387b7ca51d91f0cb5a20a867418266f500",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/cbfe3a5b583b8c5794fdb1ebdd65d9f77989e860.zip",
+                "reference": "cbfe3a5b583b8c5794fdb1ebdd65d9f77989e860",
                 "shasum": ""
             },
             "require": {
@@ -290,6 +290,7 @@
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
                 "dreamfactory/oasys": "~0.4.0@dev",
                 "dreamfactory/yii": "1.1.13",
+                "igorw/event-source": "1.0.*",
                 "kisma/kisma": "~0.2@dev",
                 "pear/http_request2": "*",
                 "pear/mail_mime": "*",
@@ -341,7 +342,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-04 15:06:44"
+            "time": "2014-04-05 15:48:06"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -388,7 +389,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Black Ops"
                 },
                 {
                     "name": "Jason Sykes",
@@ -398,7 +399,7 @@
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Engineer, server-side"
                 },
                 {
                     "name": "Todd Appleton",
@@ -526,14 +527,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Black Ops"
                 },
                 {
-                    "name": "Lee Hicks",
+                    "name": "Hicks, Lee",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -635,6 +636,53 @@
                 "web service"
             ],
             "time": "2014-03-26 17:17:05"
+        },
+        {
+            "name": "igorw/event-source",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/EventSource.git",
+                "reference": "427f0fda029c9a282d2ffde6fe4aac0ed0987770"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/EventSource/zipball/427f0fda029c9a282d2ffde6fe4aac0ed0987770",
+                "reference": "427f0fda029c9a282d2ffde6fe4aac0ed0987770",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Igorw\\EventSource": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                }
+            ],
+            "description": "A PHP 5.3 library for creating an EventSource stream.",
+            "keywords": [
+                "event-source",
+                "real-time",
+                "server-sent-events"
+            ],
+            "time": "2012-11-10 11:16:15"
         },
         {
             "name": "kisma/kisma",

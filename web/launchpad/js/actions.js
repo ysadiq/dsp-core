@@ -5,24 +5,13 @@ Actions = {
 	_config: {
 	},
 	_events: {
-		enabled:   false,
+		enabled:   (typeof EventSource != 'undefined' ),
 		source:    null,
-		url:       '/rest/system/event/stream',
+		url:       '/rest/system/event_stream?app_name=launchpad',
 		outputDiv: null,
 		listener:  function(event) {
-			var _type = event.type;
-
-			//	Ricochet the event off the client
-			switch (_type) {
-				case 'error':
-					break;
-
-				case 'dsp.event':
-					$.trigger(event.data.event_name, event.data);
-					break;
-			}
-
-			console.log('Event received: ' + _type + ' -> ' + (_type === 'message' ? event.data : Actions._events.url ));
+//			$(window).trigger(event.type, event);
+			console.log('Event received: ' + event.type + ' -> ' + event.data);
 		}
 	},
 	/**
@@ -32,7 +21,6 @@ Actions = {
 
 	init: function() {
 		this.getConfig();
-		this.getEventStream();
 	},
 
 	/**
@@ -40,14 +28,18 @@ Actions = {
 	 */
 	getEventStream: function() {
 
-		if ( !this._events.enabled )
+		if (!this._events.enabled) {
 			return null;
+		}
 
 		if (!this._events.source) {
+			var _this = this;
+
 			this._events.source = new EventSource(this._events.url);
-			this._events.source.addEventListener('open', this._events.listener);
-			this._events.source.addEventListener('message', this._events.listener);
-			this._events.source.addEventListener('error', this._events.listener);
+			this._events.source.addEventListener('dsp.event', function(event) {
+				_this._events.listener(event);
+			});
+
 			console.log('EventStream/Source initialized.');
 		}
 
@@ -67,7 +59,7 @@ Actions = {
 			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
 			//	Strip off any hash
 			if (-1 != (
-				_pos = _appToRun.indexOf('#')
+					_pos = _appToRun.indexOf('#')
 				)) {
 				_appToRun = _appToRun.substr(0, _pos);
 			}
@@ -177,12 +169,18 @@ Actions = {
 			$('#fs_toggle').off('click');
 		} else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
 			$('#app-list-container').hide();
-			this.showApp(data.app_groups[0].apps[0].api_name, data.app_groups[0].apps[0].launch_url, data.app_groups[0].apps[0].is_url_external,
-						 data.app_groups[0].apps[0].requires_fullscreen, data.app_groups[0].apps[0].allow_fullscreen_toggle);
+			this.showApp(data.app_groups[0].apps[0].api_name,
+						 data.app_groups[0].apps[0].launch_url,
+						 data.app_groups[0].apps[0].is_url_external,
+						 data.app_groups[0].apps[0].requires_fullscreen,
+						 data.app_groups[0].apps[0].allow_fullscreen_toggle);
 		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
 			$('#app-list-container').hide();
-			this.showApp(data.no_group_apps[0].api_name, data.no_group_apps[0].launch_url, data.no_group_apps[0].is_url_external,
-						 data.no_group_apps[0].requires_fullscreen, data.no_group_apps[0].allow_fullscreen_toggle);
+			this.showApp(data.no_group_apps[0].api_name,
+						 data.no_group_apps[0].launch_url,
+						 data.no_group_apps[0].is_url_external,
+						 data.no_group_apps[0].requires_fullscreen,
+						 data.no_group_apps[0].allow_fullscreen_toggle);
 		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
 			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
 		} else {
@@ -399,10 +397,10 @@ Actions = {
 			}
 
 			if (action == "init") {
+				that.getEventStream();
 				that.getApps(sessionInfo, action);
 				that.autoRunApp();
 			}
-
 		}).fail(function(response) {
 			if (response.status == 401 || response.status == 403) {
 				var data = {
@@ -494,7 +492,8 @@ Actions = {
 			return;
 		}
 		$('#loading').show();
-		$.post(CurrentServer + '/rest/user/session?app_name=launchpad',
+		$.post(CurrentServer +
+			   '/rest/user/session?app_name=launchpad',
 			   JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
 																										if (Stay) {
 																											$("#loginDialog").modal('hide');
@@ -808,13 +807,13 @@ jQuery(function($) {
 	});
 
 	$_body.css('height', (
-							 $(window).height() + 44
-							 ) + 'px');
+						 $(window).height() + 44
+						 ) + 'px');
 
 	$(window).resize(function() {
 		$_body.css('height', (
-								 $(window).height() + 44
-								 ) + 'px');
+							 $(window).height() + 44
+							 ) + 'px');
 	});
 
 	//@todo use jquery validate cuz this ain't working
