@@ -1,6 +1,9 @@
 /**
- * this has been incorporated into dsp.main.css along with forms.css
+ * this file has been incorporated into dsp.main.css
  */
+@import url(dsp.main.css);
+
+/**
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,700);
 
@@ -67,3 +70,4 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	line-height: 1.1;
 	color:       inherit;
 }
+**/

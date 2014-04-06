@@ -10,22 +10,11 @@ Actions = {
 		url:       '/rest/system/event/stream',
 		outputDiv: null,
 		listener:  function(event) {
-			var _type = event.type;
-
-			//	Ricochet the event off the client
-			switch (_type) {
-				case 'error':
-					break;
-
-				case 'dsp.event':
-					$.trigger(event.data.event_name, event.data);
-					break;
-			}
-
-			console.log('Event received: ' + _type + ' -> ' + (_type === 'message' ? event.data : Actions._events.url ));
+			var _data = JSON.parse(event.data);
+			console.log('Event received: ' + _data.details.type + ' -> ' + event.data);
+			$(window).trigger(_data.details.type, _data);
 		}
-	},
-	/**
+	}, /**
 	 * @var {*}[]
 	 */
 	_apps:   [],
@@ -876,3 +865,4 @@ jQuery(function($) {
 });
 
 Actions.init();
+Actions.getEventStream();

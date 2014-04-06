@@ -2,17 +2,6 @@
 ** Form Template Classes
 **************************************************************************/
 
-html {
-	background-color: #444;
-}
-
-body {
-	color:            #F2F2F2;
-	background-color: transparent;
-
-	/*overflow:         hidden;*/
-}
-
 a {
 	color: #cfcfcf;
 }
@@ -38,7 +27,7 @@ a:hover, a:focus, a:active {
 	text-align: left;
 	position:   relative;
 	margin-top: 15px;
-	width:      480px;
+	/*width:      480px;*/
 }
 
 #formbox h2 {
@@ -186,7 +175,7 @@ form, .form-buttons {
 	}
 
 	#formbox {
-		width: 80%
+		width: 500px;
 	}
 
 	.dsp-system-name {
@@ -200,7 +189,7 @@ form, .form-buttons {
 	}
 
 	#formbox {
-		width: 90%
+		width: 440px;
 	}
 
 	#formbox .control-group {
@@ -285,17 +274,17 @@ form, .form-buttons {
 }
 
 #navbar-container {
-	border-radius:    0 !important;
-	border:           0;
-	border-bottom:    1px solid #777;
-	height:           43px;
-	padding-left:     20px;
-	padding-right:    20px;
-	background-color: black;
-	position:         fixed;
-	left:             0;
-	right:            0;
-	z-index:          99999;
+	/*border-radius:    0 !important;*/
+	/*border:           0;*/
+	/*border-bottom:    1px solid #777;*/
+	/*height:           43px;*/
+	/*padding-left:     20px;*/
+	/*padding-right:    20px;*/
+	/*background-color: black;*/
+	/*position:         fixed;*/
+	/*left:             0;*/
+	/*right:            0;*/
+	/*z-index:          99999;*/
 }
 
 /** style for "remember me" label on login view */
