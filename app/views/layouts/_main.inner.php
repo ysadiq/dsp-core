@@ -29,12 +29,19 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <div class="navbar-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></div>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
+            <span class="df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
+        </div>
+
+        <div class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+            </ul>
         </div>
     </div>
+</div>
 </div>
 
 <div class="container-fluid container-inner">

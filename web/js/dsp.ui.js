@@ -16,5 +16,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+var _bgs = ['default', 'blue', 'orange', 'purple', 'red', 'yellow'];
+var _bgCurrent = 0;
+
+var _rotateBackground = function(firstTime) {
+	var _size = _bgs.length, _bgLast = firstTime ? 0 : _bgCurrent;
+
+	if (++_bgCurrent >= _size) {
+		_bgCurrent = 0;
+	}
+
+	$('body').removeClass('body-starburst-' + _bgs[_bgLast]).addClass('body-starburst-' + _bgs[_bgCurrent]);
+	console.log('Rotation complete.');
+
+	window.setTimeout('_rotateBackground()', 15000);
+};
 jQuery(function($) {
+	_rotateBackground(-1);
 });

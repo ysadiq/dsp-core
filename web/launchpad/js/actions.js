@@ -10,11 +10,11 @@ Actions = {
 		url:       '/rest/system/event_stream?app_name=launchpad',
 		outputDiv: null,
 		listener:  function(event) {
-//			$(window).trigger(event.type, event);
-			console.log('Event received: ' + event.type + ' -> ' + event.data);
+			var _data = JSON.parse(event.data);
+			console.log('Event received: ' + _data.details.type + ' -> ' + event.data);
+			$(window).trigger(_data.details.type, _data);
 		}
-	},
-	/**
+	}, /**
 	 * @var {*}[]
 	 */
 	_apps:   [],
@@ -35,11 +35,11 @@ Actions = {
 		if (!this._events.source) {
 			var _this = this;
 
+			this._events.enabled = true;
 			this._events.source = new EventSource(this._events.url);
 			this._events.source.addEventListener('dsp.event', function(event) {
 				_this._events.listener(event);
 			});
-
 			console.log('EventStream/Source initialized.');
 		}
 
@@ -397,7 +397,6 @@ Actions = {
 			}
 
 			if (action == "init") {
-				that.getEventStream();
 				that.getApps(sessionInfo, action);
 				that.autoRunApp();
 			}
@@ -875,3 +874,4 @@ jQuery(function($) {
 });
 
 Actions.init();
+Actions.getEventStream();

@@ -56,7 +56,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/<?php echo $_versions['jquery']; ?>/jquery.min.js"></script>
 </head>
-<body class="body-dark">
+<body class="body-dark body-starburst-blue">
 
 <?php require __DIR__ . '/_main.inner.php'; ?>
 
