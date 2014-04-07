@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b700b1ba11bbd52a124094c393a25bd1",
+    "hash": "e82ffa9aee082ccbfe7a960b235fbccc",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -279,12 +279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "9c310322f8574c5a9aa4fb9f80090288e2fe1914"
+                "reference": "eb365f30b29a91526350b61ceece2970fc3f74a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/9c310322f8574c5a9aa4fb9f80090288e2fe1914.zip",
-                "reference": "9c310322f8574c5a9aa4fb9f80090288e2fe1914",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/eb365f30b29a91526350b61ceece2970fc3f74a7.zip",
+                "reference": "eb365f30b29a91526350b61ceece2970fc3f74a7",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-10 15:57:25"
+            "time": "2014-04-07 23:14:41"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -551,6 +551,52 @@
             "time": "2014-02-24 17:33:55"
         },
         {
+            "name": "evenement/evenement",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "30871db2821979b3d5754b3b3fc09846998deb60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/30871db2821979b3d5754b3b3fc09846998deb60",
+                "reference": "30871db2821979b3d5754b3b3fc09846998deb60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Evenement": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "time": "2013-09-29 00:45:02"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "dev-master",
             "source": {
@@ -640,7 +686,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-04-09 22:38:44"
+            "time": "2014-03-26 17:17:05"
         },
         {
             "name": "kisma/kisma",
@@ -1215,6 +1261,115 @@
                 "opencloud"
             ],
             "time": "2013-08-01 16:12:19"
+        },
+        {
+            "name": "react/promise",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "95fcf8b62ec1b11bfa346c60c74fe6408a8ea922"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/95fcf8b62ec1b11bfa346c60c74fe6408a8ea922",
+                "reference": "95fcf8b62ec1b11bfa346c60c74fe6408a8ea922",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@googlemail.com",
+                    "homepage": "http://sorgalla.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "time": "2014-02-03 21:10:58"
+        },
+        {
+            "name": "react/react",
+            "version": "0.4.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/react.git",
+                "reference": "93f581cf7828166632d452e804b5745fc81be993"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/react/zipball/93f581cf7828166632d452e804b5745fc81be993",
+                "reference": "93f581cf7828166632d452e804b5745fc81be993",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "~2.0",
+                "guzzle/parser": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
+            },
+            "replace": {
+                "react/cache": "self.version",
+                "react/dns": "self.version",
+                "react/event-loop": "self.version",
+                "react/http": "self.version",
+                "react/http-client": "self.version",
+                "react/socket": "self.version",
+                "react/socket-client": "self.version",
+                "react/stream": "self.version"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-event": "Allows for use of a more performant event-loop implementation.",
+                "ext-libev": "Allows for use of a more performant event-loop implementation.",
+                "ext-libevent": "Allows for use of a more performant event-loop implementation."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Nuclear Reactor written in PHP.",
+            "keywords": [
+                "event-loop",
+                "reactor"
+            ],
+            "time": "2014-03-30 17:46:46"
         },
         {
             "name": "swiftmailer/swiftmailer",
