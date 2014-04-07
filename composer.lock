@@ -251,12 +251,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "cbfe3a5b583b8c5794fdb1ebdd65d9f77989e860"
+                "reference": "cd69cc74ad3cc8c96b0804cd5c2e11d59b1f9c49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/cbfe3a5b583b8c5794fdb1ebdd65d9f77989e860.zip",
-                "reference": "cbfe3a5b583b8c5794fdb1ebdd65d9f77989e860",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/cd69cc74ad3cc8c96b0804cd5c2e11d59b1f9c49.zip",
+                "reference": "cd69cc74ad3cc8c96b0804cd5c2e11d59b1f9c49",
                 "shasum": ""
             },
             "require": {
@@ -342,7 +342,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-05 15:48:06"
+            "time": "2014-04-06 23:13:53"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -389,7 +389,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Jason Sykes",
@@ -399,7 +399,7 @@
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
