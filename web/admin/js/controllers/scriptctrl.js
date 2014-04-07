@@ -10,6 +10,7 @@ var ScriptCtrl = function ($scope, Event, Script) {
     }());
 
     $scope.loadScript = function(){
+        editor.setValue("");
         $scope.currentScript = this.verb.event;
         $scope.script = this.verb.scripts;
         var script_id = {"script_id":$scope.currentScript};
@@ -35,6 +36,14 @@ var ScriptCtrl = function ($scope, Event, Script) {
             }
         );
     };
+    $scope.loadPath = function(){
+        if($scope.currentPath === this.path.path){
+            $scope.currentPath= null;
+        }else{
+            $scope.currentPath = this.path.path;
+        }
+        console.log(this);
+    }
 
 
 };

@@ -115,6 +115,8 @@ angular.module("AdminApp", [
                             }
 
                             return $q.reject(response);
+                        }else if(response.status = 404){
+                            return $q.reject(response);
                         } else {
                             $.pnotify({
                                 title: "Error",

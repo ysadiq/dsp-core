@@ -1,3 +1,4 @@
+<div class="well">
 <div class="navbar" style="margin-bottom:5px;margin-right:10px;">
     <div class="navbar-inner">
         <div class="brand">Server Side Scripts</div>
@@ -18,9 +19,9 @@
                 <div data-ng-repeat="event in Events | filter:searchText" class="event-list" >
                     <div class="event-name" data-ng-click="loadEvent()">{{event.name}}</div>
                     <ul data-ng-if="event.name === currentEvent || searchText">
-                        <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path">
-                            <div data-ng-if="path.verbs" class="path-name">Path : {{path.path}}</div>
-                            <ul>
+                        <li  data-ng-repeat="path in event.paths | filter:searchText" class="event-path">
+                            <div data-ng-click ="loadPath()" data-ng-if="!searchText" class="path-name">Path : {{path.path}}</div>
+                            <ul data-ng-if="path.path === currentPath || searchText">
                                 <li data-ng-repeat="verb in path.verbs | filter:searchText" class="path-verb" data-ng-click="loadScript()">
                                     {{verb.event}}&nbsp;({{verb.type}})
                                 </li>
@@ -37,6 +38,7 @@
     </tr>
 </table>
 <div class="form-actions">
-    <button data-ng-click="saveScript()" class="btn btn-primary">Save</button>
-    <button type="button" class="btn">Cancel</button>
+    <button data-ng-click="saveScript()" class="btn btn-primary">Save Script</button>
+    
+</div>
 </div>
