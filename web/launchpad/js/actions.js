@@ -4,6 +4,7 @@ Actions = {
 	 */
 	_config: {
 	},
+<<<<<<< HEAD
 	_events: {
 		enabled:   false,
 		source:    null,
@@ -17,15 +18,17 @@ Actions = {
 	}, /**
 	 * @var {*}[]
 	 */
+=======
+>>>>>>> Move event stream up one level from launchpad to main frame.
 	_apps:   [],
 
 	init: function() {
-		this.initEventStream();
 		this.getConfig();
 		this.getEventStream();
 	},
 
 	/**
+<<<<<<< HEAD
 	 * Opens up the connection to the server
 	 */
 	initEventStream: function() {
@@ -59,6 +62,8 @@ Actions = {
 	},
 
 	/**
+=======
+>>>>>>> Move event stream up one level from launchpad to main frame.
 	 * Auto run an app passed in on the command line:
 	 *
 	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
