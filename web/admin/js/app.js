@@ -105,7 +105,7 @@ angular.module("AdminApp", [
                     function error(response) {
 
 
-                        if (response.status === 401) {
+                        if (response.status === 401 || response.status === 403) {
                             if (response.config.method === "GET") {
                                 $rootScope.$broadcast("error:401", function () {
                                     window.location.reload(true);

@@ -37,7 +37,8 @@ var SchemaCtrl = function ($scope, Schema, DB, $http) {
         '<button id="save_{{row.rowIndex}}" ng-show="!this.row.entity.new" class="btn btn-small btn-inverse" disabled=true ng-click="schemaUpdateField()"><li class="icon-save"></li></button>' +
         '<button class="btn btn-small btn-danger" ng-show="!this.row.entity.new" ng-click="schemaDeleteField()"><li class="icon-remove"></li></button>' +
         '<button class="btn btn-small btn-danger" ng-show="this.row.entity.new" disabled=true ng-click="schemaDeleteField(true)"><li class="icon-remove"></li></button></div>';
-    var typeTemplate = '<select class="ngCellText colt{{$index}}" ng-options="option.value as option.text for option in typeOptions" ng-model="row.entity[col.field]" ng-change="enableSave()"></select>';
+   // var typeTemplate = '<select class="ngCellText" ng-class="col.colIndex()" ng-options="option.value as option.text for option in typeOptions" ng-model="row.entity[col.field]" ng-change="enableSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
+    var typeTemplate = '<select class="ngCellText"  ng-class="col.colIndex()" ng-options="option.value as option.text for option in typeOptions" ng-model="row.entity[col.field]" ng-change="enableSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
     Scope.columnDefs = [];
     Scope.browseOptions = {};
     Scope.browseOptions = {data: 'tableData', enableCellEditOnFocus: true, enableRowSelection:false, canSelectRows: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
@@ -76,10 +77,11 @@ var SchemaCtrl = function ($scope, Schema, DB, $http) {
             keys.forEach(function (key) {
                     if(key == 'type'){
                         column.cellTemplate = typeTemplate;
+                        column.enableCellEdit = false;
 
                     }else{
                         column.editableCellTemplate = schemaInputTemplate;
-                        column.enableFocusedCellEdit = true;
+                        column.enableCellEdit = true;
                     }
 
 
