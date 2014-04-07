@@ -1,11 +1,3 @@
-body.body-white {
-	background-color: #ffffff;
-}
-
-body.body-light {
-	background-color: #ccc;
-}
-
 .navbar {
 	min-height:            43px;
 	border-radius:         0;
@@ -33,41 +25,60 @@ body.body-light {
 	color:            rgba(255, 255, 255, 1);
 }
 
+/**************************************************************************
+** Body Styles
+**************************************************************************/
+
+body.body-white {
+	background-color: #ffffff;
+}
+
+body.body-light {
+	background-color: #ccc;
+}
+
 body.body-dark {
 	background-color: #444;
 }
 
 body.body-starburst, body.body-starburst-default {
-	background-size:     cover;
 	background-image:    url(/img/bg-starburst-default.svg);
+	background-size:     cover;
 	background-position: center left;
 	background-origin:   border-box;
 }
 
 body.body-starburst-orange {
-	background-size:     cover;
 	background-image:    url(/img/bg-starburst-orange.svg);
+	background-size:     cover;
+	background-position: center left;
+	background-origin:   border-box;
+}
+
+body.body-starburst-purple {
+	background-image:    url(/img/bg-starburst-purple.svg);
+	background-size:     cover;
 	background-position: center left;
 	background-origin:   border-box;
 }
 
 body.body-starburst-blue {
-	background-size:     cover;
 	background-image:    url(/img/bg-starburst-blue.svg);
+	background-size:     cover;
 	background-position: center left;
 	background-origin:   border-box;
 }
 
 body.body-starburst-red {
-	background-size:     cover;
 	background-image:    url(/img/bg-starburst-red.svg);
+	background-size:     cover;
 	background-position: center left;
 	background-origin:   border-box;
 }
 
 body.body-starburst-yellow {
-	background-size:     cover;
 	background-image:    url(/img/bg-starburst-yellow.svg);
+	background-size:     cover;
 	background-position: center left;
 	background-origin:   border-box;
 }
@@ -135,7 +146,6 @@ body.body-starburst-yellow {
 	float:              left;
 	width:              40%;
 	padding:            1.2em;
-	/*margin:             2em 10px 4em;*/
 	background:         #fff;
 	-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
 	-moz-box-shadow:    0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;

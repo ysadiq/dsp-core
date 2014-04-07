@@ -32,5 +32,5 @@ var _rotateBackground = function(firstTime) {
 	window.setTimeout('_rotateBackground()', 15000);
 };
 jQuery(function($) {
-	_rotateBackground(-1);
+//	_rotateBackground(-1);
 });
