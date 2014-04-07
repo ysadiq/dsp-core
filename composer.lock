@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b700b1ba11bbd52a124094c393a25bd1",
+    "hash": "e82ffa9aee082ccbfe7a960b235fbccc",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -251,12 +251,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Black Ops"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "cd69cc74ad3cc8c96b0804cd5c2e11d59b1f9c49"
+                "reference": "eb365f30b29a91526350b61ceece2970fc3f74a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/cd69cc74ad3cc8c96b0804cd5c2e11d59b1f9c49.zip",
-                "reference": "cd69cc74ad3cc8c96b0804cd5c2e11d59b1f9c49",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/eb365f30b29a91526350b61ceece2970fc3f74a7.zip",
+                "reference": "eb365f30b29a91526350b61ceece2970fc3f74a7",
                 "shasum": ""
             },
             "require": {
@@ -290,7 +290,6 @@
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
                 "dreamfactory/oasys": "~0.4.0@dev",
                 "dreamfactory/yii": "1.1.13",
-                "igorw/event-source": "1.0.*",
                 "kisma/kisma": "~0.2@dev",
                 "pear/http_request2": "*",
                 "pear/mail_mime": "*",
@@ -342,7 +341,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-06 23:13:53"
+            "time": "2014-04-07 23:14:41"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -350,12 +349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "5b5012d1c939eb38f3928810f9cd4808d998cfe8"
+                "reference": "79b500cf9a3d55630b5642a287962bef413a00f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/5b5012d1c939eb38f3928810f9cd4808d998cfe8",
-                "reference": "5b5012d1c939eb38f3928810f9cd4808d998cfe8",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/79b500cf9a3d55630b5642a287962bef413a00f9",
+                "reference": "79b500cf9a3d55630b5642a287962bef413a00f9",
                 "shasum": ""
             },
             "require": {
@@ -394,7 +393,7 @@
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
+                    "role": "Lead Developer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -404,7 +403,7 @@
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Engineer, client-side; UX/QA"
+                    "role": "Lead Developer and QA, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -413,7 +412,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-03-28 06:16:31"
+            "time": "2014-04-07 21:51:25"
         },
         {
             "name": "dreamfactory/oasys",
@@ -546,6 +545,52 @@
             "time": "2014-02-24 17:33:55"
         },
         {
+            "name": "evenement/evenement",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "30871db2821979b3d5754b3b3fc09846998deb60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/30871db2821979b3d5754b3b3fc09846998deb60",
+                "reference": "30871db2821979b3d5754b3b3fc09846998deb60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Evenement": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "time": "2013-09-29 00:45:02"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "dev-master",
             "source": {
@@ -636,53 +681,6 @@
                 "web service"
             ],
             "time": "2014-03-26 17:17:05"
-        },
-        {
-            "name": "igorw/event-source",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/igorw/EventSource.git",
-                "reference": "427f0fda029c9a282d2ffde6fe4aac0ed0987770"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/igorw/EventSource/zipball/427f0fda029c9a282d2ffde6fe4aac0ed0987770",
-                "reference": "427f0fda029c9a282d2ffde6fe4aac0ed0987770",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Igorw\\EventSource": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch",
-                    "homepage": "http://wiedler.ch/igor/"
-                }
-            ],
-            "description": "A PHP 5.3 library for creating an EventSource stream.",
-            "keywords": [
-                "event-source",
-                "real-time",
-                "server-sent-events"
-            ],
-            "time": "2012-11-10 11:16:15"
         },
         {
             "name": "kisma/kisma",
@@ -1257,6 +1255,115 @@
                 "opencloud"
             ],
             "time": "2013-08-01 16:12:19"
+        },
+        {
+            "name": "react/promise",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "95fcf8b62ec1b11bfa346c60c74fe6408a8ea922"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/95fcf8b62ec1b11bfa346c60c74fe6408a8ea922",
+                "reference": "95fcf8b62ec1b11bfa346c60c74fe6408a8ea922",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@googlemail.com",
+                    "homepage": "http://sorgalla.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "time": "2014-02-03 21:10:58"
+        },
+        {
+            "name": "react/react",
+            "version": "0.4.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/react.git",
+                "reference": "93f581cf7828166632d452e804b5745fc81be993"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/react/zipball/93f581cf7828166632d452e804b5745fc81be993",
+                "reference": "93f581cf7828166632d452e804b5745fc81be993",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "~2.0",
+                "guzzle/parser": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
+            },
+            "replace": {
+                "react/cache": "self.version",
+                "react/dns": "self.version",
+                "react/event-loop": "self.version",
+                "react/http": "self.version",
+                "react/http-client": "self.version",
+                "react/socket": "self.version",
+                "react/socket-client": "self.version",
+                "react/stream": "self.version"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-event": "Allows for use of a more performant event-loop implementation.",
+                "ext-libev": "Allows for use of a more performant event-loop implementation.",
+                "ext-libevent": "Allows for use of a more performant event-loop implementation."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Nuclear Reactor written in PHP.",
+            "keywords": [
+                "event-loop",
+                "reactor"
+            ],
+            "time": "2014-03-30 17:46:46"
         },
         {
             "name": "swiftmailer/swiftmailer",
