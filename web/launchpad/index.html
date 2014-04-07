@@ -12,14 +12,11 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-	<!--[if IE 7]>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">    <![endif]-->
 
 	<link rel="stylesheet" href="css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="css/launch.css" type="text/css" />
 	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="/js/eventsource.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body>
 <div id="rocket" class="btn btn-inverse " onclick="Actions.toggleFullScreen(false)">
@@ -34,7 +31,7 @@
 <div id="changeProfileDialog" class="modal hide">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-				onclick="Actions.clearProfile()">&times;</button>
+			onclick="Actions.clearProfile()">&times;</button>
 		<h3>Change Profile</h3>
 	</div>
 	<div class="alert-area">
@@ -66,8 +63,8 @@
 	</div>
 	<div class="modal-footer">
 		<a href="#" class="btn" data-dismiss="modal" onclick="Actions.clearProfile()">Close</a> <a href="#"
-																								   class="btn btn-primary"
-																								   onclick="Actions.updateProfile()">Save changes</a>
+		class="btn btn-primary"
+		onclick="Actions.updateProfile()">Save changes</a>
 	</div>
 </div>
 
@@ -94,15 +91,21 @@
 <script src="js/querystring-0.9.0-min.js"></script>
 <script src="js/templates.js"></script>
 <script src="js/actions.js" defer="defer"></script>
+<script src="/js/eventsource.min.js"></script>
+<script src="/js/dsp.ui.js"></script>
 <script type="application/javascript">
-jQuery(function($) {
-	function modalBodySizer() {
-		var h = $(window).height();
-		$('.modal-body').css({'max-height': (h * .4) + 'px'});
-	}
+jQuery(
+	function($) {
+		function modalBodySizer() {
+			var h = $(window).height();
+			$('.modal-body').css({'max-height': (h * .4) + 'px'});
+		}
 
-	modalBodySizer();
-});
+		modalBodySizer();
+
+		Platform.events.init();
+	}
+);
 </script>
 </body>
 </html>

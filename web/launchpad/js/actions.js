@@ -4,50 +4,10 @@ Actions = {
 	 */
 	_config: {
 	},
-	_events: {
-		enabled:   (typeof EventSource != 'undefined' ),
-		source:    null,
-		url:       '/rest/system/event_stream?app_name=launchpad',
-		outputDiv: null,
-		listener:  function(event) {
-			var _data = JSON.parse(event.data);
-			console.log('Event received: ' + _data.details.type + ' -> ' + event.data);
-//			$(window).trigger(_data.details.type, _data);
-		}
-	}, /**
-	 * @var {*}[]
-	 */
 	_apps:   [],
 
 	init: function() {
-		this.initEventStream();
 		this.getConfig();
-	},
-
-	/**
-	 * Opens up the connection to the server
-	 */
-	initEventStream: function() {
-
-		if (!this._events.enabled) {
-			return null;
-		}
-
-		if (!this._events.source && !!window.EventSource) {
-			var _this = this;
-
-			this._events.source = new EventSource(this._events.url);
-			this._events.source.addEventListener(
-				'dsp.event', function(event) {
-					_this._events.listener(event);
-				}
-			);
-
-			console.log('EventStream/Source initialized.');
-			this._events.enabled = true;
-		}
-
-		return this._events.source
 	},
 
 	/**
