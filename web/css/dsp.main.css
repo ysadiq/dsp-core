@@ -129,7 +129,7 @@ a:hover, a:focus, a:active {
 	width:         100%;
 	margin-bottom: 35px;
 	position:      relative;
-	margin:        0 auto;
+	margin:        25% auto;
 }
 
 #formbox h2 {
@@ -323,4 +323,11 @@ form, .form-buttons {
 		padding-left:  10px;
 		padding-right: 10px;
 	}
+}
+
+@media (max-height: 900px) {
+	#formbox {
+		margin: 10% auto;
+	}
+
 }
