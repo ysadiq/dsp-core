@@ -1,110 +1,93 @@
 <!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, user-scalable=yes">
-	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>DSP LaunchPad&trade;</title>
 
-	<title>LaunchPad</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="author" content="DreamFactory Software, Inc.">
+	<meta name="language" content="en" />
 	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
 
-	<!-- Standard CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<!-- Bootstrap 3 CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-	<link rel="stylesheet" href="css/layout.css" type="text/css" />
-	<link rel="stylesheet" href="css/launch.css" type="text/css" />
-	<link rel="stylesheet" href="/css/dsp.ui.css" type="text/css" />
-	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+	<!-- DreamFactory Typography Css -->
+	<link rel="stylesheet" href="/css/df-custom-bs.css">
+
+	<!-- LaunchPad Styles -->
+	<link rel="stylesheet" href="css/styles.css">
+
+	<!-- jQuery -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
+
 <body class="body-starburst-default">
-<div id="rocket" class="btn btn-inverse " onclick="Actions.toggleFullScreen(false)">
-	<i id="toggleIcon" class="icon-resize-small"></i> Exit Fullscreen
+
+<div id="btn-full-screen" class="btn btn-inverse" onclick="Actions.toggleFullScreen(false);">
+	<i id="toggleIcon" class="icon-resize-small"></i>&nbsp; Exit Fullscreen
 </div>
-<div id="loading" class="hide"><i class="icon-spinner icon-spin icon-4x"></i></div>
+
+<div id="loading" class="hide"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
 
 <!-- Navigation -->
-<div id="navbar-container"></div>
-<div id="app-list-container"></div>
-<div id="app-container"></div>
-<div id="changeProfileDialog" class="modal hide">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-				onclick="Actions.clearProfile()">&times;</button>
-		<h3>Change Profile</h3>
-	</div>
-	<div class="alert-area">
-		<div class="alert alert-block" id="changeProfileErrorMessage"></div>
-	</div>
-	<div class="modal-body">
-		<div class="modal-body-form">
-			<label for="email">Email:</label>
-			<input type="email" class="input-xlarge ONKEYUP" id="email" value="" />
-			<label for="firstname">First Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="firstname" value="" />
-			<label for="lastname">Last Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="lastname" value="" />
-			<label for="displayname">Display Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="displayname" value="" />
-
-			<label for="displayname">Default Application:</label>
-			<select class="input-xlarge ONKEYUP" id="default_app">
-				<option value>None</option>
-			</select>
-
-			<label for="displayname">Phone:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="phone" value="" />
-			<label for="displayname">Security Question:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="security_question" value="" />
-			<label for="displayname">Security Answer:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="security_answer" value="" />
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid df-navbar">
+		<div class="df-brand"><span style="color: darkorange; opacity: .5;">Dream</span>Factory</div>
+		<div class="navbar-header">
+			<span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span> <a class="btn navbar-toggle navbar-button"
+																											   href="#"
+																											   data-toggle="collapse"
+																											   data-target=".navbar-collapse">
+			<i class="fa fa-ellipsis-v fa-2x"></i> </a>
+		</div>
+		<div id="main-nav" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+			</ul>
 		</div>
 	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" onclick="Actions.clearProfile()">Close</a> <a href="#"
-																								   class="btn btn-primary"
-																								   onclick="Actions.updateProfile()">Save changes</a>
-	</div>
-</div>
 
-<div id="logoffDialog" class="modal hide fade">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3>Sign Out</h3>
+	<!-- Application List -->
+	<div id="app-list-container"></div>
+
+	<!-- The main content container -->
+	<div class="container-fluid">
+		<div id="app-container"></div>
 	</div>
-	<div class="modal-body">
-		<div class="modal-body-form" style="margin-top: 20px; font-size: 14px;">
-			Are you sure you want to sign out of the application?<br /><br /> <strong style="font-size:18px;">Any unsaved changes will be lost!</strong>
+	<!-- Modals -->
+	<div id="logoffDialog" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Log Out</h3>
+		</div>
+		<div class="modal-body">
+			<div class="modal-body-form" style="margin-top: 20px; font-size: 14px;">
+				Are you sure you want to log out of the application?<br /><br /> <strong style="font-size:18px;">Any unsaved changes will be lost!</strong>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#" class="btn btn-primary" onclick="Actions.signOut()">Sign Out</a>
 		</div>
 	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#" class="btn btn-primary" onclick="Actions.signOut()">Sign Out</a>
-	</div>
-</div>
 
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src="/js/mustache.js"></script>
-<script src="/js/utils.js"></script>
-<script src="/js/pnotify/pnotify.js"></script>
-<script src="/js/simpleStorage.min.js"></script>
-<script src="js/querystring-0.9.0-min.js"></script>
-<script src="js/templates.js"></script>
-<script src="js/actions.js" defer="defer"></script>
-<script src="/js/eventsource.min.js"></script>
-<script src="/js/dsp.ui.js"></script>
-<script type="application/javascript">
-jQuery(function($) {
-	function modalBodySizer() {
-		var h = $(window).height();
-		$('.modal-body').css({'max-height': (h * .4) + 'px'});
-	}
-
-	modalBodySizer();
-
-	Platform.events.init();
-});
-</script>
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script src="/js/mustache.js"></script>
+	<script src="/js/utils.js"></script>
+	<script src="/js/pnotify/pnotify.js"></script>
+	<script src="/js/simpleStorage.min.js"></script>
+	<script src="js/querystring-0.9.0-min.js"></script>
+	<script src="js/templates.js"></script>
+	<script src="js/actions.js" defer="defer"></script>
+	<script src="/js/eventsource.min.js"></script>
+	<script src="/js/dsp.ui.js"></script>
+	<script type="application/javascript">
+	jQuery(function($) {
+		Platform.events.init();
+	});
+	</script>
 </body>
 </html>

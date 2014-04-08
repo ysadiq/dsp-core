@@ -1275,15 +1275,6 @@ html, body {
 	display: none;
 }
 
-.df-logo {
-	margin-right: 20px;
-	margin-top:   2px;
-}
-
-.df-logo img {
-	height: 38px;
-}
-
 iframe.app-loader:empty {
 	background-color: transparent;
 }
