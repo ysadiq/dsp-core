@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Yii\Utility\Pii;
 use DreamFactory\Yii\Utility\Validate;
 
 /**
@@ -26,72 +27,83 @@ use DreamFactory\Yii\Utility\Validate;
  */
 
 Validate::register(
-	'form#activate-form',
-	array(
-		'ignoreTitle'    => true,
-		'errorClass'     => 'error',
-		'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));error.css("margin","-10px 0 0");}',
-		'rules'          => array(
-			'ActivateForm[username]' => array(
-				'required'  => true,
-				'minlength' => 5,
-			),
-			'ActivateForm[password]' => array(
-				'required' => true,
-			),
-		),
-	)
+    'form#activate-form',
+    array(
+        'ignoreTitle'    => true,
+        'errorClass'     => 'error',
+        'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));}',
+        'rules'          => array(
+            'ActivateForm[username]' => 'required email',
+            'ActivateForm[password]' => array(
+                'required'  => true,
+                'minlength' => 3,
+            ),
+        ),
+        'messages'       => array(
+            'ActivateForm[username]' => 'Please enter an actual email address',
+            'ActivateForm[password]' => array(
+                'required'  => 'You must enter a password to continue',
+                'minlength' => 'Your password must be at least 3 characters long',
+            ),
+        ),
+    )
 );
-?>
-<div class="container" id="formbox">
-	<h2>DSP Activation</h2>
 
-	<p>To activate this DSP, please enter your
-		<a href="https://www.dreamfactory.com">www.dreamfactory.com</a> email and password. You will automatically be made an admin user of this DSP. You may modify this user or add more users once you've logged in.
-	</p>
+CHtml::$errorSummaryCss = 'alert alert-danger';
 
-	<?php $form = $this->beginWidget(
-		'CActiveForm',
-		array(
-			'id'                     => 'activate-form',
-			'enableClientValidation' => true,
-			'clientOptions'          => array(
-				'validateOnSubmit' => true,
-			),
-		)
-	); ?>
-
-	<div class="form-group">
-		<label for="ActivateForm_username" class="sr-only">Email Address</label>
-
-		<div class="input-group">
-			<span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
-
-			<input tabindex="1" class="form-control email required" autofocus type="email" id="ActivateForm_username"
-				name="ActivateForm[username]" placeholder="Email Address"
-				value="<?php echo( $model->username ? $model->username : '' ); ?>" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="ActivateForm_password" class="sr-only">Password</label>
-
-		<div class="input-group">
-			<span class="input-group-addon bg_ly"><i class="fa fa-lock fa-fw"></i></span>
-
-			<input tabindex="2" class="form-control password required" type="password" id="ActivateForm_password"
-				name="ActivateForm[password]" placeholder="Password" />
-		</div>
-	</div>
-
-	<?php echo $form->errorSummary( $model ); ?>
-
-	<div class="form-buttons">
-		<button type="submit" class="btn btn-success pull-right">Activate</button>
-	</div>
-
-	<?php $this->endWidget(); ?>
-
+if ( null !== ( $_flash = Pii::getFlash( 'activate-form' ) ) )
+{
+    $_flash = <<<HTML
+<div class="alert alert-success">
+	{$_flash}
 </div>
-<script type="text/javascript">
-</script>
+HTML;
+}
+?>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">Activation Required</h2>
+
+        <h4 style="text-align: left;">To activate this DSP, please enter your email and password from the main <a target="_blank"
+                                                                                                                  href="https://www.dreamfactory.com">DreamFactory site</a>.
+        </h4>
+        <h4 style="text-align:left;">You will automatically be made an admin user of this DSP. This user can be modified, and more users can be added, once your DSP is activated.</h4>
+
+        <?php echo $_flash; ?>
+        <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
+
+        <form id="activate-form" method="POST" role="form">
+
+            <div class="form-group">
+                <label for="ActivateForm_username" class="sr-only">Email Address</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
+
+                    <input tabindex="1" required class="form-control" autofocus type="email" id="ActivateForm_username"
+                           name="ActivateForm[username]" placeholder="DSP User Email Address"
+                           spellcheck="false" autocapitalize="off" autocorrect="off"
+                           value="<?php echo $model->username; ?>" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ActivateForm_password" class="sr-only">Password</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
+
+                    <input tabindex="2" class="form-control required" type="password" id="ActivateForm_password" name="ActivateForm[password]"
+                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <small class="padding-top: 10px;" class="pull-left">By activating this DSP you agree to our <a href="https://www.dreamfactory.com/terms_of_use/"
+                                                                                                              target="_blank">terms and conditions</a>.
+                </small>
+                <button type="submit" class="btn btn-success pull-right">Activate</button>
+            </div>
+        </form>
+    </div>
+</div>
