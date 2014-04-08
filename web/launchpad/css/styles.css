@@ -1,0 +1,271 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(/css/dsp.main.css);
+
+/**
+ * Main stylesheet for LaunchPad
+ */
+.make-inline {
+	display: inline-block;
+}
+
+.accordion-group a {
+	color: rgba(255, 255, 255, .8);
+}
+
+.accordion-group a:hover {
+	color: rgba(255, 255, 255, 1);
+}
+
+.accordion-group a:active {
+	color: rgba(71, 69, 231, 1);
+}
+
+.group-title {
+	margin-bottom: 0;
+	font-weight:   bold;
+}
+
+.group-description {
+	margin-left: 20px;
+}
+
+.group-icon {
+	padding: 20px 10px 10px 10px;
+}
+
+.group-items {
+	/*
+	-webkit-box-shadow: 0px 0px 5px #ddd inset;
+	-moz-box-shadow:    0px 0px 5px #ddd inset;
+	box-shadow:         0px 0px 5px #ddd inset;
+	*/
+	padding-left:  0;
+	padding-right: 0;
+}
+
+.group-items ul {
+	margin-left: 0;
+}
+
+.group-items ul li {
+	border-bottom: 1px solid #fff;
+	list-style:    none;
+	padding-left:  45px;
+	cursor:        pointer;
+	color:         rgba(71, 69, 231, .6);
+}
+
+.group-items ul li:hover {
+	color: rgba(71, 69, 231, 1);
+	/*color: black !important;*/
+}
+
+.group-items ul li:last-child {
+	border-bottom: none;
+}
+
+.group-items ul li a {
+	color:       rgba(255, 255, 255, .6);
+	/*color:       white;*/
+	font-weight: bold;
+}
+
+.group-items ul li a:hover {
+	color: rgba(255, 255, 255, 1);
+	/*color: black !important;*/
+}
+
+.group-items ul li a h4 {
+	margin-bottom: 0;
+}
+
+.group-items ul li a p {
+	margin-left: 20px;
+}
+
+.btn-launch {
+	background:    #AA2700;
+	margin-left:   5px;
+	border-radius: 0;
+	width:         30px;
+}
+
+.btn-launch:hover {
+	background: #DB9200;
+}
+
+.btn-signin {
+	width: auto;
+}
+
+.modal-header {
+	font-family:   'Lato', sans-serif;
+	font-weight:   400;
+	border-radius: 0 0 0 0;
+	background:    #AA2700;
+	border:        1px solid #AA2700;
+}
+
+.modal-header h3 {
+	text-shadow: 0 2px 2px rgba(0, 0, 0, .8);
+	color:       white;
+	/*font-size:   18pt;*/
+	font-weight: bold;
+}
+
+.alert-area {
+	margin: 20px;
+}
+
+.alert-area .alert {
+	padding: 8px 14px;
+}
+
+.modal-body {
+	padding-top:  0;
+	max-height:   300px;
+	overflow-y:   auto;
+	margin-right: 4px;
+}
+
+.modal-body .alert-error p {
+	margin-top: 2px;
+}
+
+.modal-body-form {
+	display:    block;
+	text-align: left;
+	margin:     0 8px;
+}
+
+.modal-body-form label {
+	font-family:   "Open Sans", "Lato", Arial, sans-serif;
+	font-weight:   bold;
+	text-align:    left;
+	margin-bottom: 2px;
+	font-size:     12pt;
+}
+
+.modal-body-form .input-xlarge {
+	width: 96%;
+}
+
+.modal-footer {
+	border-radius: 0 0 0 0;
+}
+
+#app-groups-container {
+	font-family: "Roboto", "Open Sans", "Lato", Arial, sans-serif;
+}
+
+#app-list-container {
+	background: transparent;
+}
+
+#app-list-container .accordion-group {
+	/*background-color: rgba(5, 124, 221, 0.8);*/
+	/*background-color: #AA2700;*/
+
+	background-color: rgba(72, 61, 139, 0.95);
+	border:           1px solid #483D8B;
+	border-radius:    0 0 4px 4px;
+	box-shadow:       0 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+table#container {
+	background: transparent;
+}
+
+/**************************************************************************
+** Navbar Styles
+**************************************************************************/
+
+.navbar-button {
+	border:     none;
+	background: transparent;
+	color:      rgba(255, 255, 255, .5);
+	transition: color 1500ms;
+}
+
+.navbar-inverse .navbar-toggle:hover, .navbar-button:hover {
+	background: transparent;
+	color:      rgba(255, 255, 255, 1);
+	transition: color 1500ms;
+}
+
+.df-navbar {
+	padding-left:  8px;
+	padding-right: 8px;
+}
+
+.df-logo {
+	margin-right: 20px;
+	margin-left:  0;
+	padding-left: 0;
+	margin-top:   5px;
+}
+
+.df-logo img {
+	height: 32px;
+}
+
+/**************************************************************************
+** Media Queries
+**************************************************************************/
+
+@media screen and ( max-width: 560px ) {
+	.df-brand {
+		font-size: 18pt;
+	}
+}
+
+@media screen and (max-width: 940px) {
+	.btn-stack {
+		/*display: block;*/
+		margin: 5px 0 0 5px;
+	}
+
+	#main-nav {
+		width: 100%;
+	}
+
+	#main-nav .btn {
+		padding:       10px;
+		font-size:     1.3em;
+		border-radius: 0;
+		margin-bottom: 10px;
+	}
+
+	#main-nav a:last-child {
+		/*margin-bottom: 10px; */
+	}
+
+	#navbar-container {
+		padding: 0;
+		margin:  0;
+	}
+
+	.navbar-spacer {
+		padding-left:  10px;
+		padding-right: 10px;
+	}
+}
+
