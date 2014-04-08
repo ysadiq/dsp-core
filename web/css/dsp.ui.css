@@ -25,6 +25,15 @@
 	color:            rgba(255, 255, 255, 1);
 }
 
+.navbar-header {
+	width: 100%;
+}
+
+.navbar-header .df-brand {
+	line-height: 43px;
+	font-size:   18px;
+}
+
 /**************************************************************************
 ** Body Styles
 **************************************************************************/
@@ -39,6 +48,14 @@ body.body-light {
 
 body.body-dark {
 	background-color: #444;
+}
+
+body[class^="body-starburst-"] > a {
+	color: steelblue;
+}
+
+body[class^="body-starburst-"] > a:hover, body[class^="body-starburst-"] > a:focus, body[class^="body-starburst-"] > a:active {
+	color: lightsteelblue;
 }
 
 body.body-starburst, body.body-starburst-default {
@@ -234,4 +251,12 @@ body.body-starburst-yellow {
 .container-error .error {
 	font-size:   1.2em;
 	font-weight: normal;
+}
+
+.dsp-version {
+}
+
+.form-buttons small {
+	line-height: 34px;
+	opacity:     .5;
 }

@@ -294,10 +294,10 @@ class WebController extends BaseWebController
      */
     public function actionActivate()
     {
-        if ( $this->_activated )
-        {
-            $this->redirect( '/' );
-        }
+//        if ( $this->_activated )
+//        {
+//            $this->redirect( '/' );
+//        }
 
         $_model = new ActivateForm();
 

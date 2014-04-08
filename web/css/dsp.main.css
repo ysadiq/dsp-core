@@ -82,7 +82,17 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .footer-text {
-	margin: 8px 0;
+	margin: 10px 0;
+}
+
+.footer-text > a {
+	color:      rgba(242, 242, 242, 0.8);
+	transition: opacity 1500ms;
+}
+
+.footer-text > a:hover {
+	color:      rgba(242, 242, 242, 1);
+	transition: opacity 1500ms;
 }
 
 .align-center {
@@ -98,11 +108,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 ** Form Classes (forms.css)
 **************************************************************************/
 
-a {
+body > a {
 	color: #cfcfcf;
 }
 
-a:hover, a:focus, a:active {
+body > a:hover, body > a:focus, body > a:active {
 	color: #ffffff;
 }
 
@@ -278,7 +288,7 @@ form, .form-buttons {
 }
 
 .df-logo img {
-	height: 32px;
+	width: 32px;
 }
 
 @media (max-width: 768px) {

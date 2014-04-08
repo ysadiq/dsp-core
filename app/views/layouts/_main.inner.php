@@ -27,12 +27,13 @@
 ?>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
+    <div class="container-fluid df-navbar">
         <div class="navbar-header">
+            <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
+            <span class="pull-right df-brand">DreamFactory Services Platform&trade;</span>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
-            <span class="df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
         </div>
 
         <div class="collapse navbar-collapse">
@@ -42,16 +43,18 @@
         </div>
     </div>
 </div>
-</div>
 
 <div class="container-fluid container-inner">
     <?php echo $content; ?>
 </div>
 
 <div id="footer">
-    <div class="container align-center">
-        <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software, Inc.</a>
-            <?php echo date( 'Y' ); ?>. All Rights Reserved.
-        </p>
+    <div class="container-fluid">
+        <span class="pull-left">
+            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software, Inc.</a> 2012-<?php echo date(
+                    'Y'
+                ); ?>. All Rights Reserved.
+            </p>
+        </span> <span class="pull-right"><p class="footer-text">v<?php echo DSP_VERSION; ?></p></span>
     </div>
 </div>
