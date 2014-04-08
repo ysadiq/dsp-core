@@ -4,71 +4,21 @@ Actions = {
 	 */
 	_config: {
 	},
-<<<<<<< HEAD
-	_events: {
-		enabled:   false,
-		source:    null,
-		url:       '/rest/system/event/stream',
-		outputDiv: null,
-		listener:  function(event) {
-			var _data = JSON.parse(event.data);
-			console.log('Event received: ' + _data.details.type + ' -> ' + event.data);
-//			$(window).trigger(_data.details.type, _data);
-		}
-	}, /**
+	/**
 	 * @var {*}[]
 	 */
-=======
->>>>>>> Move event stream up one level from launchpad to main frame.
 	_apps:   [],
 
-	init: function() {
+	init: function () {
 		this.getConfig();
-		this.getEventStream();
 	},
 
 	/**
-<<<<<<< HEAD
-	 * Opens up the connection to the server
-	 */
-	initEventStream: function() {
-
-		if ( !this._events.enabled )
-			return null;
-
-<<<<<<< HEAD
-		if (!this._events.source) {
-			this._events.source = new EventSource(this._events.url);
-			this._events.source.addEventListener('open', this._events.listener);
-			this._events.source.addEventListener('message', this._events.listener);
-			this._events.source.addEventListener('error', this._events.listener);
-=======
-		if (!this._events.source && !!window.EventSource) {
-			var _this = this;
-
-			this._events.source = new EventSource(this._events.url);
-			this._events.source.addEventListener(
-				'dsp.event', function(event) {
-					_this._events.listener(event);
-				}
-			);
-
->>>>>>> Finalized login page backsplash
-			console.log('EventStream/Source initialized.');
-			this._events.enabled = true;
-		}
-
-		return this._events.source
-	},
-
-	/**
-=======
->>>>>>> Move event stream up one level from launchpad to main frame.
 	 * Auto run an app passed in on the command line:
 	 *
 	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
 	 */
-	autoRunApp: function() {
+	autoRunApp: function () {
 		//	Auto-run an app?
 		var _appToRun = $.QueryString('run'), _pos = -1;
 
@@ -76,7 +26,7 @@ Actions = {
 			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
 			//	Strip off any hash
 			if (-1 != (
-				_pos = _appToRun.indexOf('#')
+					_pos = _appToRun.indexOf('#')
 				)) {
 				_appToRun = _appToRun.substr(0, _pos);
 			}
@@ -202,14 +152,6 @@ Actions = {
 			$('#fs_toggle').off('click');
 		} else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
 			$('#app-list-container').hide();
-<<<<<<< HEAD
-			this.showApp(data.app_groups[0].apps[0].api_name, data.app_groups[0].apps[0].launch_url, data.app_groups[0].apps[0].is_url_external,
-						 data.app_groups[0].apps[0].requires_fullscreen, data.app_groups[0].apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
-			$('#app-list-container').hide();
-			this.showApp(data.no_group_apps[0].api_name, data.no_group_apps[0].launch_url, data.no_group_apps[0].is_url_external,
-						 data.no_group_apps[0].requires_fullscreen, data.no_group_apps[0].allow_fullscreen_toggle);
-=======
 			this.showApp(
 				data.app_groups[0].apps[0].api_name,
 				data.app_groups[0].apps[0].launch_url,
@@ -226,7 +168,6 @@ Actions = {
 				data.no_group_apps[0].requires_fullscreen,
 				data.no_group_apps[0].allow_fullscreen_toggle
 			);
->>>>>>> Finalized login page backsplash
 		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
 			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
 		} else {
@@ -468,16 +409,18 @@ Actions = {
 					that.autoRunApp();
 				}
 			}
-		}).fail(function(response) {
-			if (response.status == 401 || response.status == 403) {
-				var data = {
-					allow_open_registration: Config.allow_open_registration,
-					allow_guest_user:        Config.allow_guest_user
-				};
-				Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-				that.doSignInDialog();
-			} else if (response.status == 500) {
-				that.showStatus(response.statusText, "error");
+		).fail(
+			function(response) {
+				if (response.status == 401 || response.status == 403) {
+					var data = {
+						allow_open_registration: Config.allow_open_registration,
+						allow_guest_user:        Config.allow_guest_user
+					};
+					Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+					that.doSignInDialog();
+				} else if (response.status == 500) {
+					that.showStatus(response.statusText, "error");
+				}
 			}
 		);
 	},
@@ -563,50 +506,58 @@ Actions = {
 			return;
 		}
 		$('#loading').show();
-		$.post(CurrentServer + '/rest/user/session?app_name=launchpad',
-			   JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
-																										if (Stay) {
-																											$("#loginDialog").modal('hide');
-																											$("#loading").hide();
-																											return;
-																										}
+		$.post(
+			CurrentServer + '/rest/user/session?app_name=launchpad', JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})
+		).done(
+			function(data) {
+				if (Stay) {
+					$("#loginDialog").modal('hide');
+					$("#loading").hide();
+					return;
+				}
 
-																										if (data.redirect_uri) {
-																											var _popup = window.open(data.redirect_uri,
-																																	 'Remote Login',
-																																	 'scrollbars=0');
-																										}
+				if (data.redirect_uri) {
+					var _popup = window.open(
+						data.redirect_uri, 'Remote Login', 'scrollbars=0'
+					);
+				}
 
-																										$.data(document.body, 'session', data);
+				$.data(document.body, 'session', data);
 
-																										var sessionInfo = $.data(document.body, 'session');
+				var sessionInfo = $.data(document.body, 'session');
 
-																										Actions.appGrouper(sessionInfo);
+				Actions.appGrouper(sessionInfo);
 
-																										CurrentUserID = sessionInfo.id;
-																										if (CurrentUserID) {
-																											sessionInfo.activeSession = true;
-																										}
-																										sessionInfo.allow_open_registration =
-																										Config.allow_open_registration;
-																										sessionInfo.allow_guest_user = Config.allow_guest_user;
+				CurrentUserID = sessionInfo.id;
+				if (CurrentUserID) {
+					sessionInfo.activeSession = true;
+				}
+				sessionInfo.allow_open_registration = Config.allow_open_registration;
+				sessionInfo.allow_guest_user = Config.allow_guest_user;
 
-																										Templates.loadTemplate(Templates.navBarTemplate,
-																															   {User: sessionInfo},
-																															   'navbar-container');
-																										Templates.loadTemplate(Templates.appIconTemplate,
-																															   {Applications: sessionInfo},
-																															   'app-list-container');
-																										Actions.getApps(sessionInfo);
-																										$("#loginDialog").modal('hide');
-																										$("#loading").hide();
-																										$('#adminLink').on('click', function() {
-																											Actions.showAdmin()
-																										});
-																									}).fail(function(response) {
-																												Actions.displayModalError('#loginErrorMessage',
-																																		  getErrorString(response));
-																											});
+				Templates.loadTemplate(
+					Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container'
+				);
+				Templates.loadTemplate(
+					Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container'
+				);
+				Actions.getApps(sessionInfo);
+				$("#loginDialog").modal('hide');
+				$("#loading").hide();
+				$('#adminLink').on(
+					'click', function() {
+						Actions.showAdmin()
+					}
+				);
+			}
+		).fail(
+			function(response) {
+				Actions.displayModalError(
+					'#loginErrorMessage', getErrorString(response)
+				);
+			}
+		);
+
 	},
 	/**
 	 *
@@ -880,31 +831,44 @@ Actions = {
 /**
  * DocReady
  */
-jQuery(function($) {
-	var $_body = $('body'), $_password = $('#NPassword'), $_passwordConfirm = $('#VPassword');
+jQuery(
+	function($) {
+		var $_body = $('body'), $_password = $('#NPassword'), $_passwordConfirm = $('#VPassword');
 
-	$_body.on('touchstart.dropdown', '.dropdown-menu', function(e) {
-		e.stopPropagation();
-	});
+		$_body.on(
+			'touchstart.dropdown', '.dropdown-menu', function(e) {
+				e.stopPropagation();
+			}
+		);
 
-	$_body.css('height', (
-							 $(window).height() + 44
-							 ) + 'px');
+		$_body.css(
+			'height', (
+					  $(window).height() + 44
+					  ) + 'px'
+		);
 
-	$(window).resize(function() {
-		$_body.css('height', (
-								 $(window).height() + 44
-								 ) + 'px');
-	});
+		$(window).resize(
+			function() {
+				$_body.css(
+					'height', (
+							  $(window).height() + 44
+							  ) + 'px'
+				);
+			}
+		);
 
-	//@todo use jquery validate cuz this ain't working
-	function doPasswordVerify() {
-		var value = $_password.val(), verify = $_passwordConfirm.val();
+		//@todo use jquery validate cuz this ain't working
+		function doPasswordVerify() {
+			var value = $_password.val(), verify = $_passwordConfirm.val();
 
-		if (value.length && verify.length) {
-			if (value == verify) {
-				$_password.removeClass("RedBorder").addClass("GreenBorder");
-				$_passwordConfirm.removeClass("RedBorder").addClass("GreenBorder");
+			if (value.length && verify.length) {
+				if (value == verify) {
+					$_password.removeClass("RedBorder").addClass("GreenBorder");
+					$_passwordConfirm.removeClass("RedBorder").addClass("GreenBorder");
+				} else {
+					$_password.removeClass("GreenBorder").addClass("RedBorder");
+					$_passwordConfirm.removeClass("GreenBorder").addClass("RedBorder");
+				}
 			} else {
 				$_password.removeClass("RedBorder").removeClass("GreenBorder");
 				$_passwordConfirm.removeClass("RedBorder").removeClass("GreenBorder");

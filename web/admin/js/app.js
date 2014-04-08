@@ -25,87 +25,87 @@ var container = $("#container");
  * Angular module declaration
  */
 angular.module("AdminApp", [
-        "ngRoute",
-        "ngResource",
-        "ngGrid",
-        "AdminApp.controllers",
-        "AdminApp.apisdk"
-    ])
-    .config([
-        '$routeProvider',
-        '$locationProvider',
-        '$httpProvider',
-        function ($routeProvider, $locationProvider, $httpProvider) {
+	"ngRoute",
+	"ngResource",
+	"ngGrid",
+	"AdminApp.controllers",
+	"AdminApp.apisdk"
+])
+	.config([
+		'$routeProvider',
+		'$locationProvider',
+		'$httpProvider',
+		function ($routeProvider, $locationProvider, $httpProvider) {
 
-            $routeProvider.when('/', {
-                controller: QuickStartCtrl,
-                templateUrl: 'quick-start.html'
-            });
-            $routeProvider.when('/app', {
-                controller: AppCtrl,
-                templateUrl: 'applications.html'
-            });
-            $routeProvider.when('/user', {
-                controller: UserCtrl,
-                templateUrl: 'users.html'
-            });
-            $routeProvider.when('/role', {
-                controller: RoleCtrl,
-                templateUrl: 'roles.html'
-            });
-            $routeProvider.when('/group', {
-                controller: GroupCtrl,
-                templateUrl: 'groups.html'
-            });
-            $routeProvider.when('/schema', {
-                controller: SchemaCtrl,
-                templateUrl: 'schema.html'
-            });
-            $routeProvider.when('/service', {
-                controller: ServiceCtrl,
-                templateUrl: 'services.html'
-            });
-            $routeProvider.when('/import', {
-                controller: FileCtrl,
-                templateUrl: 'import.html'
-            });
-            $routeProvider.when('/file', {
-                controller: FileCtrl,
-                templateUrl: 'files.html'
-            });
-            $routeProvider.when('/package', {
-                controller: PackageCtrl,
-                templateUrl: 'package.html'
-            });
-            $routeProvider.when('/config', {
-                controller: ConfigCtrl,
-                templateUrl: 'config.html'
-            });
-            $routeProvider.when('/data', {
-                controller: DataCtrl,
-                templateUrl: 'data.html'
-            });
-            $routeProvider.when('/scripts', {
-                controller: ScriptCtrl,
-                templateUrl: 'scripts.html'
-            });
-            $routeProvider.when('/api', {
-                controller: 'ApiSDKCtrl',
-                templateUrl: 'apisdk.html'
-            });
-
-
-            var interceptor = ['$location', '$q', '$rootScope',
-                function ($location, $q, $rootScope) {
-                    function success(response) {
-
-                        return response;
-                    }
-
-                    function error(response) {
+			$routeProvider.when('/', {
+				controller:  QuickStartCtrl,
+				templateUrl: 'quick-start.html'
+			});
+			$routeProvider.when('/app', {
+				controller:  AppCtrl,
+				templateUrl: 'applications.html'
+			});
+			$routeProvider.when('/user', {
+				controller:  UserCtrl,
+				templateUrl: 'users.html'
+			});
+			$routeProvider.when('/role', {
+				controller:  RoleCtrl,
+				templateUrl: 'roles.html'
+			});
+			$routeProvider.when('/group', {
+				controller:  GroupCtrl,
+				templateUrl: 'groups.html'
+			});
+			$routeProvider.when('/schema', {
+				controller:  SchemaCtrl,
+				templateUrl: 'schema.html'
+			});
+			$routeProvider.when('/service', {
+				controller:  ServiceCtrl,
+				templateUrl: 'services.html'
+			});
+			$routeProvider.when('/import', {
+				controller:  FileCtrl,
+				templateUrl: 'import.html'
+			});
+			$routeProvider.when('/file', {
+				controller:  FileCtrl,
+				templateUrl: 'files.html'
+			});
+			$routeProvider.when('/package', {
+				controller:  PackageCtrl,
+				templateUrl: 'package.html'
+			});
+			$routeProvider.when('/config', {
+				controller:  ConfigCtrl,
+				templateUrl: 'config.html'
+			});
+			$routeProvider.when('/data', {
+				controller:  DataCtrl,
+				templateUrl: 'data.html'
+			});
+			$routeProvider.when('/scripts', {
+				controller:  ScriptCtrl,
+				templateUrl: 'scripts.html'
+			});
+			$routeProvider.when('/api', {
+				controller:  'ApiSDKCtrl',
+				templateUrl: 'apisdk.html'
+			});
 
 
-                        if (response.status === 401 || response.status === 403) {
+			var interceptor = ['$location', '$q', '$rootScope',
+				function ($location, $q, $rootScope) {
+					function success(response) {
+
+						return response;
+					}
+
+					function error(response) {
+
+
+                        if (response.status === 401) {
                             if (response.config.method === "GET") {
                                 $rootScope.$broadcast("error:401", function () {
                                     window.location.reload(true);
@@ -115,26 +115,24 @@ angular.module("AdminApp", [
                             }
 
                             return $q.reject(response);
-                        }else if(response.status === 404){
-                            return $q.reject(response);
                         } else {
                             $.pnotify({
                                 title: "Error",
                                 type: 'error',
-                                text: getErrorString(response)
+                                text: response.data.error[0].message
                             });
                             return $q.reject(response);
                         }
                     }
 
-                    return function (promise) {
-                        return promise.then(success, error);
-                    }
-                }
-            ];
+					return function (promise) {
+						return promise.then(success, error);
+					}
+				}
+			];
 
-            $httpProvider.responseInterceptors.push(interceptor);
-        }
+			$httpProvider.responseInterceptors.push(interceptor);
+		}
 
 
     ])
@@ -272,17 +270,6 @@ angular.module("AdminApp", [
             }
         });
     })
-    .factory('Script', function ($resource) {
-        return $resource('/rest/system/script/:script_id/?app_name=admin', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
     .factory('EmailTemplates', function ($resource) {
         return $resource('/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
             update: {
@@ -295,49 +282,50 @@ angular.module("AdminApp", [
             $rootScope.showLogin();
             $rootScope.onReturn = function () {
 
-                if (data) data();
-            };
+				if (data) {
+					data();
+				}
+			};
 
-        });
-        $rootScope.showLogin = function () {
-            container.hide();
-            loginFrame.attr("src", "");
-            loginFrame.attr("src", "../web/login");
-            loginFrame.load(function () {
-                $rootScope.checkLogin();
-            });
-            loginPage.show();
-        }
-        $rootScope.hideLogin = function () {
-            container.show();
-            loginPage.hide();
-            $rootScope.onReturn();
+		});
+		$rootScope.showLogin = function () {
+			container.hide();
+			loginFrame.attr("src", "");
+			loginFrame.attr("src", "../web/login");
+			loginFrame.load(function () {
+				$rootScope.checkLogin();
+			});
+			loginPage.show();
+		}
+		$rootScope.hideLogin = function () {
+			container.show();
+			loginPage.hide();
+			$rootScope.onReturn();
 
-        };
-        $rootScope.checkLogin = function () {
-            var loginLocation = document.getElementById("login-frame").contentWindow.location;
-            loginLocation = loginLocation.toString();
-            if (loginLocation.indexOf("launchpad") != -1) {
-                $rootScope.hideLogin();
-            }
-        };
+		};
+		$rootScope.checkLogin = function () {
+			var loginLocation = document.getElementById("login-frame").contentWindow.location;
+			loginLocation = loginLocation.toString();
+			if (loginLocation.indexOf("launchpad") != -1) {
+				$rootScope.hideLogin();
+			}
+		};
 
-    });
+	});
 
 
 var setCurrentApp = function (currentApp) {
-    $('.active').removeClass('active');
-    $("#nav_" + currentApp).addClass("active");
+	$('.active').removeClass('active');
+	$("#nav_" + currentApp).addClass("active");
 };
 
 var showFileManager = function () {
-    $("#root-file-manager iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/').show();
-
+	$('#root-file-manager').find('iframe').css('height', $(window).height() - 60).attr('src', CurrentServer + '/filemanager/').show();
 };
 
 window.onresize = resize;
 window.onload = resize;
 
 function resize() {
-    $("#grid-table").css('height', $(window).height() - 60);
+	$("#grid-table").css('height', $(window).height() - 60);
 }
