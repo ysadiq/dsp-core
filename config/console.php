@@ -60,13 +60,6 @@ return array(
         'DreamFactory\\Platform\\Yii\\Models',
     ),
     /**
-     * CORS Configuration
-     */
-    'corsWhitelist'      => array( '*' ),
-    'autoAddHeaders'     => true,
-    'extendedHeaders'    => true,
-    'useResponseObject'  => false,
-    /**
      * Preloads
      */
     'preload'            => array( 'log' ),
@@ -83,6 +76,15 @@ return array(
      * Modules
      */
     'modules'            => array(),
+    //.........................................................................
+    //. Command Mapping
+    //.........................................................................
+
+    'commandMap'         => array(
+        'events' => array(
+            'class' => 'DreamFactory\\Platform\\Yii\\Commands\\EventStreamCommand',
+        ),
+    ),
     /**
      * Components
      */
