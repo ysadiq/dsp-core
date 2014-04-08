@@ -1,50 +1,45 @@
-/*
-Main stylesheet for LaunchPad
-*/
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 @import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
 
+/**
+ * Main stylesheet for LaunchPad
+ */
 .make-inline {
 	display: inline-block;
 }
 
-#navbar-container {
-	background: black;
-    z-index: 999;
-}
-
-#app-groups-container {
-	font-family: 'Lato', sans-serif;
-}
-
-#app-list-container {
-	/*background-image: url('http://galleryheart.com/wp-content/uploads/2012/02/30_Mind-Blowing-Examples-of-Creative-Art-7.jpg');*/
-	background:      #222 url('/img/launchpad_bg_gray.png') no-repeat;
-	background-size: cover;
-}
-
-#app-list-container .accordion-group {
-	/*background-color: rgba(5, 124, 221, 0.8);*/
-	background-color: rgba(170, 39, 0, .85);
-	/*background-color: #AA2700;*/
-	border:           none;
-	border-radius:    0;
-}
-
 .accordion-group a {
-	color: white;
+	color: rgba(255, 255, 255, .8);
 }
 
 .accordion-group a:hover {
-	color: black;
+	color: rgba(255, 255, 255, 1);
 }
 
 .accordion-group a:active {
-	color: white;
+	color: rgba(71, 69, 231, 1);
 }
 
 .group-title {
 	margin-bottom: 0;
-	font-weight:   300;
+	font-weight:   bold;
 }
 
 .group-description {
@@ -73,10 +68,13 @@ Main stylesheet for LaunchPad
 	border-bottom: 1px solid #fff;
 	list-style:    none;
 	padding-left:  45px;
+	cursor:        pointer;
+	color:         rgba(71, 69, 231, .6);
 }
 
 .group-items ul li:hover {
-	color: black !important;
+	color: rgba(71, 69, 231, 1);
+	/*color: black !important;*/
 }
 
 .group-items ul li:last-child {
@@ -84,18 +82,18 @@ Main stylesheet for LaunchPad
 }
 
 .group-items ul li a {
-	color:       white;
-	font-weight: 300 !important;
+	color:       rgba(255, 255, 255, .6);
+	/*color:       white;*/
+	font-weight: bold;
 }
 
 .group-items ul li a:hover {
-	color: black !important;
-
+	color: rgba(255, 255, 255, 1);
+	/*color: black !important;*/
 }
 
 .group-items ul li a h4 {
 	margin-bottom: 0;
-	font-weight:   300;
 }
 
 .group-items ul li a p {
@@ -117,10 +115,6 @@ Main stylesheet for LaunchPad
 	width: auto;
 }
 
-.modal {
-
-}
-
 .modal-header {
 	font-family:   'Lato', sans-serif;
 	font-weight:   400;
@@ -132,7 +126,8 @@ Main stylesheet for LaunchPad
 .modal-header h3 {
 	text-shadow: 0 2px 2px rgba(0, 0, 0, .8);
 	color:       white;
-	font-size:   18pt;
+	/*font-size:   18pt;*/
+	font-weight: bold;
 }
 
 .alert-area {
@@ -145,7 +140,7 @@ Main stylesheet for LaunchPad
 
 .modal-body {
 	padding-top:  0;
-	max-height: 300px;
+	max-height:   300px;
 	overflow-y:   auto;
 	margin-right: 4px;
 }
@@ -161,7 +156,7 @@ Main stylesheet for LaunchPad
 }
 
 .modal-body-form label {
-	font-family:   "Open Sans", "Helvetica Neue Light", 'Arial', sans-serif;
+	font-family:   "Open Sans", "Lato", Arial, sans-serif;
 	font-weight:   bold;
 	text-align:    left;
 	margin-bottom: 2px;
@@ -176,27 +171,36 @@ Main stylesheet for LaunchPad
 	border-radius: 0 0 0 0;
 }
 
-.modal-footer a.btn-primary {
-	/*background: #ffaf4b; *//* Old browsers */
-	/*background: -moz-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* FF3.6+ */
-	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffaf4b), color-stop(100%, #ff920a)); *//* Chrome,Safari4+ */
-	/*background: -webkit-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* Chrome10+,Safari5.1+ */
-	/*background: -o-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* Opera 11.10+ */
-	/*background: -ms-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* IE10+ */
-	/*background: linear-gradient(to bottom, #ffaf4b 0%, #ff920a 100%); *//* W3C */
-	/*filter:     progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0); *//* IE6-9 */
+#navbar-container {
+	/*background: black;*/
+	/*z-index: 999;*/
 }
 
-.modal-footer a.btn-primary:hover {
-	/*background: #ff920a; *//* Old browsers */
-	/*background: -moz-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* FF3.6+ */
-	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff920a), color-stop(100%, #ff800a)); *//* Chrome,Safari4+ */
-	/*background: -webkit-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* Chrome10+,Safari5.1+ */
-	/*background: -o-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* Opera 11.10+ */
-	/*background: -ms-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* IE10+ */
-	/*background: linear-gradient(to bottom, #ff920a 0%, #ff800a 100%); *//* W3C */
-	/*filter:     progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff920a', endColorstr='#ff800a', GradientType=0); *//* IE6-9 */
+#app-groups-container {
+	font-family: 'Lato', sans-serif;
 }
+
+#app-list-container {
+	background: transparent;
+}
+
+#app-list-container .accordion-group {
+	/*background-color: rgba(5, 124, 221, 0.8);*/
+	/*background-color: #AA2700;*/
+
+	background-color: rgba(72, 61, 139, 0.95);
+	border:           1px solid #483D8B;
+	border-radius:    0 0 4px 4px;
+	box-shadow:       0 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+table#container {
+	background: transparent;
+}
+
+/**************************************************************************
+** Media Queries
+**************************************************************************/
 
 @media screen and (max-width: 940px) {
 	.btn-stack {
@@ -230,3 +234,4 @@ Main stylesheet for LaunchPad
 		padding-right: 10px;
 	}
 }
+

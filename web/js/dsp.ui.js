@@ -41,7 +41,7 @@ Platform = {
 		/**
 		 * Members
 		 */
-		enabled:      !!window.EventSource,
+		enabled:      false,//!!window.EventSource,
 		source:       null,
 		stream_id:    null,
 		url:          '/rest/system/event_stream?app_name=launchpad',
@@ -122,7 +122,8 @@ var _rotateBackground = function(timeout) {
 		Platform.settings.bgCurrent = 0;
 	}
 
-	$('body').removeClass('body-starburst-' + Platform.settings.backgrounds[Platform.settings.bgLast]).addClass('body-starburst-' + Platform.settings.backgrounds[Platform.settings.bgCurrent]);
+	$('body').removeClass('body-starburst-' + Platform.settings.backgrounds[Platform.settings.bgLast]).addClass('body-starburst-' +
+																												Platform.settings.backgrounds[Platform.settings.bgCurrent]);
 
 	if (timeout) {
 		window.setTimeout('_rotateBackground(' + timeout + ')', timeout);
