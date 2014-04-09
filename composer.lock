@@ -279,7 +279,7 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "eb365f30b29a91526350b61ceece2970fc3f74a7"
+                "reference": "5f1868bda615518b8bc4fa181c58341100371f08"
             },
             "dist": {
                 "type": "zip",
