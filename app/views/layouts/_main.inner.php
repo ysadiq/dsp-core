@@ -30,7 +30,7 @@
     <div class="container-fluid df-navbar">
         <div class="navbar-header">
             <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
-            <span class="pull-right df-brand">DreamFactory Services Platform&trade;</span>
+            <span class="pull-right df-brand">DreamFactory</span>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
