@@ -322,12 +322,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "b6ad99c6ca69e2e66c77c6b57b77729df0911d38"
+                "reference": "5f1868bda615518b8bc4fa181c58341100371f08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/b6ad99c6ca69e2e66c77c6b57b77729df0911d38.zip",
-                "reference": "b6ad99c6ca69e2e66c77c6b57b77729df0911d38",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/5f1868bda615518b8bc4fa181c58341100371f08.zip",
+                "reference": "5f1868bda615518b8bc4fa181c58341100371f08",
                 "shasum": ""
             },
             "require": {
@@ -391,7 +391,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-08 00:59:43"
+            "time": "2014-04-08 05:44:37"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -737,12 +737,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3"
+                "reference": "107149091b8693cb2cfa61a6026047b8e029a6bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
-                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/107149091b8693cb2cfa61a6026047b8e029a6bf",
+                "reference": "107149091b8693cb2cfa61a6026047b8e029a6bf",
                 "shasum": ""
             },
             "require": {
@@ -786,7 +786,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-04-02 14:41:37"
+            "time": "2014-04-08 05:45:52"
         },
         {
             "name": "monolog/monolog",
@@ -794,12 +794,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13"
+                "reference": "607f20d4f9757e28e762f71d4a89d49f6900c564"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c3dd9b972b8e070580f0660b842a898871fadf13",
-                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/607f20d4f9757e28e762f71d4a89d49f6900c564",
+                "reference": "607f20d4f9757e28e762f71d4a89d49f6900c564",
                 "shasum": ""
             },
             "require": {
@@ -854,7 +854,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-04 15:22:02"
+            "time": "2014-04-08 08:59:38"
         },
         {
             "name": "pear/http_request2",
