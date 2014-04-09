@@ -1,5 +1,5 @@
-var ScriptCtrl = function ($scope, Event, Script) {
-    var editor = ace.edit("editor");
+var ScriptCtrl = function ($scope, Event, Script, Config) {
+
     (function () {
         //get ALL events
         Event.get({"all_events": "true"})
@@ -7,6 +7,17 @@ var ScriptCtrl = function ($scope, Event, Script) {
                 $scope.Events = response.record;
             }
         );
+
+        $scope.Config = Config.get( function(response){
+            if(!response.is_hosted || response.is_private){
+                var editor = ace.edit("editor");
+            }else{
+                return;
+            }
+        })
+
+
+
     }());
 
     $scope.loadScript = function(){
@@ -32,7 +43,6 @@ var ScriptCtrl = function ($scope, Event, Script) {
         var post_body = editor.getValue();
         Script.update(script_id, post_body)
             .$promise.then(function (response) {
-                console.log(response);
             }
         );
     };
@@ -42,7 +52,6 @@ var ScriptCtrl = function ($scope, Event, Script) {
         }else{
             $scope.currentPath = this.path.path;
         }
-        console.log(this);
     }
 
 
