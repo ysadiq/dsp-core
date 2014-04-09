@@ -138,28 +138,28 @@
         </div>
     </div>
     <div ng-show="app.native == 1">
-      <span class="icon icon-2x icon-apple"></span>
+
       <span style="color:#98C022" class="icon icon-2x icon-android"></span>
-        <p>Please consult your native device development environment for the best way to make REST API calls to the
-            DreamFactory Services Platform. You can select either JSON or XML documents for request and response.
-            The details of technical integration are explained on the "API / SDK" tab at left. This interface shows
-            the available services and example transactions along with detailed documentation.
+        <p>Congratulations
+
+            We have created a backend for your application. Select your preferred SDK below and save the SDK to your desktop. There is also a "ReadMe" in each SDK with additional information.
+         </p>
+        <p>
+            You can make either JSON or XML documents for request and response. The details of technical integration are explained on the "API / SDK" tab at left. This interface shows the available services and example transactions along with detailed documentation. There are also examples for iOS and Android at <a href="http://www.dreamfactory.com/developers/examples" target="df-new">http://www.dreamfactory.com/developers/examples</a>.
+</p><p>
+            You can return to the Admin Console at any time and explore the other tabs at left to host your application, manage users, assign roles, create schema, and connect external services!
         </p>
 
-        <p>You can return to the Admin Console at any time and explore the other tabs at left to manage users,
-            assign roles, create schema, and connect external services. When new services are added to the platform
-            then they are reflected in the Live REST API and SDK Documentation. Use the Admin Console to
-            interactively create and test services before calling them from your native application.
-        </p>
 
-        <p>Please see the DreamFactory website for more information on building native applications and calling the
-            services.
-        </p>
 
         <div style="width:100%">
             <div style="display:table-cell">
-                <button style="width:200px;" data-ng-click="goToDocs()" class="btn btn-success">See API / SDK</button>
-            </div>
+                <div class="btn-group">
+                <button data-ng-click="goToDocs()" class="btn btn-success"> See API Docs </button>
+                <a class="btn btn-success"  style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><span class="icon icon-apple"></span> iOS SDK </a>
+                <a class="btn btn-success" style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new"><span class="icon icon-android"></span> Android SDK </a>
+                </div>
+                </div>
             <div style="display:table-cell;width:50%">&nbsp;</div>
             <div style="display:table-cell"><img src="img/native.png"/></div>
         </div>
