@@ -7,6 +7,7 @@ var editor;
                 $scope.Events = response.record;
                 $scope.Events.forEach(function(event){
                   var name=event.name;
+
                   event.paths.forEach(function(path){
                     var preEvent, postEvent, preObj, postObj;
                     var pathIndex = path.path.lastIndexOf("/") + 1;
@@ -17,9 +18,10 @@ var editor;
                        preObj = {"type":verb.type, "event":preEvent, "scripts":[]};
                        postEvent = pathName + "." + verb.type + "." + "post_process";
                        postObj = {"type":verb.type, "event":postEvent, "scripts":[]};
+                       path.verbs.push(preObj);
+                       path.verbs.push(postObj);
                      })
-                    path.verbs.push(preObj);
-                    path.verbs.push(postObj);
+
                   })
 
                 })
