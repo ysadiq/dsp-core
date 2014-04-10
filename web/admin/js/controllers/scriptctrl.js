@@ -60,18 +60,18 @@ var editor;
     }
     $scope.saveScript = function(){
         var script_id = {"script_id":$scope.currentScript};
-        var post_body = editor.getValue();
-        if(!post_body){
-          Script.delete(script_id)
-              .$promise.then(function (response) {
-              }
-          );
-        }else{
+        var post_body = editor.getValue() || " ";
+
           Script.update(script_id, post_body)
               .$promise.then(function (response) {
+                $.pnotify({
+                   title: $scope.currentScript,
+                   type: 'success',
+                   text: 'Saved Successfully'
+               });
               }
           );
-        }
+
 
     };
     $scope.loadPath = function(){
