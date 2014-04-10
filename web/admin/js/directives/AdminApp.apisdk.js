@@ -53,7 +53,6 @@ angular.module('AdminApp.apisdk', []).
 
                 $scope.$on('sdk:getServer', function(e) {
 
-                    console.log('sdk message')
                     $scope.$broadcast('sdk:getServer:address', $scope.getCurrentServer());
                 });
 
@@ -105,7 +104,6 @@ angular.module('AdminApp.apisdk', []).
 
                 scope.$on('swagger:on', function(e, serviceNameStr) {
 
-                    console.log(serviceNameStr);
 
                     if (serviceNameStr) {
                         scope.iframeUrl = scope.getCurrentServer() + '/swagger/#!/' + serviceNameStr;
@@ -199,7 +197,6 @@ angular.module('AdminApp.apisdk', []).
                     scope.iframeUrl = addressStr + '/docs/';
 
                     angular.element('#docsFrame').attr('src', scope.iframeUrl);
-                    console.log(angular.element('#docsFrame'));
                 });
 
                 scope.init();
