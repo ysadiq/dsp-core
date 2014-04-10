@@ -1,16 +1,31 @@
 var ScriptCtrl = function ($scope, Event, Script, Config) {
-
+var editor;
     (function () {
         //get ALL events
         Event.get({"all_events": "true"})
             .$promise.then(function (response) {
                 $scope.Events = response.record;
+                $scope.Events.forEach(function(event){
+                  var name=event.name;
+                  event.paths.forEach(function(path){
+                    var preEvent, postEvent, preObj, postObj;
+                     path.verbs.forEach(function(verb){
+                       preEvent = name + "." + verb.type + "." + "pre_process";
+                       preObj = {"type":verb.type, "event":preEvent, "scripts":[]};
+                       postEvent = name + "." + verb.type + "." + "post_process";
+                       postObj = {"type":verb.type, "event":postEvent, "scripts":[]};
+                     })
+                    path.verbs.push(preObj);
+                    path.verbs.push(postObj);
+                  })
+
+                })
             }
         );
 
         $scope.Config = Config.get( function(response){
             if(!response.is_hosted || response.is_private){
-                var editor = ace.edit("editor");
+                editor = ace.edit("editor");
             }else{
                 return;
             }
