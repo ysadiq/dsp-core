@@ -9,10 +9,13 @@ var editor;
                   var name=event.name;
                   event.paths.forEach(function(path){
                     var preEvent, postEvent, preObj, postObj;
+                    var pathIndex = path.path.lastIndexOf("/") + 1;
+                    var pathName = path.path.substr(pathIndex);
                      path.verbs.forEach(function(verb){
-                       preEvent = name + "." + verb.type + "." + "pre_process";
+
+                       preEvent = pathName + "." + verb.type + "." + "pre_process";
                        preObj = {"type":verb.type, "event":preEvent, "scripts":[]};
-                       postEvent = name + "." + verb.type + "." + "post_process";
+                       postEvent = pathName + "." + verb.type + "." + "post_process";
                        postObj = {"type":verb.type, "event":postEvent, "scripts":[]};
                      })
                     path.verbs.push(preObj);
@@ -56,10 +59,18 @@ var editor;
     $scope.saveScript = function(){
         var script_id = {"script_id":$scope.currentScript};
         var post_body = editor.getValue();
-        Script.update(script_id, post_body)
-            .$promise.then(function (response) {
-            }
-        );
+        if(!post_body){
+          Script.delete(script_id)
+              .$promise.then(function (response) {
+              }
+          );
+        }else{
+          Script.update(script_id, post_body)
+              .$promise.then(function (response) {
+              }
+          );
+        }
+
     };
     $scope.loadPath = function(){
         if($scope.currentPath === this.path.path){
