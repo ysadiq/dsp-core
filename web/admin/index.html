@@ -1,57 +1,58 @@
 <!DOCTYPE html>
 <html ng-app="AdminApp" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="author" content="DreamFactory Software, Inc.">
-    <meta name="language" content="en"/>
-    <link rel="shortcut icon" href="/img/df_logo_factory-32x32.png"/>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="author" content="DreamFactory Software, Inc.">
+	<meta name="language" content="en" />
+	<link rel="shortcut icon" href="/img/df-apple-touch-icon.png" />
 
-    <!-- Bootstrap 3 CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<!-- Bootstrap 3 CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
-    <!-- DreamFactory Typography Css -->
-    <link rel="stylesheet" href="/css/df-custom-bs.css">
+	<!-- DreamFactory Typography Css -->
+	<link rel="stylesheet" href="/css/df-custom-bs.css">
 
-    <!-- DSP UI Styles & Code -->
-    <link rel="stylesheet" href="/css/dsp.main.css">
+	<!-- DSP UI Styles & Code -->
+	<link rel="stylesheet" href="/css/dsp.main.css">
 
-    <!-- Admin styles -->
-    <link rel="stylesheet" href="css/admin.styles.css">
-    <link rel="stylesheet" href="js/ng-grid/ng-grid.css" type="text/css"/>
+	<!-- Admin styles -->
+	<link rel="stylesheet" href="css/admin.styles.css">
+	<link rel="stylesheet" href="js/ng-grid/ng-grid.css" type="text/css" />
+	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-
+	<!-- Scripts -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body id="admin-body" class="body-transparent">
 
 <div class="container-fluid">
-    <!-- The main content container -->
-    <div id="container" class="row">
-        <div class="col-md-2" id="main-menu">
-            <div id="sidebar" ng-include src="'navigation.html'"></div>
-        </div>
-        <div class="col-md-10" id="main-content">
-            <div id="angular-content" ng-view></div>
-        </div>
-    </div>
+	<!-- The main content container -->
+	<div id="container" class="row">
+		<div class="col-md-2" id="main-menu">
+			<div id="sidebar">
+				<div ng-include src="'navigation.html'"></div>
+			</div>
+		</div>
+		<div class="col-md-10">
+			<div id="main-content">
+				<div id="angular-content" ng-view></div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="hide" id="login-page">
-    <iframe frameborder=0 src="../web/login/" id="login-frame"></iframe>
-</div>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-resource.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="/js/json2.js"></script>
 <script src="/js/utils.js"></script>
+<script src="/js/pnotify/pnotify.js" defer="defer"></script>
 <script src="js/ng-grid/ng-grid-2.0.7.min.js"></script>
 <script src="js/controllers/quickstartctrl.js"></script>
 <script src="js/controllers/userctrl.js"></script>
@@ -72,9 +73,5 @@
 <script src="js/app.js"></script>
 
 <script src="js/jsonlint.js"></script>
-
-<script src="/js/pnotify/pnotify.js"></script>
-<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css"/>
-
 </body>
 </html>
