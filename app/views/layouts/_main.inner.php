@@ -21,7 +21,7 @@
 /**
  * Partial view for the inner body of the main template
  *
- * @var string        $content
+ * @var string $content
  * @var WebController $this
  */
 ?>
@@ -30,9 +30,10 @@
     <div class="container-fluid df-navbar">
         <div class="navbar-header">
             <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
-            <span class="pull-right df-brand">DreamFactory</span>
+            <span class="pull-left df-brand"><span class="dream-orange">Dream</span>Factory</span>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
         </div>
 
@@ -44,17 +45,21 @@
     </div>
 </div>
 
-<div class="container-fluid container-inner">
+<div id="page-content" class="container-fluid container-inner">
     <?php echo $content; ?>
 </div>
 
 <div id="footer">
     <div class="container-fluid">
-        <span class="pull-left">
-            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software, Inc.</a> 2012-<?php echo date(
+        <span class="pull-left dsp-footer-copyright">
+            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software,
+                    Inc.</a> 2012-<?php echo date(
                     'Y'
                 ); ?>. All Rights Reserved.
             </p>
-        </span> <span class="pull-right"><p class="footer-text">v<?php echo DSP_VERSION; ?></p></span>
+        </span> <span class="pull-right dsp-footer-version"><p class="footer-text">
+                <a href="https://github.com/dreamfactorysoftware/dsp-core/"
+                   target="_blank">v<?php echo DSP_VERSION; ?></a>
+            </p></span>
     </div>
 </div>

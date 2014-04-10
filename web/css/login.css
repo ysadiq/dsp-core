@@ -4,137 +4,125 @@
 
 /** Metro Background color class **/
 .bg_lb {
-	background: #27a9e3;
+    background: #27a9e3;
 }
 
 .bg_db {
-	background: #2295c9;
+    background: #2295c9;
 }
 
 .bg_dg {
-	background: #239b63;
+    background: #239b63;
 }
 
 .bg_lg {
-	background: #28b779;
+    background: #28b779;
 }
 
 .bg_ly {
-	background: #ffb848;
+    background: #ffb848;
 }
 
 .bg_dy {
-	background: #da9628;
+    background: #da9628;
 }
 
 .bg_ls {
-	background: #2255a4;
+    background: #2255a4;
 }
 
 .bg_lo {
-	background: #da542e;
+    background: #da542e;
 }
 
 .bg_lr {
-	background: #f74d4d;
+    background: #f74d4d;
 }
 
 .bg_lv {
-	background: #603bbc;
+    background: #603bbc;
 }
 
 .bg_lh {
-	background: #b6b3b3;
+    background: #b6b3b3;
 }
 
 /** Disable glow around selected fields on form **/
 .form-group .form-control:focus {
-	box-shadow:      none;
-	-moz-box-shadow: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
 }
 
 .input-group.remember-me {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 /** Form error message **/
 #formbox .form-group label.error {
-	text-align:  right;
-	margin:      2px 0 -12px -2px;
-	width:       100%;
-	font-weight: normal;
-	font-size:   14px;
-	color:       #921515;
+    text-align: right;
+    margin: 2px 0 -12px -2px;
+    width: 100%;
+    font-weight: normal;
+    font-size: 14px;
+    color: #921515;
 }
 
 /** Icon in front of input **/
 .form-group.has-error span.input-group-addon i.fa {
-	/*text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.40);*/
+    /*text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.40);*/
 }
 
 .form-group.has-success span.input-group-addon i.fa {
-	/*text-shadow: 0 0 6px rgba(217, 180, 0, 0.8);*/
+    /*text-shadow: 0 0 6px rgba(217, 180, 0, 0.8);*/
 }
 
 .strong-disabled {
-	color: #333;
+    color: #333;
 }
 
 /**
  * Input add-on/checkbox tweaks
  */
 .input-group-addon.bg-control {
-	padding:    0 10px;
-	text-align: center;
-	margin:     0 auto;
-	font-size:  18px;
+    padding: 0 10px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 18px;
 }
 
 .input-group-addon.bg-control i.fa {
-	/*text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);*/
+    /*text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);*/
 }
 
 .input-group-addon.bg-control i.fa.fa-2x {
-	font-size: 22px;
+    font-size: 22px;
 }
 
 .input-group .bg-control i.fa.fa-times-circle-o, .input-group .bg-control i.fa.fa-check-circle-o {
-	font-size: 26px;
+    font-size: 26px;
 }
 
 .remember-me {
-	color:      #666;
-	text-align: left;
-	cursor:     pointer;
-}
-
-.remember-checked {
-	color:       #111;
-	font-weight: bold;
+    color: #666;
+    text-align: left;
+    cursor: pointer;
 }
 
 .alert {
-	padding: 12px 15px;
+    padding: 12px 15px;
 }
 
 .alert.alert-danger strong:first-child {
-	text-align:    left;
-	font-size:     18px;
-	font-weight:   lighter;
-	border-bottom: 1px inset rgba(139, 0, 0, 0.20);
-	display:       block;
-	width:         100%;
-	margin-bottom: 10px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: lighter;
+    border-bottom: 1px inset rgba(139, 0, 0, 0.20);
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-/** style for "remember me" label on login view */
-#LoginForm_rememberMe {
-	vertical-align: top;
+.checkbox.remember-me {
+    margin-top: 0; 
+    margin-right: 4px;
 }
-
-#login-form > div:nth-child(6) > label {
-	margin-bottom:  0;
-	padding-bottom: 0;
-	margin-left:    4px;
-}
-

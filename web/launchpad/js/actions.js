@@ -177,7 +177,7 @@ Actions = {
 				// Did this because when we just $.show(see commented out line below)
 				// Angular hasn't populated the DOM because it's fallen out of scope
 				// I think
-				$('#admin').replaceWith($('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
+				$('#admin').replaceWith($('<iframe height="100%" width="100%">').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
 																																						CurrentServer +
 																																						url).appendTo('#app-container'));
 				//$('#admin').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src', CurrentServer + url).show();

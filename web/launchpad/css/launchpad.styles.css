@@ -1,0 +1,29 @@
+/* No footers on launchpad basic */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#footer {
+    display: none;
+}
+
+#app-container {
+    display: inline;
+}
+
+.app-loader {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#container.row {
+    margin: 0;
+    padding: 0;
+}
