@@ -105,25 +105,25 @@ angular.module("AdminApp", [
 					function error(response) {
 
 
-                        if (response.status === 401) {
-                            if (response.config.method === "GET") {
-                                $rootScope.$broadcast("error:401", function () {
-                                    window.location.reload(true);
-                                });
-                            } else {
-                                $rootScope.$broadcast("error:401", null);
-                            }
+						if (response.status === 401) {
+							if (response.config.method === "GET") {
+								$rootScope.$broadcast("error:401", function () {
+									window.location.reload(true);
+								});
+							} else {
+								$rootScope.$broadcast("error:401", null);
+							}
 
-                            return $q.reject(response);
-                        } else {
-                            $.pnotify({
-                                title: "Error",
-                                type: 'error',
-                                text: response.data.error[0].message
-                            });
-                            return $q.reject(response);
-                        }
-                    }
+							return $q.reject(response);
+						} else {
+							$.pnotify({
+								title: "Error",
+								type:  'error',
+								text:  response.data.error[0].message
+							});
+							return $q.reject(response);
+						}
+					}
 
 					return function (promise) {
 						return promise.then(success, error);
@@ -135,152 +135,152 @@ angular.module("AdminApp", [
 		}
 
 
-    ])
-    .factory('AppsRelated', function ($resource) {
-        return $resource('/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('AppsRelatedToService', function ($resource) {
-        return $resource('/rest/system/app/:id/?app_name=admin&fields=*&related=app_service_relations', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('App', function ($resource) {
-        return $resource('/rest/system/app/:id/?app_name=admin&fields=*', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('User', function ($resource) {
-        return $resource('/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {
-            send_invite: false
-        }, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('Role', function ($resource) {
-        return $resource('/rest/system/role/:id/?app_name=admin&fields=*', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        })
-    })
-    .factory('RolesRelated', function ($resource) {
-        return $resource('/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('Service', function ($resource) {
-        return $resource('/rest/system/service/:id/?app_name=admin&fields=*', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('Schema', function ($resource) {
-        return $resource('/rest/schema/:name/?app_name=admin&fields=*', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('DB', function ($resource) {
-        return $resource('/rest/db/:name/?app_name=admin&fields=*&include_schema=true', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('Group', function ($resource) {
-        return $resource('/rest/system/app_group/:id/?app_name=admin&fields=*&related=apps', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('Config', function ($resource) {
-        return $resource('/rest/system/config/?app_name=admin', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('Event', function ($resource) {
-        return $resource('/rest/system/event/?app_name=admin', {}, {
-            update: {
-                method: 'PUT'
-            },
-            query: {
-                method: 'GET',
-                isArray: false
-            }
-        });
-    })
-    .factory('EmailTemplates', function ($resource) {
-        return $resource('/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
-            update: {
-                method: 'PUT'
-            }
-        });
-    })
-    .run(function ($rootScope) {
-        $rootScope.$on("error:401", function (message, data) {
-            $rootScope.showLogin();
-            $rootScope.onReturn = function () {
+	])
+	.factory('AppsRelated', function ($resource) {
+		return $resource('/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('AppsRelatedToService', function ($resource) {
+		return $resource('/rest/system/app/:id/?app_name=admin&fields=*&related=app_service_relations', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('App', function ($resource) {
+		return $resource('/rest/system/app/:id/?app_name=admin&fields=*', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('User', function ($resource) {
+		return $resource('/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {
+			send_invite: false
+		}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('Role', function ($resource) {
+		return $resource('/rest/system/role/:id/?app_name=admin&fields=*', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		})
+	})
+	.factory('RolesRelated', function ($resource) {
+		return $resource('/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('Service', function ($resource) {
+		return $resource('/rest/system/service/:id/?app_name=admin&fields=*', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('Schema', function ($resource) {
+		return $resource('/rest/schema/:name/?app_name=admin&fields=*', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('DB', function ($resource) {
+		return $resource('/rest/db/:name/?app_name=admin&fields=*&include_schema=true', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('Group', function ($resource) {
+		return $resource('/rest/system/app_group/:id/?app_name=admin&fields=*&related=apps', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('Config', function ($resource) {
+		return $resource('/rest/system/config/?app_name=admin', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('Event', function ($resource) {
+		return $resource('/rest/system/event/?app_name=admin', {}, {
+			update: {
+				method: 'PUT'
+			},
+			query:  {
+				method:  'GET',
+				isArray: false
+			}
+		});
+	})
+	.factory('EmailTemplates', function ($resource) {
+		return $resource('/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	})
+	.run(function ($rootScope) {
+		$rootScope.$on("error:401", function (message, data) {
+			$rootScope.showLogin();
+			$rootScope.onReturn = function () {
 
 				if (data) {
 					data();

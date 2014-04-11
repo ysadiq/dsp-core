@@ -198,10 +198,10 @@ return array_merge(
         //  If true, REST events will be generated
         'dsp.enable_rest_events' => true,
         //  If true, event scripts will be ran
-        'dsp.enable_event_scripts'      => true,
+        'dsp.enable_event_scripts' => true,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events' => true,
-        // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events.
+        // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
         'dsp.log_all_events' => false,
         //-------------------------------------------------------------------------
         //	Login Form Settings
