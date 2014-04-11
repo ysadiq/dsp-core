@@ -21,7 +21,7 @@
 /**
  * Partial view for the inner body of the main template
  *
- * @var string $content
+ * @var string        $content
  * @var WebController $this
  */
 ?>
@@ -38,8 +38,8 @@
         </div>
 
         <div class="collapse navbar-collapse">
-
-            <ul class="nav navbar-nav">
+            <div id="admin-container"></div>
+            <ul class="nav navbar-nav" id="navbar-container">
             </ul>
         </div>
     </div>
@@ -52,14 +52,13 @@
 <div id="footer">
     <div class="container-fluid">
         <span class="pull-left dsp-footer-copyright">
-            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software,
-                    Inc.</a> 2012-<?php echo date(
+            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software, Inc.</a> 2012-<?php echo date(
                     'Y'
                 ); ?>. All Rights Reserved.
             </p>
         </span> <span class="pull-right dsp-footer-version"><p class="footer-text">
                 <a href="https://github.com/dreamfactorysoftware/dsp-core/"
-                   target="_blank">v<?php echo DSP_VERSION; ?></a>
+                    target="_blank">v<?php echo DSP_VERSION; ?></a>
             </p></span>
     </div>
 </div>

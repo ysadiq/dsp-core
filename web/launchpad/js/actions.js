@@ -15,6 +15,7 @@ Actions = {
 	_apps:   [],
 
 	init: function() {
+		$("#loading").show();
 		this.getConfig();
 	},
 
@@ -36,17 +37,19 @@ Actions = {
 				_appToRun = _appToRun.substr(0, _pos);
 			}
 
-			this._apps.forEach(function(app) {
-				if (app.api_name == _appToRun) {
-					if (app.is_sys_admin) {
-						app.requires_fullscreen = false;
+			this._apps.forEach(
+				function(app) {
+					if (app.api_name == _appToRun) {
+						if (app.is_sys_admin) {
+							app.requires_fullscreen = false;
+						}
+						Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
+						return false;
 					}
-					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
-					return false;
-				}
 
-				return true;
-			});
+					return true;
+				}
+			);
 		}
 	},
 
@@ -58,19 +61,23 @@ Actions = {
 		var that = this;
 
 		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad')
-			.done(function(configInfo) {
-					  Config = that._config = configInfo;
-					  document.title = "Launchpad " + configInfo.dsp_version;
-					  that.updateSession("init");
-					  var data = {
-						  allow_open_registration: Config.allow_open_registration,
-						  allow_guest_user:        Config.allow_guest_user
-					  };
-					  Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-				  })
-			.fail(function(response) {
-					  alertErr(response);
-				  });
+			.done(
+			function(configInfo) {
+				Config = that._config = configInfo;
+				document.title = "Launchpad " + configInfo.dsp_version;
+				that.updateSession("init");
+				var data = {
+					allow_open_registration: Config.allow_open_registration,
+					allow_guest_user:        Config.allow_guest_user
+				};
+				Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+			}
+		)
+			.fail(
+			function(response) {
+				alertErr(response);
+			}
+		);
 
 		return false;
 	},
@@ -89,45 +96,55 @@ Actions = {
 			_apps = data.no_group_apps;
 		}
 
-		data.app_groups.forEach(function(group) {
-			group.apps.forEach(function(app) {
-				_apps.push(app);
-			});
-		});
+		data.app_groups.forEach(
+			function(group) {
+				group.apps.forEach(
+					function(app) {
+						_apps.push(app);
+					}
+				);
+			}
+		);
 
 		this._apps = _apps;
 
 		_options = "";
 
-		_apps.forEach(function(app) {
-			if (app.is_default && !data.is_sys_admin) {
-				Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
+		_apps.forEach(
+			function(app) {
+				if (app.is_default && !data.is_sys_admin) {
+					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
 
-				//window.defaultApp = app.id;
-				_defaultShown = true;
+					//window.defaultApp = app.id;
+					_defaultShown = true;
 
+				}
+
+				else if (app.is_default && data.is_sys_admin) {
+					app.requires_fullscreen = false;
+
+					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
+
+					//window.defaultApp = app.id;
+					_defaultShown = true;
+
+					$('#adminLink').on(
+						'click', function() {
+							Actions.showAdmin()
+						}
+					);
+
+					$('#adminLink').on(
+						'click', function() {
+							Actions.showAdmin()
+						}
+					);
+
+				}
+
+				_options += '<option value="' + app.id + '">' + app.name + '</option>';
 			}
-
-			else if (app.is_default && data.is_sys_admin) {
-				app.requires_fullscreen = false;
-
-				Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
-
-				//window.defaultApp = app.id;
-				_defaultShown = true;
-
-				$('#adminLink').on('click', function() {
-					Actions.showAdmin()
-				});
-
-				$('#adminLink').on('click', function() {
-					Actions.showAdmin()
-				});
-
-			}
-
-			_options += '<option value="' + app.id + '">' + app.name + '</option>';
-		});
+		);
 
 		$_defaultApps.append(_options + '<option value>None</option>');
 
@@ -143,18 +160,22 @@ Actions = {
 			$('#fs_toggle').off('click');
 		} else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
 			$('#app-list-container').hide();
-			this.showApp(data.app_groups[0].apps[0].api_name,
-						 data.app_groups[0].apps[0].launch_url,
-						 data.app_groups[0].apps[0].is_url_external,
-						 data.app_groups[0].apps[0].requires_fullscreen,
-						 data.app_groups[0].apps[0].allow_fullscreen_toggle);
+			this.showApp(
+				data.app_groups[0].apps[0].api_name,
+				data.app_groups[0].apps[0].launch_url,
+				data.app_groups[0].apps[0].is_url_external,
+				data.app_groups[0].apps[0].requires_fullscreen,
+				data.app_groups[0].apps[0].allow_fullscreen_toggle
+			);
 		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
 			$('#app-list-container').hide();
-			this.showApp(data.no_group_apps[0].api_name,
-						 data.no_group_apps[0].launch_url,
-						 data.no_group_apps[0].is_url_external,
-						 data.no_group_apps[0].requires_fullscreen,
-						 data.no_group_apps[0].allow_fullscreen_toggle);
+			this.showApp(
+				data.no_group_apps[0].api_name,
+				data.no_group_apps[0].launch_url,
+				data.no_group_apps[0].is_url_external,
+				data.no_group_apps[0].requires_fullscreen,
+				data.no_group_apps[0].allow_fullscreen_toggle
+			);
 		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
 			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
 		} else {
@@ -177,15 +198,21 @@ Actions = {
 				// Did this because when we just $.show(see commented out line below)
 				// Angular hasn't populated the DOM because it's fallen out of scope
 				// I think
-				$('#admin').replaceWith($('<iframe height="100%" width="100%">').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
-																																						CurrentServer +
-																																						url).appendTo('#app-container'));
+				$('#admin').replaceWith(
+					$('<iframe height="100%" width="100%">').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr(
+						'src',
+						CurrentServer +
+						url
+					).appendTo('#app-container')
+				);
 				//$('#admin').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src', CurrentServer + url).show();
 			} else {
 				$('#adminLink').addClass('disabled');
-				$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
-																																CurrentServer +
-																																url).appendTo('#app-container');
+				$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr(
+					'src',
+					CurrentServer +
+					url
+				).appendTo('#app-container');
 			}
 			return;
 		}
@@ -207,14 +234,18 @@ Actions = {
 			// Show the app
 
 			if (!allowfullscreentoggle) {
-				$('#fs_toggle').off('click', function() {
-					Actions.toggleFullScreen(false);
-				});
+				$('#fs_toggle').off(
+					'click', function() {
+						Actions.toggleFullScreen(false);
+					}
+				);
 			} else if (allowfullscreentoggle) {
 				$('#fs_toggle').removeClass('disabled');
-				$('#fs_toggle').on('click', function() {
-					Actions.toggleFullScreen(true);
-				});
+				$('#fs_toggle').on(
+					'click', function() {
+						Actions.toggleFullScreen(true);
+					}
+				);
 
 			}
 
@@ -242,14 +273,18 @@ Actions = {
 				Actions.requireFullScreen();
 			} else {
 				if (!allowfullscreentoggle) {
-					$('#fs_toggle').off('click', function() {
-						Actions.toggleFullScreen(false);
-					});
+					$('#fs_toggle').off(
+						'click', function() {
+							Actions.toggleFullScreen(false);
+						}
+					);
 				} else if (allowfullscreentoggle) {
 					$('#fs_toggle').removeClass('disabled');
-					$('#fs_toggle').on('click', function() {
-						Actions.toggleFullScreen(true);
-					});
+					$('#fs_toggle').on(
+						'click', function() {
+							Actions.toggleFullScreen(true);
+						}
+					);
 
 				}
 
@@ -263,9 +298,11 @@ Actions = {
 	animateNavBarClose: function(callback) {
 
 		var navbarH = $('#main-nav').height();
-		$('#main-nav').animate({
-								   height: 0
-							   }).removeClass('in');
+		$('#main-nav').animate(
+			{
+				height: 0
+			}
+		).removeClass('in');
 
 		if (typeof callback == 'function') {
 			callback.call(this);
@@ -274,9 +311,11 @@ Actions = {
 
 	showAppList: function() {
 
-		$('#adminLink').on('click', function() {
-			Actions.showAdmin()
-		});
+		$('#adminLink').on(
+			'click', function() {
+				Actions.showAdmin()
+			}
+		);
 		$('#adminLink').removeClass('disabled');
 		$('#fs_toggle').off('click');
 		$('#fs_toggle').addClass('disabled');
@@ -294,10 +333,12 @@ Actions = {
 
 		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
 
-		this.animateNavBarClose(function() {
-			this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
+		this.animateNavBarClose(
+			function() {
+				this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
 
-		});
+			}
+		);
 
 	},
 
@@ -321,18 +362,22 @@ Actions = {
 
 			var no_url_apps = [];
 
-			$.each(apps.apps, function(k, v) {
-				if (v.launch_url === '') {
-					no_url_apps.push(k);
+			$.each(
+				apps.apps, function(k, v) {
+					if (v.launch_url === '') {
+						no_url_apps.push(k);
 
+					}
 				}
-			});
+			);
 
 			no_url_apps.reverse();
 
-			$.each(no_url_apps, function(k, v) {
-				apps.apps.splice(v, 1);
-			});
+			$.each(
+				no_url_apps, function(k, v) {
+					apps.apps.splice(v, 1);
+				}
+			);
 
 			// push this new app object onto our array
 			sessionInfo.mnm_ng_apps.push(apps);
@@ -347,45 +392,51 @@ Actions = {
 
 	updateSession: function(action) {
 		var that = this;
-		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad').done(function(sessionInfo) {
-			//$.data(document.body, 'session', data);
-			//var sessionInfo = $.data(document.body, 'session');
+		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad').done(
+			function(sessionInfo) {
+				//$.data(document.body, 'session', data);
+				//var sessionInfo = $.data(document.body, 'session');
 
-			Actions.appGrouper(sessionInfo);
+				Actions.appGrouper(sessionInfo);
 
-			CurrentUserID = sessionInfo.id;
-			if (CurrentUserID) {
-				sessionInfo.activeSession = true;
+				CurrentUserID = sessionInfo.id;
+				if (CurrentUserID) {
+					sessionInfo.activeSession = true;
+				}
+				sessionInfo.allow_open_registration = Config.allow_open_registration;
+				sessionInfo.allow_guest_user = Config.allow_guest_user;
+
+				Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
+				Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
+
+				if (sessionInfo.is_sys_admin) {
+					$('#adminLink').addClass('disabled');
+					$('#fs_toggle').addClass('disabled');
+					$('#apps-list-btn').removeClass('disabled');
+					$('#fs_toggle').off('click');
+				}
+
+				if (action == "init") {
+					that.getApps(sessionInfo, action);
+					that.autoRunApp();
+				}
 			}
-			sessionInfo.allow_open_registration = Config.allow_open_registration;
-			sessionInfo.allow_guest_user = Config.allow_guest_user;
-
-			Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
-			Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
-
-			if (sessionInfo.is_sys_admin) {
-				$('#adminLink').addClass('disabled');
-				$('#fs_toggle').addClass('disabled');
-				$('#apps-list-btn').removeClass('disabled');
-				$('#fs_toggle').off('click');
+		).fail(
+			function(response) {
+				if (response.status == 401 || response.status == 403) {
+					var data = {
+						allow_open_registration: Config.allow_open_registration,
+						allow_guest_user:        Config.allow_guest_user
+					};
+					Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+					that.doSignInDialog();
+				} else if (response.status == 500) {
+					that.showStatus(response.statusText, "error");
+				}
 			}
+		);
 
-			if (action == "init") {
-				that.getApps(sessionInfo, action);
-				that.autoRunApp();
-			}
-		}).fail(function(response) {
-			if (response.status == 401 || response.status == 403) {
-				var data = {
-					allow_open_registration: Config.allow_open_registration,
-					allow_guest_user:        Config.allow_guest_user
-				};
-				Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-				that.doSignInDialog();
-			} else if (response.status == 500) {
-				that.showStatus(response.statusText, "error");
-			}
-		});
+		$("#loading").hide();
 	},
 
 //*************************************************************************
@@ -401,18 +452,20 @@ Actions = {
 		if (Config.allow_remote_logins && Config.remote_login_providers) {
 			$_providers.empty();
 
-			Config.remote_login_providers.forEach(function(provider) {
-				if ('1' == provider.is_active) {
+			Config.remote_login_providers.forEach(
+				function(provider) {
+					if ('1' == provider.is_active) {
 
-					var _icon = provider.api_name.toLowerCase();
+						var _icon = provider.api_name.toLowerCase();
 
-					if ('google' == _icon) {
-						_icon = 'google-plus';
+						if ('google' == _icon) {
+							_icon = 'google-plus';
+						}
+
+						$_providers.append('<i class="icon-' + _icon + ' icon-3x" data-provider="' + provider.api_name + '"></i>');
 					}
-
-					$_providers.append('<i class="icon-' + _icon + ' icon-3x" data-provider="' + provider.api_name + '"></i>');
 				}
-			});
+			);
 
 			$('.remote-login', $_dlg).show();
 		} else {
@@ -421,9 +474,11 @@ Actions = {
 	},
 
 	hideSignIn: function() {
-		$('#loginDialog').modal('hide').off().on('hidden', function() {
-			Actions.clearSignIn();
-		});
+		$('#loginDialog').modal('hide').off().on(
+			'hidden', function() {
+				Actions.clearSignIn();
+			}
+		);
 	},
 
 	doSignInDialog: function(stay) {
@@ -534,28 +589,30 @@ Actions = {
 			NewUser.security_answer = a;
 		}
 
-		$.ajax({
-				   dataType: 'json',
-				   type:     'POST',
-				   url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/?method=MERGE&app_name=launchpad',
-				   data:     JSON.stringify(NewUser),
-				   cache:    false,
-				   success:  function(response) {
-					   // update display name
+		$.ajax(
+			{
+				dataType: 'json',
+				type:     'POST',
+				url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/?method=MERGE&app_name=launchpad',
+				data:     JSON.stringify(NewUser),
+				cache:    false,
+				success:  function(response) {
+					// update display name
 
-					   that.updateSession();
-					   $("#changeProfileDialog").modal('hide');
-					   that.clearProfile();
-				   },
-				   error:    function(response) {
-					   if (response.status == 401) {
-						   $("#changeProfileDialog").modal('hide');
-						   that.doSignInDialog();
-					   } else {
-						   $("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
-					   }
-				   }
-			   });
+					that.updateSession();
+					$("#changeProfileDialog").modal('hide');
+					that.clearProfile();
+				},
+				error:    function(response) {
+					if (response.status == 401) {
+						$("#changeProfileDialog").modal('hide');
+						that.doSignInDialog();
+					} else {
+						$("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
+					}
+				}
+			}
+		);
 	},
 
 //*************************************************************************
@@ -595,25 +652,27 @@ Actions = {
 	},
 	updatePassword:         function(pass) {
 		var that = this;
-		$.ajax({
-				   dataType: 'json',
-				   type:     'POST',
-				   url: CurrentServer + '/rest/user/password/?method=MERGE&app_name=launchpad',
-				   data:     pass,
-				   cache:    false,
-				   success:  function(response) {
-					   $("#changePasswordDialog").modal('hide');
-					   that.clearChangePassword();
-				   },
-				   error:    function(response) {
-					   if (response.status == 401) {
-						   $("#changePasswordDialog").modal('hide');
-						   that.doSignInDialog();
-					   } else {
-						   $("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
-					   }
-				   }
-			   });
+		$.ajax(
+			{
+				dataType: 'json',
+				type:     'POST',
+				url: CurrentServer + '/rest/user/password/?method=MERGE&app_name=launchpad',
+				data:     pass,
+				cache:    false,
+				success:  function(response) {
+					$("#changePasswordDialog").modal('hide');
+					that.clearChangePassword();
+				},
+				error:    function(response) {
+					if (response.status == 401) {
+						$("#changePasswordDialog").modal('hide');
+						that.doSignInDialog();
+					} else {
+						$("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
+					}
+				}
+			}
+		);
 	},
 
 //*************************************************************************
@@ -625,31 +684,33 @@ Actions = {
 	},
 	signOut:                function() {
 		var that = this;
-		$.ajax({
-				   dataType: 'json',
-				   type:     'POST',
-				   url: CurrentServer + '/rest/user/session/' + CurrentUserID + '/',
-				   data:     'app_name=launchpad&method=DELETE',
-				   cache:    false,
-				   success:  function(response) {
-					   $('#app-container').empty();
-					   $('#app-list-container').empty();
-					   $("#logoffDialog").modal('hide');
-					   that.updateSession("init");
+		$.ajax(
+			{
+				dataType: 'json',
+				type:     'POST',
+				url: CurrentServer + '/rest/user/session/' + CurrentUserID + '/',
+				data:     'app_name=launchpad&method=DELETE',
+				cache:    false,
+				success:  function(response) {
+					$('#app-container').empty();
+					$('#app-list-container').empty();
+					$("#logoffDialog").modal('hide');
+					that.updateSession("init");
 
-				   },
-				   error:    function(response) {
-					   if (response.status == 401) {
-						   //that.showSignInButton();
-						   var data = {
-							   allow_open_registration: Config.allow_open_registration,
-							   allow_guest_user:        Config.allow_guest_user
-						   };
-						   Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-						   that.doSignInDialog();
-					   }
-				   }
-			   });
+				},
+				error:    function(response) {
+					if (response.status == 401) {
+						//that.showSignInButton();
+						var data = {
+							allow_open_registration: Config.allow_open_registration,
+							allow_guest_user:        Config.allow_guest_user
+						};
+						Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+						that.doSignInDialog();
+					}
+				}
+			}
+		);
 	},
 	showSignInButton:       function() {
 
@@ -668,19 +729,25 @@ Actions = {
 	toggleFullScreen:       function(toggle) {
 		if (toggle) {
 
-			Actions.animateNavBarClose(function() {
-				$('#app-container').css({"top": "0px", "z-index": 998});
-				$('#navbar-container').css({
-											   "z-index": 10
-										   });
-				$('#rocket').show();
-			});
+			Actions.animateNavBarClose(
+				function() {
+					$('#app-container').css({"top": "0px", "z-index": 998});
+					$('#navbar-container').css(
+						{
+							"z-index": 10
+						}
+					);
+					$('#rocket').show();
+				}
+			);
 
 		} else {
 			$('#app-container').css({"top": "44px", "z-index": 997});
-			$('#navbar-container').css({
-										   "z-index": 999
-									   })
+			$('#navbar-container').css(
+				{
+					"z-index": 999
+				}
+			)
 			$('#fs_toggle').removeClass('disabled');
 			$('#rocket').hide();
 		}
@@ -697,25 +764,31 @@ Actions = {
 /**
  * DocReady
  */
-jQuery(function($) {
-	var $_body = $('body'), $_password = $('#NPassword'), $_passwordConfirm = $('#VPassword');
+jQuery(
+	function($) {
+		var $_body = $('body'), $_password = $('#NPassword'), $_passwordConfirm = $('#VPassword');
 
-	$_body.on('touchstart.dropdown', '.dropdown-menu', function(e) {
-		e.stopPropagation();
-	});
+		$_body.on(
+			'touchstart.dropdown', '.dropdown-menu', function(e) {
+				e.stopPropagation();
+			}
+		);
 
-	/**
-	 * Support for remote logins
-	 */
-	$('.remote-login-providers').on('click', 'i', function(e) {
-		e.preventDefault();
+		/**
+		 * Support for remote logins
+		 */
+		$('.remote-login-providers').on(
+			'click', 'i', function(e) {
+				e.preventDefault();
 
-		var _provider = $(this).data('provider');
+				var _provider = $(this).data('provider');
 
-		if (_provider) {
-			window.top.location.href = '/web/remoteLogin?pid=' + _provider + '&return_url=' + encodeURI(window.top.location);
-		}
-	});
-});
+				if (_provider) {
+					window.top.location.href = '/web/remoteLogin?pid=' + _provider + '&return_url=' + encodeURI(window.top.location);
+				}
+			}
+		);
+	}
+);
 
 Actions.init();

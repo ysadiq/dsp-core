@@ -89,22 +89,9 @@ var Templates = {
         '</div>' +
         '</div></td></tr>' +
         '{{/Applications.no_group_apps}}</table>',
-    navBarTemplate : '<div class="navbar navbar-inverse">' +
-        ' <div class="container">' +
-        ' <div class="pull-left df-logo"><a href="/"><img src="../img/logo.png"></a></div>' +
-
-        ' <div class="pull-right" id="dfControl1">' +
+    navBarTemplate : ' <div class="pull-right" id="dfControl1">' +
         ' <a class="btn btn-primary" onclick="Actions.doSignInDialog()"><li class="icon-signin"></li>&nbsp;Sign In</a>' +
         ' {{#allow_open_registration}}<a class="btn btn-primary" onclick="Actions.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a>{{/allow_open_registration}}' +
-        '</div>' +
-        ' <div id="app-list"></div>' +
-        '<div id="error-container" class="alert alert-error center"></div>' +
-        ' <div id="admin-container"></div>' +
-        ' <!-- Everything you want hidden at 940px or less, place within here -->' +
-        '<div class="nav-collapse collapse">' +
-        '<!-- .nav, .navbar-search, .navbar-form, etc -->' +
-        '</div>' +
-        '</div>' +
         '</div>',
     errorTemplate : '{{#error}}<div class="alert">' +
         '<button type="button" class="close" data-dismiss="alert">x</button>' +

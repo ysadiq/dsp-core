@@ -27,24 +27,27 @@ use Kisma\Core\Utility\Option;
  */
 
 $_html = null;
-$_message = Option::get($error, 'message', CHtml::encode($message));
+$_message = Option::get( $error, 'message', CHtml::encode( $message ) );
 
-if (isset($error) && is_array($error)) {
+if ( isset( $error ) && is_array( $error ) )
+{
     $_html = '<table>';
 
-    foreach ($error as $_key => $_value) {
+    foreach ( $error as $_key => $_value )
+    {
         $_html .= HtmlMarkup::tag(
             'tr',
             null,
-            HtmlMarkup::tag('td', null, $_key) .
-            HtmlMarkup::tag('td', null, $_value)
+            HtmlMarkup::tag( 'td', null, $_key ) .
+            HtmlMarkup::tag( 'td', null, $_value )
         );
     }
 
     $_html .= '</table>';
 }
 
-if (empty($_html)) {
+if ( empty( $_html ) )
+{
     $_html = 'None provided. Sorry...';
 }
 
@@ -52,9 +55,7 @@ if (empty($_html)) {
 <div class="container container-error">
     <h1>Well, this is embarrassing...</h1>
 
-    <p class="lead">The server has experienced a fatal error. Our administrators will automatically be notified.
-        However, if you would like to report additional information regarding this particular error, please open a case
-        on our
+    <p class="lead">The server has experienced a fatal error. Our administrators will automatically be notified. However, if you would like to report additional information regarding this particular error, please open a case on our
         <a target="_blank" href="https://github.com/dreamfactorysoftware/dsp-core/issues">bug tracker</a>.
     </p>
 
@@ -69,9 +70,9 @@ if (empty($_html)) {
     </div>
 </div>
 <script>
-    jQuery(
-        function ($) {
-            $('body').css('background-position', 'top center').removeClass().addClass('body-starburst-error');
-        }
-    );
+jQuery(
+    function($) {
+        $('body').removeClass().addClass('body-starburst-error');
+    }
+);
 </script>
