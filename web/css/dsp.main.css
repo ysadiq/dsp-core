@@ -14,13 +14,14 @@
 html {
 	height:           100%;
 	background-color: rgba(70, 91, 123, .05);
-	transition:       background-color 2000ms;
+	transition:       background-color 2s;
 }
 
 body {
+	min-height:       512px;
 	height:           100%;
 	background-color: rgba(70, 91, 123, .4);
-	transition:       background-color 2000ms;
+	transition:       background-color 2s;
 	font-family:      'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 	font-weight:      300;
 	color:            #F2F2F2;
@@ -256,16 +257,6 @@ form, .form-buttons {
 	margin-left:    4px;
 }
 
-/** Alerts **/
-.alert-area .alert {
-	padding: 8px 14px;
-}
-
-.alert {
-	margin:     10px auto auto;
-	box-shadow: inset 0 0 0;
-}
-
 /** Form error message **/
 .form-group div.error {
 	color:          #eeeeee;
@@ -280,16 +271,14 @@ form, .form-buttons {
 	padding-top:   0;
 }
 
-.strong-disabled {
-	color: #333;
+/** Alerts **/
+.alert-area .alert {
+	padding: 8px 14px;
 }
 
-.page-logo {
-	text-align: center;
-}
-
-.page-logo img {
-	width: 64px;
+.alert {
+	margin:     10px auto auto;
+	box-shadow: inset 0 0 0;
 }
 
 #formbox .lead {
@@ -298,23 +287,13 @@ form, .form-buttons {
 	color:       #ffffff;
 }
 
-/* From Launchpad*/
-.df-logo {
-	margin:     5px 10px 0 0;
-	opacity:    0.5;
-	transition: opacity 1500ms;
-	display:    inline-block;
-	position:   relative;
+.strong-disabled {
+	color: #333;
 }
 
-.df-logo:hover {
-	opacity:    0.8;
-	transition: opacity 1500ms;
-}
-
-.df-logo img {
-	width: 32px;
-}
+/**************************************************************************
+** Media Queries (do not add classes below this unless they are queries
+**************************************************************************/
 
 @media (max-width: 768px) {
 	.logo-container img {

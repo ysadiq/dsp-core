@@ -1,7 +1,95 @@
-/**
- * Classes specific to the login page
+/*!
+ * dsp.ui.css
+ *
+ * Copyright 2014 DreamFactory Software, Inc.
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * This is the CSS file for the login page and is automatically imported by /css/dsp.main.css
  */
-@import url(/css/login.css);
+/**************************************************************************
+** Login Page Styles
+**************************************************************************/
+
+/** Disable glow around selected fields on form **/
+.form-group .form-control:focus {
+	box-shadow:      none;
+	-moz-box-shadow: none;
+}
+
+.input-group.remember-me {
+	cursor: pointer;
+}
+
+/** Form error message **/
+#formbox .form-group label.error {
+	text-align:  right;
+	margin:      2px 0 -12px -2px;
+	width:       100%;
+	font-weight: normal;
+	font-size:   14px;
+	color:       #921515;
+}
+
+/** Icon in front of input **/
+.form-group.has-error span.input-group-addon i.fa {
+	/*text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.40);*/
+}
+
+.form-group.has-success span.input-group-addon i.fa {
+	/*text-shadow: 0 0 6px rgba(217, 180, 0, 0.8);*/
+}
+
+.strong-disabled {
+	color: #333;
+}
+
+/**
+ * Input add-on/checkbox tweaks
+ */
+.input-group-addon.bg-control {
+	padding:    0 10px;
+	text-align: center;
+	margin:     0 auto;
+	font-size:  18px;
+}
+
+.input-group-addon.bg-control i.fa {
+	/*text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);*/
+}
+
+.input-group-addon.bg-control i.fa.fa-2x {
+	font-size: 22px;
+}
+
+.input-group .bg-control i.fa.fa-times-circle-o, .input-group .bg-control i.fa.fa-check-circle-o {
+	font-size: 26px;
+}
+
+.remember-me {
+	color:      #666;
+	text-align: left;
+	cursor:     pointer;
+}
+
+.alert {
+	padding: 12px 15px;
+}
+
+.alert.alert-danger strong:first-child {
+	text-align:    left;
+	font-size:     18px;
+	font-weight:   lighter;
+	border-bottom: 1px inset rgba(139, 0, 0, 0.20);
+	display:       block;
+	width:         100%;
+	margin-bottom: 10px;
+}
+
+.checkbox.remember-me {
+	margin-top:   0;
+	margin-right: 4px;
+}
 
 /**************************************************************************
 ** Remote login styles
@@ -62,7 +150,7 @@
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 	opacity:    1;
 	transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
-	color: rgba(96, 80, 195, 0.7);
+	color:      rgba(96, 80, 195, 0.7);
 }
 
 .remote-login-providers :hover {
