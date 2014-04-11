@@ -21,11 +21,10 @@
 /**
  * Partial view for the inner body of the main template
  *
- * @var string        $content
+ * @var string $content
  * @var WebController $this
  */
 ?>
-
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid df-navbar">
         <div class="navbar-header">
@@ -39,26 +38,28 @@
 
         <div class="collapse navbar-collapse">
             <div id="admin-container"></div>
-            <ul class="nav navbar-nav" id="navbar-container">
-            </ul>
+            <div id="navbar-container"></div>
         </div>
     </div>
 </div>
 
-<div id="page-content" class="container-fluid container-inner">
-    <?php echo $content; ?>
+<div id="page-content">
+    <div class="container-fluid container-inner">
+        <?php echo $content; ?>
+    </div>
 </div>
 
 <div id="footer">
     <div class="container-fluid">
         <span class="pull-left dsp-footer-copyright">
-            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software, Inc.</a> 2012-<?php echo date(
+            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software,
+                    Inc.</a> 2012-<?php echo date(
                     'Y'
                 ); ?>. All Rights Reserved.
             </p>
         </span> <span class="pull-right dsp-footer-version"><p class="footer-text">
                 <a href="https://github.com/dreamfactorysoftware/dsp-core/"
-                    target="_blank">v<?php echo DSP_VERSION; ?></a>
+                   target="_blank">v<?php echo DSP_VERSION; ?></a>
             </p></span>
     </div>
 </div>
