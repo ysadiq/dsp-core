@@ -1,13 +1,29 @@
 Actions = {
-	/** @var {*} A hash of jquery selectors */
-	cache:   {
-		$adminLink:    $('#adminLink'),
-		$appContainer: $('#app-container')
-	},
 	/**
 	 * @var {*}
 	 */
 	_config: {
+	},
+	_events: {
+		enabled:   false,
+		source:    null,
+		url:       '/rest/system/event/stream',
+		outputDiv: null,
+		listener:  function(event) {
+			var _type = event.type;
+
+			//	Ricochet the event off the client
+			switch (_type) {
+				case 'error':
+					break;
+
+				case 'dsp.event':
+					$.trigger(event.data.event_name, event.data);
+					break;
+			}
+
+			console.log('Event received: ' + _type + ' -> ' + (_type === 'message' ? event.data : Actions._events.url ));
+		}
 	},
 	/**
 	 * @var {*}[]
@@ -15,8 +31,27 @@ Actions = {
 	_apps:   [],
 
 	init: function() {
-		$("#loading").show();
 		this.getConfig();
+		this.getEventStream();
+	},
+
+	/**
+	 * Opens up the connection to the server
+	 */
+	getEventStream: function() {
+
+		if ( !this._events.enabled )
+			return null;
+
+		if (!this._events.source) {
+			this._events.source = new EventSource(this._events.url);
+			this._events.source.addEventListener('open', this._events.listener);
+			this._events.source.addEventListener('message', this._events.listener);
+			this._events.source.addEventListener('error', this._events.listener);
+			console.log('EventStream/Source initialized.');
+		}
+
+		return this._events.source
 	},
 
 	/**
@@ -48,9 +83,8 @@ Actions = {
 					}
 
 					return true;
+			});
 				}
-			);
-		}
 	},
 
 	getConfig: function() {
@@ -198,9 +232,7 @@ Actions = {
 				// Did this because when we just $.show(see commented out line below)
 				// Angular hasn't populated the DOM because it's fallen out of scope
 				// I think
-				$('#admin').replaceWith(
-					$('<iframe height="100%" width="100%">').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr(
-						'src',
+				$('#admin').replaceWith($('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
 						CurrentServer +
 						url
 					).appendTo('#app-container')
@@ -433,10 +465,7 @@ Actions = {
 				} else if (response.status == 500) {
 					that.showStatus(response.statusText, "error");
 				}
-			}
-		);
-
-		$("#loading").hide();
+		});
 	},
 
 //*************************************************************************
@@ -483,10 +512,88 @@ Actions = {
 
 	doSignInDialog: function(stay) {
 		window.top.location = '/web/login?redirected=1';
+
+//		var _message = $.QueryString('error');
+//
+//		if (_message) {
+//			_message = decodeURIComponent(_message.replace(/\+/g, '%20'));
+//		}
+//		else {
+//			_message =
+//				( stay ? 'Your Session has expired. Please log in to continue' : 'Please enter your User Email and Password below to sign in.' );
+//		}
+//
+//		window.Stay = false;
+//		$('#loginErrorMessage').removeClass('alert-error').empty().html(_message);
+//		this.clearSignIn();
+//
+//		if (stay) {
+//			$("#loginDialog").modal('show').on('shown', function() {
+//				$('#UserEmail').focus();
+//			});
+//			window.Stay = true;
+//		}
+//		else {
+//			$("#loginDialog").modal('show').on('shown', function() {
+//				$('#UserEmail').focus();
+//			});
+//			window.Stay = false;
+//		}
 	},
 
 	signIn:            function() {
-		this.doSignInDialog();
+
+		var that = this;
+		if (!$('#UserEmail').val() || !$('#Password').val()) {
+			$("#loginErrorMessage").addClass('alert-error').html('You must enter your email address and password to continue.');
+			return;
+		}
+		$('#loading').show();
+		$.post(CurrentServer + '/rest/user/session?app_name=launchpad',
+			   JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
+																										if (Stay) {
+																											$("#loginDialog").modal('hide');
+																											$("#loading").hide();
+																											return;
+																										}
+
+																										if (data.redirect_uri) {
+																											var _popup = window.open(data.redirect_uri,
+																																	 'Remote Login',
+																																	 'scrollbars=0');
+																										}
+
+																										$.data(document.body, 'session', data);
+
+																										var sessionInfo = $.data(document.body, 'session');
+
+																										Actions.appGrouper(sessionInfo);
+
+																										CurrentUserID = sessionInfo.id;
+																										if (CurrentUserID) {
+																											sessionInfo.activeSession = true;
+																										}
+																										sessionInfo.allow_open_registration =
+																										Config.allow_open_registration;
+																										sessionInfo.allow_guest_user = Config.allow_guest_user;
+
+																										Templates.loadTemplate(Templates.navBarTemplate,
+																															   {User: sessionInfo},
+																															   'navbar-container');
+																										Templates.loadTemplate(Templates.appIconTemplate,
+																															   {Applications: sessionInfo},
+																															   'app-list-container');
+																										Actions.getApps(sessionInfo);
+																										$("#loginDialog").modal('hide');
+																										$("#loading").hide();
+																										$('#adminLink').on('click', function() {
+																											Actions.showAdmin()
+																										});
+																									}).fail(function(response) {
+																												Actions.displayModalError('#loginErrorMessage',
+																																		  getErrorString(response));
+																											});
+
 	},
 	/**
 	 *
@@ -752,10 +859,6 @@ Actions = {
 			$('#rocket').hide();
 		}
 	},
-
-	/**
-	 *
-	 */
 	requireFullScreen: function() {
 		$('#app-container').css({"top": "0px", "z-index": 998});
 	}
@@ -771,8 +874,61 @@ jQuery(
 		$_body.on(
 			'touchstart.dropdown', '.dropdown-menu', function(e) {
 				e.stopPropagation();
+	});
+
+	$_body.css('height', (
+							 $(window).height() + 44
+							 ) + 'px');
+
+	$(window).resize(function() {
+		$_body.css('height', (
+								 $(window).height() + 44
+								 ) + 'px');
+	});
+
+	//@todo use jquery validate cuz this ain't working
+	function doPasswordVerify() {
+		var value = $_password.val(), verify = $_passwordConfirm.val();
+
+		if (value.length && verify.length) {
+			if (value == verify) {
+				$_password.removeClass("RedBorder").addClass("GreenBorder");
+				$_passwordConfirm.removeClass("RedBorder").addClass("GreenBorder");
+			} else {
+				$_password.removeClass("GreenBorder").addClass("RedBorder");
+				$_passwordConfirm.removeClass("GreenBorder").addClass("RedBorder");
 			}
-		);
+		} else {
+			$_password.removeClass("RedBorder").removeClass("GreenBorder");
+			$_passwordConfirm.removeClass("RedBorder").removeClass("GreenBorder");
+		}
+	}
+
+	$_password.keyup(doPasswordVerify);
+	$_passwordConfirm.keyup(doPasswordVerify);
+
+	//@todo figure out a better way to capture enter key, this sucks
+	function checkEnterKey(e, action) {
+		if (e.keyCode == 13) {
+			action();
+		}
+	}
+
+	$('#loginDialog').find('input').keydown(function(e) {
+		checkEnterKey(e, Actions.signIn);
+	});
+
+	$('#forgotPasswordDialog').find('input').keydown(function(e) {
+		checkEnterKey(e, Actions.forgotPassword);
+	});
+
+	$('#changeProfileDialog').find('input').keydown(function(e) {
+		checkEnterKey(e, Actions.updateProfile);
+	});
+
+	$('#changePasswordDialog').find('input').keydown(function(e) {
+		checkEnterKey(e, Actions.checkPassword);
+	});
 
 		/**
 		 * Support for remote logins

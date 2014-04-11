@@ -11,6 +11,12 @@
 ** Body Styles
 **************************************************************************/
 
+body,
+body.transparent {
+    background: #444;
+    transition: background-color 0.2s;
+}
+
 body.body-white {
     background-color: #ffffff;
 }
@@ -82,6 +88,28 @@ body.body-starburst-error {
     background-position: top;
 }
 
+body.body-starburst-error #page-content {
+    padding-top: 84px;
+}
+
+body[class^="body-starburst-"] #page-content > a {
+    color: #ccc;
+    transition: color 2s;
+}
+
+body[class^="body-starburst-"] #page-content > div > div > p > a {
+    color: #ccc;
+    transition: color 2s;
+}
+
+body[class^="body-starburst-"] #page-content > div > div > p > a:hover,
+body[class^="body-starburst-"] #page-content > div > div > p > a:active,
+body[class^="body-starburst-"] #page-content > div > div > p > a:focus,
+{
+    color: #eee;
+    transition: color 2s;
+}
+
 #page-content {
     width: 100%;
     min-height: 100%;
@@ -93,7 +121,7 @@ body.body-starburst-error {
 }
 
 #page-content > div {
-    padding-top:0;
+    padding-top: 0;
     padding-left: 0;
     padding-right: 0;
 }
@@ -105,7 +133,7 @@ body.body-starburst-error {
 }
 
 #footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     left: 0;
@@ -688,29 +716,13 @@ body > div.container-fluid.container-inner {
     }
 }
 
-@media (max-height: 900px) {
-    #formbox {
-        margin: 25% auto 0;
-    }
-
-}
-
-@media (max-height: 800px) {
-    #formbox {
-        margin: 25% auto 0;
-    }
-}
-
-@media (max-height: 512px) {
-    #formbox {
-        margin: 15% auto 0;
-    }
-}
-
 /** media queries */
 @media screen and (max-width: 940px) {
     .container-error {
         padding-left: 15px;
         padding-right: 15px;
+    }
+    #formbox {
+        margin: 25% auto;
     }
 }
