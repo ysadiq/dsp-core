@@ -101,7 +101,18 @@ var Templates = {
 					 '</div>' +
 					 '{{/Applications.mnm_ng_apps}}' +
 	'</div>',
-	navBarTemplate:  '<div id="error-container" class="alert alert-error center"></div>' +
+    navBarTemplate :
+        '<div class="navbar navbar-inverse">' +
+            '<div class="container">' +
+            '<div class="navbar-spacer">' +
+            '<div class="pull-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>' +
+            '<a class="btn btn-navbar pull-right" data-toggle="collapse" data-target="#main-nav">' +
+            '<span class="icon-bar"></span>' +
+            '<span class="icon-bar"></span>' +
+            '<span class="icon-bar"></span>' +
+            '</a>' +
+            '</div>' +
+            '<div id="error-container" class="alert alert-error center"></div>' +
 					 ' <!-- Everything you want hidden at 940px or less, place within here -->' +
 					 '<div id="main-nav" class="nav-collapse collapse pull-right">' +
 					 '<!-- .nav, .navbar-search, .navbar-form, etc -->' +
@@ -127,6 +138,8 @@ var Templates = {
 					 '<a class="btn btn-inverse btn-launch btn-stack btn-signin" onclick="Actions.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a>' +
 					 '{{/User.allow_open_registration}}' +
 					 '{{/User.activeSession}}' +
+            '</div>' +
+            '</div>' +
 	'</div>',
 	errorTemplate:   '{{#error}}<div class="alert">' +
 					 '<button type="button" class="close" data-dismiss="alert">x</button>' +

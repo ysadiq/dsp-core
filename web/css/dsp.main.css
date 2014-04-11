@@ -15,14 +15,13 @@
 @import url(/css/dsp.ui.css);
 @import url(/css/dsp.login.css);
 
-html, body, body.body-transparent {
+html, body {
     height: 100%;
-    background-color: rgba(72, 61, 139, 0.50);
-    transition: background-color 0.2s;
 }
 
 body {
     min-height: 100%;
+    height: auto;
     font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
     font-weight: 300;
     color: #F2F2F2;

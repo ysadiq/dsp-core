@@ -59,7 +59,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/<?php echo $_versions['jquery']; ?>/jquery.min.js"></script>
 </head>
-<body class="body-starburst-blue">
+<body>
 
 <?php require __DIR__ . '/_main.inner.php'; ?>
 
