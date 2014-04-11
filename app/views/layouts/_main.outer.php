@@ -21,28 +21,31 @@
 /**
  * This is the partial view for the outer portion of the main template for the server-side views.
  *
- * @var string        $content
+ * @var string $content
  * @var WebController $this
- * @var array         $versions
+ * @var array $versions
  */
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>DreamFactory Services Platform&trade;</title>
+    <meta name="page-route" content="web/index"/>
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="author" content="DreamFactory Software, Inc.">
-    <meta name="language" content="en" />
-    <link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
+    <meta name="language" content="en"/>
+    <link rel="shortcut icon" href="/img/df_logo_factory-32x32.png"/>
 
     <!-- Bootstrap 3 CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/css/bootstrap.min.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/<?php echo $_versions['font-awesome']; ?>/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/font-awesome/<?php echo $_versions['font-awesome']; ?>/css/font-awesome.min.css">
 
     <!-- DreamFactory Typography Css -->
     <link rel="stylesheet" href="/css/df-custom-bs.css">

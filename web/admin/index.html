@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html ng-app="AdminApp" xmlns="http://www.w3.org/1999/html">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="author" content="DreamFactory Software, Inc.">
-	<meta name="language" content="en" />
-	<link rel="shortcut icon" href="/img/df-apple-touch-icon.png" />
+    <meta name="page-route" content="admin/index"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="author" content="DreamFactory Software, Inc.">
+    <meta name="language" content="en"/>
+    <link rel="shortcut icon" href="/img/df-apple-touch-icon.png"/>
 
-	<!-- Bootstrap 3 CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- Bootstrap 3 CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
-	<!-- DreamFactory Typography Css -->
-	<link rel="stylesheet" href="/css/df-custom-bs.css">
+    <!-- DreamFactory Typography Css -->
+    <link rel="stylesheet" href="/css/df-custom-bs.css">
 
-	<!-- DSP UI Styles & Code -->
-	<link rel="stylesheet" href="/css/dsp.main.css">
+    <!-- DSP UI Styles & Code -->
+    <link rel="stylesheet" href="/css/dsp.main.css">
 
-	<!-- Admin styles -->
-	<link rel="stylesheet" href="css/admin.styles.css">
-	<link rel="stylesheet" href="js/ng-grid/ng-grid.css" type="text/css" />
-	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
+    <!-- Admin styles -->
+    <link rel="stylesheet" href="css/admin.styles.css">
+    <link rel="stylesheet" href="js/ng-grid/ng-grid.css" type="text/css"/>
+    <link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css"/>
 
-	<!-- Scripts -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <!-- Scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body id="admin-body" class="body-transparent">
 
-<div class="container-fluid">
-	<!-- The main content container -->
-	<div id="container" class="row">
-		<div class="col-md-2" id="main-menu">
-			<div id="sidebar">
-				<div ng-include src="'navigation.html'"></div>
-			</div>
-		</div>
-		<div class="col-md-10">
-			<div id="main-content">
-				<div id="angular-content" ng-view></div>
-			</div>
-		</div>
-	</div>
+<div class="container-fluid container-inner">
+    <!-- The main content container -->
+    <div id="container" class="row">
+        <div class="col-md-2" id="main-menu">
+            <div id="sidebar">
+                <div ng-include src="'navigation.html'"></div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div id="main-content">
+                <div id="angular-content" ng-view></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
