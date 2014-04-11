@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b700b1ba11bbd52a124094c393a25bd1",
+    "hash": "6f8e9d0ce0d1f1d34b25fd858c7f0587",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -257,12 +257,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -275,27 +275,28 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-feature/remote-login",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "9c310322f8574c5a9aa4fb9f80090288e2fe1914"
+                "reference": "d8aef014b4f632f417f2ea9a48a2dd8c406e9555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/9c310322f8574c5a9aa4fb9f80090288e2fe1914.zip",
-                "reference": "9c310322f8574c5a9aa4fb9f80090288e2fe1914",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/d8aef014b4f632f417f2ea9a48a2dd8c406e9555.zip",
+                "reference": "d8aef014b4f632f417f2ea9a48a2dd8c406e9555",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php": "~2.4.0@stable",
                 "dready92/php-on-couch": "dev-master",
-                "dreamfactory/azure-sdk-for-php": "~0.4.0@stable",
+                "dreamfactory/azure-sdk-for-php": "~0.4@stable",
                 "dreamfactory/javascript-sdk": "~1.0@dev",
                 "dreamfactory/lib-php-common": "~1.4@dev",
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
                 "dreamfactory/oasys": "~0.4.0@dev",
                 "dreamfactory/yii": "1.1.13",
+                "igorw/event-source": "1.0.*",
                 "kisma/kisma": "~0.2@dev",
                 "pear/http_request2": "*",
                 "pear/mail_mime": "*",
@@ -347,7 +348,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-10 15:57:25"
+            "time": "2014-04-10 18:02:00"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -641,6 +642,53 @@
                 "web service"
             ],
             "time": "2014-04-09 22:38:44"
+        },
+        {
+            "name": "igorw/event-source",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/EventSource.git",
+                "reference": "427f0fda029c9a282d2ffde6fe4aac0ed0987770"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/EventSource/zipball/427f0fda029c9a282d2ffde6fe4aac0ed0987770",
+                "reference": "427f0fda029c9a282d2ffde6fe4aac0ed0987770",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Igorw\\EventSource": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                }
+            ],
+            "description": "A PHP 5.3 library for creating an EventSource stream.",
+            "keywords": [
+                "event-source",
+                "real-time",
+                "server-sent-events"
+            ],
+            "time": "2012-11-10 11:16:15"
         },
         {
             "name": "kisma/kisma",
@@ -1972,7 +2020,7 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-feature/remote-login",
+            "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
