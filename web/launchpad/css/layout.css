@@ -773,7 +773,6 @@ form {
 
 #sidebar > ul {
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.4);
-	display:    none;
 	margin:     -2px 0 0 !important;
 	width:      100% !important;
 }

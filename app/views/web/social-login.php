@@ -23,36 +23,39 @@ use DreamFactory\Yii\Utility\Validate;
 
 /**
  * @var WebController $this
- * @var LoginForm $model
- * @var bool $redirected
- * @var CActiveForm $form
- * @var Provider[] $loginProviders
+ * @var LoginForm     $model
+ * @var bool          $redirected
+ * @var CActiveForm   $form
+ * @var Provider[]    $loginProviders
  */
+
 $_html = null;
 
 Validate::register(
     'form#login-form',
     array(
-        'ignoreTitle' => true,
-        'errorClass' => 'error',
+        'ignoreTitle'    => true,
+        'errorClass'     => 'error',
         'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));}',
-        'rules' => array(
+        'rules'          => array(
             'LoginForm[username]' => 'required email',
             'LoginForm[password]' => array(
                 'minlength' => 3
             ),
         ),
-        'messages' => array(
-            'LoginForm[username]' => 'Please enter an actual email address',
+        'messages'       => array(
+            'LoginForm[username]' => 'Please enter a "real" email address',
             'LoginForm[password]' => array(
-                'required' => 'You must enter a password to continue',
+                'required'  => 'You must enter a password to continue',
                 'minlength' => 'Your password must be at least 3 characters long',
             ),
         ),
     )
 );
 
-$_rememberMeCopy = Pii::getParam('login.remember_me_copy', 'Remember Me');
+$_checkboxClass = !empty( $model->rememberMe ) ? 'fa-check-circle-o' : 'fa-times-circle-o';
+
+$_rememberMeCopy = Pii::getParam( 'login.remember_me_copy', 'Remember Me' );
 
 //*************************************************************************
 //	Build the remote login provider icon list..
@@ -61,28 +64,33 @@ $_rememberMeCopy = Pii::getParam('login.remember_me_copy', 'Remember Me');
 $_providerHtml = null;
 $_providerHider = 'hide';
 
-if (!empty($loginProviders)) {
-    foreach ($loginProviders as $_provider) {
-        if (!$_provider->is_active || !$_provider->is_login_provider) {
+if ( !empty( $loginProviders ) )
+{
+    foreach ( $loginProviders as $_provider )
+    {
+        if ( !$_provider->is_active || !$_provider->is_login_provider )
+        {
             continue;
         }
 
-        $_icon = strtolower($_provider->api_name);
+        $_icon = strtolower( $_provider->api_name );
 
         //	Google icon has a different name
-        if ('google' == $_icon) {
+        if ( 'google' == $_icon )
+        {
             $_icon = 'google-plus';
         }
 
         $_providerHtml .= '<i class="fa fa-' . $_icon . ' fa-3x" data-provider="' . $_provider->api_name . '"></i>';
     }
 
-    $_providerHider = !empty($_providerHtml) ? null : ' hide ';
+    $_providerHider = !empty( $_providerHtml ) ? null : ' hide ';
 }
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
 
-if (null !== ($_flash = Pii::getFlash('login-form'))) {
+if ( null !== ( $_flash = Pii::getFlash( 'login-form' ) ) )
+{
     $_flash = <<<HTML
 <div class="alert alert-success">
 	{$_flash}
@@ -96,11 +104,12 @@ HTML;
         <h4>You must be logged in to continue</h4>
 
         <?php echo $_flash; ?>
-        <?php echo CHtml::errorSummary($model, '<strong>Sorry Charlie...</strong>'); ?>
+        <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
 
         <form id="login-form" method="POST" role="form">
             <input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
             <input type="hidden" name="forgot" id="forgot" value="0">
+            <input type="hidden" name="check-remember-ind" id="check-remember-ind" value="<?php echo $model->rememberMe ? 1 : 0; ?>">
 
             <div class="form-group">
                 <label for="LoginForm_username" class="sr-only">DSP Email Address</label>
@@ -111,7 +120,7 @@ HTML;
                     <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
                            name="LoginForm[username]" placeholder="DSP User Email Address"
                            spellcheck="false" autocapitalize="off" autocorrect="off"
-                           value="<?php echo $model->username; ?>"/>
+                           value="<?php echo $model->username; ?>" />
                 </div>
             </div>
 
@@ -121,10 +130,8 @@ HTML;
                 <div class="input-group">
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
-                    <input tabindex="2" class="form-control required" type="password" id="LoginForm_password"
-                           name="LoginForm[password]"
-                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false"
-                           placeholder="Password" value=""/>
+                    <input tabindex="2" class="form-control required" type="password" id="LoginForm_password" name="LoginForm[password]"
+                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
                 </div>
             </div>
 
@@ -133,10 +140,9 @@ HTML;
                     <label>
                         <input type="checkbox"
                                tabindex="3"
-                            <?php echo $model->rememberMe ? ' checked="checked" ' : null; ?>
-                               id="LoginForm_rememberMe"
-                               name="LoginForm[rememberMe]">
-                        <?php echo $_rememberMeCopy; ?>
+                               id="remember-control"
+                               value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>">
+                        Keep me logged in
                     </label>
                 </div>
                 <div class="clearfix"></div>
@@ -161,26 +167,28 @@ HTML;
 </div>
 
 <script type="text/javascript">
-    jQuery(function ($) {
-        $('body').addClass('body-starburst-blue');
-        
-        $('#btn-forgot').on('click', function (e) {
-            e.preventDefault();
-            $('#LoginForm_password').removeProp('required').removeClass('required');
-            $('input#forgot').val(1);
-            $('form#login-form').submit();
-        });
+jQuery(function($) {
+           var $_rememberMe = $('#check-remember-ind');
+           var _wasRemembered = (1 == $_rememberMe.val());
+           var $_rememberHint = $('#remember-control');
+           var $_form = $('form#login-form');
 
-        /** Remote authentication redirects **/
-        $('.remote-login-providers').on('click', 'i', function (e) {
-            e.preventDefault();
+           $('#btn-forgot').on('click', function(e) {
+                                   e.preventDefault();
+                                   $('#LoginForm_password').removeProp('required').removeClass('required');
+                                   $('input#forgot').val(1);
+                                   $('form#login-form').submit();
+                               });
 
-            var _provider = $(this).data('provider');
+           $('.input-group.remember-me, .event-grabber').on('click', function(e) {
+//                e.preventDefault();
+                                                                $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
+                                                                $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) +
+                                                                                   '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
+                                                                $_rememberMe.val(_wasRemembered = !_wasRemembered);
+                                                                return false;
+                                                            });
 
-            if (_provider) {
-                window.top.location.href = '/web/remoteLogin?pid=' + _provider + '&return_url=' + encodeURI(window.top.location);
-            }
-        });
-
-    });
+           $('body').addClass('bg-starburst');
+       });
 </script>

@@ -18,6 +18,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     $scope.ServiceComponents = {};
     $scope.Services = Service.get(function (data) {
         var services = data.record;
+
         services.unshift({
             id: 0,
             name: "All",
@@ -37,23 +38,29 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
                     if (data.resource != undefined) {
                         $scope.ServiceComponents[index] = $scope.ServiceComponents[index].concat(data.resource);
                     }
-                }).error(function () {});
+                }).error(function () {
+                });
             }
         });
     });
+
     $scope.uniqueServiceAccess = function () {
         var size = $scope.role.role_service_accesses.length;
+
         for (i = 0; i < size; i++) {
             var access = $scope.role.role_service_accesses[i];
             var matches = $scope.role.role_service_accesses.filter(function (itm) {
                 return itm.service_id === access.service_id && itm.component === access.component;
             });
+
             if (matches.length > 1) {
                 return false;
             }
         }
+
         return true;
-    }
+    };
+
     $scope.cleanServiceAccess = function () {
         var size = $scope.role.role_service_accesses.length;
         for (i = 0; i < size; i++) {
@@ -70,7 +77,8 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
     $scope.SystemComponents.push(allRecord);
     $http.get('/rest/system?app_name=admin&fields=*').success(function (data) {
         $scope.SystemComponents = $scope.SystemComponents.concat(data.resource);
-    }).error(function () {});
+    }).error(function () {
+    });
     $scope.uniqueSystemAccess = function () {
         var size = $scope.role.role_system_accesses.length;
         for (i = 0; i < size; i++) {
@@ -90,6 +98,7 @@ var RoleCtrl = function ($scope, RolesRelated, User, App, Service, $http) {
             delete $scope.role.role_system_accesses[i].show_filters;
         }
     }
+
     $scope.FilterOps = ["=", "!=", ">", "<", ">=", "<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
     $scope.Roles = RolesRelated.get({}, //params

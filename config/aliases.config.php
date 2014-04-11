@@ -58,6 +58,7 @@ Pii::alias( 'DreamFactory.Platform', $_aliasLibPath );
 Pii::alias( 'DreamFactory.Platform.Services', $_aliasLibPath . '/Services' );
 Pii::alias( 'DreamFactory.Platform.Yii', $_aliasLibPath . '/Yii' );
 Pii::alias( 'DreamFactory.Platform.Yii.Behaviors', $_aliasLibPath . '/Yii/Behaviors' );
+Pii::alias( 'DreamFactory.Platform.Yii.Commands', $_aliasLibPath . '/Yii/Commands' );
 Pii::alias( 'DreamFactory.Platform.Yii.Models', $_aliasLibPath . '/Yii/Models' );
 
 //	Vendors

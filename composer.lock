@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6f8e9d0ce0d1f1d34b25fd858c7f0587",
+    "hash": "b700b1ba11bbd52a124094c393a25bd1",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -122,16 +122,16 @@
         },
         {
             "name": "dreamfactory/azure-sdk-for-php",
-            "version": "0.4.0.2",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/azure-sdk-for-php.git",
-                "reference": "f3148b534fa60b89224d3ca0460f1feca609d595"
+                "reference": "0d7d50dd5a94eb7712890bd3dec3df7eb2682e75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/f3148b534fa60b89224d3ca0460f1feca609d595",
-                "reference": "f3148b534fa60b89224d3ca0460f1feca609d595",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/0d7d50dd5a94eb7712890bd3dec3df7eb2682e75",
+                "reference": "0d7d50dd5a94eb7712890bd3dec3df7eb2682e75",
                 "shasum": ""
             },
             "require": {
@@ -141,12 +141,18 @@
                 "pear/net_url2": "*"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "mikey179/vfsstream": "~1.2@stable",
+                "phpunit/phpunit": "~3.7@stable"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.4.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "WindowsAzure\\": ""
+                "psr-4": {
+                    "WindowsAzure\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -159,9 +165,9 @@
                     "email": "azurephpsdk@microsoft.com"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "DreamFactory Package Maintainer"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -170,7 +176,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2014-02-21 23:02:08"
+            "time": "2014-04-10 17:55:39"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -251,12 +257,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Black Ops"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -269,16 +275,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-develop",
+            "version": "dev-feature/remote-login",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "5bfa45eb04ea6a319a733255c8c65b6876cb79c0"
+                "reference": "9c310322f8574c5a9aa4fb9f80090288e2fe1914"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/5bfa45eb04ea6a319a733255c8c65b6876cb79c0.zip",
-                "reference": "5bfa45eb04ea6a319a733255c8c65b6876cb79c0",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/9c310322f8574c5a9aa4fb9f80090288e2fe1914.zip",
+                "reference": "9c310322f8574c5a9aa4fb9f80090288e2fe1914",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +347,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-04 21:58:31"
+            "time": "2014-04-10 15:57:25"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -349,12 +355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "5b5012d1c939eb38f3928810f9cd4808d998cfe8"
+                "reference": "79b500cf9a3d55630b5642a287962bef413a00f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/5b5012d1c939eb38f3928810f9cd4808d998cfe8",
-                "reference": "5b5012d1c939eb38f3928810f9cd4808d998cfe8",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/79b500cf9a3d55630b5642a287962bef413a00f9",
+                "reference": "79b500cf9a3d55630b5642a287962bef413a00f9",
                 "shasum": ""
             },
             "require": {
@@ -393,7 +399,7 @@
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
+                    "role": "Lead Developer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -403,7 +409,7 @@
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Engineer, client-side; UX/QA"
+                    "role": "Lead Developer and QA, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -412,7 +418,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-03-28 06:16:31"
+            "time": "2014-04-07 21:51:25"
         },
         {
             "name": "dreamfactory/oasys",
@@ -526,14 +532,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Black Ops"
                 },
                 {
-                    "name": "Lee Hicks",
+                    "name": "Hicks, Lee",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -550,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "f5ff2107333dff8ce984946d506929d9172c3573"
+                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/f5ff2107333dff8ce984946d506929d9172c3573",
-                "reference": "f5ff2107333dff8ce984946d506929d9172c3573",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/840683b88b637a5310aefceac3722c6fd6b4c043",
+                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043",
                 "shasum": ""
             },
             "require": {
@@ -634,7 +640,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-03-26 17:17:05"
+            "time": "2014-04-09 22:38:44"
         },
         {
             "name": "kisma/kisma",
@@ -642,12 +648,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3"
+                "reference": "107149091b8693cb2cfa61a6026047b8e029a6bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
-                "reference": "5d1cd64d32ceaf7ed2e43c0ffbb0df0bf3f9b1f3",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/107149091b8693cb2cfa61a6026047b8e029a6bf",
+                "reference": "107149091b8693cb2cfa61a6026047b8e029a6bf",
                 "shasum": ""
             },
             "require": {
@@ -691,7 +697,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-04-02 14:41:37"
+            "time": "2014-04-08 05:45:52"
         },
         {
             "name": "monolog/monolog",
@@ -699,12 +705,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13"
+                "reference": "03000a7fcd4072bd7e1f99c8ce4328621c5773b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c3dd9b972b8e070580f0660b842a898871fadf13",
-                "reference": "c3dd9b972b8e070580f0660b842a898871fadf13",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/03000a7fcd4072bd7e1f99c8ce4328621c5773b9",
+                "reference": "03000a7fcd4072bd7e1f99c8ce4328621c5773b9",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +765,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-04 15:22:02"
+            "time": "2014-04-10 15:52:42"
         },
         {
             "name": "pear/http_request2",
@@ -1326,12 +1332,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "a62e173e81a067eae72b1c40ffd9d007b6568da9"
+                "reference": "e31616394438f57e698ecbad4cd53b9d270935c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/a62e173e81a067eae72b1c40ffd9d007b6568da9",
-                "reference": "a62e173e81a067eae72b1c40ffd9d007b6568da9",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/e31616394438f57e698ecbad4cd53b9d270935c8",
+                "reference": "e31616394438f57e698ecbad4cd53b9d270935c8",
                 "shasum": ""
             },
             "require": {
@@ -1372,7 +1378,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-03-26 11:51:10"
+            "time": "2014-04-10 13:01:02"
         }
     ],
     "packages-dev": [
@@ -1966,7 +1972,7 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
+            "version": "dev-feature/remote-login",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],

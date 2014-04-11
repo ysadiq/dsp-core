@@ -1,0 +1,53 @@
+/*!
+ * dsp.main.css
+ *
+ * Copyright 2014 DreamFactory Software, Inc.
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * This is the CSS file for server-side generated pages
+ *
+ * ** Please keep only tag modifications in this file.   ** 
+ * ** All other classes and mods should go in dsp.ui.css **
+ *
+ */
+@import url(//fonts.googleapis.com/css?family=Open+Sans|Roboto|Droid+Sans);
+@import url(/css/dsp.ui.css);
+@import url(/css/dsp.login.css);
+
+html, body {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    height: auto;
+    font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+    font-weight: 300;
+    color: #F2F2F2;
+    padding: 0;
+    margin: 0;
+}
+
+body > a {
+    color: #fafafa;
+}
+
+body > a:hover, body > a:focus, body > a:active {
+    color: #ffffff;
+}
+
+code {
+    font-size: 80%;
+}
+
+legend {
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+    line-height: 1.1;
+    color: inherit;
+}

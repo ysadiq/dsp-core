@@ -19,7 +19,6 @@
  */
 use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
-use DreamFactory\Oasys\Stores\FileSystem;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\RestException;
@@ -35,6 +34,7 @@ use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Platform\Utility\ResourceStore;
 use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Platform\Yii\Models\User;
+use DreamFactory\Platform\Yii\Stores\ProviderUserStore;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpResponse;
@@ -98,16 +98,6 @@ class WebController extends BaseWebController
         {
             $this->_remoteError = $_error . ( !empty( $_message ) ? ' (' . $_message . ')' : null );
         }
-    }
-
-    /**
-     * {@InheritDoc}
-     */
-    public function filters()
-    {
-        return array(
-            'accessControl',
-        );
     }
 
     /**
@@ -234,7 +224,7 @@ class WebController extends BaseWebController
             if ( $_model->validate() )
             {
                 SystemManager::upgradeSchema();
-				SystemManager::initData();
+                SystemManager::initData();
                 $this->redirect( '/' );
 
                 return;
@@ -304,10 +294,10 @@ class WebController extends BaseWebController
      */
     public function actionActivate()
     {
-        if ( $this->_activated )
-        {
-            $this->redirect( '/' );
-        }
+//        if ( $this->_activated )
+//        {
+//            $this->redirect( '/' );
+//        }
 
         $_model = new ActivateForm();
 
@@ -370,7 +360,7 @@ class WebController extends BaseWebController
         if ( isset( $_POST, $_POST['LoginForm'] ) )
         {
             $_model->setAttributes( $_POST['LoginForm'] );
-            $_model->rememberMe = Option::getBool( $_POST, 'check-remember-ind' );
+            $_model->rememberMe = ( 'on' == Option::getBool( $_POST['LoginForm'], 'rememberMe', 'off' ) );
 
             if ( 1 == Option::get( $_POST, 'forgot', 0 ) )
             {
@@ -416,15 +406,16 @@ class WebController extends BaseWebController
             }
         }
 
-        $_providers = array();
-
         $this->render(
-            'login',
+            'social-login',
             array(
                 'model'          => $_model,
                 'activated'      => $this->_activated,
                 'redirected'     => $redirected,
-                'loginProviders' => $_providers,
+                'loginProviders' => ResourceStore::model( 'provider' )->findAll(
+                    'is_login_provider = :is_login_provider AND is_active = :is_active',
+                    array( ':is_login_provider' => 1, ':is_active' => 1 )
+                ),
             )
         );
     }
@@ -967,7 +958,7 @@ class WebController extends BaseWebController
         }
 
         //	Set our store...
-        Oasys::setStore( $_store = new FileSystem( $_sid = session_id() ) );
+        Oasys::setStore( $_store = new ProviderUserStore( Session::getCurrentUserId(), $_providerModel->id ) );
 
         $_config = Provider::buildConfig(
             $_providerModel,
