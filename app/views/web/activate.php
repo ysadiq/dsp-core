@@ -99,8 +99,8 @@ HTML;
             </div>
 
             <div class="form-buttons">
-                <small class="padding-top: 10px;" class="pull-left">By activating this DSP you agree to our <a href="https://www.dreamfactory.com/terms_of_use/"
-                                                                                                              target="_blank">terms and conditions</a>.
+                <small style="padding-top: 10px;" class="pull-left">By activating this DSP you agree to our <a href="https://www.dreamfactory.com/terms_of_use/"
+                                                                                                               target="_blank">terms and conditions</a>.
                 </small>
                 <button type="submit" class="btn btn-success pull-right">Activate</button>
             </div>

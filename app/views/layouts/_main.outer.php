@@ -59,7 +59,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/<?php echo $_versions['jquery']; ?>/jquery.min.js"></script>
 </head>
-<body>
+<body class="body-transparent">
 
 <?php require __DIR__ . '/_main.inner.php'; ?>
 
