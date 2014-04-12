@@ -23,45 +23,47 @@
 
 $this->pageTitle = Yii::app()->name . ' - Upgrade Schema';
 $this->breadcrumbs = array(
-	'Upgrade Schema',
+    'Upgrade Schema',
 );
 ?>
 
-<div class="container" id="formbox">
-	<h2>Database Schema Upgrade Required</h2>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">Database Update Required</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'upgrade-schema' ) ): ?>
+        <?php if ( Yii::app()->user->hasFlash( 'upgrade-schema' ) ): ?>
 
-		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'upgrade-schema' ); ?>
-		</div>
+            <div class="flash-success">
+                <?php echo Yii::app()->user->getFlash( 'upgrade-schema' ); ?>
+            </div>
 
-	<?php else: ?>
+        <?php else: ?>
 
-		<p>A database schema upgrade is required for this DreamFactory Services Platform&trade;. If you would like to backup your database, now is the time to do so. Click the
-			<strong>Upgrade</strong> button below to proceed.</p>
+            <p>A database schema upgrade is required for this DreamFactory Services Platform&trade;. If you would like to backup your database, now is the time to do so. Click the
+                <strong>Upgrade</strong> button below to proceed.</p>
 
-		<?php $form = $this->beginWidget(
-			'CActiveForm',
-			array(
-				'id'                     => 'upgrade-schema-form',
-				'enableClientValidation' => true,
-				'clientOptions'          => array(
-					'validateOnSubmit' => true,
-				),
-			)
-		); ?>
+            <?php $form = $this->beginWidget(
+                'CActiveForm',
+                array(
+                    'id'                     => 'upgrade-schema-form',
+                    'enableClientValidation' => true,
+                    'clientOptions'          => array(
+                        'validateOnSubmit' => true,
+                    ),
+                )
+            ); ?>
 
-		<input type="hidden" name="UpgradeSchemaForm[dummy]" id="UpgradeSchemaForm_dummy" value="1">
+            <input type="hidden" name="UpgradeSchemaForm[dummy]" id="UpgradeSchemaForm_dummy" value="1">
 
-		<?php echo $form->errorSummary( $model ); ?>
+            <?php echo $form->errorSummary( $model ); ?>
 
 
-		<div class="form-buttons">
-			<button type="submit" class="btn btn-success pull-right">Upgrade</button>
-		</div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-success pull-right">Upgrade</button>
+            </div>
 
-		<?php $this->endWidget(); ?>
+            <?php $this->endWidget(); ?>
 
-	<?php endif; ?>
+        <?php endif; ?>
+    </div>
 </div>

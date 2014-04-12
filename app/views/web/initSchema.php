@@ -23,44 +23,45 @@
 
 $this->pageTitle = Yii::app()->name . ' - Upgrade Schema';
 $this->breadcrumbs = array(
-	'Upgrade Schema',
+    'Upgrade Schema',
 );
 ?>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2>Database Update Available!</h2>
 
-<div class="container" id="formbox">
-	<h2>Database Update Available!</h2>
+        <?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
 
-	<?php if ( Yii::app()->user->hasFlash( 'init-schema' ) ): ?>
+            <div class="flash-success">
+                <?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
+            </div>
 
-		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'init-schema' ); ?>
-		</div>
+        <?php else: ?>
 
-	<?php else: ?>
+            <p>An update is available for this DreamFactory Services Platform&trade;. Click the <strong>Update</strong> button below to start the update.</p>
 
-		<p>An update is available for this DreamFactory Services Platform&trade;. Click the <strong>Update</strong> button below to start the update.</p>
+            <?php $form = $this->beginWidget(
+                'CActiveForm',
+                array(
+                    'id'                     => 'init-schema-form',
+                    'enableClientValidation' => true,
+                    'clientOptions'          => array(
+                        'validateOnSubmit' => true,
+                    ),
+                )
+            ); ?>
 
-		<?php $form = $this->beginWidget(
-			'CActiveForm',
-			array(
-				'id'                     => 'init-schema-form',
-				'enableClientValidation' => true,
-				'clientOptions'          => array(
-					'validateOnSubmit' => true,
-				),
-			)
-		); ?>
+            <input type="hidden" name="InitSchemaForm[dummy]" id="InitSchemaForm_dummy" value="1">
 
-		<input type="hidden" name="InitSchemaForm[dummy]" id="InitSchemaForm_dummy" value="1">
-
-		<?php echo $form->errorSummary( $model ); ?>
+            <?php echo $form->errorSummary( $model ); ?>
 
 
-		<div class="form-buttons">
-			<button type="submit" class="btn btn-success pull-right">Update</button>
-		</div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-success pull-right">Update</button>
+            </div>
 
-		<?php $this->endWidget(); ?>
+            <?php $this->endWidget(); ?>
 
-	<?php endif; ?>
+        <?php endif; ?>
+    </div>
 </div>
