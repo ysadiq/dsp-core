@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bbb03dd5ee4e8de201a0949f73b721ac",
+    "hash": "1b0b67edc1ae335791e110fda4ac6f6a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -275,16 +275,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-feature/sse-prep",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "b63a1679b5934400ba1a549e7016183b8aa362bc"
+                "reference": "cfa4eb46bc38fdcc1be44b26da320f41a0f8ae1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/b63a1679b5934400ba1a549e7016183b8aa362bc.zip",
-                "reference": "b63a1679b5934400ba1a549e7016183b8aa362bc",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/cfa4eb46bc38fdcc1be44b26da320f41a0f8ae1c.zip",
+                "reference": "cfa4eb46bc38fdcc1be44b26da320f41a0f8ae1c",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-11 21:26:44"
+            "time": "2014-04-11 18:45:24"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1317,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/react.git",
-                "reference": "93f581cf7828166632d452e804b5745fc81be993"
+                "reference": "f61be285e42656bf8468a856e9bcdf346e61b463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/react/zipball/93f581cf7828166632d452e804b5745fc81be993",
-                "reference": "93f581cf7828166632d452e804b5745fc81be993",
+                "url": "https://api.github.com/repos/reactphp/react/zipball/f61be285e42656bf8468a856e9bcdf346e61b463",
+                "reference": "f61be285e42656bf8468a856e9bcdf346e61b463",
                 "shasum": ""
             },
             "require": {
@@ -1369,7 +1369,7 @@
                 "event-loop",
                 "reactor"
             ],
-            "time": "2014-03-30 17:46:46"
+            "time": "2014-04-12 14:11:26"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1487,12 +1487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "e31616394438f57e698ecbad4cd53b9d270935c8"
+                "reference": "fcf4b3614e8d9610d75b35dc6809cd14f6063ebf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/e31616394438f57e698ecbad4cd53b9d270935c8",
-                "reference": "e31616394438f57e698ecbad4cd53b9d270935c8",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/fcf4b3614e8d9610d75b35dc6809cd14f6063ebf",
+                "reference": "fcf4b3614e8d9610d75b35dc6809cd14f6063ebf",
                 "shasum": ""
             },
             "require": {
@@ -1533,7 +1533,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-10 13:01:02"
+            "time": "2014-04-11 18:34:16"
         }
     ],
     "packages-dev": [
@@ -2124,12 +2124,7 @@
         }
     ],
     "aliases": [
-        {
-            "alias": "dev-master",
-            "alias_normalized": "9999999-dev",
-            "version": "dev-feature/sse-prep",
-            "package": "dreamfactory/lib-php-common-platform"
-        }
+
     ],
     "minimum-stability": "dev",
     "stability-flags": {
