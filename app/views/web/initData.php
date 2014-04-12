@@ -23,44 +23,46 @@
 
 $this->pageTitle = Yii::app()->name . ' - Install System Data';
 $this->breadcrumbs = array(
-	'Install System Data',
+    'Install System Data',
 );
 ?>
-<div class="container" id="formbox">
-	<h2>Data Initialization</h2>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">Data Initialization</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'init-data' ) ): ?>
+        <?php if ( Yii::app()->user->hasFlash( 'init-data' ) ): ?>
 
-		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'init-data' ); ?>
-		</div>
+            <div class="flash-success">
+                <?php echo Yii::app()->user->getFlash( 'init-data' ); ?>
+            </div>
 
-	<?php else: ?>
+        <?php else: ?>
 
-		<p>Your DSP requires the installation of system data in order to be properly configured. <br /> When you are ready, click the
-			<strong>Install</strong> button to add this data.</p>
+            <p>Your DSP requires the installation of system data in order to be properly configured. <br /> When you are ready, click the
+                <strong>Install</strong> button to add this data.</p>
 
-		<?php $form = $this->beginWidget(
-			'CActiveForm',
-			array(
-				'id'                     => 'init-data-form',
-				'enableClientValidation' => true,
-				'clientOptions'          => array(
-					'validateOnSubmit' => true,
-				),
-			)
-		); ?>
+            <?php $form = $this->beginWidget(
+                'CActiveForm',
+                array(
+                    'id'                     => 'init-data-form',
+                    'enableClientValidation' => true,
+                    'clientOptions'          => array(
+                        'validateOnSubmit' => true,
+                    ),
+                )
+            ); ?>
 
-		<input type="hidden" name="InitDataForm[dummy]" id="InitDataForm_dummy" value="1">
+            <input type="hidden" name="InitDataForm[dummy]" id="InitDataForm_dummy" value="1">
 
-		<?php echo $form->errorSummary( $model ); ?>
+            <?php echo $form->errorSummary( $model ); ?>
 
 
-		<div class="form-buttons">
-			<button type="submit" class="btn btn-success pull-right">Install</button>
-		</div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-success pull-right">Install</button>
+            </div>
 
-		<?php $this->endWidget(); ?>
+            <?php $this->endWidget(); ?>
 
-	<?php endif; ?>
+        <?php endif; ?>
+    </div>
 </div>

@@ -168,27 +168,30 @@ HTML;
 
 <script type="text/javascript">
 jQuery(function($) {
-           var $_rememberMe = $('#check-remember-ind');
-           var _wasRemembered = (1 == $_rememberMe.val());
-           var $_rememberHint = $('#remember-control');
-           var $_form = $('form#login-form');
+    var $_rememberMe = $('#check-remember-ind');
+    var _wasRemembered = (
+    1 == $_rememberMe.val()
+    );
+    var $_rememberHint = $('#remember-control');
+    var $_form = $('form#login-form');
 
-           $('#btn-forgot').on('click', function(e) {
-                                   e.preventDefault();
-                                   $('#LoginForm_password').removeProp('required').removeClass('required');
-                                   $('input#forgot').val(1);
-                                   $('form#login-form').submit();
-                               });
+    $('#btn-forgot').on('click', function(e) {
+        e.preventDefault();
+        $('#LoginForm_password').removeProp('required').removeClass('required');
+        $('input#forgot').val(1);
+        $('form#login-form').submit();
+    });
 
-           $('.input-group.remember-me, .event-grabber').on('click', function(e) {
+    $('.input-group.remember-me, .event-grabber').on('click', function(e) {
 //                e.preventDefault();
-                                                                $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
-                                                                $_rememberHint.val(( _wasRemembered ? 'Don\'t ' : '' ) +
-                                                                                   '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
-                                                                $_rememberMe.val(_wasRemembered = !_wasRemembered);
-                                                                return false;
-                                                            });
+        $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
+        $_rememberHint.val((
+                               _wasRemembered ? 'Don\'t ' : ''
+                           ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
+        $_rememberMe.val(_wasRemembered = !_wasRemembered);
+        return false;
+    });
 
-           $('body').addClass('bg-starburst');
-       });
+    $('body').addClass('bg-starburst');
+});
 </script>

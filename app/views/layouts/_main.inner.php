@@ -21,30 +21,28 @@
 /**
  * Partial view for the inner body of the main template
  *
- * @var string $content
+ * @var string        $content
  * @var WebController $this
  */
 ?>
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-inburst navbar-fixed-top" role="navigation">
     <div class="container-fluid df-navbar">
         <div class="navbar-header">
             <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
             <span class="pull-left df-brand"><span class="dream-orange">Dream</span>Factory</span>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
         </div>
 
-        <div class="collapse navbar-collapse">
-            <div id="admin-container"></div>
-            <div id="navbar-container"></div>
-        </div>
+        <div id="navbar-container"></div>
     </div>
 </div>
 
 <div id="page-content">
     <div class="container-fluid container-inner">
+        <div id="error-container" class="alert alert-error center"></div>
         <?php echo $content; ?>
     </div>
 </div>
@@ -52,8 +50,7 @@
 <div id="footer">
     <div class="container-fluid">
         <span class="pull-left dsp-footer-copyright">
-            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software,
-                    Inc.</a> 2012-<?php echo date(
+            <p class="footer-text">&copy; <a target="_blank" href="https://www.dreamfactory.com">DreamFactory Software, Inc.</a> 2012-<?php echo date(
                     'Y'
                 ); ?>. All Rights Reserved.
             </p>
