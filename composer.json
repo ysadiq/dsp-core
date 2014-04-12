@@ -41,6 +41,7 @@
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
 	"require":           {
+		"react/react":                          "0.4.*",
 		"dreamfactory/lib-php-common-platform": "dev-feature/sse-prep as dev-master"
 	},
 	"require-dev":       {
