@@ -279,12 +279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "cfa4eb46bc38fdcc1be44b26da320f41a0f8ae1c"
+                "reference": "af54e8e83e987cbf3ec8081b3883d96992170fec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/cfa4eb46bc38fdcc1be44b26da320f41a0f8ae1c.zip",
-                "reference": "cfa4eb46bc38fdcc1be44b26da320f41a0f8ae1c",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/af54e8e83e987cbf3ec8081b3883d96992170fec.zip",
+                "reference": "af54e8e83e987cbf3ec8081b3883d96992170fec",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-11 18:45:24"
+            "time": "2014-04-12 22:10:44"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1317,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/react.git",
-                "reference": "f61be285e42656bf8468a856e9bcdf346e61b463"
+                "reference": "17044db0ab6a9c145fb1ac40822c5c17d045dc36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/react/zipball/f61be285e42656bf8468a856e9bcdf346e61b463",
-                "reference": "f61be285e42656bf8468a856e9bcdf346e61b463",
+                "url": "https://api.github.com/repos/reactphp/react/zipball/17044db0ab6a9c145fb1ac40822c5c17d045dc36",
+                "reference": "17044db0ab6a9c145fb1ac40822c5c17d045dc36",
                 "shasum": ""
             },
             "require": {
@@ -1369,7 +1369,7 @@
                 "event-loop",
                 "reactor"
             ],
-            "time": "2014-04-12 14:11:26"
+            "time": "2014-04-13 17:03:14"
         },
         {
             "name": "swiftmailer/swiftmailer",
