@@ -164,9 +164,10 @@
 }
 
 .remote-login-providers {
-	margin:     12px auto 0;
-	display:    table;
-	text-align: center;
+	margin:        12px auto 0;
+	display:       table;
+	text-align:    center;
+	width: 54px;
 }
 
 .remote-login-providers .fa-salesforce.fa-3x {
