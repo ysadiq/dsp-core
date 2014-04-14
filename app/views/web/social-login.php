@@ -118,9 +118,9 @@ HTML;
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
                     <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-                           name="LoginForm[username]" placeholder="DSP User Email Address"
-                           spellcheck="false" autocapitalize="off" autocorrect="off"
-                           value="<?php echo $model->username; ?>" />
+                        name="LoginForm[username]" placeholder="DSP User Email Address"
+                        spellcheck="false" autocapitalize="off" autocorrect="off"
+                        value="<?php echo $model->username; ?>" />
                 </div>
             </div>
 
@@ -131,7 +131,7 @@ HTML;
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
                     <input tabindex="2" class="form-control required" type="password" id="LoginForm_password" name="LoginForm[password]"
-                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
+                        autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false" placeholder="Password" value="" />
                 </div>
             </div>
 
@@ -139,9 +139,9 @@ HTML;
                 <div class="checkbox remember-me pull-right">
                     <label>
                         <input type="checkbox"
-                               tabindex="3"
-                               id="remember-control"
-                               value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>">
+                            tabindex="3"
+                            id="remember-control"
+                            value="<?php echo ( $model->rememberMe ? null : 'Don\'t ' ) . $_rememberMeCopy; ?>">
                         Keep me logged in
                     </label>
                 </div>
@@ -167,31 +167,22 @@ HTML;
 </div>
 
 <script type="text/javascript">
-jQuery(function($) {
-    var $_rememberMe = $('#check-remember-ind');
-    var _wasRemembered = (
-    1 == $_rememberMe.val()
-    );
-    var $_rememberHint = $('#remember-control');
-    var $_form = $('form#login-form');
+jQuery(
+    function($) {
+        var $_rememberMe = $('#check-remember-ind');
+        var _wasRemembered = (
+        1 == $_rememberMe.val()
+        );
+        var $_rememberHint = $('#remember-control');
+        var $_form = $('form#login-form');
 
-    $('#btn-forgot').on('click', function(e) {
-        e.preventDefault();
-        $('#LoginForm_password').removeProp('required').removeClass('required');
-        $('input#forgot').val(1);
-        $('form#login-form').submit();
-    });
-
-    $('.input-group.remember-me, .event-grabber').on('click', function(e) {
-//                e.preventDefault();
-        $('i.fa', $(this).closest('.input-group')).toggleClass('fa-check-circle-o fa-times-circle-o');
-        $_rememberHint.val((
-                               _wasRemembered ? 'Don\'t ' : ''
-                           ) + '<?php echo $_rememberMeCopy; ?>').toggleClass('remember-checked');
-        $_rememberMe.val(_wasRemembered = !_wasRemembered);
-        return false;
-    });
-
-    $('body').addClass('bg-starburst');
-});
+        $('#btn-forgot').on(
+            'click', function(e) {
+                e.preventDefault();
+                $('#LoginForm_password').removeProp('required').removeClass('required');
+                $('input#forgot').val(1);
+                $('form#login-form').submit();
+            }
+        );
+);
 </script>
