@@ -407,7 +407,7 @@ class WebController extends BaseWebController
         }
 
         $this->render(
-            'social-login',
+            'login',
             array(
                 'model'          => $_model,
                 'activated'      => $this->_activated,
