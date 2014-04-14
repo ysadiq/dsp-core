@@ -381,8 +381,9 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 
 .inset {
 	/* Shadows are visible under slightly transparent text color */
-	color:       rgba(224, 134, 37, 0.5);
-	text-shadow: 0 1px 1px #ccc, 0 0 0 #000, 0 1px 1px #ccc;
+	/*color:       rgba(224, 134, 37, 0.5);*/
+	/*text-shadow: 0 1px 1px #ccc, 0 0 0 #000, 0 1px 1px #ccc;*/
+	color: #444;
 }
 
 .dsp-version {
