@@ -279,12 +279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "3cc1131b4d40b82496d0a54181cf91e4e8e99d3a"
+                "reference": "642cc4a70356230ff0cb838672b2d48421c2ef90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/3cc1131b4d40b82496d0a54181cf91e4e8e99d3a.zip",
-                "reference": "3cc1131b4d40b82496d0a54181cf91e4e8e99d3a",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/642cc4a70356230ff0cb838672b2d48421c2ef90.zip",
+                "reference": "642cc4a70356230ff0cb838672b2d48421c2ef90",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-14 20:51:46"
+            "time": "2014-04-15 19:20:23"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -602,12 +602,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043"
+                "reference": "fa0046309160ea52aeed51b5608adfd263dfa0a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/840683b88b637a5310aefceac3722c6fd6b4c043",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/fa0046309160ea52aeed51b5608adfd263dfa0a2",
+                "reference": "fa0046309160ea52aeed51b5608adfd263dfa0a2",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-04-09 22:38:44"
+            "time": "2014-04-14 23:10:44"
         },
         {
             "name": "kisma/kisma",
@@ -919,12 +919,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/Mail_mimeDecode.git",
-                "reference": "749a32a7a79df2ccdba00937bd5cdcebe9487c7f"
+                "reference": "a53c1ce051b212e23f7f67ea8d31015640de1129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/Mail_mimeDecode/zipball/749a32a7a79df2ccdba00937bd5cdcebe9487c7f",
-                "reference": "749a32a7a79df2ccdba00937bd5cdcebe9487c7f",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/Mail_mimeDecode/zipball/a53c1ce051b212e23f7f67ea8d31015640de1129",
+                "reference": "a53c1ce051b212e23f7f67ea8d31015640de1129",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +936,7 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Mail_mimeDecode": "./"
+                    "Mail_mimeDecode": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -959,7 +959,7 @@
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Mail_mimeDecode",
-            "time": "2014-02-21 22:56:36"
+            "time": "2014-04-15 19:29:16"
         },
         {
             "name": "pear/net_url2",
