@@ -633,14 +633,15 @@ form, .form-buttons {
  */
 .container-error {
 	color: #fff;
+	margin-top: 42px;
 }
 
 .container-error a {
-	color: #111;
+	color: #ccc;
 }
 
 .container-error a:hover {
-	color: #000;
+	color: #fff;
 }
 
 .body-starburst .container-error {
