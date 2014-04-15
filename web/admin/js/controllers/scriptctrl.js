@@ -65,11 +65,17 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 		editor.setValue( '' );
 		$scope.currentScript = this.verb.event;
 		$scope.script = this.verb.scripts;
+        $scope.hasContent = false;
 		var script_id = {"script_id": $scope.currentScript};
 		Script.get( script_id ).$promise.then(
 			function( response ) {
 				editor.setValue( response.script_body );
-			}
+                $scope.hasContent = true;
+
+			},
+            function(){
+                $scope.hasContent = false;
+            }
 		);
 	};
 	$scope.loadEvent = function() {
@@ -97,6 +103,24 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 		);
 
 	};
+  $scope.deleteScript = function() {
+    var script_id = {"script_id": $scope.currentScript};
+    editor.setValue(" ");
+    var post_body = editor.getValue() || " ";
+
+    Script.update( script_id, post_body ).$promise.then(
+      function( response ) {
+        $.pnotify(
+          {
+            title: $scope.currentScript,
+            type:  'success',
+            text:  'Deleted Successfully'
+          }
+        );
+      }
+    );
+
+  };
 	$scope.loadPath = function() {
 		if ( $scope.currentPath === this.path.path ) {
 			$scope.currentPath = null;
