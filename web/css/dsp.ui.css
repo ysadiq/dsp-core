@@ -177,7 +177,7 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	padding-bottom: 0;
 	margin-bottom:  0;
 	height:         44px;
-	border-bottom:    1px solid #777;
+	border-bottom:  1px solid #777;
 	/*border-bottom:  1px solid #777;*/
 	/*border-image:   none;*/
 	/*border-radius:  0 !important;*/
@@ -302,88 +302,92 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 ** Form Styles
 **************************************************************************/
 
-.form-light h2:first-child {
+body[class^="body-starburst-"] .form-light h2:first-child {
 	width:         auto;
 	margin-top:    10px;
 	border-bottom: 1px inset #f0f0f0;
 }
 
 #formbox.form-light form p.lead {
-	color:       #333;
+	color:       #fff;
 	font-size:   16px;
 	font-weight: bold;
 	text-align:  center;
+}
+
+body[class^="body-starburst-"] #formbox.form-light form p.lead {
+	color: #333;
 }
 
 /** Box and shadows **/
 .boxed {
 }
 
-.form-light {
-	color:      #333;
-	background: #fff;
-}
+/*.form-light {*/
+/*color:      #333;*/
+/*background: #fff;*/
+/*}*/
 
-.drop-shadow {
-	position:           relative;
-	float:              left;
-	width:              40%;
-	padding:            1.2em;
-	background:         #fff;
-	-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-	-moz-box-shadow:    0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-	box-shadow:         0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
-}
+/*.drop-shadow {*/
+/*position:           relative;*/
+/*float:              left;*/
+/*width:              40%;*/
+/*padding:            1.2em;*/
+/*background:         #fff;*/
+/*-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;*/
+/*-moz-box-shadow:    0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;*/
+/*box-shadow:         0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;*/
+/*}*/
 
-.drop-shadow:before,
-.drop-shadow:after {
-	content:  "";
-	position: absolute;
-	z-index:  -2;
-}
+/*.drop-shadow:before,*/
+/*.drop-shadow:after {*/
+/*content:  "";*/
+/*position: absolute;*/
+/*z-index:  -2;*/
+/*}*/
 
-.drop-shadow p {
-	font-size:   16px;
-	font-weight: bold;
-}
+/*.drop-shadow p {*/
+/*font-size:   16px;*/
+/*font-weight: bold;*/
+/*}*/
 
-.lifted {
-	-moz-border-radius: 3px;
-	border-radius:      3px;
-}
+/*.lifted {*/
+/*-moz-border-radius: 3px;*/
+/*border-radius:      3px;*/
+/*}*/
 
-.lifted:before,
-.lifted:after {
-	bottom:             15px;
-	left:               10px;
-	width:              50%;
-	height:             20%;
-	max-width:          300px;
-	-webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);
-	-moz-box-shadow:    0 15px 10px rgba(0, 0, 0, 0.7);
-	box-shadow:         0 15px 10px rgba(0, 0, 0, 0.7);
-	-webkit-transform:  rotate(-3deg);
-	-moz-transform:     rotate(-3deg);
-	-ms-transform:      rotate(-3deg);
-	-o-transform:       rotate(-3deg);
-	transform:          rotate(-3deg);
-}
+/*.lifted:before,*/
+/*.lifted:after {*/
+/*bottom:             15px;*/
+/*left:               10px;*/
+/*width:              50%;*/
+/*height:             20%;*/
+/*max-width:          300px;*/
+/*-webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);*/
+/*-moz-box-shadow:    0 15px 10px rgba(0, 0, 0, 0.7);*/
+/*box-shadow:         0 15px 10px rgba(0, 0, 0, 0.7);*/
+/*-webkit-transform:  rotate(-3deg);*/
+/*-moz-transform:     rotate(-3deg);*/
+/*-ms-transform:      rotate(-3deg);*/
+/*-o-transform:       rotate(-3deg);*/
+/*transform:          rotate(-3deg);*/
+/*}*/
 
-.lifted:after {
-	right:             10px;
-	left:              auto;
-	-webkit-transform: rotate(3deg);
-	-moz-transform:    rotate(3deg);
-	-ms-transform:     rotate(3deg);
-	-o-transform:      rotate(3deg);
-	transform:         rotate(3deg);
-}
+/*.lifted:after {*/
+/*right:             10px;*/
+/*left:              auto;*/
+/*-webkit-transform: rotate(3deg);*/
+/*-moz-transform:    rotate(3deg);*/
+/*-ms-transform:     rotate(3deg);*/
+/*-o-transform:      rotate(3deg);*/
+/*transform:         rotate(3deg);*/
+/*}*/
 
 .inset {
 	/* Shadows are visible under slightly transparent text color */
 	/*color:       rgba(224, 134, 37, 0.5);*/
 	/*text-shadow: 0 1px 1px #ccc, 0 0 0 #000, 0 1px 1px #ccc;*/
-	color: #444;
+	color: #ddd;
 }
 
 .dsp-version {
@@ -436,7 +440,7 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	width:         100%;
 	margin-bottom: 35px;
 	position:      relative;
-	margin:        25% auto 0;
+	margin:        15% auto 0;
 }
 
 #formbox.tall-box {
@@ -462,6 +466,7 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	position:    relative;
 	margin:      0 auto;
 	font-family: normal, sans-serif;
+	color:       #fff;
 }
 
 #form-login {
@@ -632,7 +637,7 @@ form, .form-buttons {
  * Error pages
  */
 .container-error {
-	color: #fff;
+	color:      #fff;
 	margin-top: 42px;
 }
 

@@ -67,7 +67,6 @@
 }
 
 .remember-me {
-	color:      #666;
 	text-align: left;
 	cursor:     pointer;
 }
@@ -115,7 +114,7 @@
 }
 
 .remote-login-wrapper h4 {
-	color:      #666;
+	color:      #eee;
 	text-align: center;
 	font-size:  17px;
 	transition: color 0.3s ease-in-out;
