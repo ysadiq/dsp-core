@@ -119,6 +119,7 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	margin:     0;
 	/* Pad bottom by footer height */
 	padding:    0;
+	overflow:   auto;
 }
 
 #page-content > div {
@@ -128,9 +129,10 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 }
 
 .box-wrapper {
-	margin:    0 auto;
-	min-width: 400px;
-	max-width: 440px;
+	margin:         0 auto;
+	min-width:      400px;
+	max-width:      440px;
+	padding-bottom: 44px;
 }
 
 #footer {
@@ -143,6 +145,7 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	background-color: #000;
 	/*transition:       background-color 1500ms, color 1500ms;*/
 	color:            rgba(242, 242, 242, .8);
+	z-index:          10000;
 }
 
 #footer:hover {
