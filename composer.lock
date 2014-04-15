@@ -126,12 +126,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/azure-sdk-for-php.git",
-                "reference": "0d7d50dd5a94eb7712890bd3dec3df7eb2682e75"
+                "reference": "b5323cf545f833adc3bc9358fc260845ace562f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/0d7d50dd5a94eb7712890bd3dec3df7eb2682e75",
-                "reference": "0d7d50dd5a94eb7712890bd3dec3df7eb2682e75",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/b5323cf545f833adc3bc9358fc260845ace562f3",
+                "reference": "b5323cf545f833adc3bc9358fc260845ace562f3",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Lead Developer, server-side/client-side"
                 }
             ],
             "description": "This project provides a set of PHP client libraries that make it easy to access Windows Azure tables, blobs, queues, service runtime and service management APIs.",
@@ -176,7 +176,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2014-04-10 17:55:39"
+            "time": "2014-04-15 19:40:35"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -279,12 +279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "642cc4a70356230ff0cb838672b2d48421c2ef90"
+                "reference": "ba9eb24f7b454f61947e66061a539be63219b441"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/642cc4a70356230ff0cb838672b2d48421c2ef90.zip",
-                "reference": "642cc4a70356230ff0cb838672b2d48421c2ef90",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/ba9eb24f7b454f61947e66061a539be63219b441.zip",
+                "reference": "ba9eb24f7b454f61947e66061a539be63219b441",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-15 19:20:23"
+            "time": "2014-04-15 19:41:52"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
