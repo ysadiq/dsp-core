@@ -19,12 +19,14 @@
  */
 use DreamFactory\Yii\Utility\Pii;
 use DreamFactory\Yii\Utility\Validate;
+use Kisma\Core\Utility\Option;
 
 /**
  * @var WebController $this
  * @var ProfileForm   $model
  * @var CActiveForm   $form
  * @var string        $backUrl
+ * @var array         $session
  */
 
 Validate::register(
@@ -35,17 +37,20 @@ Validate::register(
         'errorPlacement' => 'function(error,element){error.appendTo(element.closest("div.form-group"));}',
         'rules'          => array(
             'ProfileForm[email]'        => array(
-                'required'  => true,
-                'minlength' => 5,
+                'required' => true,
+                'email'    => true,
             ),
             'ProfileForm[first_name]'   => array(
-                'required' => true,
+                'required'  => true,
+                'minlength' => 3,
             ),
             'ProfileForm[last_name]'    => array(
-                'required' => true,
+                'required'  => true,
+                'minlength' => 3,
             ),
             'ProfileForm[display_name]' => array(
-                'required' => true,
+                'required'  => true,
+                'minlength' => 6,
             ),
         ),
     )
@@ -61,6 +66,28 @@ if ( null !== ( $_flash = Pii::getFlash( 'login-form' ) ) )
 </div>
 HTML;
 }
+
+$_appOptions = '<option name="ProfileForm[default_app_id]" value="0">None</option>';
+
+if ( isset( $session ) )
+{
+    $_defaultAppId = Option::get( $session, 'default_app_id', 0 );
+
+    /** @var array $_app */
+    foreach ( $session['allowed_apps'] as $_app )
+    {
+        $_selected = ( $_app['id'] == $_defaultAppId );
+        $_appOptions .=
+            '<option name="ProfileForm[default_app_id]" value="' .
+            $_app['id'] .
+            '"' .
+            ( $_selected ? ' selected="selected" ' : null ) .
+            '>' .
+            $_app['api_name'] .
+            '</option>';
+    }
+}
+
 ?>
 <div class="box-wrapper">
     <div id="formbox" class="tall-box form-light boxed drop-shadow lifted">
@@ -78,8 +105,8 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-envelope fa-fw"></i></span>
 
                     <input tabindex="1" class="form-control email required" autofocus type="email" id="ProfileForm_email"
-                           name="ProfileForm[email]" placeholder="Email Address"
-                           value="<?php echo( $model->email ? $model->email : '' ); ?>" />
+                        name="ProfileForm[email]" placeholder="Email Address"
+                        value="<?php echo $model->email; ?>" />
                 </div>
             </div>
 
@@ -90,8 +117,8 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
                     <input tabindex="2" class="form-control required" type="text" id="ProfileForm_firstName"
-                           name="ProfileForm[first_name]" placeholder="First Name"
-                           value="<?php echo( $model->first_name ? $model->first_name : '' ); ?>" />
+                        name="ProfileForm[first_name]" placeholder="First Name"
+                        value="<?php echo $model->first_name; ?>" />
                 </div>
             </div>
             <div class="form-group">
@@ -101,8 +128,8 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-user fa-fw"></i></span>
 
                     <input tabindex="3" class="form-control required" type="text" id="ProfileForm_lastName"
-                           name="ProfileForm[last_name]" placeholder="Last Name"
-                           value="<?php echo( $model->last_name ? $model->last_name : '' ); ?>" />
+                        name="ProfileForm[last_name]" placeholder="Last Name"
+                        value="<?php echo $model->last_name; ?>" />
                 </div>
             </div>
             <div class="form-group">
@@ -112,8 +139,8 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-eye fa-fw"></i></span>
 
                     <input tabindex="4" class="form-control" type="text" id="ProfileForm_displayName"
-                           name="ProfileForm[display_name]" placeholder="Display Name"
-                           value="<?php echo( $model->display_name ? $model->display_name : '' ); ?>" />
+                        name="ProfileForm[display_name]" placeholder="Display Name"
+                        value="<?php echo $model->display_name; ?>" />
                 </div>
             </div>
             <div class="form-group">
@@ -123,8 +150,8 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-phone fa-fw"></i></span>
 
                     <input tabindex="5" class="form-control" type="text" id="ProfileForm_phone"
-                           name="ProfileForm[phone]" placeholder="Phone"
-                           value="<?php echo( $model->phone ? $model->phone : '' ); ?>" />
+                        name="ProfileForm[phone]" placeholder="Phone"
+                        value="<?php echo $model->phone; ?>" />
                 </div>
             </div>
             <div class="form-group">
@@ -134,8 +161,8 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
                     <input tabindex="6" class="form-control" type="text" id="ProfileForm_securityQuestion"
-                           name="ProfileForm[security_question]" placeholder="Security Question"
-                           value="<?php echo( $model->security_question ? $model->security_question : '' ); ?>" />
+                        name="ProfileForm[security_question]" placeholder="Security Question"
+                        value="<?php echo $model->security_question; ?>" />
                 </div>
             </div>
             <div class="form-group">
@@ -145,22 +172,18 @@ HTML;
                     <span class="input-group-addon bg_dg"><i class="fa fa-question fa-fw"></i></span>
 
                     <input tabindex="7" class="form-control" type="text" id="ProfileForm_securityAnswer"
-                           name="ProfileForm[security_answer]" placeholder="Security Answer"
-                           value="<?php echo( $model->security_answer ? $model->security_answer : '' ); ?>" />
+                        name="ProfileForm[security_answer]" placeholder="Security Answer"
+                        value="<?php echo $model->security_answer; ?>" />
                 </div>
             </div>
             <div class="form-group">
-                <label for="ProfileForm_defaultApp" class="sr-only">Default Application</label>
+                <label for="ProfileForm_default_app_id" class="sr-only">Default Application</label>
 
                 <div class="input-group">
                     <span class="input-group-addon bg_dg"><i class="fa fa-cloud fa-fw"></i></span>
 
-                    <select tabindex="8" class="form-control" id="ProfileForm_defaultApp"
-                            name="ProfileForm[default_app_id]">
-                        <option value=null>None</option>
-                        <?php
-                        echo "<option value=null>None</option>";
-                        ?>
+                    <select tabindex="8" class="form-control" id="ProfileForm_default_app_id" name="ProfileForm[default_app_id]">
+                        <?php echo $_appOptions; ?>
                     </select>
                 </div>
             </div>
@@ -175,15 +198,21 @@ HTML;
 </div>
 
 <script type="text/javascript">
-jQuery(function($) {
-    $('#profile-form').on('focus', 'input#ProfileForm_displayName', function(e) {
-        if (!$('#ProfileForm_displayName').val().trim().length) {
-            $('#ProfileForm_displayName').val($('#ProfileForm_firstName').val() + ' ' + $('#ProfileForm_lastName').val())
-        }
-    });
-    $('#btn-back').on('click', function(e) {
-        e.preventDefault();
-        window.location = '<?php echo $backUrl?>';
-    });
-});
+jQuery(
+    function($) {
+        $('#profile-form').on(
+            'focus', 'input#ProfileForm_displayName', function(e) {
+                if (!$('#ProfileForm_displayName').val().trim().length) {
+                    $('#ProfileForm_displayName').val($('#ProfileForm_firstName').val() + ' ' + $('#ProfileForm_lastName').val())
+                }
+            }
+        );
+        $('#btn-back').on(
+            'click', function(e) {
+                e.preventDefault();
+                window.location = '<?php echo $backUrl?>';
+            }
+        );
+    }
+);
 </script>

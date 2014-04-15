@@ -779,7 +779,8 @@ class WebController extends BaseWebController
             'profile',
             array(
                 'model'   => $_model,
-                'backUrl' => $this->_getRedirectUrl()
+                'backUrl' => $this->_getRedirectUrl(),
+                'session' => Session::generateSessionDataFromUser( Session::getCurrentUserId() ),
             )
         );
     }
@@ -889,7 +890,7 @@ class WebController extends BaseWebController
                     $_cleanPath = '/';
                 }
 
-                $_data[$_cleanPath][] = basename( $_name );
+                $_data[ $_cleanPath ][] = basename( $_name );
             }
         }
 
