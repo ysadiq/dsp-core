@@ -99,16 +99,17 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 						text:  'Saved Successfully'
 					}
 				);
+        $scope.hasContent = true;
 			}
 		);
 
 	};
   $scope.deleteScript = function() {
     var script_id = {"script_id": $scope.currentScript};
-    editor.setValue(" ");
-    var post_body = editor.getValue() || " ";
+    editor.setValue("");
 
-    Script.update( script_id, post_body ).$promise.then(
+
+    Script.delete( script_id).$promise.then(
       function( response ) {
         $.pnotify(
           {
