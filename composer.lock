@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1b0b67edc1ae335791e110fda4ac6f6a",
+    "hash": "cdf368d3b5bde419c0e8e7e0f1090162",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -74,6 +74,80 @@
             "time": "2013-12-12 19:35:51"
         },
         {
+            "name": "doctrine/cache",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "e16d7adf45664a50fa86f515b6d5e7f670130449"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/e16d7adf45664a50fa86f515b6d5e7f670130449",
+                "reference": "e16d7adf45664a50fa86f515b6d5e7f670130449",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "conflict": {
+                "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=3.7",
+                "satooshi/php-coveralls": "~0.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Cache\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Caching library offering an object-oriented API for many cache backends",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "cache",
+                "caching"
+            ],
+            "time": "2013-10-25 19:04:14"
+        },
+        {
             "name": "dready92/php-on-couch",
             "version": "dev-master",
             "source": {
@@ -122,16 +196,16 @@
         },
         {
             "name": "dreamfactory/azure-sdk-for-php",
-            "version": "dev-develop",
+            "version": "0.4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/azure-sdk-for-php.git",
-                "reference": "0d7d50dd5a94eb7712890bd3dec3df7eb2682e75"
+                "reference": "e84115d60e8e836ff99c567ef95e1ab0a0ac986b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/0d7d50dd5a94eb7712890bd3dec3df7eb2682e75",
-                "reference": "0d7d50dd5a94eb7712890bd3dec3df7eb2682e75",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/e84115d60e8e836ff99c567ef95e1ab0a0ac986b",
+                "reference": "e84115d60e8e836ff99c567ef95e1ab0a0ac986b",
                 "shasum": ""
             },
             "require": {
@@ -176,7 +250,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2014-04-10 17:55:39"
+            "time": "2014-04-15 19:40:26"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -223,12 +297,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "a8d4bed045019328655d7ee56114f6920a8129ef"
+                "reference": "38d11196ad681306227966f7be2d98782c86bf36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/a8d4bed045019328655d7ee56114f6920a8129ef",
-                "reference": "a8d4bed045019328655d7ee56114f6920a8129ef",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/38d11196ad681306227966f7be2d98782c86bf36",
+                "reference": "38d11196ad681306227966f7be2d98782c86bf36",
                 "shasum": ""
             },
             "require": {
@@ -257,12 +331,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -271,7 +345,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-03-27 20:08:48"
+            "time": "2014-04-16 16:59:13"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -279,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "af54e8e83e987cbf3ec8081b3883d96992170fec"
+                "reference": "a90a04b7c12c3a56ed921b1c834e3f624c88faef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/af54e8e83e987cbf3ec8081b3883d96992170fec.zip",
-                "reference": "af54e8e83e987cbf3ec8081b3883d96992170fec",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/a90a04b7c12c3a56ed921b1c834e3f624c88faef.zip",
+                "reference": "a90a04b7c12c3a56ed921b1c834e3f624c88faef",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-12 22:10:44"
+            "time": "2014-04-16 19:11:42"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -355,12 +429,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "79b500cf9a3d55630b5642a287962bef413a00f9"
+                "reference": "853aee963152b56f5ea38a18c3971ca14f66e8ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/79b500cf9a3d55630b5642a287962bef413a00f9",
-                "reference": "79b500cf9a3d55630b5642a287962bef413a00f9",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/853aee963152b56f5ea38a18c3971ca14f66e8ae",
+                "reference": "853aee963152b56f5ea38a18c3971ca14f66e8ae",
                 "shasum": ""
             },
             "require": {
@@ -394,7 +468,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Jason Sykes",
@@ -418,7 +492,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-04-07 21:51:25"
+            "time": "2014-04-16 16:59:58"
         },
         {
             "name": "dreamfactory/oasys",
@@ -551,63 +625,17 @@
             "time": "2014-02-24 17:33:55"
         },
         {
-            "name": "evenement/evenement",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/igorw/evenement.git",
-                "reference": "30871db2821979b3d5754b3b3fc09846998deb60"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/igorw/evenement/zipball/30871db2821979b3d5754b3b3fc09846998deb60",
-                "reference": "30871db2821979b3d5754b3b3fc09846998deb60",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Evenement": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch",
-                    "homepage": "http://wiedler.ch/igor/"
-                }
-            ],
-            "description": "Événement is a very simple event dispatching library for PHP",
-            "keywords": [
-                "event-dispatcher",
-                "event-emitter"
-            ],
-            "time": "2013-09-29 00:45:02"
-        },
-        {
             "name": "guzzle/guzzle",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043"
+                "reference": "dc4a4af0ba585522863f75324bbfe2e0009f2893"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/840683b88b637a5310aefceac3722c6fd6b4c043",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/dc4a4af0ba585522863f75324bbfe2e0009f2893",
+                "reference": "dc4a4af0ba585522863f75324bbfe2e0009f2893",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +714,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-04-09 22:38:44"
+            "time": "2014-04-16 17:46:30"
         },
         {
             "name": "kisma/kisma",
@@ -694,15 +722,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "107149091b8693cb2cfa61a6026047b8e029a6bf"
+                "reference": "765416be25fe145e1bc5cfe612709accc793796c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/107149091b8693cb2cfa61a6026047b8e029a6bf",
-                "reference": "107149091b8693cb2cfa61a6026047b8e029a6bf",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/765416be25fe145e1bc5cfe612709accc793796c",
+                "reference": "765416be25fe145e1bc5cfe612709accc793796c",
                 "shasum": ""
             },
             "require": {
+                "doctrine/cache": "~1.3.0@stable",
                 "monolog/monolog": "@stable",
                 "php": ">=5.3.18",
                 "symfony/event-dispatcher": "~2.4@stable",
@@ -743,7 +772,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-04-08 05:45:52"
+            "time": "2014-04-16 20:13:36"
         },
         {
             "name": "monolog/monolog",
@@ -919,12 +948,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/Mail_mimeDecode.git",
-                "reference": "749a32a7a79df2ccdba00937bd5cdcebe9487c7f"
+                "reference": "a53c1ce051b212e23f7f67ea8d31015640de1129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/Mail_mimeDecode/zipball/749a32a7a79df2ccdba00937bd5cdcebe9487c7f",
-                "reference": "749a32a7a79df2ccdba00937bd5cdcebe9487c7f",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/Mail_mimeDecode/zipball/a53c1ce051b212e23f7f67ea8d31015640de1129",
+                "reference": "a53c1ce051b212e23f7f67ea8d31015640de1129",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +965,7 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Mail_mimeDecode": "./"
+                    "Mail_mimeDecode": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -959,7 +988,7 @@
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Mail_mimeDecode",
-            "time": "2014-02-21 22:56:36"
+            "time": "2014-04-15 19:29:16"
         },
         {
             "name": "pear/net_url2",
@@ -1263,115 +1292,6 @@
             "time": "2013-08-01 16:12:19"
         },
         {
-            "name": "react/promise",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/reactphp/promise.git",
-                "reference": "95fcf8b62ec1b11bfa346c60c74fe6408a8ea922"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/95fcf8b62ec1b11bfa346c60c74fe6408a8ea922",
-                "reference": "95fcf8b62ec1b11bfa346c60c74fe6408a8ea922",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "React\\Promise\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jan Sorgalla",
-                    "email": "jsorgalla@googlemail.com",
-                    "homepage": "http://sorgalla.com",
-                    "role": "maintainer"
-                }
-            ],
-            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
-            "time": "2014-02-03 21:10:58"
-        },
-        {
-            "name": "react/react",
-            "version": "0.4.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/reactphp/react.git",
-                "reference": "17044db0ab6a9c145fb1ac40822c5c17d045dc36"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/react/zipball/17044db0ab6a9c145fb1ac40822c5c17d045dc36",
-                "reference": "17044db0ab6a9c145fb1ac40822c5c17d045dc36",
-                "shasum": ""
-            },
-            "require": {
-                "evenement/evenement": "~2.0",
-                "guzzle/parser": "~3.0",
-                "php": ">=5.4.0",
-                "react/promise": "~2.0"
-            },
-            "replace": {
-                "react/cache": "self.version",
-                "react/dns": "self.version",
-                "react/event-loop": "self.version",
-                "react/http": "self.version",
-                "react/http-client": "self.version",
-                "react/socket": "self.version",
-                "react/socket-client": "self.version",
-                "react/stream": "self.version"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-event": "Allows for use of a more performant event-loop implementation.",
-                "ext-libev": "Allows for use of a more performant event-loop implementation.",
-                "ext-libevent": "Allows for use of a more performant event-loop implementation."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "React\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Nuclear Reactor written in PHP.",
-            "keywords": [
-                "event-loop",
-                "reactor"
-            ],
-            "time": "2014-04-13 17:03:14"
-        },
-        {
             "name": "swiftmailer/swiftmailer",
             "version": "v4.3.1",
             "source": {
@@ -1429,12 +1349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "4b9a8defce833386224bdbf9045128a6e51fb0b4"
+                "reference": "133627e57441b50128807702bea0d395129809ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/4b9a8defce833386224bdbf9045128a6e51fb0b4",
-                "reference": "4b9a8defce833386224bdbf9045128a6e51fb0b4",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/133627e57441b50128807702bea0d395129809ad",
+                "reference": "133627e57441b50128807702bea0d395129809ad",
                 "shasum": ""
             },
             "require": {
@@ -1478,7 +1398,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-03 05:23:50"
+            "time": "2014-04-16 10:36:21"
         },
         {
             "name": "symfony/http-foundation",
@@ -1487,12 +1407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "fcf4b3614e8d9610d75b35dc6809cd14f6063ebf"
+                "reference": "cd52e0a03042030d098cba652b901e3bbc5f7d7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/fcf4b3614e8d9610d75b35dc6809cd14f6063ebf",
-                "reference": "fcf4b3614e8d9610d75b35dc6809cd14f6063ebf",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/cd52e0a03042030d098cba652b901e3bbc5f7d7e",
+                "reference": "cd52e0a03042030d098cba652b901e3bbc5f7d7e",
                 "shasum": ""
             },
             "require": {
@@ -1533,7 +1453,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-11 18:34:16"
+            "time": "2014-04-16 10:36:34"
         }
     ],
     "packages-dev": [
@@ -2080,12 +2000,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "cee3067d680232674c6505d91db9d3d635a9a8f4"
+                "reference": "99fb0e0037cbe5bc76421e3aa2af8f1914389f6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/cee3067d680232674c6505d91db9d3d635a9a8f4",
-                "reference": "cee3067d680232674c6505d91db9d3d635a9a8f4",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/99fb0e0037cbe5bc76421e3aa2af8f1914389f6f",
+                "reference": "99fb0e0037cbe5bc76421e3aa2af8f1914389f6f",
                 "shasum": ""
             },
             "require": {
@@ -2120,7 +2040,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-03-26 11:51:10"
+            "time": "2014-04-16 10:36:21"
         }
     ],
     "aliases": [
