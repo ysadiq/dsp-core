@@ -2249,7 +2249,7 @@ span.label {
 .path-name {
     background-color: #cfcfcf;
     padding-left: 10px;
-    height: 25px;
+    min-height: 25px;
     border-bottom: 1px solid #bbbbbb;
     border-left: 1px solid #bbbbbb;
 }

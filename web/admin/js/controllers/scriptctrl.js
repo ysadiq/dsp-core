@@ -85,6 +85,7 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 		else {
 			$scope.currentEvent = this.event.name;
 		}
+
 	};
 	$scope.saveScript = function() {
 		var script_id = {"script_id": $scope.currentScript};

@@ -139,12 +139,11 @@ angular.module(
                             }
 
                             return $q.reject(response);
-                        } 
+                        }
                         else if (response.status === 404) {
                             return $q.reject(response);
                         }
                         else {
-                            console.log("error");
                             $.pnotify(
                                 {
                                     title: "Error",
