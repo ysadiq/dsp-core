@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/azure-sdk-for-php.git",
-                "reference": "c5a4b23f842bd934dc64573442a23676fc5e1f4a"
+                "reference": "90ecf642948b5b7b79c2b60dc6b2b6232020e14c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/c5a4b23f842bd934dc64573442a23676fc5e1f4a",
-                "reference": "c5a4b23f842bd934dc64573442a23676fc5e1f4a",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/90ecf642948b5b7b79c2b60dc6b2b6232020e14c",
+                "reference": "90ecf642948b5b7b79c2b60dc6b2b6232020e14c",
                 "shasum": ""
             },
             "require": {
@@ -225,7 +225,7 @@
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "WindowsAzure\\": "src/"
                 }
             },
@@ -250,7 +250,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2014-04-16 17:32:15"
+            "time": "2014-04-16 20:56:47"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -1442,268 +1442,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "pear/http_request2",
-            "version": "dev-trunk",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/HTTP_Request2.git",
-                "reference": "ed779344f6f9fad4ee69ad24827ec216b98d7ef9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/HTTP_Request2/zipball/ed779344f6f9fad4ee69ad24827ec216b98d7ef9",
-                "reference": "ed779344f6f9fad4ee69ad24827ec216b98d7ef9",
-                "shasum": ""
-            },
-            "require": {
-                "pear/net_url2": ">=2.0.0",
-                "pear/pear_exception": "*",
-                "php": ">=5.2.0"
-            },
-            "suggest": {
-                "ext-fileinfo": "Adds support for looking up mime-types using finfo.",
-                "ext-zlib": "Allows handling gzip compressed responses.",
-                "lib-curl": "Allows using cURL as a request backend.",
-                "lib-openssl": "Allows handling SSL requests when not using cURL."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "HTTP_Request2": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Alexey Borzov",
-                    "email": "avb@php.net",
-                    "role": "Developer HTML_Common2"
-                }
-            ],
-            "description": "Provides an easy way to perform HTTP requests.",
-            "homepage": "http://pear.php.net/package/HTTP_Request2",
-            "keywords": [
-                "PEAR",
-                "curl",
-                "http",
-                "request"
-            ],
-            "time": "2014-01-16 18:42:31"
-        },
-        {
-            "name": "pear/mail_mime",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Mail_Mime.git",
-                "reference": "8607cd83c59601dccca6ea4da985406083c6ac46"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Mail_Mime/zipball/8607cd83c59601dccca6ea4da985406083c6ac46",
-                "reference": "8607cd83c59601dccca6ea4da985406083c6ac46",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mail": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD Style"
-            ],
-            "authors": [
-                {
-                    "name": "Cipriano Groenendal",
-                    "email": "cipri@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Aleksander Machniak",
-                    "email": "alec@php.net",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Mail_Mime",
-            "time": "2014-02-21 08:52:50"
-        },
-        {
-            "name": "pear/mail_mime-decode",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dreamfactorysoftware/Mail_mimeDecode.git",
-                "reference": "a53c1ce051b212e23f7f67ea8d31015640de1129"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/Mail_mimeDecode/zipball/a53c1ce051b212e23f7f67ea8d31015640de1129",
-                "reference": "a53c1ce051b212e23f7f67ea8d31015640de1129",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mail_mimeDecode": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cipriano Groenendal",
-                    "email": "cipri@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Aleksander Machniak",
-                    "email": "alec@php.net",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Mail_mimeDecode",
-            "time": "2014-04-15 19:29:16"
-        },
-        {
-            "name": "pear/net_url2",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Net_URL2.git",
-                "reference": "68d6a20bc82c0d4bedbcae082e2c1739932dcb93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Net_URL2/zipball/68d6a20bc82c0d4bedbcae082e2c1739932dcb93",
-                "reference": "68d6a20bc82c0d4bedbcae082e2c1739932dcb93",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.1.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Net_URL2": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "David Coallier",
-                    "email": "davidc@php.net"
-                },
-                {
-                    "name": "Tom Klingenberg",
-                    "email": "tkli@php.net"
-                },
-                {
-                    "name": "Christian Schmidt",
-                    "email": "chmidt@php.net"
-                }
-            ],
-            "description": "Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
-            "homepage": "https://github.com/pear/Net_URL2",
-            "keywords": [
-                "PEAR",
-                "RFC 3986",
-                "net",
-                "networking",
-                "uri",
-                "url"
-            ],
-            "time": "2014-01-01 22:23:14"
-        },
-        {
-            "name": "pear/pear_exception",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/PEAR_Exception.git",
-                "reference": "d5a3e9597040dcc56a4a2053a605e07214951202"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/PEAR_Exception/zipball/d5a3e9597040dcc56a4a2053a605e07214951202",
-                "reference": "d5a3e9597040dcc56a4a2053a605e07214951202",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=4.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "class",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PEAR": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "."
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Helgi Thormar",
-                    "email": "dufuz@php.net"
-                },
-                {
-                    "name": "Greg Beaver",
-                    "email": "cellog@php.net",
-                    "role": "lead"
-                }
-            ],
-            "description": "The PEAR Exception base class.",
-            "homepage": "https://github.com/pear/PEAR_Exception",
-            "keywords": [
-                "exception"
-            ],
-            "time": "2014-02-21 17:39:41"
-        },
         {
             "name": "phpunit/dbunit",
             "version": "1.3.1",
