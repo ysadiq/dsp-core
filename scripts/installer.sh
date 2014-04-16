@@ -21,6 +21,10 @@
 #
 # CHANGELOG:
 #
+# v1.3.4
+#   Added "-V|--validate" command to validate installation structure
+#   Ensure that web/assets directory is created and has proper permissions
+#
 # v1.3.3
 #	Check for ".composer" directory and add to permission checks/sets
 #
@@ -110,7 +114,7 @@
 ##
 ##	Initial settings
 ##
-VERSION=1.3.3
+VERSION=1.3.4
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 NO_INTERACTION="--no-interaction"
@@ -123,6 +127,7 @@ FABRIC_MARKER=/var/www/.fabric_hosted
 VERBOSE=
 QUIET="--quiet"
 WRITE_ACCESS=0775
+ALL_PERMS=0777
 SCRIPT_PERMS=0775
 FILE_PERMS=0664
 DIR_PERMS=2775
@@ -130,6 +135,7 @@ FORCE_USER=0
 EXIT_CODE=0
 EXIT_CMD=()
 NO_COMPOSER=0
+ONLY_VALIDATE=0
 
 ## Who am I?
 if [ $UID -eq 0 ] ; then
@@ -176,9 +182,9 @@ COMPOSER_DIR=${BASE_PATH}
 COMPOSER_CACHE="$COMPOSER_DIR/.composer"
 PARSED_OPTIONS=
 MY_LOG="${LOG_DIR}installer.log"
-DIRS_TO_CHOWN='* .git*'
-SHORT_OPTIONS="hvcDfni"
-LONG_OPTIONS="help,verbose,clean,debug,force,no-composer,interactive"
+DIRS_TO_CHOWN='* .git* .dreamfactory*'
+SHORT_OPTIONS="hvcDfniV"
+LONG_OPTIONS="help,verbose,clean,debug,force,no-composer,interactive,validate"
 
 # Hosted or standalone?
 if [ -f "${FABRIC_MARKER}" ] ; then
@@ -188,7 +194,7 @@ fi
 
 ## Make sure we have a log directory
 if [ ! -d "${LOG_DIR}" ] ; then
-	mkdir "${LOG_DIR}" && _info "Created ${LOG_DIR}" || _error "Error creating ${LOG_DIR}"
+	mkdir -p "${LOG_DIR}" && _info "Created ${LOG_DIR}" || _error "Error creating ${LOG_DIR}"
 fi
 
 sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Installer [${TAG} v${VERSION}]"
@@ -199,16 +205,17 @@ sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Inst
 # Basic usage statement
 #
 usage() {
-	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive]"
+	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive] [-V|--validate]"
 
 	echo
 
 	echo " -c,--clean         Removes the transient data and performs a clean install."
 	echo " -D,--debug         Like --verbose plus even more information."
-	echo " -f,--force         Forces installation when running user is not ${B1}root${B2}."
+	echo " -f,--force         Forces installation when not running as ${B1}root${B2}."
 	echo " -i,--interactive   Run Composer in interactive mode."
 	echo " -n,--no-composer   Skip the Composer install/update process."
 	echo " -v,--verbose       Outputs more information about the job run."
+	echo " -V,--validate      Validates the installation structure."
 	echo " -h,--help          This information."
 	echo
 
@@ -239,12 +246,18 @@ _parse_arguments() {
 ##
 _check_structure() {
 	if [ ! -d "${STORAGE_DIR}" ] ; then
-		mkdir "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
+		mkdir -p "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
 	fi
 
 	if [ ! -d "${ASSETS_DIR}" ] ; then
-		mkdir "${ASSETS_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${ASSETS_DIR}" || _error "Error creating ${ASSETS_DIR}"
+		mkdir -p "${ASSETS_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${ASSETS_DIR}" || _error "Error creating ${ASSETS_DIR}"
+
+		_dbg "$ch{B1}own/mod${B2}ing ${B1}web/assets${B2} directory to \"${INSTALL_USER}:${WEB_USER}\/0777"
+		chown -R ${INSTALL_USER}:${WEB_USER} ${ASSETS_DIR} >>${MY_LOG} 2>&1
+		chmod -R ${ALL_PERMS} ${ASSETS_DIR} >>${MY_LOG} 2>&1
 	fi
+
+	[ -d "${BASE_PATH}/.composer" ] && DIRS_TO_CHOWN="${DIRS_TO_CHOWN} .composer" || _dbg "No composer cache found."
 
 	_dbg "${B1}chown${B2}ing directories (${DIRS_TO_CHOWN}) and files to \"${INSTALL_USER}:${WEB_USER}\""
 	chown -R ${INSTALL_USER}:${WEB_USER} ${DIRS_TO_CHOWN} >>${MY_LOG} 2>&1
@@ -309,6 +322,12 @@ do
 			shift
 			;;
 
+		-V|--validate)
+			_info "Validating installation, no software installation."
+			ONLY_VALIDATE=1
+			shift
+			;;
+
 		-D|--debug)
 			VERBOSE="-vvv"
 			QUIET=
@@ -338,104 +357,99 @@ done
 _info "Install user is ${B1}\"${INSTALL_USER}\"${B2}"
 
 ## Right groups?
-PROPER_GROUP=`groups | grep -c ${WEB_USER}`
-if [ $UID -ne 0 ] && [ ${PROPER_GROUP} -eq 0 ] ; then
-	_error
-	_error "The install user (${INSTALL_USER}) is not in the web user's group (${WEB_USER})."
-	_error " "
-	_error "To fix this, perform one of the following options:"
-	_error " "
-	_error "    1. Run this script again but: with ${B1}sudo${B2}; as ${B1}root${B2}; or as the system's web user (${B1}${WEB_USER}${B2})"
-	_error " "
-	_error "       -- or --"
-	_error " "
-	_error "    2. Add your user to the system's web user's group (${B1}${WEB_USER}${B2}):"
-	_error "       a. Via command line: ${B1}sudo usermod -a -G ${WEB_USER} ${USER}${B2}"
-	_error "       b. Manually edit the /etc/group file (not recommended)"
+if [ ${ONLY_VALIDATE} -eq 0 ] ; then
+	PROPER_GROUP=`groups | grep -c ${WEB_USER}`
+	if [ $UID -ne 0 ] && [ ${PROPER_GROUP} -eq 0 ] ; then
+		_error
+		_error "The install user (${INSTALL_USER}) is not in the web user's group (${WEB_USER})."
+		_error " "
+		_error "To fix this, perform one of the following options:"
+		_error " "
+		_error "    1. Run this script again but: with ${B1}sudo${B2}; as ${B1}root${B2}; or as the system's web user (${B1}${WEB_USER}${B2})"
+		_error " "
+		_error "       -- or --"
+		_error " "
+		_error "    2. Add your user to the system's web user's group (${B1}${WEB_USER}${B2}):"
+		_error "       a. Via command line: ${B1}sudo usermod -a -G ${WEB_USER} ${USER}${B2}"
+		_error "       b. Manually edit the /etc/group file (not recommended)"
 
-	echo
-	exit 1
-fi
-
-if [ $UID -ne 0 ] && [ ${FORCE_USER} -eq 0 ]; then
-	_error
-	_error "You are not running this script as root. This can result in a non-working DSP. Please run as root or use ${B1}sudo${B2}."
-	_error "If you wish to run as a user other than root, please use the --force option."
-
-	echo
-	exit 1
-fi
-
-# Composer already installed?
-if [ ${NO_COMPOSER} -eq 0 ] ; then
-	if [ -f "${COMPOSER_DIR}/${COMPOSER}" ] ; then
-		_info "Composer pre-installed: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
-		_info "Checking for package manager updates"
-
-		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction self-update
-	else
-		_info "No composer found, installing: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
-		curl -s https://getcomposer.org/installer | ${PHP} -- --install-dir ${COMPOSER_DIR} ${QUIET} ${VERBOSE} --no-interaction
+		echo
+		exit 1
 	fi
+
+	if [ $UID -ne 0 ] && [ ${FORCE_USER} -eq 0 ]; then
+		_error
+		_error "You are not running this script as root. This can result in a non-working DSP. Please run as root or use ${B1}sudo${B2}."
+		_error "If you wish to run as a user other than root, please use the --force option."
+
+		echo
+		exit 1
+	fi
+
+	# Composer already installed?
+	if [ ${NO_COMPOSER} -eq 0 ] ; then
+		if [ -f "${COMPOSER_DIR}/${COMPOSER}" ] ; then
+			_info "Composer pre-installed: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
+			_info "Checking for package manager updates"
+
+			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} --no-interaction self-update
+		else
+			_info "No composer found, installing: ${B1}${COMPOSER_DIR}/${COMPOSER}${B2}"
+			curl -s https://getcomposer.org/installer | ${PHP} -- --install-dir ${COMPOSER_DIR} ${QUIET} ${VERBOSE} --no-interaction
+		fi
+	fi
+
+	##
+	## Shutdown non-essential services (if root)
+	##
+	if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
+		if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+			_dbg "Stopping Apache Web Server"
+			service apache2 stop >>${MY_LOG} 2>&1
+		fi
+
+		_dbg "Stopping MySQL Database Server"
+		service mysql stop >>${MY_LOG} 2>&1
+	fi
+
+	# Git submodules (not currently used, but could be in the future)
+	_dbg "Updating git submodules"
+	/usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
 fi
 
 ##
-## Shutdown non-essential services (if root)
+## Ensure our needed directories are in place
 ##
-if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
-	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-		_dbg "Stopping Apache Web Server"
-		service apache2 stop >>${MY_LOG} 2>&1
-	fi
-
-	_dbg "Stopping MySQL Database Server"
-	service mysql stop >>${MY_LOG} 2>&1
-fi
-
-# Git submodules (not currently used, but could be in the future)
-_dbg "Updating git submodules"
-/usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
-
-# Ensure our needed directories are in place
-_dbg "Checking file system structure"
+_info "Checking file system structure and permissions"
 _check_structure
-
-##
-## Check directory permissions...
-##
-_info "Checking file system"
-
-##
-## Check if composer is installed
-## If not, install. If it is, make sure it's current
-##
-_dbg "Working directory: ${B1}${BASE_PATH}${B2}"
 
 ##
 ##	Install composer dependencies
 ##
+if [ ${ONLY_VALIDATE} -eq 0 ] ; then
+	_dbg "Working directory: ${B1}${BASE_PATH}${B2}"
+	pushd "${BASE_PATH}" >/dev/null 2>&1
 
-pushd "${BASE_PATH}" >/dev/null 2>&1
+	if [ ${NO_COMPOSER} -eq 0 ] ; then
+		if [ ! -d "${VENDOR_DIR}" ] ; then
+			_info "Installing dependencies"
+			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} install ; _code=$?
+		else
+			_info "Updating dependencies"
+			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
+		fi
 
-if [ ${NO_COMPOSER} -eq 0 ] ; then
-	if [ ! -d "${VENDOR_DIR}" ] ; then
-		_info "Installing dependencies"
-		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} install ; _code=$?
-	else
-		_info "Updating dependencies"
-		${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
+		[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
 	fi
 
-	[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
-fi
-
-if [ -d "${VENDOR_DIR}" ] ; then
-	chown -R :${WEB_USER} ${VENDOR_DIR} ./composer.lock >>${MY_LOG} 2>&1
-	if [ $? -ne 0 ] ; then
-		_cmd="chown -R :${WEB_USER} ${VENDOR_DIR} ./composer.lock"
-		_notice "Error changing group of vendor and/or composer.lock. Additional steps required. See note at end of run."
-		_dbg "$_cmd"
-		EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
+	if [ -d "${VENDOR_DIR}" ] ; then
+		chown -R :${WEB_USER} ${VENDOR_DIR} ./composer.lock >>${MY_LOG} 2>&1
+		if [ $? -ne 0 ] ; then
+			_cmd="chown -R :${WEB_USER} ${VENDOR_DIR} ./composer.lock"
+			_notice "Error changing group of vendor and/or composer.lock. Additional steps required. See note at end of run."
+			_dbg "$_cmd"
+			EXIT_CMD=("${EXIT_CMD[@]}" "${_cmd}")
+		fi
 	fi
 fi
 
@@ -464,13 +478,15 @@ fi
 ##
 ## Restart non-essential services (if root)
 ##
-if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
-	service mysql start >>${MY_LOG} 2>&1
+if [ ${ONLY_VALIDATE} -eq 0 ] ; then
+	if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
+		service mysql start >>${MY_LOG} 2>&1
 
-	if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-		service apache2 start >>${MY_LOG} 2>&1
-	else
-		service apache2 reload >>${MY_LOG} 2>&1
+		if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+			service apache2 start >>${MY_LOG} 2>&1
+		else
+			service apache2 reload >>${MY_LOG} 2>&1
+		fi
 	fi
 fi
 

@@ -280,9 +280,10 @@ a:hover {
 }
 
 #user-nav > ul > li > a > i, #sidebar li a i {
-    /*background-image: url("../../vendor/bootstrap/img/glyphicons-halflings-white.png");*/
+    display: inline-block;
     margin-top: 2px;
     opacity: 0.5;
+    width: 20px;
 
 }
 
@@ -336,9 +337,7 @@ a:hover {
     padding: 10px 0 10px 15px;
 }
 
-#sidebar > ul > li > a > i {
-    margin-right: 10px;
-}
+
 
 #sidebar > ul > li.active > a {
     background: url("../img/menu-active.png") no-repeat scroll right center transparent !important;
@@ -2250,7 +2249,7 @@ span.label {
 .path-name {
     background-color: #cfcfcf;
     padding-left: 10px;
-    height: 25px;
+    min-height: 25px;
     border-bottom: 1px solid #bbbbbb;
     border-left: 1px solid #bbbbbb;
 }

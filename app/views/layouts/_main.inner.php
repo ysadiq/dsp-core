@@ -25,11 +25,11 @@
  * @var WebController $this
  */
 ?>
-<div class="navbar navbar-inverse navbar-inburst navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid df-navbar">
         <div class="navbar-header">
-            <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>
-            <span class="pull-left df-brand"><span class="dream-orange">Dream</span>Factory</span>
+            <div class="pull-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>
+            <!--            <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>--><!--            <span class="pull-left df-brand"><span class="dream-orange">Dream</span>Factory</span>-->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span> <span class="icon-bar"></span>
@@ -56,7 +56,7 @@
             </p>
         </span> <span class="pull-right dsp-footer-version"><p class="footer-text">
                 <a href="https://github.com/dreamfactorysoftware/dsp-core/"
-                   target="_blank">v<?php echo DSP_VERSION; ?></a>
+                    target="_blank">v<?php echo DSP_VERSION; ?></a>
             </p></span>
     </div>
 </div>

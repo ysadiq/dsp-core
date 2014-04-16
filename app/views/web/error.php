@@ -69,10 +69,3 @@ if ( empty( $_html ) )
         <p><?php echo $_html; ?></p>
     </div>
 </div>
-<script>
-jQuery(
-    function($) {
-        $('body').removeClass().addClass('body-starburst-error');
-    }
-);
-</script>

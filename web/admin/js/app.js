@@ -17,396 +17,396 @@
  * limitations under the License.
  */
 'use strict';
-var loginFrame = $( "#login-frame" );
-var loginPage = $( "#login-page" );
-var container = $( "#container" );
+var loginFrame = $("#login-frame");
+var loginPage = $("#login-page");
+var container = $("#container");
 
 /**
  * Angular module declaration
  */
 angular.module(
-	"AdminApp", [
-		"ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk"
-	]
-).config(
-	[
-		'$routeProvider', '$locationProvider', '$httpProvider', function( $routeProvider, $locationProvider, $httpProvider ) {
+        "AdminApp", [
+            "ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk"
+        ]
+    ).config(
+        [
+            '$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
 
-		$routeProvider.when(
-			'/', {
-				controller:  QuickStartCtrl,
-				templateUrl: 'quick-start.html'
-			}
-		);
-		$routeProvider.when(
-			'/app', {
-				controller:  AppCtrl,
-				templateUrl: 'applications.html'
-			}
-		);
-		$routeProvider.when(
-			'/user', {
-				controller:  UserCtrl,
-				templateUrl: 'users.html'
-			}
-		);
-		$routeProvider.when(
-			'/role', {
-				controller:  RoleCtrl,
-				templateUrl: 'roles.html'
-			}
-		);
-		$routeProvider.when(
-			'/group', {
-				controller:  GroupCtrl,
-				templateUrl: 'groups.html'
-			}
-		);
-		$routeProvider.when(
-			'/schema', {
-				controller:  SchemaCtrl,
-				templateUrl: 'schema.html'
-			}
-		);
-		$routeProvider.when(
-			'/service', {
-				controller:  ServiceCtrl,
-				templateUrl: 'services.html'
-			}
-		);
-		$routeProvider.when(
-			'/import', {
-				controller:  FileCtrl,
-				templateUrl: 'import.html'
-			}
-		);
-		$routeProvider.when(
-			'/file', {
-				controller:  FileCtrl,
-				templateUrl: 'files.html'
-			}
-		);
-		$routeProvider.when(
-			'/package', {
-				controller:  PackageCtrl,
-				templateUrl: 'package.html'
-			}
-		);
-		$routeProvider.when(
-			'/config', {
-				controller:  ConfigCtrl,
-				templateUrl: 'config.html'
-			}
-		);
-		$routeProvider.when(
-			'/data', {
-				controller:  DataCtrl,
-				templateUrl: 'data.html'
-			}
-		);
-		$routeProvider.when(
-			'/scripts', {
-				controller:  ScriptCtrl,
-				templateUrl: 'scripts.html'
-			}
-		);
-		$routeProvider.when(
-			'/api', {
-				controller:  'ApiSDKCtrl',
-				templateUrl: 'apisdk.html'
-			}
-		);
+            $routeProvider.when(
+                '/', {
+                    controller: QuickStartCtrl,
+                    templateUrl: 'quick-start.html'
+                }
+            );
+            $routeProvider.when(
+                '/app', {
+                    controller: AppCtrl,
+                    templateUrl: 'applications.html'
+                }
+            );
+            $routeProvider.when(
+                '/user', {
+                    controller: UserCtrl,
+                    templateUrl: 'users.html'
+                }
+            );
+            $routeProvider.when(
+                '/role', {
+                    controller: RoleCtrl,
+                    templateUrl: 'roles.html'
+                }
+            );
+            $routeProvider.when(
+                '/group', {
+                    controller: GroupCtrl,
+                    templateUrl: 'groups.html'
+                }
+            );
+            $routeProvider.when(
+                '/schema', {
+                    controller: SchemaCtrl,
+                    templateUrl: 'schema.html'
+                }
+            );
+            $routeProvider.when(
+                '/service', {
+                    controller: ServiceCtrl,
+                    templateUrl: 'services.html'
+                }
+            );
+            $routeProvider.when(
+                '/import', {
+                    controller: FileCtrl,
+                    templateUrl: 'import.html'
+                }
+            );
+            $routeProvider.when(
+                '/file', {
+                    controller: FileCtrl,
+                    templateUrl: 'files.html'
+                }
+            );
+            $routeProvider.when(
+                '/package', {
+                    controller: PackageCtrl,
+                    templateUrl: 'package.html'
+                }
+            );
+            $routeProvider.when(
+                '/config', {
+                    controller: ConfigCtrl,
+                    templateUrl: 'config.html'
+                }
+            );
+            $routeProvider.when(
+                '/data', {
+                    controller: DataCtrl,
+                    templateUrl: 'data.html'
+                }
+            );
+            $routeProvider.when(
+                '/scripts', {
+                    controller: ScriptCtrl,
+                    templateUrl: 'scripts.html'
+                }
+            );
+            $routeProvider.when(
+                '/api', {
+                    controller: 'ApiSDKCtrl',
+                    templateUrl: 'apisdk.html'
+                }
+            );
 
-		var interceptor = [
-			'$location', '$q', '$rootScope', function( $location, $q, $rootScope ) {
-				function success( response ) {
+            var interceptor = [
+                '$location', '$q', '$rootScope', function ($location, $q, $rootScope) {
+                    function success(response) {
 
-					return response;
-				}
+                        return response;
+                    }
 
-				function error( response ) {
+                    function error(response) {
 
-					if ( response.status === 401 || response.status === 403 ) {
-						if ( response.config.method === "GET" ) {
-							$rootScope.$broadcast(
-								"error:401", function() {
-									window.location.reload( true );
-								}
-							);
-						}
-						else {
-							$rootScope.$broadcast( "error:401", null );
-						}
+                        if (response.status === 401 || response.status === 403) {
+                            if (response.config.method === "GET") {
+                                $rootScope.$broadcast(
+                                    "error:401", function () {
+                                        window.location.reload(true);
+                                    }
+                                );
+                            }
+                            else {
+                                $rootScope.$broadcast("error:401", null);
+                            }
 
-						return $q.reject( response );
-					}
-					else if ( response.status = 404 ) {
-						return $q.reject( response );
-					}
-					else {
-						$.pnotify(
-							{
-								title: "Error",
-								type:  'error',
-								text:  getErrorString( response )
-							}
-						);
-						return $q.reject( response );
-					}
-				}
+                            return $q.reject(response);
+                        }
+                        else if (response.status === 404) {
+                            return $q.reject(response);
+                        }
+                        else {
+                            $.pnotify(
+                                {
+                                    title: "Error",
+                                    type: 'error',
+                                    text: getErrorString(response)
+                                }
+                            );
+                            return $q.reject(response);
+                        }
+                    }
 
-				return function( promise ) {
-					return promise.then( success, error );
-				}
-			}
-		];
+                    return function (promise) {
+                        return promise.then(success, error);
+                    }
+                }
+            ];
 
-		$httpProvider.responseInterceptors.push( interceptor );
-	}
-	]
+            $httpProvider.responseInterceptors.push(interceptor);
+        }
+        ]
+    ).factory(
+    'AppsRelated',function ($resource) {
+        return $resource(
+            '/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'AppsRelated', function( $resource ) {
-		return $resource(
-			'/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'AppsRelatedToService',function ($resource) {
+        return $resource(
+            '/rest/system/app/:id/?app_name=admin&fields=*&related=app_service_relations', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'AppsRelatedToService', function( $resource ) {
-		return $resource(
-			'/rest/system/app/:id/?app_name=admin&fields=*&related=app_service_relations', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'App',function ($resource) {
+        return $resource(
+            '/rest/system/app/:id/?app_name=admin&fields=*', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'App', function( $resource ) {
-		return $resource(
-			'/rest/system/app/:id/?app_name=admin&fields=*', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'User',function ($resource) {
+        return $resource(
+            '/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {
+                send_invite: false
+            }, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'User', function( $resource ) {
-		return $resource(
-			'/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {
-				send_invite: false
-			}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Role',function ($resource) {
+        return $resource(
+            '/rest/system/role/:id/?app_name=admin&fields=*', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        )
+    }
 ).factory(
-	'Role', function( $resource ) {
-		return $resource(
-			'/rest/system/role/:id/?app_name=admin&fields=*', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		)
-	}
+    'RolesRelated',function ($resource) {
+        return $resource(
+            '/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'RolesRelated', function( $resource ) {
-		return $resource(
-			'/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Service',function ($resource) {
+        return $resource(
+            '/rest/system/service/:id/?app_name=admin&fields=*', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'Service', function( $resource ) {
-		return $resource(
-			'/rest/system/service/:id/?app_name=admin&fields=*', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Schema',function ($resource) {
+        return $resource(
+            '/rest/schema/:name/?app_name=admin&fields=*', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'Schema', function( $resource ) {
-		return $resource(
-			'/rest/schema/:name/?app_name=admin&fields=*', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'DB',function ($resource) {
+        return $resource(
+            '/rest/db/:name/?app_name=admin&fields=*&include_schema=true', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'DB', function( $resource ) {
-		return $resource(
-			'/rest/db/:name/?app_name=admin&fields=*&include_schema=true', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Group',function ($resource) {
+        return $resource(
+            '/rest/system/app_group/:id/?app_name=admin&fields=*&related=apps', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'Group', function( $resource ) {
-		return $resource(
-			'/rest/system/app_group/:id/?app_name=admin&fields=*&related=apps', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Config',function ($resource) {
+        return $resource(
+            '/rest/system/config/?app_name=admin', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'Config', function( $resource ) {
-		return $resource(
-			'/rest/system/config/?app_name=admin', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Event',function ($resource) {
+        return $resource(
+            '/rest/system/event/?app_name=admin', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'Event', function( $resource ) {
-		return $resource(
-			'/rest/system/event/?app_name=admin', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
+    'Script',function ($resource) {
+        return $resource(
+            '/rest/system/script/:script_id/?app_name=admin', {}, {
+                update: {
+                    method: 'PUT'
+                },
+                query: {
+                    method: 'GET',
+                    isArray: false
+                }
+            }
+        );
+    }
 ).factory(
-	'Script', function( $resource ) {
-		return $resource(
-			'/rest/system/script/:script_id/?app_name=admin', {}, {
-				update: {
-					method: 'PUT'
-				},
-				query:  {
-					method:  'GET',
-					isArray: false
-				}
-			}
-		);
-	}
-).factory(
-	'EmailTemplates', function( $resource ) {
-		return $resource(
-			'/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
-				update: {
-					method: 'PUT'
-				}
-			}
-		);
-	}
+    'EmailTemplates',function ($resource) {
+        return $resource(
+            '/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
+                update: {
+                    method: 'PUT'
+                }
+            }
+        );
+    }
 ).run(
-	function( $rootScope ) {
-		$rootScope.$on(
-			"error:401", function( message, data ) {
-				$rootScope.showLogin();
-				$rootScope.onReturn = function() {
+    function ($rootScope) {
+        $rootScope.$on(
+            "error:401", function (message, data) {
+                $rootScope.showLogin();
+                $rootScope.onReturn = function () {
 
-					if ( data ) {
-						data();
-					}
-				};
+                    if (data) {
+                        data();
+                    }
+                };
 
-			}
-		);
-		$rootScope.showLogin = function() {
-			container.hide();
-			loginFrame.attr( "src", "" );
-			loginFrame.attr( "src", "../web/login" );
-			loginFrame.load(
-				function() {
-					$rootScope.checkLogin();
-				}
-			);
-			loginPage.show();
-		};
-		$rootScope.hideLogin = function() {
-			container.show();
-			loginPage.hide();
-			$rootScope.onReturn();
+            }
+        );
+        $rootScope.showLogin = function () {
+            container.hide();
+            loginFrame.attr("src", "");
+            loginFrame.attr("src", "../web/login");
+            loginFrame.load(
+                function () {
+                    $rootScope.checkLogin();
+                }
+            );
+            loginPage.show();
+        };
+        $rootScope.hideLogin = function () {
+            container.show();
+            loginPage.hide();
+            $rootScope.onReturn();
 
-		};
-		$rootScope.checkLogin = function() {
-			var loginLocation = document.getElementById( "login-frame" ).contentWindow.location;
-			loginLocation = loginLocation.toString();
-			if ( loginLocation.indexOf( "launchpad" ) != -1 ) {
-				$rootScope.hideLogin();
-			}
-		};
+        };
+        $rootScope.checkLogin = function () {
+            var loginLocation = document.getElementById("login-frame").contentWindow.location;
+            loginLocation = loginLocation.toString();
+            if (loginLocation.indexOf("launchpad") != -1) {
+                $rootScope.hideLogin();
+            }
+        };
 
-	}
+    }
 );
 
-var setCurrentApp = function( currentApp ) {
-	$( '.active' ).removeClass( 'active' );
-	$( "#nav_" + currentApp ).addClass( "active" );
+var setCurrentApp = function (currentApp) {
+    $('.active').removeClass('active');
+    $("#nav_" + currentApp).addClass("active");
 };
 
-var showFileManager = function() {
-	$( "#root-file-manager" ).find( "iframe" ).css( 'height', $( window ).height() - 200 ).attr( "src", CurrentServer + '/filemanager/' ).show();
+var showFileManager = function () {
+    $("#root-file-manager").find("iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/').show();
 
 };
 
@@ -414,5 +414,5 @@ window.onresize = resize;
 window.onload = resize;
 
 function resize() {
-	$( "#grid-table" ).css( 'height', $( window ).height() - 60 );
+    $("#grid-table").css('height', $(window).height() - 60);
 }

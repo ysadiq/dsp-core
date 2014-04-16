@@ -19,10 +19,10 @@
                     <div id="event-listing">
                         <div class="event-name search-box">Filter : <input ng-model="searchText"></div>
                         <div data-ng-repeat="event in Events | filter:searchText" class="event-list">
-                            <div class="event-name" data-ng-click="loadEvent()">{{event.name}}</div>
+                            <div class="event-name" data-ng-click="loadEvent()"><i data-ng-class="event.name !== currentEvent ? 'icon-angle-down' : 'icon-angle-up'"> </i>{{event.name}}</div>
                             <ul data-ng-if="event.name === currentEvent || searchText">
                                 <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path">
-                                    <div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name">Path :
+                                    <div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name"><i data-ng-class="path.path !== currentPath ? 'icon-angle-down' : 'icon-angle-up'"> </i>Path :
                                         {{path.path}}
                                     </div>
                                     <ul data-ng-if="path.path === currentPath || searchText">
@@ -43,11 +43,12 @@
             </tr>
         </table>
         <div class="form-actions">
+            <button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">Delete Script</button>
             <button data-ng-click="saveScript()" class="btn btn-primary">Save Script</button>
 
         </div>
     </div>
-    <div data-ng-if="!Config.is_private || Config.is_hosted">
+    <div data-ng-if="!Config.is_private && Config.is_hosted">
         <div style="width:750px" class="alert alert-info">
             <li class="icon-info-sign"></li>
             The Free Hosted Edition of the DreamFactory Services Platform does not support Server Side Scripting. Please install DreamFactory on your cloud or server for this capability. Click <a href="https://bitnami.com/stack/dreamfactory" target="df-new">here</a> to download the open source software package.
