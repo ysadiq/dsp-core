@@ -197,7 +197,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
 					break;
 				case "azure tables":
-					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
 					break;
 				case "couchdb":
 					Scope.service.credentials = {dsn: Scope.couchdb.service.dsn, user: Scope.couchdb.service.user, pwd: Scope.couchdb.service.pwd};
@@ -298,7 +298,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
 					break;
 				case "azure tables":
-					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
 					break;
 
 				case "couchdb":
@@ -573,6 +573,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 					case "azure tables":
 						Scope.azure.account_name = fString.account_name;
 						Scope.azure.account_key = fString.account_key;
+                        Scope.azure.PartitionKey = fString.PartitionKey;
 						break;
 					case "couchdb":
 						Scope.couchdb.service.dsn = fString.dsn;

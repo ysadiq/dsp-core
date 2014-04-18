@@ -223,6 +223,8 @@
 		<input type="text" ng-model="azure.account_name" />
 		<label>Account Key</label>
 		<input type="text" ng-model="azure.account_key" />
+        <label>Default Partition Key</label>
+        <input type="text" ng-model="azure.PartitionKey" />
 
 	</div>
 	<div class=" well sub-section azure_info" ng-show="service.storage_type =='couchdb'">
