@@ -34,7 +34,7 @@
                             <div class="btn-group pull-right">
                                 <a ng-show="app.launch_url != null && app.launch_url !=''"
                                    class="btn btn-small btn-inverse" title="Preview this app"
-                                   ng-click="showAppPreview(app.launch_url)"><i
+                                   ng-click="showAppPreview(app.launch_url, app.api_name)"><i
                                         class="icon-eye-open"></i></a>
                                 <a ng-hide="!app.storage_service_id" class="btn btn-small btn-inverse"
                                    title="Manage app files" ng-click="showFileManager()"><i
@@ -100,7 +100,7 @@
                             supply a URL to point to my application.
 
 
-                            <br/><br/><input ng-show="app.is_url_external==1" placeholder="http://www.myserver.com/"
+                            <br/><br/><input style="width:80%;" ng-show="app.is_url_external==1" placeholder="http://www.myserver.com/"
                                              name="app_path" type="text"
                                              ng-model="app.url">
 

@@ -216,6 +216,8 @@ Actions = {
 			return;
 		}
 
+        url = replaceParams(url, name);
+
 		$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('class', 'app-loader').attr('src', url).appendTo('#app-container');
 
 		/*
@@ -343,7 +345,7 @@ Actions = {
 		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad').done(function (sessionInfo) {
 			//$.data(document.body, 'session', data);
 			//var sessionInfo = $.data(document.body, 'session');
-
+            CurrentSession = sessionInfo;
 			Actions.appGrouper(sessionInfo);
 
 			CurrentUserID = sessionInfo.id;
@@ -476,6 +478,7 @@ Actions = {
 				$.data(document.body, 'session', data);
 
 				var sessionInfo = $.data(document.body, 'session');
+                CurrentSession = sessionInfo;
 
 				Actions.appGrouper(sessionInfo);
 

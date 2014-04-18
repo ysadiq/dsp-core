@@ -161,4 +161,54 @@ checkForDuplicate = function(arr, attr1, value1){
     return found;
 };
 
+replaceParams = function (appUrl, appName) {
+
+    var newParams = "";
+    var url = appUrl;
+    if (appUrl.indexOf("?") !== -1) {
+        var temp = appUrl.split("?");
+        url = temp[0];
+        var params = temp[1];
+        params = params.split("&");
+        $.each(params, function (index, oneParam) {
+            if (oneParam) {
+                if (newParams === "") {
+                    newParams += "?";
+                } else {
+                    newParams += "&";
+                }
+                var pieces = oneParam.split("=");
+                if (pieces.length > 1) {
+                    var name = pieces.shift();
+                    var value = pieces.join("=");
+                    switch (value) {
+                        case "{session_id}":
+                        case "{ticket}":
+                        case "{first_name}":
+                        case "{last_name}":
+                        case "{display_name}":
+                        case "{email}":
+                            value = value.substring(1, value.length-1);
+                            value = top.CurrentSession[value];
+                            break;
+                        case "{user_id}":
+                            value = top.CurrentSession.id;
+                            break;
+                        case "{app_name}":
+                            value = appName;
+                            break;
+                        case "{server_url}":
+                            value = top.CurrentServer;
+                            break;
+                    }
+                    newParams += name + "=" + value;
+                } else {
+                    newParams += oneParam;
+                }
+            }
+        });
+    }
+    return url + newParams;
+};
+
 CurrentServer = location.protocol + '//' + location.host ;
