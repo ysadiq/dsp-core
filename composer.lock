@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "6d49a9ca83d25a7b2dc235ecb24157219c503760"
+                "reference": "9b64d1da8ff319b04253f4cba8161f045be00f8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/6d49a9ca83d25a7b2dc235ecb24157219c503760.zip",
-                "reference": "6d49a9ca83d25a7b2dc235ecb24157219c503760",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/9b64d1da8ff319b04253f4cba8161f045be00f8c.zip",
+                "reference": "9b64d1da8ff319b04253f4cba8161f045be00f8c",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-18 17:20:41"
+            "time": "2014-04-18 20:06:51"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -722,12 +722,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "765416be25fe145e1bc5cfe612709accc793796c"
+                "reference": "0c01299dcdaecbd85da20d8b400883522a03b9b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/765416be25fe145e1bc5cfe612709accc793796c",
-                "reference": "765416be25fe145e1bc5cfe612709accc793796c",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/0c01299dcdaecbd85da20d8b400883522a03b9b0",
+                "reference": "0c01299dcdaecbd85da20d8b400883522a03b9b0",
                 "shasum": ""
             },
             "require": {
@@ -772,7 +772,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-04-16 20:13:36"
+            "time": "2014-04-18 19:50:45"
         },
         {
             "name": "monolog/monolog",
@@ -1393,12 +1393,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "cd52e0a03042030d098cba652b901e3bbc5f7d7e"
+                "reference": "566e2bf9ecfe4ee0b08f78a57399749482eb6a2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/cd52e0a03042030d098cba652b901e3bbc5f7d7e",
-                "reference": "cd52e0a03042030d098cba652b901e3bbc5f7d7e",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/566e2bf9ecfe4ee0b08f78a57399749482eb6a2b",
+                "reference": "566e2bf9ecfe4ee0b08f78a57399749482eb6a2b",
                 "shasum": ""
             },
             "require": {
@@ -1439,7 +1439,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-16 10:36:34"
+            "time": "2014-04-18 21:02:40"
         }
     ],
     "packages-dev": [
