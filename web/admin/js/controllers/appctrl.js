@@ -95,7 +95,7 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 							}
 							if ( Service.newApp ) {
 								$scope.showDetails( Service.newApp );
-								$scope.showAppPreview( $scope.app.launch_url );
+								$scope.showAppPreview( $scope.app.launch_url, $scope.app.api_name );
 								delete Service.newApp;
 							}
 						}
@@ -110,14 +110,16 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 		);
 	};
 
-	$scope.showAppPreview = function( appUrl ) {
+	$scope.showAppPreview = function( appUrl, appName ) {
 
 		$scope.action = "Preview ";
 		$( '#step1' ).hide();
 
 		$( "#app-preview" ).show();
 
-		$( "#app-preview  iframe" ).css( 'height', $( window ).height() - 200 ).attr( "src", appUrl ).show();
+        appUrl = replaceParams(appUrl, appName);
+
+        $( "#app-preview  iframe" ).css( 'height', $( window ).height() - 200 ).attr( "src", appUrl ).show();
 		$( '#create_button' ).hide();
 		$( '#update_button' ).hide();
 		$( '#file-manager' ).hide();
@@ -224,7 +226,7 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 				);
 				Scope.promptForNew();
 				if ( !Scope.app.native ) {
-					Scope.showAppPreview( data.launch_url );
+					Scope.showAppPreview( data.launch_url, data.api_name );
 				}
 			}
 		);
@@ -380,7 +382,7 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 
 	$scope.init = function() {
 		$scope.currentServer = CurrentServer;
-		$scope.action = "Create";
+        $scope.action = "Create";
 		setCurrentApp( 'applications' );
 		$scope.app = {
 			is_url_external:         0,
