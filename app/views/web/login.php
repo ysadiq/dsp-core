@@ -101,7 +101,7 @@ HTML;
         <h4>You must be logged in to continue</h4>
 
         <?php echo $_flash; ?>
-        <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
+        <?php echo CHtml::errorSummary( $model, '<strong>Invalid Credentials</strong>' ); ?>
 
         <form id="login-form" method="POST" role="form">
             <input type="hidden" name="login-only" value="<?php echo $redirected ? 1 : 0; ?>">
