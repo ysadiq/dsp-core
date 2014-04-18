@@ -25,8 +25,8 @@ $_vendorPath = $_basePath . '/vendor';
 
 if ( !is_dir( $_vendorPath ) )
 {
-	echo 'Please run composer install/update before running tests.';
-	exit( 1 );
+    echo 'Please run composer install/update before running tests.';
+    exit( 1 );
 }
 //	Composer
 $_autoloader = require( $_basePath . '/vendor/autoload.php' );
@@ -38,22 +38,24 @@ require_once $_basePath . '/vendor/dreamfactory/yii/framework/yii.php';
 defined( YII_DEBUG ) or define( YII_DEBUG, true );
 defined( YII_TRACE_LEVEL ) or define( YII_TRACE_LEVEL, 3 );
 
+\Kisma::set( 'app.log_file', $_basePath . '/build/console.test.log' );
+
 $_config = require( __DIR__ . '/config/test.config.php' );
 
 //	Testing keys
 if ( file_exists( __DIR__ . '/config/keys.php' ) )
 {
-	/** @noinspection PhpIncludeInspection */
-	require_once __DIR__ . '/config/keys.php';
+    /** @noinspection PhpIncludeInspection */
+    require_once __DIR__ . '/config/keys.php';
 }
 
 //	Create the application but don't run (false at the end)
 $_app = DreamFactory\Yii\Utility\Pii::run(
-	$_basePath,
-	$_autoloader,
-	'DreamFactory\\Platform\\Yii\\Components\\PlatformConsoleApplication',
-	$_config,
-	false,
-	true,
-	false
+    $_basePath,
+    $_autoloader,
+    'DreamFactory\\Platform\\Yii\\Components\\PlatformConsoleApplication',
+    $_config,
+    false,
+    true,
+    false
 );

@@ -40,18 +40,18 @@
 		"wiki":   "https://github.com/dreamfactorysoftware/dsp-core/wiki",
 		"source": "https://github.com/dreamfactorysoftware/dsp-core"
 	},
-        "repositories":      [
-                {
-                        "type": "pear",
-                        "url":  "http://pear.php.net"
-                }
-        ],
-        "require":           {
-                "php":                               ">=5.3.18",
-                "pear-pear.php.net/HTTP_Request2":   "*",
-                "pear-pear.php.net/Net_URL2":        "*",
-                "pear-pear.php.net/Mail_Mime":       "*",
-                "pear-pear.php.net/Mail_mimeDecode": "*",
+	"repositories":      [
+		{
+			"type": "pear",
+			"url":  "http://pear.php.net"
+		}
+	],
+	"require":           {
+		"php":                                  ">=5.3.18",
+		"pear-pear.php.net/HTTP_Request2":      "*",
+		"pear-pear.php.net/Net_URL2":           "*",
+		"pear-pear.php.net/Mail_Mime":          "*",
+		"pear-pear.php.net/Mail_mimeDecode":    "*",
 		"dreamfactory/lib-php-common-platform": "~1.5.0@dev"
 	},
 	"require-dev":       {
@@ -59,7 +59,8 @@
 		"phpunit/dbunit":           "@stable",
 		"phpunit/phpunit-selenium": "@stable",
 		"phpunit/phpunit-story":    "@stable",
-		"phpunit/php-timer":        "@stable"
+		"phpunit/php-timer":        "@stable",
+		"phpunit/php-invoker":      "@stable"
 	},
 	"minimum-stability": "dev",
 	"extra":             {
