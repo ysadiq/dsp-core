@@ -63,6 +63,16 @@ class AdminController extends BaseWebController
         $this->addUserActions( static::Authenticated, array( 'index', 'update', 'error', 'create' ) );
     }
 
+    public function actionDump()
+    {
+        $this->render(
+            'dump',
+            array(
+                'yii_params' => Pii::params(),
+            )
+        );
+    }
+
     /**
      * @param array $options
      * @param bool  $fromCreate
