@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a1215ea6e8c788582b43b6290b8c0459",
+    "hash": "59b661b20ad2540db4ca3f4d5dcf0555",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -297,12 +297,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "f0cb5784712fc75ade22199ae003814f8dc145bb"
+                "reference": "974a0f4f5a6716898cd8afcad3b339139244cfa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/f0cb5784712fc75ade22199ae003814f8dc145bb",
-                "reference": "f0cb5784712fc75ade22199ae003814f8dc145bb",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/974a0f4f5a6716898cd8afcad3b339139244cfa9",
+                "reference": "974a0f4f5a6716898cd8afcad3b339139244cfa9",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +331,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "DreamFactory Package Maintainer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -345,7 +345,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-04-17 14:01:23"
+            "time": "2014-04-18 21:40:51"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -2032,12 +2032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "99fb0e0037cbe5bc76421e3aa2af8f1914389f6f"
+                "reference": "e9525fc511a51e7bfa214c6c420515c580fda35a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/99fb0e0037cbe5bc76421e3aa2af8f1914389f6f",
-                "reference": "99fb0e0037cbe5bc76421e3aa2af8f1914389f6f",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/e9525fc511a51e7bfa214c6c420515c580fda35a",
+                "reference": "e9525fc511a51e7bfa214c6c420515c580fda35a",
                 "shasum": ""
             },
             "require": {
@@ -2072,7 +2072,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-16 10:36:21"
+            "time": "2014-04-18 20:40:13"
         }
     ],
     "aliases": [
