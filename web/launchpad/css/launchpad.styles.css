@@ -1,0 +1,43 @@
+/* No footers on launchpad basic */
+#page-content {
+    padding-top: 50px;
+    overflow: hidden;
+}
+
+#page-content > div {
+    padding-top: 0;
+    padding-bottom: 50px;
+}
+
+#footer {
+    display: none;
+}
+
+#app-container {
+    display: block;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    background-color: rgba(68, 68, 68, 0.35);
+    transition: background-color 2s;
+}
+
+.app-loader {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    border: none !important;
+}
+
+#container.row {
+    margin: 0;
+    padding: 0;
+}
+
+#angular-content > .panel-default {
+    border-radius: 0 !important
+}

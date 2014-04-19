@@ -773,7 +773,6 @@ form {
 
 #sidebar > ul {
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.4);
-	display:    none;
 	margin:     -2px 0 0 !important;
 	width:      100% !important;
 }
@@ -1433,4 +1432,14 @@ body {
 	white-space:  nowrap;
 	opacity:      .2;
 
+}
+
+#event-log {
+	position:         absolute;
+	bottom:           0;
+	left:             0;
+	width:            100%;
+	height:           250px;
+	background-color: #efefef;
+	color:            darkgreen;
 }

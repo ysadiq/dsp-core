@@ -1,7 +1,39 @@
 # DreamFactory Services Platform&trade; Change Log
 
-## v1.4.0 (Released 2014-02-28)
+## v1.5.0 (Release 2014-04-19)
+### New!
+* New DSP-level persistent storage mechanism interfaces with redis, xcache, memcache(d), etc.
+* Added support for [libv8](https://github.com/v8) for server-side Javascript support
+* Server-side event scripting with Javascript (Scripts live in /path/to/dsp/.private/scripts)
+ * Server-side events are now live and being generated
+  * Client event handler registration via new /rest/system/event API. See Live API for more info.
+ * Server-side scripts now supported for REST events
+  * Client event script registration via new /rest/system/script API. See Live API for more info.
+* Lookup Key System
+* Local configuration file support (/path/to/dsp/.private/config)
+* New configuration options for events and event logging control
 
+### Fixes, Updates, and Upgrades
+* Upgraded dependencies abound
+* Session bug fix for validation with ticket
+* Restored PEAR repository to composer.json because it is again required :(
+* Myriad Javascript SDK and Admin application changes and fixes
+* Returned data from GET `/rest/system/config` now includes more information about the environment
+* **Azure** bug fixes and updates
+* **DynamoDB** bug fixes
+* **MongoDB** Full support added for rollback and continue options, batch error handling, and server-side filtering
+
+#### Core Changes
+* Standardized code formatting style based on a slightly modified PSR-1/2. One notable change is that we have dropped tabs for spaces.
+* Leverage the [Symfony HttpFoundation](http://symfony.org) components in processing inbound requests in a drive towards framework neutrality.
+
+#### Swagger Changes
+* Event, Provider, ProviderUser, and Script resources added to Live API
+
+#### Miscellaneous
+* More code cleanup
+
+## v1.4.0 (Released 2014-02-28)
 ### Major Foundational Changes
 * Restructure of the project tree
 	* The config/schema and contained files have been moved to the lib-php-common-platform library

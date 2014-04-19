@@ -26,45 +26,48 @@ $_summary = null;
 
 if ( $model && $model->hasErrors() )
 {
-	foreach ( $model->getErrors() as $_column => $_error )
-	{
-		$_error = is_array( $_error ) ? implode( '<br/>', $_error ) : $_error;
+    foreach ( $model->getErrors() as $_column => $_error )
+    {
+        $_error = is_array( $_error ) ? implode( '<br/>', $_error ) : $_error;
 
-		$_summary .= <<<HTML
+        $_summary .= <<<HTML
 <p><strong>{$_column}</strong>: {$_error}</p>
 HTML;
-	}
+    }
 
-	$_summary = <<<HTML
+    $_summary = <<<HTML
 <div class="alert alert-fixed alert-danger">{$_summary}</div>
 HTML;
 }
 ?>
-<div class="container" id="formbox">
-	<h2 class="lead">Product Support</h2>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">Product Support</h2>
 
-	<p>Would you like one month of free engineering support and important product updates from DreamFactory?</p>
+        <p>Would you like one month of free engineering support and important product updates from DreamFactory?</p>
 
-	<?php echo $_summary; ?>
+        <?php echo $_summary; ?>
 
-	<form class="form form-horizontal" id="register-form" method="POST">
-		<input type="hidden" name="SupportForm[skipped]" id="SupportForm_skipped" value="0">
+        <form class="form form-horizontal" id="register-form" method="POST">
+            <input type="hidden" name="SupportForm[skipped]" id="SupportForm_skipped" value="0">
 
-		<div class="form-buttons">
-			<button type="submit" class="btn btn-success pull-right">Yes</button>
-			<button type="button" id="btn-skip" class="btn btn-default pull-left">No</button>
-		</div>
-	</form>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-success pull-right">Yes</button>
+                <button type="button" id="btn-skip" class="btn btn-default pull-left">No</button>
+            </div>
+        </form>
+    </div>
 </div>
-<script type="text/javascript">
-	jQuery(function ($) {
-		var $_form = $('#register-form');
 
-		$('#btn-skip').on('click', function (e) {
-			e.preventDefault();
-			$('#SupportForm_emailAddress').val('');
-			$('#SupportForm_skipped').val(1);
-			$_form.submit();
-		});
-	});
+<script type="text/javascript">
+jQuery(function($) {
+    var $_form = $('#register-form');
+
+    $('#btn-skip').on('click', function(e) {
+        e.preventDefault();
+        $('#SupportForm_emailAddress').val('');
+        $('#SupportForm_skipped').val(1);
+        $_form.submit();
+    });
+});
 </script>

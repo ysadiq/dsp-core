@@ -23,67 +23,70 @@
 
 $this->pageTitle = Yii::app()->name . ' - Upgrade';
 $this->breadcrumbs = array(
-	'Upgrade DSP',
+    'Upgrade DSP',
 );
 ?>
 
-<div class="container" id="formbox">
-	<h2>DreamFactory Services Platform&trade; Upgrade</h2>
+<div class="box-wrapper">
+    <div id="formbox" class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">Upgrade Available</h2>
 
-	<?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
+        <?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
 
-		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
-		</div>
+            <div class="flash-success">
+                <?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
+            </div>
 
-	<?php elseif ( empty( $model->versions ) ): ?>
+        <?php elseif ( empty( $model->versions ) ): ?>
 
-		<p>This DSP is currently running the latest available version. </p>
+            <p>This DSP is currently running the latest available version. </p>
 
-		<div class="form-buttons">
-			<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
-		</div>
+            <div class="form-buttons">
+                <button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
+            </div>
 
-	<?php
-	else: ?>
+        <?php
+        else: ?>
 
-		<p>There is a software update available for this DSP. <br />
-			When you are ready, select the desired version and click the 'Upgrade' button below. </p>
+            <p>There is a software update available for this DSP. <br /> When you are ready, select the desired version and click the 'Upgrade' button below.
+            </p>
 
-		<?php $form = $this->beginWidget(
-			'CActiveForm',
-			array(
-				 'id'                     => 'upgrade-dsp-form',
-				 'enableClientValidation' => true,
-				 'clientOptions'          => array(
-					 'validateOnSubmit' => true,
-				 ),
-			)
-		); ?>
+            <?php $form = $this->beginWidget(
+                'CActiveForm',
+                array(
+                    'id'                     => 'upgrade-dsp-form',
+                    'enableClientValidation' => true,
+                    'clientOptions'          => array(
+                        'validateOnSubmit' => true,
+                    ),
+                )
+            ); ?>
 
-		<div class="row">
-			<?php echo $form->hiddenField( $model, 'dummy' ); ?>
-		</div>
-		<div class="form-group">
-			<?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
-		</div>
+            <div class="row">
+                <?php echo $form->hiddenField( $model, 'dummy' ); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
+            </div>
 
-		<?php echo $form->errorSummary( $model ); ?>
+            <?php echo $form->errorSummary( $model ); ?>
 
-		<div class="form-buttons">
-			<button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
-			<button type="submit" class="btn btn-success pull-right">Upgrade</button>
-		</div>
+            <div class="form-buttons">
+                <button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
+                <button type="submit" class="btn btn-success pull-right">Upgrade</button>
+            </div>
 
-		<?php $this->endWidget(); ?>
+            <?php $this->endWidget(); ?>
 
-	<?php endif; ?>
+        <?php endif; ?>
+    </div>
 </div>
+
 <script type="text/javascript">
 jQuery(function($) {
-	$('#btn-home').on('click', function(e) {
-		e.preventDefault();
-		window.location.href = '/';
-	});
+    $('#btn-home').on('click', function(e) {
+        e.preventDefault();
+        window.location.href = '/';
+    });
 });
 </script>

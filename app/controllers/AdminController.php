@@ -34,295 +34,316 @@ use Kisma\Core\Utility\Option;
  */
 class AdminController extends BaseWebController
 {
-	//*************************************************************************
-	//* Constants
-	//*************************************************************************
+    //*************************************************************************
+    //* Constants
+    //*************************************************************************
 
-	/**
-	 * @var string
-	 */
-	const SCHEMA_PREFIX = '__schema.';
+    /**
+     * @var string
+     */
+    const SCHEMA_PREFIX = '__schema.';
 
-	//*************************************************************************
-	//* Methods
-	//*************************************************************************
+    //*************************************************************************
+    //* Methods
+    //*************************************************************************
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public function init()
-	{
-		parent::init();
+    /**
+     * {@InheritDoc}
+     */
+    public function init()
+    {
+        parent::init();
 
-		//	We want merged update/create...
-		$this->setSingleViewMode( true );
-		$this->layout = 'mobile';
-		$this->defaultAction = 'index';
+        //	We want merged update/create...
+        $this->setSingleViewMode( true );
+        $this->layout = 'mobile';
+        $this->defaultAction = 'index';
 
-		//	Everything is auth-required
-		$this->addUserActions( static::Authenticated, array( 'index', 'update', 'error', 'create' ) );
-	}
+        //	Everything is auth-required
+        $this->addUserActions( static::Authenticated, array( 'index', 'update', 'error', 'create' ) );
+    }
 
-	/**
-	 * @param array $options
-	 * @param bool  $fromCreate
-	 *
-	 * @throws DreamFactory\Platform\Exceptions\BadRequestException
-	 */
-	public function actionUpdate( $options = array(), $fromCreate = false )
-	{
-		$_id = $_schema = $_errors = null;
+    public function actionDump()
+    {
+        $this->render(
+            'dump',
+            array(
+                'yii_params' => Pii::params(),
+            )
+        );
+    }
 
-		//	New provider
-		if ( false !== $fromCreate && null !== ( $_resourceId = FilterInput::request( 'resource' ) ) )
-		{
-			//	New request
-			$_model = ResourceStore::model( $_resourceId );
-			$_displayName = Inflector::display( $_resourceId );
-			$_schema = $this->_loadConfigSchema( $_resourceId, $_model->hasAttribute( 'config_text' ) ? $_model->config_text : array() );
-		}
-		//	Existing
-		else
-		{
-			//	Requests will come in like: /admin/update/<resource>/<id>
-			list( $_resourceId, $_id ) = $this->_parseRequest();
-			$_displayName = Inflector::display( $_resourceId );
+    /**
+     * @param array $options
+     * @param bool  $fromCreate
+     *
+     * @throws DreamFactory\Platform\Exceptions\BadRequestException
+     */
+    public function actionUpdate( $options = array(), $fromCreate = false )
+    {
+        $_id = $_schema = $_errors = null;
 
-			//	Load it up.
-			/** @var $_model BasePlatformSystemModel */
-			if ( null !== ( $_model = ResourceStore::model( $_resourceId )->findByPk( $_id ) ) )
-			{
-				$_schema = $this->_loadConfigSchema( $_resourceId, $_model->hasAttribute( 'config_text' ) ? $_model->config_text : array() );
+        //	New provider
+        if ( false !== $fromCreate && null !== ( $_resourceId = FilterInput::request( 'resource' ) ) )
+        {
+            //	New request
+            $_model = ResourceStore::model( $_resourceId );
+            $_displayName = Inflector::display( $_resourceId );
+            $_schema = $this->_loadConfigSchema( $_resourceId, $_model->hasAttribute( 'config_text' ) ? $_model->config_text : array() );
+        }
+        //	Existing
+        else
+        {
+            //	Requests will come in like: /admin/update/<resource>/<id>
+            list( $_resourceId, $_id ) = $this->_parseRequest();
+            $_displayName = Inflector::display( $_resourceId );
 
-				if ( Pii::postRequest() )
-				{
-					//	On a post, update
-					if ( null === ( $_data = Option::get( $_POST, $_displayName ) ) )
-					{
-						throw new BadRequestException( 'No payload received.' );
-					}
+            //	Load it up.
+            /** @var $_model BasePlatformSystemModel */
+            if ( null !== ( $_model = ResourceStore::model( $_resourceId )->findByPk( $_id ) ) )
+            {
+                $_schema = $this->_loadConfigSchema( $_resourceId, $_model->hasAttribute( 'config_text' ) ? $_model->config_text : array() );
 
-					/** @var Provider $_model */
-					if ( $_model->hasAttribute( 'config_text' ) )
-					{
-						$_len = strlen( static::SCHEMA_PREFIX );
-						$_config = Option::clean( $_model->config_text );
+                if ( Pii::postRequest() )
+                {
+                    //	On a post, update
+                    if ( null === ( $_data = Option::get( $_POST, $_displayName ) ) )
+                    {
+                        throw new BadRequestException( 'No payload received.' );
+                    }
 
-						foreach ( $_data as $_key => $_value )
-						{
-							if ( static::SCHEMA_PREFIX == substr( $_key, 0, $_len ) )
-							{
-								$_newKey = str_replace( static::SCHEMA_PREFIX, null, $_key );
+                    /** @var Provider $_model */
+                    if ( $_model->hasAttribute( 'config_text' ) )
+                    {
+                        $_len = strlen( static::SCHEMA_PREFIX );
+                        $_config = Option::clean( $_model->config_text );
 
-								if ( isset( $_config[$_newKey] ) )
-								{
-									$_config[$_newKey] = $_value;
-								}
+                        foreach ( $_data as $_key => $_value )
+                        {
+                            if ( static::SCHEMA_PREFIX == substr( $_key, 0, $_len ) )
+                            {
+                                $_newKey = str_replace( static::SCHEMA_PREFIX, null, $_key );
 
-								unset( $_data[$_key] );
-							}
-						}
+                                if ( isset( $_config[$_newKey] ) )
+                                {
+                                    $_config[$_newKey] = $_value;
+                                }
 
-						$_model->config_text = $_config;
-						unset( $_data['config_text'] );
-					}
+                                unset( $_data[$_key] );
+                            }
+                        }
 
-					$_model->setAttributes( $_data );
-					$_model->save();
+                        $_model->config_text = $_config;
+                        unset( $_data['config_text'] );
+                    }
 
-					Pii::setState( 'status_message', 'Resource Updated Successfully' );
+                    $_model->setAttributes( $_data );
+                    $_model->save();
 
-					$this->redirect( '/admin/' . $_resourceId . '/update/' . $_id );
-				}
-			}
+                    Pii::setState( 'status_message', 'Resource Updated Successfully' );
 
-			if ( $_model->hasAttribute( 'name' ) )
-			{
-				$_displayName = $_model->name;
-			}
-			else if ( $_model->hasAttribute( 'provider_name' ) )
-			{
-				$_displayName = $_model->provider_name;
-			}
-			else if ( $_model->hasAttribute( 'api_name' ) )
-			{
-				$_displayName = $_model->api_name;
-			}
-		}
+                    $this->redirect( '/admin/' . $_resourceId . '/update/' . $_id );
+                }
+            }
 
-		$this->render(
-			'update',
-			array(
-				 'model'        => $_model,
-				 'schema'       => $_schema,
-				 'errors'       => $_errors,
-				 'resourceName' => $_resourceId,
-				 'displayName'  => $_displayName,
-				 'update'       => ( null !== $_id ),
-			)
-		);
-	}
+            if ( $_model->hasAttribute( 'name' ) )
+            {
+                $_displayName = $_model->name;
+            }
+            else if ( $_model->hasAttribute( 'provider_name' ) )
+            {
+                $_displayName = $_model->provider_name;
+            }
+            else if ( $_model->hasAttribute( 'api_name' ) )
+            {
+                $_displayName = $_model->api_name;
+            }
+        }
 
-	/**
-	 *
-	 */
-	public function actionIndex()
-	{
-		static $_resourceColumns
-		= array(
-			'app'       => array(
-				'header'       => 'Installed Applications',
-				'display_name' => 'Application',
-				'resource'     => 'app',
-				'fields'       => array( 'id', 'api_name', 'url', 'is_active' ),
-				'labels'       => array( 'ID', 'Name', 'Starting Path', 'Active' )
-			),
-			'app_group' => array(
-				'header'       => 'Application Groups',
-				'resource'     => 'app_group',
-				'display_name' => 'Application Group',
-				'fields'       => array( 'id', 'name', 'description' ),
-				'labels'       => array( 'ID', 'Name', 'Description' )
-			),
-			'user'      => array(
-				'header'       => 'Users',
-				'display_name' => 'User',
-				'resource'     => 'user',
-				'fields'       => array( 'id', 'email', 'first_name', 'last_name', 'created_date' ),
-				'labels'       => array( 'ID', 'Email', 'First Name', 'Last Name', 'Created' )
-			),
-			'role'      => array(
-				'header'       => 'Roles',
-				'display_name' => 'Role',
-				'resource'     => 'role',
-				'fields'       => array( 'id', 'name', 'description', 'is_active' ),
-				'labels'       => array( 'ID', 'Name', 'Description', 'Active' )
-			),
-			'data'      => array(
-				'header'   => 'Data',
-				'resource' => 'db',
-				'fields'   => array(),
-				'labels'   => array(),
-			),
-			'service'   => array(
-				'header'       => 'Services',
-				'display_name' => 'Service',
-				'resource'     => 'service',
-				'fields'       => array( 'id', 'api_name', 'type_id', 'storage_type_id', 'is_active' ),
-				'labels'       => array( 'ID', 'Endpoint', 'Type', 'Storage Type', 'Active' ),
-			),
-			'schema'    => array(
-				'header'   => 'Schema Manager',
-				'resource' => 'schema',
-				'fields'   => array(),
-				'labels'   => array(),
-			),
-			'config'    => array(
-				'header'   => 'System Configuration',
-				'resource' => 'config',
-				'fields'   => array(),
-				'labels'   => array(),
-			),
-			'provider'  => array(
-				'header'       => 'Service Providers',
-				'display_name' => 'Provider',
-				'resource'     => 'provider',
-				'fields'       => array( 'id', 'provider_name', 'api_name' ),
-				'labels'       => array( 'ID', 'Name', 'Endpoint' ),
-			),
-		);
+        $this->render(
+            'update',
+            array(
+                'model'        => $_model,
+                'schema'       => $_schema,
+                'errors'       => $_errors,
+                'resourceName' => $_resourceId,
+                'displayName'  => $_displayName,
+                'update'       => ( null !== $_id ),
+            )
+        );
+    }
 
-		foreach ( $_resourceColumns as $_resource => &$_config )
-		{
-			if ( !isset( $_config['columns'] ) )
-			{
-				if ( isset( $_config['fields'] ) )
-				{
-					$_config['columns'] = array();
+    /**
+     *
+     */
+    public function actionIndex()
+    {
+        static $_resourceColumns = array(
+            'app'       => array(
+                'header'       => 'Installed Applications',
+                'display_name' => 'Application',
+                'resource'     => 'app',
+                'fields'       => array( 'id', 'api_name', 'url', 'is_active' ),
+                'labels'       => array( 'ID', 'Name', 'Starting Path', 'Active' )
+            ),
+            'app_group' => array(
+                'header'       => 'Application Groups',
+                'resource'     => 'app_group',
+                'display_name' => 'Application Group',
+                'fields'       => array( 'id', 'name', 'description' ),
+                'labels'       => array( 'ID', 'Name', 'Description' )
+            ),
+            'user'      => array(
+                'header'       => 'Users',
+                'display_name' => 'User',
+                'resource'     => 'user',
+                'fields'       => array( 'id', 'email', 'first_name', 'last_name', 'created_date' ),
+                'labels'       => array( 'ID', 'Email', 'First Name', 'Last Name', 'Created' )
+            ),
+            'role'      => array(
+                'header'       => 'Roles',
+                'display_name' => 'Role',
+                'resource'     => 'role',
+                'fields'       => array( 'id', 'name', 'description', 'is_active' ),
+                'labels'       => array( 'ID', 'Name', 'Description', 'Active' )
+            ),
+            'data'      => array(
+                'header'   => 'Data',
+                'resource' => 'db',
+                'fields'   => array(),
+                'labels'   => array(),
+            ),
+            'event'     => array(
+                'header'   => 'Event Manager',
+                'resource' => 'event',
+                'fields'   => array( 'id', 'event_name', 'listeners', ),
+                'labels'   => array( 'ID', 'Event Name', 'Listeners', ),
+            ),
+            'service'   => array(
+                'header'       => 'Services',
+                'display_name' => 'Service',
+                'resource'     => 'service',
+                'fields'       => array( 'id', 'api_name', 'type_id', 'storage_type_id', 'is_active' ),
+                'labels'       => array( 'ID', 'Endpoint', 'Type', 'Storage Type', 'Active' ),
+            ),
+            'schema'    => array(
+                'header'   => 'Schema Manager',
+                'resource' => 'schema',
+                'fields'   => array(),
+                'labels'   => array(),
+            ),
+            'script'    => array(
+                'header'   => 'Script Manager',
+                'resource' => 'script',
+                'fields'   => array( 'script_id', 'script_body' ),
+                'labels'   => array( 'ID', 'Body' ),
+            ),
+            'config'    => array(
+                'header'   => 'System Configuration',
+                'resource' => 'config',
+                'fields'   => array(),
+                'labels'   => array(),
+            ),
+            'provider'  => array(
+                'header'       => 'Service Providers',
+                'display_name' => 'Provider',
+                'resource'     => 'provider',
+                'fields'       => array( 'id', 'provider_name', 'api_name' ),
+                'labels'       => array( 'ID', 'Name', 'Endpoint' ),
+            ),
+        );
 
-					foreach ( $_config['fields'] as $_field )
-					{
-						$_config['columns'][] = array( 'sName' => $_field );
-					}
+        foreach ( $_resourceColumns as $_resource => &$_config )
+        {
+            if ( !isset( $_config['columns'] ) )
+            {
+                if ( isset( $_config['fields'] ) )
+                {
+                    $_config['columns'] = array();
 
-					$_config['fields'] = implode( ',', $_config['fields'] );
-				}
-			}
-		}
+                    foreach ( $_config['fields'] as $_field )
+                    {
+                        $_config['columns'][] = array( 'sName' => $_field );
+                    }
 
-		$this->render( 'index', array( 'resourceColumns' => $_resourceColumns ) );
-	}
+                    $_config['fields'] = implode( ',', $_config['fields'] );
+                }
+            }
+        }
 
-	/**
-	 * Merges any configuration schema with model data
-	 *
-	 * @param string $providerId The API name of the provider
-	 * @param array  $configData
-	 *
-	 * @return array|null
-	 */
-	protected function _loadConfigSchema( $providerId, $configData = array() )
-	{
-		$_schema = null;
+        $this->render( 'index', array( 'resourceColumns' => $_resourceColumns ) );
+    }
 
-		switch ( $providerId )
-		{
-			case 'provider':
-				/** @var Provider $model */
-				$_schema = Oasys::getProvider( $providerId )->getConfig()->getSchema();
-				break;
-		}
+    /**
+     * Merges any configuration schema with model data
+     *
+     * @param string $providerId The API name of the provider
+     * @param array  $configData
+     *
+     * @return array|null
+     */
+    protected function _loadConfigSchema( $providerId, $configData = array() )
+    {
+        $_schema = null;
 
-		//	Merge
-		if ( !empty( $_schema ) )
-		{
-			$_config = !empty( $configData ) ? $configData : array();
+        switch ( $providerId )
+        {
+            case 'provider':
+                /** @var Provider $model */
+                $_schema = Oasys::getProvider( $providerId )->getConfig()->getSchema();
+                break;
+        }
 
-			//	Load the resource into the schema for a goof
-			foreach ( $_schema as $_key => $_value )
-			{
-				if ( null !== ( $_configValue = Option::get( $_config, $_key ) ) )
-				{
-					if ( is_array( $_configValue ) )
-					{
-						$_configValue = implode( ', ', $_configValue );
-					}
+        //	Merge
+        if ( !empty( $_schema ) )
+        {
+            $_config = !empty( $configData ) ? $configData : array();
 
-					$_value['value'] = $_configValue;
-				}
+            //	Load the resource into the schema for a goof
+            foreach ( $_schema as $_key => $_value )
+            {
+                if ( null !== ( $_configValue = Option::get( $_config, $_key ) ) )
+                {
+                    if ( is_array( $_configValue ) )
+                    {
+                        $_configValue = implode( ', ', $_configValue );
+                    }
 
-				$_schema[static::SCHEMA_PREFIX . $_key] = $_value;
+                    $_value['value'] = $_configValue;
+                }
 
-				unset( $_schema[$_key] );
-			}
-		}
+                $_schema[static::SCHEMA_PREFIX . $_key] = $_value;
 
-		return $_schema;
-	}
+                unset( $_schema[$_key] );
+            }
+        }
 
-	/**
-	 * @return array
-	 * @throws DreamFactory\Platform\Exceptions\BadRequestException
-	 */
-	protected function _parseRequest()
-	{
-		$_resourceId = strtolower( trim( FilterInput::request( 'resource', null, FILTER_SANITIZE_STRING ) ) );
-		$_id = FilterInput::request( 'id', null, FILTER_SANITIZE_STRING );
+        return $_schema;
+    }
 
-		if ( empty( $_resourceId ) || ( empty( $_resourceId ) && empty( $_id ) ) )
-		{
-			throw new BadRequestException( 404, 'Not found.' );
-		}
+    /**
+     * @return array
+     * @throws DreamFactory\Platform\Exceptions\BadRequestException
+     */
+    protected function _parseRequest()
+    {
+        $_resourceId = strtolower( trim( FilterInput::request( 'resource', null, FILTER_SANITIZE_STRING ) ) );
+        $_id = FilterInput::request( 'id', null, FILTER_SANITIZE_STRING );
 
-		//	Handle a plural request
-		if ( false !== ( $_tempId = Inflector::isPlural( $_resourceId, true ) ) )
-		{
-			$_resourceId = $_tempId;
-		}
+        if ( empty( $_resourceId ) || ( empty( $_resourceId ) && empty( $_id ) ) )
+        {
+            throw new BadRequestException( 404, 'Not found.' );
+        }
 
-		$this->setModelClass( 'DreamFactory\\Platform\\Yii\\Models\\' . Inflector::deneutralize( $_resourceId ) );
+        //	Handle a plural request
+        if ( false !== ( $_tempId = Inflector::isPlural( $_resourceId, true ) ) )
+        {
+            $_resourceId = $_tempId;
+        }
 
-		return array( $_resourceId, $_id );
-	}
+        $this->setModelClass( 'DreamFactory\\Platform\\Yii\\Models\\' . Inflector::deneutralize( $_resourceId ) );
+
+        return array( $_resourceId, $_id );
+    }
 
 }

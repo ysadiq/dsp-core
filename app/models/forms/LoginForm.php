@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
  */
 use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Yii\Components\PlatformUserIdentity;
-use DreamFactory\Yii\Utility\Pii;
 
 /**
  * LoginForm class.
@@ -28,6 +27,23 @@ use DreamFactory\Yii\Utility\Pii;
  */
 class LoginForm extends CFormModel
 {
+	//*************************************************************************
+	//	Constants
+	//*************************************************************************
+
+	/**
+	 * @var string The faux-attribute to hold any authentication errors
+	 */
+	const ERROR_ATTRIBUTE = 'Authentication';
+	/**
+	 * @var string The standard authentication error message
+	 */
+	const ERROR_MESSAGE = 'Invalid user name and password combination.';
+
+	//*************************************************************************
+	//	Members
+	//*************************************************************************
+
 	/**
 	 * @var string
 	 */
@@ -39,7 +55,11 @@ class LoginForm extends CFormModel
 	/**
 	 * @var boolean
 	 */
-	public $rememberMe;
+	public $rememberMe = false;
+
+	//*************************************************************************
+	//	Methods
+	//*************************************************************************
 
 	/**
 	 * Declares the validation rules.
@@ -77,21 +97,18 @@ class LoginForm extends CFormModel
 		{
 			try
 			{
-				/** @var PlatformUserIdentity $_identity */
-				$_identity = Session::userLogin( $this->username, $this->password, true );
 				$_duration = $this->rememberMe ? 3600 * 24 * 30 : 0;
-
-				if ( Pii::user()->login( $_identity, $_duration ) )
+				/** @var PlatformUserIdentity $_identity */
+				if ( Session::userLogin( $this->username, $this->password, $_duration, false ) )
 				{
-
 					return true;
 				}
 
-				$this->addError( null, 'Failed to login to platform.' );
+				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
 			}
 			catch ( \Exception $_ex )
 			{
-				$this->addError( null, 'Invalid user name and password combination.' );
+				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
 			}
 
 		}

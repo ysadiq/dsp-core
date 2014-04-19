@@ -6,18 +6,26 @@
 
 EditorActions = {
     getFile : function(){
+
         $.ajax({
             url:CurrentServer + '/rest' + EditorActions.getQueryParameter('path'),
             data:'app_name=admin&method=GET',
             cache:false,
             processData: false,
+            dataType: "text",
             success:function (response) {
                 var filename = EditorActions.getFileName();
-                if(filename.indexOf(".json") != -1){
-                    response = JSON.stringify(response);
-                }
-
+                var mode = null;
+//                if(filename.indexOf(".json") != -1){
+//                    response = JSON.stringify(response, undefined, 2); // indentation level = 2
+//                    //response = JSON.stringify(response)
+//                    mode = 'json';
+//                }
+                if(mode){
+                EditorActions.loadEditor(response, mode);
+                }else{
                 EditorActions.loadEditor(response);
+                }
             },
             error:function (response) {
                 if (response.status == 401) {
@@ -36,9 +44,16 @@ EditorActions = {
         return pathArray[pathArray.length - 1];
     },
     saveFile:function(){
+        var fileData = Editor.getValue();
+        var filename = EditorActions.getFileName();
+        if(filename.indexOf(".json") != -1){
+            fileData = unescape(fileData);
+            fileData = fileData.replace("\n","");
+        }
+
         $.ajax({
             url:CurrentServer + '/rest' + EditorActions.getQueryParameter('path') + '?&app_name=admin',
-            data: Editor.getValue(),
+            data: fileData,
             type:'PUT',
             processData: false,
             cache:false,
@@ -61,11 +76,17 @@ EditorActions = {
             }
         });
     },
-    loadEditor:function(contents){
+    loadEditor:function(contents, mode){
         Editor = ace.edit("editor");
         Editor.setTheme("ace/theme/twilight");
-        Editor.getSession().setMode("ace/mode/javascript");
+        if(mode){
+            Editor.getSession().setMode("ace/mode/json");
+        }else{
+            Editor.getSession().setMode("ace/mode/javascript");
+        }
+
         Editor.setValue(contents);
+        Editor.focus();
 
         $("#save").click(function(){
             EditorActions.saveFile();

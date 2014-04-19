@@ -16,7 +16,7 @@
     <tr>
         <td id="item-list" style="vertical-align:top;" class="well">
             <div id="grid-table">
-                <table id="app-list" class="table table-hover table-striped" >
+                <table id="app-list" class="table table-hover table-striped">
                     <thead>
                     <tr>
                         <th>My Apps</th>
@@ -32,8 +32,9 @@
                         <td ng-click="showDetails()">{{app.name}}</td>
                         <td class="no-border">
                             <div class="btn-group pull-right">
-                                <a ng-show="app.launch_url != null && app.launch_url !=''" class="btn btn-small btn-inverse" title="Preview this app"
-                                   ng-click="showAppPreview(app.launch_url)"><i
+                                <a ng-show="app.launch_url != null && app.launch_url !=''"
+                                   class="btn btn-small btn-inverse" title="Preview this app"
+                                   ng-click="showAppPreview(app.launch_url, app.api_name)"><i
                                         class="icon-eye-open"></i></a>
                                 <a ng-hide="!app.storage_service_id" class="btn btn-small btn-inverse"
                                    title="Manage app files" ng-click="showFileManager()"><i
@@ -53,11 +54,20 @@
             <div class="alert alert-info" ng-show="action=='Create' || action=='Update'">
                 <li class="icon-info-sign"></li>
                 DreamFactory makes it easy to build and deploy applications by providing all the back-end
-                infrastructure. Use this tab to manage your apps. You may also download a customized Javascript SDK once your app is created.<br/>
-                <a data-ng-show = "action == 'Update'" data-ng-click="downloadSDK()" class="btn btn-small">
-                    <li class="icon-download-alt"></li>
-                    Download JS SDK
-                </a>
+                infrastructure. Use this tab to manage your apps. You may also download an SDK to get you started once
+                your app is created.<br/>
+                <!--<a data-ng-show = "action == 'Update'" data-ng-click="downloadSDK()" class="btn btn-small">-->
+                <!--<li class="icon-download-alt"></li>-->
+                <!--Download JS SDK-->
+                <!--</a>-->
+                <div class="btn-group">
+                    <a class="btn btn-small" href="https://github.com/dreamfactorysoftware/javascript-sdk" target="df-new"><span
+                            class="icon-download-alt"></span> JavaScript SDK </a>
+                    <a class="btn btn-small" href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><span
+                            class="icon-download-alt"></span> iOS SDK </a>
+                    <a class="btn btn-small" href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new"><span
+                            class="icon-download-alt"></span> Android SDK </a>
+                </div>
             </div>
             <h3>{{action}} application</h3>
 
@@ -72,7 +82,9 @@
                     </div>
                     <div id="step1">
                         <div id="context-root" class="local">
-                            <label><b>App Name</b></label> <input ng-disabled="action=='Update'" type="text" ng-model="app.api_name">
+                            <label><b>App Name</b></label> <input ng-disabled="action=='Update'" type="text"
+                                                                  ng-model="app.api_name">
+
                             <div class="alert alert-info">This is your API KEY (X-DreamFactory-Application-Name)</div>
                         </div>
                         <!--<label><i class="icon-mobile-phone icon-2x"></i>&nbsp;<b>Native?</b></label>-->
@@ -80,25 +92,33 @@
                         <!--<br/><br/>-->
                         <div class="options">
                             <label><i class="icon-hdd icon-2x"></i>&nbsp;<b>Where will this app live?</b></label>
-                            <input type="radio" ng-model="app.is_url_external" value='0'/>&nbsp;&nbsp;Use our default app storage service or one of your own.
-                            <br/><input type="radio" ng-model="app.is_url_external" value='-1'/>&nbsp;&nbsp;On a native device or remote client / desktop.
-                            <br/><input type="radio" ng-model="app.is_url_external" value='1'/>&nbsp;&nbsp;I will just supply a URL to point to my application.
+                            <input type="radio" ng-model="app.is_url_external" value='0'/>&nbsp;&nbsp;Use our default
+                            app storage service or one of your own.
+                            <br/><input type="radio" ng-model="app.is_url_external" value='-1'/>&nbsp;&nbsp;On a native
+                            device or remote client / desktop.
+                            <br/><input type="radio" ng-model="app.is_url_external" value='1'/>&nbsp;&nbsp;I will just
+                            supply a URL to point to my application.
 
 
-                            <br/><br/><input ng-show="app.is_url_external==1" placeholder="http://www.myserver.com/"
+                            <br/><br/><input style="width:80%;" ng-show="app.is_url_external==1" placeholder="http://www.myserver.com/"
                                              name="app_path" type="text"
                                              ng-model="app.url">
 
                             <div ng-show="app.is_url_external == 1" class="alert alert-success">Your URL will be:
                                 {{app.url}}
                             </div>
-                            <p ng-hide="app.is_url_external!=0" id="remote_storage">Choose where you want your files for this app stored.  The app service is our default storage service.</p>
+                            <p ng-hide="app.is_url_external!=0" id="remote_storage">Choose where you want your files for
+                                this app stored. The app service is our default storage service.</p>
                             <label ng-hide="app.is_url_external!=0">Storage Service</label>
-                            <select ng-change="loadStorageContainers()" ng-hide="app.is_url_external!=0" ng-model="app.storage_service_id">
-                                <option ng-selected = "service.id == app.storage_service_id" value = {{service.id}}  ng-repeat = "service in storageServices">{{service.api_name}}</option>
+                            <select ng-change="loadStorageContainers()" ng-hide="app.is_url_external!=0"
+                                    ng-model="app.storage_service_id">
+                                <option ng-selected="service.id == app.storage_service_id" value={{service.id}}
+                                        ng-repeat="service in storageServices">{{service.api_name}}
+                                </option>
                             </select>
                             <label ng-hide="app.is_url_external != 0">Storage Container</label>
-                            <select ng-hide="app.is_url_external != 0" id="storage_options" ng-model="app.storage_container"
+                            <select ng-hide="app.is_url_external != 0" id="storage_options"
+                                    ng-model="app.storage_container"
                                     ng-options="option.name as option.name for option in storageOptions">
                             </select>
 
@@ -124,7 +144,7 @@
                                    ng-model="app.url">
 
 
-                            <div ng-show = "app.is_url_external==0"  class="alert alert-success local">
+                            <div ng-show="app.is_url_external==0" class="alert alert-success local">
                                 <li class="icon-cloud"></li>
                                 &nbsp;Your URL will be:
                                 {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}<span>{{app.url}}</span>
@@ -134,12 +154,15 @@
                         <div class="form-inline" ng-hide="app.is_url_external != 0">
                             <input type="checkbox" ng-checked="app.requires_fullscreen == 1"
                                    ng-model="app.requires_fullscreen">&nbsp;Run Full Screen without Toggle
-                        </div><br/>
+                        </div>
+                        <br/>
+
                         <div class="form-inline" ng-hide="app.is_url_external != 0">
                             <input type="checkbox" ng-checked="app.allow_fullscreen_toggle == 1"
                                    ng-model="app.allow_fullscreen_toggle">&nbsp;Show Full Screen with Toggle
                         </div>
-                        <div ><br/>
+                        <div><br/>
+
                             <p><b>Assign this app to a role(s).</b></p>
 
                             <div class="alert alert-info">
@@ -173,10 +196,12 @@
                         </div>
                     </div>
 
-                    <div data-ng-show="action=='Create'" id="create_button"><a ng-click="create()" class="btn btn-primary">
+                    <div data-ng-show="action=='Create'" id="create_button"><a ng-click="create()"
+                                                                               class="btn btn-primary">
                         <li class="icon-circle-arrow-right"></li>
                         &nbsp;Create Application</a></div>
-                    <div id="update_button" data-ng-show="action=='Update'"><a ng-click="save()" class="btn btn-primary">
+                    <div id="update_button" data-ng-show="action=='Update'"><a ng-click="save()"
+                                                                               class="btn btn-primary">
                         <li class="icon-save"></li>
                         &nbsp;Update Application</a></div>
 

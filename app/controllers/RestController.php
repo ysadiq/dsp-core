@@ -18,14 +18,16 @@
  * limitations under the License.
  */
 use DreamFactory\Common\Utility\DataFormat;
+use DreamFactory\Platform\Enums\DataFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
 use DreamFactory\Yii\Controllers\BaseFactoryController;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
-use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Option;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * RestController
@@ -33,219 +35,246 @@ use Kisma\Core\Utility\Option;
  */
 class RestController extends BaseFactoryController
 {
-	//*************************************************************************
-	//	Members
-	//*************************************************************************
+    //*************************************************************************
+    //	Members
+    //*************************************************************************
 
-	/**
-	 * @var string service to direct call to
-	 */
-	protected $_service;
-	/**
-	 * @var string resource to be handled by service
-	 */
-	protected $_resource;
+    /**
+     * @var string service to direct call to
+     */
+    protected $_service;
+    /**
+     * @var string resource to be handled by service
+     */
+    protected $_resource;
+    /**
+     * @var Request The inbound request
+     */
+    protected $_requestObject;
 
-	//*************************************************************************
-	//	Methods
-	//*************************************************************************
+    //*************************************************************************
+    //	Methods
+    //*************************************************************************
 
-	/**
-	 * All authorization handled by services
-	 *
-	 * @return array
-	 */
-	public function accessRules()
-	{
-		return array();
-	}
+    /**
+     * Initialize controller and populate request object
+     */
+    public function init()
+    {
+        parent::init();
 
-	/**
-	 * /rest/index
-	 */
-	public function actionIndex()
-	{
-		try
-		{
-			$_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
-			$_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
-			$_result = DataFormat::reformatData( $_result, null, $_outputFormat );
+        $this->_requestObject = Pii::requestObject();
+    }
 
-			RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
-		}
-		catch ( \Exception $_ex )
-		{
-			RestResponse::sendErrors( $_ex );
-		}
-	}
+    /**
+     * All authorization handled by services
+     *
+     * @return array
+     */
+    public function accessRules()
+    {
+        return array();
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public function actionGet()
-	{
-		$this->_handleAction( HttpMethod::Get );
-	}
+    /**
+     * /rest/index
+     */
+    public function actionIndex()
+    {
+        try
+        {
+            $_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public function actionPost()
-	{
-		$_action = HttpMethod::Post;
+            $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
+            $_result = DataFormat::reformatData( $_result, null, $_outputFormat );
 
-		try
-		{
-			//	Check for verb tunneling
-			$_tunnelMethod = strtoupper( Option::server( 'HTTP_X_HTTP_METHOD', FilterInput::request( 'method', null, FILTER_SANITIZE_STRING ) ) );
+            RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
+        }
+        catch ( \Exception $_ex )
+        {
+            RestResponse::sendErrors( $_ex );
+        }
+    }
 
-			if ( !empty( $_tunnelMethod ) )
-			{
-				switch ( $_tunnelMethod )
-				{
-					case HttpMethod::POST:
-					case HttpMethod::GET:
-					case HttpMethod::PUT:
-					case HttpMethod::MERGE:
-					case HttpMethod::PATCH:
-					case HttpMethod::DELETE:
-						$_action = $_tunnelMethod;
-						break;
+    /**
+     * {@InheritDoc}
+     */
+    public function actionGet()
+    {
+        $this->_handleAction( HttpMethod::GET );
+    }
 
-					default:
-						throw new BadRequestException( 'Unknown tunneling verb "' . $_tunnelMethod . '" in request.' );
-				}
-			}
+    /**
+     * {@InheritDoc}
+     */
+    public function actionPost()
+    {
+        $_action = HttpMethod::POST;
 
-			$this->_handleAction( $_action );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
-	}
+        try
+        {
+            //	Check for verb tunneling via X-Http-Method/X-Http-Method-Override header
+            $_tunnelMethod = strtoupper(
+                $this->_requestObject->headers->get(
+                    'x-http-method',
+                    $this->_requestObject->headers->get(
+                        'x-http-method-override',
+                        $this->_requestObject->get( 'method' )
+                    )
+                )
+            );
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public function actionMerge()
-	{
-		$this->_handleAction( HttpMethod::Merge );
-	}
+            if ( !empty( $_tunnelMethod ) )
+            {
+                if ( !HttpMethod::contains( $_tunnelMethod ) )
+                {
+                    throw new BadRequestException( 'Invalid verb "' . $_tunnelMethod . '" in request.' );
+                }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public function actionPut()
-	{
-		$this->_handleAction( HttpMethod::Put );
-	}
+                $_action = $_tunnelMethod;
+            }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public function actionDelete()
-	{
-		$this->_handleAction( HttpMethod::Delete );
-	}
+            $this->_handleAction( $_action );
+        }
+        catch ( \Exception $ex )
+        {
+            RestResponse::sendErrors( $ex );
+        }
+    }
 
-	/**
-	 * Generic action handler
-	 *
-	 * @param string $action
-	 */
-	protected function _handleAction( $action )
-	{
-		try
-		{
-			$svcObj = ServiceHandler::getService( $this->_service );
-			$svcObj->processRequest( $this->_resource, $action );
-		}
-		catch ( \Exception $ex )
-		{
-			RestResponse::sendErrors( $ex );
-		}
-	}
+    /**
+     * {@InheritDoc}
+     */
+    public function actionMerge()
+    {
+        $this->_handleAction( HttpMethod::MERGE );
+    }
 
-	/**
-	 * Override base method to do some processing of incoming requests.
-	 *
-	 * Fixes the slash at the end of the parsed path. Yii removes the trailing
-	 * slash by default. However, some DSP APIs require it to determine the
-	 * difference between a file and a folder.
-	 *
-	 * Routes look like this:        rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>
-	 *
-	 * @param \CAction $action
-	 *
-	 * @return bool
-	 * @throws Exception
-	 */
-	protected function beforeAction( $action )
-	{
-		if ( false === ( $slashIndex = strpos( $path = Option::get( $_GET, 'path' ), '/' ) ) )
-		{
-			$this->_service = $path;
-		}
-		else
-		{
-			$this->_service = substr( $path, 0, $slashIndex );
-			$this->_resource = substr( $path, $slashIndex + 1 );
+    /**
+     * {@InheritDoc}
+     */
+    public function actionPut()
+    {
+        $this->_handleAction( HttpMethod::PUT );
+    }
 
-			// fix removal of trailing slashes from resource
-			if ( !empty( $this->_resource ) )
-			{
-				$requestUri = Yii::app()->request->requestUri;
-				if ( ( false === strpos( $requestUri, '?' ) &&
-						'/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
-					( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
-				)
-				{
-					$this->_resource .= '/';
-				}
-			}
-		}
+    /**
+     * {@InheritDoc}
+     */
+    public function actionDelete()
+    {
+        $this->_handleAction( HttpMethod::DELETE );
+    }
 
-		return parent::beforeAction( $action );
-	}
+    /**
+     * Generic action handler
+     *
+     * @param string $action
+     *
+     * @return mixed
+     */
+    protected function _handleAction( $action )
+    {
+        try
+        {
+            $_service = ServiceHandler::getService( $this->_service );
 
-	/**
-	 * @param string $resource
-	 *
-	 * @return RestController
-	 */
-	public function setResource( $resource )
-	{
-		$this->_resource = $resource;
+            return $_service->processRequest( $this->_resource, $action );
+        }
+        catch ( \Exception $ex )
+        {
+            RestResponse::sendErrors( $ex, isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON, false, false );
+        }
+    }
 
-		return $this;
-	}
+    /**
+     * Override base method to do some processing of incoming requests.
+     *
+     * Fixes the slash at the end of the parsed path. Yii removes the trailing
+     * slash by default. However, some DSP APIs require it to determine the
+     * difference between a file and a folder.
+     *
+     * Routes look like this:        rest/<service:[_0-9a-zA-Z-]+>/<resource:[_0-9a-zA-Z-\/. ]+>
+     *
+     * @param \CAction $action
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function beforeAction( $action )
+    {
+        if ( false === ( $slashIndex = strpos( $path = Option::get( $_GET, 'path' ), '/' ) ) )
+        {
+            $this->_service = $path;
+        }
+        else
+        {
+            $this->_service = substr( $path, 0, $slashIndex );
+            $this->_resource = substr( $path, $slashIndex + 1 );
 
-	/**
-	 * @return string
-	 */
-	public function getResource()
-	{
-		return $this->_resource;
-	}
+            // fix removal of trailing slashes from resource
+            if ( !empty( $this->_resource ) )
+            {
+                $requestUri = Yii::app()->request->requestUri;
+                if ( ( false === strpos( $requestUri, '?' ) &&
+                       '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+                     ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
+                )
+                {
+                    $this->_resource .= '/';
+                }
+            }
+        }
 
-	/**
-	 * @param string $service
-	 *
-	 * @return RestController
-	 */
-	public function setService( $service )
-	{
-		$this->_service = $service;
+        return parent::beforeAction( $action );
+    }
 
-		return $this;
-	}
+    /**
+     * @param string $resource
+     *
+     * @return RestController
+     */
+    public function setResource( $resource )
+    {
+        $this->_resource = $resource;
 
-	/**
-	 * @return string
-	 */
-	public function getService()
-	{
-		return $this->_service;
-	}
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResource()
+    {
+        return $this->_resource;
+    }
+
+    /**
+     * @param string $service
+     *
+     * @return RestController
+     */
+    public function setService( $service )
+    {
+        $this->_service = $service;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getService()
+    {
+        return $this->_service;
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    public function getRequestObject()
+    {
+        return $this->_requestObject;
+    }
+
 }

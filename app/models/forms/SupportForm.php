@@ -50,8 +50,8 @@ class SupportForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('emailAddress', 'email'),
-			array('skipped', 'boolean'),
+			array( 'emailAddress', 'email' ),
+			array( 'skipped', 'boolean' ),
 		);
 	}
 

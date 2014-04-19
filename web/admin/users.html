@@ -179,6 +179,55 @@
 								<input id="passwordRepeat" name="passwordRepeat" type="password" ng-model="passwordRepeat">
                             </div>
                         </div>
+                        <div class="section limit-big-list">
+                            <p>User Lookup Keys</p>
+                            <table class="table table-hover table-striped field-list">
+                                <thead>
+                                <tr>
+                                    <th style="width:220px;">Name</th>
+                                    <th style="width:220px;">Value</th>
+                                    <th style="width:35px;">Private</th>
+                                    <th style="width:140px;">Allow User Update</th>
+                                    <th class="no-border">
+                                        <div class="btn-group pull-left">
+                                            <a class="btn btn-small btn-inverse" ng-click="">
+                                                <i class="icon-plus" ng-click="newKey()"></i>
+                                            </a>
+                                        </div>
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+
+                                <tr ng-repeat="key in user.lookup_keys">
+                                    <td style="width: 220px;">
+                                        <input ng-model="key.name" type="text" style="width:200px;"/>
+                                    </td>
+                                    <td style="width:220px;">
+                                        <input ng-model="key.value" type="text" style="width:200px;"/>
+                                    </td>
+                                    <td style="width:35px;text-align:center;">
+                                        <input ng-model="key.private" type="checkbox" style="width:25px;vertical-align:middle;"/>
+                                    </td>
+                                    <td style="width:140px;text-align:center;">
+                                        <input ng-model="key.allow_user_update" type="checkbox" style="width:25px;vertical-align:middle;"/>
+                                    </td>
+                                    <td class="no-border">
+                                        <div class="btn-group pull-left">
+                                            <a class="btn btn-small btn-inverse" ng-click="removeKey()">
+                                                <i class="icon-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <p ng-show="user.lookup_keys.length==0">
+                                No lookup keys for this user. Click the plus button to add.
+                            </p>
+                        </div>
                         <br/>
 
                         <div id="button_holder">

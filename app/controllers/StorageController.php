@@ -17,10 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Yii\Controllers\BaseWebController;
-use Kisma\Core\Utility\FilterInput;
+use DreamFactory\Platform\Interfaces\FileServiceLike;
 use DreamFactory\Platform\Utility\ServiceHandler;
+use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
+use Kisma\Core\Utility\FilterInput;
 
 /**
  *  Generic controller for streaming content from storage services
@@ -44,6 +45,7 @@ class StorageController extends BaseWebController
 		$_service = FilterInput::get( INPUT_GET, 'service', '' );
 		try
 		{
+			/** @var FileServiceLike $_obj */
 			$_obj = ServiceHandler::getServiceObject( $_service );
 			switch ( $_obj->getType() )
 			{
