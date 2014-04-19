@@ -353,24 +353,24 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "65e17d3d0cf5fb95d263a4cc99fd539b5a9ea674"
+                "reference": "8bba77402ed00b210b783a95844b122657d72219"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/65e17d3d0cf5fb95d263a4cc99fd539b5a9ea674.zip",
-                "reference": "65e17d3d0cf5fb95d263a4cc99fd539b5a9ea674",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/8bba77402ed00b210b783a95844b122657d72219.zip",
+                "reference": "8bba77402ed00b210b783a95844b122657d72219",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php": "~2.4.0@stable",
                 "dready92/php-on-couch": "*",
                 "dreamfactory/azure-sdk-for-php": "dev-develop as dev-master",
-                "dreamfactory/javascript-sdk": "~1.0@stable",
-                "dreamfactory/lib-php-common": "~1.4@stable",
-                "dreamfactory/lib-php-common-yii": "~1.4@stable",
-                "dreamfactory/oasys": "~0.4@stable",
+                "dreamfactory/javascript-sdk": "~1.0",
+                "dreamfactory/lib-php-common": "~1.4@dev",
+                "dreamfactory/lib-php-common-yii": "~1.4@dev",
+                "dreamfactory/oasys": "~0.4@dev",
                 "dreamfactory/yii": "1.1.13",
-                "kisma/kisma": "~0.2@stable",
+                "kisma/kisma": "~0.2.37@stable",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
@@ -390,7 +390,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.6.x-dev"
+                    "dev-develop": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -421,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-19 17:37:28"
+            "time": "2014-04-19 18:49:47"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
