@@ -24,6 +24,7 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 				function( response ) {
 					if ( response.is_private || !response.is_hosted ) {
 						editor = ace.edit( "editor" );
+
 					}
 				}
 			);
