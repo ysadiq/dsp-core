@@ -2274,10 +2274,13 @@ span.label {
     color: #787878;
 }
 #script-name{
-    background: none repeat scroll 0 0 #666666;
+    background: none repeat scroll 0 0 #333333;
     color: #F9F9F9;
     height: 30px;
     padding-left: 20px;
     padding-top: 10px;
     width:780px;
+}
+.high-name{
+    color:#e67e22;
 }
