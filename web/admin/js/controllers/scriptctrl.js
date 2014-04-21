@@ -24,6 +24,7 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 				function( response ) {
 					if ( response.is_private || !response.is_hosted ) {
 						editor = ace.edit( "editor" );
+
 					}
 				}
 			);
@@ -71,10 +72,18 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 			function( response ) {
 				editor.setValue( response.script_body );
                 $scope.hasContent = true;
+                $.pnotify(
+                    {
+                        title: $scope.currentScript,
+                        type:  'success',
+                        text:  'Loaded Successfully'
+                    }
+                );
 
 			},
             function(){
                 $scope.hasContent = false;
+
             }
 		);
 	};
