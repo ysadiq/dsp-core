@@ -108,7 +108,7 @@ class LoginForm extends CFormModel
 			}
 			catch ( \Exception $_ex )
 			{
-				$this->addError( static::ERROR_ATTRIBUTE, static::ERROR_MESSAGE );
+				$this->addError( static::ERROR_ATTRIBUTE, $_ex->getMessage() );
 			}
 
 		}

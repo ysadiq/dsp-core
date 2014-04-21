@@ -58,7 +58,7 @@ Validate::register(
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
 
-if ( null !== ( $_flash = Pii::getFlash( 'login-form' ) ) )
+if ( null !== ( $_flash = Pii::getFlash( 'profile-form' ) ) )
 {
     $_flash = <<<HTML
 <div class="alert alert-success">
@@ -94,7 +94,7 @@ if ( isset( $session ) )
         <h2 class="inset">User Profile</h2>
 
         <?php echo $_flash; ?>
-        <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
+        <?php echo CHtml::errorSummary( $model, '<strong>Profile Error...</strong>' ); ?>
 
         <form id="profile-form" method="POST" role="form">
 
