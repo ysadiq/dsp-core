@@ -71,10 +71,24 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 			function( response ) {
 				editor.setValue( response.script_body );
                 $scope.hasContent = true;
+                $.pnotify(
+                    {
+                        title: $scope.currentScript,
+                        type:  'success',
+                        text:  'Loaded Successfully'
+                    }
+                );
 
 			},
             function(){
                 $scope.hasContent = false;
+                $.pnotify(
+                    {
+                        title: $scope.currentScript,
+                        type:  'error',
+                        text:  'No Script found, enter a new one when ready.'
+                    }
+                );
             }
 		);
 	};
