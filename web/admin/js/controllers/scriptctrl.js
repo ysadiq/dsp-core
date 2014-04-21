@@ -83,13 +83,7 @@ var ScriptCtrl = function( $scope, Event, Script, Config ) {
 			},
             function(){
                 $scope.hasContent = false;
-                $.pnotify(
-                    {
-                        title: $scope.currentScript,
-                        type:  'error',
-                        text:  'No Script found, enter a new one when ready.'
-                    }
-                );
+
             }
 		);
 	};
