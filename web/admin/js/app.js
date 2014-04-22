@@ -410,9 +410,9 @@ var showFileManager = function () {
 
 };
 
-window.onresize = resize;
-window.onload = resize;
-
-function resize() {
-    $("#grid-table").css('height', $(window).height() - 60);
-}
+//window.onresize = resize;
+//window.onload = resize;
+//
+//function resize() {
+//    $("#grid-table").css('height', $(window).height() - 60);
+//}
