@@ -50,7 +50,7 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 	];
 	var booleanTemplate = '<select class="ngCellText"  ng-class="col.colIndex()" ng-options="option.value as option.text for option in booleanOptions" ng-model="row.entity[col.field]" ng-change="enableSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
 	var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSchemaSave()" />';
-	var schemaInputTemplate = '<input class="ngCellText " ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSchemaSave()" />';
+	var schemaInputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSchemaSave()" />';
 	var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
 	var buttonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-disabled="!this.row.entity.id" ng-click="deleteRow()"><li class="icon-remove"></li></button></div>';
 	var schemaButtonTemplate = '<div ><button id="add_{{row.rowIndex}}" class="btn btn-small btn-primary" disabled=true ng-show="this.row.entity.new" ng-click="schemaAddField()"><li class="icon-save"></li></button>' +
@@ -62,13 +62,12 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 	Scope.columnDefs = [];
 	Scope.browseOptions = {};
 	Scope.browseOptions =
-	{data: 'tableData', enableCellEditOnFocus: true, enableRowSelection: false, canSelectRows: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
-	Scope.Schemas = Schema.get(
+    {data: 'tableData', enableCellSelection: false, selectedItems: Scope.selectedRow, enableCellEditOnFocus: true, enableRowSelection: false, multiSelect: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
+    Scope.Schemas = Schema.get(
 		function( data ) {
 			Scope.schemaData = data.resource;
 		}
 	);
-
 	Scope.showForm = function() {
 		$( "#grid-container" ).hide();
 		$( "#json_upload" ).hide();
@@ -96,18 +95,17 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 				saveColumn.width = '70px';
 				columnDefs.push( saveColumn );
 				var column = {};
-				//console.log(Scope);
 				var keys = Object.keys( Scope.tableSchema.field[0] );
 				keys.forEach(
 					function( key ) {
-						if ( key == 'type' ) {
-							column.cellTemplate = typeTemplate;
+						if ( key === 'type' ) {
+                            column.cellTemplate = typeTemplate;
 							column.enableCellEdit = false;
 
 						}
 						else {
-							column.editableCellTemplate = schemaInputTemplate;
-							column.enableCellEdit = true;
+                            column.editableCellTemplate = schemaInputTemplate;
+                            column.enableCellEdit = true;
 						}
 
 						//column.enableFocusedCellEdit = true;
@@ -118,8 +116,6 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 					}
 				);
 				Scope.columnDefs = columnDefs;
-				//console.log(Scope.columnDefs);
-				Scope.browseOptions.enableCellEdit = true;
 				Scope.tableData = Scope.tableSchema.field;
 				Scope.tableData.unshift( {"new": true} );
 
