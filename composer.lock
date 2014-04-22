@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "ad18b916dd3e36e646fa560958953869c079bf7c"
+                "reference": "1b03d2f7afd9306a0d224b547e3f39cef7086507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/ad18b916dd3e36e646fa560958953869c079bf7c.zip",
-                "reference": "ad18b916dd3e36e646fa560958953869c079bf7c",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/1b03d2f7afd9306a0d224b547e3f39cef7086507.zip",
+                "reference": "1b03d2f7afd9306a0d224b547e3f39cef7086507",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-21 16:03:26"
+            "time": "2014-04-22 05:44:55"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -780,12 +780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
+                "reference": "97f79f7ed37c9253712eaa9c9a967199456a2f16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/97f79f7ed37c9253712eaa9c9a967199456a2f16",
+                "reference": "97f79f7ed37c9253712eaa9c9a967199456a2f16",
                 "shasum": ""
             },
             "require": {
@@ -840,7 +840,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-20 16:41:26"
+            "time": "2014-04-21 18:22:17"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
