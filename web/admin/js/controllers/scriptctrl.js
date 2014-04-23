@@ -16,11 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
-
+var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
+Scope = $scope;
     var editor;
     (
         function () {
+            DB.get().$promise.then(
+                function (response) {
+                    $scope.tables = response.resource;
+                    $scope.buildEventList();
+                }
+            )
             $scope.Config = Config.get(
                 function (response) {
                     if (response.is_private || !response.is_hosted) {
@@ -34,50 +40,43 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
             );
             //get ALL events
 
+            $scope.buildEventList = function () {
+                Event.get({"all_events": "true"}).$promise.then(
+                    function (response) {
+                        $scope.Events = response.record;
+                        $scope.Events.forEach(function (event) {
+                            if (event.name === "db") {
+                                $scope.tables.forEach(
+                                    function (table) {
+                                        var newPath = {};
+                                        newPath.path = "/rest/db/" + table.name;
+                                        newPath.verbs = [
+                                            {"type": "get",
+                                            "event": ["db." + table.name + ".select"]},
+                                            {"type": "put",
+                                            "event": [
+                                                "db." + table.name + ".update"
+                                            ]},
+                                            {"type": "post",
+                                            "event": [
+                                                "db." + table.name + ".insert"
+                                            ]},
+                                            {"type": "delete",
+                                            "event": [
+                                                "db." + table.name + ".delete"
+                                            ]}
+                                        ];
+                                        event.paths.push(newPath);
+                                    }
+                                );
+                            }
+                        })
 
-            Event.get({"all_events": "true"}).$promise.then(
-                function (response) {
-                    $scope.Events = response.record;
 
-//                    $scope.Events.forEach(
-//                        function (event) {
-//                            event.paths.forEach(
-//                                function (path, index) {
-//                                    if (path.path.indexOf("{") != -1) {
-//                                        //delete event.paths[index];
-//
-//                                    }
-//
-//                                }
-//                            )
-//                        }
-//                    )
-                    // $scope.Events.forEach(
-                    // 	function( event ) {
-                    // 		event.paths.forEach(
-                    // 			function( path ) {
-                    // 				var preEvent, postEvent, preObj, postObj;
-                    // 				var pathIndex = path.path.lastIndexOf( "/" ) + 1;
-                    // 				var pathName = path.path.substr( pathIndex );
-                    // 				path.verbs.forEach(
-                    // 					function( verb ) {
-                    //
-                    // 						preEvent = pathName + "." + verb.type + "." + "pre_process";
-                    // 						preObj = {"type": verb.type, "event": preEvent, "scripts": []};
-                    // 						postEvent = pathName + "." + verb.type + "." + "post_process";
-                    // 						postObj = {"type": verb.type, "event": postEvent, "scripts": []};
-                    // 						path.verbs.push( preObj );
-                    // 						path.verbs.push( postObj );
-                    // 					}
-                    // 				)
-                    //
-                    // 			}
-                    // 		)
-                    //
-                    // 	}
-                    // )
-                }
-            );
+                    }
+                );
+            }
+
 
         }()
         );

@@ -27,7 +27,7 @@
                                     </div>
                                     <ul data-ng-if="path.path === currentPath || searchText">
                                         <li data-ng-repeat="verb in path.verbs | filter:searchText" class="path-verb">
-                                            <div data-ng-repeat = "event in verb.event | filter:searchText"  data-ng-click="loadScript()">{{event}}<br/></div>
+                                            <span data-ng-repeat = "event in verb.event | filter:searchText"  data-ng-click="loadScript()">{{event}}<br/></span>
                                         </li>
                                     </ul>
                                 </li>
