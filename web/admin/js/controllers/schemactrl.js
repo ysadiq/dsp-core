@@ -62,7 +62,7 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 	Scope.columnDefs = [];
 	Scope.browseOptions = {};
 	Scope.browseOptions =
-    {data: 'tableData', enableCellSelection: false, selectedItems: Scope.selectedRow, enableCellEditOnFocus: true, enableRowSelection: false, multiSelect: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
+    {data: 'tableData', enableCellSelection: true, selectedItems: Scope.selectedRow, enableCellEditOnFocus: true, enableRowSelection: false, multiSelect: false, displaySelectionCheckbox: false, columnDefs: 'columnDefs'};
     Scope.Schemas = Schema.get(
 		function( data ) {
 			Scope.schemaData = data.resource;
