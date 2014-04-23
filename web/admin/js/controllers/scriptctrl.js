@@ -32,9 +32,25 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
                 }
             );
             //get ALL events
+
+
             Event.get({"all_events": "true"}).$promise.then(
                 function (response) {
                     $scope.Events = response.record;
+
+//                    $scope.Events.forEach(
+//                        function (event) {
+//                            event.paths.forEach(
+//                                function (path, index) {
+//                                    if (path.path.indexOf("{") != -1) {
+//                                        //delete event.paths[index];
+//
+//                                    }
+//
+//                                }
+//                            )
+//                        }
+//                    )
                     // $scope.Events.forEach(
                     // 	function( event ) {
                     // 		event.paths.forEach(
@@ -64,6 +80,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
 
         }()
         );
+
     $scope.loadSamples = function () {
 
         $http.defaults.headers.common['Accept'] = 'text/plain';
@@ -71,7 +88,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
             method: 'GET',
             url: 'js/example.scripts.js',
             dataType: "text"
-        }).success(function(response){
+        }).success(function (response) {
             $scope.currentScript = null;
             $scope.hasContent = false;
             $scope.exampleScripts = response;
@@ -79,7 +96,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
         });
 
     };
-    $scope.showSamples = function(){
+    $scope.showSamples = function () {
         $scope.currentScript = null;
         $scope.hasContent = false;
         editor.setValue($scope.exampleScripts);
@@ -107,7 +124,10 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
                 $scope.hasContent = false;
 
             }
+
         );
+
+
     };
     $scope.loadEvent = function () {
         if ($scope.currentEvent === this.event.name) {
@@ -155,6 +175,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
 
     };
     $scope.loadPath = function () {
+        $scope.path = this.path.path;
         if ($scope.currentPath === this.path.path) {
             $scope.currentPath = null;
         }
