@@ -343,7 +343,8 @@ angular.module(
                 },
                 query: {
                     method: 'GET',
-                    isArray: false
+                    isArray: false,
+                    headers:{'Content-Type':'text/plain'}
                 }
             }
         );

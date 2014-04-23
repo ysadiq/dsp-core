@@ -16,129 +16,151 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ScriptCtrl = function( $scope, Event, Script, Config ) {
-	var editor;
-	(
-		function() {
-			$scope.Config = Config.get(
-				function( response ) {
-					if ( response.is_private || !response.is_hosted ) {
-						editor = ace.edit( "editor" );
+var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
 
-					}
-				}
-			);
-			//get ALL events
-			Event.get( {"all_events": "true"} ).$promise.then(
-				function( response ) {
-					$scope.Events = response.record;
-					// $scope.Events.forEach(
-					// 	function( event ) {
-					// 		event.paths.forEach(
-					// 			function( path ) {
-					// 				var preEvent, postEvent, preObj, postObj;
-					// 				var pathIndex = path.path.lastIndexOf( "/" ) + 1;
-					// 				var pathName = path.path.substr( pathIndex );
-					// 				path.verbs.forEach(
-					// 					function( verb ) {
-          //
-					// 						preEvent = pathName + "." + verb.type + "." + "pre_process";
-					// 						preObj = {"type": verb.type, "event": preEvent, "scripts": []};
-					// 						postEvent = pathName + "." + verb.type + "." + "post_process";
-					// 						postObj = {"type": verb.type, "event": postEvent, "scripts": []};
-					// 						path.verbs.push( preObj );
-					// 						path.verbs.push( postObj );
-					// 					}
-					// 				)
-          //
-					// 			}
-					// 		)
-          //
-					// 	}
-					// )
-				}
-			);
+    var editor;
+    (
+        function () {
+            $scope.Config = Config.get(
+                function (response) {
+                    if (response.is_private || !response.is_hosted) {
+                        editor = ace.edit("editor");
+                        editor.getSession().setMode("ace/mode/javascript");
+                        $scope.loadSamples();
 
-		}()
-	);
+                    }
+                }
+            );
+            //get ALL events
+            Event.get({"all_events": "true"}).$promise.then(
+                function (response) {
+                    $scope.Events = response.record;
+                    // $scope.Events.forEach(
+                    // 	function( event ) {
+                    // 		event.paths.forEach(
+                    // 			function( path ) {
+                    // 				var preEvent, postEvent, preObj, postObj;
+                    // 				var pathIndex = path.path.lastIndexOf( "/" ) + 1;
+                    // 				var pathName = path.path.substr( pathIndex );
+                    // 				path.verbs.forEach(
+                    // 					function( verb ) {
+                    //
+                    // 						preEvent = pathName + "." + verb.type + "." + "pre_process";
+                    // 						preObj = {"type": verb.type, "event": preEvent, "scripts": []};
+                    // 						postEvent = pathName + "." + verb.type + "." + "post_process";
+                    // 						postObj = {"type": verb.type, "event": postEvent, "scripts": []};
+                    // 						path.verbs.push( preObj );
+                    // 						path.verbs.push( postObj );
+                    // 					}
+                    // 				)
+                    //
+                    // 			}
+                    // 		)
+                    //
+                    // 	}
+                    // )
+                }
+            );
 
-	$scope.loadScript = function() {
-		editor.setValue( '' );
-		$scope.currentScript = this.verb.event;
-		$scope.script = this.verb.scripts;
+        }()
+        );
+    $scope.loadSamples = function () {
+
+        $http.defaults.headers.common['Accept'] = 'text/plain';
+        $http({
+            method: 'GET',
+            url: 'js/example.scripts.js',
+            dataType: "text"
+        }).success(function(response){
+            $scope.currentScript = null;
+            $scope.hasContent = false;
+            $scope.exampleScripts = response;
+            editor.setValue(response);
+        });
+
+    };
+    $scope.showSamples = function(){
+        $scope.currentScript = null;
         $scope.hasContent = false;
-		var script_id = {"script_id": $scope.currentScript};
-		Script.get( script_id ).$promise.then(
-			function( response ) {
-				editor.setValue( response.script_body );
+        editor.setValue($scope.exampleScripts);
+    };
+    $scope.loadScript = function () {
+        editor.setValue('');
+        $scope.currentScript = this.verb.event;
+        $scope.script = this.verb.scripts;
+        $scope.hasContent = false;
+        var script_id = {"script_id": $scope.currentScript};
+        Script.get(script_id).$promise.then(
+            function (response) {
+                editor.setValue(response.script_body);
                 $scope.hasContent = true;
                 $.pnotify(
                     {
                         title: $scope.currentScript,
-                        type:  'success',
-                        text:  'Loaded Successfully'
+                        type: 'success',
+                        text: 'Loaded Successfully'
                     }
                 );
 
-			},
-            function(){
+            },
+            function () {
                 $scope.hasContent = false;
 
             }
-		);
-	};
-	$scope.loadEvent = function() {
-		if ( $scope.currentEvent === this.event.name ) {
-			$scope.currentEvent = null;
-		}
-		else {
-			$scope.currentEvent = this.event.name;
-		}
-
-	};
-	$scope.saveScript = function() {
-		var script_id = {"script_id": $scope.currentScript};
-		var post_body = editor.getValue() || " ";
-
-		Script.update( script_id, post_body ).$promise.then(
-			function( response ) {
-				$.pnotify(
-					{
-						title: $scope.currentScript,
-						type:  'success',
-						text:  'Saved Successfully'
-					}
-				);
-        $scope.hasContent = true;
-			}
-		);
-
-	};
-  $scope.deleteScript = function() {
-    var script_id = {"script_id": $scope.currentScript};
-    editor.setValue("");
-
-
-    Script.delete( script_id).$promise.then(
-      function( response ) {
-        $.pnotify(
-          {
-            title: $scope.currentScript,
-            type:  'success',
-            text:  'Deleted Successfully'
-          }
         );
-      }
-    );
+    };
+    $scope.loadEvent = function () {
+        if ($scope.currentEvent === this.event.name) {
+            $scope.currentEvent = null;
+        }
+        else {
+            $scope.currentEvent = this.event.name;
+        }
 
-  };
-	$scope.loadPath = function() {
-		if ( $scope.currentPath === this.path.path ) {
-			$scope.currentPath = null;
-		}
-		else {
-			$scope.currentPath = this.path.path;
-		}
-	}
+    };
+    $scope.saveScript = function () {
+        var script_id = {"script_id": $scope.currentScript};
+        var post_body = editor.getValue() || " ";
+
+        Script.update(script_id, post_body).$promise.then(
+            function (response) {
+                $.pnotify(
+                    {
+                        title: $scope.currentScript,
+                        type: 'success',
+                        text: 'Saved Successfully'
+                    }
+                );
+                $scope.hasContent = true;
+            }
+        );
+
+    };
+    $scope.deleteScript = function () {
+        var script_id = {"script_id": $scope.currentScript};
+        editor.setValue("");
+
+
+        Script.delete(script_id).$promise.then(
+            function (response) {
+                $.pnotify(
+                    {
+                        title: $scope.currentScript,
+                        type: 'success',
+                        text: 'Deleted Successfully'
+                    }
+                );
+            }
+        );
+
+    };
+    $scope.loadPath = function () {
+        if ($scope.currentPath === this.path.path) {
+            $scope.currentPath = null;
+        }
+        else {
+            $scope.currentPath = this.path.path;
+        }
+    }
 
 };

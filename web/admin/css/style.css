@@ -2224,7 +2224,7 @@ span.label {
 }
 
 #event-container {
-    background-color: #cccccc;
+
 
 }
 
@@ -2239,6 +2239,7 @@ span.label {
     height: 25px;
     font-weight: bold;
     font-size: 1.1em;
+    cursor:pointer;
 }
 
 .event-list {
@@ -2252,6 +2253,7 @@ span.label {
     min-height: 25px;
     border-bottom: 1px solid #bbbbbb;
     border-left: 1px solid #bbbbbb;
+    cursor:pointer;
 }
 
 .path-verb {
@@ -2260,6 +2262,7 @@ span.label {
     border-left: 1px solid #CCCCCC;
     height: 25px;
     padding-left: 10px;
+    cursor:pointer;
 }
 
 .form-actions {
@@ -2280,7 +2283,15 @@ span.label {
     padding-left: 20px;
     padding-top: 10px;
     width:780px;
+    cursor:pointer;
 }
 .high-name{
     color:#e67e22;
+}
+#sample-events{
+    display: inline-block;
+    float: right;
+    margin-right: 10px;
+
+
 }
