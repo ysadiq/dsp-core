@@ -104,7 +104,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http) {
     };
     $scope.loadScript = function () {
         editor.setValue('');
-        $scope.currentScript = this.verb.event;
+        $scope.currentScript = this.event;
         $scope.script = this.verb.scripts;
         $scope.hasContent = false;
         var script_id = {"script_id": $scope.currentScript};
