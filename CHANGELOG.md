@@ -1,7 +1,7 @@
 # DreamFactory Services Platform&trade; Change Log
 
-## v1.5.0 (Release 2014-04-19)
-### New (in no particular order)!
+## v1.5.3 (Release 2014-04-24)
+### New!
 * New DSP-level persistent storage mechanism interfaces with redis, xcache, memcache(d), etc.
 * Added support for [libv8](https://github.com/v8) for server-side Javascript support
 * Server-side event scripting with Javascript (Scripts live in /path/to/dsp/.private/scripts)
@@ -9,7 +9,7 @@
   * Client event handler registration via new /rest/system/event API. See Live API for more info.
  * Server-side scripts now supported for REST events
   * Client event script registration via new /rest/system/script API. See Live API for more info.
-* Lookup Key System
+* Lookup Key System enabling per-user permissions among other things.
 * Local configuration file support (/path/to/dsp/.private/config)
 * New configuration options for events and event logging control
 
@@ -18,7 +18,7 @@
 * Session bug fix for validation with ticket
 * Restored PEAR repository to composer.json because it is again required :(
 * Myriad Javascript SDK and Admin application changes and fixes
-* Returned data from GET `/rest/system/config` now includes more information about the environment
+* Returned data from GET ```/rest/system/config``` now includes more information about the environment
 * **Azure** bug fixes and updates
 * **DynamoDB** bug fixes
 * **MongoDB** Full support added for rollback and continue options, batch error handling, and server-side filtering
@@ -33,32 +33,34 @@
 #### Miscellaneous
 * More code cleanup
 
-## v1.4.0 (Released 2014-02-28)
+## v1.4.x (Last Updated 2014-03-03)
 ### Major Foundational Changes
-* Restructure of the project tree
-	* The config/schema and contained files have been moved to the lib-php-common-platform library
-	* Added bin/ directory
-* More back-end-served pages have been upgraded to use Bootstrap v3.x
-* Change Password, Registration and Confirmation pages moved from web/launchpad to PHP controlled views
-* Collapse launchpad/img directory to web/img
-* Moved common.config.php constants to their own file
+* Project Tree Reorganization
+	* The [dsp-core](https://github.com/dreamfactorysoftware/dsp-core/) ```config/schema``` tree has been moved to this library.
+	* The [Swagger](https://github.com/zircode/swagger-php/) storage area has been moved to a, now, user-editable location. Previously, it was hidden from hosted DSPs.
+	* More functionality moved from launchpad/admin to back-end including login and password management
+* Performance Improvements
+	* Moved required PHPUnit dependencies ```"require-dev"``` section of ```composer.json``` so they can be more easily excluded in production.
+	* Multiple performance improvements from consolidation/caching/removal of repetitive processes
+	* Hosted DSPs will no longer check github for versioning
 
 ### New Features
-* Added -i|--interactive flag to installer.sh
-* Added new directory /storage/plugins in preparation for our plugin system release.
-* Updated aliases to be PSR-4 aware.
-* Upgraded logging system to use Monolog
-* Added schema, models, and API for device management, UI coming soon
+* **New Data Formatter**: ```Components\AciTreeFormatter``` for data used in an [AciTree](http://plugins.jquery.com/aciTree/).
+* **Guzzle Migration**: Begin migration from our [Curl](https://github.com/lucifurious/kisma/blob/master/src/Kisma/Core/Utility/Curl.php) class to [Guzzle](https://github.com/guzzle/guzzle/) .
+* **Foundational Changes**: Laid groundwork for server-side events
+* **Device Management**: New schema, models, and API added. Affects system and user services as well.
+* **New Constants**:
+	* [**LocalStorageTypes::SWAGGER_PATH**](https://bitbucket.org/dreamfactory/lib-php-common-platform/src/4ca33f4915ef2cacc340c1d74bf7ffc93e72fab9/Interfaces/PlatformStates.php?at=master) and [**LocalStorageTypes::TEMPLATE_PATH**](https://bitbucket.org/dreamfactory/lib-php-common-platform/src/4ca33f4915ef2cacc340c1d74bf7ffc93e72fab9/Interfaces/PlatformStates.php?at=master) and associated getters in [Platform](https://bitbucket.org/dreamfactory/lib-php-common-platform/src/4ca33f4915ef2cacc340c1d74bf7ffc93e72fab9/Utility/Platform.php?at=master)
+	* [**PlatformStates::WELCOME_REQUIRED**](https://bitbucket.org/dreamfactory/lib-php-common-platform/src/4ca33f4915ef2cacc340c1d74bf7ffc93e72fab9/Interfaces/PlatformStates.php?at=master) platform state and modifying [SystemManager::initAdmin](https://bitbucket.org/dreamfactory/lib-php-common-platform/src/4ca33f4915ef2cacc340c1d74bf7ffc93e72fab9/Services/SystemManager.php?at=master) to be cleaner. NOTE: Requires new DSP version
 
 ### Bug Fixes
-* Updated and corrected many css and code issues for forms and views
-* Moved load of aliases and constants to bootstrapper so caching works
-* Added local storage of DSP config so it is not constantly requested (disabled by default for now).
-
-### Miscellaneous
-* Changed help url, developer page will link to github.
-* New text for welcome/support page
-* Installer text change, set ownership of composer cache properly
+* Fix api login session bug
+* Fix content type determination on file management
+* Model corrections for swagger
+* Better check for multi-row configs
+* Fix some include problems, add search both directions to array_diff in Utility
+* Override to setNativeFormat() to avoid invalid argument exception
+* Fixes #57 by returning all columns from the model when constructing the response
 
 ## v1.3.3 (Released 2014-01-03)
 * Installer and composer bug fixes
