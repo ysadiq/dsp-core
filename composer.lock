@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "8bba77402ed00b210b783a95844b122657d72219"
+                "reference": "046e0420775f47c2dfcc9e7b23d41f46eebf0b8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/8bba77402ed00b210b783a95844b122657d72219.zip",
-                "reference": "8bba77402ed00b210b783a95844b122657d72219",
+                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/046e0420775f47c2dfcc9e7b23d41f46eebf0b8b.zip",
+                "reference": "046e0420775f47c2dfcc9e7b23d41f46eebf0b8b",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-19 18:49:47"
+            "time": "2014-04-23 21:48:03"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -496,21 +496,21 @@
         },
         {
             "name": "dreamfactory/oasys",
-            "version": "0.4.9",
+            "version": "0.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "682a2a84c0d38f4f33e9f450fdcec8340de99c9e"
+                "reference": "b1ae4a6310cc69adf398c05633219966bdd29681"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/682a2a84c0d38f4f33e9f450fdcec8340de99c9e",
-                "reference": "682a2a84c0d38f4f33e9f450fdcec8340de99c9e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/b1ae4a6310cc69adf398c05633219966bdd29681",
+                "reference": "b1ae4a6310cc69adf398c05633219966bdd29681",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "kisma/kisma": "~0.2@stable",
+                "kisma/kisma": "~0.2.37@stable",
                 "php": ">=5.3.18"
             },
             "require-dev": {
@@ -542,7 +542,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-04-03 17:30:40"
+            "time": "2014-04-19 17:50:52"
         },
         {
             "name": "dreamfactory/yii",
@@ -630,12 +630,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "dc4a4af0ba585522863f75324bbfe2e0009f2893"
+                "reference": "e4d12d7d6acccf75a5e504114e2df9195e494108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/dc4a4af0ba585522863f75324bbfe2e0009f2893",
-                "reference": "dc4a4af0ba585522863f75324bbfe2e0009f2893",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/e4d12d7d6acccf75a5e504114e2df9195e494108",
+                "reference": "e4d12d7d6acccf75a5e504114e2df9195e494108",
                 "shasum": ""
             },
             "require": {
@@ -714,7 +714,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-04-16 17:46:30"
+            "time": "2014-04-23 21:43:40"
         },
         {
             "name": "kisma/kisma",
@@ -780,12 +780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "7c002e9d555b9706e1d8a84aa017766db56e0c82"
+                "reference": "7567cecfa5f60e9a311e96d8becec2e232748155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/7c002e9d555b9706e1d8a84aa017766db56e0c82",
-                "reference": "7c002e9d555b9706e1d8a84aa017766db56e0c82",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/7567cecfa5f60e9a311e96d8becec2e232748155",
+                "reference": "7567cecfa5f60e9a311e96d8becec2e232748155",
                 "shasum": ""
             },
             "require": {
@@ -813,7 +813,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -840,7 +840,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-17 11:19:47"
+            "time": "2014-04-23 13:56:51"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
@@ -1794,16 +1794,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.34",
+            "version": "3.7.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "248d6ce95e6ca7f0e3135252c0b984bbe1f52f19"
+                "reference": "83f9537e46346f75ed6925441ac259453213c7cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/248d6ce95e6ca7f0e3135252c0b984bbe1f52f19",
-                "reference": "248d6ce95e6ca7f0e3135252c0b984bbe1f52f19",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83f9537e46346f75ed6925441ac259453213c7cc",
+                "reference": "83f9537e46346f75ed6925441ac259453213c7cc",
                 "shasum": ""
             },
             "require": {
@@ -1864,7 +1864,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-03-28 11:04:36"
+            "time": "2014-04-21 06:25:54"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

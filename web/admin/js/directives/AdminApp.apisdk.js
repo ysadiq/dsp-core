@@ -68,6 +68,9 @@ angular.module( 'AdminApp.apisdk', [] ).directive(
 							$scope.$broadcast( 'sdk:getServer:address', $scope.getCurrentServer() );
 						}
 					);
+                    $scope.reload = function(){
+                      console.log(this);
+                    };
 
 					$scope.init();
 
@@ -115,10 +118,14 @@ angular.module( 'AdminApp.apisdk', [] ).directive(
 
 					scope.$on(
 						'swagger:on', function( e, serviceNameStr ) {
-
 							if ( serviceNameStr ) {
+                                console.log(this);
 								scope.iframeUrl = scope.getCurrentServer() + '/swagger/#!/' + serviceNameStr;
 							}
+                            var iframe = $('#swaggerFrame')[0].contentWindow;
+                            if(iframe && iframe.Docs){
+                                iframe.Docs.toggleEndpointListForResource(serviceNameStr);
+                            }
 
 							scope.active = true;
 						}
@@ -156,7 +163,8 @@ angular.module( 'AdminApp.apisdk', [] ).directive(
 							scope.iframeUrl = addressStr + '/swagger/';
 						}
 					);
-//                var swaggerIframe = $("#swaggerFrame");
+
+
 //                var swaggerDiv = $('#swagger');
 //                var docsIframe = $('#docsFrame');
 //                var apiContainer = $('#swagctrl');

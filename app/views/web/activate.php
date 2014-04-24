@@ -70,7 +70,7 @@ HTML;
         <h4 style="text-align:left;">You will automatically be made an admin user of this DSP. This user can be modified, and more users can be added, once your DSP is activated.</h4>
 
         <?php echo $_flash; ?>
-        <?php echo CHtml::errorSummary( $model, '<strong>Sorry Charlie...</strong>' ); ?>
+        <?php echo CHtml::errorSummary( $model, '<strong>Activation Error</strong>' ); ?>
 
         <form id="activate-form" method="POST" role="form">
 

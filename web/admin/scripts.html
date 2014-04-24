@@ -12,23 +12,22 @@
             Choose a service and event from the list below to edit or create scripts when that event is fired.
         </div>
 
-
+<div id="script-name"><span data-ng-show="!currentScript">Please choose an event below.</span><span data-ng-show="currentScript">Working on <span class="high-name">{{currentScript}}</span></span><div class="btn btn-info btn-small" id="sample-events" data-ng-click="showSamples()">View Samples</div></div>
         <table id="event-container">
             <tr>
                 <td>
                     <div id="event-listing">
-                        <div class="event-name search-box">Filter : <input ng-model="searchText"></div>
+                        <div class="event-name search-box">Filter : <input ng-model="searchText"/></div>
                         <div data-ng-repeat="event in Events | filter:searchText" class="event-list">
                             <div class="event-name" data-ng-click="loadEvent()"><i data-ng-class="event.name !== currentEvent ? 'icon-angle-down' : 'icon-angle-up'"> </i>{{event.name}}</div>
                             <ul data-ng-if="event.name === currentEvent || searchText">
-                                <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path">
+                                <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path" data-ng-if="path.path.indexOf('{') == -1">
                                     <div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name"><i data-ng-class="path.path !== currentPath ? 'icon-angle-down' : 'icon-angle-up'"> </i>Path :
                                         {{path.path}}
                                     </div>
                                     <ul data-ng-if="path.path === currentPath || searchText">
-                                        <li data-ng-repeat="verb in path.verbs | filter:searchText" class="path-verb"
-                                            data-ng-click="loadScript()">
-                                            {{verb.event}}&nbsp;({{verb.type}})
+                                        <li data-ng-repeat="verb in path.verbs | filter:searchText" class="path-verb">
+                                            <span data-ng-repeat = "event in verb.event | filter:searchText"  data-ng-click="loadScript()">{{event}}<br/></span>
                                         </li>
                                     </ul>
                                 </li>
@@ -44,7 +43,7 @@
         </table>
         <div class="form-actions">
             <button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">Delete Script</button>
-            <button data-ng-click="saveScript()" class="btn btn-primary">Save Script</button>
+            <button data-ng-if="currentScript" data-ng-click="saveScript()" class="btn btn-primary">Save Script</button>
 
         </div>
     </div>

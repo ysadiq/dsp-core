@@ -69,7 +69,7 @@ var DataCtrl = function( $scope, Schema, DB, $http ) {
 	//var inputTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><input class="ngCellText colt{{$index}}" ng-change="enableSave()"/></div>';
 	var schemaInputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-change="enableSchemaSave()" />';
 	var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
-	var buttonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-disabled="this.row.entity.dfnew == true" ng-click="deleteRow()"><li class="icon-remove"></li></button></div>';
+	var buttonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse"  ng-click="saveRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-disabled="this.row.entity.dfnew == true" ng-click="deleteRow()"><li class="icon-remove"></li></button></div>';
 	var schemaButtonTemplate = '<div ><button id="add_{{row.rowIndex}}" class="btn btn-small btn-primary" disabled=true ng-show="this.row.entity.dfnew" ng-click="schemaAddField()"><li class="icon-save"></li></button>' +
 							   '<button id="save_{{row.rowIndex}}" ng-show="!this.row.entity.dfnew" class="btn btn-small btn-inverse" disabled=true ng-click="schemaSaveRow()"><li class="icon-save"></li></button>' +
 							   '<button class="btn btn-small btn-danger" ng-show="!this.row.entity.dfnew" ng-click="schemaDeleteField()"><li class="icon-remove"></li></button>' +

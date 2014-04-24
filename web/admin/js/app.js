@@ -343,7 +343,8 @@ angular.module(
                 },
                 query: {
                     method: 'GET',
-                    isArray: false
+                    isArray: false,
+                    headers:{'Content-Type':'text/plain'}
                 }
             }
         );
@@ -410,9 +411,9 @@ var showFileManager = function () {
 
 };
 
-window.onresize = resize;
-window.onload = resize;
-
-function resize() {
-    $("#grid-table").css('height', $(window).height() - 60);
-}
+//window.onresize = resize;
+//window.onload = resize;
+//
+//function resize() {
+//    $("#grid-table").css('height', $(window).height() - 60);
+//}
