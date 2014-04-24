@@ -49,7 +49,7 @@ Scope = $scope;
                                 $scope.tables.forEach(
                                     function (table) {
                                         var newPath = {};
-                                        newPath.path = "/rest/db/" + table.name;
+                                        newPath.path = "/db/" + table.name;
                                         newPath.verbs = [
                                             {"type": "get",
                                             "event": ["db." + table.name + ".select"]},
