@@ -28,3 +28,26 @@ if ( event.record ) {
 } else {
     throw "Unrecognized Data";
 }
+
+// **************** Local DB Events ****************************
+
+// Event name : db.todo.select (Get Records from the todo table)
+//lets take the current result set and modify each record to make sure the dogs get fed today
+event.record.forEach(function(todo){
+    todo.name = "Feed the dogs again";
+});
+
+//Updating and Inserting works like the system event above.
+//db.todo.insert.js  ## this is a post to /rest/db/to
+if ( event.record ) {
+    //loop through the record array and modify the data before it gets to the database.
+    _.each( event.record, function( record, index, list ) {
+        record.complete = false;
+    });
+//Now then, if there is only one, lets modify the data before it gets to the database.
+} else if ( event.name ) {
+    event.complete = false;
+//We expect api_name to exist in the event object, if its not there, lets throw back an exception
+} else {
+    throw "Unrecognized Data";
+}
