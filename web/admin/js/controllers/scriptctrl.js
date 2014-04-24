@@ -104,7 +104,8 @@ Scope = $scope;
     $scope.loadScript = function () {
         editor.setValue('');
         $scope.currentScript = this.event;
-        $scope.script = this.verb.scripts;
+        $scope.scriptPath = this.path.path;
+        $scope.verb = angular.uppercase(this.verb.type);
         $scope.hasContent = false;
         var script_id = {"script_id": $scope.currentScript};
         Script.get(script_id).$promise.then(
