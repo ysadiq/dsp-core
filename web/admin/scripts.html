@@ -12,7 +12,7 @@
             Choose a service and event from the list below to edit or create scripts when that event is fired.
         </div>
 
-<div id="script-name"><span data-ng-show="!currentScript">Please choose an event below.</span><span data-ng-show="currentScript">Working on <span class="high-name">{{currentScript}}</span></span><div class="btn btn-info btn-small" id="sample-events" data-ng-click="showSamples()">View Samples</div></div>
+<div id="script-name"><span data-ng-show="!currentScript">Please choose an event below.</span><span data-ng-show="currentScript">Working on <span class="high-name">{{currentScript}}  <span style="color:#2ecc71">({{verb}} on {{scriptPath}})</span></span></span><div class="btn btn-info btn-small" id="sample-events" data-ng-click="showSamples()">View Samples</div></div>
         <table id="event-container">
             <tr>
                 <td>
