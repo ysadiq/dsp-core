@@ -63,14 +63,14 @@ return array(
     /**
      * CORS Configuration
      */
-    'corsWhitelist'      => array( '*' ),
+    'corsWhitelist'      => array('*'),
     'autoAddHeaders'     => true,
     'extendedHeaders'    => true,
     'useResponseObject'  => false,
     /**
      * Preloads
      */
-    'preload'            => array( 'log' ),
+    'preload'            => array('log'),
     /**
      * Imports
      */
@@ -108,24 +108,24 @@ return array(
             'showScriptName' => false,
             'rules'          => array(
                 // REST patterns
-                array( 'rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET' ),
-                array( 'rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'POST' ),
-                array( 'rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PUT' ),
-                array( 'rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PATCH,MERGE' ),
-                array( 'rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'DELETE' ),
+                array('rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
+                array('rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'POST'),
+                array('rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PUT'),
+                array('rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PATCH,MERGE'),
+                array('rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'DELETE'),
                 // Other controllers
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'          => '<controller>/<action>',
                 // fall through to storage services for direct access
-                array( 'admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>' ),
-                array( 'storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET' ),
+                array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
+                array('storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
             ),
         ),
         //	User configuration
         'user'         => array(
             'allowAutoLogin' => true,
-            'loginUrl'       => array( $_defaultController . '/login' ),
+            'loginUrl'       => array($_defaultController . '/login'),
         ),
         'clientScript' => array(
             'scriptMap' => array(
