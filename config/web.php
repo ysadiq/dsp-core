@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Utility\Fabric;
 
 /**
  * web.php
@@ -24,14 +25,63 @@
  */
 
 /**
- * Load up the database and common configurations between the web and background apps,
+ * Load up the database configuration, free edition, private hosted, or others.
+ * Look for non-default database config to override.
+ */
+$_dbConfig = array();
+
+if ( file_exists( __DIR__ . '/database.config.php' ) )
+{
+    /** @noinspection PhpIncludeInspection */
+    $_dbConfig = @require( __DIR__ . '/database.config.php' );
+}
+else
+{
+    if ( Fabric::fabricHosted() )
+    {
+        echo 'fabric hosted';
+        $_dbConfig = Fabric::initialize();
+    }
+    else
+    {
+        /**
+         * Database names vary by type of DSP:
+         *
+         *        1. Free Edition/Hosted:   DSP name
+         *        2. Hosted Private:        hpp_<DSP Name>
+         *        3. All others:            dreamfactory or whatever is in non-default config.
+         */
+
+        if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
+        {
+            $_dbName = 'hpp_' . str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
+        }
+        else
+        {
+            $_dbName = 'dreamfactory';
+        }
+
+        // default config for local database
+        $_dbConfig = array(
+            'connectionString'      => 'mysql:host=localhost;port=3306;dbname=' . $_dbName,
+            'username'              => 'dsp_user',
+            'password'              => 'dsp_user',
+            'emulatePrepare'        => true,
+            'charset'               => 'utf8',
+            'enableProfiling'       => defined( 'YII_DEBUG' ),
+            'enableParamLogging'    => defined( 'YII_DEBUG' ),
+            'schemaCachingDuration' => 3600,
+        );
+    }
+}
+/**
+ * Load up the common configurations between the web and background apps,
  * setting globals whilst at it.
  */
-$_dbConfig = require( __DIR__ . '/database.config.php' );
 $_commonConfig = require( __DIR__ . '/common.config.php' );
 
 //.........................................................................
-//. The configuration himself (like Raab)
+//. The configuration
 //.........................................................................
 
 return array(
@@ -63,14 +113,14 @@ return array(
     /**
      * CORS Configuration
      */
-    'corsWhitelist'      => array( '*' ),
+    'corsWhitelist'      => array('*'),
     'autoAddHeaders'     => true,
     'extendedHeaders'    => true,
     'useResponseObject'  => false,
     /**
      * Preloads
      */
-    'preload'            => array( 'log' ),
+    'preload'            => array('log'),
     /**
      * Imports
      */
@@ -108,24 +158,24 @@ return array(
             'showScriptName' => false,
             'rules'          => array(
                 // REST patterns
-                array( 'rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET' ),
-                array( 'rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'POST' ),
-                array( 'rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PUT' ),
-                array( 'rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PATCH,MERGE' ),
-                array( 'rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'DELETE' ),
+                array('rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
+                array('rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'POST'),
+                array('rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PUT'),
+                array('rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PATCH,MERGE'),
+                array('rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'DELETE'),
                 // Other controllers
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'          => '<controller>/<action>',
                 // fall through to storage services for direct access
-                array( 'admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>' ),
-                array( 'storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET' ),
+                array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
+                array('storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
             ),
         ),
         //	User configuration
         'user'         => array(
             'allowAutoLogin' => true,
-            'loginUrl'       => array( $_defaultController . '/login' ),
+            'loginUrl'       => array($_defaultController . '/login'),
         ),
         'clientScript' => array(
             'scriptMap' => array(

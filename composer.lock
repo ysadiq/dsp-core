@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ab9368e231696bb0c8410e0e52bf49fe",
+    "hash": "8f3eef07f8d17a0d72d233697934a66e",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -352,13 +352,13 @@
             "version": "dev-develop",
             "source": {
                 "type": "git",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform.git",
-                "reference": "046e0420775f47c2dfcc9e7b23d41f46eebf0b8b"
+                "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
+                "reference": "5d39d19ae76c66d0ca1a0d5e905ab5ba5bb726bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/dreamfactory/lib-php-common-platform/get/046e0420775f47c2dfcc9e7b23d41f46eebf0b8b.zip",
-                "reference": "046e0420775f47c2dfcc9e7b23d41f46eebf0b8b",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/5d39d19ae76c66d0ca1a0d5e905ab5ba5bb726bd",
+                "reference": "5d39d19ae76c66d0ca1a0d5e905ab5ba5bb726bd",
                 "shasum": ""
             },
             "require": {
@@ -406,12 +406,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer, server-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer, server-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Components Library/SDK for PHP",
@@ -421,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-23 21:48:03"
+            "time": "2014-04-28 13:33:08"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -780,12 +780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "7567cecfa5f60e9a311e96d8becec2e232748155"
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/7567cecfa5f60e9a311e96d8becec2e232748155",
-                "reference": "7567cecfa5f60e9a311e96d8becec2e232748155",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
@@ -840,7 +840,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-23 13:56:51"
+            "time": "2014-04-24 13:29:03"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
