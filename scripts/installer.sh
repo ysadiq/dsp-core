@@ -162,8 +162,8 @@ fi
 
 # Check for Bitnami install
 if [ `basename ${BASE}` = "htdocs" ] ; then
-	if [ -f "../../../php" ] ; then
-		PHP=../../../php
+	if [ -d "../../../php" ] ; then
+		PHP=../../../php/bin/php
 	fi
 
 	TAG="Mode: ${B1}Bitnami${B2}"
