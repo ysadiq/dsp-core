@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b395e9ade33e65407180710ffdf544fc",
+    "hash": "cbf5aac24e30201e8aea4cde121d806b",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "4144ecee2a0d9634bde466e247a47941d139281d"
+                "reference": "f9af79bf05e80fb5c954b489eec231c54ec21ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/4144ecee2a0d9634bde466e247a47941d139281d",
-                "reference": "4144ecee2a0d9634bde466e247a47941d139281d",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/f9af79bf05e80fb5c954b489eec231c54ec21ba7",
+                "reference": "f9af79bf05e80fb5c954b489eec231c54ec21ba7",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +421,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-04-28 23:51:59"
+            "time": "2014-04-29 03:06:30"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
