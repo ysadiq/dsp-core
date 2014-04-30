@@ -35,7 +35,10 @@ if ( !defined( 'DSP_VERSION' ) )
 //*************************************************************************
 
 //	The base path of the project, where it's checked out basically
-$_basePath = dirname( __DIR__ );
+if ( !isset( $_basePath ) )
+{
+    $_basePath = dirname( __DIR__ );
+}
 //	The document root
 $_docRoot = $_basePath . '/web';
 //	The vendor path
