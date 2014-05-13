@@ -53,11 +53,9 @@ body {
 
 #step2 {
 	font-family: helvetica, arial, sans-serif;
-
 }
 
 #grid-table .no-border {
-
 }
 
 #grid-table th {
@@ -81,7 +79,7 @@ body {
 
 #item-list {
 	vertical-align: top;
-	border:         0px;
+	border:         0;
 	padding:        3px 0 3px;
 }
 
@@ -351,7 +349,7 @@ a:hover {
 }
 
 #sidebar > ul > li.active > a {
-	background: url("../img/menu-active.png") no-repeat scroll right center transparent !important;
+	background: transparent no-repeat scroll right center;
 }
 
 #sidebar > ul > li > a > .label {
@@ -893,12 +891,6 @@ div.dataTables_wrapper .ui-widget-header {
 
 .thumbnails li:hover .actions {
 	opacity: 1;
-}
-
-.line {
-	background: url("../img/line.png") repeat-x scroll 0 0 transparent;
-	display:    block;
-	height:     8px;
 }
 
 .modal {
@@ -1660,4 +1652,25 @@ span.label {
 	float:        right;
 	margin-right: 10px;
 
+}
+
+div.alert {
+	margin-right:  10px;
+	padding-right: 14px;
+}
+
+div.alert > i.icon {
+	margin:  -3px 12px -4px -3px;
+	display: inline-block;
+	float:   left;
+	padding: 0 0 2px;
+}
+
+div.alert > p {
+	display: inline-block;
+	float:   left;
+}
+
+div.alert > p:nth-child(2) {
+	margin-top: 3px;
 }

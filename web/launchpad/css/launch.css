@@ -8,8 +8,30 @@ Main stylesheet for LaunchPad
 }
 
 #navbar-container {
-    background: black;
     z-index: 999;
+}
+
+#navbar-container > .container {
+	background-color: transparent;
+}
+
+.navbar-inverse {
+	background-color: transparent;
+}
+
+#navbar-container {
+	z-index:          10;
+	height:           44px;
+	padding-left:     20px;
+	padding-right:    20px;
+	background-color: rgba(0, 0, 0, .80);
+	position:         fixed;
+	left:             0;
+	right:            0;
+
+	margin-right:     0;
+	margin-top:       0;
+	padding-top:      3px;
 }
 
 #app-groups-container {
