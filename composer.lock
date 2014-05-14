@@ -114,7 +114,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -133,9 +133,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -331,7 +331,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Lee Hicks",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "dcd5a06ed87938d5706b8e54dae5e9d8c2e4bfc6"
+                "reference": "e36c92c7c23865016b1bf08d911f09ba56e3e9d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/dcd5a06ed87938d5706b8e54dae5e9d8c2e4bfc6",
-                "reference": "dcd5a06ed87938d5706b8e54dae5e9d8c2e4bfc6",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e36c92c7c23865016b1bf08d911f09ba56e3e9d8",
+                "reference": "e36c92c7c23865016b1bf08d911f09ba56e3e9d8",
                 "shasum": ""
             },
             "require": {
@@ -370,6 +370,7 @@
                 "dreamfactory/lib-php-common-yii": "~1.4@dev",
                 "dreamfactory/oasys": "~0.4@dev",
                 "dreamfactory/yii": "1.1.13",
+                "jeremeamia/superclosure": "*",
                 "kisma/kisma": "~0.2.37@stable",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
@@ -421,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-05-13 20:42:41"
+            "time": "2014-05-14 02:36:11"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -473,17 +474,17 @@
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
+                    "role": "UX/QA, client-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Guinea Pig, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Engineer, client-side; UX/QA"
+                    "role": "UX/QA, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -606,14 +607,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Jerry Ablan",
+                    "name": "Ablan, Jerry",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Black Ops"
                 },
                 {
-                    "name": "Lee Hicks",
+                    "name": "Hicks, Lee",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Exterminator"
+                    "role": "Lead Engineer, server-side"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -1017,10 +1018,10 @@
         },
         {
             "name": "pear-pear.php.net/Mail_Mime",
-            "version": "1.8.8",
+            "version": "1.8.9",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/Mail_Mime-1.8.8.tgz",
+                "url": "http://pear.php.net/get/Mail_Mime-1.8.9.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -1028,7 +1029,7 @@
                 "php": ">=4.3.0.0"
             },
             "replace": {
-                "pear-pear/mail_mime": "== 1.8.8.0"
+                "pear-pear/mail_mime": "== 1.8.9.0"
             },
             "type": "pear-library",
             "autoload": {
