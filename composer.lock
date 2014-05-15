@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6010572138fac134439bdd82359d0098",
+    "hash": "94a6dc7aa65fb2b446c6b2afe0368e6e",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -114,7 +114,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -133,9 +133,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -331,7 +331,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "e36c92c7c23865016b1bf08d911f09ba56e3e9d8"
+                "reference": "e702ac6ff5e3a2acd5a13cd44f3c5c4ca9faf05e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e36c92c7c23865016b1bf08d911f09ba56e3e9d8",
-                "reference": "e36c92c7c23865016b1bf08d911f09ba56e3e9d8",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e702ac6ff5e3a2acd5a13cd44f3c5c4ca9faf05e",
+                "reference": "e702ac6ff5e3a2acd5a13cd44f3c5c4ca9faf05e",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-05-14 02:36:11"
+            "time": "2014-05-15 14:03:25"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -430,12 +430,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "dcb83b8243c8a99a790ab7d44109d61dea1b6900"
+                "reference": "2e4888b9ad60c9a3c1b3a28e744df64f57ac313a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/dcb83b8243c8a99a790ab7d44109d61dea1b6900",
-                "reference": "dcb83b8243c8a99a790ab7d44109d61dea1b6900",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/2e4888b9ad60c9a3c1b3a28e744df64f57ac313a",
+                "reference": "2e4888b9ad60c9a3c1b3a28e744df64f57ac313a",
                 "shasum": ""
             },
             "require": {
@@ -474,17 +474,17 @@
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "UX/QA, client-side"
+                    "role": "Lead Developer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Guinea Pig, server-side/client-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "UX/QA, client-side"
+                    "role": "Lead Developer and QA, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -493,7 +493,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-04-19 17:49:19"
+            "time": "2014-05-15 17:18:05"
         },
         {
             "name": "dreamfactory/oasys",
@@ -607,14 +607,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Exterminator"
                 },
                 {
-                    "name": "Hicks, Lee",
+                    "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Exterminator"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -719,16 +719,16 @@
         },
         {
             "name": "jeremeamia/SuperClosure",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremeamia/super_closure.git",
-                "reference": "e898c1a166c21bdbe8f15236f98e1e2294786c23"
+                "reference": "d05400085f7d4ae6f20ba30d36550836c0d061e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/e898c1a166c21bdbe8f15236f98e1e2294786c23",
-                "reference": "e898c1a166c21bdbe8f15236f98e1e2294786c23",
+                "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/d05400085f7d4ae6f20ba30d36550836c0d061e8",
+                "reference": "d05400085f7d4ae6f20ba30d36550836c0d061e8",
                 "shasum": ""
             },
             "require": {
@@ -763,7 +763,7 @@
                 "serialize",
                 "tokenizer"
             ],
-            "time": "2014-01-18 17:15:14"
+            "time": "2013-10-09 04:20:00"
         },
         {
             "name": "kisma/kisma",

@@ -48,6 +48,7 @@ $_defaultController = 'web';
 $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
 $_appName = 'DreamFactory Services Platform';
+$_fabricHosted = Fabric::fabricHosted();
 
 /**
  * Keys and salts
@@ -107,7 +108,7 @@ $_storageKey = \Kisma::get( 'platform.storage_key' );
 /**
  * Set up and return the common settings...
  */
-if ( Fabric::fabricHosted() )
+if ( $_fabricHosted )
 {
     $_storagePath = $_storageBasePath = LocalStorageTypes::FABRIC_STORAGE_BASE_PATH . '/' . $_storageKey;
     $_privatePath = \Kisma::get( 'platform.private_path' );
@@ -162,6 +163,7 @@ return array_merge(
         'dsp.version'                   => DSP_VERSION,
         'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
+        'dsp.fabric_hosted'             => $_fabricHosted,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
