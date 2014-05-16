@@ -4,7 +4,6 @@ namespace DreamFactory\Samples\Events;
 use DreamFactory\Platform\Events\EventDispatcher;
 use DreamFactory\Platform\Events\RestServiceEvent;
 use DreamFactory\Platform\Utility\Platform;
-use DreamFactory\Yii\Utility\Pii;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -19,7 +18,7 @@ class SessionEventSubscriber implements EventSubscriberInterface
     public function __construct()
     {
         //  Register with the event dispatcher
-        Pii::app()->getDispatcher()->addSubscriber( $this );
+        Platform::getDispatcher()->addSubscriber( $this );
     }
 
     /**
@@ -44,7 +43,7 @@ class SessionEventSubscriber implements EventSubscriberInterface
      */
     public function onSessionLogin( RestServiceEvent $event, $eventName, $dispatcher )
     {
-        //  Do something useful        
+        //  Do something useful
     }
 
     /**
@@ -56,6 +55,6 @@ class SessionEventSubscriber implements EventSubscriberInterface
      */
     public function onSessionLogout( RestServiceEvent $event, $eventName, $dispatcher )
     {
-        //  Do something useful        
+        //  Do something useful
     }
 }
