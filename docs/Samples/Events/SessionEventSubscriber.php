@@ -2,7 +2,7 @@
 namespace DreamFactory\Samples\Events;
 
 use DreamFactory\Platform\Events\EventDispatcher;
-use DreamFactory\Platform\Events\RestServiceEvent;
+use DreamFactory\Platform\Events\PlatformServiceEvent;
 use DreamFactory\Platform\Utility\Platform;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -37,11 +37,11 @@ class SessionEventSubscriber implements EventSubscriberInterface
     /**
      * Called on 'session.login'
      *
-     * @param RestServiceEvent $event
+     * @param PlatformServiceEvent $event
      * @param string           $eventName
      * @param EventDispatcher  $dispatcher
      */
-    public function onSessionLogin( RestServiceEvent $event, $eventName, $dispatcher )
+    public function onSessionLogin( PlatformServiceEvent $event, $eventName, $dispatcher )
     {
         //  Do something useful
     }
@@ -49,11 +49,11 @@ class SessionEventSubscriber implements EventSubscriberInterface
     /**
      * Called on 'session.logout'
      *
-     * @param RestServiceEvent $event
+     * @param PlatformServiceEvent $event
      * @param string           $eventName
      * @param EventDispatcher  $dispatcher
      */
-    public function onSessionLogout( RestServiceEvent $event, $eventName, $dispatcher )
+    public function onSessionLogout( PlatformServiceEvent $event, $eventName, $dispatcher )
     {
         //  Do something useful
     }

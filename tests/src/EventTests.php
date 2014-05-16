@@ -2,7 +2,7 @@
 namespace DreamFactory\Platform;
 
 use DreamFactory\Platform\Components\EventProxy;
-use DreamFactory\Platform\Events\Enums\ResourceServiceEvents;
+use DreamFactory\Platform\Events\Enums\PlatformServiceEvents;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Yii\Utility\Pii;
@@ -64,7 +64,7 @@ class EventTests extends \PHPUnit_Framework_TestCase
 			$_service = ServiceHandler::getService( $_controller->getService() );
 
 			$_service->on(
-				ResourceServiceEvents::PRE_PROCESS,
+				PlatformServiceEvents::PRE_PROCESS,
 				function ( $event, $eventName, $dispatcher )
 				{
 					$this->assertEquals( 'user.get.pre_process', $eventName );
@@ -73,7 +73,7 @@ class EventTests extends \PHPUnit_Framework_TestCase
 			);
 
 			$_service->on(
-				ResourceServiceEvents::POST_PROCESS,
+				PlatformServiceEvents::POST_PROCESS,
 				function ( $event, $eventName, $dispatcher )
 				{
 					$this->assertEquals( 'user.get.post_process', $eventName );
