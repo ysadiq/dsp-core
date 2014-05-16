@@ -29,10 +29,10 @@ use Kisma\Core\Utility\Inflector;
 use Kisma\Core\Utility\Option;
 
 /**
- * AdminController.php
+ * ConsoleController.php
  * The administrative site controller. This is the replacement for the javascript admin app. WIP
  */
-class AdminController extends BaseWebController
+class ConsoleController extends BaseWebController
 {
     //*************************************************************************
     //* Constants

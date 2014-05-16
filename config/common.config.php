@@ -204,6 +204,8 @@ return array_merge(
         //-------------------------------------------------------------------------
         //	Event System Options
         //-------------------------------------------------------------------------
+        //  If true, observation of events from afar will be allowed
+        'dsp.enable_event_observers'    => true,
         //  If true, REST events will be generated
         'dsp.enable_rest_events'        => true,
         //  If true, platform events will be generated

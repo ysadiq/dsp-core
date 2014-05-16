@@ -20,6 +20,7 @@
 use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Enums\DataFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
+use DreamFactory\Platform\Exceptions\NotFoundException;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
@@ -64,6 +65,23 @@ class RestController extends BaseFactoryController
         parent::init();
 
         $this->_requestObject = Pii::requestObject();
+    }
+
+    /**
+     * @param string $actionId
+     *
+     * @throws DreamFactory\Platform\Exceptions\NotFoundException
+     */
+    public function missingAction( $actionId = null )
+    {
+        try
+        {
+            parent::missingAction( $actionId );
+        }
+        catch ( CHttpException $_ex )
+        {
+            throw new NotFoundException();
+        }
     }
 
     /**
@@ -216,8 +234,7 @@ class RestController extends BaseFactoryController
             if ( !empty( $this->_resource ) )
             {
                 $requestUri = Yii::app()->request->requestUri;
-                if ( ( false === strpos( $requestUri, '?' ) &&
-                       '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+                if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
                      ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
                 )
                 {
