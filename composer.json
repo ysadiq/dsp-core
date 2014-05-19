@@ -48,7 +48,7 @@
 	],
 	"require":           {
 		"php":                                  ">=5.3.18",
-		"kisma/kisma":                          "~0.2.40@stable",
+		"kisma/kisma":                          "~0.2.41@stable",
 		"jeremeamia/superclosure":              "~1.0",
 		"pear-pear.php.net/HTTP_Request2":      "*",
 		"pear-pear.php.net/Net_URL2":           "*",
@@ -67,7 +67,7 @@
 	"minimum-stability": "dev",
 	"extra":             {
 		"branch-alias": {
-			"dev-develop": "1.5.x-dev"
+			"dev-develop": "1.6.x-dev"
 		}
 	}
 }

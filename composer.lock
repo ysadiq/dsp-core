@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "94a6dc7aa65fb2b446c6b2afe0368e6e",
+    "hash": "77bd99c1c7ff8d209fa4f60b7eedfa8d",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "e702ac6ff5e3a2acd5a13cd44f3c5c4ca9faf05e"
+                "reference": "fed39ea78e5fd2ff086af4adf89d4823e1d22209"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e702ac6ff5e3a2acd5a13cd44f3c5c4ca9faf05e",
-                "reference": "e702ac6ff5e3a2acd5a13cd44f3c5c4ca9faf05e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/fed39ea78e5fd2ff086af4adf89d4823e1d22209",
+                "reference": "fed39ea78e5fd2ff086af4adf89d4823e1d22209",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-05-15 14:03:25"
+            "time": "2014-05-16 20:49:50"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -430,12 +430,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "2e4888b9ad60c9a3c1b3a28e744df64f57ac313a"
+                "reference": "b1b2d5f1dd197313acf279f5448f5175c1fb0faf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/2e4888b9ad60c9a3c1b3a28e744df64f57ac313a",
-                "reference": "2e4888b9ad60c9a3c1b3a28e744df64f57ac313a",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/b1b2d5f1dd197313acf279f5448f5175c1fb0faf",
+                "reference": "b1b2d5f1dd197313acf279f5448f5175c1fb0faf",
                 "shasum": ""
             },
             "require": {
@@ -474,7 +474,7 @@
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -484,7 +484,7 @@
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Developer and QA, client-side"
+                    "role": "Lead Engineer, client-side; UX/QA"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -493,7 +493,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-05-15 17:18:05"
+            "time": "2014-05-16 20:51:28"
         },
         {
             "name": "dreamfactory/oasys",
@@ -767,16 +767,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.40",
+            "version": "0.2.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "c03e0666926ae19693beaef8cfaaadcdbe373b5a"
+                "reference": "c032be28f0191dc7d8638f217073c58b622bed1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/c03e0666926ae19693beaef8cfaaadcdbe373b5a",
-                "reference": "c03e0666926ae19693beaef8cfaaadcdbe373b5a",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/c032be28f0191dc7d8638f217073c58b622bed1c",
+                "reference": "c032be28f0191dc7d8638f217073c58b622bed1c",
                 "shasum": ""
             },
             "require": {
@@ -821,7 +821,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-05-12 15:45:32"
+            "time": "2014-05-17 16:09:01"
         },
         {
             "name": "monolog/monolog",
@@ -1603,12 +1603,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "6ef2bf3a1c47eca07ea95f0d8a902a6340390b34"
+                "reference": "61fed79803b6c75d461b909dfac05bbef5cd4f46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6ef2bf3a1c47eca07ea95f0d8a902a6340390b34",
-                "reference": "6ef2bf3a1c47eca07ea95f0d8a902a6340390b34",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/61fed79803b6c75d461b909dfac05bbef5cd4f46",
+                "reference": "61fed79803b6c75d461b909dfac05bbef5cd4f46",
                 "shasum": ""
             },
             "require": {
@@ -1656,7 +1656,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-03-28 10:53:45"
+            "time": "2014-05-19 01:58:57"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2126,12 +2126,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "e9525fc511a51e7bfa214c6c420515c580fda35a"
+                "reference": "2158ca824145bd01877f58c987aff828bccddefa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/e9525fc511a51e7bfa214c6c420515c580fda35a",
-                "reference": "e9525fc511a51e7bfa214c6c420515c580fda35a",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/2158ca824145bd01877f58c987aff828bccddefa",
+                "reference": "2158ca824145bd01877f58c987aff828bccddefa",
                 "shasum": ""
             },
             "require": {
@@ -2166,7 +2166,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-18 20:40:13"
+            "time": "2014-05-16 14:25:18"
         }
     ],
     "aliases": [
