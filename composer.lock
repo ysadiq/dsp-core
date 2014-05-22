@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "77bd99c1c7ff8d209fa4f60b7eedfa8d",
+    "hash": "c7274c1172995534c3acf5d5979db08d",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -767,16 +767,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.43",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "f87df82422d350b5303d1aaee527479b5b4d2ead"
+                "reference": "cc0c6ef57961b62ad3202d6230d0af43530bbe0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/f87df82422d350b5303d1aaee527479b5b4d2ead",
-                "reference": "f87df82422d350b5303d1aaee527479b5b4d2ead",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/cc0c6ef57961b62ad3202d6230d0af43530bbe0b",
+                "reference": "cc0c6ef57961b62ad3202d6230d0af43530bbe0b",
                 "shasum": ""
             },
             "require": {
@@ -821,7 +821,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-05-19 17:11:02"
+            "time": "2014-05-21 19:42:40"
         },
         {
             "name": "monolog/monolog",
@@ -1488,12 +1488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "8fa350478681c3ee707106afbe04be80add2b3ff"
+                "reference": "f23048f36298db0feb70a9f8f596fe21c97b96f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/8fa350478681c3ee707106afbe04be80add2b3ff",
-                "reference": "8fa350478681c3ee707106afbe04be80add2b3ff",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/f23048f36298db0feb70a9f8f596fe21c97b96f1",
+                "reference": "f23048f36298db0feb70a9f8f596fe21c97b96f1",
                 "shasum": ""
             },
             "require": {
@@ -1534,7 +1534,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-28 17:44:51"
+            "time": "2014-05-22 08:54:24"
         }
     ],
     "packages-dev": [
@@ -2174,7 +2174,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kisma/kisma": 0,
+        "kisma/kisma": 20,
         "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/dbunit": 0,
