@@ -114,7 +114,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -133,9 +133,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -297,16 +297,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "bbd935d3dd228790343b5c6b00f044929c435fcc"
+                "reference": "589585acb735f601182e80e5ded91d53953eb6f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/bbd935d3dd228790343b5c6b00f044929c435fcc",
-                "reference": "bbd935d3dd228790343b5c6b00f044929c435fcc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/589585acb735f601182e80e5ded91d53953eb6f4",
+                "reference": "589585acb735f601182e80e5ded91d53953eb6f4",
                 "shasum": ""
             },
             "require": {
-                "kisma/kisma": "~0.2.37@stable",
+                "kisma/kisma": "~0.2.44@stable",
                 "php": ">=5.3.18"
             },
             "require-dev": {
@@ -331,7 +331,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -345,7 +345,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-04-19 17:45:06"
+            "time": "2014-05-23 00:05:34"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1df4ce9f31309ba90335a349f8b73b7d671f7e4a"
+                "reference": "565e9a776804e7ef510a28e955512c337b8144e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1df4ce9f31309ba90335a349f8b73b7d671f7e4a",
-                "reference": "1df4ce9f31309ba90335a349f8b73b7d671f7e4a",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/565e9a776804e7ef510a28e955512c337b8144e6",
+                "reference": "565e9a776804e7ef510a28e955512c337b8144e6",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-05-21 01:25:39"
+            "time": "2014-05-22 21:00:32"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -607,14 +607,14 @@
                     "role": "Documentation and marketing"
                 },
                 {
-                    "name": "Ablan, Jerry",
+                    "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Black Ops"
+                    "role": "Exterminator"
                 },
                 {
-                    "name": "Hicks, Lee",
+                    "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Engineer, server-side"
+                    "role": "Exterminator"
                 }
             ],
             "description": "Yii Web Programming Framework",
@@ -771,12 +771,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "cc0c6ef57961b62ad3202d6230d0af43530bbe0b"
+                "reference": "9be505730b5648564e858a412d1c36a15fe3a5cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/cc0c6ef57961b62ad3202d6230d0af43530bbe0b",
-                "reference": "cc0c6ef57961b62ad3202d6230d0af43530bbe0b",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/9be505730b5648564e858a412d1c36a15fe3a5cf",
+                "reference": "9be505730b5648564e858a412d1c36a15fe3a5cf",
                 "shasum": ""
             },
             "require": {
@@ -821,7 +821,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-05-21 19:42:40"
+            "time": "2014-05-22 21:02:30"
         },
         {
             "name": "monolog/monolog",
@@ -829,12 +829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "3030d3da4d3abb18d3c1e3479259af0d88a92488"
+                "reference": "6171a062686b4c34789b869d8056091b286c0607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3030d3da4d3abb18d3c1e3479259af0d88a92488",
-                "reference": "3030d3da4d3abb18d3c1e3479259af0d88a92488",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/6171a062686b4c34789b869d8056091b286c0607",
+                "reference": "6171a062686b4c34789b869d8056091b286c0607",
                 "shasum": ""
             },
             "require": {
@@ -889,7 +889,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-05-19 16:18:53"
+            "time": "2014-05-22 17:19:06"
         },
         {
             "name": "nikic/php-parser",
@@ -1488,12 +1488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "f23048f36298db0feb70a9f8f596fe21c97b96f1"
+                "reference": "232e811bfd4e7bbb61ea655de78432f8c4f4d85a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/f23048f36298db0feb70a9f8f596fe21c97b96f1",
-                "reference": "f23048f36298db0feb70a9f8f596fe21c97b96f1",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/232e811bfd4e7bbb61ea655de78432f8c4f4d85a",
+                "reference": "232e811bfd4e7bbb61ea655de78432f8c4f4d85a",
                 "shasum": ""
             },
             "require": {
@@ -1534,7 +1534,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-22 08:54:24"
+            "time": "2014-05-22 16:22:20"
         }
     ],
     "packages-dev": [
