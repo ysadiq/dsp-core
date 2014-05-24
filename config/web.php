@@ -168,6 +168,8 @@ return array(
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'          => '<controller>/<action>',
+                //  Console controller's cache action has sub-commands
+                array( 'console/cache/<command>', 'pattern' => 'console/cache/<command:[_0-9a-zA-Z-]+>' ),
                 // fall through to storage services for direct access
                 array( 'admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>' ),
                 array( 'storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET' ),

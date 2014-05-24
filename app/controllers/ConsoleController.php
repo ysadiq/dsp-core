@@ -19,32 +19,37 @@
  */
 use DreamFactory\Oasys\Oasys;
 use DreamFactory\Platform\Exceptions\BadRequestException;
+use DreamFactory\Platform\Resources\User\Session;
+use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Platform\Utility\ResourceStore;
 use DreamFactory\Platform\Yii\Models\BasePlatformSystemModel;
 use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
+use Kisma\Core\Enums\HttpResponse;
 use Kisma\Core\Utility\FilterInput;
 use Kisma\Core\Utility\Inflector;
 use Kisma\Core\Utility\Option;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * ConsoleController.php
- * The administrative site controller. This is the replacement for the javascript admin app. WIP
+ * ALPHA! Use at your own risk
+ * ==================================================
+ * Performs various system-level administrative tasks
  */
 class ConsoleController extends BaseWebController
 {
     //*************************************************************************
-    //* Constants
+    //* Members
     //*************************************************************************
 
     /**
-     * @var string
+     * @var array The command map for console/cache
      */
-    const SCHEMA_PREFIX = '__schema.';
+    protected static $_cacheCommandMap = array();
 
     //*************************************************************************
-    //* Methods
+    // Methods
     //*************************************************************************
 
     /**
@@ -52,17 +57,38 @@ class ConsoleController extends BaseWebController
      */
     public function init()
     {
+        //  Admins only!
+        if ( !Session::isSystemAdmin() )
+        {
+            throw new \CHttpException( HttpResponse::Forbidden, 'Access Denied.' );
+        }
+
         parent::init();
 
         //	We want merged update/create...
         $this->setSingleViewMode( true );
+
         $this->layout = 'mobile';
         $this->defaultAction = 'index';
 
         //	Everything is auth-required
-        $this->addUserActions( static::Authenticated, array( 'index', 'update', 'error', 'create' ) );
+        $this->addUserActions(
+            static::Authenticated,
+            array( 'cache', 'index', 'update', 'error', 'create' )
+        );
+
+        //  Set the command map
+        static::$_cacheCommandMap = array(
+            'flush' => function ()
+            {
+                return Platform::storeDeleteAll();
+            }
+        );
     }
 
+    /**
+     * Dumps Instance Configuration
+     */
     public function actionDump()
     {
         $this->render(
@@ -71,6 +97,38 @@ class ConsoleController extends BaseWebController
                 'yii_params' => Pii::params(),
             )
         );
+    }
+
+    /**
+     * @param string $command POSTs to /console/cache/[command] to perform various cache operations.
+     *                        Currently, the only operation available at this time is "flush",
+     *                        which clears the cache for the core.
+     *
+     *                        Example: POST http://dsp.local/console/cache/flush
+     *
+     * @return bool
+     * @throws \CHttpException
+     */
+    public function actionCache( $command )
+    {
+        if ( null === ( $_result = Option::get( static::$_cacheCommandMap, $command ) ) )
+        {
+            throw new \CHttpException( HttpResponse::BadRequest, 'Invalid command "' . $command . '"' );
+        }
+
+        $this->layout = false;
+        $_result = static::$_cacheCommandMap[ $command ];
+
+        $_response = new JsonResponse(
+            array(
+                'command' => $command,
+                'success' => $_result,
+            )
+        );
+
+        $_response->send();
+
+        return Pii::end();
     }
 
     /**
@@ -124,12 +182,12 @@ class ConsoleController extends BaseWebController
                             {
                                 $_newKey = str_replace( static::SCHEMA_PREFIX, null, $_key );
 
-                                if ( isset( $_config[$_newKey] ) )
+                                if ( isset( $_config[ $_newKey ] ) )
                                 {
-                                    $_config[$_newKey] = $_value;
+                                    $_config[ $_newKey ] = $_value;
                                 }
 
-                                unset( $_data[$_key] );
+                                unset( $_data[ $_key ] );
                             }
                         }
 
@@ -312,9 +370,9 @@ class ConsoleController extends BaseWebController
                     $_value['value'] = $_configValue;
                 }
 
-                $_schema[static::SCHEMA_PREFIX . $_key] = $_value;
+                $_schema[ static::SCHEMA_PREFIX . $_key ] = $_value;
 
-                unset( $_schema[$_key] );
+                unset( $_schema[ $_key ] );
             }
         }
 
