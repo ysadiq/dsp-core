@@ -42,6 +42,10 @@ if ( DSP_DEBUG )
 {
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+    if ( function_exists( 'reportErrors' ) )
+    {
+        reportErrors();
+    }
 }
 
 //	Create the application and run

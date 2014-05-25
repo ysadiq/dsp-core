@@ -48,7 +48,7 @@
 	],
 	"require":           {
 		"php":                                  ">=5.3.18",
-		"kisma/kisma":                          "~0.2.41@dev",
+		"kisma/kisma":                          "~0.2.44@dev",
 		"jeremeamia/superclosure":              "~1.0",
 		"pear-pear.php.net/HTTP_Request2":      "*",
 		"pear-pear.php.net/Net_URL2":           "*",
@@ -57,6 +57,7 @@
 		"dreamfactory/lib-php-common-platform": "~1.5.12@dev"
 	},
 	"require-dev":       {
+		"joseph-lenton/php-error":  "dev-master",
 		"phpunit/phpunit":          "~3.7@stable",
 		"phpunit/dbunit":           "@stable",
 		"phpunit/phpunit-selenium": "@stable",

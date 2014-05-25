@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c7274c1172995534c3acf5d5979db08d",
+    "hash": "47daf4551b2d5ea7651efe7dda974a74",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -764,6 +764,49 @@
                 "tokenizer"
             ],
             "time": "2013-10-09 04:20:00"
+        },
+        {
+            "name": "joseph-lenton/php-error",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JosephLenton/PHP-Error.git",
+                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JosephLenton/PHP-Error/zipball/9918dd5eeec527846d43c92a4c9880bfcdd0de14",
+                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/php_error.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Lenton",
+                    "homepage": "http://www.playmycode.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Better error reporting for PHP, and prettier too!",
+            "homepage": "https://github.com/JosephLenton/PHP-Error",
+            "keywords": [
+                "error",
+                "php",
+                "reporting"
+            ],
+            "time": "2013-08-05 19:13:00"
         },
         {
             "name": "kisma/kisma",
@@ -2175,6 +2218,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 20,
+        "joseph-lenton/php-error": 20,
         "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/dbunit": 0,
