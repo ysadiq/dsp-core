@@ -40,13 +40,14 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
  */
 if ( DSP_DEBUG )
 {
-    defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
-    defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+//	ini_set( 'display_errors', true );
+//	ini_set( 'error_reporting', -1 );
+
+	defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
+	defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 }
 
 //	Create the application and run
-Pii::run(
-    __DIR__,
-    $_autoloader,
-    'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application'
-);
+Pii::run( __DIR__,
+	$_autoloader,
+	'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application' );
