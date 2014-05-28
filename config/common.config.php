@@ -19,7 +19,7 @@
  */
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Fabric;
-use Kisma\Core\Interfaces\Levels;
+use Kisma\Core\Enums\LoggingLevels;
 
 /**
  * common.config.php
@@ -195,7 +195,7 @@ return array_merge( $_instanceSettings,
 		//-------------------------------------------------------------------------
 		/** Enable the internal profiler */
 		'dsp.enable_profiler'           => false,
-		'dsp.debug_level'               => Levels::DEBUG,
+		'dsp.debug_level'               => LoggingLevels::DEBUG,
 		//-------------------------------------------------------------------------
 		//	Event System Options
 		//-------------------------------------------------------------------------
@@ -213,6 +213,11 @@ return array_merge( $_instanceSettings,
 		'dsp.log_events'                => true,
 		// If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
 		'dsp.log_all_events'            => false,
+		//-------------------------------------------------------------------------
+		//	Scripting Options
+		//-------------------------------------------------------------------------
+		//	The name of the element in the event records that contain data
+		'scripting.payload_key'         => 'record',
 		//-------------------------------------------------------------------------
 		//	Login Form Settings
 		//-------------------------------------------------------------------------

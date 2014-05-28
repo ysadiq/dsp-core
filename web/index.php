@@ -40,8 +40,12 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
  */
 if ( DSP_DEBUG )
 {
+//	ini_set( 'display_errors', true );
+//	ini_set( 'error_reporting', -1 );
+
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+
     if ( function_exists( 'reportErrors' ) )
     {
         reportErrors();
