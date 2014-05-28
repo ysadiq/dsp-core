@@ -128,6 +128,7 @@ class WebController extends BaseWebController
                     'confirmInvite',
                     'confirmPassword',
                     'eventReceiver',
+                    'apiTree',
                 ),
                 'users'   => array( '*' ),
             ),
@@ -150,6 +151,11 @@ class WebController extends BaseWebController
                 'deny',
             ),
         );
+    }
+
+    public function actionApiTree()
+    {
+        $this->render( 'api_tree' );
     }
 
     /**
