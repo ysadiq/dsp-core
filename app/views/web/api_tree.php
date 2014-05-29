@@ -19,7 +19,6 @@
  */
 use DreamFactory\Platform\Scripting\SwaggerParser;
 use DreamFactory\Platform\Yii\Models\Provider;
-use DreamFactory\Yii\Utility\Pii;
 
 /**
  * @var WebController $this
@@ -32,83 +31,9 @@ $_html = null;
 
 CHtml::$errorSummaryCss = 'alert alert-danger';
 
-$_tree = SwaggerParser::getApiObject( false );
 $_html = null;
 
-Pii::css(
-    'api-tree',
-    <<<CSS
-.tree {
-    min-height:20px;
-    padding:19px;
-    margin-bottom:20px;
-    background-color:#fbfbfb;
-    border:1px solid #999;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
-}
-.tree-inverse {
-    color: #222;
-}
-.tree li {
-    list-style-type:none;
-    margin:0;
-    padding:10px 5px 0 5px;
-    position:relative;
-    width: 100%;
-}
-.tree li::before, .tree li::after {
-    content:'';
-    left:-20px;
-    position:absolute;
-    right:auto
-}
-.tree li::before {
-    border-left:1px solid #999;
-    bottom:50px;
-    height:100%;
-    top:0;
-    width:1px
-}
-.tree li::after {
-    border-top:1px solid #999;
-    height:20px;
-    top:25px;
-    width:25px
-}
-.tree li span {
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    border:1px solid #999;
-    border-radius:4px;
-    display:inline-block;
-    padding:3px 8px;
-    text-decoration:none
-}
-.tree li span i.fa {
-    margin-right: 8px;
-}
-.tree li.parent_li>span {
-    cursor:pointer
-}
-.tree>ul>li::before, .tree>ul>li::after {
-    border:0
-}
-.tree li:last-child::before {
-    height:30px
-}
-.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
-    background:#eee;
-    border:1px solid #94a0b4;
-    color:#000
-}
-CSS
-);
-
+$_tree = SwaggerParser::getScriptingObject( true );
 $_tree = (array)$_tree;
 ksort( $_tree );
 
@@ -119,17 +44,32 @@ foreach ( $_tree as $_service => $_operations )
     $_operations = (array)$_operations;
     ksort( $_operations );
 
-    foreach ( array_keys( $_operations ) as $_operation )
+    foreach ( $_operations as $_operation => $_closure )
     {
-        $_lines .= '<li style="display: none;"><span><code>' . $_service . '.' . $_operation . '</code></span></li>';
+        if ( 'db' == $_service )
+        {
+            $_lines .= '<li><span><i class="fa fa-plus-circle"></i><strong>' . $_service . '.' . $_operation . '</strong></span><ul>';
+
+            foreach ( $_closure as $_methodName => $_methodClosure )
+            {
+                $_lines .= '<li style="display: none;"><span><code>' . $_service . '.' . $_operation . '.' . $_methodName . '</code></span></li>';
+            }
+
+            $_lines .= '</li></ul>';
+        }
+        else
+        {
+            $_lines .= '<li style="display: none;"><span><code>' . $_service . '.' . $_operation . '</code></span></li>';
+        }
     }
 
     $_html .= '<li><span><i class="fa fa-plus-circle"></i><strong>' . $_service . '</strong></span><ul>' . $_lines . '</ul></li>';
 }
 ?>
-<div class="box-wrapper">
-    <div id="formbox" class="form-light boxed drop-shadow lifted">
-        <h2 class="inset">Scripting API</h2>
+<div class="box-wrapper box-wrapper-wide">
+    <div class="form-light boxed drop-shadow lifted">
+        <h2 class="inset">Scripting API Reference</h2>
+        <p>The following methods are available in scripts via the <code>platform.api</code> object.</p>
 
         <div class="panel-group" id="api-tree">
             <div class="tree tree-inverse">

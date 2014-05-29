@@ -135,6 +135,10 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	padding-bottom: 44px;
 }
 
+.box-wrapper-wide {
+	max-width: 748px;
+}
+
 #footer {
 	position:         fixed;
 	bottom:           0;
