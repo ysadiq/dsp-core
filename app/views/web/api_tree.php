@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Scripting\SwaggerParser;
+use DreamFactory\Platform\Scripting\Api;
 use DreamFactory\Platform\Yii\Models\Provider;
 
 /**
@@ -33,7 +33,7 @@ CHtml::$errorSummaryCss = 'alert alert-danger';
 
 $_html = null;
 
-$_tree = SwaggerParser::getScriptingObject( true );
+$_tree = Api::getScriptingObject( true );
 $_tree = (array)$_tree;
 ksort( $_tree );
 
