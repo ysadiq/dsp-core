@@ -21,6 +21,7 @@ use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Enums\DataFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\NotFoundException;
+use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
@@ -101,6 +102,8 @@ class RestController extends BaseFactoryController
     {
         try
         {
+            // require admin currently to list APIs
+            Session::checkServicePermission( 'admin', null );
             $_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
 
             $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
@@ -202,6 +205,8 @@ class RestController extends BaseFactoryController
         catch ( \Exception $ex )
         {
             RestResponse::sendErrors( $ex, isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON, false, false );
+
+            return null;
         }
     }
 
