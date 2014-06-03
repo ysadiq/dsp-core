@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
-Scope = $scope;
+    Scope = $scope;
     var editor;
     (
         function () {
@@ -52,30 +52,47 @@ Scope = $scope;
                                         newPath.path = "/db/" + table.name;
                                         newPath.verbs = [
                                             {"type": "get",
-                                            "event": ["db." + table.name + ".select"]},
+                                                "event": ["db." + table.name + ".select"]},
                                             {"type": "put",
-                                            "event": [
-                                                "db." + table.name + ".update"
-                                            ]},
+                                                "event": [
+                                                    "db." + table.name + ".update"
+                                                ]},
                                             {"type": "post",
-                                            "event": [
-                                                "db." + table.name + ".insert"
-                                            ]},
+                                                "event": [
+                                                    "db." + table.name + ".insert"
+                                                ]},
                                             {"type": "delete",
-                                            "event": [
-                                                "db." + table.name + ".delete"
-                                            ]}
+                                                "event": [
+                                                    "db." + table.name + ".delete"
+                                                ]}
                                         ];
                                         event.paths.push(newPath);
                                     }
                                 );
                             }
-                        })
+                            event.paths.forEach(function (path) {
+                                var preEvent, postEvent, preObj, postObj;
+                                var pathIndex = path.path.lastIndexOf("/") + 1;
+                                var pathName = path.path.substr(pathIndex);
+                                path.verbs.forEach(function (verb) {
+
+                                    preEvent = pathName + "." + verb.type + "." + "pre_process";
+                                    preObj = {"type": verb.type, "event": [preEvent]};
+                                    postEvent = pathName + "." + verb.type + "." + "post_process";
+                                    postObj = {"type": verb.type, "event": [postEvent]};
+                                    path.verbs.push(preObj);
+                                    path.verbs.push(postObj);
+                                });
+
+                            });
+
+                            //
+                        });
 
 
                     }
                 );
-            }
+            };
 
 
         }()
