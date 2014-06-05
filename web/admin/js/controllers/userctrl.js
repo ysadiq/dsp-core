@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 var UserCtrl = function( $scope, Config, User, Role, Service ) {
+   window.Scope = $scope;
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -135,23 +136,23 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 	$scope.save = function() {
 
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Users',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Error',
+                    text:     'Empty key names are not allowed',
+                    type: 'error'
+                });
+            });
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Users',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Error',
+                    text:     'Duplicate key names are not allowed',
+                    type: 'error'
+                });
+            });
 			return;
 		}
 		if ( !this.user.display_name ) {
@@ -159,13 +160,13 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		}
 		if ( this.passwordEdit ) {
 			if ( this.user.password == '' || this.user.password != this.passwordRepeat ) {
-				$.pnotify(
-					{
-						title: 'Users',
-						type:  'error',
-						text:  'Please enter matching passwords.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Error',
+                        text:     'Passwords do not match',
+                        type: 'error'
+                    });
+                });
 				return;
 			}
 		}
@@ -178,13 +179,13 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 				$scope.user.lookup_keys = angular.copy( response.lookup_keys );
 				updateByAttr( $scope.Users.record, 'id', id, $scope.user );
 				$scope.promptForNew();
-				$.pnotify(
-					{
-						title: 'Users',
-						type:  'success',
-						text:  'Updated Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Users',
+                        text:     'Updated Successfully',
+                        type: 'success'
+                    });
+                });
 			}
 		);
 	};
@@ -192,35 +193,35 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 	$scope.create = function() {
 
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Users',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Error',
+                    text:     'Empty key names are not allowed',
+                    type: 'error'
+                });
+            });
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Users',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Error',
+                    text:     'Duplicate key names are not allowed',
+                    type: 'error'
+                });
+            });
 			return;
 		}
 		var newRec = this.user;
 		if ( this.passwordEdit ) {
 			if ( newRec.password == '' || newRec.password != this.passwordRepeat ) {
-				$.pnotify(
-					{
-						title: 'Error',
-						type:  'error',
-						text:  'Please enter matching passwords.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Error',
+                        text:     'Passwords do not match',
+                        type: 'error'
+                    });
+                });
 				return;
 			}
 		}
@@ -236,15 +237,22 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 			{send_invite: send_invite}, newRec, function( response ) {
 
 				$scope.Users.record.push( response );
-				$.pnotify(
-					{
-						title: 'Users',
-						type:  'success',
-						text:  'Created Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Users',
+                        text:     'Created Successfully',
+                        type: 'success'
+                    });
+                });
+                if( $scope.create_another){
+                    $scope.promptForNew();
+                }else {
+                    $scope.action = "Edit";
+                    $scope.user = response;
+                    $scope.currentUserId = $scope.user.id;
 
-				$scope.promptForNew();
+
+                }
 			}
 		);
 	};
@@ -260,27 +268,27 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 				cache:    false,
 				success:  function() {
 
-					$.pnotify(
-						{
-							title: 'Users',
-							type:  'success',
-							text:  'Invite sent!'
-						}
-					);
+                    $(function(){
+                        new PNotify({
+                            title: 'Users',
+                            text: "Invite Sent",
+                            type: 'success'
+                        });
+                    });
 				}
 			}
 		);
 	};
 
 	$scope.promptForNew = function() {
-
+        $scope.currentUserId = '';
 		$scope.action = "Create";
 		$scope.passwordEdit = false;
 		$scope.user = {};
 		$scope.user.password = '';
 		$scope.passwordRepeat = '';
 		$scope.user.lookup_keys = [];
-		$( "tr.info" ).removeClass( 'info' );
+		//$( "tr.info" ).removeClass( 'info' );
 		$( window ).scrollTop( 0 );
 		$scope.userform.$setPristine();
 	};
@@ -303,13 +311,13 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 			{ id: id }, function() {
 				$scope.promptForNew();
 				$( "#row_" + id ).fadeOut();
-				$.pnotify(
-					{
-						title: 'Users',
-						type:  'success',
-						text:  'Deleted Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Users',
+                        text: "Deleted Successfully",
+                        type: 'success'
+                    });
+                });
 			}
 		);
 	};
@@ -321,8 +329,7 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		$scope.user = angular.copy( this.user );
 		$scope.user.password = '';
 		$scope.passwordRepeat = '';
-		$( "tr.info" ).removeClass( 'info' );
-		$( '#row_' + $scope.user.id ).addClass( 'info' );
+       $scope.currentUserId = $scope.user.id;
 		$scope.userform.$setPristine();
 	};
 
@@ -346,29 +353,27 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		var params = 'app_name=admin';
 		var filename = $( '#userInput' ).val();
 		if ( filename == '' ) {
-			$.pnotify(
-				{
-					title:    'Error',
-					type:     'error',
-					hide:     false,
-					addclass: "stack-bottomright",
-					text:     'Please specify a file to import.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Error',
+                    text:     'Please specify a file to import',
+                    type: 'error'
+                });
+            });
+
 			return;
 		}
 		var fmt = getFileExtension( filename );
 		fmt = fmt.toUpperCase();
 		if ( fmt !== 'CSV' && fmt !== 'JSON' && fmt !== 'XML' ) {
-			$.pnotify(
-				{
-					title:    'Error',
-					type:     'error',
-					hide:     false,
-					addclass: "stack-bottomright",
-					text:     'Supported file types are CSV, JSON, and XML.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Error',
+                    text:     'Supported file types are CSV, JSON, and XML.',
+                    type: 'error'
+                });
+            });
+
 			return;
 		}
 		$( "#importUsersForm" ).attr( 'action', '/rest/system/user?' + params );
@@ -397,24 +402,26 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 			if ( isErrorString( str ) ) {
 				var response = {};
 				response.responseText = str;
-				$.pnotify(
-					{
-						title:    'Error',
-						type:     'error',
-						hide:     false,
-						addclass: "stack-bottomright",
-						text:     getErrorString( response )
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title:    'Error',
+                        type:     'error',
+                        hide:     false,
+                        addclass: "stack-bottomright",
+                        text:     getErrorString( response )
+                    });
+                });
+
 			}
 			else {
-				$.pnotify(
-					{
-						title: 'User Import',
-						type:  'success',
-						text:  'Users Imported Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'User Import',
+                        type:  'success',
+                        text:  'Users Imported Successfully'
+                    });
+                });
+
 			}
 			$scope.Users = User.get();
 			$scope.promptForNew();

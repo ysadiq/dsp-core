@@ -578,6 +578,7 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	};
 	$scope.promptForNew = function() {
 		angular.element( ":checkbox" ).attr( 'checked', false );
+        $scope.currentRoleId = '';
 		$scope.action = "Create new";
 		$scope.actioned = "Created";
 		$scope.role = {
@@ -596,6 +597,7 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		$scope.action = "Edit this ";
 		$scope.actioned = "Updated";
 		$scope.role = angular.copy( this.role );
+        $scope.currentRoleId = $scope.role.id;
 		$scope.users = angular.copy( $scope.role.users );
 		$scope.apps = angular.copy( $scope.role.apps );
 		$( '#save_button' ).hide();

@@ -1,9 +1,4 @@
-<div class="well main">
-<div class="navbar">
-    <div class="navbar-inner condensed">
-        <div class="brand">QuickStart</div>
-    </div>
-</div>
+
 
 <div ng-show="step == 1">
     <p style="font-size:1.7em">Welcome to the DreamFactory Admin Console!</p>
@@ -14,7 +9,7 @@
     <br/>
 
     <p><span style="font-size:1.5em">Give your app a name. Your app name will be your API key.<br/><br/>
-        <input type="text" class="input-xlarge" data-ng-model="app.api_name" placeholder="MyAppName">
+        <input type="text" class="form-control input-lg" data-ng-model="app.api_name" placeholder="MyAppName">
         </span></p>
     <!--<div class="alert alert-info">This is your API KEY. Pass as header : X-DreamFactory-Application-Name, or as-->
     <!--app_name in your querystring on each request.-->
@@ -139,7 +134,7 @@
     </div>
     <div ng-show="app.native == 1">
 
-      <span style="color:#98C022" class="icon icon-2x icon-android"></span>
+
         <p>Congratulations
 
             We have created a backend for your application. Select your preferred SDK below and save the SDK to your desktop. There is also a "ReadMe" in each SDK with additional information.
@@ -153,12 +148,10 @@
 
 
         <div style="width:100%">
-            <div style="display:table-cell">
                 <div class="btn-group">
                 <button data-ng-click="goToDocs()" class="btn btn-success"> See API Docs </button>
-                <a class="btn btn-success"  style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><span class="icon icon-apple"></span> iOS SDK </a>
-                <a class="btn btn-success" style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new"><span class="icon icon-android"></span> Android SDK </a>
-                </div>
+                <button class="btn btn-success"  style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><span class="icon icon-apple"></span> iOS SDK </button>
+                <button class="btn btn-success" style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new"><span class="icon icon-android"></span> Android SDK </button>
                 </div>
             <div style="display:table-cell;width:50%">&nbsp;</div>
             <div style="display:table-cell"><img src="img/native.png"/></div>
@@ -168,4 +161,3 @@
     </div>
 </div>
 <iframe style="display:none" id="sdk-download" src=""></iframe>
-</div>

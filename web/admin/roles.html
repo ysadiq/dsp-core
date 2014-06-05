@@ -1,413 +1,425 @@
-<table style="width:100%">
-    <tr>
-        <td id="item-list" class="well">
-            <div id="grid-table">
-                <table id="app-list" class="table table-hover table-striped">
+<div class="panel panel-default">
+<div class="panel-heading resource-header"><strong>Roles</strong>
+
+    <div id="app-buttons" class="btn-group btn-group-sm pull-right">
+        <button ng-click="promptForNew()" class="btn btn-default">
+            <li class="icon-plus-sign-alt"></li>
+            Create New Role
+        </button>
+
+    </div>
+</div>
+<table id="resource-container">
+<tr>
+<td>
+    <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
+    <ul id="resource-list" class="list-group">
+        <li ng-click="showDetails()" data-ng-class="role.id === currentRoleId ? 'active' : ''" class="list-group-item"
+            ng-repeat="role in Roles.record | filter:searchText" id="row_{{role.id}}">
+            <span class="user-name">{{role.name}}</span>
+            <span class="btn-group btn-group-sm">
+
+                                      <button class="btn btn-default" title="Delete this role"
+                                              ng-click="delete()"><i
+                                              class="icon-trash"></i>
+                                      </button>
+            </span>
+
+
+        </li>
+    </ul>
+</td>
+
+<td>&nbsp;</td>
+<td id="app-details">
+
+
+<form novalidate class="css-form" name="roleform">
+<div>
+<div class="detail-view"></div>
+
+<div class="add_new">
+<h3>{{action}} role</h3>
+
+<div class="alert alert-info">
+    <li class="icon-info-sign"></li>
+    Roles provide a way to grant or deny API access to specific services or simply access to specific apps.
+</div>
+<div class="form-group">
+    <label>Name</label>
+    <input class="form-control" ng-model="role.name" type="text" required/>
+    <br/>
+    <label>Description</label>
+    <input class="form-control" ng-model="role.description" type="text" style="width:80%;"/>
+    <br/>
+    <label>Users Assigned to this Role.</label>
+
+    <div class="limit-list">
+        <table class="table table-hover table-striped table-bordered">
+
+            <tr ng-repeat="user in AllUsers.record" id="row_{{user.id}}">
+                <td><input ng-model="user.inRole"
+                           ng-change="updateUserToRole()"
+                           ng-checked="isUserInRole()" type="checkbox"/></td>
+                <td style="width:100%">{{user.display_name}}</td>
+
+            </tr>
+
+
+        </table>
+
+    </div>
+    <br/>
+    <label>Apps Assigned to this Role.&nbsp;&nbsp;&nbsp;<a><i class="icon-star"></i></a> = Set this app to auto load
+        when users of this role log in.</label>
+
+    <div class="alert alert-info">
+        <li class="icon-info-sign"></li>
+        Each user who is assigned to this role will have access to the selected apps.
+    </div>
+    <div class="limit-list">
+        <table class="table table-hover table-striped table-bordered">
+
+            <tr ng-repeat="app in Apps.record" id="row_{{app.id}}">
+                <td><a style="color:#b3b3b3" ng-click="makeDefault()" ng-show="app.id != role.default_app_id"><i
+                        class="icon-star"></i></a>
+                    <a ng-click="clearDefault()" ng-show="app.id == role.default_app_id"><i class="icon-star"></i></a>
+                </td>
+                <td><input ng-model="app.inRole"
+                           ng-change="addAppToRole()"
+                           ng-checked="isAppInRole()" type="checkbox"/></td>
+                <td style="width:100%">{{app.name}}</td>
+
+            </tr>
+
+
+        </table>
+    </div>
+
+</div>
+<div style="display:none;padding-left:10px;" id="alert-container"
+     class="alert alert-error"></div>
+<div class="section limit-big-list">
+    <label>Assign Service Access to this Role</label>
+    <table class="table table-hover table-striped field-list">
+        <thead>
+        <tr>
+            <th>
+                <span style="width:140px;">Service</span>
+                <span style="width:140px;">Component</span>
+                <span style="width:140px;">Access</span>
+                <span style="width:140px;">Advanced Filters</span>
+            </th>
+            <th class="no-border">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-success" ng-click="newServiceAccess()">
+                        Add
+                    </button>
+                </div>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr ng-repeat="service_access in role.role_service_accesses">
+            <td>
+                <div class="form-inline">
+                <select class="form-control" style="width:140px;"
+                        ng-change="selectService()"
+                        ng-model="service_access.service_id"
+                        ng-options="service.id as service.name for service in Services.record">
+                </select>
+                <select class="form-control" style="width:140px;"
+                        ng-model="service_access.component"
+                        ng-options="component.name as component.name for component in ServiceComponents[serviceId2Index(service_access.service_id)]">
+                </select>
+                <select class="form-control" ng-model="service_access.access" style="width:140px;">
+                    <option value='Full Access' selected>Full Access</option>
+                    <option value='Read and Write' selected>Read and Write</option>
+                    <option value='Read Only' selected>Read Only</option>
+                    <option value='Write Only' selected>Write Only</option>
+                    <option value='No Access' selected>No Access</option>
+                </select>
+
+                <div class="filter-control" style="width:140px;">
+                                                <span ng-show="allowFilters(service_access.service_id)">{{service_access.filters.length}}
+                                                    <a href="" style="color:#AAA;padding-left:5px;"
+                                                       ng-click="toggleServiceAccessFilter()">Show/Hide</a>
+                                                </span>
+                    <span ng-show="!allowFilters(service_access.service_id)">N/A</span>
+                </div>
+                <div class="alert alert-info"
+                     ng-show="allowFilters(service_access.service_id) && service_access.show_filters && service_access.filters.length>0">
+                    <li class="icon-info-sign"></li>
+                    String values should be single or double quoted.
+                </div>
+                <table ng-show="allowFilters(service_access.service_id) && service_access.show_filters"
+                       class="table field-list">
                     <thead>
                     <tr>
-                        <th>Name</th>
-
-                        <th class="no-border"></th>
+                        <th style="width:160px;">Field</th>
+                        <th style="width:130px;">Operator</th>
+                        <th style="width:160px;">Value</th>
+                        <th style="width:50px;"></th>
+                        <th class="no-border">
+                            <div class="btn-group pull-left">
+                                <button class="btn btn-default" ng-click="newServiceAccessFilter()">
+                                     Add
+                                </button>
+                            </div>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    <tr ng-repeat="role in Roles.record" id="row_{{role.id}}">
-                        <td ng-click="showDetails()">{{role.name}}</td>
+                    <tr ng-repeat="service_access_filter in service_access.filters">
+                        <td style="width:160px;">
+                            <input class="form-control" ng-model="service_access_filter.name" type="text"
+                                   style="display:inline-block;width:140px;"/>
+                        </td>
+                        <td style="width:130px;">
+                            <select class="form-control" style="display:inline-block;width:110px;"
+                                    ng-change="updateServiceAccessFilter()"
+                                    ng-model="service_access_filter.operator"
+                                    ng-options="op as op for op in FilterOps">
+                            </select>
+                        </td>
+                        <td style="width:160px;">
+                            <input class="form-control" ng-model="service_access_filter.value"
+                                   ng-disabled="service_access_filter.operator==='is null' || service_access_filter.operator==='is not null'"
+                                   type="text"
+                                   style="display:inline-block; width:140px;"/>
+                        </td>
+                        <td>
+                            <a href="" style="font-weight:bold;"
+                               ng-click="toggleServiceAccessOp()"
+                               ng-show="!$last">
+                                {{service_access.filter_op}}
+                            </a>
+                        </td>
                         <td class="no-border">
-                            <div class="btn-group pull-right">
-                                <a class="btn btn-small btn-inverse" title="Delete this role" ng-click="delete()"><i class="icon-trash"></i></a>
+                            <div class="btn-group pull-left">
+                                <a class="btn btn-mini btn-inverse" ng-click="removeServiceAccessFilter()">
+                                    <i class="icon-trash"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
-
                     </tbody>
                 </table>
-            </div>
-        </td>
-        <td>&nbsp;</td>
-        <td id="app-details" class="well">
-            <div class="navbar">
-                <div class="navbar-inner"><div class="brand">Roles</div>
-                    <div class="btn-group pull-right">
-                        <a ng-click="promptForNew()" class="btn btn-small">
-                            <li class="icon-plus-sign-alt"></li>
-                            Create New Role</a>
-                    </div>
+                <p ng-show="allowFilters(service_access.service_id) && service_access.show_filters && service_access.filters.length==0">
+                    No filters for this service access. Click the add button to create one.<br/>
+                </p>
+                 </div>
+            </td>
+            <td class="no-border">
+                <div class="btn-group pull-left">
+                    <a class="btn btn-small btn-inverse" ng-click="removeServiceAccess()">
+                        <i class="icon-trash"></i>
+                    </a>
                 </div>
-            </div>
-            <div class="alert alert-info">
-                <li class="icon-info-sign"></li>
-                Roles provide a way to grant or deny API access to specific services or simply access to specific apps.
-            </div>
-            <form novalidate class="css-form" name="roleform">
-                <div>
-                    <div class="detail-view"></div>
+            </td>
+        </tr>
 
-                    <div class="add_new">
-                        <span class="label label-info">{{action}} role</span>
+        </tbody>
+    </table>
+    <p ng-show="role.role_service_accesses.length==0">
+        No service access for this role. Click the add button to grant/deny access.
+    </p>
+</div>
+<div class="section limit-big-list">
+    <label>Assign System Access to this Role</label>
 
-                        <div id="step1">
-                            <div class="section">
-                                <span>Name</span>
-                                <input ng-model="role.name" type="text" required/>
-                            </div>
+    <div ng-show="role.role_system_accesses.length > 0" class="alert alert-danger">
+        You are allowing system access via the API, use caution.
+    </div>
+    <table class="table table-hover table-striped field-list">
+        <thead>
+        <tr>
+            <th>
+                <span style="width:140px;">Component</span>
+                <span style="width:140px;">Access</span>
+                <span style="width:140px;">Advanced Filters</span>
+            </th>
+            <th class="no-border">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-success" ng-click="newSystemAccess()">
+                        Add
+                    </button>
+                </div>
+            </th>
+        </tr>
+        </thead>
 
-                            <div class="section">
-                                <span>Description</span>
-                                <input ng-model="role.description" type="text" style="width:80%;"/>
-                            </div>
-                            <div class="section">
-                                <p>Users Assigned to this Role.</p>
-                                <div class="limit-list">
-                                    <table class="table table-hover table-striped table-bordered">
+        <tbody>
 
-                                        <tr ng-repeat="user in AllUsers.record" id="row_{{user.id}}">
-                                            <td><input ng-model="user.inRole"
-                                                       ng-change="updateUserToRole()"
-                                                       ng-checked="isUserInRole()" type="checkbox"/></td>
-                                            <td style="width:100%">{{user.display_name}}</td>
+        <tr ng-repeat="system_access in role.role_system_accesses">
+            <td>
+                <div class="form-inline">
+                <select class="form-control" style="width:140px;"
+                        ng-model="system_access.component"
+                        ng-options="component.name as component.label for component in SystemComponents">
+                </select>
+                <select class="form-control" ng-model="system_access.access" style="width:140px;">
+                    <option value='Full Access' selected>Full Access</option>
+                    <option value='Read and Write' selected>Read and Write</option>
+                    <option value='Read Only' selected>Read Only</option>
+                    <option value='Write Only' selected>Write Only</option>
+                    <option value='No Access' selected>No Access</option>
+                </select>
 
-                                        </tr>
-
-
-                                    </table>
-
-                                </div>
-                            </div>
-                            <div class="section">
-                                <p>Apps Assigned to this Role.&nbsp;&nbsp;&nbsp;<a><i class="icon-star"></i></a> = Set this app to auto load when users of this role log in.</p>
-                                <div class="alert alert-info">
-                                    <li class="icon-info-sign"></li>
-                                    Each user who is assigned to this role will have access to the selected apps.
-                                </div>
-                                <div class="limit-list">
-                                    <table class="table table-hover table-striped table-bordered">
-
-                                        <tr ng-repeat="app in Apps.record" id="row_{{app.id}}">
-                                            <td><a style="color:#b3b3b3" ng-click="makeDefault()" ng-show="app.id != role.default_app_id"><i class="icon-star"></i></a>
-                                                <a ng-click="clearDefault()" ng-show="app.id == role.default_app_id"><i class="icon-star"></i></a>
-                                            </td>
-                                            <td><input ng-model="app.inRole"
-                                                       ng-change="addAppToRole()"
-                                                       ng-checked="isAppInRole()" type="checkbox"/></td>
-                                            <td style="width:100%">{{app.name}}</td>
-
-                                        </tr>
-
-
-                                    </table>
-                                </div>
-
-                            </div>
-                            <div style="display:none;padding-left:10px;" id="alert-container"
-                                 class="alert alert-error"></div>
-                            <div class="section limit-big-list">
-                                <p>Assign Service Access to this Role</p>
-                                <table class="table table-hover table-striped field-list">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <span style="width:140px;">Service</span>
-                                            <span style="width:140px;">Component</span>
-                                            <span style="width:140px;">Access</span>
-                                            <span style="width:140px;">Advanced Filters</span>
-                                        </th>
-                                        <th class="no-border">
-                                            <div class="btn-group pull-left">
-                                                <a class="btn btn-small btn-inverse" ng-click="newServiceAccess()">
-                                                    <i class="icon-plus"/>
-                                                </a>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    <tr ng-repeat="service_access in role.role_service_accesses">
-                                        <td>
-                                            <select style="width:140px;"
-                                                    ng-change="selectService()"
-                                                    ng-model="service_access.service_id"
-                                                    ng-options="service.id as service.name for service in Services.record">
-                                            </select>
-                                            <select style="width:140px;"
-                                                    ng-model="service_access.component"
-                                                    ng-options="component.name as component.name for component in ServiceComponents[serviceId2Index(service_access.service_id)]">
-                                            </select>
-                                            <select ng-model="service_access.access" style="width:140px;">
-                                                <option value='Full Access' selected>Full Access</option>
-                                                <option value='Read and Write' selected>Read and Write</option>
-                                                <option value='Read Only' selected>Read Only</option>
-                                                <option value='Write Only' selected>Write Only</option>
-                                                <option value='No Access' selected>No Access</option>
-                                            </select>
-                                            <div class="filter-control" style="width:140px;">
-                                                <span ng-show="allowFilters(service_access.service_id)">{{service_access.filters.length}}
-                                                    <a href="" style="color:#AAA;padding-left:5px;" ng-click="toggleServiceAccessFilter()">Show/Hide</a>
-                                                </span>
-                                                <span ng-show="!allowFilters(service_access.service_id)">N/A</span>
-                                            </div>
-                                            <div class="alert alert-info"
-                                                 ng-show="allowFilters(service_access.service_id) && service_access.show_filters && service_access.filters.length>0">
-                                                <li class="icon-info-sign"></li>
-                                                String values should be single or double quoted.
-                                            </div>
-                                            <table ng-show="allowFilters(service_access.service_id) && service_access.show_filters" class="table field-list">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width:160px;">Field</th>
-                                                        <th style="width:130px;">Operator</th>
-                                                        <th style="width:160px;">Value</th>
-                                                        <th style="width:50px;"></th>
-                                                        <th class="no-border">
-                                                            <div class="btn-group pull-left">
-                                                                <a class="btn btn-mini btn-inverse" ng-click="newServiceAccessFilter()">
-                                                                    <i class="icon-plus"/>
-                                                                </a>
-                                                            </div>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="service_access_filter in service_access.filters">
-                                                        <td style="width:160px;">
-                                                            <input ng-model="service_access_filter.name" type="text" style="display:inline-block;width:140px;"/>
-                                                        </td>
-                                                        <td style="width:130px;">
-                                                            <select style="display:inline-block;width:110px;"
-                                                                    ng-change="updateServiceAccessFilter()"
-                                                                    ng-model="service_access_filter.operator"
-                                                                    ng-options="op as op for op in FilterOps">
-                                                            </select>
-                                                        </td>
-                                                        <td style="width:160px;">
-                                                            <input ng-model="service_access_filter.value"
-                                                                   ng-disabled="service_access_filter.operator==='is null' || service_access_filter.operator==='is not null'"
-                                                                   type="text"
-                                                                   style="display:inline-block; width:140px;"/>
-                                                        </td>
-                                                        <td>
-                                                            <a href="" style="font-weight:bold;"
-                                                               ng-click="toggleServiceAccessOp()"
-                                                               ng-show="!$last">
-                                                                {{service_access.filter_op}}
-                                                            </a>
-                                                        </td>
-                                                        <td class="no-border">
-                                                            <div class="btn-group pull-left">
-                                                                <a class="btn btn-mini btn-inverse" ng-click="removeServiceAccessFilter()">
-                                                                    <i class="icon-trash"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <p ng-show="allowFilters(service_access.service_id) && service_access.show_filters && service_access.filters.length==0">
-                                                No filters for this service access. Click the plus button to add.<br/>
-                                            </p>
-                                        </td>
-                                        <td class="no-border">
-                                            <div class="btn-group pull-left">
-                                                <a class="btn btn-small btn-inverse" ng-click="removeServiceAccess()">
-                                                    <i class="icon-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                                <p ng-show="role.role_service_accesses.length==0">
-                                    No service access for this role. Click the plus button to add.
-                                </p>
-                            </div>
-                            <div class="section limit-big-list">
-                                <p>Assign System Access to this Role</p>
-                                <div ng-show="role.role_system_accesses.length > 0" class="alert alert-danger">
-                                    You are allowing system access via the API, use caution.
-                                </div>
-                                <table class="table table-hover table-striped field-list">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <span style="width:140px;">Component</span>
-                                            <span style="width:140px;">Access</span>
-                                            <span style="width:140px;">Advanced Filters</span>
-                                        </th>
-                                        <th class="no-border">
-                                            <div class="btn-group pull-left">
-                                                <a class="btn btn-small btn-inverse" ng-click="newSystemAccess()">
-                                                    <i class="icon-plus"/>
-                                                </a>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                    <tr ng-repeat="system_access in role.role_system_accesses">
-                                        <td>
-                                            <select style="width:140px;"
-                                                    ng-model="system_access.component"
-                                                    ng-options="component.name as component.label for component in SystemComponents">
-                                            </select>
-                                            <select ng-model="system_access.access" style="width:140px;">
-                                                <option value='Full Access' selected>Full Access</option>
-                                                <option value='Read and Write' selected>Read and Write</option>
-                                                <option value='Read Only' selected>Read Only</option>
-                                                <option value='Write Only' selected>Write Only</option>
-                                                <option value='No Access' selected>No Access</option>
-                                            </select>
-                                            <div class="filter-control" style="width:140px;">
+                <div class="filter-control" style="width:140px;">
                                                 <span>{{system_access.filters.length}}
-                                                    <a href="" style="color:#AAA;padding-left:5px;" ng-click="toggleSystemAccessFilter()">Show/Hide</a>
+                                                    <a href="" style="color:#AAA;padding-left:5px;"
+                                                       ng-click="toggleSystemAccessFilter()">Show/Hide</a>
                                                 </span>
-                                            </div>
-                                            <div class="alert alert-info"
-                                                 ng-show="system_access.show_filters && system_access.filters.length>0">
-                                                <li class="icon-info-sign"></li>
-                                                String values should be single or double quoted.
-                                            </div>
-                                            <table ng-show="system_access.show_filters" class="table field-list">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:160px;">Field</th>
-                                                    <th style="width:130px;">Operator</th>
-                                                    <th style="width:160px;">Value</th>
-                                                    <th style="width:50px;"></th>
-                                                    <th class="no-border">
-                                                        <div class="btn-group pull-left">
-                                                            <a class="btn btn-mini btn-inverse" ng-click="newSystemAccessFilter()">
-                                                                <i class="icon-plus"/>
-                                                            </a>
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr ng-repeat="system_access_filter in system_access.filters">
-                                                    <td style="width:160px;">
-                                                        <input ng-model="system_access_filter.name" type="text" style="display:inline-block;width:140px;"/>
-                                                    </td>
-                                                    <td style="width:130px;">
-                                                        <select style="display:inline-block;width:110px;"
-                                                                ng-change="updateSystemAccessFilter()"
-                                                                ng-model="system_access_filter.operator"
-                                                                ng-options="op as op for op in FilterOps">
-                                                        </select>
-                                                    </td>
-                                                    <td style="width:160px;">
-                                                        <input ng-model="system_access_filter.value"
-                                                               ng-disabled="system_access_filter.operator==='is null' || system_access_filter.operator==='is not null'"
-                                                               type="text"
-                                                               style="display:inline-block; width:140px;"/>
-                                                    </td>
-                                                    <td>
-                                                        <a href="" style="font-weight:bold;"
-                                                           ng-click="toggleSystemAccessOp()"
-                                                           ng-show="!$last">
-                                                            {{system_access.filter_op}}
-                                                        </a>
-                                                    </td>
-                                                    <td class="no-border">
-                                                        <div class="btn-group pull-left">
-                                                            <a class="btn btn-mini btn-inverse" ng-click="removeSystemAccessFilter()">
-                                                                <i class="icon-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                            <p ng-show="system_access.show_filters && system_access.filters.length==0">
-                                                No filters for this system access. Click the plus button to add.<br/>
-                                            </p>
-                                        </td>
-                                        <td class="no-border">
-                                            <div class="btn-group pull-left">
-                                                <a class="btn btn-small btn-inverse" ng-click="removeSystemAccess()">
-                                                    <i class="icon-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                                <p ng-show="role.role_system_accesses.length==0">
-                                    No system access for this role. Click the plus button to add.
-                                </p>
-                            </div>
-                            <div class="section limit-big-list">
-                                <p>Role Lookup Keys</p>
-                                <table class="table table-hover table-striped field-list">
-                                    <thead>
-                                    <tr>
-                                        <th style="width:220px;">Name</th>
-                                        <th style="width:220px;">Value</th>
-                                        <th style="width:35px;">Private</th>
-                                        <th class="no-border">
-                                            <div class="btn-group pull-left">
-                                                <a class="btn btn-small btn-inverse" ng-click="newKey()">
-                                                    <i class="icon-plus"/>
-                                                </a>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                    <tr ng-repeat="key in role.lookup_keys">
-                                        <td style="width: 220px;">
-                                            <input ng-model="key.name" type="text" style="width:200px;"/>
-                                        </td>
-                                        <td style="width:220px;">
-                                            <input ng-model="key.value" type="text" style="width:200px;"/>
-                                        </td>
-                                        <td style="width:35px;text-align:center;">
-                                            <input ng-model="key.private" type="checkbox" style="width:25px;vertical-align:middle;"/>
-                                        </td>
-                                        <td class="no-border">
-                                            <div class="btn-group pull-left">
-                                                <a class="btn btn-small btn-inverse" ng-click="removeKey()">
-                                                    <i class="icon-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                                <p ng-show="role.lookup_keys.length==0">
-                                    No lookup keys for this role. Click the plus button to add.
-                                </p>
-                            </div>
-                            <div class="section">
-                                <input ng-checked="role.is_active" type="checkbox" ng-model="role.is_active"/>&nbsp;Active
-
-                            </div>
-                            <div style="display:none;padding-left:10px;" id="success-container"
-                                 class="alert alert-success"></div>
-                            <div id="button_holder">
-                                <a id="save_button" ng-click="create()" class="btn btn-primary">
-                                    <li class="icon-save"></li>
-                                    &nbsp;Save</a>
-                                <a id="update_button" ng-click="save()" class="btn btn-primary">
-                                    <li class="icon-save"></li>
-                                    &nbsp;Update</a>
-                            </div>
-
-                        </div>
-
-                    </div>
                 </div>
-            </form>
+                <div class="alert alert-info"
+                     ng-show="system_access.show_filters && system_access.filters.length>0">
+                    <li class="icon-info-sign"></li>
+                    String values should be single or double quoted.
+                </div>
+                <table ng-show="system_access.show_filters" class="table field-list">
+                    <thead>
+                    <tr>
+                        <th style="width:160px;">Field</th>
+                        <th style="width:130px;">Operator</th>
+                        <th style="width:160px;">Value</th>
+                        <th style="width:50px;"></th>
+                        <th class="no-border">
+                            <div class="btn-group pull-left">
+                                <a class="btn btn-mini btn-inverse" ng-click="newSystemAccessFilter()">
+                                    <i class="icon-plus"/>
+                                </a>
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="system_access_filter in system_access.filters">
+                        <td style="width:160px;">
+                            <input class="form-control" ng-model="system_access_filter.name" type="text"
+                                   style="display:inline-block;width:140px;"/>
+                        </td>
+                        <td style="width:130px;">
+                            <select class="form-control" style="display:inline-block;width:110px;"
+                                    ng-change="updateSystemAccessFilter()"
+                                    ng-model="system_access_filter.operator"
+                                    ng-options="op as op for op in FilterOps">
+                            </select>
+                        </td>
+                        <td style="width:160px;">
+                            <input class="form-control" ng-model="system_access_filter.value"
+                                   ng-disabled="system_access_filter.operator==='is null' || system_access_filter.operator==='is not null'"
+                                   type="text"
+                                   style="display:inline-block; width:140px;"/>
+                        </td>
+                        <td>
+                            <a href="" style="font-weight:bold;"
+                               ng-click="toggleSystemAccessOp()"
+                               ng-show="!$last">
+                                {{system_access.filter_op}}
+                            </a>
+                        </td>
+                        <td class="no-border">
+                            <div class="btn-group pull-left">
+                                <a class="btn btn-mini btn-inverse" ng-click="removeSystemAccessFilter()">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p ng-show="system_access.show_filters && system_access.filters.length==0">
+                    No filters for this system access. Click the add button to create one.<br/>
+                </p>
+                    </div>
+            </td>
+            <td class="no-border">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-success ng-click="removeSystemAccess()">
+                        Add
+                    </button>
+                </div>
+            </td>
+        </tr>
 
-        </td>
-    </tr>
+        </tbody>
+    </table>
+    <p ng-show="role.role_system_accesses.length==0">
+        No system access for this role. Click the add button to grant/deny access.
+    </p>
+</div>
+<div class="section limit-big-list">
+    <p>Role Lookup Keys</p>
+    <table class="table table-hover table-striped field-list">
+        <thead>
+        <tr>
+            <th style="width:220px;">Name</th>
+            <th style="width:220px;">Value</th>
+            <th style="width:35px;">Private</th>
+            <th class="no-border">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-success" ng-click="newKey()">
+                        Add
+                    </button>
+                </div>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr ng-repeat="key in role.lookup_keys">
+            <td style="width: 220px;">
+                <input class="form-control" ng-model="key.name" type="text" style="width:200px;"/>
+            </td>
+            <td style="width:220px;">
+                <input class="form-control" ng-model="key.value" type="text" style="width:200px;"/>
+            </td>
+            <td style="width:35px;text-align:center;">
+                <input class="form-control" ng-model="key.private" type="checkbox"
+                       style="width:25px;vertical-align:middle;"/>
+            </td>
+            <td class="no-border">
+                <div class="btn-group pull-left">
+                    <a class="btn btn-small btn-inverse" ng-click="removeKey()">
+                        <i class="icon-trash"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <p ng-show="role.lookup_keys.length==0">
+        No lookup keys for this role. Click the add button to create one.
+    </p>
+</div>
+<div class="section">
+    <input ng-checked="role.is_active" type="checkbox" ng-model="role.is_active"/>&nbsp;Active
+</div>
+<br/>
+<div style="display:none;padding-left:10px;" id="success-container"
+     class="alert alert-success"></div>
+<div id="button_holder">
+    <a id="save_button" ng-click="create()" class="btn btn-primary">
+        <li class="icon-save"></li>
+        &nbsp;Save</a>
+    <a id="update_button" ng-click="save()" class="btn btn-primary">
+        <li class="icon-save"></li>
+        &nbsp;Update</a>
+</div>
+
+
+</div>
+</div>
+</form>
+
+</td>
+</tr>
 </table>
+
+</div>
+

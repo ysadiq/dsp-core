@@ -1,56 +1,72 @@
-<div class="well">
-    <div class="navbar" style="margin-bottom:5px;margin-right:10px;">
-        <div class="navbar-inner">
-            <div class="brand">Server Side Scripts</div>
-        </div>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading resource-header"><strong>Server Side Scripting</strong>
+
     </div>
-    <br/>
 
-    <div id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted ">
-        <div style="width:750px" class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            Choose a service and event from the list below to edit or create scripts when that event is fired.
-        </div>
+    <div>
+        <div id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted ">
+            <div id="script-name"><span data-ng-show="!currentScript">Please choose an event below.</span><span
+                    data-ng-show="currentScript">Working on <span class="high-name">{{currentScript}}  <span
+                    style="color:#2ecc71">({{verb}} on /rest{{scriptPath}})</span></span></span>
 
-<div id="script-name"><span data-ng-show="!currentScript">Please choose an event below.</span><span data-ng-show="currentScript">Working on <span class="high-name">{{currentScript}}  <span style="color:#2ecc71">({{verb}} on /rest{{scriptPath}})</span></span></span><div class="btn btn-info btn-small" id="sample-events" data-ng-click="showSamples()">View Samples</div></div>
-        <table id="event-container">
-            <tr>
-                <td>
-                    <div id="event-listing">
-                        <div class="event-name search-box">Filter : <input ng-model="searchText"/></div>
-                        <div data-ng-repeat="event in Events | filter:searchText" class="event-list">
-                            <div class="event-name" data-ng-click="loadEvent()"><i data-ng-class="event.name !== currentEvent ? 'icon-angle-down' : 'icon-angle-up'"> </i>{{event.name}}</div>
-                            <ul data-ng-if="event.name === currentEvent || searchText">
-                                <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path" data-ng-if="path.path.indexOf('{') == -1">
-                                    <div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name"><i data-ng-class="path.path !== currentPath ? 'icon-angle-down' : 'icon-angle-up'"> </i>Path :
-                                        {{path.path}}
-                                    </div>
-                                    <ul data-ng-if="path.path === currentPath || searchText">
-                                        <li data-ng-repeat="verb in path.verbs | filter:searchText" class="path-verb">
-                                            <span data-ng-repeat = "event in verb.event | filter:searchText"  data-ng-click="loadScript()">{{event}}<br/></span>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                <div class="btn btn-info btn-sm" id="sample-events" data-ng-click="showSamples()">View Samples</div>
+            </div>
+            <table id="event-container">
+                <tr>
+                    <td>
+                        <div id="event-listing">
+                            <div class="search-box form-inline"><input class="form-control" ng-model="searchText"
+                                                                       placeholder="Filter by Name"/></div>
+                            <div data-ng-repeat="event in Events | filter:searchText" class="event-list">
+                                <div class="event-name" data-ng-click="loadEvent()"><i
+                                        data-ng-class="event.name !== currentEvent ? 'icon-angle-down' : 'icon-angle-up'"> </i>{{event.name}}
+                                </div>
+                                <ul data-ng-if="event.name === currentEvent || searchText">
+                                    <li data-ng-repeat="path in event.paths | filter:searchText" class="event-path"
+                                        data-ng-if="path.path.indexOf('{') == -1">
+                                        <div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name"><i
+                                                data-ng-class="path.path !== currentPath ? 'icon-angle-down' : 'icon-angle-up'"> </i>Path
+                                            :
+                                            {{path.path}}
+                                        </div>
+                                        <ul data-ng-if="path.path === currentPath || searchText">
+                                            <li data-ng-repeat="verb in path.verbs | filter:searchText"
+                                                class="path-verb">
+                                                <span data-ng-repeat="event in verb.event track by $index | filter:searchText "
+                                                      data-ng-click="loadScript()">{{event}}<br/></span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                </td>
-                <td>
-                    <div id="editor"></div>
-                </td>
-            </tr>
-        </table>
-        <div class="form-actions">
-            <button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">Delete Script</button>
-            <button data-ng-if="currentScript" data-ng-click="saveScript()" class="btn btn-primary">Save Script</button>
+                    </td>
+                    <td>
+                        <div id="editor"></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-actions">
+                <button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">
+                    Delete Script
+                </button>
+                <button data-ng-if="currentScript" data-ng-click="saveScript()" class="btn btn-primary">Save Script
+                </button>
 
+            </div>
         </div>
-    </div>
-    <div data-ng-if="!Config.is_private && Config.is_hosted">
-        <div style="width:750px" class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            The Free Hosted Edition of the DreamFactory Services Platform does not support Server Side Scripting. Please install DreamFactory on your cloud or server for this capability. Click <a href="https://bitnami.com/stack/dreamfactory" target="df-new">here</a> to download the open source software package.
+        <div data-ng-if="!Config.is_private && Config.is_hosted">
+            <div style="width:750px" class="alert alert-info">
+                <li class="icon-info-sign"></li>
+                The Free Hosted Edition of the DreamFactory Services Platform does not support Server Side Scripting.
+                Please install DreamFactory on your cloud or server for this capability. Click <a
+                    href="https://bitnami.com/stack/dreamfactory" target="df-new">here</a> to download the open source
+                software package.
+            </div>
         </div>
     </div>
 </div>
+
+

@@ -24,12 +24,81 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 	);
 	Scope = $scope;
 
-	Scope.promptForNew = function() {
+    if(navigator.appVersion.indexOf("Windows") != -1){
+        Scope.sql_server_host_identifier = "Server";
+        Scope.sql_server_db_identifier = "Database";
+        Scope.sql_placeholder="mysql:Server=my_server;Database=my_database";
+        Scope.microsoft_sql_server_prefix = "sqlserver:"
+    }else{
+        Scope.sql_server_host_identifier = "host";
+        Scope.sql_server_db_identifier = "dbname";
+        Scope.sql_placeholder="mysql:host=my_server;dbname=my_database";
+        Scope.microsoft_sql_server_prefix = "dblib:"
+    }
+    $scope.sqlVendors = [
+        {
+            name:"MySQL",
+            prefix:"mysql:"
+        },
+        {
+            name:"Microsoft SQL Server",
+            prefix:Scope.microsoft_sql_server_prefix
+        } ,
+        {
+            name:"PostgreSQL",
+            prefix:"pqsql:"
+        }];
+    Scope.promptForNew = function() {
 
 		Scope.action = "Create";
 		$( '#step1' ).show();
 		Scope.service = {};
-		Scope.tableData = [];
+        $scope.$watch(
+            "sqlServerPrefix",
+            function( newValue, oldValue ) {
+
+                if ( newValue === oldValue ) {
+
+                    return;
+
+                }
+                $scope.service.dsn = newValue;
+                if($scope.sqlServerHost){
+                    $scope.service.dsn = $scope.service.dsn + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost;
+                }
+                if($scope.sqlServerDb){
+                    $scope.service.dsn = $scope.service.dsn + ";" + $scope.sql_server_db_identifier + "=" + $scope.sqlServerDb;
+                }
+
+            });
+        $scope.$watch(
+            "sqlServerHost",
+            function( newValue, oldValue ) {
+                if ( newValue === oldValue ) {
+
+                    return;
+
+                }
+                $scope.service.dsn = $scope.sqlServerPrefix + $scope.sql_server_host_identifier + "=" + newValue;
+                if($scope.sqlServerDb){
+                    $scope.service.dsn = $scope.service.dsn + ";" + $scope.sql_server_db_identifier + "=" + $scope.sqlServerDb;
+                }
+
+
+            });
+        $scope.$watch(
+            "sqlServerDb",
+            function( newValue, oldValue ) {
+                if ( newValue === oldValue ) {
+
+                    return;
+
+                }
+                $scope.service.dsn = $scope.sqlServerPrefix + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ";" + $scope.sql_server_db_identifier + "=" + newValue;
+
+
+            });
+        Scope.tableData = [];
 		Scope.headerData = [];
 		$( "#swagger, #swagger iframe" ).hide();
 		$( '#save_button' ).show();
@@ -48,8 +117,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 		Scope.couch = {};
 		Scope.salesforce = {};
 		Scope.script = {};
-
-		Scope.service.is_active = true;
+        Scope.service.is_active = true;
 		$( window ).scrollTop( 0 );
 		Scope.email_type = "Server Default";
 	};

@@ -57,13 +57,8 @@
 		"dreamfactory/lib-php-common-platform": "~1.5.12@dev"
 	},
 	"require-dev":       {
-		"joseph-lenton/php-error":  "dev-master",
-		"phpunit/phpunit":          "~3.7@stable",
-		"phpunit/dbunit":           "@stable",
-		"phpunit/phpunit-selenium": "@stable",
-		"phpunit/phpunit-story":    "@stable",
-		"phpunit/php-timer":        "@stable",
-		"phpunit/php-invoker":      "@stable"
+		"joseph-lenton/php-error":  "dev-master"
+		
 	},
 	"minimum-stability": "dev",
 	"extra":             {

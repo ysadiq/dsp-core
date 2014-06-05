@@ -116,25 +116,11 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 				);
 
 				$( "#row_" + id ).fadeOut();
-			}, function( response ) {
-				var code = response.status;
-				if ( code == 401 ) {
-					window.top.Actions.doSignInDialog( "stay" );
-					return;
-				}
-				$.pnotify(
-					{
-						title:    'Error',
-						type:     'error',
-						hide:     false,
-						addclass: "stack-bottomright",
-						text:     getErrorString( response )
-					}
-				);
 			}
 		);
 	};
 	$scope.promptForNew = function() {
+        $scope.currentGroupId = '';
 		$scope.action = "Create";
 		$scope.group = {apps: []};
 		$( '#save_button' ).show();
@@ -145,6 +131,7 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 	$scope.showDetails = function() {
 		$scope.action = "Update";
 		$scope.group = this.group;
+        $scope.currentGroupId = $scope.group.id;
 		$( '#save_button' ).hide();
 		$( '#update_button' ).show();
 		$( "tr.info" ).removeClass( 'info' );

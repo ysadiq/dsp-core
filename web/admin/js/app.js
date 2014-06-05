@@ -144,13 +144,14 @@ angular.module(
                             return $q.reject(response);
                         }
                         else {
-                            $.pnotify(
-                                {
-                                    title: "Error",
-                                    type: 'error',
-                                    text: getErrorString(response)
-                                }
-                            );
+                            $(function(){
+                                new PNotify({
+                                    title: 'API Error',
+                                    text: getErrorString(response),
+                                    type: 'error'
+                                });
+                            });
+
                             return $q.reject(response);
                         }
                     }
@@ -253,7 +254,7 @@ angular.module(
 ).factory(
     'Service',function ($resource) {
         return $resource(
-            '/rest/system/service/:id/?app_name=admin&fields=*', {}, {
+            "/rest/system/service/:id/?app_name=admin&fields=*&filter=type!='Local Portal Service'", {}, {
                 update: {
                     method: 'PUT'
                 },
