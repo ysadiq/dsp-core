@@ -133,9 +133,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "73e3e8163bd79d0edd43c757b2539b88e6c3a46c"
+                "reference": "aad40b0f008cf21bf7274d5154865c1ddc6e0195"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/73e3e8163bd79d0edd43c757b2539b88e6c3a46c",
-                "reference": "73e3e8163bd79d0edd43c757b2539b88e6c3a46c",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/aad40b0f008cf21bf7274d5154865c1ddc6e0195",
+                "reference": "aad40b0f008cf21bf7274d5154865c1ddc6e0195",
                 "shasum": ""
             },
             "require": {
@@ -367,9 +367,9 @@
                 "dreamfactory/azure-sdk-for-php": "dev-develop as dev-master",
                 "dreamfactory/javascript-sdk": "~1.0",
                 "dreamfactory/lib-php-common": "~1.5@dev",
-                "dreamfactory/lib-php-common-yii": "~1.4@dev",
+                "dreamfactory/lib-php-common-yii": "~1.5@dev",
                 "dreamfactory/oasys": "~0.4@dev",
-                "dreamfactory/yii": "1.1.13",
+                "dreamfactory/yii": "~1.1.13.1",
                 "jeremeamia/superclosure": "*",
                 "kisma/kisma": "~0.2.44@dev",
                 "pear-pear.php.net/http_request2": "*",
@@ -422,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-04 16:06:25"
+            "time": "2014-06-05 16:17:00"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -430,18 +430,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "45f86d02ad37a06d47dc178ad01b814d79060516"
+                "reference": "a0effbe7ce79833384c1cb13941f83ceacf14cd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/45f86d02ad37a06d47dc178ad01b814d79060516",
-                "reference": "45f86d02ad37a06d47dc178ad01b814d79060516",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/a0effbe7ce79833384c1cb13941f83ceacf14cd7",
+                "reference": "a0effbe7ce79833384c1cb13941f83ceacf14cd7",
                 "shasum": ""
             },
             "require": {
                 "dreamfactory/lib-php-common": "~1.5.0@dev",
-                "dreamfactory/yii": "1.1.13",
-                "kisma/kisma": "~0.2@dev",
+                "dreamfactory/yii": "~1.1.13.1",
+                "kisma/kisma": "~0.2.44@stable",
                 "php": ">=5.3.18"
             },
             "require-dev": {
@@ -493,7 +493,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-05-29 22:08:51"
+            "time": "2014-06-05 16:03:47"
         },
         {
             "name": "dreamfactory/oasys",
@@ -547,16 +547,16 @@
         },
         {
             "name": "dreamfactory/yii",
-            "version": "1.1.13",
+            "version": "1.1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "af4b63409222cbf5e23c9c18ca21fdd67afe76b6"
+                "reference": "6c0dabc38eee78fe9d018add20ce8e1efc066195"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/af4b63409222cbf5e23c9c18ca21fdd67afe76b6",
-                "reference": "af4b63409222cbf5e23c9c18ca21fdd67afe76b6",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/6c0dabc38eee78fe9d018add20ce8e1efc066195",
+                "reference": "6c0dabc38eee78fe9d018add20ce8e1efc066195",
                 "shasum": ""
             },
             "require": {
@@ -623,7 +623,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-02-24 17:33:55"
+            "time": "2014-06-05 15:21:23"
         },
         {
             "name": "guzzle/guzzle",
