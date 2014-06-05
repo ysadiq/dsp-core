@@ -320,9 +320,9 @@
 /*}*/
 
 
-/*#schema-main {*/
-	/*height: 300px;*/
-/*}*/
+#schema-main {
+	height: 200px;
+}
 
 #parameter-grid {
 	height:       200px;

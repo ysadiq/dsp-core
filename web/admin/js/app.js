@@ -26,9 +26,17 @@ var container = $("#container");
  */
 angular.module(
         "AdminApp", [
-            "ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk"
+            "ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
         ]
-    ).config(
+    )
+    .constant("DSP_URL", "http://localhost")
+    .constant("API_KEY", "admin")
+    .config(
+        function($httpProvider, API_KEY){
+            $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
+        }
+    )
+    .config(
         [
             '$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
 
