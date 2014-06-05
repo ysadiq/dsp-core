@@ -49,7 +49,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
             prefix:"pqsql:"
         }];
     Scope.promptForNew = function() {
-
+        Scope.currentServiceId = '';
 		Scope.action = "Create";
 		$( '#step1' ).show();
 		Scope.service = {};
@@ -544,6 +544,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 
 		//$("#swagger, #swagger iframe, #swagctrl").hide();
 		Scope.service = angular.copy( this.service );
+        Scope.currentServiceId = Scope.service.id;
 		if ( Scope.service.type.indexOf( "Email Service" ) != -1 ) {
 			Scope.service.type = "Email Service";
 			if ( Scope.service.storage_type == "smtp" ) {

@@ -17,7 +17,7 @@
     <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
     <ul id="resource-list" class="list-group">
         <li ng-click="showDetails()" class="list-group-item"
-            ng-repeat="service in Services.record | filter:searchText" id="row_{{service.id}}">
+            data-ng-class="service.id === currentServiceId ? 'active' : ''" ng-repeat="service in Services.record | filter:searchText" id="row_{{service.id}}">
             <span class="user-name">{{service.name}}</span>
 
             <div class="btn-group btn-group-sm pull-right">
