@@ -373,9 +373,9 @@ var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
     $scope.dbTables = {};
     $scope.currentService = "";
     $scope.options = {
-        service : "",
-        table : "",
-        url : "",
+        service : "user",
+        table : "df-user",
+        url : DSP_URL + "/rest/system/user",
         defaultFields : {
             id : true
         }
