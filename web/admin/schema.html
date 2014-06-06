@@ -1,57 +1,50 @@
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading resource-header"><strong>Manage Schema</strong>
-
-        <div id="app-buttons" class="btn-group btn-group-sm pull-right">
-
-            <button ng-click="showJSON()" class="btn btn-default">
-                <span class="icon-upload-alt"></span>
-                Import JSON Schema
-            </button>
-            <button ng-click="showForm()" class="btn btn-default">
-                <span class="icon-plus-sign-alt"></span>
-                Create New Table
-            </button>
-        </div>
-    </div>
-<table id="resource-container">
+<table style="width:100%">
     <tr>
-        <td>
-            <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
-            <ul id="resource-list" class="list-group">
-                <li ng-click="showSchema()" data-ng-class="table.name === currentTable ? 'active' : ''" class="list-group-item"
-                    ng-repeat="table in schemaData | filter:searchText" id="row_{{table.name}}">
-                    <span class="user-name">{{table.name}}</span>
-            <span class="btn-group btn-group-sm">
+        <td id="item-list" class="well">
+            <div id="grid-table">
+                <table id="app-list" class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Table</th>
 
-                                      <button class="btn btn-default" title="Delete this table"
-                                              ng-click="delete()"><i
-                                              class="icon-trash"></i>
-                                      </button>
-            </span>
+                        <th class="no-border"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
+                    <tr ng-repeat="table in schemaData" id="row_{{table.name}}">
+                        <td ng-click="showSchema()">{{table.name}}</td>
+                        <td class="no-border">
+                            <a class="btn btn-small btn-inverse" title="Delete this table" ng-click="delete()"><i class="icon-trash"></i></a>
+                        </td>
+                    </tr>
 
-                </li>
-            </ul>
+                    </tbody>
+                </table>
+            </div>
         </td>
-
-
         <td>&nbsp;</td>
-        <td id="app-details" >
-
+        <td id="app-details" class="well">
+            <div class="navbar">
+                <div class="navbar-inner"><div class="brand">Manage Schema</div>
+                    <div class="btn-group pull-right">
+                        <a ng-click="showJSON()" class="btn btn-small">
+                            <li class="icon-upload-alt"></li>
+                            Import JSON Schema
+                        </a><a ng-click="showForm()" class="btn btn-small">
+                        <li class="icon-plus-sign-alt"></li>
+                        Create New Table</a>
+                    </div>
+                </div>
+            </div>
             <div>
+                <div class="detail-view">
                     <div id="grid-container">
                         <div class="alert alert-info">
                             <li class="icon-info-sign"></li>
                             &nbsp;Add or Delete fields from your database schema below. The first row is used to add a new field.
                         </div>
                         <div id="schema-main" ng-grid="browseOptions"></div>
-                        <input type="checkbox" data-ng-model="show_json">&nbspShow JSON Schema<br/>
-                        <div data-ng-show="show_json">
-                            <textarea  data-ng-model = "editableSchema" rows="20" cols="50" style="height:300px;"></textarea>
-                            <button class="btn btn-primary">Update Schema</button>
-                        </div>
-
                     </div>
                     <div id="create-form">
                         <div class="alert alert-info">
@@ -123,6 +116,7 @@
 
 
 
+                </div>
                 <div id="json_upload" style="display:none;">
                     <style>
                         body {
@@ -170,4 +164,4 @@
         </td>
     </tr>
 </table>
-</div>
+

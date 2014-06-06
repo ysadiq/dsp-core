@@ -48,11 +48,16 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 		{value: "timestamp_on_create", text: "timestamp_on_create"},
 		{value: "timestamp_on_update", text: "timestamp_on_update"}
 	];
+	var booleanTemplate = '<select class="ngCellText"  ng-class="col.colIndex()" ng-options="option.value as option.text for option in booleanOptions" ng-model="row.entity[col.field]" ng-change="enableSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
+	var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSchemaSave()" />';
 	var schemaInputTemplate = '<input class="ngCellText" ng-class="\'colt\' + col.index" data-ng-input="COL_FIELD" data-ng-model="COL_FIELD"  data-ng-change="enableSchemaSave()" />';
-	var schemaButtonTemplate = '<div ><button id="add_{{row.rowIndex}}" class="btn btn-sm btn-primary"  ng-show="this.row.entity.new" ng-click="schemaAddField()"><li class="icon-save"></li></button>' +
-							   '<button id="save_{{row.rowIndex}}" ng-show="!this.row.entity.new" class="btn btn-sm btn-primary"  ng-click="schemaUpdateField()"><li class="icon-save"></li></button>' +
-							   '<button class="btn btn-sm btn-danger" ng-show="!this.row.entity.new" ng-click="schemaDeleteField()"><li class="icon-remove"></li></button>' +
-							   '<button class="btn btn-sm btn-danger" ng-show="this.row.entity.new"  ng-click="schemaDeleteField(true)"><li class="icon-remove"></li></button></div>';
+	var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
+	var buttonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-disabled="!this.row.entity.id" ng-click="deleteRow()"><li class="icon-remove"></li></button></div>';
+	var schemaButtonTemplate = '<div ><button id="add_{{row.rowIndex}}" class="btn btn-small btn-primary"  ng-show="this.row.entity.new" ng-click="schemaAddField()"><li class="icon-save"></li></button>' +
+							   '<button id="save_{{row.rowIndex}}" ng-show="!this.row.entity.new" class="btn btn-small btn-inverse"  ng-click="schemaUpdateField()"><li class="icon-save"></li></button>' +
+							   '<button class="btn btn-small btn-danger" ng-show="!this.row.entity.new" ng-click="schemaDeleteField()"><li class="icon-remove"></li></button>' +
+							   '<button class="btn btn-small btn-danger" ng-show="this.row.entity.new"  ng-click="schemaDeleteField(true)"><li class="icon-remove"></li></button></div>';
+	// var typeTemplate = '<select class="ngCellText" ng-class="col.colIndex()" ng-options="option.value as option.text for option in typeOptions" ng-model="row.entity[col.field]" ng-change="enableSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
 	var typeTemplate = '<select class="ngCellText"  ng-class="col.colIndex()" ng-options="option.value as option.text for option in typeOptions" ng-model="row.entity[col.field]" data-ng-change="enableSchemaSave()">{{COL_FIELD CUSTOM_FILTERS}}</select>';
 	Scope.columnDefs = [];
 	Scope.browseOptions = {};
@@ -64,7 +69,6 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 		}
 	);
 	Scope.showForm = function() {
-        Scope.currentTable = '';
 		$( "#grid-container" ).hide();
 		$( "#json_upload" ).hide();
 		$( ".detail-view" ).show();
@@ -81,11 +85,9 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 		Scope.tableData = [];
 		Scope.columnDefs = [];
 		Scope.currentSchema = [];
-        Scope.currentTable = this.table.name;
 		Schema.get(
 			{ name: this.table.name }, function( data ) {
 				Scope.tableSchema = data;
-                Scope.editableSchema = JSON.stringify(Scope.tableSchema, null, "  " );
 				var saveColumn = {};
 				saveColumn.field = '';
 				saveColumn.enableCellEdit = false;
@@ -252,8 +254,7 @@ var SchemaCtrl = function( $scope, Schema, DB, $http ) {
 		}
 	};
 	Scope.showJSON = function() {
-        $( "#create-form" ).hide();
-        $( "#grid-container" ).hide();
+		$( ".detail-view" ).hide();
 		$( "#json_upload" ).show();
 	};
 	Scope.postJSON = function() {

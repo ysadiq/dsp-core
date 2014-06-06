@@ -134,13 +134,13 @@ var ConfigCtrl = function( $scope, Config, Role, EmailTemplates, Service ) {
 			data, function( response ) {
 
 				$scope.Config.lookup_keys = angular.copy( response.lookup_keys );
-//				$.pnotify(
-//					{
-//						title: 'Configuration',
-//						type:  'success',
-//						text:  'Updated Successfully'
-//					}
-//				);
+				$.pnotify(
+					{
+						title: 'Configuration',
+						type:  'success',
+						text:  'Updated Successfully'
+					}
+				);
 			}
 		);
 	};
