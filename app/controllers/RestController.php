@@ -166,17 +166,25 @@ class RestController extends BaseFactoryController
     /**
      * {@InheritDoc}
      */
-    public function actionMerge()
+    public function actionPut()
     {
-        $this->_handleAction( HttpMethod::MERGE );
+        $this->_handleAction( HttpMethod::PUT );
     }
 
     /**
      * {@InheritDoc}
      */
-    public function actionPut()
+    public function actionPatch()
     {
-        $this->_handleAction( HttpMethod::PUT );
+        $this->_handleAction( HttpMethod::PATCH );
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    public function actionMerge()
+    {
+        $this->_handleAction( HttpMethod::MERGE );
     }
 
     /**
