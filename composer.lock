@@ -273,9 +273,9 @@
             ],
             "authors": [
                 {
-                    "name": "Jason Sykes",
+                    "name": "Sykes, Jason",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Javascript SDK",
@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "0175aa0352e5690dc13f4a0f5b5703b55b5ad179"
+                "reference": "8eacab3712730b3fde7abbe8d972948097dc2271"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/0175aa0352e5690dc13f4a0f5b5703b55b5ad179",
-                "reference": "0175aa0352e5690dc13f4a0f5b5703b55b5ad179",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/8eacab3712730b3fde7abbe8d972948097dc2271",
+                "reference": "8eacab3712730b3fde7abbe8d972948097dc2271",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-05 21:06:53"
+            "time": "2014-06-06 19:55:51"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1582,7 +1582,9 @@
             "time": "2013-08-05 19:13:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 20,
@@ -1592,5 +1594,7 @@
     "platform": {
         "php": ">=5.3.18"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
