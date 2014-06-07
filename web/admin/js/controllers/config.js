@@ -109,23 +109,24 @@ var ConfigCtrl = function( $scope, Config, Role, EmailTemplates, Service ) {
 	};
 	$scope.save = function() {
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Configuration',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Configuration',
+                    type:  'error',
+                    text:  'Empty key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Configuration',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Configuration',
+                    type:  'error',
+                    text:  'Duplicate key names are not allowed.'
+                });
+            });
 			return;
 		}
 		var data = angular.copy( $scope.Config );
@@ -134,13 +135,13 @@ var ConfigCtrl = function( $scope, Config, Role, EmailTemplates, Service ) {
 			data, function( response ) {
 
 				$scope.Config.lookup_keys = angular.copy( response.lookup_keys );
-//				$.pnotify(
-//					{
-//						title: 'Configuration',
-//						type:  'success',
-//						text:  'Updated Successfully'
-//					}
-//				);
+                $(function(){
+                    new PNotify({
+                        title: 'Configuration',
+                        text: 'Updated Successfully',
+                        type: 'success'
+                    });
+                });
 			}
 		);
 	};

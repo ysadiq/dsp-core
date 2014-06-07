@@ -7,7 +7,7 @@
 
 
     <div id="config-form">
-    <div class="section versions">
+    <div class="section versions text-primary">
         <b>Database Version:</b>&nbsp;&nbsp;{{Config.db_version}}<br/>
         <b>DSP Version:</b>&nbsp;&nbsp;{{Config.dsp_version}}
                     <span ng-show="Config.upgrade_available===false">
@@ -19,9 +19,10 @@
             <button ng-click="upgrade()" class="btn btn-success">Upgrade Now</button>
         </div>
     </div>
-    <div class="section">
-        <h5>CORS Access</h5>
-        <label>Choose which hosts have cross domain access to your DSP</label>
+    <br/>
+    <div class="form-group">
+        <h3>CORS Access&nbsp;<br/><small>Choose which hosts have cross domain access to your DSP</small></h3>
+        <br/>
         <button ng-click="promptForNew()" class="btn btn-success">
             <li class="icon-add"></li>
             Add New Host
@@ -42,7 +43,7 @@
                 <td>
                     <li ng-click="removeHost()" class="btn btn-danger icon-remove"></li>
                 </td>
-                <td><input placeholder="Enter Host Name" type="text" ng-model="host.host"/></td>
+                <td><input class="form-control" placeholder="Enter Host Name" type="text" ng-model="host.host"/></td>
                 <td>
                     <label><input ng-click="selectAll($event)" ng-checked="host.verbs.length == allVerbs.length"
                                   type="checkbox"/>&nbsp;ALL</li></label>
@@ -62,24 +63,19 @@
         <!--<input type="text" placeholder="Enter Host Name" ng-model="CORS.host.name"/>-->
         <!--<button cls="btn btn-primary" ng-click="addHost()">Add Host</button>-->
     </div>
-    <div class="section">
-        <h5>Guest Users</h5>
-
-        <div class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            &nbsp;If enabled, the DSP is available with no sign-in required and all guest users will be
-            assigned the selected role. If disabled, sign-in is required.
-        </div>
+    <div class="form-group">
+        <h3>Guest Users <br/><small>If enabled, the DSP is available with no sign-in required and all guest users will be
+            assigned the selected role. If disabled, sign-in is required.</small></h3>
         <input type="checkbox" ng-checked="Config.allow_guest_user" ng-model="Config.allow_guest_user"/>&nbsp;&nbsp;Allow
         guest users
         <br/>
         <br/>
 
         <div>
-            <p>Assign a Role for Guest Users</p>
+            <label>Assign a Role for Guest Users</label>
 
             <div>
-                <select data-ng-disabled="!Config.allow_guest_user"
+                <select class="form-control" data-ng-disabled="!Config.allow_guest_user"
                         data-ng-model="Config.guest_role_id"
                         data-ng-options="role.id as role.name for role in Roles.record"
                         data-ng-selected="Config.guest_role_id">
@@ -88,24 +84,21 @@
             </div>
         </div>
     </div>
-    <div class="section">
-        <h5>Open Registration</h5>
+    <div class="form-group">
+        <h3>Open Registration <br/><small>If enabled, new users can add themselves as users to this DSP and will be assigned the
+            selected role. If disabled, only an admin can add new users to this DSP.</small></h3>
 
-        <div class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            &nbsp;If enabled, new users can add themselves as users to this DSP and will be assigned the
-            selected role. If disabled, only an admin can add new users to this DSP.
-        </div>
+
         <input type="checkbox" ng-checked="Config.allow_open_registration"
                ng-model="Config.allow_open_registration"/>&nbsp;&nbsp;Allow open registration
         <br/>
         <br/>
 
         <div>
-            <p>Assign default role for open registration users</p>
+            <label>Assign default role for open registration users</label>
 
             <div>
-                <select data-ng-disabled="!Config.allow_open_registration"
+                <select class="form-control" data-ng-disabled="!Config.allow_open_registration"
                         data-ng-model="Config.open_reg_role_id"
                         data-ng-options="role.id as role.name for role in Roles.record"
                         data-ng-selected="Config.open_reg_role_id">
@@ -114,10 +107,10 @@
             </div>
         </div>
         <div>
-            <p>Select an email service if you want to require email confirmation for open registration</p>
+            <label>Select an email service if you want to require email confirmation for open registration</label>
 
             <div>
-                <select data-ng-disabled="!Config.allow_open_registration"
+                <select class="form-control" data-ng-disabled="!Config.allow_open_registration"
                         data-ng-model="Config.open_reg_email_service_id"
                         data-ng-options="svc.id as svc.name for svc in Service.record | filter: {type:'email'}"
                         data-ng-selected="Config.open_reg_email_service_id">
@@ -126,10 +119,10 @@
             </div>
         </div>
         <div>
-            <p>Optionally select an email template for open registration</p>
+            <label>Optionally select an email template for open registration</label>
 
             <div>
-                <select data-ng-disabled="!Config.allow_open_registration || !Config.open_reg_email_service_id"
+                <select class="form-control" data-ng-disabled="!Config.allow_open_registration || !Config.open_reg_email_service_id"
                         data-ng-model="Config.open_reg_email_template_id"
                         data-ng-options="template.id as template.name for template in emailTemplates.record"
                         data-ng-selected="Config.open_reg_email_template_id">
@@ -139,18 +132,15 @@
         </div>
     </div>
     <div class="section">
-        <h5>User Invite</h5>
+        <h3>User Invite <br/><small>To enable user invites via email services, select an email service and template below. Leave it set to
+            --None-- to disable user invites via email.</small></h3>
 
-        <div class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            &nbsp;To enable user invites via email services, select an email service and template below. Leave it set to
-            --None-- to disable user invites via email.
-        </div>
+
         <div>
-            <p>Select an email service for user invites</p>
+            <label>Select an email service for user invites</label>
 
             <div>
-                <select data-ng-model="Config.invite_email_service_id"
+                <select class="form-control" data-ng-model="Config.invite_email_service_id"
                         data-ng-options="svc.id as svc.name for svc in Service.record | filter: {type:'email'}"
                         data-ng-selected="Config.invite_email_service_id">
                     <option value="">- - None - -</option>
@@ -158,10 +148,10 @@
             </div>
         </div>
         <div>
-            <p>Optionally select an email template for user invites</p>
+            <label>Optionally select an email template for user invites</label>
 
             <div>
-                <select data-ng-disabled="!Config.invite_email_service_id"
+                <select class="form-control" data-ng-disabled="!Config.invite_email_service_id"
                         data-ng-model="Config.invite_email_template_id"
                         data-ng-options="template.id as template.name for template in emailTemplates.record"
                         data-ng-selected="Config.invite_email_template_id">
@@ -171,18 +161,13 @@
         </div>
     </div>
     <div class="section">
-        <h5>Password Reset</h5>
-
-        <div class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            &nbsp;To enable password reset via email confirmation, select an email service and template below. Leave it set
-            to --None-- to disable password resets via email and use security question/answer.
-        </div>
+        <h3>Password Reset <br/><small>o enable password reset via email confirmation, select an email service and template below. Leave it set
+            to --None-- to disable password resets via email and use security question/answer.</small></h3>
         <div>
-            <p>Select an email service for password reset email confirmation</p>
+            <label>Select an email service for password reset email confirmation</label>
 
             <div>
-                <select data-ng-model="Config.password_email_service_id"
+                <select class="form-control" data-ng-model="Config.password_email_service_id"
                         data-ng-options="svc.id as svc.name for svc in Service.record | filter: {type:'email'}"
                         data-ng-selected="Config.password_email_service_id">
                     <option value="">- - None - -</option>
@@ -190,10 +175,10 @@
             </div>
         </div>
         <div>
-            <p>Optionally select an email template for password reset</p>
+            <label>Optionally select an email template for password reset</label>
 
             <div>
-                <select data-ng-disabled="!Config.password_email_service_id"
+                <select class="form-control" data-ng-disabled="!Config.password_email_service_id"
                         data-ng-model="Config.password_email_template_id"
                         data-ng-options="template.id as template.name for template in emailTemplates.record"
                         data-ng-selected="Config.password_email_template_id">
@@ -203,19 +188,15 @@
         </div>
     </div>
     <!-- Add email template section -->
-    <div class="section">
-        <h5>Email Templates</h5>
+    <div class="form-inline">
+        <h3>Email Templates <br/><small>Create a new email template or modify an existing one.</small></h3>
 
-        <div class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            &nbsp;Create a new email template or modify an existing one.
-        </div>
-        <select
+        <select class="form-control"
                 data-ng-model="selectedEmailTemplateId"
                 data-ng-options="email.id as email.name for email in emailTemplates.record | filter: emailTemplatesFilter">
             <option value="">- - Select a template - -</option>
         </select>
-        <input data-ng-model="emailTemplatesFilter" type="text" placeholder="Filter By Name"/>
+        <input class="form-control" data-ng-model="emailTemplatesFilter" type="text" placeholder="Filter By Name"/>
 
         <div class="btn-group pull-right">
             <button type="button" class="btn" data-ng-click="newEmailTemplate()">New</button>
@@ -225,6 +206,8 @@
                 Delete
             </button>
         </div>
+        <br/>
+        <br/>
         <form novalidate>
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" style="margin-right: 0">
@@ -371,7 +354,7 @@
         </form>
     </div>
     <div class="section limit-big-list">
-        <p>Global Lookup Keys</p>
+        <h3>Global Lookup Keys</h3>
         <table class="table table-hover table-striped field-list">
             <thead>
             <tr>
@@ -380,9 +363,9 @@
                 <th style="width:35px;">Private</th>
                 <th class="no-border">
                     <div class="btn-group pull-left">
-                        <a class="btn btn-small btn-inverse" ng-click="newKey()">
-                            <i class="icon-plus"/>
-                        </a>
+                        <button class="btn btn-sm" ng-click="newKey()">
+                            <span class="icon-plus"></span>
+                        </button>
                     </div>
                 </th>
             </tr>
@@ -402,9 +385,9 @@
                 </td>
                 <td class="no-border">
                     <div class="btn-group pull-left">
-                        <a class="btn btn-small btn-inverse" ng-click="removeKey()">
-                            <i class="icon-trash"></i>
-                        </a>
+                        <button class="btn btn-sm" ng-click="removeKey()">
+                            <span class="icon-trash"></span>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -416,7 +399,7 @@
         </p>
     </div>
     <br/>
-    <button ng-click="save()" class="btn btn-primary">Save</button>
+    <button ng-click="save()" class="btn btn-primary">Save Configuration</button>
     </div>
 
 
