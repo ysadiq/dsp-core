@@ -584,11 +584,7 @@ html, body, #container {
 	cursor:           pointer;
 }
 
-.form-actions {
-	margin-top: 1px;
-	text-align: right;
-	width:      764px;
-}
+
 
 .search-box {
 	padding:   5px;
@@ -617,26 +613,6 @@ html, body, #container {
 
 }
 
-/*div.alert {*/
-	/*margin-right:  10px;*/
-	/*padding-right: 14px;*/
-/*}*/
-
-/*div.alert > i.icon {*/
-	/*margin:  -3px 12px -4px -3px;*/
-	/*display: inline-block;*/
-	/*float:   left;*/
-	/*padding: 0 0 2px;*/
-/*}*/
-
-/*div.alert > p {*/
-	/*display: inline-block;*/
-	/*float:   left;*/
-/*}*/
-
-/*div.alert > p:nth-child(2) {*/
-	/*margin-top: 3px;*/
-/*}*/
 #sidebar{
     vertical-align: top;
     padding:5px;

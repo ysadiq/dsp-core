@@ -289,13 +289,13 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 				updateByAttr( Scope.Services.record, 'id', id, data );
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Updated Successfully");
-				$.pnotify(
-					{
-						title: 'Services',
-						type:  'success',
-						text:  'Updated Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Services',
+                        type:  'success',
+                        text:  'Updated Successfully.'
+                    });
+                });
 
 			}
 		);
@@ -388,14 +388,13 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			Scope.service, function( data ) {
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Created Successfully");
-
-				$.pnotify(
-					{
-						title: 'Services',
-						type:  'success',
-						text:  'Created Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Services',
+                        type:  'success',
+                        text:  'Created Successfully.'
+                    });
+                });
 				Scope.Services.record.push( data );
 			}
 		);
@@ -517,13 +516,13 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			{ id: id }, function() {
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Deleted Successfully");
-				$.pnotify(
-					{
-						title: 'Services',
-						type:  'success',
-						text:  'Deleted Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Services',
+                        type:  'success',
+                        text:  'Deleted Successfully.'
+                    });
+                });
 
 				$( "#row_" + id ).fadeOut();
 			}

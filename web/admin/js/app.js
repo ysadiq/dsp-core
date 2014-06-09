@@ -126,8 +126,19 @@ angular.module(
             $routeProvider.when(
                 '/scripts', {
                     controller: ScriptCtrl,
-                    templateUrl: 'scripts.html'
+                    templateUrl: 'scripts.html',
+                    resolve : {
+                        getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                filter: 'type_id in (4,16,4100)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
+                    }
                 }
+
             );
             $routeProvider.when(
                 '/api', {
