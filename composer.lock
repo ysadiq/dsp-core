@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "062c409bbcb1f691de88487cafeeee38",
     "packages": [
@@ -353,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "8eacab3712730b3fde7abbe8d972948097dc2271"
+                "reference": "17e707b79f8765ddac25bf0396077b894d37bdec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/8eacab3712730b3fde7abbe8d972948097dc2271",
-                "reference": "8eacab3712730b3fde7abbe8d972948097dc2271",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/17e707b79f8765ddac25bf0396077b894d37bdec",
+                "reference": "17e707b79f8765ddac25bf0396077b894d37bdec",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-06 19:55:51"
+            "time": "2014-06-06 20:10:44"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1159,10 +1160,10 @@
         },
         {
             "name": "pear-pear.php.net/XML_Util",
-            "version": "1.2.1",
+            "version": "1.2.3",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/XML_Util-1.2.1.tgz",
+                "url": "http://pear.php.net/get/XML_Util-1.2.3.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -1171,7 +1172,7 @@
                 "php": ">=4.3.0.0"
             },
             "replace": {
-                "pear-pear/xml_util": "== 1.2.1.0"
+                "pear-pear/xml_util": "== 1.2.3.0"
             },
             "type": "pear-library",
             "autoload": {
