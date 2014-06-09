@@ -473,12 +473,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 	};
 
 	Scope.showSwagger = function() {
-		//$rootScope.loadSwagger(this.service.api_name)
-		Scope.$broadcast( 'swagger:on', this.service.api_name );
-		Scope.action = "Explore ";
-		$( '#step1' ).hide();
-		$( '#file-manager' ).hide();
-		$( "#button_holder" ).hide();
+		window.open(CurrentServer + "/swagger/#!/" + this.service.api_name, "swagger" )
 	};
 
 	Scope.showEmailFields = function() {
@@ -766,26 +761,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 		}
 	};
 	Scope.showFileManager = function() {
-//		Scope.action = "Edit Files for this";
-//		$( "#file-manager" ).find( "iframe" ).css( 'height', $( window ).height() - 200 ).attr(
-//			"src", CurrentServer + '/filemanager/?path=/' + this.service.api_name + '/&allowroot=false'
-//		).show();
-//		$( '#step1' ).hide();
-//		$( "#button_holder" ).hide();
-//        $('#app-preview').hide();
-//        $('#create_button').hide();
-//        $('#update_button').hide();
         window.open(CurrentServer + "/filemanager/?path=/" + this.service.api_name + "/&allowroot=false", "files-root");
-		//$( "#file-manager" ).show();
-//        var container;
-//        if(this.app.storage_service_id){
-//            container = this.app.storage_container || null;
-//            container = container? this.app.storage_container + "/" : '';
-//            $("#file-manager iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/?path=/' + Scope.storageContainers[this.app.storage_service_id].name + '/' + container + this.app.api_name + '/&allowroot=false').show();
-//        }else{
-//            $("#file-manager iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/?path=/app/applications/' + this.app.api_name + '/&allowroot=false').show();
-//        }
-
 	};
 	$( "#param-value" ).keyup(
 		function( event ) {
@@ -808,6 +784,6 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			Scope.promptForNew();
 		}
 	);
-	$( "#swagger, #swagger iframe" ).hide();
+	//$( "#swagger, #swagger iframe" ).hide();
 	Scope.promptForNew();
 };
