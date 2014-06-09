@@ -16,17 +16,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
+var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices) {
     Scope = $scope;
     var editor;
     (
         function () {
-            DB.get().$promise.then(
-                function (response) {
-                    $scope.tables = response.resource;
-                    $scope.buildEventList();
-                }
-            )
+            $scope.tables = [];
+            $scope.dataServices = getDataServices.data.record;
+            //$scope.dataServiceNames = [];
+            $scope.dataServices.forEach(function(service){
+                $scope.tables[service.api_name] = [];
+                $http.get(CurrentServer + "/rest/" + service.api_name)
+                    .then(function(response){
+                        response.data.resource.forEach(function(table){
+                        $scope.tables[service.api_name].push(table);
+                    });
+                });
+            });
+
             $scope.Config = Config.get(
                 function (response) {
                     if (response.is_private || !response.is_hosted) {
@@ -38,65 +45,65 @@ var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
                     }
                 }
             );
-            //get ALL events
-
             $scope.buildEventList = function () {
                 Event.get({"all_events": "true"}).$promise.then(
                     function (response) {
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
-                            if (event.name === "db") {
-                                $scope.tables.forEach(
+
+                            if(Object.keys($scope.tables).indexOf(event.name) != '-1'){
+                                $scope.tables[event.name].forEach(
                                     function (table) {
+                                        //console.log("table=" + table);
                                         var newPath = {};
-                                        newPath.path = "/db/" + table.name;
+                                        newPath.path = "/" + event.name +"/" + table.name;
                                         newPath.verbs = [
                                             {"type": "get",
-                                                "event": ["db." + table.name + ".select"
+                                                "event": [event.name + "." + table.name + ".select"
                                                 ]},
                                             {
                                                 "type":"get",
-                                                "event" : ["db." + table.name + ".get.pre_process"]
+                                                "event" : [event.name + "." + table.name + ".get.pre_process"]
                                             },
                                             {
                                                 "type":"get",
-                                                "event" : ["db." + table.name + ".get.post_process"]
+                                                "event" : [event.name + "." + table.name + ".get.post_process"]
                                             },
                                             {"type": "put",
                                                 "event": [
-                                                    "db." + table.name + ".update"
+                                                    event.name + "." + table.name + ".update"
                                                 ]},
                                             {
                                                 "type":"put",
-                                                "event" : ["db." + table.name + ".put.pre_process"]
+                                                "event" : [event.name + "." + table.name + ".put.pre_process"]
                                             },
                                             {
                                                 "type":"put",
-                                                "event" : ["db." + table.name + ".put.post_process"]
+                                                "event" : [event.name + "." + table.name + ".put.post_process"]
                                             },
                                             {"type": "post",
                                                 "event": [
-                                                    "db." + table.name + ".insert"
+                                                    event.name + "." + table.name + ".insert"
                                                 ]},
                                             {
                                                 "type":"post",
-                                                "event" : ["db." + table.name + ".post.pre_process"]
+                                                "event" : [event.name + "." + table.name + ".post.pre_process"]
                                             },
                                             {
                                                 "type":"post",
-                                                "event" : ["db." + table.name + ".post.post_process"]
+                                                "event" : [event.name + "." + table.name + ".post.post_process"]
                                             },
                                             {"type": "delete",
                                                 "event": [
-                                                    "db." + table.name + ".delete"
+                                                    event.name + "." + table.name + ".delete"
                                                 ]},
                                             {
                                                 "type":"delete",
-                                                "event" : ["db." + table.name + ".delete.pre_process"]
+                                                "event" : [event.name + "." + table.name + ".delete.pre_process"]
                                             },
                                             {
                                                 "type":"delete",
-                                                "event" : ["db." + table.name + ".delete.post_process"]
+                                                "event" : [event.name + "." + table.name + ".delete.post_process"]
                                             }
                                         ];
                                         event.paths.push(newPath);
@@ -118,6 +125,9 @@ var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
 
                                 });
                             }
+                            //console.log(event);
+
+
 
 
                             //
@@ -128,7 +138,7 @@ var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
                 );
             };
 
-
+            $scope.buildEventList();
         }()
         );
 
