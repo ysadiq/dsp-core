@@ -679,6 +679,9 @@ html, body, #container {
     padding:0;
     border-radius: 4px;
 }
+#navigation li.active > a:focus{
+    outline:none;
+}
 #main-content{
     padding:5px;
     vertical-align:top;
