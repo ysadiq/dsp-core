@@ -584,11 +584,7 @@ html, body, #container {
 	cursor:           pointer;
 }
 
-.form-actions {
-	margin-top: 1px;
-	text-align: right;
-	width:      764px;
-}
+
 
 .search-box {
 	padding:   5px;
