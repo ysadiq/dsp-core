@@ -29,7 +29,7 @@ angular.module(
             "ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
         ]
     )
-    .constant("DSP_URL", "http://localhost")
+    .constant("DSP_URL", CurrentServer)
     .constant("API_KEY", "admin")
     .config(
         function($httpProvider, API_KEY){
