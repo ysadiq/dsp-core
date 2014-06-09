@@ -766,16 +766,17 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 		}
 	};
 	Scope.showFileManager = function() {
-		Scope.action = "Edit Files for this";
-		$( "#file-manager" ).find( "iframe" ).css( 'height', $( window ).height() - 200 ).attr(
-			"src", CurrentServer + '/filemanager/?path=/' + this.service.api_name + '/&allowroot=false'
-		).show();
-		$( '#step1' ).hide();
-		$( "#button_holder" ).hide();
+//		Scope.action = "Edit Files for this";
+//		$( "#file-manager" ).find( "iframe" ).css( 'height', $( window ).height() - 200 ).attr(
+//			"src", CurrentServer + '/filemanager/?path=/' + this.service.api_name + '/&allowroot=false'
+//		).show();
+//		$( '#step1' ).hide();
+//		$( "#button_holder" ).hide();
 //        $('#app-preview').hide();
 //        $('#create_button').hide();
 //        $('#update_button').hide();
-		$( "#file-manager" ).show();
+        window.open(CurrentServer + "/filemanager/?path=/" + this.service.api_name + "/&allowroot=false", "files-root");
+		//$( "#file-manager" ).show();
 //        var container;
 //        if(this.app.storage_service_id){
 //            container = this.app.storage_container || null;
