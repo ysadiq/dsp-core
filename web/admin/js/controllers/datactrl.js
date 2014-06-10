@@ -380,7 +380,7 @@ var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
             id : true
         }
     };
-
+console.log(getDataServices);
     getDataServices.data.record.forEach(function(service){
         $http.get(DSP_URL + "/rest/" + service.api_name).then(function(response){
             $scope.dbTables[service.api_name] = [];

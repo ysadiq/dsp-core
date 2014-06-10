@@ -627,7 +627,9 @@ html, body, #container {
 #resource-container td{
     vertical-align: top;
     padding:10px;
+
 }
+
 .resource-name{
     width:160px;
     display:inline-block;
@@ -681,4 +683,7 @@ html, body, #container {
 }
 #config-form{
     padding:10px;
+}
+#schema-list{
+    width:300px;
 }

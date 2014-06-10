@@ -26,7 +26,7 @@ var container = $("#container");
  */
 angular.module(
         "AdminApp", [
-            "ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
+            "ngRoute", "ngResource", "ui.bootstrap", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
         ]
     )
     .constant("DSP_URL", CurrentServer)
@@ -73,7 +73,17 @@ angular.module(
             $routeProvider.when(
                 '/schema', {
                     controller: SchemaCtrl,
-                    templateUrl: 'schema.html'
+                    templateUrl: 'schema.html',
+                    resolve : {
+                        getSchemaServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                filter: 'type_id in (8,4104)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
