@@ -125,7 +125,7 @@ angular.module(
 
                             var requestDataObj = {
                                 include_schema: true,
-                                filter: 'type_id in (4,16)'
+                                filter: 'type_id in (4,4100)'
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});

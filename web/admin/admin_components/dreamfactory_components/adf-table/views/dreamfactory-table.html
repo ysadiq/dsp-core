@@ -47,7 +47,7 @@
             data-ng-click="setTab(schema.name + '-config')">Config</a></li>
 </ul>
 
-<div class="tab-content">
+<div class="tab-content" style="overflow-x: scroll;">
 
     <div data-ng-class="activeTab === (schema.name + '-table') ? 'active' : '' " class="tab-pane"
          id="{{schema.name}}-table">
