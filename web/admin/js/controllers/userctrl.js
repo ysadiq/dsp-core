@@ -250,6 +250,7 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
                     $scope.action = "Edit";
                     $scope.user = response;
                     $scope.currentUserId = $scope.user.id;
+                    $scope.passwordEdit = false;
 
 
                 }

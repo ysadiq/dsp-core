@@ -29,25 +29,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
 //		{value: true, text: 'true'},
 //		{value: false, text: 'false'}
 //	];
-//	Scope.typeOptions = [
-//		{value: "id", text: "id"},
-//		{value: "string", text: "string"},
-//		{value: "integer", text: "integer"},
-//		{value: "text", text: "text"},
-//		{value: "boolean", text: "boolean"},
-//		{value: "binary", text: "binary"},
-//		{value: "float", text: "float"},
-//		{value: "decimal", text: "decimal"},
-//		{value: "datetime", text: "datetime"},
-//		{value: "date", text: "date"},
-//		{value: "time", text: "time"},
-//		{value: "reference", text: "reference"},
-//		{value: "user_id", text: "user_id"},
-//		{value: "user_id_on_create", text: "user_id_on_create"},
-//		{value: "user_id_on_update", text: "user_id_on_update"},
-//		{value: "timestamp_on_create", text: "timestamp_on_create"},
-//		{value: "timestamp_on_update", text: "timestamp_on_update"}
-//	];
+
 //	var schemaInputTemplate = '<input class="ngCellText" ng-class="\'colt\' + col.index" data-ng-input="COL_FIELD" data-ng-model="COL_FIELD"  data-ng-change="enableSchemaSave()" />';
 //	var schemaButtonTemplate = '<div ><button id="add_{{row.rowIndex}}" class="btn btn-sm btn-primary"  ng-show="this.row.entity.new" ng-click="schemaAddField()"><li class="icon-save"></li></button>' +
 //							   '<button id="save_{{row.rowIndex}}" ng-show="!this.row.entity.new" class="btn btn-sm btn-primary"  ng-click="schemaUpdateField()"><li class="icon-save"></li></button>' +
@@ -328,25 +310,136 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
 //
 //	}
     Scope = $scope;
+    $scope.typeOptions = [
+        {value: "id"},
+        {value: "string"},
+        {value: "integer"},
+        {value: "text"},
+        {value: "boolean"},
+        {value: "binary"},
+        {value: "float"},
+        {value: "decimal"},
+        {value: "datetime"},
+        {value: "date"},
+        {value: "time"},
+        {value: "reference"},
+        {value: "user_id"},
+        {value: "user_id_on_create"},
+        {value: "user_id_on_update"},
+        {value: "timestamp_on_create"},
+        {value: "timestamp_on_update"}
+    ];
+    var editor;
+    $scope.table = {};
+    $scope.service = {};
+    $scope.advanced = false;
+    var service;
+    editor = ace.edit("schema-editor");
+    editor.getSession().setMode("ace/mode/json");
     $scope.dbServices = getSchemaServices.data.record;
-    console.log($scope.dbServices);
-    $scope.dbServices.forEach(function(service){
-        $http.get(DSP_URL + "/rest/" + service.api_name + "?include_schema=true").then(function(response){
+    //console.log($scope.dbServices);
+    $scope.loadServices = function(){
+        $scope.dbServices.forEach(function(service){
+            $http.get(DSP_URL + "/rest/" + service.api_name + "?include_schema=true").then(function(response){
 
-            service.tables = [];
-            response.data.resource.forEach(function(table){
+                service.tables = [];
+                response.data.resource.forEach(function(table){
 
-                service.tables.push(table);
-            })
-        });
-    })
-    $scope.loadSchema = function(){
-        var table = this.table;
+                    service.tables.push(table);
+                })
+            });
+        })
+    }
+    $scope.loadServices();
+    $scope.loadSchema = function(advanced){
+        $scope.table = this.table;
+        $scope.service = this.service.api_name;
         $http.get(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
             .then(function(response){
-                table.schema = response.resource;
+                $scope.table.schema = response;
+                //console.log(table.schema);
+                if(advanced){
+                    $scope.advanced = true;
+                    editor.setValue(angular.toJson($scope.table.schema.data, true), -1);
+                }else{
+                    $scope.advanced = false;
+                }
+
             })
     }
+    $scope.toggleJSON = function(){
+        if($scope.advanced){
+            $scope.table.schema.data = JSON.parse(editor.getValue());
+            $scope.advanced = false;
+        }else{
+            $scope.advanced = true;
+            editor.setValue(angular.toJson($scope.table.schema.data, true), -1);
+        }
+    }
+    $scope.addColumn = function(){
+       $scope.newColumn = {
+           name : "New Column"
+       }
+       $scope.table.schema.data.field.push($scope.newColumn)
+    }
+    $scope.deleteColumn = function(){
+        console.log(this);
+        if ( !confirm( "Are you sure you want to delete " + this.column.name) ) {
+            return;
+        }
+        $scope.table.schema.data.field.splice(this.$index, 1);
+        $(function(){
+            new PNotify({
+                title: 'Schema',
+                text: 'Column removed from working set, press Update Schema to save changes',
+                type: 'warning'
+            });
+        });
 
+    }
+    $scope.updateJSONSchema = function(){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/" + $scope.table.name, editor.getValue()).then(function(response){
+            $(function(){
+                new PNotify({
+                    title: 'Schema',
+                    text: 'Updated Successfully',
+                    type: 'success'
+                });
+            });
+        })
+    }
+    $scope.updateSchema = function(){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/" + $scope.table.name, $scope.table.schema.data).then(function(response){
+            $(function(){
+                new PNotify({
+                    title: 'Schema',
+                    text: 'Updated Successfully',
+                    type: 'success'
+                });
+            });
+        })
+    }
+    $scope.createTable = function(){
+        var requestObject = {
+            name : this.newTableName,
+            field: [
+                {name : "id",
+                 type : "id"
+                }
+            ]
+        };
+        $http.post(CurrentServer + "/rest/" + this.service.api_name , requestObject).then(function(response){
+            $scope.loadServices();
+        })
+    }
+
+    $scope.dropTable = function(){
+        if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
+            return;
+        }
+        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name).then(function(response){
+            $scope.loadServices();
+        })
+    }
 };
 
