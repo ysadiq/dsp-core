@@ -26,7 +26,7 @@ var container = $("#container");
  */
 angular.module(
         "AdminApp", [
-            "ngRoute", "ngResource", "ui.bootstrap", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
+            "ngRoute", "ngResource", "ui.bootstrap.accordion", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
         ]
     )
     .constant("DSP_URL", CurrentServer)
