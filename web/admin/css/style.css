@@ -71,11 +71,11 @@
 /*text-shadow: none;*/
 /*}*/
 
-/*#app-details {*/
-/*vertical-align: top;*/
-/*border:         0;*/
-/*width:          100%;*/
-/*}*/
+#app-details {
+vertical-align: top;
+border:         0;
+width:          100%;
+}
 
 /*#item-list {*/
 /*vertical-align: top;*/
@@ -697,11 +697,16 @@ a.list-group-item > i.icon {
 #config-form{
     padding:10px;
 }
-#schema-list{
-    width:300px;
+#schema-list accordion{
+    display: inline-block;
+    width: 330px;
 }
 .affix {
 	position: fixed;
 	width: 215px;
 
+}
+#schema-editor{
+    height:300px;
+    width:600px;
 }
