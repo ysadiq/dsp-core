@@ -1,0 +1,76 @@
+blockquote, .callout {
+	margin:             1.5em 0 1.5em;
+	padding:            .75em .5em .75em 1em;
+	background:         #fff;
+	-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow:    0 0 6px rgba(0, 0, 0, 0.5);
+	box-shadow:         0 0 6px rgba(0, 0, 0, 0.5);
+	font-size:          14px;
+	font-family:        "Open Sans", Arial, sans-serif;
+}
+
+.column, .columns {
+	margin:      1.5em 0 1.5em -1.5em;
+	padding:     .75em .5em .75em 1em;
+	border-left: .5em solid transparent;
+}
+
+.callout {
+	border-left: .5em solid #fff;
+}
+
+.callout h2:first-child, blockquote h2:first-child {
+	margin: 0 0 1em;
+}
+
+.callout h3:first-child, blockquote h3:first-child {
+	margin: 0 0 1.2em;
+}
+
+.callout h4:first-child, blockquote h4:first-child {
+	margin: 0 0 1.3333em;
+}
+
+.callout h5:first-child, .callout h6:first-child, blockquote h5:first-child, blockquote h6:first-child {
+	margin: 0 0 1.5em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout ol, .callout ul {
+	margin: .75em 0 .75em 1.5em;
+}
+
+.column ol, .column ul, .columns ol, .columns ul {
+	margin-top:    0;
+	margin-bottom: 0;
+}
+
+.callout li ol, .callout li ul, .column li ol, .column li ul, .columns li ol, .columns li ul {
+	margin: 0 0 0 1.5em;
+}
+
+.callout p + p {
+	margin-top: 1.5em;
+}
+
+.changed-block {
+	border-left: .5em solid #47ad09;
+}
+
+.highlight-block {
+	/*border: 1px solid #999;*/
+	border-left: .5em solid #d4af37;
+}
+
+.note-block {
+	border-left: .5em solid hsl(5, 50%, 70%);
+	background:  hsla(5, 70%, 70%, .15);
+	font-style:  italic;
+}
+
+.callout .book {
+	width: 25%;
+}
