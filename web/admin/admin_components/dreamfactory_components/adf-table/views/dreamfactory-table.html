@@ -47,10 +47,10 @@
             data-ng-click="setTab(schema.name + '-config')">Config</a></li>
 </ul>
 
-<div class="tab-content" style="overflow-x: scroll;">
+<div class="tab-content" resize>
 
     <div data-ng-class="activeTab === (schema.name + '-table') ? 'active' : '' " class="tab-pane"
-         id="{{schema.name}}-table">
+         id="{{schema.name}}-table" style="overflow-x: hidden" >
 
     <div data-ng-show="activeView === 'table'">
         <div class="row">
@@ -226,7 +226,7 @@
             </div>
         </div>
 
-        <div data-ng-if="record" class="table-responsive">
+        <div data-ng-if="record" class="table-responsive" style="overflow-x: scroll">
             <div class="row">
                 <div class="col-xs-12">
                     <table class="table table-hover">

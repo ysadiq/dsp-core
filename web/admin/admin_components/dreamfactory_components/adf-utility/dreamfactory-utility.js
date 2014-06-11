@@ -67,6 +67,39 @@ angular.module('dfUtility', [])
             }
         }
     }])
+    .directive('resize', function ($window) {
+        return function (scope, element) {
+            var w = angular.element($window);
+            scope.getWindowDimensions = function () {
+                return {
+                    'h': w.height(),
+                    'w': w.width()
+                };
+            };
+
+            scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
+
+                scope.windowHeight = newValue.h;
+                scope.windowWidth = newValue.w;
+
+                angular.element(element).css({
+                    width: (newValue.w - 300) + 'px'
+                });
+
+                scope.style = function () {
+                    return {
+                        'height': (newValue.h - 100) + 'px',
+                        'width': (newValue.w - 100) + 'px'
+                    };
+                };
+
+            }, true);
+
+            w.bind('resize', function () {
+                scope.$apply();
+            });
+        }
+    })
     .directive('dfVerbPicker', ['DF_UTILITY_ASSET_PATH', function (DF_UTILITY_ASSET_PATH) {
 
         return {

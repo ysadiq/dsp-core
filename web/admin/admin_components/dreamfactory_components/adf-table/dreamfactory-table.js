@@ -64,8 +64,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             link: function (scope, elem, attrs) {
 
 
-                scope.services = ['db', 'system'];
-
                 scope.defaults = {
                     normalizeData: false,
                     normalizeSchema: true,
@@ -127,6 +125,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.newRecord = null;
 
                 scope.relatedExpand = false;
+
 
 
                 // PUBLIC API
