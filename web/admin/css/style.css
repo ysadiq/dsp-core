@@ -71,11 +71,11 @@
 /*text-shadow: none;*/
 /*}*/
 
-/*#app-details {*/
-/*vertical-align: top;*/
-/*border:         0;*/
-/*width:          100%;*/
-/*}*/
+#app-details {
+vertical-align: top;
+border:         0;
+width:          100%;
+}
 
 /*#item-list {*/
 /*vertical-align: top;*/
@@ -730,6 +730,11 @@ h3.panel-title {
 	font-weight: bold;
 }
 
+#schema-list accordion{
+    display: inline-block;
+    width: 330px;
+}
+
 .radio > label > i.fa, .form-group > a > i.fa {
 	margin-left:  4px;
 	margin-right: 4px;
@@ -738,4 +743,9 @@ h3.panel-title {
 
 .radio > label > i.fa:hover, .form-group > a > i.fa:hover {
 	opacity: 1;
+}
+
+#schema-editor{
+    height:300px;
+    width:600px;
 }

@@ -26,7 +26,7 @@ var container = $("#container");
  */
 angular.module(
         "AdminApp", [
-            "ngRoute", "ngResource", "ui.bootstrap", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
+            "ngRoute", "ngResource", "ui.bootstrap.accordion", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
         ]
     )
     .constant("DSP_URL", CurrentServer)
@@ -125,7 +125,7 @@ angular.module(
 
                             var requestDataObj = {
                                 include_schema: true,
-                                filter: 'type_id in (4,16)'
+                                filter: 'type_id in (4,4100)'
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});

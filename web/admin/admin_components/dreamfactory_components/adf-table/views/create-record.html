@@ -1,13 +1,11 @@
 <div class="row">
     <div class="col-xs-12">
-        <form data-ng-submit="saveRecord()">
+        <form data-ng-submit="saveNewRecord()">
             <div>
                 <div class="btn-toolbar df-toolbar">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm" data-ng-click="closeRecord()">Close</button>
-                        <button type="button" class="btn btn-default btn-sm" data-ng-click="revertRecord()">Revert</button>
-                        <button type="button" class="btn btn-default btn-sm" data-ng-click="deleteRecord()">Delete</button>
-                        <button type="submit" class="btn btn-default btn-sm" >Save</button>
+                        <button type="button" class="btn btn-default btn-sm" data-ng-click="closeCreateRecord()">Close</button>
+                        <button type="submit" class="btn btn-default btn-sm">Save</button>
                     </div>
                 </div>
             </div>
@@ -21,17 +19,14 @@
                          aria-valuemin="100" aria-valuemax="100" style="width: 100%"></div>
                 </div>
             </div>
-
             <div>
                 <div data-ng-repeat="field in schema.field track by $index">
 
                     <label>{{field.label}}<small style="margin-left: 8px; font-weight: normal" data-ng-if="field.required" class="text-muted">(required)</small></label>
 
-                    <div data-ng-if="currentEditRecord" dreamfactory-build-field data-service="options.service" data-field="field"
+                    <div data-ng-if="newRecord" dreamfactory-build-field data-service="options.service" data-field="field"
                          data-extend-field-types="extendFieldTypes" data-related-data="relatedData"
-                         data-current-edit-record="currentEditRecord" data-ng-required="field.required"
-                         class="form-group">
-                    </div>
+                         data-current-edit-record="newRecord" class="form-group col-xs-12"></div>
                 </div>
             </div>
         </form>
