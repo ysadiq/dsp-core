@@ -1,19 +1,55 @@
 'use strict';
 
 
-// @TODO: Handle no defaultFields case and no records returned
+// @TODO: IGNORING DATE FIELDS DURING COMPARE OBJECTS FUNCTION FOR MARKING RECORD CHANGED.  NEED TO SORT DATE FORMAT THING WITH SS GUYS.
 
-angular.module('dfTable', ['dfUtility'])
+
+angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
     .constant('DF_TABLE_ASSET_PATH', 'admin_components/dreamfactory_components/adf-table/')
     .run(['$templateCache', function ($templateCache) {
 
-        $templateCache.put('df-input-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable">');
+        $templateCache.put('df-input-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
         $templateCache.put('df-input-binary.html', '<p>BINARY DATA</p>');
         $templateCache.put('df-input-datetime.html', '<p>DATETIME</p>');
-        $templateCache.put('df-input-reference.html', '<df-table data-options="relatedOptions" data-parent-record="currentEditRecord" data-export-field="field"></df-table>');
-        $templateCache.put('df-input-checkbox.html', '<input type="checkbox" data-ng-model="currentEditRecord[field.name]" data-ng-checked="currentEditRecord[field.name]">');
-        $templateCache.put('df-input-select.html', '<select data-ng-model="currentEditRecord[field.name]" data-ng-options="obj[relatedData[templateData.prop].display.value] as obj[relatedData[templateData.prop].display.label] for obj in relatedData[templateData.prop].records"></select>');
-
+        $templateCache.put('df-input-reference.html', '<div class="well"><df-table data-options="relatedOptions" data-parent-record="currentEditRecord" data-export-field="field"></df-table></div>');
+        $templateCache.put('df-input-checkbox.html', '<label><input type="checkbox" data-ng-model="currentEditRecord[field.name]" data-ng-checked="currentEditRecord[field.name]" data-ng-required="field.required"></label>');
+        $templateCache.put('df-input-bool-picklist.html', '<div class="form-group"><select class="form-control" data-ng-model="currentEditRecord[field.name]" data-ng-options="bool.value as bool.name for bool in __dfBools" data-ng-required="field.required"></select></div>');
+        $templateCache.put('df-input-select.html', '<select data-ng-model="currentEditRecord[field.name]" data-ng-options="obj[relatedData[templateData.prop].display.value] as obj[relatedData[templateData.prop].display.label] for obj in relatedData[templateData.prop].records" data-ng-required="field.required"></select>');
+        $templateCache.put('df-input-values-picklist.html',
+            '<div class="row">' +
+                '<div class="col-xs-12 col-md-6">' +
+                    '<div class="form-group">' +
+                        '<div class="input-group">' +
+                            '<input type="text" class="form-control" data-ng-model="currentEditRecord[field.name]" placeholder="Enter Value or Choose from list" data-ng-required="field.required">' +
+                            '<div class="input-group-btn">' +
+                                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">List <span class="caret"></span></button>' +
+                                '<ul class="dropdown-menu pull-right">' +
+                                    '<li data-ng-click="assignValue(item)" data-ng-repeat="item in data"><a>{{item}}</a></li>' +
+                                '</ul>' +
+                            '</div><!-- /btn-group -->' +
+                        '</div><!-- /input-group -->' +
+                    '</div><!-- /.col-lg-6 -->' +
+                '</div>' +
+            '</div>'
+        );
+        $templateCache.put('df-input-values-only-picklist.html',
+            '<div class="form-group">' +
+                '<select class="form-control col-xs-12 col-md-6" data-ng-model="currentEditRecord[field.name]" data-ng-options="item for item in data" data-ng-required="field.required"></select>' +
+            '</div>'
+        );
+        $templateCache.put('df-input-date-time-picker.html',
+            '<div class="form-group col-xs-12">\n' +
+                ' <div class="input-group col-sm-6 col-md-4">\n' +
+                    '<span class="input-group-btn">\n' +
+                        '<button type="button" data-ng-disabled="!templateData.editable" class="btn btn-default btn-small" data-ng-click="open($event)"><i class="fa fa-calendar fa-fw"></i></button>' +
+                        '<button type="button" class="btn btn-default" data-ng-disabled="!templateData.editable" data-ng-click="setNow()">Now</button>\n'+
+                    '</span>\n' +
+                    '<input type="text" class="form-control" data-ng-disabled="!templateData.editable" data-datepicker-popup="{{format}}" data-ng-model="dt" data-is-open="opened"  data-date-disabled="disabled(date, mode)" data-ng-required="field.required" data-close-text="Close" />' +
+                '</div>\n'+
+                '<div class="col-sm-6 col-md-2">\n' +
+                    '<timepicker style="display: inline-block" data-ng-model="mytime" data-ng-change="changed()" show-meridian="ismeridian"></timepicker>\n' +
+                '</div>\n' +
+            '</div>');
     }])
     .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService) {
 
@@ -27,11 +63,15 @@ angular.module('dfTable', ['dfUtility'])
             templateUrl: DF_TABLE_ASSET_PATH + 'views/dreamfactory-table.html',
             link: function (scope, elem, attrs) {
 
+
+                scope.services = ['db', 'system'];
+
                 scope.defaults = {
                     normalizeData: false,
                     normalizeSchema: true,
                     autoClose: false,
                     params: {
+                        filter: null,
                         limit: 10,
                         offset: 0,
                         fields: '*',
@@ -44,8 +84,6 @@ angular.module('dfTable', ['dfUtility'])
                     exportValueOn: false
                 };
 
-                console.log(scope);
-
                 scope.options = dfObjectService.mergeObjects(scope.options, scope.defaults);
 
                 scope.record = null;
@@ -53,6 +91,7 @@ angular.module('dfTable', ['dfUtility'])
                 scope.relatedData = {};
 
                 scope.tableFields = {};
+                scope.tableFilterOn = true;
                 scope.defaultFieldsShown = {};
 
                 scope.filter = {
@@ -84,6 +123,10 @@ angular.module('dfTable', ['dfUtility'])
                 scope.count = 0;
 
                 scope._exportValue = null;
+
+                scope.newRecord = null;
+
+                scope.relatedExpand = false;
 
 
                 // PUBLIC API
@@ -128,6 +171,11 @@ angular.module('dfTable', ['dfUtility'])
                     scope._editRecord(dataObj);
                 };
 
+                scope.createRecord = function () {
+
+                    scope._createRecord();
+                };
+
                 scope.saveRecords = function () {
 
                     scope._saveRecords();
@@ -169,9 +217,17 @@ angular.module('dfTable', ['dfUtility'])
 
                 scope.setExportValue = function (dataObj) {
 
-                    // Create Comple implementation
-                    // right now we just call the private function
                     scope._setExportValue(dataObj);
+                };
+
+                scope.toggleExpandEditor = function () {
+
+                    scope._toggleExpandEditor();
+                };
+
+                scope.editExportRecord = function (dataObj) {
+
+                    scope._editExportRecord(dataObj);
                 };
 
 
@@ -234,8 +290,10 @@ angular.module('dfTable', ['dfUtility'])
 
                 scope._setExportState = function (dataObj, stateBool) {
 
-                    dataObj.__dfUI.export = stateBool;
-                }
+                    if (dataObj) {
+                        dataObj.__dfUI.export = stateBool;
+                    }
+                };
 
                 scope._isUnsaved = function (dataObj) {
 
@@ -277,16 +335,28 @@ angular.module('dfTable', ['dfUtility'])
 
 
                 // Records and Data
-                scope._getRecordsFromServer = function (requestDataObj) {
+                scope._checkForParams = function () {
 
                     var params = {};
 
-                    if (requestDataObj) {
-                        params = dfObjectService.mergeObjects(requestDataObj.params, scope.options.params)
+                    if (scope.options.hasOwnProperty('params')) {
+                        params = scope.options.params
                     }else {
-                        params = scope.options.params;
+                        params = scope.defaults.params
                     }
 
+                    return params;
+                };
+
+                scope._getRecordsFromServer = function (requestDataObj) {
+
+                    var params = scope._checkForParams();
+
+                    requestDataObj = requestDataObj || null;
+
+                    if (requestDataObj) {
+                        params = dfObjectService.mergeObjects(requestDataObj.params, params);
+                    }
 
                     return $http({
                         method: 'GET',
@@ -298,7 +368,7 @@ angular.module('dfTable', ['dfUtility'])
                 scope._getRecordsFromData = function (dataObj) {
 
                     // create short var names
-                    var limit = scope.options.params.limit,
+                    var limit = scope._checkForParams().limit,
                         records = [];
 
                     // hacky way to check for where our records are
@@ -363,7 +433,7 @@ angular.module('dfTable', ['dfUtility'])
 
                 scope._getOptionFromParams = function (keyStr) {
 
-                    return scope.options.params[keyStr];
+                    return scope._checkForParams()[keyStr];
                 };
 
                 scope._setOptionFromParams = function (keyStr, valueStr) {
@@ -382,6 +452,10 @@ angular.module('dfTable', ['dfUtility'])
 
                     dataObj['__dfData'] = {};
                     dataObj.__dfData['revert'] = temp;
+
+                    if (!dataObj.__dfData.revert.hasOwnProperty('_exportValue')) {
+                        dataObj.__dfData.revert['_exportValue'] = {};
+                    }
                 };
 
                 scope._getRevertCopy = function (dataObj) {
@@ -425,12 +499,14 @@ angular.module('dfTable', ['dfUtility'])
 
                     for (var key in dataObj1) {
 
-                        if (key === 'dfUISelected' || key === 'dfUIUnsaved' || key === '__dfUI' || key == '__dfData' || key === '$$hashKey') continue;
+                        if (key === 'dfUISelected' || key === 'dfUIUnsaved' || key === '__dfUI' || key == '__dfData' || key == 'created_date' || key == 'last_modified_date' || key === '$$hashKey') continue;
 
                         if (dataObj1[key] !== dataObj2[key]) {
                             if ((dataObj1[key] == null || dataObj1[key] == '') && (dataObj2[key] == null || dataObj2[key] == '')) {
+
                                 return false;
                             }
+
                             return true;
                         }
                     }
@@ -535,11 +611,29 @@ angular.module('dfTable', ['dfUtility'])
                     scope.inProgress = stateBool;
                 };
 
+                scope._createNewRecordObj = function () {
+
+                    var newRecord = {};
+
+                    for (var _key in scope.schema) {
+                        newRecord[_key.name] = ''
+                    }
+
+                    scope._addStateProps(newRecord);
+
+                    return newRecord;
+                };
+
 
                 // View Control
                 scope._setCurrentEditRecord = function (dataObj) {
 
                     scope.currentEditRecord = dataObj;
+                };
+
+                scope._setNewRecordObj = function () {
+
+                    scope.newRecord = scope._createNewRecordObj();
                 };
 
                 scope._confirmAction = function (_message, _action) {
@@ -578,6 +672,12 @@ angular.module('dfTable', ['dfUtility'])
                 scope._createFieldsObj = function (schemaDataObj) {
 
                     angular.forEach(schemaDataObj, function (value, index) {
+                        if (!scope.defaultFieldsShown) {
+
+                            scope.tableFields[value.name] = {active: true, name: value.name, label: value.label};
+                            return;
+                        }
+
                         if (scope.defaultFieldsShown.hasOwnProperty(value.name)) {
                             switch (scope.defaultFieldsShown[value.name]) {
 
@@ -604,9 +704,9 @@ angular.module('dfTable', ['dfUtility'])
 
                 scope._init = function (newValue) {
 
-                    scope._prepareRecords(newValue);
-
-                    scope._prepareRelatedData(newValue);
+                    if (scope._prepareRecords(newValue)) {
+                        scope._prepareRelatedData(newValue);
+                    }
 
                     scope._prepareSchema(newValue);
 
@@ -628,6 +728,8 @@ angular.module('dfTable', ['dfUtility'])
 
                     scope.record = scope._getRecordsFromData(data);
 
+                    if (!scope.record) return false;
+
                     scope._removePrivateFields(scope._getDefaultFields(scope.options));
 
                     angular.forEach(scope.record, function (_obj) {
@@ -635,8 +737,9 @@ angular.module('dfTable', ['dfUtility'])
                         scope._addStateProps(_obj);
 
                         if (scope.options.exportValueOn && scope._exportValue) {
-                            if(scope._checkExportValue(_obj)) {
+                            if (scope._checkExportValue(_obj)) {
                                 scope._setExportState(_obj, true);
+                                scope._exportValue = _obj;
                             }
                         }
                     });
@@ -648,7 +751,7 @@ angular.module('dfTable', ['dfUtility'])
 
                 };
 
-                scope._checkExportValue = function(dataObj) {
+                scope._checkExportValue = function (dataObj) {
 
                     return dataObj[scope.exportField.ref_fields] === scope._exportValue[scope.exportField.ref_fields];
                 };
@@ -657,7 +760,7 @@ angular.module('dfTable', ['dfUtility'])
 
                     scope.schema = scope._getSchemaFromData(data);
 
-                    if (data.normalizeSchema) {
+                    if (data.normalizeSchema && (scope.record.length > 0)) {
                         scope.schema = scope._normalizeSchema(scope.schema, scope.record);
                     }
                 };
@@ -691,9 +794,9 @@ angular.module('dfTable', ['dfUtility'])
                     scope.activeView = viewStr;
                 };
 
-                scope._setExportValue = function (dataObj) {
+                scope._setExportValueToParent = function (dataObj) {
 
-                    scope._exportValue = dataObj;
+                    scope._exportValue = dataObj || null;
                 };
 
 
@@ -755,12 +858,21 @@ angular.module('dfTable', ['dfUtility'])
 
                 scope._calcPagination = function (newValue) {
 
-                    scope._createPagesArr(scope._calcTotalPages(scope._getCountFromMeta(newValue), scope._getOptionFromParams('limit')));
+                    var count = scope._getCountFromMeta(newValue);
+
+                    if (count == 0) {
+                        scope.pagesArr.push(scope._createPageObj(0));
+                        return false;
+                    }
+
+                    scope._createPagesArr(scope._calcTotalPages(count, scope._getOptionFromParams('limit')));
                 };
 
 
                 // Filtering
                 scope._resetFilter = function (schemaDataObj) {
+
+                    if (!schemaDataObj) return false;
 
                     scope.filter = {
                         viewBy: schemaDataObj.field[0].name || '',
@@ -808,6 +920,8 @@ angular.module('dfTable', ['dfUtility'])
 
                 // Ordering
                 scope._resetOrder = function (schemaDataObj) {
+
+                    if (!schemaDataObj) return false;
 
                     scope.order = {
                         orderBy: schemaDataObj.field[0].name || '',
@@ -877,7 +991,6 @@ angular.module('dfTable', ['dfUtility'])
                     for (var _key in schemaDataObj.field) {
                         if (recordsDataArr[0].hasOwnProperty(schemaDataObj.field[_key].name)) {
 
-
                             normalizedSchema.push(schemaDataObj.field[_key]);
                         }
                     }
@@ -903,7 +1016,6 @@ angular.module('dfTable', ['dfUtility'])
                 scope._editRecord = function (dataObj) {
 
                     scope._setCurrentEditRecord(dataObj);
-
                 };
 
                 scope._saveRecords = function () {
@@ -952,7 +1064,9 @@ angular.module('dfTable', ['dfUtility'])
 
                     angular.forEach(scope.record, function (_obj, _index) {
                         if (scope._isUnsaved(_obj)) {
-                            scope.record[_index] = scope._getRevertCopy(_obj);
+                            if (scope._hasRevertCopy(scope.record[_index])) {
+                                scope.record[_index] = scope._getRevertCopy(_obj);
+                            }
                         }
                     })
                 };
@@ -1217,6 +1331,32 @@ angular.module('dfTable', ['dfUtility'])
                     }
                 };
 
+                scope._createRecord = function () {
+
+                    scope._setNewRecordObj();
+                };
+
+                scope._setExportValue = function (dataObj) {
+
+                    scope._setExportValueToParent(dataObj);
+                };
+
+                scope._toggleExpandEditor = function () {
+
+                    scope.relatedExpand = !scope.relatedExpand;
+                };
+
+                scope._editExportRecord = function (dataObj) {
+
+                    if (scope.options.exportValueOn && scope.parentRecord) {
+                        if (!scope.relatedExpand) {
+                            scope._setCurrentEditRecord(dataObj);
+                            scope._toggleExpandEditor();
+                        }else if (scope.relatedExpand && !scope.currentEditRecord) {
+                            scope._setCurrentEditRecord(dataObj);
+                        }
+                    }
+                };
 
                 // WATCHERS / INIT
 
@@ -1224,68 +1364,93 @@ angular.module('dfTable', ['dfUtility'])
 
                     if (!newValue) return false;
 
+                    if (!newValue.service) return false;
 
-                    if (scope.options.exportValueOn && !scope._exportValue) {
+                    if (scope.options.exportValueOn && !scope._exportValue && scope.parentRecord[scope.exportField.name]) {
 
-                        var requestDataObj = {
-                            params:{
-                                filter: scope.exportField.ref_fields + ' = "' + scope.parentRecord[scope.exportField.name] + '"'
-                            }
-                        };
+                        var requestDataObj = {};
 
+                        requestDataObj['params'] = {filter: scope.exportField.ref_fields + ' = ' + scope.parentRecord[scope.exportField.name]};
 
                         scope._getRecordsFromServer(requestDataObj).then(
-                            function(result) {
+                            function (result) {
 
-                                var record = scope._getRecordsFromData(result)[0]
+                                var record = scope._getRecordsFromData(result)[0];
                                 scope._addStateProps(record);
                                 scope._exportValue = record;
 
+                                if (scope.options.params.filter) {
+                                    delete scope.options.params.filter;
+                                }
+
+                                // call back nightmare.  But it keeps pagination straight
+                                if (!newValue.data) {
+                                    scope._getRecordsFromServer().then(
+                                        function (_result) {
+
+                                            newValue['data'] = _result;
+                                            scope._init(newValue);
+                                            scope._resetFilter(scope.schema);
+                                            scope._resetOrder(scope.schema);
+
+                                        },
+                                        function (_reject) {
+                                            throw {
+                                                module: 'DreamFactory Table Module',
+                                                type: 'error',
+                                                provider: 'dreamfactory',
+                                                exception: _reject
+                                            }
+                                        }
+                                    )
+                                }
+                                else {
+
+                                    scope._init(newValue);
+                                    scope._resetFilter(scope.schema);
+                                    scope._resetOrder(scope.schema);
+                                }
+
+
                             },
-                            function(reject) {
+                            function (reject) {
 
-                                console.log(reject)
-                            }
-                        )
-                    }
-
-
-                    if (scope.options.params.filter) {
-                        delete scope.options.params.filter;
-                    }
-
-
-
-                    if (!newValue.data) {
-
-                        scope._getRecordsFromServer().then(
-                            function (_result) {
-
-                                newValue['data'] = _result;
-                                scope._init(newValue);
-                                scope._resetFilter(scope.schema);
-                                scope._resetOrder(scope.schema);
-
-                            },
-                            function (_reject) {
                                 throw {
                                     module: 'DreamFactory Table Module',
                                     type: 'error',
                                     provider: 'dreamfactory',
-                                    exception: _reject
+                                    exception: reject
                                 }
                             }
                         )
+                    } else {
+
+                        if (!newValue.data) {
+                            scope._getRecordsFromServer().then(
+                                function (_result) {
+
+                                    newValue['data'] = _result;
+                                    scope._init(newValue);
+                                    scope._resetFilter(scope.schema);
+                                    scope._resetOrder(scope.schema);
+
+                                },
+                                function (_reject) {
+                                    throw {
+                                        module: 'DreamFactory Table Module',
+                                        type: 'error',
+                                        provider: 'dreamfactory',
+                                        exception: _reject
+                                    }
+                                }
+                            )
+                        }
+                        else {
+                            scope._init(newValue);
+                            scope._resetFilter(scope.schema);
+                            scope._resetOrder(scope.schema);
+                        }
                     }
-                    else {
-
-                        scope._init(newValue);
-                        scope._resetFilter(scope.schema);
-                        scope._resetOrder(scope.schema);
-                    }
-
-
-
                 });
 
                 var watchCurrentPage = scope.$watch('currentPage', function (newValue, oldValue) {
@@ -1372,10 +1537,14 @@ angular.module('dfTable', ['dfUtility'])
                 var watchCurrentEditRecordState = scope.$watchCollection('currentEditRecord', function (newValue, oldValue) {
 
                     if (newValue) {
-                        if (scope._compareObjects(newValue, newValue.__dfData.revert)) {
-                            scope._setUnsavedState(newValue, true);
-                        } else {
-                            scope._setUnsavedState(newValue, false);
+
+                        if (scope._hasRevertCopy(newValue)) {
+
+                            if (scope._compareObjects(newValue, newValue.__dfData.revert)) {
+                                scope._setUnsavedState(newValue, true);
+                            } else {
+                                scope._setUnsavedState(newValue, false);
+                            }
                         }
                     }
                 });
@@ -1384,26 +1553,221 @@ angular.module('dfTable', ['dfUtility'])
 
                     if (!newValue) return false;
 
+                    if (!newValue && !scope._exportValue) return false;
+
+                    if ((!scope._exportValue && newValue[scope.exportField.name]) == null) {
+                        return false;
+                    }
+
+                    if (!newValue[scope.exportField.name]) {
+                        scope._exportValue = null;
+                        return false;
+                    }
+
+                    // Some external force(revert!) has set the parent value to something else.  Go get that record
+                    if ((!scope._exportValue && newValue[scope.exportField.name]) || (scope._exportValue[scope.exportField.ref_fields] !== newValue[scope.exportField.name])) {
+
+                        var requestDataObj = {};
+
+                        requestDataObj['params'] = {filter: scope.exportField.ref_fields + ' = ' + newValue[scope.exportField.name], offset: 0};
+
+                        scope._getRecordsFromServer(requestDataObj).then(
+                            function (result) {
+
+                                var record = scope._getRecordsFromData(result);
+
+                                if (!record) throw {
+                                    module: 'DreamFactory Table Module',
+                                    type: 'error',
+                                    provider: 'dreamfactory',
+                                    exception: 'Revert related data record not found.'
+                                };
+
+                                scope._addStateProps(record[0]);
+                                scope._exportValue = record[0];
+
+
+                                if (scope.options.params.filter) {
+                                    delete scope.options.params.filter;
+                                }
+                            },
+                            function (reject) {
+
+                                throw {
+                                    module: 'DreamFactory Table Module',
+                                    type: 'error',
+                                    provider: 'dreamfactory',
+                                    exception: reject
+                                }
+                            }
+                        );
+
+                        return false;
+                    }
+
+
                 });
 
                 var watchExportValue = scope.$watch('_exportValue', function (newValue, oldValue) {
 
-                    if (!newValue) return false;
 
-                    // Set state props
-                    if (oldValue) {
-                        scope._setExportState(oldValue, false);
+                    //We had Null and we passed in Null
+                    // This is mostly for init
+                    if (!newValue && !oldValue) {
+
+                        return false;
                     }
-                    scope._setExportState(newValue, true);
+
+
+                    // Null and an oldValue?
+                    if (!newValue && oldValue) {
+
+                        scope._setExportState(oldValue, false);
+
+                        // Ugh.....
+                        // This is the only way to loop through and
+                        // affect the first default value that is set
+                        // Probably can find a better way
+                        var found = false,
+                            i = 0;
+                        if (scope.record) {
+                            while (!found && i < scope.record.length) {
+
+                                var record = scope.record[i];
+                                if (record[scope.exportField.name] === null) {
+
+                                    scope._setExportState(scope.record[i], false);
+                                    found = true;
+                                }
+                                i++
+                            }
+                        }
+
+                        // set parent to newValue(which will be null)
+                        scope.parentRecord[scope.exportField.name] = newValue;
+
+                        return false;
+                    }
+
+                    if (!oldValue && newValue) {
+
+
+                        // Ugh.....
+                        // This is the only way to loop through and
+                        // affect the first default value that is set
+                        // Probably can find a better way
+                        var found = false,
+                            i = 0;
+                        if (scope.record) {
+                            while (!found && i < scope.record.length) {
+
+                                var record = scope.record[i];
+                                if (record[scope.exportField.name] === scope._exportValue[scope.exportField.name]) {
+
+                                    scope._setExportState(scope.record[i], true);
+                                    found = true;
+                                }
+                                i++
+                            }
+                        }
+                    }
+
+                    // set record states if old and new value
+                    if (oldValue && newValue) {
+
+                        scope._setExportState(oldValue, false);
+
+
+                        // Ugh.....
+                        // This is the only way to loop through and
+                        // affect the first default value that is set
+                        // Probably can find a better way
+                        var found = false,
+                            i = 0;
+                        if (scope.record) {
+                            while (!found && i < scope.record.length) {
+
+                                var record = scope.record[i];
+                                if (record[scope.exportField.ref_fields] === newValue[scope.exportField.ref_fields]) {
+
+                                    scope._setExportState(scope.record[i], true);
+                                    found = true;
+                                }
+                                i++
+                            }
+                        }
+
+                        found = false;
+                        i = 0;
+                        if (scope.record) {
+                            while (!found && i < scope.record.length) {
+
+                                var record = scope.record[i];
+                                if (record[scope.exportField.ref_fields] === oldValue[scope.exportField.ref_fields]) {
+
+                                    scope._setExportState(scope.record[i], false);
+                                    found = true;
+                                }
+                                i++
+                            }
+                        }
+                    }
+                    // If we clicked on the same record or passed in the same record some how
+                    // this will short circuit.  No need to go any further
+                    if (scope.parentRecord[scope.exportField.name] === newValue[scope.exportField.ref_fields]) {
+
+                        if (newValue) scope._setExportState(newValue, true);
+                        if (oldValue) scope._setExportState(oldValue, false);
+                        return false;
+                    }
+
+                    // Ugh.....
+                    // This is the only way to loop through and
+                    // affect the first default value that is set
+                    // Probably can find a better way
+                    var found = false,
+                        i = 0;
+                    while (!found && i < scope.record.length) {
+
+                        var record = scope.record[i];
+                        if (record[scope.exportField.name] === scope._exportValue[scope.exportField.name]) {
+
+                            scope._setExportState(scope.record[i], false);
+                            found = true;
+                        }
+                        i++
+                    }
 
                     // Assign proper value from obj to ref field on parent
                     scope.parentRecord[scope.exportField.name] = newValue[scope.exportField.ref_fields];
 
+                    // Set the state of incoming and outgoing objects
+                    scope._setExportState(oldValue, false);
+                    scope._setExportState(newValue, true);
                 });
+
+                var watchNewRecord = scope.$watch('newRecord', function (newValue, oldValue) {
+
+                    if (newValue) {
+                        scope._setActiveView('new');
+                    } else {
+                        scope._setActiveView('table');
+                    }
+                });
+
 
                 // MESSAGES
 
+                scope.$on('$destroy', function(e) {
 
+                    watchOptions();
+                    watchCurrentPage();
+                    watchCurrentEditRecord();
+                    watchCurrentEditRecordState();
+                    watchParentRecord();
+                    watchExportValue();
+                    watchNewRecord();
+                })
             }
         }
     }])
@@ -1449,6 +1813,7 @@ angular.module('dfTable', ['dfUtility'])
 
                     var recordCopy = scope._getRevertCopy(scope.currentEditRecord);
                     for (var _key in recordCopy) {
+
                         if (scope.currentEditRecord.hasOwnProperty(_key)) {
                             scope.currentEditRecord[_key] = recordCopy[_key];
                         }
@@ -1573,6 +1938,7 @@ angular.module('dfTable', ['dfUtility'])
                             scope._removeRevertCopy(scope.currentEditRecord);
                             scope._setUnsavedState(scope.currentEditRecord, false);
 
+
                             if (scope.options.autoClose) {
                                 scope._closeEdit();
                             } else {
@@ -1606,6 +1972,82 @@ angular.module('dfTable', ['dfUtility'])
 
 
     }])
+    .directive('createRecord', ['DF_TABLE_ASSET_PATH', '$http', function (DF_TABLE_ASSET_PATH, $http) {
+
+        return {
+            restrict: 'E',
+            scope: false,
+            templateUrl: DF_TABLE_ASSET_PATH + 'views/create-record.html',
+            link: function (scope, elem, attrs) {
+
+
+                // PUBLIC API
+                scope.closeCreateRecord = function () {
+                    scope._closeCreateRecord()
+                };
+
+                scope.saveNewRecord = function () {
+
+                    scope._saveNewRecord();
+                };
+
+
+                // PRIVATE API
+                scope._setCreateNewRecordNull = function () {
+
+                    scope.newRecord = null;
+                };
+
+                scope._saveNewRecordToServer = function () {
+
+                    return $http({
+                        method: 'POST',
+                        url: scope.options.url,
+                        data: scope.newRecord
+                    })
+                };
+
+
+                // COMPLEX IMPLEMENTATION
+                scope._closeCreateRecord = function () {
+
+                    scope._setCreateNewRecordNull();
+                };
+
+                scope._saveNewRecord = function () {
+
+                    scope._setInProgress(true);
+                    scope._saveNewRecordToServer().then(
+                        function (result) {
+
+                            scope._closeCreateRecord();
+                        },
+                        function (reject) {
+
+                            throw {
+                                module: 'DreamFactory Table Module',
+                                type: 'error',
+                                provider: 'dreamfactory',
+                                exception: reject
+                            }
+                        }
+                    ).finally(
+                        function () {
+                            scope._setInProgress(false);
+                        },
+                        function () {
+                            scope._setInProgress(false);
+                        }
+                    )
+                };
+
+
+                // MESSAGES
+
+
+            }
+        }
+    }])
     .directive('dreamfactoryBuildField', ['$templateCache', '$compile', 'dfObjectService', 'DSP_URL', function ($templateCache, $compile, dfObjectService, DSP_URL) {
 
         return {
@@ -1618,6 +2060,20 @@ angular.module('dfTable', ['dfUtility'])
                 currentEditRecord: '=?currentEditRecord'
             },
             link: function (scope, elem, attrs) {
+
+                scope._parseEditable = function (fieldObj) {
+
+                    if (fieldObj && fieldObj.hasOwnProperty('auto_increment')) {
+                        return !fieldObj.auto_increment;
+                    }
+
+                    if (fieldObj && fieldObj.hasOwnProperty('validation') && fieldObj.validation != null) {
+                        return !fieldObj.validation.hasOwnProperty('api_read_only');
+                    }
+
+                    return true;
+                };
+
 
 
                 scope.defaultFieldTypes = {
@@ -1664,16 +2120,16 @@ angular.module('dfTable', ['dfUtility'])
                         editable: true
                     },
                     datetime: {
-                        template: 'df-input-datetime.html',
+                        template: 'df-input-date-time-picker.html',
                         placeholder: '',
                         type: '',
-                        editable: false
+                        editable: true
                     },
                     date: {
-                        template: 'df-input-datetime.html',
+                        template: 'df-input-date-picker.html',
                         placeholder: '',
                         type: '',
-                        editable: false
+                        editable: true
                     },
                     time: {
                         template: 'df-input-datetime.html',
@@ -1706,11 +2162,18 @@ angular.module('dfTable', ['dfUtility'])
                         editable: false
                     },
                     timestamp_on_update: {
-                        template: 'df-input-text.html',
+                        template: 'df-input-date-time-picker.html',
+                        placeholder: 'Enter Text Value',
+                        type: 'text',
+                        editable: false
+                    },
+                    timestamp_on_create: {
+                        template: 'df-input-date-time-picker.html',
                         placeholder: 'Enter Text Value',
                         type: 'text',
                         editable: false
                     }
+
                 };
 
                 scope.fieldTypes = dfObjectService.mergeObjects(scope.extendFieldTypes, scope.defaultFieldTypes);
@@ -1758,51 +2221,208 @@ angular.module('dfTable', ['dfUtility'])
 
                 } else {
                     scope.templateData = scope.fieldTypes[scope.field.type];
+                    scope.templateData.editable = scope._parseEditable(scope.field);
                 }
 
-                // Data for related tables
-                if (scope.field.type === 'reference') {
-
-                    var systemTablePrefix = 'df_sys_';
+                switch (scope.field.type) {
 
 
-                    scope._parseSystemTableName = function (tableNameStr) {
+                    case 'string':
 
-                        var tableName = tableNameStr.substr(0, systemTablePrefix.length);
+                       if (scope.field.hasOwnProperty('validation')){
 
-                        if (tableName === systemTablePrefix) {
-                            return tableNameStr.substr(systemTablePrefix.length);
+                            if (scope.field.validation != null && scope.field.validation.hasOwnProperty('picklist')) {
+
+                                scope.templateData.template = 'df-input-values-only-picklist.html';
+
+                                scope.data = scope.field.validation.picklist;
+
+                                scope.assignValue = function (itemStr) {
+
+                                    scope.currentEditRecord[scope.field.name] = itemStr;
+
+                                }
+                            }
+                            else if (scope.field.value.length > 0) {
+
+                                scope.templateData.template = 'df-input-values-picklist.html';
+
+                                scope.data = scope.field.value;
+
+                                scope.assignValue = function (itemStr) {
+
+                                    scope.currentEditRecord[scope.field.name] = itemStr;
+
+                                }
+                            }
                         }
-                        else {
-                            return tableNameStr;
+
+
+                        break;
+
+                    case 'boolean':
+
+                        if (scope.field.allow_null) {
+
+                            scope.templateData.template = 'df-input-bool-picklist.html';
+
+                            scope.__dfBools = [
+                                {value: '', name:'NULL'},
+                                {value:true, name:'TRUE'},
+                                {value:false, name:'FALSE'}
+                            ]
                         }
-                    };
+                        break;
+                    
+                    case 'reference':
 
-                    scope._buildURL = function (serviceNameStr, tableNameStr) {
+                        var systemTablePrefix = 'df_sys_';
 
-                        return DSP_URL + '/rest/' + serviceNameStr + '/' + tableNameStr
-                    };
+                        scope._parseSystemTableName = function (tableNameStr) {
 
-                    scope.relatedOptions = {
-                        service: scope.service,
-                        table: scope._parseSystemTableName(scope.field.ref_table),
-                        url: scope._buildURL(scope.service, scope._parseSystemTableName(scope.field.ref_table)),
-                        params: {
-                            limit: 2,
-                            offset: 0,
-                            fields: '*',
-                            include_schema: true,
-                            include_count: true
-                        },
-                        defaultFields: {},
-                        exportValueOn: true
-                    };
+                            var tableName = tableNameStr.substr(0, systemTablePrefix.length);
 
-                    scope.relatedOptions.defaultFields[scope.field.ref_fields] = true;
+                            if (tableName === systemTablePrefix) {
+                                return tableNameStr.substr(systemTablePrefix.length);
+                            }
+                            else {
+                                return tableNameStr;
+                            }
+                        };
+
+                        scope._buildURL = function (serviceNameStr, tableNameStr) {
+
+                            return DSP_URL + '/rest/' + serviceNameStr + '/' + tableNameStr
+                        };
+
+                        scope.relatedOptions = {
+                            service: scope.service,
+                            table: scope._parseSystemTableName(scope.field.ref_table),
+                            url: scope._buildURL(scope.service, scope._parseSystemTableName(scope.field.ref_table)),
+                            params: {
+                                filter: null,
+                                limit: 2,
+                                offset: 0,
+                                fields: '*',
+                                include_schema: true,
+                                include_count: true
+                            },
+                            defaultFields: {},
+                            exportValueOn: true
+                        };
+
+                        scope.relatedOptions.defaultFields[scope.field.ref_fields] = true;
+                        break;
+                    
+                    case 'datetime':
+
+                        scope._theDate = null;
+                        scope.editable = false;
+
+                        // Date
+                        scope.today = function() {
+                            scope.dt = new Date();
+                        };
+
+                        scope.clear = function () {
+                            scope.dt = null;
+                        };
+
+                        // Disable weekend selection
+                        scope.disabled = function(date, mode) {
+                            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+                        };
+
+                        scope.toggleMin = function() {
+                            scope.minDate = scope.minDate ? null : new Date();
+                        };
+
+                        scope.open = function($event) {
+                            $event.preventDefault();
+                            $event.stopPropagation();
+                            scope.opened = true;
+                        };
+
+                        scope.dateOptions = {
+                            formatYear: 'yy',
+                            startingDay: 1
+                        };
+
+                        scope.initDate = new Date('2016-15-20');
+                        scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
+                        scope.format = scope.formats[2];
+
+
+                        // Time
+                        scope.mytime = new Date();
+
+                        scope.hstep = 1;
+                        scope.mstep = 15;
+
+                        scope.options = {
+                            hstep: [1, 2, 3],
+                            mstep: [1, 5, 10, 15, 25, 30]
+                        };
+
+                        scope.ismeridian = false;
+                        scope.toggleMode = function() {
+                            scope.ismeridian = ! scope.ismeridian;
+                        };
+
+                        scope.showSelector = true;
+
+                        scope.update = function() {
+                            var d = new Date();
+                            d.setHours( 14 );
+                            d.setMinutes( 0 );
+                            scope.mytime = d;
+                        };
+
+                        scope.changed = function () {
+                            //console.log('Time changed to: ' + scope.mytime);
+                        };
+
+                        scope.clear = function() {
+                            scope.mytime = null;
+                        };
+
+                        scope._parseDateTime = function(dateTimeStr) {
+
+                            console.log(dateTimeStr);
+
+                            var dateTimeArr = dateTimeStr.split(' ');
+
+                            dateTimeArr[0] = dateTimeArr[0].split('-').join('/');
+
+                            return new Date(dateTimeArr.join(' '));
+                        };
+
+                        scope.$watch('currentEditRecord', function(newValue, oldValue) {
+
+                            if (!newValue[scope.field.name]) return false;
+
+                            scope.editable = scope._parseEditable(scope.field);
+
+                            var theDate = scope._parseDateTime(newValue[scope.field.name]);
+
+                            scope.dt = scope.mytime = scope.theDate = theDate;
+
+                        });
+
+                        scope.$watch('dt', function (newValue, oldValue) {
+
+                            //scope.currentEditRecord[scope.field.name] = scope.theDate.toISOString();
+                        });
+
+                        scope.$watch('mytime', function (newValue, oldValue) {
+
+                            //scope.currentEditRecord[scope.field.name] = scope.theDate.toISOString();
+                        });
+                        break;
+
                 }
 
                 elem.append($compile($templateCache.get(scope.templateData.template))(scope));
-
             }
         }
     }]);

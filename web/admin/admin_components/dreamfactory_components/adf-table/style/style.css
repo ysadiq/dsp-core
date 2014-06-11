@@ -14,3 +14,24 @@
 
     background: lightsteelblue !important;
 }
+
+.df-toolbar {
+
+    margin: 20px auto
+}
+
+.df-table-divider {
+    margin: 5px auto
+}
+
+.df-progress-border {
+    border-bottom: 1px solid #ddd;
+}
+
+.df-progress-margin {
+    margin-bottom: 15px;
+}
+
+.df-progress .progress {
+    border-radius: 0;
+}
