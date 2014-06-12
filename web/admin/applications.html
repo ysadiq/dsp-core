@@ -100,7 +100,7 @@
 
                             <br/>
 
-                            <div data-ng-if="app.is_url_external == 1" class="alert alert-success">Your URL will be:
+                            <div data-ng-if="app.is_url_external == 1" class="alert alert-success"><li class="fa fa-cloud"></li>&nbsp;Your URL will be:
                                 {{app.url}}
                             </div>
                             <div data-ng-hide="app.is_url_external!=0" id="remote_storage">Choose where you want your
@@ -144,7 +144,7 @@
                                    ng-model="app.url">
                             <br/>
                             <div ng-show="app.is_url_external==0" class="alert alert-success local">
-                                <li class="icon-cloud"></li>
+                                <li class="fa fa-cloud"></li>
                                 &nbsp;Your URL will be:
                                 {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}<span>{{app.url}}</span>
                             </div>
