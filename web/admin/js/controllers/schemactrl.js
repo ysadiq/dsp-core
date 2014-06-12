@@ -206,8 +206,10 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         })
     }
     $scope.createTable = function(){
+        var name = this.newTableName;
+        this.newTableName = "";
         var requestObject = {
-            name : this.newTableName,
+            name : name,
             field: [
                 {name : "id",
                  type : "id"
