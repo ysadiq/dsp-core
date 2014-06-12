@@ -24,14 +24,14 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
             $scope.tables = [];
             $scope.dataServices = getDataServices.data.record;
             //$scope.dataServiceNames = [];
-            $scope.dataServices.forEach(function(service){
+            $scope.dataServices.forEach(function (service) {
                 $scope.tables[service.api_name] = [];
                 $http.get(CurrentServer + "/rest/" + service.api_name)
-                    .then(function(response){
-                        response.data.resource.forEach(function(table){
-                        $scope.tables[service.api_name].push(table);
+                    .then(function (response) {
+                        response.data.resource.forEach(function (table) {
+                            $scope.tables[service.api_name].push(table);
+                        });
                     });
-                });
             });
 
             $scope.Config = Config.get(
@@ -50,70 +50,122 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
                     function (response) {
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
+                            //if(Object.keys($scope.tables).indexOf(event.name) != '-1'){
+//                                $scope.tables[event.name].forEach(
+//                                    function (table) {
+                            //console.log("table=" + table);
 
-                            if(Object.keys($scope.tables).indexOf(event.name) != '-1'){
-                                $scope.tables[event.name].forEach(
-                                    function (table) {
-                                        //console.log("table=" + table);
-                                        var newPath = {};
-                                        newPath.path = "/" + event.name +"/" + table.name;
-                                        newPath.verbs = [
-                                            {"type": "get",
-                                                "event": [event.name + "." + table.name + ".select"
-                                                ]},
-                                            {
-                                                "type":"get",
-                                                "event" : [event.name + "." + table.name + ".get.pre_process"]
-                                            },
-                                            {
-                                                "type":"get",
-                                                "event" : [event.name + "." + table.name + ".get.post_process"]
-                                            },
-                                            {"type": "put",
-                                                "event": [
-                                                    event.name + "." + table.name + ".update"
-                                                ]},
-                                            {
-                                                "type":"put",
-                                                "event" : [event.name + "." + table.name + ".put.pre_process"]
-                                            },
-                                            {
-                                                "type":"put",
-                                                "event" : [event.name + "." + table.name + ".put.post_process"]
-                                            },
-                                            {"type": "post",
-                                                "event": [
-                                                    event.name + "." + table.name + ".insert"
-                                                ]},
-                                            {
-                                                "type":"post",
-                                                "event" : [event.name + "." + table.name + ".post.pre_process"]
-                                            },
-                                            {
-                                                "type":"post",
-                                                "event" : [event.name + "." + table.name + ".post.post_process"]
-                                            },
-                                            {"type": "delete",
-                                                "event": [
-                                                    event.name + "." + table.name + ".delete"
-                                                ]},
-                                            {
-                                                "type":"delete",
-                                                "event" : [event.name + "." + table.name + ".delete.pre_process"]
-                                            },
-                                            {
-                                                "type":"delete",
-                                                "event" : [event.name + "." + table.name + ".delete.post_process"]
-                                            }
-                                        ];
-                                        event.paths.push(newPath);
-                                    }
-                                );
-                            }else{
-                                event.paths.forEach(function (path) {
-                                    var preEvent, postEvent, preObj, postObj;
-                                    var pathIndex = path.path.lastIndexOf("/") + 1;
-                                    var pathName = path.path.substr(pathIndex);
+//                                        var newPath = {};
+//                                        newPath.path = "/" + event.name +"/" + table.name;
+//                                        newPath.verbs = [
+//                                            {"type": "get",
+//                                                "event": [event.name + "." + table.name + ".select"
+//                                                ]},
+//                                            {
+//                                                "type":"get",
+//                                                "event" : [event.name + "." + table.name + ".get.pre_process"]
+//                                            },
+//                                            {
+//                                                "type":"get",
+//                                                "event" : [event.name + "." + table.name + ".get.post_process"]
+//                                            },
+//                                            {"type": "put",
+//                                                "event": [
+//                                                    event.name + "." + table.name + ".update"
+//                                                ]},
+//                                            {
+//                                                "type":"put",
+//                                                "event" : [event.name + "." + table.name + ".put.pre_process"]
+//                                            },
+//                                            {
+//                                                "type":"put",
+//                                                "event" : [event.name + "." + table.name + ".put.post_process"]
+//                                            },
+//                                            {"type": "post",
+//                                                "event": [
+//                                                    event.name + "." + table.name + ".insert"
+//                                                ]},
+//                                            {
+//                                                "type":"post",
+//                                                "event" : [event.name + "." + table.name + ".post.pre_process"]
+//                                            },
+//                                            {
+//                                                "type":"post",
+//                                                "event" : [event.name + "." + table.name + ".post.post_process"]
+//                                            },
+//                                            event.paths.push(newpath)
+//                                            {
+//                                                "type":"delete",
+//                                                "event" : [event.name + "." + table.name + ".delete.pre_process"]
+//                                            },
+//                                            {
+//                                                "type":"delete",
+//                                                "event" : [event.name + "." + table.name + ".delete.post_process"]
+//                                            }
+//                                        ];
+//                                        event.paths.push(newPath);
+//                                    }
+//                                );
+                            // }else{
+                            event.paths.forEach(function (path) {
+                                var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
+                                var pathIndex = path.path.lastIndexOf("/") + 1;
+                                var pathName = path.path.substr(pathIndex);
+                                if (Object.keys($scope.tables).indexOf(event.name) != '-1' && pathName !== event.name) {
+                                    var newpath = {};
+                                    //console.log(event);
+                                  $scope.tables[event.name].forEach(function (table) {
+                                      newpath = {};
+                                      updateEvent =  {"type": "put",
+                                          "event": [
+                                              event.name + "." + table.name + ".update"
+                                          ]};
+                                      deleteEvent =  {"type": "delete",
+                                          "event": [
+                                              event.name + "." + table.name + ".delete"
+                                          ]};
+                                      insertEvent =  {"type": "post",
+                                          "event": [
+                                              event.name + "." + table.name + ".insert"
+                                          ]};
+                                      selectEvent =  {"type": "get",
+                                          "event": [
+                                              event.name + "." + table.name + ".select"
+                                          ]};
+                                      newpath.verbs = [];
+                                      newpath.path = "/" + event.name +"/" + table.name;
+
+                                        path.verbs.forEach(function (verb) {
+                                            preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
+                                            preObj = {"type": verb.type, "event": [preEvent]};
+                                            postEvent =  event.name + "." + table.name + "." + verb.type + "." + "post_process";
+                                            postObj = {"type": verb.type, "event": [postEvent]};
+
+
+                                            newpath.verbs.push(preObj);
+                                            newpath.verbs.push(postObj);
+
+                                        });
+                                      console.log(event.paths);
+                                      var found = false;
+                                      event.paths.forEach(function(pathObj){
+
+                                          if(pathObj.path === newpath.path){
+                                               found = true;
+                                          }
+
+                                          });
+                                      if(!found){
+                                          newpath.verbs.push(selectEvent);
+                                          newpath.verbs.push(insertEvent);
+                                          newpath.verbs.push(updateEvent);
+                                          newpath.verbs.push(deleteEvent);
+                                          event.paths.push(newpath)
+                                      }
+
+                                  });
+
+                                }else{
                                     path.verbs.forEach(function (verb) {
                                         preEvent = pathName + "." + verb.type + "." + "pre_process";
                                         preObj = {"type": verb.type, "event": [preEvent]};
@@ -122,12 +174,12 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
                                         path.verbs.push(preObj);
                                         path.verbs.push(postObj);
                                     });
+                                }
 
-                                });
-                            }
+
+                            });
+                            // }
                             //console.log(event);
-
-
 
 
                             //
@@ -153,14 +205,14 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
             $scope.currentScript = null;
             $scope.hasContent = false;
             $scope.exampleScripts = response;
-            editor.setValue(response);
+            editor.setValue(response, -1);
         });
 
     };
     $scope.showSamples = function () {
         $scope.currentScript = null;
         $scope.hasContent = false;
-        editor.setValue($scope.exampleScripts);
+        editor.setValue($scope.exampleScripts, -1);
     };
     $scope.loadScript = function () {
         editor.setValue('');
@@ -171,7 +223,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
         var script_id = {"script_id": $scope.currentScript};
         Script.get(script_id).$promise.then(
             function (response) {
-                editor.setValue(response.script_body);
+                editor.setValue(response.script_body, -1);
                 $scope.hasContent = true;
                 $.pnotify(
                     {
