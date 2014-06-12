@@ -9,7 +9,6 @@
 #grid-table table {
 	width:         250px;
 	margin-bottom: 0;
-
 }
 
 #grid-table input {
@@ -72,9 +71,9 @@
 /*}*/
 
 #app-details {
-vertical-align: top;
-border:         0;
-width:          100%;
+	vertical-align: top;
+	border:         0;
+	width:          100%;
 }
 
 /*#item-list {*/
@@ -349,6 +348,11 @@ html, body, #container {
 	height: 100%;
 }
 
+#container {
+	margin-top: 20px;
+	position:   relative;
+}
+
 .access {
 	display: inline-block;
 	width:   80px;
@@ -462,7 +466,7 @@ html, body, #container {
 	padding-bottom:   65.25%;
 	padding-top:      30px;
 	height:           0;
-	overflow:         auto;
+	/*overflow:         auto;*/
 }
 
 #login-page {
@@ -534,14 +538,6 @@ html, body, #container {
 	vertical-align: top;
 }
 
-#event-container {
-
-}
-
-.event-path {
-
-}
-
 .event-name {
 	background-color: #dfdfdf;
 	padding-left:     5px;
@@ -602,26 +598,19 @@ html, body, #container {
 
 }
 
-#sidebar {
-	vertical-align: top;
-	padding:        5px;
-}
-
 #master-list {
 	list-style: none;
 	display:    inline;
 }
-#resource-container td{
-    vertical-align: top;
-    padding:10px;
 
+#resource-container td {
+	vertical-align: top;
+	padding:        10px;
 }
-
 
 #resource-list {
 	width: 300px;
 }
-
 
 .resource-name {
 	width:   160px;
@@ -642,28 +631,32 @@ html, body, #container {
 }
 
 /*#navigation:first-child {*/
-	/*border-top-left-radius:  4px;*/
-	/*border-top-right-radius: 4px;*/
+/*border-top-left-radius:  4px;*/
+/*border-top-right-radius: 4px;*/
 /*}*/
 
 /*#navigation:last-child {*/
-	/*border-bottom-left-radius:  4px;*/
-	/*border-bottom-right-radius: 4px;*/
+/*border-bottom-left-radius:  4px;*/
+/*border-bottom-right-radius: 4px;*/
 /*}*/
 
 /*#navigation li {*/
-	/*padding:       0;*/
-	/*border-radius: 4px;*/
+/*padding:       0;*/
+/*border-radius: 4px;*/
 /*}*/
 
+* {
+	outline: medium none !important;
+}
+
 #navigation li.active > a:focus {
-	outline: none;
+	outline: medium none !important;
 }
 
 #main-content {
-	padding:        5px;
-	vertical-align: top;
-	width:          100%;
+	padding-left: 0;
+	/*vertical-align: top;*/
+	/*width:          100%;*/
 }
 
 #app-buttons {
@@ -690,23 +683,76 @@ html, body, #container {
 	padding: 10px;
 }
 
-a.list-group-item > i.icon {
-	margin-right: 10px;
+#config-form {
+	padding: 10px;
 }
 
-#config-form{
-    padding:10px;
+#schema-list {
+	width: 300px;
 }
-#schema-list accordion{
-    display: inline-block;
-    width: 330px;
+
+.list-group-item {
+	padding: 8px 12px;
 }
+
+.list-group-item > i.fa {
+	min-width:    14px;
+	margin-right: 10px;
+	opacity:      0.8;
+}
+
+a.list-group-item:hover > i.fa {
+	opacity: 1;
+}
+
+h2.panel-title {
+	font-size:   22px;
+	font-weight: bold;
+}
+
+h3.panel-title {
+	font-size:   20px;
+	font-weight: bold;
+}
+
+#schema-list accordion {
+	display: inline-block;
+	width:   330px;
+}
+
+.radio > label > i.fa, .form-group > a > i.fa {
+	margin-left:  4px;
+	margin-right: 4px;
+	opacity:      0.8;
+}
+
+.radio > label > i.fa:hover, .form-group > a > i.fa:hover {
+	opacity: 1;
+}
+
+#schema-editor {
+	height: 300px;
+	width:  600px;
+}
+
 .affix {
 	position: fixed;
-	width: 215px;
-
+	top:      20px !important;
 }
-#schema-editor{
-    height:300px;
-    width:600px;
+
+.affix-top {
+	position: fixed;
+	top:      20px !important;
+}
+
+.affix-bottom {
+	position: fixed;
+	bottom:   0;
+	top:      auto;
+}
+
+.divider:before {
+	content: "/\00a0";
+	padding: 0 0 0 4px;
+	color:   #ccc;
 }

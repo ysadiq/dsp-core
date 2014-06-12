@@ -23,12 +23,11 @@
             <span class="btn-group btn-group-sm pull-right">
 
                                       <button class="btn btn-default" title="Show JSON Schema"
-                                              ng-click="loadSchema(true)"><i
-                                              class="icon-code"></i>
+                                              ng-click="loadSchema(true)"><i class="fa fa-code"></i>
                                       </button>
-                <button class="btn btn-danger" title="Show JSON Schema"
+                <button class="btn btn-danger" title="Drop Table"
                         ng-click="dropTable()"><i
-                        class="icon-remove"></i>
+                        class="fa fa-trash-o"></i>
                 </button>
             </span>
 
@@ -60,7 +59,7 @@
 
                                       <button class="btn btn-default" title="Delete Column"
                                               ng-click="deleteColumn()"><i
-                                              class="icon-remove"></i>
+                                              class="fa fa-trash-o"></i>
                                       </button>
             </span></accordion-heading>
                                     <div class="form-group">
@@ -208,8 +207,9 @@
                                 <td class="no-border">
                                     <div class="btn-group">
 
-                                        <a class="btn btn-small btn-inverse" ng-click="removeField()"><i
-                                                class="icon-trash"></i></a>
+                                        <button class="btn btn-default" ng-click="removeField()"><i
+                                                class="fa fa-trash-o"></i></button>
+
                                     </div>
                                 </td>
                             </tr>
