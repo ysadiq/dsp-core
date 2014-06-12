@@ -380,7 +380,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
        $scope.newColumn = {
            name : "New Column"
        }
-       $scope.table.schema.data.field.push($scope.newColumn)
+       $scope.table.schema.data.field.unshift($scope.newColumn)
     }
     $scope.deleteColumn = function(){
         console.log(this);

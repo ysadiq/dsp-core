@@ -7,20 +7,17 @@
                 Download SDK <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="https://github.com/dreamfactorysoftware/javascript-sdk" target="df-new"><span
-                        class="icon-download-alt"></span> JavaScript SDK </a></li>
-                <li><a  href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><span
-                        class="icon-download-alt"></span> iOS SDK </a></li>
-                <li><a href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new"><span
-                        class="icon-download-alt"></span> Android SDK </a></li>
+                <li><a href="https://github.com/dreamfactorysoftware/javascript-sdk" target="df-new">JavaScript SDK </a></li>
+                <li><a  href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><iOS SDK </a></li>
+                <li><a href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new">Android SDK </a></li>
             </ul>
         </div>
         <button ng-click="goToImport()" class="btn btn-default">
-            <span class="icon-upload-alt"></span>
+            <span class="fa fa-upload"></span>
             Import New App
         </button>
         <button ng-click="promptForNew()" class="btn btn-default">
-            <span class="icon-plus-sign-alt"></span>
+            <span class="fa fa-plus-square"></span>
             Create New App
         </button>
     </div>
@@ -40,12 +37,12 @@
                                 <button data-ng-if="app.launch_url != null && app.launch_url !=''"
                                         class="btn btn-default" title="Preview this app"
                                         ng-click="showAppPreview(app.launch_url, app.api_name)"><i
-                                        class="icon-eye-open"></i></button>
+                                        class="fa fa-eye"></i></button>
                                 <button data-ng-if="app.storage_service_id" class="btn btn-default"
                                         title="Manage app files" ng-click="showFileManager()"><i
-                                        class="icon-folder-open"></i></button>
+                                        class="fa fa-folder-open"></i></button>
                                 <button class="btn btn-default" title="Delete this app" ng-click="delete()"><i
-                                        class="icon-trash"></i></button>
+                                        class="fa fa-trash-o"></i></button>
                             </span>
 
                 </li>
@@ -73,7 +70,7 @@
                         <br/>
 
                         <div class="options">
-                            <label><i class="icon-hdd icon-2x"></i>&nbsp;<b>Where will this app live?</b></label>
+                            <label><i class="fa fa-hdd-o"></i>&nbsp;<b>Where will this app live?</b></label>
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <input type="radio" ng-model="app.is_url_external" value='0'/>&nbsp;&nbsp;Use our
@@ -173,7 +170,7 @@
                             <p><b>Assign this app to a role(s).</b></p>
 
                             <div class="alert alert-info">
-                                <li class="icon-info-sign"></li>
+                                <li class="fa fa-info"></li>
                                 Each user who is assigned to one of the selected roles will have access to this app.
                                 Go
                                 to the Roles tab to create and manage roles.
@@ -209,11 +206,11 @@
                         <input type="checkbox" data-ng-model = "create_another"/>&nbsp;Create Another&nbsp;
                         <a ng-click="create()"
                                                                                class="btn btn-primary">
-                        <li class="icon-circle-arrow-right"></li>
+                        <li class="fa fa-arrow-circle-right"></li>
                         &nbsp;Create Application</a></div>
                     <div id="update_button" data-ng-show="action=='Update'"><a ng-click="save()"
                                                                                class="btn btn-primary">
-                        <li class="icon-save"></li>
+                        <li class="fa fa-save"></li>
                         &nbsp;Update Application</a></div>
 
 

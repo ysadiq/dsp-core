@@ -543,8 +543,7 @@ Actions = {
 //		var that = this;
 //		$.ajax({
 //			dataType: 'json',
-//			url: CurrentServer + '/rest/user/profile/' + CurrentUserID + '/',
-//			data:     'method=GET&app_name=launchpad',
+//			url: CurrentServer + '/rest/user/profile/?method=GET&app_name=launchpad',
 //			cache:    false,
 //			success:  function(response) {
 //				Profile = response;
@@ -612,7 +611,7 @@ Actions = {
 		$.ajax({
 			dataType: 'json',
 			type:     'POST',
-			url:      CurrentServer + '/rest/user/profile/' + CurrentUserID + '/?method=MERGE&app_name=launchpad',
+			url:      CurrentServer + '/rest/user/profile/?method=MERGE&app_name=launchpad',
 			data:     JSON.stringify(NewUser),
 			cache:    false,
 			success:  function (response) {
@@ -703,8 +702,7 @@ Actions = {
 		$.ajax({
 			dataType: 'json',
 			type:     'POST',
-			url:      CurrentServer + '/rest/user/session/' + CurrentUserID + '/',
-			data:     'app_name=launchpad&method=DELETE',
+			url:      CurrentServer + '/rest/user/session/?app_name=launchpad&method=DELETE',
 			cache:    false,
 			success:  function (response) {
 				$('#app-container').empty();
