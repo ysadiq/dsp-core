@@ -34,7 +34,8 @@ angular.module(
             "AdminApp.apisdk",
             "dfTable",
             "dfUtility",
-            "dfSystemConfig"
+            "dfSystemConfig",
+            "dfUsers"
         ]
     )
     .constant("DSP_URL", CurrentServer)
@@ -60,12 +61,12 @@ angular.module(
                     templateUrl: 'applications.html'
                 }
             );
-            $routeProvider.when(
+/*            $routeProvider.when(
                 '/user', {
                     controller: UserCtrl,
                     templateUrl: 'users.html'
                 }
-            );
+            );*/
             $routeProvider.when(
                 '/role', {
                     controller: RoleCtrl,
