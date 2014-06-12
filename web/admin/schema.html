@@ -46,12 +46,16 @@
             <td>&nbsp;</td>
             <td id="app-details">
                 <div data-ng-show="advanced">
-                    <div id="schema-editor"></div>
-                <br/>
                     <div class="btn-group"><button class="btn btn-default"  data-ng-show="table.schema" data-ng-click="toggleJSON()">Toggle JSON</button><button class="btn btn-primary" data-ng-click="updateJSONSchema()">Update Schema</button></div>
+<br/><br/>
+                    <div id="schema-editor"></div>
 
                 </div>
                 <div data-ng-show="!advanced">
+                    <div class="btn-group">
+                        <button class="btn btn-default"  data-ng-show="table.schema" data-ng-click="toggleJSON()">Toggle JSON</button><button class="btn btn-default" data-ng-show="table.schema" data-ng-click="addColumn()">Add Column</button>
+                    </div>
+                    <br/><br/>
                     <accordion close-others=true>
 
                         <accordion-group ng-repeat="column in table.schema.data.field">
@@ -133,9 +137,7 @@
 
                     </accordion>
                     <br/>
-                    <div class="btn-group">
-                        <button class="btn btn-default"  data-ng-show="table.schema" data-ng-click="toggleJSON()">Toggle JSON</button><button class="btn btn-default" data-ng-show="table.schema" data-ng-click="addColumn()">Add Column</button><button class="btn btn-primary" data-ng-show="table.schema" data-ng-click="updateSchema()">Update Schema</button>
-                </div>
+                    <button class="btn btn-primary" data-ng-show="table.schema" data-ng-click="updateSchema()">Update Schema</button>
 
                 </div>
 
