@@ -314,6 +314,40 @@ angular.module('dfUtility', [])
         }
 
     }])
+    .service('dfStringService', [function () {
+
+        return {
+            areIdentical: function (stringA, stringB) {
+
+                stringA = stringA || '';
+                stringB = stringB || '';
+
+
+                function _sameLength(stringA, stringB) {
+                    return  stringA.length == stringB.length;
+                }
+
+                function _sameLetters(stringA, stringB) {
+
+                    var l = Math.min(stringA.length, stringB.length);
+
+                    for (var i = 0; i < l; i++) {
+                        if (stringA.charAt(i) !== stringB.charAt(i)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                if (_sameLength(stringA, stringB) && _sameLetters(stringA, stringB)) {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+    }])
     .filter('orderAndShowSchema', [ function () {
 
         return function (items, fields, reverse) {
