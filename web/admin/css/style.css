@@ -9,7 +9,6 @@
 #grid-table table {
 	width:         250px;
 	margin-bottom: 0;
-
 }
 
 #grid-table input {
@@ -72,9 +71,9 @@
 /*}*/
 
 #app-details {
-vertical-align: top;
-border:         0;
-width:          100%;
+	vertical-align: top;
+	border:         0;
+	width:          100%;
 }
 
 /*#item-list {*/
@@ -349,6 +348,11 @@ html, body, #container {
 	height: 100%;
 }
 
+#container {
+	margin-top: 20px;
+	position:   relative;
+}
+
 .access {
 	display: inline-block;
 	width:   80px;
@@ -462,7 +466,7 @@ html, body, #container {
 	padding-bottom:   65.25%;
 	padding-top:      30px;
 	height:           0;
-	overflow:         auto;
+	/*overflow:         auto;*/
 }
 
 #login-page {
@@ -534,14 +538,6 @@ html, body, #container {
 	vertical-align: top;
 }
 
-#event-container {
-
-}
-
-.event-path {
-
-}
-
 .event-name {
 	background-color: #dfdfdf;
 	padding-left:     5px;
@@ -602,11 +598,6 @@ html, body, #container {
 
 }
 
-#sidebar {
-	vertical-align: top;
-	padding:        5px;
-}
-
 #master-list {
 	list-style: none;
 	display:    inline;
@@ -615,7 +606,6 @@ html, body, #container {
 #resource-container td {
 	vertical-align: top;
 	padding:        10px;
-
 }
 
 #resource-list {
@@ -664,9 +654,9 @@ html, body, #container {
 }
 
 #main-content {
-	padding:        5px;
-	vertical-align: top;
-	width:          100%;
+	padding-left: 0;
+	/*vertical-align: top;*/
+	/*width:          100%;*/
 }
 
 #app-buttons {
@@ -701,11 +691,6 @@ html, body, #container {
 	width: 300px;
 }
 
-.affix {
-	position:  fixed;
-	min-width: 215px;
-}
-
 .list-group-item {
 	padding: 8px 12px;
 }
@@ -730,9 +715,9 @@ h3.panel-title {
 	font-weight: bold;
 }
 
-#schema-list accordion{
-    display: inline-block;
-    width: 330px;
+#schema-list accordion {
+	display: inline-block;
+	width:   330px;
 }
 
 .radio > label > i.fa, .form-group > a > i.fa {
@@ -745,7 +730,29 @@ h3.panel-title {
 	opacity: 1;
 }
 
-#schema-editor{
-    height:300px;
-    width:600px;
+#schema-editor {
+	height: 300px;
+	width:  600px;
+}
+
+.affix {
+	position: fixed;
+	top:      20px !important;
+}
+
+.affix-top {
+	position: fixed;
+	top:      20px !important;
+}
+
+.affix-bottom {
+	position: fixed;
+	bottom:   0;
+	top:      auto;
+}
+
+.divider:before {
+	content: "/\00a0";
+	padding: 0 0 0 4px;
+	color:   #ccc;
 }

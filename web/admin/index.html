@@ -7,7 +7,9 @@
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="/admin/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="/css/df.callouts.css" type="text/css" />
-	<link rel="stylesheet" href="/admin/admin_components/dreamfactory_components/adf-table/style/style.css" type="text/css" />
+	<link rel="stylesheet"
+		href="/admin/admin_components/dreamfactory_components/adf-table/style/style.css"
+		type="text/css" />
 	<link rel="stylesheet" href="/admin/js/ng-grid/ng-grid.css" type="text/css" />
 	<link rel="stylesheet" href="/js/pnotify/pnotify.custom.min.css" type="text/css" />
 </head>
@@ -17,19 +19,19 @@
 	<iframe seamless="seamless" src="/web/login" id="login-frame"></iframe>
 </div>
 
-<div class="container-fluid">
-	<table id="container">
-		<tr>
-			<td class="ie-width-fix"><img src="img/trans.png" style="height:1px;width:225px" /></td>
-			<td class="ie-width-fix" colspan="2"></td>
-		</tr>
-		<tr>
-			<td id="sidebar" ng-include src="'navigation.html'"></td>
-			<td id="main-content">
-				<div id="angular-content" ng-view></div>
-			</td>
-		</tr>
-	</table>
+<div id="container" class="container-fluid">
+	<div class="row">
+		<div id="sidebar"
+			class="col-md-2"
+			data-spy="affix"
+			data-offset-top="0"
+			data-offset-bottom="20"
+			ng-include="'navigation.html'">
+		</div>
+		<div id="main-content" class="col-md-offset-2 col-md-10">
+			<div id="angular-content" ng-view></div>
+		</div>
+	</div>
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -57,11 +59,13 @@
 <script src="/admin/js/controllers/servicectrl.js"></script>
 <script src="/admin/js/controllers/filectrl.js"></script>
 <script src="/admin/js/controllers/controllers.js"></script>
+
 <script src="/admin/js/directives/AdminApp.apisdk.js"></script>
 
 <script src="/admin/js/app.js"></script>
 
 <script src="/admin/js/jsonlint.js"></script>
+
 <script src="/filemanager/js/ace/ace.js"></script>
 <script src="/filemanager/js/ace/mode-javascript.js"></script>
 </body>
