@@ -756,3 +756,8 @@ h3.panel-title {
 	padding: 0 0 0 4px;
 	color:   #ccc;
 }
+.table-listing{
+    height:300px;
+    width:300px;
+    overflow:auto;
+}

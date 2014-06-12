@@ -139,6 +139,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     $scope.loadServices();
     $scope.loadSchema = function(advanced){
         $scope.table = this.table;
+        $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
         $http.get(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
             .then(function(response){
@@ -206,8 +207,10 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         })
     }
     $scope.createTable = function(){
+        var name = this.newTableName;
+        this.newTableName = "";
         var requestObject = {
-            name : this.newTableName,
+            name : name,
             field: [
                 {name : "id",
                  type : "id"
@@ -238,7 +241,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
                         type: 'success'
                     });
                 });
-
+            editor.setValue(angular.toJson(result, true), -1);
             }
         }
         catch ( e ) {
