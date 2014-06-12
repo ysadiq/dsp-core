@@ -238,7 +238,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
                         type: 'success'
                     });
                 });
-
+            editor.setValue(angular.toJson(result, true), -1);
             }
         }
         catch ( e ) {
