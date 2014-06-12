@@ -190,11 +190,13 @@ angular.module('dfUtility', [])
                     });
 
                     scope._setButtonText();
-                })
+                });
+
+
 
                 elem.css({
                     'display': 'inline-block'
-                })
+                });
 
             }
         }

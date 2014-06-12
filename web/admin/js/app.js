@@ -26,7 +26,15 @@ var container = $("#container");
  */
 angular.module(
         "AdminApp", [
-            "ngRoute", "ngResource", "ui.bootstrap.accordion", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility"
+            "ngRoute",
+            "ngResource",
+            "ui.bootstrap.accordion",
+            "ngGrid",
+            "AdminApp.controllers",
+            "AdminApp.apisdk",
+            "dfTable",
+            "dfUtility",
+            "dfSystemConfig"
         ]
     )
     .constant("DSP_URL", CurrentServer)
@@ -110,12 +118,16 @@ angular.module(
                     templateUrl: 'package.html'
                 }
             );
+
+           /*
             $routeProvider.when(
                 '/config', {
                     controller: ConfigCtrl,
                     templateUrl: 'config.html'
                 }
-            );
+            );*/
+
+
             $routeProvider.when(
                 '/data', {
                     controller: DataCtrl,
