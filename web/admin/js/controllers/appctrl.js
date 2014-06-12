@@ -176,14 +176,14 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 				if ( window.top.Actions ) {
 					window.top.Actions.updateSession( "update" );
 				}
+                $(function(){
+                    new PNotify({
+                        title: Scope.app.name,
+                        type:  'success',
+                        text:  'Updated Successfully'
+                    });
+                });
 
-				$.pnotify(
-					{
-						title: Scope.app.name,
-						type:  'success',
-						text:  'Updated Successfully'
-					}
-				);
 				$( document ).scrollTop();
 				Scope.promptForNew();
 
@@ -219,14 +219,14 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 				if ( window.top.Actions ) {
 					window.top.Actions.updateSession( "update" );
 				}
-
-				$.pnotify(
-					{
-						title:  $scope.app.name,
-						type:  'success',
-						text:  'Created Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title:  $scope.app.name,
+                        type:  'success',
+                        text:  'Created Successfully'
+                    });
+                });
+				
                 if( $scope.create_another){
                     $scope.promptForNew();
                 }else {
@@ -269,16 +269,18 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 				delete_storage: delete_files
 			}, function() {
 				$( "#row_" + id ).fadeOut();
-				window.top.Actions.updateSession();
+				if(window.top && window.top.Actions){
+                    window.top.Actions.updateSession();
+                }
 
 				Scope.promptForNew();
-				$.pnotify(
-					{
-						title: Scope.app.name,
-						type:  'success',
-						text:  'Removed Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: Scope.app.name,
+                        type:  'success',
+                        text:  'Removed Successfully'
+                    });
+                });
 			}
 		);
 	};
