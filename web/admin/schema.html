@@ -19,7 +19,7 @@
                         <div class="table-listing">
 
                             <ul id="resource-list" class="list-group">
-                                <li ng-click="showDetails()"  class="list-group-item"
+                                <li data-ng-class="table.name === currentTable ? 'active' : ''"  ng-click="showDetails()"  class="list-group-item"
                                     ng-repeat="table in service.tables">
                                     <span data-ng-click="loadSchema()" class="user-name">{{table.name}}</span>
             <span class="btn-group btn-group-sm pull-right">

@@ -139,6 +139,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     $scope.loadServices();
     $scope.loadSchema = function(advanced){
         $scope.table = this.table;
+        $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
         $http.get(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
             .then(function(response){
