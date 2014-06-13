@@ -17,7 +17,7 @@
         <li ng-click="showDetails()" data-ng-class="role.id === currentRoleId ? 'active' : ''" class="list-group-item"
             ng-repeat="role in Roles.record | filter:searchText" id="row_{{role.id}}">
             <span class="user-name">{{role.name}}</span>
-            <span class="btn-group btn-group-sm">
+            <span class="btn-group btn-group-sm pull-right">
 
                                       <button class="btn btn-default" title="Delete this role"
                                               ng-click="delete()"><i
