@@ -8,7 +8,7 @@
 
                 <accordion close-others=true>
 
-                    <accordion-group heading="{{service.api_name}}" ng-repeat="service in dbServices">
+                    <accordion-group data-ng-click="setService()" heading="{{service.api_name}}" ng-repeat="service in dbServices">
                         <div class="form-inline">
                             <input type="text" class="form-control"  placeholder="New table name" data-ng-model="newTableName"/>
                             <button ng-click="createTable()" class="btn btn-default">
@@ -38,7 +38,10 @@
                             </ul>
                         </div>
 
-
+                        <button ng-click="showImport()" class="btn btn-default">
+                            <li class="icon-plus-sign-alt"></li>
+                            Import JSON Schema
+                        </button>
                     </accordion-group>
 
                 </accordion>
@@ -50,7 +53,11 @@
             <td>&nbsp;</td>
             <td id="app-details">
                 <div data-ng-show="advanced">
-                    <div class="btn-group"><button class="btn btn-default"  data-ng-show="table.schema" data-ng-click="toggleJSON()">Toggle JSON</button><button data-ng-click="validateJSON()" class="btn btn-default">Validate</button><button class="btn btn-primary" data-ng-click="updateJSONSchema()">Update Schema</button></div>
+                    <div class="btn-group"><button class="btn btn-default"  data-ng-show="table.schema && !import" data-ng-click="toggleJSON()">Toggle JSON</button>
+                        <button data-ng-click="validateJSON()" class="btn btn-default">Validate</button>
+                        <button class="btn btn-primary" data-ng-show= "!import" data-ng-click="updateJSONSchema()">Update Schema</button>
+                        <button class="btn btn-primary" data-ng-show = "import" data-ng-click="postJSONSchema()">Post Schema</button>
+                    </div>
 <br/><br/>
                     <div id="schema-editor"></div>
 
