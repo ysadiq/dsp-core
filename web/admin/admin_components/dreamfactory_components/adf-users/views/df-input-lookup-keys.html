@@ -1,0 +1,48 @@
+<table class="table table-hover table-striped table-responsive">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Private</th>
+        <th>Allow User Update</th>
+        <th>
+            <div class="btn-group pull-left">
+                <a class="btn btn-mini btn-inverse" ng-click="">
+                    <i class="icon-plus" ng-click="newKey()"></i>
+                </a>
+            </div>
+        </th>
+    </tr>
+    </thead>
+
+
+    <tbody>
+
+    <tr ng-repeat="key in user.lookup_keys">
+        <td>
+            <input data-ng-model="key.name" type="text" />
+        </td>
+        <td>
+            <input data-ng-model="key.value" type="text" />
+        </td>
+        <td>
+            <input ng-model="key.private" type="checkbox" />
+        </td>
+        <td>
+            <input ng-model="key.allow_user_update" type="checkbox" />
+        </td>
+        <td class="no-border">
+            <div class="btn-group pull-left">
+                <a class="btn btn-mini btn-inverse" ng-click="removeKey()">
+                    <i class="icon-trash"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+<p data-ng-if="!user.lookup_keys.length">
+    No lookup keys for this user. Click the plus button to add.
+</p>

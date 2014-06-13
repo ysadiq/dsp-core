@@ -92,114 +92,88 @@
                         <button type="button" data-ng-click="deleteRecords()" class="btn btn-default btn-sm">
                             Delete
                         </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-                <!--
-                <div data-ng-hide="filterViewBy === '' ? true : false"
-                     class="form-group col-xs-12 col-sm-4">
-                    <label style="display:block" for="df-{{schema.name}}-table-view-by">
-                        <small>View By</small>
-                    </label>
-                    <select class="form-control" id="df-{{schema.name}}-table-view-by" data-ng-model="filter.viewBy"
-                            data-ng-options="field.name as field.label for field in schema.field">
-                    </select>
-                </div>
-                -->
-
-            <div style="display: inline;" class="form-group col-xs-12 col-md-3">
-                <label style="display:block" for="df-{{schema.name}}-table-filter-by">
-                    <small>Filter By</small>
-                </label>
-                <select class="form-control input-sm" id="df-{{schema.name}}-table-filter-by" data-ng-model="filter.prop"
-                        data-ng-options="field.name as field.label for field in schema.field">
-                </select>
-            </div>
-
-            <div class="col-xs-12 col-md-3">
-                <label style="display:block" for="df-{{schema.name}}-table-filter-by">
-                    <small>Filter Value</small>
-                </label>
-                <input style="display: inline;" class="form-control input-sm" type="text" data-ng-model="filter.value"
-                       placeholder="Enter Filter Value">
-            </div>
-            <div class="col-xs-12 col-md-3">
-                <label style="display:block" for="df-{{schema.name}}-table-filter-by">
-                    <small>&nbsp;</small><!-- this is here for no reason other that to correct horizontal spacing -->
-                </label>
-                <div class="btn-toolbar">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm" data-ng-click="applyFilter()">Apply</button>
-                        <button type="button" class="btn btn-default btn-sm"
-                                data-ng-class="!_isFiltered() && !_isOrdered() ? 'disabled' : ''"
-                                data-ng-click="removeFilter()">Remove
+                        <button type="button" data-ng-click="filterRecords()" class="btn btn-default btn-sm">
+                            Filters
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <hr class="df-table-divider" />
-
-
-        <div class="row">
-            <div class="form-group col-xs-8 col-md-3">
-                <label style="display:block" for="order-by">
-                    <small>Order by</small>
-                </label>
-                <select class="form-control input-sm" id="order-by" data-ng-model="order.orderBy"
-                        data-ng-options="field.name as field.label for field in schema.field"></select>
-            </div>
-
-
-            <div class="form-group col-xs-4 col-md-1">
-                <label style="display:block" for="order-by-reverse">
-                    <small>Reverse</small>
-                </label>
-                <input type="checkbox" id="order-by-reverse" data-ng-model="order.orderByReverse">
-            </div>
-        </div>
-
-
-        <hr class="df-table-divider" />
-
-<!--
-
-        <div class="row">
-            <div data-ng-if="options.exportValueOn && parentRecord" class="row">
-
-                <div class="col-xs-12">
-                    <div class="form-group" data-ng-class="_isUnsaved(parentRecord) == true ? 'has-warning': ''">
-                        <label>
-                            <small>Export Value</small>
+        <div class="row" data-ng-if="filterOn">
+            <div class="col-xs-12">
+                    <!--
+                    <div data-ng-hide="filterViewBy === '' ? true : false"
+                         class="form-group col-xs-12 col-sm-4">
+                        <label style="display:block" for="df-{{schema.name}}-table-view-by">
+                            <small>View By</small>
                         </label>
+                        <select class="form-control" id="df-{{schema.name}}-table-view-by" data-ng-model="filter.viewBy"
+                                data-ng-options="field.name as field.label for field in schema.field">
+                        </select>
+                    </div>
+                   -->
 
-                        <div class="input-group">
-                              <span class="input-group-btn">
-                                 <button type="button" class="btn btn-default btn-small"
-                                         data-ng-click="editRecord(_exportValue)" data-ng-disabled="!_exportValue"><i
-                                         class="fa fa-pencil"></i>
-                                 </button>
-                                <button type="button" class="btn btn-default btn-small" data-ng-click="setExportValue()"><i
-                                        class="fa fa-times"></i>
+                <div class="row">
+                    <div style="display: inline;" class="form-group col-xs-12 col-md-3">
+                        <label style="display:block" for="df-{{schema.name}}-table-filter-by">
+                            <small>Filter By</small>
+                        </label>
+                        <select class="form-control input-sm" id="df-{{schema.name}}-table-filter-by" data-ng-model="filter.prop"
+                                data-ng-options="field.name as field.label for field in schema.field">
+                        </select>
+                    </div>
+
+                    <div class="col-xs-12 col-md-3">
+                        <label style="display:block" for="df-{{schema.name}}-table-filter-by">
+                            <small>Filter Value</small>
+                        </label>
+                        <input style="display: inline;" class="form-control input-sm" type="text" data-ng-model="filter.value"
+                               placeholder="Enter Filter Value">
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <label style="display:block" for="df-{{schema.name}}-table-filter-by">
+                            <small>&nbsp;</small><!-- this is here for no reason other that to correct horizontal spacing -->
+                        </label>
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm" data-ng-click="applyFilter()">Apply</button>
+                                <button type="button" class="btn btn-default btn-sm"
+                                        data-ng-class="!_isFiltered() && !_isOrdered() ? 'disabled' : ''"
+                                        data-ng-click="removeFilter()">Remove
                                 </button>
-                              </span>
-                            <input data-ng-model="_exportValue[exportField.ref_fields]" class="form-control col-xs-12">
-                        </div>&lt;!&ndash; /input-group &ndash;&gt;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <hr class="df-table-divider" />
+
+
+                <div class="row">
+                    <div class="form-group col-xs-8 col-md-3">
+                        <label style="display:block" for="order-by">
+                            <small>Order by</small>
+                        </label>
+                        <select class="form-control input-sm" id="order-by" data-ng-model="order.orderBy"
+                                data-ng-options="field.name as field.label for field in schema.field"></select>
+                    </div>
+
+
+                    <div class="form-group col-xs-4 col-md-1">
+                        <label style="display:block" for="order-by-reverse">
+                            <small>Reverse</small>
+                        </label>
+                        <input type="checkbox" id="order-by-reverse" data-ng-model="order.orderByReverse">
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div data-ng-if="options.exportValueOn && parentRecord" class="row">
-            <hr />
-        </div>
--->
+        <hr class="df-table-divider" />
+
 
         <div class="row">
             <div class="col-xs-12">
