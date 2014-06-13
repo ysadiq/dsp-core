@@ -731,7 +731,7 @@ h3.panel-title {
 
 #schema-editor {
 	height: 300px;
-	width:  600px;
+	width:  100%;
 }
 
 .affix {
