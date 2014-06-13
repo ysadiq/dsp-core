@@ -198,8 +198,9 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 }
 
 .navbar-inverse {
-	background-color: rgba(0, 0, 0, .90);
-	border-bottom:    1px solid rgba(128, 128, 128, 0.2);
+	background-color: rgba(0, 0, 0, .80);
+	border-bottom:    1px inset rgba(0, 0, 0, 0.9);
+
 	/*transition:       background-color 1000ms, color 1000ms, border-bottom-color 1000ms;*/
 }
 
