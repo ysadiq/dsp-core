@@ -34,11 +34,11 @@
                     <span class="resource-name" >{{app.name}}</span>
 
                             <span class="btn-group btn-group-sm" style="text-align:right;">
-                                <button data-ng-if="app.launch_url != null && app.launch_url !=''"
+                                <button data-ng-disabled="app.launch_url == null || app.launch_url ==''"
                                         class="btn btn-default" title="Preview this app"
                                         ng-click="showAppPreview(app.launch_url, app.api_name)"><i
                                         class="fa fa-eye"></i></button>
-                                <button data-ng-if="app.storage_service_id" class="btn btn-default"
+                                <button data-ng-disabled="!app.storage_service_id" class="btn btn-default"
                                         title="Manage app files" ng-click="showFileManager()"><i
                                         class="fa fa-folder-open"></i></button>
                                 <button class="btn btn-default" title="Delete this app" ng-click="delete()"><i

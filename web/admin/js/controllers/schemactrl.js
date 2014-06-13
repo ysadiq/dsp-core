@@ -138,6 +138,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     }
     $scope.loadServices();
     $scope.loadSchema = function(advanced){
+        $scope.import = false;
         $scope.table = this.table;
         $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
@@ -153,6 +154,11 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
                 }
 
             })
+    }
+    $scope.showImport = function(){
+        editor.setValue("");
+        $scope.advanced = true;
+        $scope.import = true;
     }
     $scope.toggleJSON = function(){
         if($scope.advanced){
@@ -206,6 +212,17 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
             });
         })
     }
+    $scope.postJSONSchema = function(){
+        $http.post(CurrentServer + "/rest/" + $scope.service, editor.getValue()).then(function(response){
+            $(function(){
+                new PNotify({
+                    title: 'Schema',
+                    text: 'Posted Successfully',
+                    type: 'success'
+                });
+            });
+        })
+    }
     $scope.createTable = function(){
         var name = this.newTableName;
         this.newTableName = "";
@@ -229,6 +246,9 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name).then(function(response){
             $scope.loadServices();
         })
+    }
+    $scope.setService = function(){
+        $scope.service = this.service.api_name;
     }
     $scope.validateJSON = function() {
         try {
