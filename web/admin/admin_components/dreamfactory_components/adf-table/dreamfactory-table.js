@@ -14,7 +14,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
         $templateCache.put('df-input-reference.html', '<div class="well"><df-table data-options="relatedOptions" data-parent-record="currentEditRecord" data-export-field="field"></df-table></div>');
         $templateCache.put('df-input-checkbox.html', '<label><input type="checkbox" data-ng-model="currentEditRecord[field.name]" data-ng-checked="currentEditRecord[field.name]" data-ng-required="field.required"></label>');
         $templateCache.put('df-input-bool-picklist.html', '<div class="form-group"><select class="form-control" data-ng-model="currentEditRecord[field.name]" data-ng-options="bool.value as bool.name for bool in __dfBools" data-ng-required="field.required"></select></div>');
-        $templateCache.put('df-input-select.html', '<select class="form-control" data-ng-model="currentEditRecord[field.name]" data-ng-options="obj[relatedData[templateData.prop].display.value] as obj[relatedData[templateData.prop].display.label] for obj in relatedData[templateData.prop].records" data-ng-required="field.required" data-ng-disabled="currentEditRecord[templateData.dependent]"><option value="">-- None --</option></select>');
+        $templateCache.put('df-input-select.html', '<select class="form-control" data-ng-model="currentEditRecord[field.name]" data-ng-options="obj[overrideFields[templateData.prop].display.value] as obj[overrideFields[templateData.prop].display.label] for obj in overrideFields[templateData.prop].records" data-ng-required="field.required" data-ng-disabled="currentEditRecord[templateData.dependent]"><option value="">-- None --</option></select>');
         $templateCache.put('df-input-values-picklist.html',
             '<div class="row">' +
                 '<div class="col-xs-12 col-md-6">' +
@@ -50,16 +50,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     '<timepicker style="display: inline-block" data-ng-model="mytime" data-ng-change="changed()" show-meridian="ismeridian"></timepicker>\n' +
                 '</div>\n' +
             '</div>');
-        $templateCache.put('df-input-password.html',
-            '<div class="form-group">' +
-                '<p data-ng-class="{\'has-error\' : identical === false}">' +
-                    '<input type="password" id="password" name="password" placeholder="Enter Password" data-ng-model="currentEditRecord[field.name]" class="form-control" required data-ng-keyup="_verifyPassword()" >' +
-                '</p>' +
-                '<p data-ng-class="{\'has-error\' : identical === false}">' +
-                    '<input type="password" id="verify-password" name="verify-password" placeholder="Verify Password" data-ng-model="verifyPassword" class="form-control" required data-ng-keyup="_verifyPassword()" >' +
-                '</p>' +
-            '</div>'
-        );
     }])
     .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService) {
 
@@ -87,9 +77,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         include_count: true
                     },
                     defaultFields: null,
-                    relatedData: {},
+                    overrideFields: {},
                     extendFieldTypes: {},
                     extendData: {},
+                    extendedSchema: {},
+                    relatedData: [],
                     exportValueOn: false
                 };
 
@@ -97,17 +89,19 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.record = null;
                 scope.schema = null;
-                scope.relatedData = {};
+                scope.overrideFields = {};
 
                 scope.tableFields = {};
                 scope.tableFilterOn = true;
                 scope.defaultFieldsShown = {};
 
+                scope.filterOn = false;
                 scope.filter = {
                     viewBy: '',
                     prop: '',
                     value: null
                 };
+
 
                 scope.order = {
                     orderBy: '',
@@ -138,6 +132,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.relatedExpand = false;
 
                 scope.extendedData = {};
+
+                scope.extendedSchema = {};
 
 
 
@@ -240,6 +236,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.editExportRecord = function (dataObj) {
 
                     scope._editExportRecord(dataObj);
+                };
+
+                scope.filterRecords = function () {
+
+                    scope._filterRecords();
                 };
 
 
@@ -369,6 +370,15 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     if (requestDataObj) {
                         params = dfObjectService.mergeObjects(requestDataObj.params, params);
                     }
+
+
+                    if (scope.options.relatedData.length > 0) {
+
+                        params['related'] = scope.options.relatedData.join(',');
+                    }
+
+                    console.log(params);
+
 
                     return $http({
                         method: 'GET',
@@ -718,13 +728,18 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._prepareExtendedData(newValue);
 
+                    scope._prepareExtendedSchema(newValue);
+
                     if (scope._prepareRecords(newValue)) {
-                        scope._prepareRelatedData(newValue);
+                        scope._prepareOverrideFields(newValue);
                     }
 
                     scope._prepareSchema(newValue);
 
                     scope._prepareExtendedFieldTypes(newValue);
+
+                    console.log(newValue);
+                    console.log(scope.schema);
 
                     scope.defaultFieldsShown = scope._getDefaultFields(newValue);
 
@@ -779,19 +794,40 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         scope.schema = scope._normalizeSchema(scope.schema, scope.record);
                     }
 
+                    angular.forEach(scope.extendedSchema, function(_obj) {
+
+                        scope.schema.field.push(_obj);
+                    })
+
                 };
 
-                scope._prepareRelatedData = function (data) {
+                scope._prepareExtendedSchema = function (data) {
 
-                    if (data.relatedData == null) return false;
+                    if (data.extendedSchema == null) return false;
 
-                    angular.forEach(data.relatedData, function (_obj) {
+                    angular.forEach(data.extendedSchema, function (_obj) {
 
-                        scope.relatedData[_obj.field] = {};
-                        scope.relatedData[_obj.field]['records'] = scope._getRecordsFromData(_obj.record);
-                        scope.relatedData[_obj.field]['display'] = _obj.display;
+                        scope.extendedSchema[_obj.name] = {};
+                        scope.extendedSchema[_obj.name]['name'] = _obj.name;
+                        scope.extendedSchema[_obj.name]['type'] = _obj.type;
+                        scope.extendedSchema[_obj.name]['label'] = _obj.label;
+                    })
+                };
+
+                scope._prepareOverrideFields = function (data) {
+
+                    if (data.overrideFields == null) return false;
+
+                    angular.forEach(data.overrideFields, function (_obj) {
+
+                        scope.overrideFields[_obj.field] = {};
+
+                        if (_obj.hasOwnProperty('record')) {
+                            scope.overrideFields[_obj.field]['records'] = scope._getRecordsFromData(_obj.record);
+                        }
+
+                        scope.overrideFields[_obj.field]['display'] = _obj.display;
                     });
-
                 };
 
                 scope._prepareExtendedFieldTypes = function (data) {
@@ -838,6 +874,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._exportValue = dataObj || null;
                 };
+
+
 
 
                 // Pagination
@@ -1396,6 +1434,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             scope._setCurrentEditRecord(dataObj);
                         }
                     }
+                };
+
+                scope._filterRecords = function () {
+
+                    scope.filterOn = !scope.filterOn;
                 };
 
                 // WATCHERS / INIT
@@ -2097,14 +2140,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 field: '=?',
                 service: '=?',
                 extendFieldTypes: '=?',
-                relatedData: '=?',
+                overrideFields: '=?',
                 currentEditRecord: '=?'
             },
             link: function (scope, elem, attrs) {
 
+
+
                 scope._parseEditable = function (fieldObj) {
-
-
 
                     if (fieldObj && fieldObj.hasOwnProperty('validation') && fieldObj.validation != null) {
                         return !fieldObj.validation.hasOwnProperty('api_read_only');
@@ -2221,19 +2264,19 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.fieldTypes = dfObjectService.mergeObjects(scope.extendFieldTypes, scope.defaultFieldTypes);
 
-                if (scope.relatedData[scope.field.name]) {
+                if (scope.overrideFields[scope.field.name]) {
 
                     scope.templateData = {
                         prop: scope.field.name,
                         template: '',
-                        placeholder: scope.relatedData[scope.field.name].display.type || '',
-                        type: scope.relatedData[scope.field.name].display.type || 'text',
-                        editable: scope.relatedData[scope.field.name].editable,
+                        placeholder: scope.overrideFields[scope.field.name].display.type || '',
+                        type: scope.overrideFields[scope.field.name].display.type || 'text',
+                        editable: scope.overrideFields[scope.field.name].editable,
                         field: scope.field || '',
-                        dependent: scope.relatedData[scope.field.name].display.dependent || false
+                        dependent: scope.overrideFields[scope.field.name].display.dependent || false
                     };
 
-                    var type = scope.relatedData[scope.field.name].display.type;
+                    var type = scope.overrideFields[scope.field.name].display.type;
 
                     switch (type) {
 
@@ -2254,7 +2297,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             break;
 
                         case 'custom':
-                            scope.templateData.template = scope.relatedData[scope.field.name].display.template;
+                            scope.templateData.template = scope.overrideFields[scope.field.name].display.template;
                             break;
 
                         default:
@@ -2270,23 +2313,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 switch (scope.field.type) {
 
                     case 'string':
-
-                        if (scope.field.name === 'password') {
-
-                            scope.templateData.template = 'df-input-password.html';
-
-                            scope.verifyPassword = '';
-
-                            scope.identical = true;
-
-                            // Test if our entered passwords are identical
-                            scope._verifyPassword = function () {
-
-                                scope.identical = dfStringService.areIdentical(scope.currentEditRecord.password, scope.verifyPassword);
-                            };
-                            break;
-                        }
-
 
                         if (scope.field.hasOwnProperty('validation')){
 
@@ -2359,7 +2385,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             url: scope._buildURL(scope.service, scope._parseSystemTableName(scope.field.ref_table)),
                             params: {
                                 filter: null,
-                                limit: 2,
+                                limit: 10,
                                 offset: 0,
                                 fields: '*',
                                 include_schema: true,
