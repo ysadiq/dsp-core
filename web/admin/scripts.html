@@ -61,8 +61,17 @@
         </div>
     </div>
 </div>
+    <div class="row">
+        <div class="col-xs-12 ">
+        <button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">
+        Delete Script
+        </button>
+        <button data-ng-if="currentScript" data-ng-click="saveScript()" class="btn btn-primary">Save Script
+        </button>
 
-
+        </div>
+    </div>
+</div>
 <!--<div class="panel panel-default" >-->
 <!--&lt;!&ndash; Default panel contents &ndash;&gt;-->
 <!--<div class="resource-header"><strong>Server Side Scripting</strong>-->
