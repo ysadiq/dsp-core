@@ -226,7 +226,7 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
                         text:  'Created Successfully'
                     });
                 });
-				
+
                 if( $scope.create_another){
                     $scope.promptForNew();
                 }else {
