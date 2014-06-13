@@ -221,6 +221,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
                     type: 'success'
                 });
             });
+            $scope.loadServices();
         })
     }
     $scope.createTable = function(){

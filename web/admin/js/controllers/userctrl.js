@@ -128,6 +128,9 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		);
 		return matches.length > 0;
 	};
+
+
+
 	$scope.formChanged = function() {
 
 		$( '#save_' + this.user.id ).removeClass( 'disabled' );
@@ -232,6 +235,10 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 			newRec.display_name = newRec.first_name + ' ' + newRec.last_name;
 		}
 
+
+
+
+        // Invites
 		var send_invite = $scope.sendInvite ? "true" : "false";
 		User.save(
 			{send_invite: send_invite}, newRec, function( response ) {
@@ -257,6 +264,7 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 			}
 		);
 	};
+
 
 	$scope.invite = function() {
 
