@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -134,9 +134,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "9da1829e7446ddb5593c853107a966c7643e2bde"
+                "reference": "164d688e53750e5177042516e66b201aedbe961a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/9da1829e7446ddb5593c853107a966c7643e2bde",
-                "reference": "9da1829e7446ddb5593c853107a966c7643e2bde",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/164d688e53750e5177042516e66b201aedbe961a",
+                "reference": "164d688e53750e5177042516e66b201aedbe961a",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +372,7 @@
                 "dreamfactory/oasys": "~0.4@dev",
                 "dreamfactory/yii": "~1.1.13.1",
                 "jeremeamia/superclosure": "*",
-                "kisma/kisma": "~0.2.44@dev",
+                "kisma/kisma": "~0.2.45@dev",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-12 18:36:20"
+            "time": "2014-06-12 22:02:19"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1236,12 +1236,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpforce/soap-client.git",
-                "reference": "e0ee205ba7c45d15b645d32bcafbc3c527059093"
+                "reference": "9f014c8d5e48f5d983600f37098f22d67e9cb1e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpforce/soap-client/zipball/e0ee205ba7c45d15b645d32bcafbc3c527059093",
-                "reference": "e0ee205ba7c45d15b645d32bcafbc3c527059093",
+                "url": "https://api.github.com/repos/phpforce/soap-client/zipball/9f014c8d5e48f5d983600f37098f22d67e9cb1e1",
+                "reference": "9f014c8d5e48f5d983600f37098f22d67e9cb1e1",
                 "shasum": ""
             },
             "require": {
@@ -1281,7 +1281,7 @@
                 "soap",
                 "web services"
             ],
-            "time": "2014-01-09 10:36:56"
+            "time": "2014-06-13 12:06:55"
         },
         {
             "name": "psr/log",
