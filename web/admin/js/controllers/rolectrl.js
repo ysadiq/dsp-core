@@ -237,7 +237,7 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
                     text:  'Duplicate service access entries are not allowed.'
                 });
             });
-			
+
 			return;
 		}
 		if ( !$scope.uniqueSystemAccess() ) {
