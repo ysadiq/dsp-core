@@ -23,16 +23,13 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 		}
 	);
 	Scope = $scope;
-
+    Scope.sql_placeholder="mysql:host=my_server;dbname=my_database";
     if(navigator.appVersion.indexOf("Windows") != -1){
-        Scope.sql_server_host_identifier = "Server";
-        Scope.sql_server_db_identifier = "Database";
+
         Scope.sql_placeholder="mysql:Server=my_server;Database=my_database";
         Scope.microsoft_sql_server_prefix = "sqlserver:"
     }else{
-        Scope.sql_server_host_identifier = "host";
-        Scope.sql_server_db_identifier = "dbname";
-        Scope.sql_placeholder="mysql:host=my_server;dbname=my_database";
+
         Scope.microsoft_sql_server_prefix = "dblib:"
     }
     $scope.sqlVendors = [
@@ -60,6 +57,14 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
                 if ( newValue === oldValue ) {
 
                     return;
+
+                }
+                if(newValue === "sqlserver:"){
+                 Scope.sql_server_host_identifier = "Server";
+                 Scope.sql_server_db_identifier = "Database";
+                }else{
+                Scope.sql_server_host_identifier = "host";
+                Scope.sql_server_db_identifier = "dbname";
 
                 }
                 $scope.service.dsn = newValue;

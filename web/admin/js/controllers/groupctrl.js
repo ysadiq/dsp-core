@@ -38,13 +38,14 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 			{id: id}, $scope.group, function() {
 				$scope.promptForNew();
 				window.top.Actions.updateSession( "update" );
-				$.pnotify(
-					{
-						title: 'App Groups',
-						type:  'success',
-						text:  'Updated Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'App Groups',
+                        type:  'success',
+                        text:  'Updated Successfully.'
+                    });
+                });
+
 			}
 		);
 	};
@@ -55,13 +56,14 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 				$scope.Groups.record.push( data );
 				$scope.promptForNew();
 				window.top.Actions.updateSession( "update" );
-				$.pnotify(
-					{
-						title: 'App Groups',
-						type:  'success',
-						text:  'Created Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'App Groups',
+                        type:  'success',
+                        text:  'Created Successfully.'
+                    });
+                });
+
 			}
 		);
 	};
@@ -107,13 +109,13 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 		Group.delete(
 			{ id: id }, function() {
 				$scope.promptForNew();
-				$.pnotify(
-					{
-						title: 'App Groups',
-						type:  'success',
-						text:  'Deleted Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'App Groups',
+                        type:  'success',
+                        text:  'Deleted Successfully.'
+                    });
+                });
 
 				$( "#row_" + id ).fadeOut();
 			}
