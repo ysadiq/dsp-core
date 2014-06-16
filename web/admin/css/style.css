@@ -313,7 +313,6 @@ html, body, #container {
 }
 
 .user-name {
-	width:         190px;
 	display:       inline-block;
 	overflow:      hidden;
 	text-overflow: ellipsis;
