@@ -19,113 +19,100 @@
 
 /**
  * Our main DSP settings and cache
- * @private
+ * @type {{DSP_EVENT: string, debug: boolean}}
  */
 Platform = {
 	/**
+	 * Constants
+	 */
+	DSP_EVENT: 'dsp.event',
+	/**
 	 * General Settings
 	 */
-	settings: {
-		bgCurrent:   0,
-		bgLast:      0,
-		backgrounds: ['default', 'blue', 'orange', 'purple', 'red', 'yellow']
-	},
-	/**
-	 * Event Settings
-	 */
-	events:   {
+	/** @type boolean */
+	debug:     true
+};
+
+/** @type {{stream: {enabled: boolean, source: null, id: null, url: string, message: Function, relay_event: Function, open: Function, error: Function}, init: Function}} */
+Platform.events = {
+	/**     * @type {*}     */
+	stream: {
+		/** @type boolean */
+		enabled: false,
+		/** @type Window.EventSource */
+		source:  null,
+		/** @type string */
+		id:      null,
+		/** @type string */
+		url:     '/rest/system/event_stream/?app_name=event_stream',
+
 		/**
-		 * Constants
+		 * Message Handler
+		 * @param event
 		 */
-		DSP_EVENT:    'dsp.event',
-		/**
-		 * Members
-		 */
-		enabled:      false,//!!window.EventSource,
-		source:       null,
-		stream_id:    null,
-		url:          '/rest/system/event_stream?app_name=launchpad',
-		/**
-		 * Methods
-		 */
+		message: function(event) {
+			var _data = JSON.parse(event.data);
+			if (Platform.debug) {
+				console.log('MESSAGE event received: ' + _data.details.type + ' -> ' + event.data);
+			}
+
+			//	Route message if wanted
+			if (Platform.DSP_EVENT == _data.details.type && $.isFunction(Platform.events.relay_event)) {
+				Platform.events.relay_event(_data.details.type, _data);
+			}
+		},
+
 		/**
 		 * Routes messages to jQuery
 		 *
 		 * @param eventType
 		 * @param eventData
 		 */
-		jqueryRouter: function(eventType, eventData) {
-			jQuery(window).trigger(eventType, eventData);
-			console.log('ROUTED event to jQuery: ' + eventType + ' -> ' + JSON.stringify(eventData));
-		},
-		/**
-		 * Message Handler
-		 * @param event
-		 */
-		message:      function(event) {
-			var _data = JSON.parse(event.data);
-			console.log('MESSAGE event received: ' + _data.details.type + ' -> ' + event.data);
-
-			//	Route message if wanted
-			if (Platform.events.DSP_EVENT == _data.details.type && $.isFunction(Platform.events.jqueryRouter)) {
-				Platform.events.jqueryRouter(_data.details.type, _data);
+		relay_event: function(eventType, eventData) {
+			$(window).trigger(eventType, eventData);
+			if (Platform.debug) {
+				console.log('ROUTED event to jQuery: ' + eventType + ' -> ' + JSON.stringify(eventData));
 			}
 		},
+
 		/**
 		 * Open Handler
-		 * @param event
+		 * @param [event]
 		 */
-		open:         function(event) {
-			console.log('OPEN event received: ' + JSON.stringify(event));
+		open: function(event) {
+			if (Platform.debug) {
+				console.log('OPEN event received: ' + JSON.stringify(event));
+			}
 		},
+
 		/**
 		 * Error Handler
-		 * @param event
+		 * @param [event]
 		 */
-		error:        function(event) {
-			console.log('ERROR event received: ' + JSON.stringify(event));
-		},
-		/**
-		 * Initializes the event stream
-		 */
-		init:         function() {
-			if (!Platform.events.enabled) {
-				return null;
+		error: function(event) {
+			if (Platform.debug) {
+				console.log('ERROR event received: ' + JSON.stringify(event));
 			}
-
-			if (!Platform.events.source) {
-				Platform.events.source = new EventSource(Platform.events.url);
-				Platform.events.source.addEventListener('message', Platform.events.message);
-				Platform.events.source.addEventListener('dsp.event', Platform.events.message);
-				Platform.events.source.addEventListener('open', Platform.events.open);
-				Platform.events.source.addEventListener('error', Platform.events.error);
-				Platform.events.enabled = true;
-			}
-
-			return Platform.events.source
-
 		}
-	}
-};
+	},
 
-/**
- * Rotate the background splash on the web pages
- *
- * @param {int} timeout If specified, a timer will be created to rotate the background
- * @private
- */
-var _rotateBackground = function(timeout) {
-	var _size = Platform.settings.backgrounds.length;
-	Platform.settings.bgLast = !timeout ? 0 : Platform.settings.bgCurrent;
+	/**
+	 * Initializes the event stream
+	 * @param {[Platform.events.stream]} stream Optional non-system event source
+	 */
+	init: function(stream) {
+		var _stream = stream || Platform.events.stream;
 
-	if (++Platform.settings.bgCurrent >= _size) {
-		Platform.settings.bgCurrent = 0;
-	}
+		if (_stream.enabled && !_stream.source && 'undefined' !== typeof('EventSource')) {
+			_stream.source = new EventSource(_stream.url);
+			_stream.source.addEventListener('message', this.events.message);
+			_stream.source.addEventListener('dsp.event', this.events.message);
+			_stream.source.addEventListener('open', this.events.open);
+			_stream.source.addEventListener('error', this.events.error);
+			_stream.enabled = true;
+		}
 
-	$('body').removeClass('body-starburst-' + Platform.settings.backgrounds[Platform.settings.bgLast]).addClass('body-starburst-' +
-																												Platform.settings.backgrounds[Platform.settings.bgCurrent]);
+		return _stream.source;
 
-	if (timeout) {
-		window.setTimeout('_rotateBackground(' + timeout + ')', timeout);
 	}
 };
