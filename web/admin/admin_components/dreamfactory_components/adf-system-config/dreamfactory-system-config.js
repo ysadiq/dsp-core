@@ -400,59 +400,62 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
         return {
             restrict: 'E',
             templateUrl: MODSYSCONFIG_ASSET_PATH + 'views/global-lookup-keys-config.html',
-            scope: true,
+            scope: false,
             link: function (scope, elem, attrs) {
 
                 // PUBLIC API
-                scope.addGlobalLookupKey = function () {
+                scope.newKey = function () {
 
-                    scope._addGlobalLookupKey();
+                    scope._newKey();
                 };
 
-                scope.removeGlobalLookupKey = function(lookupKeyIndex) {
+                scope.removeKey = function() {
 
-                    scope._confirmRemoveGlobalLookupKey(lookupKeyIndex) ? scope._removeGlobalLookupKey(lookupKeyIndex) : false;
+                    scope._removeKey();
                 };
 
 
                 // PRIVATE API
-                scope._createGlobalLookupKeyModel = function () {
+                scope._createLookupKeyModel = function () {
 
                     return {
-                        name: null,
-                        value: null,
+                        name: "",
+                        value: "",
                         private: false
+                    };
+                };
+
+
+                scope._isUniqueKey = function() {
+
+                    var size = scope.systemConfig.lookup_keys.length - 1;
+                    for ( var i = 0; i < size; i++ ) {
+                        var key = scope.systemConfig.lookup_keys[i];
+                        var matches = scope.systemConfig.lookup_keys.filter(
+                            function( itm ) {
+                                return itm.name === key.name;
+                            }
+                        );
+                        if ( matches.length > 1 ) {
+                            return false;
+                        }
                     }
+                    return true;
                 };
-
-                scope._addGlobalLookupKeyData = function () {
-
-                    scope.systemConfig.lookup_keys.push(scope._createGlobalLookupKeyModel());
-                };
-
-                scope._removeGlobalLookupKeyData = function (lookupKeyIndex) {
-
-                    scope.systemConfig.lookup_keys.splice(lookupKeyIndex, 1);
-                };
-
-                scope._confirmRemoveGlobalLookupKey = function(lookupKeyIndex) {
-
-                    return confirm('Delete Global Lookup Key: ' + scope.systemConfig.lookup_keys[lookupKeyIndex].name)
-                };
-
 
 
 
                 // COMPLEX IMPLEMENTATION
-                scope._addGlobalLookupKey = function () {
+                scope._newKey = function () {
 
-                    scope._addGlobalLookupKeyData();
+                    scope.systemConfig.lookup_keys.push(scope._createLookupKeyModel());
                 };
 
-                scope._removeGlobalLookupKey = function (lookupKeyIndex) {
+                scope._removeKey = function () {
 
-                    scope._removeGlobalLookupKeyData(lookupKeyIndex);
+                    scope.systemConfig.lookup_keys.splice( this.$index, 1 );
                 };
+
             }
         }
 

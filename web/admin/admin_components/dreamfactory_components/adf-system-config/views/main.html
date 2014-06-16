@@ -1,18 +1,27 @@
 <div class="navbar navbar-default">
     <span style="display: inline" class="navbar-brand">System Config</span>
-
+<!--
     <div class="collapse navbar-collapse" id="access-management-module-nav">
         <ul class="nav navbar-nav navbar-right">
-            <li data-ng-click="updateConfig()"><a>Save</a></li>
+            <li ><a>Link</a></li>
         </ul>
-    </div>
+    </div>-->
 
 </div>
+<form name="systemConfigForm" data-ng-submit="updateConfig()">
+    <div class="well well-sm">
+        <div class="btn-toolbar">
+            <div class="btn-group " >
+                <button type="submit" class="btn btn-default btn-sm">Save</button>
+            </div>
+        </div>
+    </div>
 
-        <dreamfactory-system-info></dreamfactory-system-info>
-        <dreamfactory-cors-config></dreamfactory-cors-config>
-        <dreamfactory-guest-users-config></dreamfactory-guest-users-config>
-        <dreamfactory-open-registration-config></dreamfactory-open-registration-config>
-        <dreamfactory-user-invites-config></dreamfactory-user-invites-config>
-        <dreamfactory-password-reset-config></dreamfactory-password-reset-config>
-        <dreamfactory-global-lookup-keys-config></dreamfactory-global-lookup-keys-config>
+    <dreamfactory-system-info></dreamfactory-system-info>
+    <dreamfactory-cors-config></dreamfactory-cors-config>
+    <dreamfactory-guest-users-config></dreamfactory-guest-users-config>
+    <dreamfactory-open-registration-config></dreamfactory-open-registration-config>
+    <dreamfactory-user-invites-config></dreamfactory-user-invites-config>
+    <dreamfactory-password-reset-config></dreamfactory-password-reset-config>
+    <dreamfactory-global-lookup-keys-config></dreamfactory-global-lookup-keys-config>
+</form>

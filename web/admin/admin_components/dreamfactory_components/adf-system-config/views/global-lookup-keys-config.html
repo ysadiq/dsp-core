@@ -6,42 +6,56 @@
     </div>
 
     <div id="global-lookup-keys-config-body" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="alert alert-info">
+                <li class="icon-info-sign"></li>
+                Lookup keys for services and credentials must be made private.
+            </div>
 
-        <div class="alert alert-info">
-            <li class="icon-info-sign"></li>
-            Lookup keys for services and credentials must be made private.
+
+            <table class="table table-hover table-striped table-responsive">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Private</th>
+                    <th>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm" data-ng-click="newKey()"><i class="fa fa-plus fa-fw"></i></button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+
+                <tbody>
+
+                <tr data-ng-repeat="key in systemConfig.lookup_keys track by $index">
+                    <td class="form-group" data-ng-class="_isUniqueKey() ? '' : 'has-error'" >
+                        <input class="form-control" data-ng-model="key.name" type="text" data-ng-required="true"/>
+                    </td>
+                    <td>
+                        <input class="form-control"  data-ng-model="key.value" type="text" data-ng-required="true" />
+                    </td>
+                    <td>
+                        <input data-ng-model="key.private" type="checkbox" />
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm" data-ng-click="removeKey()"><i class="fa fa-trash-o fa-fw"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <p data-ng-if="!systemConfig.lookup_keys.length">
+                No lookup keys for this user. Click the plus button to add.
+            </p>
         </div>
 
-        <button type="button" class="btn btn-default" data-ng-click="addGlobalLookupKey()">Add Lookup Key
-        </button>
-
-        <table class="table">
-
-            <tr>
-                <th>Name</th>
-                <th>Value</th>
-                <th>Private</th>
-                <th>Remove</th>
-            </tr>
-            <tr data-ng-repeat="lookupKey in systemConfig.lookup_keys track by $index">
-
-                <td>
-                    <input data-ng-model="lookupKey.name" type="text" class="form-control"/>
-                </td>
-
-                <td>
-                    <input data-ng-model="lookupKey.value" type="text" class="form-control"/>
-                </td>
-
-                <td>
-                    <input data-ng-model="lookupKey.private" type="checkbox" data-ng-checked="lookupKey.private"/>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-default btn-danger"
-                            data-ng-click="removeGlobalLookupKey($index)">Remove
-                    </button>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>
+
+
