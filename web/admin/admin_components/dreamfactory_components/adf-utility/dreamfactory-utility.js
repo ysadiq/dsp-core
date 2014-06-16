@@ -195,7 +195,8 @@ angular.module('dfUtility', [])
 
 
                 elem.css({
-                    'display': 'inline-block'
+                    'display': 'inline-block',
+                    'position':'absolute'
                 });
 
             }

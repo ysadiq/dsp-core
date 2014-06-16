@@ -117,24 +117,38 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     ];
     var editor;
     $scope.table = {};
-    $scope.service = {};
+    //$scope.service = {;
     $scope.advanced = false;
-    var service;
+    //var service;
     editor = ace.edit("schema-editor");
     editor.getSession().setMode("ace/mode/json");
     $scope.dbServices = getSchemaServices.data.record;
     //console.log($scope.dbServices);
     $scope.loadServices = function(){
-        $scope.dbServices.forEach(function(service){
-            $http.get(DSP_URL + "/rest/" + service.api_name + "?include_schema=true").then(function(response){
-
-                service.tables = [];
+        if($scope.service_index){
+            $http.get(DSP_URL + "/rest/" + $scope.service + "?include_schema=true").then(function(response){
+                console.log( $scope.dbServices[$scope.service]);
+                $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
 
-                    service.tables.push(table);
+                    $scope.dbServices[$scope.service_index].tables.push(table);
                 })
             });
-        })
+        }else{
+            $scope.dbServices.forEach(function(service, index){
+                $http.get(DSP_URL + "/rest/" + service.api_name + "?include_schema=true").then(function(response){
+
+                    service.tables = [];
+
+                    service.service_index = index;
+                    response.data.resource.forEach(function(table){
+
+                        service.tables.push(table);
+                    })
+                });
+            })
+        }
+
     }
     $scope.loadServices();
     $scope.loadSchema = function(advanced){
@@ -142,6 +156,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         $scope.table = this.table;
         $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
+        $scope.service_index = this.service.service_index;
         $http.get(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
             .then(function(response){
                 $scope.table.schema = response;
@@ -191,7 +206,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
 
     }
     $scope.updateJSONSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/" + $scope.table.name, editor.getValue()).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service , editor.getValue()).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -202,7 +217,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         })
     }
     $scope.updateSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/" + $scope.table.name, $scope.table.schema.data).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service , $scope.table.schema.data).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
