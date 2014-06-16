@@ -133,6 +133,7 @@ angular.module('dfUtility', [])
 
                 scope._toggleVerbState = function (nameStr, event) {
 
+                    console.log('asdfadsf')
                     event.stopPropagation();
 
                     if (scope.verbs.hasOwnProperty(scope.verbs[nameStr].name)) {
