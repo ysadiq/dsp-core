@@ -1,7 +1,8 @@
 'use strict';
 
 
-// @TODO: IGNORING DATE FIELDS DURING COMPARE OBJECTS FUNCTION FOR MARKING RECORD CHANGED.  NEED TO SORT DATE FORMAT THING WITH SS GUYS.
+// @TODO: IGNORING DATE FIELDS DURING COMPARE OBJECTS FUNCTION FOR MARKING RECORD CHANGED.
+// @TODO: FIX TIME PICKING FOR FIELD TYPES 'datetime', 'timestamp', timestamp_on_create', and 'timestamp_on_update'
 
 
 angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
@@ -1498,6 +1499,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     })
                 }
 
+
                 // WATCHERS / INIT
 
                 var watchOptions = scope.$watch('options', function (newValue, oldValue) {
@@ -2318,6 +2320,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 };
 
+                console.log(scope.field);
+
 
                 scope.fieldTypes = dfObjectService.mergeObjects(scope.extendFieldTypes, scope.defaultFieldTypes);
 
@@ -2454,8 +2458,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                         scope.relatedOptions.defaultFields[scope.field.ref_fields] = true;
                         break;
-                    
+
                     case 'datetime':
+                    case 'timestamp':
+                    case  'timestamp_on_create':
+                    case  'timestamp_on_update':
 
                         scope._theDate = null;
                         scope.editable = false;
@@ -2532,6 +2539,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             console.log(dateTimeStr);
 
                             var dateTimeArr = dateTimeStr.split(' ');
+
+                            console.log(dateTimeArr);
 
                             dateTimeArr[0] = dateTimeArr[0].split('-').join('/');
 
