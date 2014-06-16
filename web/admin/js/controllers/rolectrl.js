@@ -161,43 +161,45 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.save = function() {
 
 		if ( !$scope.uniqueServiceAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate service access entries are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate service access entries are not allowed.'
+                });
+            });
 			return;
 		}
 		if ( !$scope.uniqueSystemAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate system access entries are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate system access entries are not allowed.'
+                });
+            });
 			return;
 		}
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Empty key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		$scope.cleanServiceAccess();
@@ -214,56 +216,61 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				//window.top.Actions.showStatus("Updated Successfully");
 
 				// Success Message
-				$.pnotify(
-					{
-						title: 'Roles',
-						type:  'success',
-						text:  'Role Updated Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Roles',
+                        type:  'success',
+                        text:  'Role Updated Successfully'
+                    });
+                });
+
 			}
 		);
 	};
 	$scope.create = function() {
 
 		if ( !$scope.uniqueServiceAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate service access entries are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate service access entries are not allowed.'
+                });
+            });
+			
 			return;
 		}
 		if ( !$scope.uniqueSystemAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate system access entries are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate system access entries are not allowed.'
+                });
+            });
+
 			return;
 		}
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Empty key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		$scope.cleanServiceAccess();
@@ -275,13 +282,14 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				$scope.promptForNew();
 
 				// Success Message
-				$.pnotify(
-					{
-						title: 'Roles',
-						type:  'success',
-						text:  'Role Created Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Roles',
+                        type:  'success',
+                        text:  'Role Created Successfully'
+                    });
+                });
+
 
 			}
 		);
@@ -565,13 +573,13 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				$( "#row_" + id ).fadeOut();
 
 				// Success message
-				$.pnotify(
-					{
-						title: 'Roles',
-						type:  'success',
-						text:  'Role deleted.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Roles',
+                        type:  'success',
+                        text:  'Role deleted.'
+                    });
+                });
 			}
 		);
 
