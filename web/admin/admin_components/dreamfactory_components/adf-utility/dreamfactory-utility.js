@@ -83,7 +83,7 @@ angular.module('dfUtility', [])
                 scope.windowWidth = newValue.w;
 
                 angular.element(element).css({
-                    width: (newValue.w - 300) + 'px'
+                    width: (newValue.w - angular.element('sidebar').css('width')) + 'px'
                 });
 
                 scope.style = function () {

@@ -91,7 +91,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
         $templateCache.put('confirmed-template.html', '<df-confirm-user></df-confirm-user>');
         $templateCache.put('df-input-password.html', '<df-set-user-password></df-set-user-password>');
-        $templateCache.put('df-input-lookup-keys.html', '<df-user-lookup-keys></df-user-lookup-keys>')
+        $templateCache.put('df-input-lookup-keys.html', '<df-user-lookup-keys></df-user-lookup-keys>');
 
     }])
     .controller('UsersCtrl', ['DSP_URL', '$scope', 'getUsersData', 'getRolesData', 'getAppsData', function(DSP_URL, $scope, getUsersData, getRolesData, getAppsData){
@@ -140,11 +140,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             templateUrl: MODUSER_ASSET_PATH + 'views/manage-users.html',
             link: function(scope, elem, attrs) {
 
-
                 scope.options = {
                     service: 'system',
                     table: 'user',
                     url: DSP_URL + '/rest/system/user',
+                    // Load data on demand instead of resolving b/c of relatedData field
                    /* data: scope.__users__,*/
                     defaultFields:{
                         id: true,
@@ -219,17 +219,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     extendFieldTypes: [],
                     relatedData: ["lookup_keys"]
                 }
-
-/*
-                scope.$watch('activeView', function(newValue, oldValue) {
-
-                    if (newValue === 'manage') {
-
-                        // do something when view becomes active
-
-                    }
-                })
-*/
             }
         }
     }])
@@ -241,7 +230,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             link: function (scope, elem, attrs) {
 
 
-                scope.user = null;
+                scope.currentEditRecord = null;
 
                 scope.inProgress = false;
 
@@ -249,6 +238,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 scope.createUser = function () {
 
                     scope._createUser();
+                };
+
+                scope.clearForm = function () {
+
+                    scope._clearForm();
                 };
 
 
@@ -260,7 +254,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     return $http({
                         method: 'POST',
                         url: DSP_URL + '/rest/system/user',
-                        data: scope.user,
+                        data: scope.currentEditRecord,
                         params: requestDataObj
                     });
                 };
@@ -285,6 +279,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     scope.inProgress = stateBool;
                 };
 
+                scope._resetForm = function () {
+                    scope.currentEditRecord = scope._createUserModel();
+                    scope.userForm.$setPristine();
+                };
+
 
                 // COMPLEX IMPLEMENTATION
                 scope._createUser = function () {
@@ -293,9 +292,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     scope._saveUserToSystem().then(
                         function(result) {
 
-                            scope.user = scope._createUserModel();
-                            scope.userForm.$setPristine();
-
+                            scope._resetForm();
                         },
 
                         function(reject) {
@@ -316,6 +313,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         });
                 };
 
+                scope._clearForm = function () {
+
+                    scope._resetForm();
+                };
+
+
 
 
                 // WATCHERS AND INIT
@@ -323,16 +326,13 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 scope.$watch('activeView', function(newValue, oldValue) {
 
                     if (newValue === 'create') {
-
-                        scope.user = scope._createUserModel();
-                        scope.userForm.$setPristine();
+                        scope._resetForm();
                     }
-
                 })
             }
         }
     }])
-    .directive('dfConfirmUser', [function() {
+    .directive('dfConfirmUser', ['DSP_URL', function(DSP_URL) {
 
         return {
             restrict: 'E',
@@ -343,10 +343,36 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                       '</div>',
             link: function(scope, elem, attrs) {
 
-                scope.invite = function () {
+                scope.invite = function() {
 
-                    // @TODO: // Add Invite Logic
+                    scope._invite();
                 };
+
+
+                scope._invite = function () {
+
+                    // Old ajax function....don't feel like rewriting right now.
+                    // @TODO: Update this email unconfirmed/new user function
+                    $.ajax(
+                        {
+                            dataType: 'json',
+                            type:     'PATCH',
+                            url: DSP_URL + '/rest/system/user/' + scope.currentEditRecord.id + '?app_name=admin&send_invite=true',
+                            data:     {},
+                            cache:    false,
+                            success:  function() {
+
+                                $(function(){
+                                    new PNotify({
+                                        title: 'Users',
+                                        text: "Invite Sent",
+                                        type: 'success'
+                                    });
+                                });
+                            }
+                        }
+                    );
+                }
             }
         }
     }])
@@ -357,8 +383,8 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             scope: false,
             template:
                 '<label>' +
-                    'Active' +
-                    '<input type="checkbox" data-ng-model="user.is_active" data-ng-checked="user.is_active" />' +
+                    'Active ' +
+                    '<input type="checkbox" data-ng-model="currentEditRecord.is_active" data-ng-checked="currentEditRecord.is_active" />' +
                 '</label>',
 
             link: function (scope, elem, attrs) {}
@@ -401,7 +427,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             template:
                 '<label>' +
                     'System Administrator &nbsp;' +
-                    '<input data-ng-click="toggleRoleSelect($event.target.checked)" data-ng-checked="user.is_sys_admin" type="checkbox" data-ng-model="user.is_sys_admin"/>' +
+                    '<input data-ng-click="toggleRoleSelect($event.target.checked)" data-ng-checked="currentEditRecord.is_sys_admin" type="checkbox" data-ng-model="currentEditRecord.is_sys_admin"/>' +
                 '</label>',
             link: function (scope, elem, attrs) {}
         }
@@ -412,7 +438,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             restrict: 'E',
             scope: false,
             template:
-                '<select data-ng-disabled="user.is_sys_admin" class="form-control" data-ng-model="user.role_id" data-ng-options="role.id as role.name for role in roles">' +
+                '<select data-ng-disabled="currentEditRecord.is_sys_admin" class="form-control" data-ng-model="currentEditRecord.role_id" data-ng-options="role.id as role.name for role in roles">' +
                     '<option value="">-- None --</option>' +
                 '</select>',
             link: function(scope, elem, attrs) {}
@@ -423,14 +449,75 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         return {
             restrict: 'E',
             scope: false,
-            templateUrl: MODUSER_ASSET_PATH + '/views/df-input-lookup-keys.html',
+            templateUrl: MODUSER_ASSET_PATH + 'views/df-input-lookup-keys.html',
             link: function(scope, elem, attrs) {
 
 
+                // PUBLIC API
+                scope.newKey = function () {
 
-                // @TODO: Add Lookup Keys Logic
+                    scope._newKey();
+                };
+
+                scope.removeKey = function() {
+
+                    scope._removeKey();
+                };
+
+
+
+                // PRIVATE API
+                scope._createLookupKeyModel = function () {
+
+                    return {
+                        name: "",
+                        value: "",
+                        private: false,
+                        allow_user_update: false
+                    };
+                };
+
+
+
+                scope._isUniqueKey = function() {
+
+                    var size = scope.currentEditRecord.lookup_keys.length - 1;
+                    for ( var i = 0; i < size; i++ ) {
+                        var key = scope.currentEditRecord.lookup_keys[i];
+                        var matches = scope.currentEditRecord.lookup_keys.filter(
+                            function( itm ) {
+                                return itm.name === key.name;
+                            }
+                        );
+                        if ( matches.length > 1 ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+
+
+
+                // COMPLEX IMPLEMENTATION
+                scope._newKey = function () {
+
+                    scope.currentEditRecord.lookup_keys.push(scope._createLookupKeyModel());
+                };
+
+                scope._removeKey = function () {
+
+                    scope.currentEditRecord.lookup_keys.splice( this.$index, 1 );
+                };
+
+
+
+                // WATCHERS AND INIT
+
+
+
+
+                // MESSAGES
+
             }
         }
-    }])
-
-
+    }]);

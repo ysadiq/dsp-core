@@ -92,8 +92,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.overrideFields = {};
 
                 scope.tableFields = {};
+                scope.tableFieldsAll = false;
                 scope.tableFilterOn = true;
                 scope.defaultFieldsShown = {};
+                scope.selectedAll = false;
 
                 scope.filterOn = false;
                 scope.filter = {
@@ -101,7 +103,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     prop: '',
                     value: null
                 };
-
 
                 scope.order = {
                     orderBy: '',
@@ -196,11 +197,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.deleteRecords = function () {
 
-                    if (scope._checkForUnsavedRecords(scope.record)) {
+                    scope._confirmAction('You are about to mass delete records.  Continue?', scope._deleteRecords);
+
+                    /*if (scope._checkForUnsavedRecords(scope.record)) {
                         scope._confirmAction('You have Unsaved records.  Continue without saving?', scope._deleteRecords)
                     } else {
                         scope._deleteRecords();
-                    }
+                    }*/
                 };
 
                 scope.applyFilter = function () {
@@ -241,6 +244,21 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.filterRecords = function () {
 
                     scope._filterRecords();
+                };
+
+                scope.toggleAllFields = function () {
+
+                    scope._toggleAllFields();
+                };
+
+                scope.resetAllFields = function () {
+
+                    scope._resetAllFields();
+                };
+
+                scope.toggleAllRecords = function () {
+
+                    scope._toggleAllRecords();
                 };
 
 
@@ -294,6 +312,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._toggleUnsavedState = function (dataObj) {
 
                     dataObj.__dfUI.unsaved = !dataObj.__dfUI.unsaved;
+                };
+
+                scope._setSelectedState = function (dataObj, stateBool) {
+
+                    dataObj.__dfUI.selected = stateBool;
                 };
 
                 scope._setUnsavedState = function (dataObj, stateBool) {
@@ -376,9 +399,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                         params['related'] = scope.options.relatedData.join(',');
                     }
-
-                    console.log(params);
-
 
                     return $http({
                         method: 'GET',
@@ -525,6 +545,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                         if (dataObj1[key] !== dataObj2[key]) {
                             if ((dataObj1[key] == null || dataObj1[key] == '') && (dataObj2[key] == null || dataObj2[key] == '')) {
+                                return false;
+                            }
+
+
+                            if ((dataObj1[key] instanceof Array) && (dataObj2[key] instanceof Array) && dataObj1[key].length == dataObj2[key].length){
 
                                 return false;
                             }
@@ -697,7 +722,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         if (!scope.defaultFieldsShown) {
 
                             scope.tableFields[value.name] = {active: true, name: value.name, label: value.label};
-                            return;
+
+                            scope.tableFieldsAll = true;
+
+                            return false;
                         }
 
                         if (scope.defaultFieldsShown.hasOwnProperty(value.name)) {
@@ -721,6 +749,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                             scope.tableFields[value.name] = {active: false, name: value.name, label: value.label};
                         }
+
+                        scope.tableFieldsAll = false;
                     });
                 };
 
@@ -738,9 +768,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._prepareExtendedFieldTypes(newValue);
 
-                    console.log(newValue);
-                    console.log(scope.schema);
-
                     scope.defaultFieldsShown = scope._getDefaultFields(newValue);
 
                     scope._createFieldsObj(scope.schema.field);
@@ -750,6 +777,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope._calcPagination(newValue);
 
                     scope._setCurrentPage(scope.pagesArr[0]);
+
+
                 };
 
                 scope._prepareRecords = function (data) {
@@ -874,7 +903,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._exportValue = dataObj || null;
                 };
-
 
 
 
@@ -1441,6 +1469,35 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.filterOn = !scope.filterOn;
                 };
 
+                scope._toggleAllFields = function () {
+
+                    scope.tableFieldsAll = !scope.tableFieldsAll;
+
+                    angular.forEach(scope.tableFields, function(_obj) {
+
+                        _obj.active = scope.tableFieldsAll;
+                    });
+                };
+
+                scope._resetAllFields = function () {
+
+                    // Recreates the scope.tableFields obj according to the default fields
+                    // passed in
+                    scope._createFieldsObj(scope.schema.field);
+
+                };
+
+                scope._toggleAllRecords = function () {
+
+                    scope.selectedAll = !scope.selectedAll;
+
+                    angular.forEach(scope.record, function (_obj) {
+
+                        scope._setSelectedState(_obj, scope.selectedAll);
+
+                    })
+                }
+
                 // WATCHERS / INIT
 
                 var watchOptions = scope.$watch('options', function (newValue, oldValue) {
@@ -1620,14 +1677,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 var watchCurrentEditRecordState = scope.$watchCollection('currentEditRecord', function (newValue, oldValue) {
 
-                    if (newValue) {
+                    if (oldValue && (newValue == null)) {
 
-                        if (scope._hasRevertCopy(newValue)) {
+                        if (scope._hasRevertCopy(oldValue)) {
 
-                            if (scope._compareObjects(newValue, newValue.__dfData.revert)) {
-                                scope._setUnsavedState(newValue, true);
+                            if (scope._compareObjects(oldValue, oldValue.__dfData.revert)) {
+                                scope._setUnsavedState(oldValue, true);
                             } else {
-                                scope._setUnsavedState(newValue, false);
+                                scope._setUnsavedState(oldValue, false);
                             }
                         }
                     }

@@ -1,11 +1,11 @@
 
 <div class="navbar navbar-default">
-    <span style="display: inline" class="navbar-brand">Users</span>
+    <span style="display: inline" class="navbar-brand">User Management</span>
 
     <div class="collapse navbar-collapse" id="access-management-module-nav">
         <ul class="nav navbar-nav navbar-right">
-            <li data-ng-click="open('create')"><a>Create</a></li>
-            <li data-ng-click="open('manage')"><a>Manage</a></li>
+            <li data-ng-class="activeView === 'create' ? 'active' : '' " data-ng-click="open('create')"><a>Create</a></li>
+            <li data-ng-class="activeView === 'manage' ? 'active' : '' "data-ng-click="open('manage')"><a>Manage</a></li>
         </ul>
     </div>
 </div>

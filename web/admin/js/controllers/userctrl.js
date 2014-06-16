@@ -99,6 +99,8 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		var rows = $scope.user.lookup_keys;
 		rows.splice( this.$index, 1 );
 	};
+
+
 	$scope.newKey = function() {
 
 		var newKey = {"name": "", "value": "", "private": false, "allow_user_update": false};

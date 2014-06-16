@@ -6,10 +6,8 @@
         <th>Private</th>
         <th>Allow User Update</th>
         <th>
-            <div class="btn-group pull-left">
-                <a class="btn btn-mini btn-inverse" ng-click="">
-                    <i class="icon-plus" ng-click="newKey()"></i>
-                </a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm" data-ng-click="newKey()"><i class="fa fa-plus fa-fw"></i></button>
             </div>
         </th>
     </tr>
@@ -18,24 +16,22 @@
 
     <tbody>
 
-    <tr ng-repeat="key in user.lookup_keys">
-        <td>
-            <input data-ng-model="key.name" type="text" />
+    <tr data-ng-repeat="key in currentEditRecord.lookup_keys track by $index">
+        <td class="form-group" data-ng-class="_isUniqueKey() ? '' : 'has-error'" >
+            <input class="form-control" data-ng-model="key.name" type="text" data-ng-required="true"/>
         </td>
         <td>
-            <input data-ng-model="key.value" type="text" />
+            <input class="form-control"  data-ng-model="key.value" type="text" data-ng-required="true" />
         </td>
         <td>
-            <input ng-model="key.private" type="checkbox" />
+            <input data-ng-model="key.private" type="checkbox" />
         </td>
         <td>
-            <input ng-model="key.allow_user_update" type="checkbox" />
+            <input data-ng-model="key.allow_user_update" type="checkbox" />
         </td>
-        <td class="no-border">
-            <div class="btn-group pull-left">
-                <a class="btn btn-mini btn-inverse" ng-click="removeKey()">
-                    <i class="icon-trash"></i>
-                </a>
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm" data-ng-click="removeKey()"><i class="fa fa-trash-o fa-fw"></i></button>
             </div>
         </td>
     </tr>
@@ -43,6 +39,6 @@
     </tbody>
 </table>
 
-<p data-ng-if="!user.lookup_keys.length">
+<p data-ng-if="!currentEditRecord.lookup_keys.length">
     No lookup keys for this user. Click the plus button to add.
 </p>
