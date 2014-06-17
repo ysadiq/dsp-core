@@ -725,7 +725,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.activeTab = tabStr;
                 };
 
-                // This workhorse builds a fields object that contains schema field objects with
+                // This workhorse of a function builds a fields object that contains schema field objects with
                 // an 'active' property.  This active property denotes whether a field is shown in the table.
                 // The fields object is stored as the scope var scope.tableFields.  It contains a property called onStartTotalFields
                 // that keeps track of how many fields are currently set active.  We check this property as we loop through our
@@ -2474,8 +2474,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     }
 
                 };
-
-                console.log(scope.field);
 
 
                 scope.fieldTypes = dfObjectService.mergeObjects(scope.extendFieldTypes, scope.defaultFieldTypes);
