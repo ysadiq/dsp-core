@@ -45,6 +45,7 @@ var PackageCtrl = function( $scope, AppsRelatedToService, Service, $http ) {
 		this.app.app_service_relations = [];
 		$( "input:checkbox" ).attr( 'checked', false );
 		$scope.app = angular.copy( this.app );
+        $scope.currentAppId = $scope.app.id;
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + Scope.app.id ).addClass( 'info' );
 

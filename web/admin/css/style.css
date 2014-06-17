@@ -313,7 +313,6 @@ html, body, #container {
 }
 
 .user-name {
-	width:         190px;
 	display:       inline-block;
 	overflow:      hidden;
 	text-overflow: ellipsis;
@@ -459,4 +458,7 @@ a.list-group-item:hover > i.fa {
 		width:      100%;
 		overflow:   hidden;
 	}
+}
+.accordion-toggle{
+    cursor:pointer;
 }
