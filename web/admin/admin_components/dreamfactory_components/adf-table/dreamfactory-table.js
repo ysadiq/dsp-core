@@ -2354,6 +2354,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             scope: {
                 field: '=?',
                 service: '=?',
+                table: '=?',
                 extendFieldTypes: '=?',
                 overrideFields: '=?',
                 currentEditRecord: '=?'
@@ -2423,13 +2424,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         template: 'df-input-date-time-picker.html',
                         placeholder: '',
                         type: '',
-                        editable: true
+                        editable: false
                     },
                     date: {
                         template: 'df-input-date-picker.html',
                         placeholder: '',
                         type: '',
-                        editable: true
+                        editable: false
                     },
                     time: {
                         template: 'df-input-datetime.html',
@@ -2575,7 +2576,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     
                     case 'reference':
 
-                        if (scope.field.ref_table == scope.options.table) {
+                        if (scope.field.ref_table === scope.table) {
                             scope.templateData.template = 'df-input-text.html';
                             scope.templateData.editable = false;
                             break;
@@ -2696,11 +2697,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                         scope._parseDateTime = function(dateTimeStr) {
 
-                            console.log(dateTimeStr);
+                            //console.log(dateTimeStr);
 
                             var dateTimeArr = dateTimeStr.split(' ');
 
-                            console.log(dateTimeArr);
+                            //console.log(dateTimeArr);
 
                             dateTimeArr[0] = dateTimeArr[0].split('-').join('/');
 
