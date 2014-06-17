@@ -6,7 +6,7 @@
             <td>
                 <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
                 <ul id="resource-list" class="list-group">
-                    <li ng-click="showDetails()" data-ng-class="app.id === currentAppId ? 'active' : ''" class="list-group-item"
+                    <li style="cursor:pointer" ng-click="showDetails()" data-ng-class="app.id === currentAppId ? 'active' : ''" class="list-group-item"
                         ng-repeat="app in Apps.record | filter:searchText" id="row_{{app.id}}">
                         <span class="user-name">{{app.name}}</span>
 
