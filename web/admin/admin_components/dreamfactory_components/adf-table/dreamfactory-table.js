@@ -58,7 +58,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
         return {
             restrict: 'E',
             scope: {
-                options: '=',
+                userOptions: '=options',
                 parentRecord: '=?',
                 exportField: '=?'
             },
@@ -67,6 +67,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                 scope.defaults = {
+                    service: '',
+                    table: '',
+                    url: '',
                     normalizeData: false,
                     normalizeSchema: true,
                     autoClose: true,
@@ -79,15 +82,17 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         include_count: true
                     },
                     defaultFields: null,
-                    overrideFields: {},
-                    extendFieldTypes: {},
-                    extendData: {},
-                    extendedSchema: {},
+                    overrideFields: [],
+                    extendFieldTypes: [],
+                    extendData: [],
+                    extendedSchema: [],
                     relatedData: [],
                     exportValueOn: false
                 };
 
-                scope.options = dfObjectService.deepMergeObjects(scope.options, scope.defaults);
+                //scope.options = dfObjectService.deepMergeObjects(scope.options, scope.defaults);
+                // merged by watch userOptions
+                scope.options = {};
 
                 scope.record = null;
                 scope.schema = null;
@@ -925,6 +930,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._createFieldsObj(scope.schema.field);
 
+
                     scope.activeTab = scope.schema.name + "-table";
 
                     scope._calcPagination(data);
@@ -1657,6 +1663,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                 // WATCHERS / INIT
+
+                var watchUserOptions = scope.$watchCollection('userOptions', function(newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+                    scope.options = dfObjectService.deepMergeObjects(newValue, scope.defaults);
+                });
 
                 var watchOptions = scope.$watchCollection('options', function (newValue, oldValue) {
 

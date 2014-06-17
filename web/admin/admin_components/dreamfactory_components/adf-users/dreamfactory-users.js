@@ -149,7 +149,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     defaultFields:{
                         id: true,
                         email: true,
-                        display: true,
+                        display_name: true,
                         is_active: true,
                         confirmed: true,
                         user_data: 'private',

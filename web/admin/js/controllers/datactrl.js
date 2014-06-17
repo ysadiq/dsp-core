@@ -34,17 +34,7 @@ var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
     $scope.options = {
         service: $scope.selected.service,
         table: $scope.selected.resource,
-        url: DSP_URL + '/rest/' + $scope.selected.service + '/' + $scope.selected.resource,
-        params: {
-            offset: 0,
-            limit: 50,
-            include_schema: true,
-            include_count: true,
-            filter: null,
-            fields: '*'
-        },
-        relatedData: [],
-        extendFieldTypes: []
+        url: DSP_URL + '/rest/' + $scope.selected.service + '/' + $scope.selected.resource
     };
 
     $scope.$watchCollection('selected', function (newValue, oldValue) {
@@ -52,20 +42,11 @@ var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
         var options = {
             service: newValue.service,
             table: newValue.resource,
-            url: DSP_URL + '/rest/' + newValue.service + '/' + newValue.resource,
-            params: {
-                offset: 0,
-                limit: 50,
-                include_schema: true,
-                include_count: true,
-                filter: null,
-                fields: '*'
-            },
-            relatedData: [],
-            extendFieldTypes: []
+            url: DSP_URL + '/rest/' + newValue.service + '/' + newValue.resource
         };
 
         $scope.options = options;
+
     });
 };
 
