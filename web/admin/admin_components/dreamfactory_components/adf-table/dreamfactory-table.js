@@ -3,6 +3,7 @@
 
 // @TODO: IGNORING DATE FIELDS DURING COMPARE OBJECTS FUNCTION FOR MARKING RECORD CHANGED.
 // @TODO: FIX TIME PICKING FOR FIELD TYPES 'datetime', 'timestamp', timestamp_on_create', and 'timestamp_on_update'
+// @TODO: check options object merging for default/user defined options.
 
 
 angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
@@ -2573,6 +2574,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         break;
                     
                     case 'reference':
+
+                        if (scope.field.ref_table == scope.options.table) {
+                            scope.templateData.template = 'df-input-text.html';
+                            scope.templateData.editable = false;
+                            break;
+                        }
 
                         var systemTablePrefix = 'df_sys_';
 
