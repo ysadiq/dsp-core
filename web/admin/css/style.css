@@ -459,3 +459,6 @@ a.list-group-item:hover > i.fa {
 		overflow:   hidden;
 	}
 }
+.accordion-toggle{
+    cursor:pointer;
+}
