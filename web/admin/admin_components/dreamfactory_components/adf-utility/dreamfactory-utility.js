@@ -283,8 +283,6 @@ angular.module('dfUtility', [])
 
         return {
 
-            self: this,
-
             mergeObjects: function (obj1, obj2) {
 
                 for (var key in obj1) {
@@ -300,7 +298,7 @@ angular.module('dfUtility', [])
 
                 for (var _key in obj1) {
                     if (obj2.hasOwnProperty(_key)) {
-                        if(typeof obj2[_key] === 'object') {
+                        if(obj2[_key] instanceof Object) {
 
                             obj2[_key] = self.deepMergeObjects(obj1[_key], obj2[_key]);
 

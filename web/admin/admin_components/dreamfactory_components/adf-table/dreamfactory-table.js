@@ -352,6 +352,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._checkForUnsavedRecords = function (data) {
 
+                    if (!data) return false;
 
                     var unsavedRecords = false,
                         i = 0;
@@ -698,7 +699,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 // Table
                 scope._getDefaultFields = function (dataObj) {
 
-                    return dataObj.defaultFields;
+                    if (dataObj.hasOwnProperty('defaultFields')) {
+                        return dataObj.defaultFields;
+                    }
+
+                    return null;
                 };
 
                 scope._removePrivateFields = function (dataObj) {
@@ -733,6 +738,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 // If we still don't have enough fields then we loop through the scope.tableFields object again setting each property to active = true
                 // until we have enough fields.
                 scope._createFieldsObj = function (schemaDataObj) {
+
+                    scope.tableFields = {
+                        onStartTotalActiveFields: 0
+                    };
 
                     if (!scope.defaultFieldsShown) {
 
@@ -809,11 +818,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                                             // set this field obj active
                                             _obj.active = true;
+
+                                            // increment on start fields number
+                                            scope.tableFields.onStartTotalActiveFields++;
                                             break;
                                     }
 
-                                    // increment on start fields number
-                                    scope.tableFields.onStartTotalActiveFields++;
+
                                 }
                             })
                         }
@@ -831,17 +842,18 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                                 // set field true
                                 if (_obj.active == false) {
                                     _obj.active = true;
+
+                                    // increment on start fields number
+                                    // until we reach our limit of start fields
+                                    scope.tableFields.onStartTotalActiveFields++;
                                 }
-
-                                // increment on start fields number
-                                // until we reach our limit of start fields
-                                scope.tableFields.onStartTotalActiveFields++;
-
                             })
 
-                            // End function
-                            return false;
+
                         }
+
+                        // End function
+                        return false;
                     }
 
 
@@ -894,30 +906,30 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.tableFieldsAll = false;
                 };
 
-                scope._init = function (newValue) {
+                scope._init = function (data) {
 
-                    scope._prepareExtendedData(newValue);
+                    scope._prepareExtendedData(scope.options);
 
-                    scope._prepareExtendedSchema(newValue);
+                    scope._prepareExtendedSchema(scope.options);
 
-                    if (scope._prepareRecords(newValue)) {
-                        scope._prepareOverrideFields(newValue);
+                    if (scope._prepareRecords(data)) {
+                        scope._prepareOverrideFields(scope.options);
                     }
 
-                    scope._prepareSchema(newValue);
+                    scope._prepareSchema(data);
 
-                    scope._prepareExtendedFieldTypes(newValue);
+                    scope._prepareExtendedFieldTypes(scope.options);
 
-                    scope.defaultFieldsShown = scope._getDefaultFields(newValue);
+                    scope.defaultFieldsShown = scope._getDefaultFields(scope.options);
 
                     scope._createFieldsObj(scope.schema.field);
 
                     scope.activeTab = scope.schema.name + "-table";
 
-                    scope._calcPagination(newValue);
+                    scope._calcPagination(data);
 
+                    scope.pagesArr[0].stopPropagation = true;
                     scope._setCurrentPage(scope.pagesArr[0]);
-
 
                 };
 
@@ -925,7 +937,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope.record = scope._getRecordsFromData(data);
 
-                    if (!scope.record) return false;
+                    if (!scope.record) {
+                        scope.record = null;
+                        return false;
+                    }
+
 
                     scope._removePrivateFields(scope._getDefaultFields(scope.options));
 
@@ -1641,7 +1657,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 // WATCHERS / INIT
 
-                var watchOptions = scope.$watch('options', function (newValue, oldValue) {
+                var watchOptions = scope.$watchCollection('options', function (newValue, oldValue) {
 
                     if (!newValue) return false;
 
@@ -1669,9 +1685,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                                     scope._getRecordsFromServer().then(
                                         function (_result) {
 
-                                            newValue['data'] = _result;
+                                            //newValue['data'] = _result;
 
-                                            scope._init(newValue);
+                                            scope._init(_result);
                                             scope._resetFilter(scope.schema);
                                             scope._resetOrder(scope.schema);
 
@@ -1710,8 +1726,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             scope._getRecordsFromServer().then(
                                 function (_result) {
 
-                                    newValue['data'] = _result;
-                                    scope._init(newValue);
+                                    //newValue['data'] = _result;
+
+                                    scope._init(_result);
                                     scope._resetFilter(scope.schema);
                                     scope._resetOrder(scope.schema);
 
@@ -1727,7 +1744,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             )
                         }
                         else {
-
                             scope._init(newValue);
                             scope._resetFilter(scope.schema);
                             scope._resetOrder(scope.schema);
