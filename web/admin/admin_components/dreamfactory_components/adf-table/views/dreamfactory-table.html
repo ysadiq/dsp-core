@@ -269,7 +269,7 @@
                         </div>
                     </div>
                 </div>
-                <span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" data-ng-repeat="field in tableFields">
+                <span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" data-ng-if="tableFields[field.name]" data-ng-repeat="field in tableFields">
                     <input type="checkbox" data-ng-model="tableFields[field.name].active">
                     <p style="display:inline; margin-left: 10px;">{{field.label}}</p>
                 </span>
