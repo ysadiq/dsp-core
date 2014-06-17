@@ -35,6 +35,14 @@ var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
         service: $scope.selected.service,
         table: $scope.selected.resource,
         url: DSP_URL + '/rest/' + $scope.selected.service + '/' + $scope.selected.resource,
+        params: {
+            offset: 0,
+            limit: 50,
+            include_schema: true,
+            include_count: true,
+            filter: null,
+            fields: '*'
+        },
         relatedData: [],
         extendFieldTypes: []
     };
@@ -45,12 +53,19 @@ var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
             service: newValue.service,
             table: newValue.resource,
             url: DSP_URL + '/rest/' + newValue.service + '/' + newValue.resource,
+            params: {
+                offset: 0,
+                limit: 50,
+                include_schema: true,
+                include_count: true,
+                filter: null,
+                fields: '*'
+            },
             relatedData: [],
             extendFieldTypes: []
         };
 
         $scope.options = options;
-
     });
 };
 

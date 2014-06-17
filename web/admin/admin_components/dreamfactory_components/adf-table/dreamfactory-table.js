@@ -86,7 +86,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     exportValueOn: false
                 };
 
-                scope.options = dfObjectService.mergeObjects(scope.options, scope.defaults);
+                scope.options = dfObjectService.deepMergeObjects(scope.options, scope.defaults);
 
                 scope.record = null;
                 scope.schema = null;
