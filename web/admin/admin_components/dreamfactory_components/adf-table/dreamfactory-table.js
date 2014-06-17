@@ -24,7 +24,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             '<input type="text" class="form-control" data-ng-model="currentEditRecord[field.name]" placeholder="Enter Value or Choose from list" data-ng-required="field.required">' +
                             '<div class="input-group-btn">' +
                                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">List <span class="caret"></span></button>' +
-                                '<ul class="dropdown-menu pull-right">' +
+                                '<ul class="dropdown-menu pull-right df-dropdown-height">' +
                                     '<li data-ng-click="assignValue(item)" data-ng-repeat="item in data"><a>{{item}}</a></li>' +
                                 '</ul>' +
                             '</div><!-- /btn-group -->' +
