@@ -92,10 +92,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.schema = null;
                 scope.overrideFields = {};
 
-                scope.tableFields = {};
+                scope.tableFields = {
+                    onStartTotalActiveFields: 0
+                };
                 scope.tableFieldsAll = false;
                 scope.tableFilterOn = true;
                 scope.defaultFieldsShown = {};
+                scope.numAutoSelectFields = 8;
                 scope.selectedAll = false;
 
                 scope.filterOn = false;
@@ -717,42 +720,178 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.activeTab = tabStr;
                 };
 
+                // This workhorse builds a fields object that contains schema field objects with
+                // an 'active' property.  This active property denotes whether a field is shown in the table.
+                // The fields object is stored as the scope var scope.tableFields.  It contains a property called onStartTotalFields
+                // that keeps track of how many fields are currently set active.  We check this property as we loop through our
+                // rules to determine when we have enough fields that are active.  If we haven't passed in any default fields through
+                // our options object then we hit the rules engine which first builds the scope.tableFields object from the field.name property.
+                // This first check sets fields with specific properties like 'name', 'f_name', 'firstname', etc and sets those active = true and others
+                // that don't pass the test to active = false.
+                // Then we check if we have enough active fields.  If we don't then we loop through our now created scope.tableFields object
+                // looking for fields with a specific type like 'date', 'time', 'datetime', etc and set those active.
+                // If we still don't have enough fields then we loop through the scope.tableFields object again setting each property to active = true
+                // until we have enough fields.
                 scope._createFieldsObj = function (schemaDataObj) {
 
-                    angular.forEach(schemaDataObj, function (value, index) {
-                        if (!scope.defaultFieldsShown) {
+                    if (!scope.defaultFieldsShown) {
 
-                            scope.tableFields[value.name] = {active: true, name: value.name, label: value.label};
+                        // get all the keys so we can query how many there are
+                        var allKeys = Object.keys(schemaDataObj);
 
-                            scope.tableFieldsAll = true;
+                        // have we set the amount of onStart fields higher than the number of fields in schema
+                        // if so set the onStart fields to the number of fields in the schema
+                        if (allKeys.length < scope.numAutoSelectFields) scope.numAutoSelectFields = allKeys.length;
 
-                            return false;
+                        // Loop through schema
+                        angular.forEach(schemaDataObj, function (value, index) {
+
+                            // Do we have enough fields and have we hit that last field obj
+                            if (scope.tableFields.onStartTotalActiveFields < scope.numAutoSelectFields && index != allKeys.length) {
+
+                                // if the field matches one of these cases for it to be active
+                                switch (value.name) {
+
+                                    case 'name':
+                                    case 'title':
+                                    case 'fname':
+                                    case 'lname':
+                                    case 'f_name':
+                                    case 'l_name':
+                                    case 'firstname':
+                                    case 'lastname':
+                                    case 'first_name':
+                                    case 'last_name':
+                                    case 'email':
+                                    case 'phone':
+
+                                        // set the object property to the value
+                                        scope.tableFields[value.name] = value;
+
+                                        // add an active property and set true for display
+                                        scope.tableFields[value.name]['active'] = true;
+
+                                        // increment our total count of start fields
+                                        scope.tableFields.onStartTotalActiveFields++;
+                                        break;
+
+                                    // we didn't match a case
+                                    default:
+
+                                        // add the field to the object
+                                        scope.tableFields[value.name] = value;
+
+                                        // add active property and set false for no display
+                                        scope.tableFields[value.name]['active'] = false;
+
+                                }
+                            }
+                        });
+
+                        // Do we have enough start fields
+                        if (scope.tableFields.onStartTotalActiveFields < scope.numAutoSelectFields) {
+
+                            // loop through our table fields
+                            angular.forEach(scope.tableFields, function (_obj) {
+
+                                // short circuit if we have enough start fields
+                                if (scope.tableFields.onStartTotalActiveFields == scope.numAutoSelectFields) return false;
+
+                                // if the field was initially set inactive
+                                if (_obj.active == false) {
+
+                                    // Check for type to set active
+                                    switch(_obj.type) {
+
+                                        case 'date':
+                                        case 'time':
+                                        case 'datetime':
+
+                                            // set this field obj active
+                                            _obj.active = true;
+                                            break;
+                                    }
+
+                                    // increment on start fields number
+                                    scope.tableFields.onStartTotalActiveFields++;
+                                }
+                            })
                         }
 
+
+                        // Do we have enough fields yet?
+                        if (scope.tableFields.onStartTotalActiveFields < scope.numAutoSelectFields) {
+
+                            // Loop through again
+                            angular.forEach(scope.tableFields, function (_obj) {
+
+                                // short circuit if we have enough start fields
+                                if (scope.tableFields.onStartTotalActiveFields == scope.numAutoSelectFields) return false;
+
+                                // set field true
+                                if (_obj.active == false) {
+                                    _obj.active = true;
+                                }
+
+                                // increment on start fields number
+                                // until we reach our limit of start fields
+                                scope.tableFields.onStartTotalActiveFields++;
+
+                            })
+
+                            // End function
+                            return false;
+                        }
+                    }
+
+
+                    // We have default fields
+                    angular.forEach(schemaDataObj, function (value, index) {
+
+                        // is the current value a property on scope.options.defaultFields?
                         if (scope.defaultFieldsShown.hasOwnProperty(value.name)) {
+
+                            // it is
                             switch (scope.defaultFieldsShown[value.name]) {
 
                                 case true:
-                                    scope.tableFields[value.name] = {active: true, name: value.name, label: value.label};
+                                    // set the object property to the value
+                                    scope.tableFields[value.name] = value;
+
+                                    // add an active property and set true for display
+                                    scope.tableFields[value.name]['active'] = true;
                                     break;
 
                                 case false:
-                                    scope.tableFields[value.name] = {active: false, name: value.name, label: value.label};
+                                    // set the object property to the value
+                                    scope.tableFields[value.name] = value;
+
+                                    // add an active property and set true for display
+                                    scope.tableFields[value.name]['active'] = false;
                                     break;
 
                                 case 'private':
                                     break;
 
                                 default:
-                                    scope.tableFields[value.name] = {active: false, name: value.name, label: value.label};
+                                    // set the object property to the value
+                                    scope.tableFields[value.name] = value;
+
+                                    // add an active property and set true for display
+                                    scope.tableFields[value.name]['active'] = false;
                             }
                         } else {
 
-                            scope.tableFields[value.name] = {active: false, name: value.name, label: value.label};
+                            // set the object property to the value
+                            scope.tableFields[value.name] = value;
+
+                            // add an active property and set true for display
+                            scope.tableFields[value.name]['active'] = false;
                         }
 
-                        scope.tableFieldsAll = false;
                     });
+
+                    scope.tableFieldsAll = false;
                 };
 
                 scope._init = function (newValue) {
