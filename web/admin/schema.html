@@ -8,7 +8,10 @@
 
                 <accordion style="height:100%" close-others=true dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0" >
 
-                    <accordion-group data-ng-click="setService()" heading="{{service.api_name}}" ng-repeat="service in dbServices">
+                    <accordion-group  style="cursor:pointer" data-ng-click="setService()"  ng-repeat="service in dbServices">
+                        <accordion-heading>
+                            {{service.api_name}}<br/><small>{{service.description}}</small>
+                        </accordion-heading>
                         <div class="form-inline">
                             <input type="text" class="form-control"  placeholder="New table name" data-ng-model="newTableName"/>
                             <button ng-click="createTable()" class="btn btn-default">
@@ -52,8 +55,11 @@
 
             <td>&nbsp;</td>
             <td id="app-details">
+                <div data-ng-show="!service">
+                    <div class="alert alert-info"><p>Choose a Schema DB service from the menu to the left.  You can create new Schema DB (local or remote) service in the Services section of this Admin Console.</p></div>
+                </div>
                 <div data-ng-show="advanced">
-                    <div class="btn-group"><button class="btn btn-default"  data-ng-show="table.schema && !import" data-ng-click="toggleJSON()">Toggle JSON</button>
+                    <div class="btn-group"><button class="btn btn-default"  data-ng-show="table.schema && !import" data-ng-click="toggleJSON()">Table View</button>
                         <button data-ng-click="validateJSON()" class="btn btn-default">Validate</button>
                         <button class="btn btn-primary" data-ng-show= "!import" data-ng-click="updateJSONSchema()">Update Schema</button>
                         <button class="btn btn-primary" data-ng-show = "import" data-ng-click="postJSONSchema()">Post Schema</button>
@@ -64,19 +70,19 @@
                 </div>
                 <div data-ng-show="!advanced">
                     <div class="btn-group">
-                        <button class="btn btn-default"  data-ng-show="table.schema" data-ng-click="toggleJSON()">Toggle JSON</button><button class="btn btn-default" data-ng-show="table.schema" data-ng-click="addColumn()">Add Column</button>
+                        <button class="btn btn-default"  data-ng-show="table.schema" data-ng-click="toggleJSON()">JSON View</button><button class="btn btn-default" data-ng-show="table.schema" data-ng-click="addColumn()">Add Column</button>
                     </div>
                     <br/><br/>
                     <accordion close-others=true>
 
                         <accordion-group ng-repeat="column in table.schema.data.field">
-                            <accordion-heading>{{column.name}} <span class="btn-group btn-group-sm pull-right">
+                            <accordion-heading>{{column.name}}
 
-                                      <button class="btn btn-default" title="Delete Column"
+                                      <button class="btn btn-xs btn-default pull-right" title="Delete Column"
                                               ng-click="deleteColumn()"><i
                                               class="fa fa-trash-o"></i>
                                       </button>
-            </span></accordion-heading>
+            </accordion-heading>
                                     <div class="form-group">
                                         <label>Name</label>
                                         <input class="form-control" type="text" data-ng-model = "column.name"/>
