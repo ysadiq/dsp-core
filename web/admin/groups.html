@@ -17,7 +17,7 @@
                     <li ng-click="showDetails()" data-ng-class="group.id === currentGroupId ? 'active' : ''" class="list-group-item"
                         ng-repeat="group in Groups.record | filter:searchText" id="row_{{group.id}}">
                         <span class="user-name">{{group.name}}</span>
-            <span class="btn-group btn-group-sm">
+            <span class="btn-group btn-group-sm pull-right">
 
                                       <button class="btn btn-default" title="Delete this Group"
                                               ng-click="delete()"><i
