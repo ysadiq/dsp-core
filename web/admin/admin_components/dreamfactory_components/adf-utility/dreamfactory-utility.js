@@ -2758,9 +2758,9 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 angular.module("template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
     $templateCache.put("template/accordion/accordion-group.html",
         "<div class=\"panel panel-default\">\n" +
-            "  <div class=\"panel-heading\">\n" +
+            "  <div class=\"panel-heading\" ng-click=\"isOpen = !isOpen\" style=\"cursor:pointer;\">\n" +
             "    <h4 class=\"panel-title\">\n" +
-            "      <a class=\"accordion-toggle\" ng-click=\"isOpen = !isOpen\" accordion-transclude=\"heading\">{{heading}}</a>\n" +
+            "      <a class=\"accordion-toggle\"  accordion-transclude=\"heading\">{{heading}}</a>\n" +
             "    </h4>\n" +
             "  </div>\n" +
             "  <div class=\"panel-collapse\" collapse=\"!isOpen\">\n" +
