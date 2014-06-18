@@ -50,63 +50,6 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
                     function (response) {
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
-                            //if(Object.keys($scope.tables).indexOf(event.name) != '-1'){
-//                                $scope.tables[event.name].forEach(
-//                                    function (table) {
-                            //console.log("table=" + table);
-
-//                                        var newPath = {};
-//                                        newPath.path = "/" + event.name +"/" + table.name;
-//                                        newPath.verbs = [
-//                                            {"type": "get",
-//                                                "event": [event.name + "." + table.name + ".select"
-//                                                ]},
-//                                            {
-//                                                "type":"get",
-//                                                "event" : [event.name + "." + table.name + ".get.pre_process"]
-//                                            },
-//                                            {
-//                                                "type":"get",
-//                                                "event" : [event.name + "." + table.name + ".get.post_process"]
-//                                            },
-//                                            {"type": "put",
-//                                                "event": [
-//                                                    event.name + "." + table.name + ".update"
-//                                                ]},
-//                                            {
-//                                                "type":"put",
-//                                                "event" : [event.name + "." + table.name + ".put.pre_process"]
-//                                            },
-//                                            {
-//                                                "type":"put",
-//                                                "event" : [event.name + "." + table.name + ".put.post_process"]
-//                                            },
-//                                            {"type": "post",
-//                                                "event": [
-//                                                    event.name + "." + table.name + ".insert"
-//                                                ]},
-//                                            {
-//                                                "type":"post",
-//                                                "event" : [event.name + "." + table.name + ".post.pre_process"]
-//                                            },
-//                                            {
-//                                                "type":"post",
-//                                                "event" : [event.name + "." + table.name + ".post.post_process"]
-//                                            },
-//                                            event.paths.push(newpath)
-//                                            {
-//                                                "type":"delete",
-//                                                "event" : [event.name + "." + table.name + ".delete.pre_process"]
-//                                            },
-//                                            {
-//                                                "type":"delete",
-//                                                "event" : [event.name + "." + table.name + ".delete.post_process"]
-//                                            }
-//                                        ];
-//                                        event.paths.push(newPath);
-//                                    }
-//                                );
-                            // }else{
                             event.paths.forEach(function (path) {
                                 var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
                                 var pathIndex = path.path.lastIndexOf("/") + 1;
@@ -146,7 +89,6 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
                                             newpath.verbs.push(postObj);
 
                                         });
-                                      console.log(event.paths);
                                       var found = false;
                                       event.paths.forEach(function(pathObj){
 
@@ -178,11 +120,6 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
 
 
                             });
-                            // }
-                            //console.log(event);
-
-
-                            //
                         });
 
 
