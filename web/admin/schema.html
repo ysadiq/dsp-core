@@ -100,19 +100,19 @@
                                         <input class="form-control" type="text" data-ng-model = "column.length"/>
                                         <br/>
                                         <label>Fixed Length</label>
-                                        <input class="form-control" type="text" data-ng-disabled ="column.type !== 'string'" data-ng-model = "column.fixed_length"/>
+                                        <input  type="checkbox" data-ng-disabled ="column.type !== 'string'" data-ng-model = "column.fixed_length"/>
                                         <br/>
-                                        <label>Allow Null?</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.allow_null"/>
+                                        <label>Allow Null</label>
+                                        <input  type="checkbox" data-ng-model = "column.allow_null"/>
                                         <br/>
-                                        <label>Primary Key?</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.is_primary_key"/>
+                                        <label>Primary Key</label>
+                                        <input  type="checkbox" data-ng-model = "column.is_primary_key"/>
                                         <br/>
                                         <label>Auto Increment</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.auto_increment"/>
+                                        <input type="checkbox" data-ng-model = "column.auto_increment"/>
                                         <br/>
                                         <label>Foreign Key?</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.is_foreign_key"/>
+                                        <input  type="checkbox" data-ng-model = "column.is_foreign_key"/>
                                         <br/>
 
                                         <label>Default Value</label>
