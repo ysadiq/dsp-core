@@ -133,7 +133,6 @@ angular.module('dfUtility', [])
 
                 scope._toggleVerbState = function (nameStr, event) {
 
-                    console.log('asdfadsf')
                     event.stopPropagation();
 
                     if (scope.verbs.hasOwnProperty(scope.verbs[nameStr].name)) {
@@ -401,12 +400,37 @@ angular.module('dfUtility', [])
     .filter('orderObjectBy', [function () {
         return function (items, field, reverse) {
             var filtered = [];
+
+            function cmp(a,b) { return a == b ? 0 : a < b ? -1 : 1; }
+
             angular.forEach(items, function (item) {
                 filtered.push(item);
             });
-            filtered.sort(function (a, b) {
-                return (a[field] > b[field]);
-            });
+
+
+            switch (typeof filtered[0][field]) {
+
+                case 'number':
+                    filtered.sort(function numberCmp(a,b) { return cmp(Number(a[field]),Number(b[field])); })
+                    break;
+
+                case 'string':
+
+                    filtered.sort(function sortfn (a,b) {
+                        var upA = a[field].toUpperCase();
+                        var upB = b[field].toUpperCase();
+                        return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+                    });
+                    break;
+
+                default:
+                    filtered.sort(function sortfn (a,b) {
+                        var upA = a[field]
+                        var upB = b[field]
+                        return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+                    });
+            }
+
             if (reverse) filtered.reverse();
             return filtered;
         };

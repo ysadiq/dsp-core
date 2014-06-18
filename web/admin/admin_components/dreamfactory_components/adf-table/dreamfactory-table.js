@@ -3,7 +3,6 @@
 
 // @TODO: IGNORING DATE FIELDS DURING COMPARE OBJECTS FUNCTION FOR MARKING RECORD CHANGED.
 // @TODO: FIX TIME PICKING FOR FIELD TYPES 'datetime', 'timestamp', timestamp_on_create', and 'timestamp_on_update'
-// @TODO: check options object merging for default/user defined options.
 
 
 angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
@@ -53,7 +52,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 '</div>\n' +
             '</div>');
     }])
-    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService) {
+    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$filter', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, $filter, dfObjectService, dfTableEventService) {
 
         return {
             restrict: 'E',
@@ -65,6 +64,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             templateUrl: DF_TABLE_ASSET_PATH + 'views/dreamfactory-table.html',
             link: function (scope, elem, attrs) {
 
+
+                scope.es = dfTableEventService;
 
                 scope.defaults = {
                     service: '',
@@ -85,8 +86,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     overrideFields: [],
                     extendFieldTypes: [],
                     extendData: [],
-                    extendedSchema: [],
+                    extendSchema: [],
                     relatedData: [],
+                    excludeFields: [],
+                    groupFields: [],
                     exportValueOn: false
                 };
 
@@ -145,6 +148,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.extendedData = {};
 
                 scope.extendedSchema = {};
+
+                scope.excludedFields = {};
+
+                scope.filteredSchema = [];
+                scope.groupedSchema = [];
 
 
 
@@ -673,9 +681,16 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     var newRecord = {};
 
-                    for (var _key in scope.schema) {
-                        newRecord[_key.name] = ''
-                    }
+                    angular.forEach(scope.schema.field, function (_obj) {
+
+                        if (scope.excludedFields.hasOwnProperty(_obj.name) && scope.excludedFields[_obj.name].fields.create) {
+
+                            //console.log('Model property \'' + _obj.name + '\' excluded.')
+
+                        }else {
+                            newRecord[_obj.name] = _obj.default;
+                        }
+                    });
 
                     scope._addStateProps(newRecord);
 
@@ -699,6 +714,69 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     if (confirm(_message)) {
                         _action.call();
                     }
+                };
+
+                scope._filterFormSchema = function (formNameStr) {
+
+
+                    if (scope.excludedFields.length == 0) return false;
+
+                    angular.forEach(scope.schema.field, function (_obj) {
+
+                        if (scope.excludedFields.hasOwnProperty(_obj.name) && scope.excludedFields[_obj.name].fields[formNameStr]) {
+
+                            //console.log('Schema property \'' + _obj.name + '\' excluded from ' + form + ' form')
+                        }else {
+                            scope.filteredSchema.push(_obj);
+                        }
+                    });
+                };
+
+                scope._buildSchemaGroups = function () {
+
+                    if (scope.options.groupFields.length == 0) return false;
+
+                    var _schema = scope.filteredSchema.length > 0 ? scope.filteredSchema : scope.schema.field;
+
+                    angular.forEach(scope.options.groupFields, function (fobj) {
+
+                        var group = {};
+                        group['name'] = fobj.name;
+                        group['fields'] = [];
+                        group['dividers'] = fobj.dividers;
+
+                        angular.forEach(_schema, function(item) {
+                            angular.forEach(fobj.fields, function (field, index) {
+                                if (item.name === field) {
+
+                                    //console.log(group.name + ' => ' + item.name + ' = ' + field);
+                                    group.fields[index] = item;
+                                }
+                            });
+                        });
+
+                        scope.groupedSchema.push(group);
+                    });
+                };
+
+                scope._checkForGroupedSchema = function (groupNameStr) {
+
+                    if (scope.groupedSchema.length == 0) {
+                        scope.groupedSchema.push({
+                            name: groupNameStr,
+                            fields: scope.schema.field
+                        })
+                    }
+                };
+
+                scope._clearFilteredSchema = function () {
+
+                    scope.filteredSchema = [];
+                }
+
+                scope._clearGroupedSchema = function () {
+
+                    scope.groupedSchema = [];
                 };
 
 
@@ -918,6 +996,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._prepareExtendedSchema(scope.options);
 
+                    scope._prepareExcludedFields(scope.options);
+
                     if (scope._prepareRecords(data)) {
                         scope._prepareOverrideFields(scope.options);
                     }
@@ -929,7 +1009,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.defaultFieldsShown = scope._getDefaultFields(scope.options);
 
                     scope._createFieldsObj(scope.schema.field);
-
 
                     scope.activeTab = scope.schema.name + "-table";
 
@@ -948,7 +1027,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         scope.record = null;
                         return false;
                     }
-
 
                     scope._removePrivateFields(scope._getDefaultFields(scope.options));
 
@@ -982,22 +1060,24 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope.schema = scope._getSchemaFromData(data);
 
-                    if (data.normalizeSchema && (scope.record.length > 0)) {
+                    if (scope.options.normalizeSchema && (scope.record.length > 0)) {
+
                         scope.schema = scope._normalizeSchema(scope.schema, scope.record);
                     }
 
                     angular.forEach(scope.extendedSchema, function(_obj) {
 
                         scope.schema.field.push(_obj);
-                    })
+                    });
+
 
                 };
 
                 scope._prepareExtendedSchema = function (data) {
 
-                    if (data.extendedSchema == null) return false;
+                    if (data.extendSchema == null) return false;
 
-                    angular.forEach(data.extendedSchema, function (_obj) {
+                    angular.forEach(data.extendSchema, function (_obj) {
 
                         scope.extendedSchema[_obj.name] = {};
                         scope.extendedSchema[_obj.name]['name'] = _obj.name;
@@ -1038,9 +1118,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._prepareExtendedData = function (data) {
 
-                    if (data.extendedData == null) return false;
+                    if (data.extendData == null) return false;
 
-                    angular.forEach(data.extendedData, function (_obj) {
+                    angular.forEach(data.extendData, function (_obj) {
 
                         scope.extendedData[_obj.name] = {};
                         scope.extendedData[_obj.name]['name'] = _obj.name;
@@ -1065,6 +1145,17 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._setExportValueToParent = function (dataObj) {
 
                     scope._exportValue = dataObj || null;
+                };
+
+                scope._prepareExcludedFields = function (data) {
+
+                    if (data.extendSchema == null) return false;
+
+                    angular.forEach(data.excludeFields, function (_obj) {
+
+                        scope.excludedFields[_obj.name] = {};
+                        scope.excludedFields[_obj.name]['fields'] = _obj.fields;
+                    });
                 };
 
 
@@ -1126,6 +1217,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 };
 
                 scope._calcPagination = function (newValue) {
+
+                    scope.pagesArr = [];
 
                     var count = scope._getCountFromMeta(newValue);
 
@@ -1227,6 +1320,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 };
 
 
+
                 // COMPLEX IMPLEMENTATION
                 scope._setTab = function (tabStr) {
 
@@ -1267,7 +1361,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     delete schemaDataObj.field;
 
                     schemaDataObj['field'] = normalizedSchema;
-
 
                     return schemaDataObj;
                 };
@@ -1311,6 +1404,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                                 }
                             });
 
+                            scope.$emit(scope.es.alertSuccess, {message: 'Records saved.'})
+
                         },
                         function (reject) {
                             throw {
@@ -1338,6 +1433,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             }
                         }
                     })
+
+                    scope.$emit(scope.es.alertSuccess, {message: 'Records reverted.'})
                 };
 
                 scope._deleteRecords = function () {
@@ -1370,6 +1467,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             // Get some records from the server with our request obj
                             scope._getRecordsFromServer(requestDataObj).then(
                                 function (_result) {
+
+                                    scope.$emit(scope.es.alertSuccess, {message: 'Records deleted.'})
 
                                     // Set em up
                                     scope._prepareRecords(_result);
@@ -1669,6 +1768,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     if (!newValue) return false;
 
                     scope.options = dfObjectService.deepMergeObjects(newValue, scope.defaults);
+
+                    scope._setActiveView('table');
+
                 });
 
                 var watchOptions = scope.$watchCollection('options', function (newValue, oldValue) {
@@ -1839,10 +1941,18 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         if (!scope._hasRevertCopy(newValue)) {
                             scope._createRevertCopy(newValue);
                         }
+
+                        scope._filterFormSchema('edit');
+                        scope._buildSchemaGroups();
+                        scope._checkForGroupedSchema('Edit ' + scope.schema.name.charAt(0).toUpperCase() + scope.schema.name.slice(1));
+
                         scope._setActiveView('edit');
                     } else {
 
+
                         scope._setActiveView('table');
+                        scope._clearGroupedSchema();
+                        scope._clearFilteredSchema();
                     }
                 });
 
@@ -2062,8 +2172,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     if (newValue) {
                         scope._setActiveView('new');
+
+                        scope._filterFormSchema('create');
+                        scope._buildSchemaGroups();
+                        scope._checkForGroupedSchema('Create ' + scope.schema.name.charAt(0).toUpperCase() + scope.schema.name.slice(1));
+
                     } else {
                         scope._setActiveView('table');
+                        scope._clearGroupedSchema();
                     }
                 });
 
@@ -2072,6 +2188,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.$on('$destroy', function(e) {
 
+                    watchUserOptions();
                     watchOptions();
                     watchCurrentPage();
                     watchCurrentEditRecord();
@@ -2083,7 +2200,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             }
         }
     }])
-    .directive('editRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService) {
+    .directive('editRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService, dfTableEventService) {
 
         return {
 
@@ -2092,6 +2209,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             templateUrl: DF_TABLE_ASSET_PATH + 'views/edit-record.html',
             link: function (scope, elem, attrs) {
 
+
+                scope.es = dfTableEventService;
 
                 // PUBLIC API
                 scope.closeRecord = function () {
@@ -2154,6 +2273,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 // COMPLEX IMPLEMENTATION
                 scope._revertRecord = function () {
                     scope._revertRecordData();
+                    scope.$emit(scope.es.alertSuccess, {message: 'Record reverted.'})
                 };
 
                 scope._deleteRecord = function () {
@@ -2162,6 +2282,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope._deleteRecordFromServer(scope.currentEditRecord).then(
                         function (result) {
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Record deleted.'})
 
                             var requestDataObj = {},
                                 curPage = scope._getCurrentPage().value,
@@ -2250,6 +2372,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             scope._removeRevertCopy(scope.currentEditRecord);
                             scope._setUnsavedState(scope.currentEditRecord, false);
 
+                            scope.$emit(scope.es.alertSuccess, {message: 'Record saved.'})
+
 
                             if (scope.options.autoClose) {
                                 scope._closeEdit();
@@ -2284,7 +2408,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
     }])
-    .directive('createRecord', ['DF_TABLE_ASSET_PATH', '$http', function (DF_TABLE_ASSET_PATH, $http) {
+    .directive('createRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, dfTableEventService) {
 
         return {
             restrict: 'E',
@@ -2292,6 +2416,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             templateUrl: DF_TABLE_ASSET_PATH + 'views/create-record.html',
             link: function (scope, elem, attrs) {
 
+
+                scope.es = dfTableEventService;
 
                 // PUBLIC API
                 scope.closeCreateRecord = function () {
@@ -2312,7 +2438,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._saveNewRecordToServer = function () {
 
-                    return $http({
+                   return $http({
                         method: 'POST',
                         url: scope.options.url,
                         data: scope.newRecord
@@ -2328,10 +2454,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._saveNewRecord = function () {
 
-                    scope._setInProgress(true);
+                   scope._setInProgress(true);
                     scope._saveNewRecordToServer().then(
                         function (result) {
 
+                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'})
                             scope._closeCreateRecord();
                         },
                         function (reject) {
@@ -2592,6 +2719,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         if (scope.field.ref_table === scope.table) {
                             scope.templateData.template = 'df-input-text.html';
                             scope.templateData.editable = false;
+                            console.log(scope.currentEditRecord[scope.field])
                             break;
                         }
 
@@ -2748,5 +2876,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 elem.append($compile($templateCache.get(scope.templateData.template))(scope));
             }
+        }
+    }])
+    .service('dfTableEventService', [function () {
+
+        return {
+
+            alertSuccess: 'alert:success'
         }
     }]);

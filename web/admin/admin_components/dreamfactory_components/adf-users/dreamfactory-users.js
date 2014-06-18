@@ -92,9 +92,15 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         $templateCache.put('confirmed-template.html', '<df-confirm-user></df-confirm-user>');
         $templateCache.put('df-input-password.html', '<df-set-user-password></df-set-user-password>');
         $templateCache.put('df-input-lookup-keys.html', '<df-user-lookup-keys></df-user-lookup-keys>');
+        $templateCache.put('df-input-role-picker.html', '<df-role-picker></df-role-picker>');
+        $templateCache.put('df-input-app-picker.html', '<df-app-picker></df-app-picker>');
+        $templateCache.put('df-input-sys-admin.html', '<df-sys-admin-user></df-sys-admin-user>');
+        $templateCache.put('df-input-active-user.html', '<df-active-user></df-active-user>');
+
+
 
     }])
-    .controller('UsersCtrl', ['DSP_URL', '$scope', 'getUsersData', 'getRolesData', 'getAppsData', function(DSP_URL, $scope, getUsersData, getRolesData, getAppsData){
+    .controller('UsersCtrl', ['DSP_URL', '$scope', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', function(DSP_URL, $scope, getUsersData, getRolesData, getAppsData, dfUserManagementEventService){
 
         // PRE-PROCESS API
         $scope.__setNullToEmptyString = function (systemConfigDataObj) {
@@ -123,22 +129,48 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         $scope.apps = $scope.__getDataFromResponse($scope.__apps__);
 
 
+        $scope.es = dfUserManagementEventService;
+
+
         // PUBLIC VARS
 
-        $scope.activeView = 'create';
+        $scope.activeView = 'manage';
 
         $scope.open = function (viewStr) {
 
             $scope.activeView = viewStr
         };
+
+
+        // PRIVATE API
+        $scope._alertSuccess = function (message) {
+
+            console.log(message)
+        };
+
+        // MESSAGES
+
+
+
+
+        $scope.$on($scope.es.alertSuccess, function (e, messageObj) {
+
+            $scope._alertSuccess(messageObj.message)
+        });
+
+
+
     }])
-    .directive('dfManageUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', function(MODUSER_ASSET_PATH, DSP_URL) {
+    .directive('dfManageUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, DSP_URL, dfUserManagementEventService) {
 
         return {
             restrict: 'E',
             scope: true,
             templateUrl: MODUSER_ASSET_PATH + 'views/manage-users.html',
             link: function(scope, elem, attrs) {
+
+
+                scope.es = dfUserManagementEventService;
 
                 scope.options = {
                     service: 'system',
@@ -155,15 +187,60 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         user_data: 'private',
                         user_source: 'private'
                     },
+                    excludeFields: [
+                        {
+                            name: 'id',
+                            fields: {
+                                create: true,
+                                edit: true
+                            }
+                        },
+                        {
+                            name: 'created_by_id',
+                            fields: {
+                                create: true,
+                                edit: true
+                            }
+                        },
+                        {
+                            name: 'last_modified_by_id',
+                            fields: {
+                                create: true,
+                                edit: true
+                            }
+                        },
+                        {
+                            name: 'created_date',
+                            fields: {
+                                create: true,
+                                edit: true
+                            }
+                        },
+                        {
+                            name: 'last_modified_date',
+                            fields: {
+                                create: true,
+                                edit: true
+                            }
+                        },
+                        {
+                            name: 'confirmed',
+                            fields: {
+                                create: true,
+                                edit: false
+                            }
+                        }
+                    ],
                     overrideFields: [
                         {
                             field: 'role_id',
                             record: scope.__roles__,
                             editable: true,
                             display: {
-                                type: 'select',
-                                value: 'id',
+                                type: 'custom',
+                                template: 'df-input-role-picker.html',
                                 label: 'name',
+                                value: 'id',
                                 dependent: 'is_sys_admin'
                             }
                         },
@@ -172,9 +249,26 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             record: scope.__apps__,
                             editable: true,
                             display: {
-                                type: 'select',
-                                value: 'id',
-                                label: 'name'
+                                type: 'custom',
+                                template: 'df-input-app-picker.html',
+                                label: 'name',
+                                value: 'id'
+                            }
+                        },
+                        {
+                            field: 'is_sys_admin',
+                            editable: true,
+                            display: {
+                                type: 'custom',
+                                template: 'df-input-sys-admin.html'
+                            }
+                        },
+                        {
+                            field: 'is_active',
+                            editable: true,
+                            display: {
+                                type: 'custom',
+                                template: 'df-input-active-user.html'
                             }
                         },
                         {
@@ -199,12 +293,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             }
                         }
                     ],
-                    extendedData: [
+                    extendData: [
                         {
                             name: 'password'
                         }
                     ],
-                    extendedSchema: [
+                    extendSchema: [
                         {
                             name: 'confirmed',
                             label: 'Confirmed',
@@ -217,18 +311,33 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         }
                     ],
                     extendFieldTypes: [],
-                    relatedData: ["lookup_keys"]
-                }
+                    relatedData: ["lookup_keys"],
+                    groupFields: {
+                        1: {
+                            name: 'User Info',
+                            fields: ['email', 'first_name', 'last_name', 'display_name', 'phone'],
+                            dividers: false
+                        },
+                        2: {
+                            name: 'User Config',
+                            fields: ['is_sys_admin', 'role_id', 'is_active', 'password', 'confirmed'],
+                            dividers: true
+                        }
+                    }
+                };
             }
         }
     }])
-    .directive('dfCreateUser', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function(MODUSER_ASSET_PATH, DSP_URL, $http) {
+    .directive('dfCreateUser', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', '$anchorScroll', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, DSP_URL, $http, $anchorScroll, dfUserManagementEventService) {
         return {
             restrict: 'E',
             scope: true,
             templateUrl: MODUSER_ASSET_PATH + 'views/create-user.html',
             link: function (scope, elem, attrs) {
 
+
+                // Create alias
+                scope.es = dfUserManagementEventService;
 
                 scope.currentEditRecord = null;
 
@@ -269,6 +378,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         phone: null,
                         is_sys_admin: false,
                         role_id: null,
+                        password: '',
                         active: false,
                         lookup_keys: []
                     };
@@ -282,6 +392,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 scope._resetForm = function () {
                     scope.currentEditRecord = scope._createUserModel();
                     scope.userForm.$setPristine();
+
+                    // Scrolls to top of the page
+                    $anchorScroll();
+
+                    scope.$broadcast(scope.es.resetUserForm);
                 };
 
 
@@ -293,6 +408,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         function(result) {
 
                             scope._resetForm();
+                            scope.$emit(scope.es.createUserSuccess, result);
                         },
 
                         function(reject) {
@@ -328,11 +444,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     if (newValue === 'create') {
                         scope._resetForm();
                     }
-                })
+                });
+
             }
         }
     }])
-    .directive('dfConfirmUser', ['DSP_URL', function(DSP_URL) {
+    .directive('dfConfirmUser', ['DSP_URL', '$http', 'dfUserManagementEventService', function(DSP_URL, $http, dfUserManagementEventService) {
 
         return {
             restrict: 'E',
@@ -343,32 +460,46 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                       '</div>',
             link: function(scope, elem, attrs) {
 
+
+
+                scope.es = dfUserManagementEventService;
+
                 scope.invite = function() {
 
                     scope._invite();
                 };
 
 
+
+                scope._sendInvite = function () {
+
+                    return  $http({
+                        url: DSP_URL + '/rest/system/user',
+                        method: 'PATCH',
+                        params: {
+                            send_invite: true
+                        },
+                        data: {
+                            id: scope.currentEditRecord.id
+                        }
+                    })
+                };
+
                 scope._invite = function () {
 
-                    // Old ajax function....don't feel like rewriting right now.
-                    // @TODO: Update this email unconfirmed/new user function
-                    $.ajax(
-                        {
-                            dataType: 'json',
-                            type:     'PATCH',
-                            url: DSP_URL + '/rest/system/user/' + scope.currentEditRecord.id + '?app_name=admin&send_invite=true',
-                            data:     {},
-                            cache:    false,
-                            success:  function() {
 
-                                $(function(){
-                                    new PNotify({
-                                        title: 'Users',
-                                        text: "Invite Sent",
-                                        type: 'success'
-                                    });
-                                });
+                    scope._sendInvite().then(
+                        function(result) {
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Invite sent successfully.'});
+                        },
+                        function (reject) {
+
+                            throw {
+                                module: 'DreamFactory Users Management Module',
+                                type: 'error',
+                                provider: 'dreamfactory',
+                                exception: reject
                             }
                         }
                     );
@@ -381,31 +512,20 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         return {
             restrict: 'E',
             scope: false,
-            template:
-                '<label>' +
-                    'Active ' +
-                    '<input type="checkbox" data-ng-model="currentEditRecord.is_active" data-ng-checked="currentEditRecord.is_active" />' +
-                '</label>',
-
+            templateUrl: MODUSER_ASSET_PATH + 'views/df-input-active-user.html',
             link: function (scope, elem, attrs) {}
 
         }
     }])
-    .directive('dfSetUserPassword', [function() {
+    .directive('dfSetUserPassword', ['MODUSER_ASSET_PATH', '$compile', 'dfStringService', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, $compile,dfStringService, dfUserManagementEventService) {
 
         return {
             restrict: 'E',
             scope: false,
-            template:'<p>Set Password Manually <input type="checkbox" data-ng-model="setPassword" data-ng-checked="setPassword"></p>' +
-                        '<div data-ng-if="setPassword" class="form-group">' +
-                            '<p data-ng-class="{\'has-error\' : identical === false}">' +
-                                '<input type="password" id="password" name="password" placeholder="Enter Password" data-ng-model="currentEditRecord[field.name]" class="form-control" required data-ng-keyup="_verifyPassword()" >' +
-                            '</p>' +
-                            '<p data-ng-class="{\'has-error\' : identical === false}">' +
-                                '<input type="password" id="verify-password" name="verify-password" placeholder="Verify Password" data-ng-model="verifyPassword" class="form-control" required data-ng-keyup="_verifyPassword()" >' +
-                            '</p>' +
-                      '</div>',
+            templateUrl: MODUSER_ASSET_PATH + 'views/df-input-manual-password.html',
             link: function(scope, elem, attrs) {
+
+                scope.es = dfUserManagementEventService;
 
                 scope.verifyPassword = '';
 
@@ -413,34 +533,68 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 // Test if our entered passwords are identical
                 scope._verifyPassword = function () {
-
                     scope.identical = dfStringService.areIdentical(scope.currentEditRecord.password, scope.verifyPassword);
                 };
+
+
+                // WATCHERS AND INIT
+                var watchSetPassword = scope.$watch('setPassword', function (newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+                    var html =  '<div class="form-group" data-ng-class="{\'has-error\' : identical === false}">' +
+                                '<input type="password" id="password" name="password" placeholder="Enter Password" data-ng-model="currentEditRecord.password" class="form-control" data-ng-required="true" data-ng-keyup="_verifyPassword()" >' +
+                                '</div>' +
+                                '<div class="form-group" data-ng-class="{\'has-error\' : identical === false}">' +
+                                '<input type="password" id="verify-password" name="verify-password" placeholder="Verify Password" data-ng-model="verifyPassword" class="form-control" data-ng-required="true" data-ng-keyup="_verifyPassword()" >' +
+                                '</div>';
+
+
+                    var el = $compile(html)(scope);
+
+                    angular.element('#set-password').append(el);
+
+                });
+
+
+                // MESSAGES
+                // Listen for userForm clear message
+                scope.$on(scope.es.resetUserForm, function (e) {
+                    scope.verifyPassword = '';
+                    scope.setPassword = false;
+                });
+
+                scope.$on('$destroy', function (e) {
+
+                    watchSetPassword();
+                });
             }
         }
     }])
-    .directive('dfSysAdminUser', [function() {
+    .directive('dfSysAdminUser', ['MODUSER_ASSET_PATH',function(MODUSER_ASSET_PATH) {
 
         return {
             restrict: 'E',
             scope: false,
-            template:
-                '<label>' +
-                    'System Administrator &nbsp;' +
-                    '<input data-ng-click="toggleRoleSelect($event.target.checked)" data-ng-checked="currentEditRecord.is_sys_admin" type="checkbox" data-ng-model="currentEditRecord.is_sys_admin"/>' +
-                '</label>',
+            templateUrl: MODUSER_ASSET_PATH + 'views/df-input-sys-admin.html',
             link: function (scope, elem, attrs) {}
         }
     }])
-    .directive('dfRolePicker', ['$http', function($http) {
+    .directive('dfRolePicker', ['MODUSER_ASSET_PATH', '$http', function(MODUSER_ASSET_PATH, $http) {
 
         return {
             restrict: 'E',
             scope: false,
-            template:
-                '<select data-ng-disabled="currentEditRecord.is_sys_admin" class="form-control" data-ng-model="currentEditRecord.role_id" data-ng-options="role.id as role.name for role in roles">' +
-                    '<option value="">-- None --</option>' +
-                '</select>',
+            templateUrl:MODUSER_ASSET_PATH + 'views/df-input-role-picker.html',
+            link: function(scope, elem, attrs) {}
+        }
+    }])
+    .directive('dfAppPicker', ['MODUSER_ASSET_PATH', '$http', function(MODUSER_ASSET_PATH, $http) {
+
+        return {
+            restrict: 'E',
+            scope: false,
+            templateUrl:MODUSER_ASSET_PATH + 'views/df-input-app-picker.html',
             link: function(scope, elem, attrs) {}
         }
     }])
@@ -519,5 +673,13 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 // MESSAGES
 
             }
+        }
+    }])
+    .service('dfUserManagementEventService', [function() {
+
+        return {
+            resetUserForm: 'reset:userForm',
+            createUserSuccess: 'create:user:success',
+            alertSuccess: 'alert:success'
         }
     }]);
