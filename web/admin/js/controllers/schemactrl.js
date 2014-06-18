@@ -127,7 +127,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     $scope.loadServices = function(){
         if($scope.service_index){
             $http.get(DSP_URL + "/rest/" + $scope.service + "?include_schema=true").then(function(response){
-                console.log( $scope.dbServices[$scope.service]);
+                //console.log( $scope.dbServices[$scope.service]);
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
 
@@ -259,8 +259,10 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
             return;
         }
-        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name).then(function(response){
+        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
+            .then(function(response){
             $scope.loadServices();
+            $scope.table = {};
         })
     }
     $scope.setService = function(){
