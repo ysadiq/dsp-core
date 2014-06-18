@@ -18,83 +18,6 @@
  */
 var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices ) {
 
-
-//	Scope.showJSON = function() {
-//        $( "#create-form" ).hide();
-//        $( "#grid-container" ).hide();
-//		$( "#json_upload" ).show();
-//	};
-//	Scope.postJSON = function() {
-//		var json = $( '#source' ).val();
-//		Schema.save(
-//			json, function( data ) {
-//				if ( !data.table ) {
-//					Scope.schemaData.push( data );
-//				}
-//				else {
-//					data.table.forEach(
-//						function( table ) {
-//							Scope.schemaData.push( table );
-//						}
-//					)
-//				}
-//
-//			}
-//		);
-//
-//	};
-//	Scope.enableSave = function() {
-//		$( "#save_" + this.row.rowIndex ).attr( 'disabled', false );
-//		//console.log(this);
-//	};
-//	Scope.enableSchemaSave = function() {
-//		$( "#add_" + this.row.rowIndex ).attr( 'disabled', false );
-//		$( "#delete_" + this.row.rowIndex ).attr( 'disabled', false );
-//		$( "#save_" + this.row.rowIndex ).attr( 'disabled', false );
-//		//console.log(this);
-//	};
-//
-//	Scope.saveRow = function() {
-//
-//		var index = this.row.rowIndex;
-//		var newRecord = this.row.entity;
-//		if ( !newRecord.id ) {
-//			DB.save(
-//				{name: Scope.currentTable}, newRecord, function( data ) {
-//					$( "#save_" + index ).attr( 'disabled', true );
-//					Scope.tableData.push( data );
-//				}
-//			);
-//		}
-//		else {
-//			DB.update(
-//				{name: Scope.currentTable}, newRecord, function() {
-//					$( "#save_" + index ).attr( 'disabled', true );
-//				}
-//			);
-//		}
-//
-//	};
-//	Scope.schemaSaveRow = function() {
-//
-//		var table = this.tableSchema.name;
-//		var row = this.row.entity;
-//
-//		$http.put( '/rest/schema/' + table + '/?app_name=admin', row ).success(
-//			function( data ) {
-//				Scope.tableData = removeByAttr( Scope.tableData, 'new', true );
-//				Scope.tableData.unshift( data );
-//				Scope.tableData.unshift( {"new": true} );
-//			}
-//		);
-//
-//	};
-//	Scope.deleteRow = function() {
-//		var id = this.row.entity.id;
-//		DB.delete( {name: Scope.currentTable}, {id: id} );
-//		Scope.tableData = removeByAttr( Scope.tableData, 'id', id );
-//
-//	}
     Scope = $scope;
     $scope.typeOptions = [
         {value: "id"},
@@ -125,13 +48,16 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     $scope.dbServices = getSchemaServices.data.record;
     //console.log($scope.dbServices);
     $scope.loadServices = function(){
+        $scope.currentTables = [];
         if($scope.service_index){
+
             $http.get(DSP_URL + "/rest/" + $scope.service + "?include_schema=true").then(function(response){
-                console.log( $scope.dbServices[$scope.service]);
+                //console.log( $scope.dbServices[$scope.service]);
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
 
                     $scope.dbServices[$scope.service_index].tables.push(table);
+                    $scope.currentTables.push(table.name);
                 })
             });
         }else{
@@ -144,6 +70,8 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
                     response.data.resource.forEach(function(table){
 
                         service.tables.push(table);
+                        $scope.currentTables.push(table.name);
+
                     })
                 });
             })
@@ -151,6 +79,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
 
     }
     $scope.loadServices();
+    $scope.referenceFields  = [];
     $scope.loadSchema = function(advanced){
         $scope.import = false;
         $scope.table = this.table;
@@ -167,6 +96,15 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
                 }else{
                     $scope.advanced = false;
                 }
+
+            })
+    }
+    $scope.loadReferenceFields = function(){
+        var refTable = this.column.ref_table;
+        $http.get(CurrentServer + "/rest/" + $scope.service + "/" + refTable)
+            .then(function(response){
+                //console.log(response);
+                $scope.referenceFields = response.data.field;
 
             })
     }
@@ -191,7 +129,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
        $scope.table.schema.data.field.unshift($scope.newColumn)
     }
     $scope.deleteColumn = function(){
-        console.log(this);
+        //console.log(this);
         if ( !confirm( "Are you sure you want to delete " + this.column.name) ) {
             return;
         }
@@ -259,8 +197,10 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
         if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
             return;
         }
-        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name).then(function(response){
+        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
+            .then(function(response){
             $scope.loadServices();
+            $scope.table = {};
         })
     }
     $scope.setService = function(){

@@ -22,9 +22,9 @@
                         <div class="table-listing">
 
                             <ul id="resource-list" class="list-group">
-                                <li data-ng-class="table.name === currentTable ? 'active' : ''"  ng-click="showDetails()"  class="list-group-item"
+                                <li data-ng-class="table.name === currentTable ? 'active' : ''"  data-ng-click="loadSchema()"  class="list-group-item"
                                     ng-repeat="table in service.tables">
-                                    <span data-ng-click="loadSchema()" class="user-name">{{table.name}}</span>
+                                    <span  class="user-name">{{table.name}}</span>
             <span class="btn-group btn-group-sm pull-right">
 
                                       <button class="btn btn-default" title="Show JSON Schema"
@@ -100,19 +100,19 @@
                                         <input class="form-control" type="text" data-ng-model = "column.length"/>
                                         <br/>
                                         <label>Fixed Length</label>
-                                        <input class="form-control" type="text" data-ng-disabled ="column.type !== 'string'" data-ng-model = "column.fixed_length"/>
+                                        <input  type="checkbox" data-ng-disabled ="column.type !== 'string'" data-ng-model = "column.fixed_length"/>
                                         <br/>
-                                        <label>Allow Null?</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.allow_null"/>
+                                        <label>Allow Null</label>
+                                        <input  type="checkbox" data-ng-model = "column.allow_null"/>
                                         <br/>
-                                        <label>Primary Key?</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.is_primary_key"/>
+                                        <label>Primary Key</label>
+                                        <input  type="checkbox" data-ng-model = "column.is_primary_key"/>
                                         <br/>
                                         <label>Auto Increment</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.auto_increment"/>
+                                        <input type="checkbox" data-ng-model = "column.auto_increment"/>
                                         <br/>
                                         <label>Foreign Key?</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.is_foreign_key"/>
+                                        <input  type="checkbox" data-ng-model = "column.is_foreign_key"/>
                                         <br/>
 
                                         <label>Default Value</label>
@@ -124,12 +124,14 @@
                                         <label>Scale</label>
                                         <input class="form-control" type="text" data-ng-model = "column.scale"/>
                                         <br/>
-                                        <label>Reference Fields</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.ref_fields"/>
-                                        <br/>
                                         <label>Reference Table</label>
-                                        <input class="form-control" type="text" data-ng-model = "column.ref_tables"/>
+                                        <select class="form-control" data-ng-change = "loadReferenceFields()" data-ng-model = "column.ref_table" data-ng-options = "o for o in currentTables">
+                                        </select>
                                         <br/>
+                                        <label>Reference Field</label>
+                                        <select data-ng-disabled = "!column.ref_table" class="form-control"  data-ng-model = "column.ref_fields" data-ng-options = "o.name as o.name for o in referenceFields"></select>
+                                        <br/>
+
                                         <label>Required</label>
                                         <input class="form-control" type="text" data-ng-disabled =true data-ng-model = "column.required"/>
                                         <br/>
