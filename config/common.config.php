@@ -219,11 +219,6 @@ return array_merge(
         // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
         'dsp.log_all_events'            => false,
         //-------------------------------------------------------------------------
-        //	Scripting Options
-        //-------------------------------------------------------------------------
-        //	The name of the element in the event records that contain data
-        'scripting.payload_key'         => 'record',
-        //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------
         'login.remember_me_copy'        => 'Remember Me',
