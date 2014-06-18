@@ -162,14 +162,13 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
             function (response) {
                 editor.setValue(response.script_body, -1);
                 $scope.hasContent = true;
-                $.pnotify(
-                    {
+                $(function(){
+                    new PNotify({
                         title: $scope.currentScript,
                         type: 'success',
                         text: 'Loaded Successfully'
-                    }
-                );
-
+                    });
+                });
             },
             function () {
                 $scope.hasContent = false;
@@ -195,13 +194,13 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
 
         Script.update(script_id, post_body).$promise.then(
             function (response) {
-                $.pnotify(
-                    {
+                $(function(){
+                    new PNotify({
                         title: $scope.currentScript,
                         type: 'success',
                         text: 'Saved Successfully'
-                    }
-                );
+                    });
+                });
                 $scope.hasContent = true;
             }
         );
@@ -214,13 +213,14 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
 
         Script.delete(script_id).$promise.then(
             function (response) {
-                $.pnotify(
-                    {
+                $(function(){
+                    new PNotify({
                         title: $scope.currentScript,
                         type: 'success',
                         text: 'Deleted Successfully'
-                    }
-                );
+                    });
+                });
+                $scope.hasContent = false;
             }
         );
 

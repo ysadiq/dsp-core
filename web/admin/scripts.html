@@ -1,29 +1,43 @@
-<div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="navbar navbar-default">
-                <span style="display: inline" class="navbar-brand">Server Side scripting</span>
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Server Side Scripting</div>
+        </div>
 
+        <div class="nav navbar-nav navbar-right" style="margin:8px 0 0 0">
+            <div class="btn-group">
+                <button data-ng-disabled="!currentScript" data-ng-click="saveScript()" class="btn btn-default">
+                    Save
+                </button>
+                <button data-ng-disabled="!hasContent" data-ng-click="deleteScript()"
+                        class="btn btn-default">
+                    Delete
+                </button>
+                <button class="btn btn-default" id="sample-events" data-ng-click="showSamples()">
+                    View Samples
+                </button>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <span data-ng-show="!currentScript">Please choose an event below.</span><span
-                data-ng-show="currentScript">&nbsp;Working on <span class="high-name">{{currentScript}}  <span
-                style="color:#27ae60">({{verb}} on /rest{{scriptPath}})</span></span></span>
-            <button class="btn btn-info btn-sm" id="sample-events" data-ng-click="showSamples()">View Samples</button>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <span data-ng-show="!currentScript">Please choose an event below.</span><span
+            data-ng-show="currentScript">&nbsp;Working on <span class="high-name">{{currentScript}}  <span
+            style="color:#27ae60">({{verb}} on /rest{{scriptPath}})</span></span></span>
 
-        </div>
+
     </div>
-    <br/>
-    <div class="row">
-        <div class="col-xs-12">
-            <div style="height:100%" id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted ">
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-12">
+        <div style="height:100%" id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted ">
 
-                <div class="col-xs-4" style="padding:0">
-                    <div  dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0" auto-height-top="175px">
-                    <div id="event-listing" >
+            <div class="col-xs-4" style="padding:0">
+                <div dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0"
+                     auto-height-top="175px">
+                    <div id="event-listing">
                         <div class="search-box form-inline"><input class="form-control" ng-model="searchText"
                                                                    placeholder="Filter by Name"/></div>
                         <div data-ng-repeat="event in Events | filter:searchText" class="event-list">
@@ -61,118 +75,4 @@
         </div>
     </div>
 </div>
-    <div class="row">
-        <div class="col-xs-12 ">
-        <button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">
-        Delete Script
-        </button>
-        <button data-ng-if="currentScript" data-ng-click="saveScript()" class="btn btn-primary">Save Script
-        </button>
-
-        </div>
-    </div>
-</div>
-<!--<div class="panel panel-default" >-->
-<!--&lt;!&ndash; Default panel contents &ndash;&gt;-->
-<!--<div class="resource-header"><strong>Server Side Scripting</strong>-->
-<!--<span data-ng-show="!currentScript">Please choose an event below.</span><span-->
-<!--data-ng-show="currentScript">&nbsp;Working on <span class="high-name">{{currentScript}}  <span-->
-<!--style="color:#27ae60">({{verb}} on /rest{{scriptPath}})</span></span></span><button class="btn btn-info btn-sm" id="sample-events" data-ng-click="showSamples()">View Samples</button>-->
-<!--</div>-->
-
-<!--<div class="panel-body" dreamfactory-auto-height auto-height-parent="window" auto-height-padding="30"-->
-<!--       auto-height-top="175px">-->
-<!--<div style="height:100%" id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted ">-->
-
-<!--<div class="col-xs-4">-->
-<!--<div id="event-listing">-->
-<!--<div class="search-box form-inline"><input class="form-control" ng-model="searchText"-->
-<!--placeholder="Filter by Name"/></div>-->
-<!--<div data-ng-repeat="event in Events | filter:searchText" class="event-list">-->
-<!--<div class="event-name" data-ng-click="loadEvent()"><i-->
-<!--data-ng-class="event.name !== currentEvent ? 'icon-angle-down' : 'icon-angle-up'"> </i>{{event.name}}-->
-<!--</div>-->
-<!--<ul data-ng-if="event.name === currentEvent || searchText">-->
-<!--<li data-ng-repeat="path in event.paths | filter:searchText" class="event-path"-->
-<!--data-ng-if="path.path.indexOf('{') == -1">-->
-<!--<div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name"><i-->
-<!--data-ng-class="path.path !== currentPath ? 'icon-angle-down' : 'icon-angle-up'"> </i>Path-->
-<!--:-->
-<!--{{path.path}}-->
-<!--</div>-->
-<!--<ul data-ng-if="path.path === currentPath || searchText">-->
-<!--<li data-ng-repeat="verb in path.verbs | filter:searchText"-->
-<!--class="path-verb">-->
-<!--<span data-ng-repeat="event in verb.event track by $index | filter:searchText "-->
-<!--data-ng-click="loadScript()">{{event}}<br/></span>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="col-xs-8">-->
-<!--<div id="editor"></div>-->
-<!--</div>-->
-
-
-<!--&lt;!&ndash;<table  id="event-container" style="height:100%">&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<td>&ndash;&gt;-->
-<!--&lt;!&ndash;<div id="event-listing">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="search-box form-inline"><input class="form-control" ng-model="searchText"&ndash;&gt;-->
-<!--&lt;!&ndash;placeholder="Filter by Name"/></div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div data-ng-repeat="event in Events | filter:searchText" class="event-list">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="event-name" data-ng-click="loadEvent()"><i&ndash;&gt;-->
-<!--&lt;!&ndash;data-ng-class="event.name !== currentEvent ? 'icon-angle-down' : 'icon-angle-up'"> </i>{{event.name}}&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<ul data-ng-if="event.name === currentEvent || searchText">&ndash;&gt;-->
-<!--&lt;!&ndash;<li data-ng-repeat="path in event.paths | filter:searchText" class="event-path"&ndash;&gt;-->
-<!--&lt;!&ndash;data-ng-if="path.path.indexOf('{') == -1">&ndash;&gt;-->
-<!--&lt;!&ndash;<div data-ng-click="loadPath()" data-ng-if="!searchText" class="path-name"><i&ndash;&gt;-->
-<!--&lt;!&ndash;data-ng-class="path.path !== currentPath ? 'icon-angle-down' : 'icon-angle-up'"> </i>Path&ndash;&gt;-->
-<!--&lt;!&ndash;:&ndash;&gt;-->
-<!--&lt;!&ndash;{{path.path}}&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<ul data-ng-if="path.path === currentPath || searchText">&ndash;&gt;-->
-<!--&lt;!&ndash;<li data-ng-repeat="verb in path.verbs | filter:searchText"&ndash;&gt;-->
-<!--&lt;!&ndash;class="path-verb">&ndash;&gt;-->
-<!--&lt;!&ndash;<span data-ng-repeat="event in verb.event track by $index | filter:searchText "&ndash;&gt;-->
-<!--&lt;!&ndash;data-ng-click="loadScript()">{{event}}<br/></span>&ndash;&gt;-->
-<!--&lt;!&ndash;</li>&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--&lt;!&ndash;</li>&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;</td>&ndash;&gt;-->
-<!--&lt;!&ndash;<td>&ndash;&gt;-->
-<!--&lt;!&ndash;<div id="editor"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;</td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;</table>&ndash;&gt;-->
-
-<!--</div>-->
-<!--<div data-ng-if="!Config.is_private && Config.is_hosted">-->
-<!--<div style="width:750px" class="alert alert-info">-->
-<!--<li class="icon-info-sign"></li>-->
-<!--The Free Hosted Edition of the DreamFactory Services Platform does not support Server Side Scripting.-->
-<!--Please install DreamFactory on your cloud or server for this capability. Click <a-->
-<!--href="https://bitnami.com/stack/dreamfactory" target="df-new">here</a> to download the open source-->
-<!--software package.-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="panel-footer ">-->
-<!--<button data-ng-if="currentScript && hasContent" data-ng-click="deleteScript()" class="btn btn-danger">-->
-<!--Delete Script-->
-<!--</button>-->
-<!--<button data-ng-if="currentScript" data-ng-click="saveScript()" class="btn btn-primary">Save Script-->
-<!--</button>-->
-
-<!--</div>-->
-<!--</div>-->
-
 
