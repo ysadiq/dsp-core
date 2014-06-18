@@ -43,7 +43,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
         } ,
         {
             name:"PostgreSQL",
-            prefix:"pqsql:"
+            prefix:"pgsql:"
         }];
     Scope.promptForNew = function() {
         Scope.currentServiceId = '';
