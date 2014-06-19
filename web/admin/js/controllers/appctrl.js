@@ -273,14 +273,15 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
                     window.top.Actions.updateSession();
                 }
 
-				Scope.promptForNew();
+
                 $(function(){
                     new PNotify({
-                        title: Scope.app.name,
+                        title: $scope.app.name,
                         type:  'success',
                         text:  'Removed Successfully'
                     });
                 });
+                Scope.promptForNew();
 			}
 		);
 	};
