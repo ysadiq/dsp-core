@@ -173,11 +173,22 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                 )
             }
     }])
-    .directive('dreamfactorySystemInfo', ['MODSYSCONFIG_ASSET_PATH', function (MODSYSCONFIG_ASSET_PATH) {
+    .directive('dreamfactorySystemInfo', ['MODSYSCONFIG_ASSET_PATH', 'DSP_URL', function (MODSYSCONFIG_ASSET_PATH, DSP_URL) {
 
         return {
             restrict: 'E',
-            templateUrl: MODSYSCONFIG_ASSET_PATH + 'views/system-info.html'
+            scope: false,
+            templateUrl: MODSYSCONFIG_ASSET_PATH + 'views/system-info.html',
+            link: function(scope, elem, attrs) {
+
+                // WOW
+                scope.upgrade = function() {
+
+                    window.top.location = DSP_URL + '/web/upgrade';
+                };
+
+
+            }
         }
 
     }])
@@ -394,6 +405,279 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
         }
 
 
+    }])
+    .directive('dreamfactoryEmailTemplates', ['MODSYSCONFIG_ASSET_PATH', 'EmailTemplates', function(MODSYSCONFIG_ASSET_PATH, EmailTemplates) {
+
+
+        return {
+            restrict: 'E',
+            scope:false,
+            templateUrl: MODSYSCONFIG_ASSET_PATH + 'views/email-templates.html',
+            link: function (scope, elem, attrs) {
+
+
+                // EMAIL TEMPLATES
+                // ------------------------------------
+
+                // Store current user
+                scope.currentUser = window.CurrentUserID;
+
+                // Store the id of an email template we have selected
+                scope.selectedEmailTemplateId = '';
+
+                // Stores a copy email template that is currently being created or edited
+                scope.getSelectedEmailTemplate = {};
+
+                // Stores email templates
+                scope.emailTemplates = EmailTemplates.get();
+
+
+                // Facade: determines whether an email should be updated or created
+                // and calls the appropriate function
+                scope.saveEmailTemplate = function( templateParams ) {
+
+                    if ( (
+                        templateParams.id === ''
+                        ) || (
+                        templateParams.id === undefined
+                        ) ) {
+
+                        scope._saveNewEmailTemplate( templateParams );
+                    }
+                    else {
+                        scope._updateEmailTemplate( templateParams );
+                    }
+                };
+
+
+
+                // Updates an existing email
+                scope._updateEmailTemplate = function( templateParams ) {
+
+                    templateParams.last_modified_by_id = scope.currentUser;
+
+
+                    EmailTemplates.update(
+                        {id: templateParams.id}, templateParams, function() {
+                            $.pnotify(
+                                {
+                                    title: 'Email Template',
+                                    type:  'success',
+                                    text:  'Updated Successfully'
+                                }
+                            );
+                        }
+                    );
+
+                    scope.$emit( 'updateTemplateListExisting' );
+
+                };
+
+                // Creates a new email in the database
+                scope._saveNewEmailTemplate = function( templateParams ) {
+
+                    templateParams.created_by_id = scope.currentUser;
+                    templateParams.last_modified_by_id = scope.currentUser;
+
+                    EmailTemplates.save(
+                        {}, templateParams, function( data ) {
+
+                            var emitArgs, d = {}, key;
+
+                            for ( key in data ) {
+                                if ( data.hasOwnProperty( key ) ) {
+                                    d[key] = data[key];
+                                }
+                            }
+
+                            emitArgs = d;
+
+                            scope.$emit( 'updateTemplateListNew', emitArgs );
+
+                            $.pnotify(
+                                {
+                                    title: 'Email Template',
+                                    type:  'success',
+                                    text:  'Created Successfully'
+                                }
+                            );
+                        }
+                    );
+                };
+
+                // Deletes and email from the database
+                scope.deleteEmailTemplate = function( templateId ) {
+
+                    if ( !confirm( 'Delete Email Template: \n\n' + scope.getSelectedEmailTemplate.name ) ) {
+                        return;
+                    }
+
+                    EmailTemplates.delete(
+                        {id: templateId}, function() {
+                            $.pnotify(
+                                {
+                                    title: 'Email Templates',
+                                    type:  'success',
+                                    text:  'Template Deleted'
+                                }
+                            );
+                        }
+                    );
+
+                    scope.$emit( 'templateDeleted' );
+
+                };
+
+                // Special Functions
+                // Duplicates an email template for editing
+                scope.duplicateEmailTemplate = function() {
+
+                    var templateCopy;
+
+                    if ( (
+                        scope.getSelectedEmailTemplate.id === ''
+                        ) || (
+                        scope.getSelectedEmailTemplate.id === undefined
+                        ) || (
+                        scope.getSelectedEmailTemplate === null
+                        ) ) {
+                        console.log( 'No email template Selected' );
+
+                        $.pnotify(
+                            {
+                                title: 'Email Templates',
+                                type:  'error',
+                                text:  'No template selected.'
+                            }
+                        );
+                    }
+                    else {
+                        templateCopy = angular.copy( scope.getSelectedEmailTemplate );
+
+                        templateCopy.id = '';
+                        templateCopy.name = 'Clone of ' + templateCopy.name;
+                        templateCopy.created_date = '';
+                        templateCopy.created_by_id = '';
+
+                        scope.getSelectedEmailTemplate = angular.copy( templateCopy );
+                    }
+                };
+
+                // Events
+                // Update existing scope.emailTemplates.record entry
+                scope.$on(
+                    'updateTemplateListExisting', function() {
+
+                        // Loop through emailTemplates.record to find our currently selected
+                        // email template by its id
+                        angular.forEach(
+                            scope.emailTemplates.record, function( v, i ) {
+                                if ( v.id === scope.selectedEmailTemplateId ) {
+
+                                    // replace that email template with the one we are currently working on
+                                    scope.emailTemplates.record.splice( i, 1, scope.getSelectedEmailTemplate );
+                                }
+                            }
+                        );
+                    }
+                );
+
+                // Add a newly created email template to scope.emailTemplates.record
+                scope.$on(
+                    'updateTemplateListNew', function( event, emitArgs ) {
+
+                        scope.emailTemplates.record.push( emitArgs );
+                        scope.newEmailTemplate();
+
+                    }
+                );
+
+                // Delete email template from scope.emailTemplates.record
+                scope.$on(
+                    'templateDeleted', function() {
+
+                        var templateIndex = null;
+
+                        // Loop through scope.emailTemplates.record
+                        angular.forEach(
+                            scope.emailTemplates.record, function( v, i ) {
+
+                                // If we find a template id that matches our currently selected
+                                // template id, store the index of that template object
+                                if ( v.id === scope.selectedEmailTemplateId ) {
+                                    templateIndex = i;
+                                }
+                            }
+                        );
+
+                        // Check to make sure our template exists
+                        if ( (
+                            templateIndex != ''
+                            ) && (
+                            templateIndex != undefined
+                            ) && (
+                            templateIndex != null
+                            ) ) {
+
+                            // If it does splice it out
+                            scope.emailTemplates.record.splice( templateIndex, 1 );
+                        }
+
+                        // Reset scope.getSelectedEmailTemplate and scope.selectedEmailTemplateId
+                        scope.newEmailTemplate();
+                    }
+                );
+
+                // UI Functions
+                // Reset scope.selectedEmailTemplateId and scope.getSelectedEmailTemplate
+                scope.newEmailTemplate = function() {
+                    // set selected email template to none and clear fields
+                    scope.getSelectedEmailTemplate = {};
+                    scope.selectedEmailTemplateId = '';
+                    scope.showCreateEmailTab( 'template-info-pane' );
+                };
+
+                // Create Email Nav
+                // Store the nav tab we are currently on
+                scope.currentCreateEmailTab = 'template-info-pane';
+
+                // Set the nav tab to the one we clicked
+                scope.showCreateEmailTab = function( id ) {
+                    scope.currentCreateEmailTab = id;
+                };
+
+                // Watch email template selection and assign proper template
+                scope.$watch(
+                    'selectedEmailTemplateId', function() {
+
+                        // Store our found emailTemplate
+                        // Initialize with an empty record
+                        var result = [];
+
+                        // Loop through scope.emailTemplates..record
+                        angular.forEach(
+                            scope.emailTemplates.record, function( value, index ) {
+
+                                // If we find our email template
+                                if ( value.id === scope.selectedEmailTemplateId ) {
+
+                                    // Store it
+                                    result.push( value );
+                                }
+                            }
+                        );
+
+                        // the result array should contain a single element
+                        if ( result.length !== 1 ) {
+                            //console.log(result.length + 'templates found');
+                            return;
+                        }
+
+                        scope.getSelectedEmailTemplate = angular.copy( result[0] );
+                    }
+                );
+            }
+        }
     }])
     .directive('dreamfactoryGlobalLookupKeysConfig', ['MODSYSCONFIG_ASSET_PATH', function(MODSYSCONFIG_ASSET_PATH) {
 

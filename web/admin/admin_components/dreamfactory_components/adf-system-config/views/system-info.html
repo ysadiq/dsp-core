@@ -13,6 +13,10 @@
             <p>
                 DreamFactory Services Platform Version: {{systemConfig.dsp_version}}
             </p>
+            <div data-ng-show="systemConfig.upgrade_available===true">
+                DSP Version {{Config.latest_version}} is available!&nbsp;&nbsp;
+                <button data-ng-click="upgrade()" class="btn btn-default">Upgrade Now</button>
+            </div>
         </div>
     </div>
 </div>
