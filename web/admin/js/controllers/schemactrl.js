@@ -124,7 +124,7 @@ var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices
     }
     $scope.addColumn = function(){
        $scope.newColumn = {
-           name : "New Column"
+           name : "New_Column"
        }
        $scope.table.schema.data.field.unshift($scope.newColumn)
     }
