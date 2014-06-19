@@ -1,4 +1,4 @@
-angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
+angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
     .constant('MODSIDEBARNAV_ROUTER_PATH', '/sidebar')
     .constant('MODSIDEBARNAV_ASSET_PATH', 'admin_components/dreamfactory_components/adf-navbar/')
     .config(['$routeProvider', 'MODSIDEBARNAV_ROUTER_PATH', 'MODSIDEBARNAV_ASSET_PATH',
@@ -104,7 +104,6 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
         $scope.navigateTo = function(linkObj) {
 
             if (linkObj.url === $scope.currentPage.url) return false;
-
             $scope._navigateTo(linkObj);
         };
 

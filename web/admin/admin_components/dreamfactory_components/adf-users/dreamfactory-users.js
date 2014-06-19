@@ -320,7 +320,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         },
                         2: {
                             name: 'User Config',
-                            fields: ['is_sys_admin', 'role_id', 'is_active', 'password', 'confirmed'],
+                            fields: ['is_sys_admin', 'role_id', 'is_active', 'password', 'confirmed', 'lookup_keys'],
                             dividers: true
                         }
                     }

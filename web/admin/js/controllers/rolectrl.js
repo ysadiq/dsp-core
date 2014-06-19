@@ -646,7 +646,7 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
 
 
     // Added controls for dealing with xs small devices
-    $scope.xsWidth = false;
+    $scope.xsWidth = $(window).width() < 768 ? true : false;
     $scope.activeView = 'list';
 
     $scope.setActiveView = function (viewStr) {
@@ -675,7 +675,7 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
     $(window).resize(function(){
         if(!$scope.$$phase) {
             $scope.$apply(function () {
-                if ($($window).width() <= 768) {
+                if ($(window).width() <= 768) {
                     $scope.xsWidth = true;
                 }else {
                     $scope.xsWidth = false;

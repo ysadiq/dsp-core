@@ -35,7 +35,8 @@ angular.module(
             "dfTable",
             "dfUtility",
             "dfSystemConfig",
-            "dfUsers"
+            "dfUsers",
+            "dfNavBar"
         ]
     )
     .constant("DSP_URL", CurrentServer)
@@ -120,14 +121,13 @@ angular.module(
                 }
             );
 
-           /*
+           /*=
             $routeProvider.when(
                 '/config', {
                     controller: ConfigCtrl,
                     templateUrl: 'config.html'
                 }
             );*/
-
 
             $routeProvider.when(
                 '/data', {

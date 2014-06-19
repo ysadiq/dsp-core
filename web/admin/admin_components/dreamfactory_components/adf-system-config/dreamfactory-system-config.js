@@ -1,6 +1,5 @@
 'use strict';
 
-
 angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
     .constant('MODSYSCONFIG_ROUTER_PATH', '/config')
     .constant('MODSYSCONFIG_ASSET_PATH', 'admin_components/dreamfactory_components/adf-system-config/')
@@ -43,7 +42,6 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                                         exception: error
                                     }
                                 })
-
                         }],
 
                         getEmailTemplatesData: ['DSP_URL', '$http', function(DSP_URL, $http) {
