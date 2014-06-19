@@ -433,21 +433,21 @@ a.list-group-item:hover > i.fa {
 }
 
 @media (max-width: 991px) {
-	.list-group-item {
+	.sidebar .list-group-item {
 		width:    32px;
 		height:   32px;
 		overflow: hidden;
 		padding:  2px 0;
 	}
 
-	.list-group-item a {
+	.sidebar .list-group-item a {
 		padding-left:  0;
 		padding-right: 0;
 		white-space:   nowrap;
 		width:         100%;
 	}
 
-	.list-group-item > i.fa {
+	.sidebar .list-group-item > i.fa {
 		margin:     0 100px 0 0;
 		font-size:  22px;
 		padding:    3px 0;
