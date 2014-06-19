@@ -27,15 +27,22 @@
 	<!--<div class="row loader-wrap hiding hide">-->        <!--<div class="col-xs-12"><i class="fa fa-spinner fa-spin"></i></div>-->    <!--</div>-->
 
 	<div class="row">
-		<div class="col-xs-2">
-			<div class="sidebar" ng-include="'navigation.html'"></div>
-		</div>
+        <div data-ng-controller="NavBarCtrl">
+            <div class="col-xs-2 hidden-xs">
+                <!--<div class="sidebar" ng-include="'navigation.html'"></div>-->
+                    <sidebar-nav-one></sidebar-nav-one>
+            </div>
 
-		<div class="col-xs-10">
-			<div id="main-content" class="content-body">
-				<div id="angular-content" ng-view></div>
-			</div>
-		</div>
+
+            <div class="col-xs-12 col-sm-10">
+                <div class="visible-xs">
+                    <topbar-nav-one></topbar-nav-one>
+                </div>
+                <div id="main-content" class="content-body">
+                    <div id="angular-content" ng-view></div>
+                </div>
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -51,6 +58,7 @@
 <script src="/admin/admin_components/dreamfactory_components/adf-table/dreamfactory-table.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-system-config/dreamfactory-system-config.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-users/dreamfactory-users.js"></script>
+<script src="/admin/admin_components/dreamfactory_components/adf-navbar/dreamfactory-navbar.js"></script>
 
 <script src="/js/json2.js"></script>
 <script src="/js/utils.js"></script>

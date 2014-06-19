@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
+var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -221,6 +221,10 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				$scope.promptForNew();
 				//window.top.Actions.showStatus("Updated Successfully");
 
+
+                // added for small devices
+                $scope.close();
+
 				// Success Message
                 $(function(){
                     new PNotify({
@@ -286,6 +290,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				$scope.Roles.record.push( data );
 				//window.top.Actions.showStatus("Created Successfully");
 				$scope.promptForNew();
+
+                // added for small devices
+                $scope.close();
 
 				// Success Message
                 $(function(){
@@ -578,6 +585,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 
 				$( "#row_" + id ).fadeOut();
 
+                // Added for small devices
+                $scope.close();
+
 				// Success message
                 $(function(){
                     new PNotify({
@@ -606,6 +616,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		$( window ).scrollTop( 0 );
+
+        // Added for small devices
+        $scope.open();
 	};
 	$scope.showDetails = function() {
 		$scope.action = "Edit ";
@@ -618,6 +631,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		$( '.update_button' ).show();
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + $scope.role.id ).addClass( 'info' );
+
+        // Added for small devices
+        $scope.open();
 	};
 	$scope.makeDefault = function() {
 		$scope.role.default_app_id = this.app.id;
@@ -625,4 +641,46 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.clearDefault = function() {
 		$scope.role.default_app_id = null;
 	};
+
+
+
+
+    // Added controls for dealing with xs small devices
+    $scope.xsWidth = false;
+    $scope.activeView = 'list';
+
+    $scope.setActiveView = function (viewStr) {
+
+        $scope.activeView = viewStr;
+    };
+
+    $scope.close = function () {
+
+        $scope.setActiveView('list');
+    };
+
+    $scope.open = function () {
+
+        $scope.setActiveView('form');
+    };
+
+    $scope.$watch('xsWidth', function (newValue, oldValue) {
+
+        if (newValue == false) {
+
+            $scope.close();
+        }
+    });
+
+    $(window).resize(function(){
+        if(!$scope.$$phase) {
+            $scope.$apply(function () {
+                if ($($window).width() <= 768) {
+                    $scope.xsWidth = true;
+                }else {
+                    $scope.xsWidth = false;
+                }
+            })
+        }
+    });
 };

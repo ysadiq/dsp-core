@@ -1,0 +1,12 @@
+<ul class="list-group">
+    <li class="list-group-item" data-ng-repeat="link in links" data-ng-click="navigateTo(link)">
+        <div class="hidden-xs hidden-sm">
+            <i class="{{link.icon}}" data-ng-class=""></i>
+            <span >&nbsp;{{link.label}}</span>
+        </div>
+
+        <div class="hidden-md hidden-lg" style="display: block; text-align:center; margin-left: auto; margin-right: auto;">
+            <i class="{{link.icon}} fa-2x"></i>
+        </div>
+    </li>
+</ul>
