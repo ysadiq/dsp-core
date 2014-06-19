@@ -86,18 +86,18 @@ angular.module('dfUtility', [])
                     width: (newValue.w - angular.element('sidebar').css('width')) + 'px'
                 });
 
-                scope.style = function () {
+                /*scope.style = function () {
                     return {
                         'height': (newValue.h - 100) + 'px',
                         'width': (newValue.w - 100) + 'px'
                     };
-                };
+                };*/
 
             }, true);
 
-            w.bind('resize', function () {
+           /* w.bind('resize', function () {
                 scope.$apply();
-            });
+            });*/
         }
     })
     .directive('dfVerbPicker', ['DF_UTILITY_ASSET_PATH', function (DF_UTILITY_ASSET_PATH) {

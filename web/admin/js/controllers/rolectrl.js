@@ -29,9 +29,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		role_system_accesses:  [],
 		lookup_keys:           []
 	};
-	$scope.action = "Create new ";
+	$scope.action = "Create New ";
 	$scope.actioned = "Created";
-	$( '#update_button' ).hide();
+	$( '.update_button' ).hide();
 	$scope.AllUsers = User.get();
 	$scope.Apps = App.get();
 	// service access
@@ -73,6 +73,10 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 			);
 		}
 	);
+
+
+    // Used to let us know when the roles are loaded
+    $scope.rolesLoaded = false;
 
 	$scope.uniqueServiceAccess = function() {
 		var size = $scope.role.role_service_accesses.length;
@@ -139,24 +143,26 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 
 	$scope.FilterOps = ["=", "!=", ">", "<", ">=", "<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
+    //
 	$scope.Roles = RolesRelated.get(
-		{}, //params
-		function( data ) { //success
-			angular.forEach(
-				data.record, function( role ) {
-					angular.forEach(
-						role.role_service_accesses, function( access ) {
-							// ng-options doesn't play nice with null so we change it to 0
-							// server will accept 0 for "all services" but returns null
-							if ( !access.service_id ) {
-								access.service_id = 0;
-							}
-						}
-					);
-				}
-			);
-		}
-	);
+        {}, //params
+        function( data ) { //success
+            // Let us know we're loaded for HACKY div to keep UI from bouncing
+            $scope.rolesLoaded = true;
+            angular.forEach(data.record, function( role ) {
+                    angular.forEach(
+                        role.role_service_accesses, function( access ) {
+                            // ng-options doesn't play nice with null so we change it to 0
+                            // server will accept 0 for "all services" but returns null
+                            if ( !access.service_id ) {
+                                access.service_id = 0;
+                            }
+                        }
+                    );
+                }
+            );
+        }
+    );
 
 	$scope.save = function() {
 
@@ -587,7 +593,7 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.promptForNew = function() {
 		angular.element( ":checkbox" ).attr( 'checked', false );
         $scope.currentRoleId = '';
-		$scope.action = "Create new";
+		$scope.action = "Create New";
 		$scope.actioned = "Created";
 		$scope.role = {
 			users:                 [],
@@ -596,20 +602,20 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 			role_system_accesses:  [],
 			lookup_keys:           []
 		};
-		$( '#save_button' ).show();
-		$( '#update_button' ).hide();
+		$( '.save_button' ).show();
+		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		$( window ).scrollTop( 0 );
 	};
 	$scope.showDetails = function() {
-		$scope.action = "Edit this ";
+		$scope.action = "Edit ";
 		$scope.actioned = "Updated";
 		$scope.role = angular.copy( this.role );
         $scope.currentRoleId = $scope.role.id;
 		$scope.users = angular.copy( $scope.role.users );
 		$scope.apps = angular.copy( $scope.role.apps );
-		$( '#save_button' ).hide();
-		$( '#update_button' ).show();
+		$( '.save_button' ).hide();
+		$( '.update_button' ).show();
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + $scope.role.id ).addClass( 'info' );
 	};

@@ -432,6 +432,20 @@ a.list-group-item:hover > i.fa {
 	padding-top: 20px;
 }
 
+
+
+.df-list-group .bg-primary{
+
+    background-color: #428bca !important;
+}
+
+.df-col-padding-override {
+
+    padding: 0 !important;
+}
+
+
+
 @media (max-width: 991px) {
 	.list-group-item {
 		width:    32px;
