@@ -82,15 +82,15 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
 			$scope.CORSConfig, function() {
 
 			}, function( response ) {
-				$.pnotify(
-					{
-						title:    'Error',
-						type:     'error',
-						hide:     false,
-						addclass: "stack-bottomright",
-						text:     getErrorString( response )
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title:    'Error',
+                        type:     'error',
+                        hide:     false,
+                        text:     getErrorString( response )
+                    });
+                });
+
 
 			}
 		);
@@ -121,13 +121,14 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
 				if ( window.top.Actions ) {
 					window.top.Actions.updateSession( "update" );
 				}
-				$.pnotify(
-					{
-						title: $scope.app.api_name,
-						type:  'success',
-						text:  'Created Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: $scope.app.api_name,
+                        type:  'success',
+                        text:  'Created Successfully'
+                    });
+                });
+
 				Service.newApp = data;
 			}
 		);
