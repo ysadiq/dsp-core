@@ -401,6 +401,10 @@ angular.module('dfUtility', [])
     }])
     .filter('orderObjectBy', [function () {
         return function (items, field, reverse) {
+
+
+
+
             var filtered = [];
 
             function cmp(a,b) { return a == b ? 0 : a < b ? -1 : 1; }
@@ -409,6 +413,7 @@ angular.module('dfUtility', [])
                 filtered.push(item);
             });
 
+            if (filtered.length === 0) return filtered;
 
             switch (typeof filtered[0][field]) {
 
@@ -460,7 +465,7 @@ angular.module('dfUtility', [])
             }
             ;
             if (!options.regex) {
-                options.regex = new RegExp(options.value)
+                options.regex = new RegExp(options.value, "i");
             }
 
             angular.forEach(items, function (item) {
