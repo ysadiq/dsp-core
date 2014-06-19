@@ -78,25 +78,6 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
     // Used to let us know when the roles are loaded
     $scope.rolesLoaded = false;
 
-	$scope.uniqueServiceAccess = function() {
-		var size = $scope.role.role_service_accesses.length;
-
-		for ( var i = 0; i < size; i++ ) {
-			var access = $scope.role.role_service_accesses[i];
-			var matches = $scope.role.role_service_accesses.filter(
-				function( itm ) {
-					return itm.service_id === access.service_id && itm.component === access.component;
-				}
-			);
-
-			if ( matches.length > 1 ) {
-				return false;
-			}
-		}
-
-		return true;
-	};
-
 	$scope.cleanServiceAccess = function() {
 		var size = $scope.role.role_service_accesses.length;
 		for ( i = 0; i < size; i++ ) {
@@ -119,21 +100,6 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
 		function() {
 		}
 	);
-	$scope.uniqueSystemAccess = function() {
-		var size = $scope.role.role_system_accesses.length;
-		for ( i = 0; i < size; i++ ) {
-			var access = $scope.role.role_system_accesses[i];
-			var matches = $scope.role.role_system_accesses.filter(
-				function( itm ) {
-					return itm.component === access.component;
-				}
-			);
-			if ( matches.length > 1 ) {
-				return false;
-			}
-		}
-		return true;
-	};
 	$scope.cleanSystemAccess = function() {
 		var size = $scope.role.role_system_accesses.length;
 		for ( i = 0; i < size; i++ ) {
@@ -170,26 +136,6 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
 
 	$scope.save = function() {
 
-		if ( !$scope.uniqueServiceAccess() ) {
-            $(function(){
-                new PNotify({
-                    title: 'Roles',
-                    type:  'error',
-                    text:  'Duplicate service access entries are not allowed.'
-                });
-            });
-			return;
-		}
-		if ( !$scope.uniqueSystemAccess() ) {
-            $(function(){
-                new PNotify({
-                    title: 'Roles',
-                    type:  'error',
-                    text:  'Duplicate system access entries are not allowed.'
-                });
-            });
-			return;
-		}
 		if ( $scope.emptyKey() ) {
             $(function(){
                 new PNotify({
@@ -243,28 +189,6 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
 	};
 	$scope.create = function() {
 
-		if ( !$scope.uniqueServiceAccess() ) {
-            $(function(){
-                new PNotify({
-                    title: 'Roles',
-                    type:  'error',
-                    text:  'Duplicate service access entries are not allowed.'
-                });
-            });
-
-			return;
-		}
-		if ( !$scope.uniqueSystemAccess() ) {
-            $(function(){
-                new PNotify({
-                    title: 'Roles',
-                    type:  'error',
-                    text:  'Duplicate system access entries are not allowed.'
-                });
-            });
-
-			return;
-		}
 		if ( $scope.emptyKey() ) {
             $(function(){
                 new PNotify({
@@ -370,13 +294,14 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
 	$scope.newServiceAccess = function() {
 
 		var newAccess = {
-			"access":     "Full Access",
-			"component":  "*",
-			"service_id": 0
+			"verbs": [],
+			"component": "*",
+			"service_id": 0,
+            "filters": [],
+            "filter_op": "AND",
+            "show_filters": false
 		};
-		newAccess.filters = [];
-		newAccess.filter_op = "AND";
-		newAccess.show_filters = false;
+
 		$scope.role.role_service_accesses.push( newAccess );
 	};
 
@@ -472,12 +397,13 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
 	$scope.newSystemAccess = function() {
 
 		var newAccess = {
-			"access":    "Read Only",
-			"component": "user"
-		};
-		newAccess.filters = [];
-		newAccess.filter_op = "AND";
-		newAccess.show_filters = false;
+            "verbs": ["GET"],
+            "component": "user",
+            "filters": [],
+            "filter_op": "AND",
+            "show_filters": false
+        };
+
 		$scope.role.role_system_accesses.push( newAccess );
 	};
 
