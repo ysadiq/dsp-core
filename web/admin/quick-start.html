@@ -1,8 +1,19 @@
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="navbar navbar-default">
+                <span style="display: inline" class="navbar-brand">Quick Start</span>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
 <div class="panel panel-default" ng-show="step == 1">
 	<div class="panel-heading">
-		<h2 class="panel-title">QuickStart
-			<small style="margin-top: 4px;" class="pull-right">Step 1</small>
-		</h2>
+		<h4 class="panel-title">Step 1</h4>
 	</div>
 	<div class="panel-body">
 
@@ -47,16 +58,15 @@
 		</div>
 
 		<div class="form-group" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-			<button style="clear: both;" class="btn btn-success" data-ng-disabled="!app.api_name" data-ng-click="setStep(2)">Continue</button>
+			<button style="clear: both;" class="btn btn-primary pull-right" data-ng-disabled="!app.api_name" data-ng-click="setStep(2)">Continue</button>
 		</div>
 	</div>
 </div>
 
 <div class="panel panel-default" ng-show="step == 2">
 	<div class="panel-heading">
-		<h2 class="panel-title">QuickStart
-			<small style="margin-top: 4px;" class="pull-right">Step 2</small>
-		</h2>
+		<h4 class="panel-title">Step 2
+		</h4>
 	</div>
 
 	<div class="panel-body">
@@ -82,18 +92,17 @@
 			</div>
 		</div>
 
-		<div class="form-group" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-			<button class="btn btn-info" data-ng-click="setStep(1)">Previous</button>
-			<button data-ng-disabled="!app.storage_service_id" class="btn btn-success" data-ng-click="saveConfig(); create(); setStep(3)">Continue</button>
+		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;" >
+			<button class="btn btn-primary" data-ng-click="setStep(1)">Previous</button>
+			<button data-ng-disabled="!app.storage_service_id" class="btn btn-primary" data-ng-click="saveConfig(); create(); setStep(3)">Continue</button>
 		</div>
 	</div>
 </div>
 
 <div class="panel panel-default" ng-show="step == 3"><!-- remote -->
 	<div class="panel-heading">
-		<h2 class="panel-title">QuickStart
-			<small style="margin-top: 4px;" class="pull-right">Awesomeness Ahead!</small>
-		</h2>
+		<h4 class="panel-title">Awesomeness Ahead!
+		</h4>
 	</div>
 
 	<div class="panel-body">
@@ -127,8 +136,8 @@
 
 			<div class="pull-right"><img src="img/native.png" /></div>
 
-			<div class="form-group" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download SDK</a> <a class="btn btn-success"
+			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download SDK</a> <a class="btn btn-default"
 				data-ng-click="goToApps()">Continue</a>
 			</div>
 		</div>
@@ -137,9 +146,8 @@
 
 <div class="panel panel-default" ng-show="step == 4">
 	<div class="panel-heading">
-		<h2 class="panel-title">QuickStart
-			<small style="margin-top: 4px;" class="pull-right">Awesomeness Ahead!</small>
-		</h2>
+		<h4 class="panel-title">Awesomeness Ahead!
+		</h4>
 	</div>
 
 	<div class="panel-body">
@@ -163,7 +171,7 @@
 
 			<div class="pull-right"><img src="img/hosted.png" /></div>
 
-			<div class="form-group" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
 				<a data-ng-click="goToApps();" class="btn btn-success">Launch Your App!</a>
 			</div>
 
@@ -202,12 +210,12 @@
 
 			<div class="pull-right"><img src="img/local.png" /></div>
 
-			<div class="form-group" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download the SDK</a> <a class="btn btn-success"
+			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download the SDK</a> <a class="btn btn-primary"
                                                                                                              data-ng-click="goToApps();">Continue</a>
 			</div>
 		</div>
 	</div>
 </div>
-
+</div>
 <iframe seamless="seamless" style="display:none" id="sdk-download" src=""></iframe>
