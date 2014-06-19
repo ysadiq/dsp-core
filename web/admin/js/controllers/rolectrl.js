@@ -149,6 +149,8 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
         function( data ) { //success
             // Let us know we're loaded for HACKY div to keep UI from bouncing
             $scope.rolesLoaded = true;
+
+
             angular.forEach(data.record, function( role ) {
                     angular.forEach(
                         role.role_service_accesses, function( access ) {
@@ -163,6 +165,8 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
             );
         }
     );
+
+
 
 	$scope.save = function() {
 

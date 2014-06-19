@@ -20,13 +20,59 @@
  * To change this template use File | Settings | File Templates.
  */
 var GroupCtrl = function( $scope, Group, App, $timeout ) {
+
+
+    // Used to let us know when the Services are loaded
+    $scope.groupsLoaded = false;
+
+    // Added controls for responsive
+    $scope.xsWidth = $(window).width() <= 992 ? true : false;
+    $scope.activeView = 'list';
+
+    $scope.setActiveView = function (viewStr) {
+
+        $scope.activeView = viewStr;
+    };
+
+    $scope.close = function () {
+
+        $scope.setActiveView('list');
+    };
+
+    $scope.open = function () {
+
+        $scope.setActiveView('form');
+    };
+
+    $scope.$watch('xsWidth', function (newValue, oldValue) {
+
+        if (newValue == false) {
+            $scope.close();
+        }
+    });
+
+    $(window).resize(function(){
+        if(!$scope.$$phase) {
+            $scope.$apply(function () {
+                if ($(window).width() <= 992) {
+                    $scope.xsWidth = true;
+                }else {
+                    $scope.xsWidth = false;
+                }
+            })
+        }
+    });
+
+    // End Controls for responsive
+
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
 		}
 	);
 	$scope.group = {apps: []};
-	$scope.Groups = Group.get();
+	$scope.Groups = Group.get({}, function () {$scope.groupsLoaded = true});
 	$scope.Apps = App.get();
 	$scope.action = "Create";
 	$( '#update_button' ).hide();
@@ -38,6 +84,10 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 			{id: id}, $scope.group, function() {
 				$scope.promptForNew();
 				window.top.Actions.updateSession( "update" );
+
+                // Added for responsive
+                $scope.close();
+
                 $(function(){
                     new PNotify({
                         title: 'App Groups',
@@ -50,6 +100,9 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 		);
 	};
 	$scope.create = function() {
+
+        // Added for responsive
+        $scope.close();
 
 		Group.save(
 			$scope.group, function( data ) {
@@ -122,20 +175,28 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 		);
 	};
 	$scope.promptForNew = function() {
+
+        // Added for responsive
+        $scope.open();
+
         $scope.currentGroupId = '';
 		$scope.action = "Create";
 		$scope.group = {apps: []};
-		$( '#save_button' ).show();
-		$( '#update_button' ).hide();
+		$( '.save_button' ).show();
+		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		$( window ).scrollTop( 0 );
 	};
 	$scope.showDetails = function() {
+
+        // Added for responsive
+        $scope.open();
+
 		$scope.action = "Update";
 		$scope.group = this.group;
         $scope.currentGroupId = $scope.group.id;
-		$( '#save_button' ).hide();
-		$( '#update_button' ).show();
+		$( '.save_button' ).hide();
+		$( '.update_button' ).show();
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + $scope.group.id ).addClass( 'info' );
 	}

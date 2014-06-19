@@ -27,8 +27,9 @@
 
 
     <div class="col-sm-12 col-md-3 df-col-padding-override" data-ng-show="!xsWidth || (xsWidth && activeView === 'list')">
-        <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
-
+        <div class="form-group">
+            <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/>
+        </div>
         <div class="list-group">
             <a data-ng-click="showDetails()"
                 class="list-group-item"
@@ -67,7 +68,8 @@
     <!-- This is a hacky way to keep this UI from bouncing on load.
     We need to preload data but I'm not doing that today. MNM -->
 
-    <div data-ng-if="!rolesLoaded && !xsWidth" class="col-sm-3">
+    <div data-ng-if="(!rolesLoaded && !xsWidth) || (Roles.record.length === 0)" class="col-sm-3">
+        <span data-ng-show="(Roles.record.length === 0)">No Roles found.</span>
         <div style="height: 300px; background: rgba(255, 0, 0, 0);"></div>
     </div>
 

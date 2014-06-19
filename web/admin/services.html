@@ -87,7 +87,8 @@
 <!-- This is a hacky way to keep this UI from bouncing on load.
 We need to preload data but I'm not doing that today. MNM -->
 
-<div data-ng-if="!servicesLoaded && !xsWidth" class="col-sm-3">
+<div data-ng-if="(!servicesLoaded && !xsWidth) || (Services.record.length === 0)" class="col-sm-3">
+    <span data-ng-show="(Services.record.length === 0)">No Services found.</span>
     <div style="height: 300px; background: rgba(255, 0, 0, 0);"></div>
 </div>
 
