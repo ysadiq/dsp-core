@@ -190,6 +190,8 @@ angular.module('dfUtility', [])
                     });
 
                     scope._setButtonText();
+
+                    console.log(scope.allowedVerbs)
                 });
 
 
