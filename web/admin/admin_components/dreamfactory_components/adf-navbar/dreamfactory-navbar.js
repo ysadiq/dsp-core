@@ -15,10 +15,10 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
         $scope.links = [
             {
                 name: 'quickstart',
-                label: 'QuickStart',
+                label: 'Quickstart',
                 active: true,
                 url: '/',
-                icon:'fa fa-info-circle'
+                icon: 'fa fa-info-circle'
             },
             {
                 name: 'apps',
@@ -80,7 +80,7 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 name: 'packages',
                 label: 'Packages',
                 active: true,
-                url: '/packages',
+                url: '/package',
                 icon: 'fa fa-gift'
             },
             {
@@ -99,7 +99,7 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
             }
         ];
 
-        $scope.currentPage = $location.hash();
+        $scope.currentPage = null ;
 
         $scope.navigateTo = function(linkObj) {
 
@@ -110,12 +110,37 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
         $scope._setCurrentPage = function (linkObj) {
 
             $scope.currentPage = linkObj;
+            console.log($scope.currentPage);
         };
 
         $scope._navigateTo = function (linkObj) {
 
             $location.url(linkObj.url);
+            $scope._setCurrentPage(linkObj);
         };
+
+
+        $scope.$watch('currentPage', function (newValue, oldValue) {
+
+            if (newValue == null ) {
+
+                var link = $scope.links[0],
+                    i = 0;
+
+                while ((link.url !== $location.$$path) && (i < $scope.links.length - 1)) {
+
+                    link = $scope.links[i];
+
+                    i++
+                }
+
+                $scope._setCurrentPage(link);
+
+                return false;
+            }
+
+            //console.log(newValue.url + ' = ' + $location.$$path + ' = ' + $scope.currentPage.url);
+        })
 
     }])
     .directive('sidebarNavOne', ['MODSIDEBARNAV_ASSET_PATH', function (MODSIDEBARNAV_ASSET_PATH) {

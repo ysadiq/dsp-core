@@ -1,7 +1,7 @@
 <div style="margin: 20px auto;">
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm" data-ng-repeat="link in links"
+            <button type="button" class="btn btn-default btn-sm" data-ng-repeat="link in links" data-ng-if="link.active" style="cursor: default;" data-ng-class="currentPage.name === link.name ? 'btn-info' : ''"
                     data-ng-click="navigateTo(link)">
                 <i class="{{link.icon}} fa-2x"></i>
             </button>
