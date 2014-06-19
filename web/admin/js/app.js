@@ -456,7 +456,7 @@ angular.module(
 );
 
 var setCurrentApp = function (currentApp) {
-    $('.active').removeClass('active');
+    //$('.active').removeClass('active');
     $("#nav_" + currentApp).addClass("active");
 };
 

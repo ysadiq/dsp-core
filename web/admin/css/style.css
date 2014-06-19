@@ -444,6 +444,9 @@ a.list-group-item:hover > i.fa {
     padding: 0 !important;
 }
 
+.list-group-item {
+    cursor: default;
+}
 
 
 @media (max-width: 991px) {
