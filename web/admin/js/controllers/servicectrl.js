@@ -17,6 +17,52 @@
  * limitations under the License.
  */
 var ServiceCtrl = function( $scope, Service, $rootScope ) {
+
+    // Used to let us know when the Services are loaded
+    $scope.servicesLoaded = false;
+
+    // Added controls for responsive
+    $scope.xsWidth = $(window).width() <= 992 ? true : false;
+    $scope.activeView = 'list';
+
+    $scope.setActiveView = function (viewStr) {
+
+        $scope.activeView = viewStr;
+    };
+
+    $scope.close = function () {
+
+        $scope.setActiveView('list');
+    };
+
+    $scope.open = function () {
+
+        $scope.setActiveView('form');
+    };
+
+    $scope.$watch('xsWidth', function (newValue, oldValue) {
+
+        if (newValue == false) {
+            $scope.close();
+        }
+    });
+
+    $(window).resize(function(){
+        if(!$scope.$$phase) {
+            $scope.$apply(function () {
+                if ($(window).width() <= 992) {
+                    $scope.xsWidth = true;
+                }else {
+                    $scope.xsWidth = false;
+                }
+            })
+        }
+    });
+
+    // End Controls for responsive
+
+
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -46,6 +92,10 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
             prefix:"pgsql:"
         }];
     Scope.promptForNew = function() {
+
+        // Added for small devices
+        $scope.open();
+
         Scope.currentServiceId = '';
 		Scope.action = "Create";
 		$( '#step1' ).show();
@@ -106,8 +156,8 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
         Scope.tableData = [];
 		Scope.headerData = [];
 		$( "#swagger, #swagger iframe" ).hide();
-		$( '#save_button' ).show();
-		$( '#update_button' ).hide();
+		$( '.save_button' ).show();
+		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		Scope.service.type = "Remote Web Service";
 		Scope.showFields();
@@ -152,7 +202,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 	{data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, enableCellEditOnFocus: true, enableRowSelection: false, displaySelectionCheckbox: false};
 
 	Scope.service = {};
-	Scope.Services = Service.get();
+	Scope.Services = Service.get({},function() {$scope.servicesLoaded = true});
 	Scope.action = "Create";
 	Scope.emailOptions = [
 		{name: "Server Default"},
@@ -219,7 +269,7 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 		{name: "SSL", value: "SSL"},
 		{name: "TLS", value: "TLS"}
 	];
-	$( '#update_button' ).hide();
+	$( '.update_button' ).hide();
 
 	Scope.save = function() {
 		if ( Scope.service.type == "Remote SQL DB" || Scope.service.type == "Remote SQL DB Schema" ) {
@@ -294,6 +344,10 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 				updateByAttr( Scope.Services.record, 'id', id, data );
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Updated Successfully");
+
+                // Added for small devices
+                $scope.close();
+
                 $(function(){
                     new PNotify({
                         title: 'Services',
@@ -393,6 +447,10 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			Scope.service, function( data ) {
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Created Successfully");
+
+                // Added for small devices
+                $scope.close();
+
                 $(function(){
                     new PNotify({
                         title: 'Services',
@@ -434,44 +492,94 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 		switch ( Scope.service.type ) {
 			case "Local SQL DB":
 				$( '.base_url, .host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn, .nosql_type' ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				// $(".user, .pwd, .dsn").show();
 				break;
 			case "Local SQL DB Schema":
 				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn,.nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				// $(".user, .pwd, .dsn").show();
 				break;
 			case "Remote SQL DB":
 				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Remote SQL DB Schema":
 				$( ".base_url,.host,.command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Script Service":
 			case "Remote Web Service":
 				$( ".user, .pwd,.host, .command, .security, .port, .dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+
+                // Hide message
+                $( '#no-headers-message').hide();
+                $( '#no-params-message').hide();
+
 				$( ".base_url, .parameters, .headers" ).show();
 				break;
 			case "Local File Storage":
 				$( ".user, .pwd,.host, .command, .security, .port,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				$( ".storage_name" ).show();
 				break;
 			case "Remote File Storage":
 				$( ".user, .host, .security,.command,  .port, .pwd,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				$( ".storage_name, .storage_type" ).show();
 				break;
 
 			case "NoSQL DB":
 				$( ".base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				$( ".nosql_type" ).show();
 				break;
 			case "Email Service":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				Scope.showEmailFields();
 				break;
 			case "Salesforce":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				break;
 		}
 	};
@@ -486,18 +594,37 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			case "Server Default":
 				Scope.service.storage_type = null;
 				$( ".user, .pwd,.host,.port,.command,  .security, .base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+                $( '#no-params-message').show();
+
 				//$(".user, .pwd,.host,.port,.command,  .security, .parameters").show();
 				$( ".parameters" ).show();
 				break;
 			case "Server Command":
 				Scope.service.storage_type = null;
 				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').show();
+
+                // hide no params message
+                $( '#no-params-message').hide();
+
 				$( ".command, .parameters" ).show();
 				break;
 			case "SMTP":
 
 				Scope.service.storage_type = "smtp";
 				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
+
+                // Show message
+                $( '#no-headers-message').hide();
+
+                // hide message
+                $( '#no-params-message').hide();
+
 				$( ".user, .pwd,.host,.port,  .security, .parameters" ).show();
 				break;
 		}
@@ -521,6 +648,10 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			{ id: id }, function() {
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Deleted Successfully");
+
+                // Added for small devices
+                $scope.close();
+
                 $(function(){
                     new PNotify({
                         title: 'Services',
@@ -535,6 +666,10 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 	};
 
 	Scope.showDetails = function() {
+
+        // Added for small devices
+        $scope.open();
+
 		$( '#step1' ).show();
 		$( '#file-manager' ).hide();
 		$( "#button_holder" ).show();
@@ -664,8 +799,8 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 			}
 		}
 		Scope.action = "Update";
-		$( '#save_button' ).hide();
-		$( '#update_button' ).show();
+		$( '.save_button' ).hide();
+		$( '.update_button' ).show();
 		Scope.showFields();
 
 		Scope.tableData = Scope.service.parameters;
@@ -790,4 +925,5 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 	);
 	//$( "#swagger, #swagger iframe" ).hide();
 	Scope.promptForNew();
+
 };

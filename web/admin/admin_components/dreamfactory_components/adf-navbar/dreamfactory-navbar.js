@@ -110,7 +110,6 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
         $scope._setCurrentPage = function (linkObj) {
 
             $scope.currentPage = linkObj;
-            console.log($scope.currentPage);
         };
 
         $scope._navigateTo = function (linkObj) {
@@ -118,7 +117,6 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
             $location.url(linkObj.url);
             $scope._setCurrentPage(linkObj);
         };
-
 
         $scope.$watch('currentPage', function (newValue, oldValue) {
 

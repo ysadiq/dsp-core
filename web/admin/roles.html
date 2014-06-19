@@ -29,24 +29,22 @@
     <div class="col-sm-12 col-md-3 df-col-padding-override" data-ng-show="!xsWidth || (xsWidth && activeView === 'list')">
         <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
 
-        <!-- this selected background color is inherited
-             via df-list-group.  Bootswatch will not change this -->
-        <ul class="list-group df-list-group">
-            <li data-ng-click="showDetails()"
+        <div class="list-group">
+            <a data-ng-click="showDetails()"
                 class="list-group-item"
-                data-ng-class="role.id === currentRoleId && !xsWidth ? 'bg-primary' : '' "
+                data-ng-class="role.id === currentRoleId && !xsWidth ? 'active' : '' "
                 data-ng-repeat="role in Roles.record | filter:searchText" id="row_{{role.id}}">
 
                 <div class="input-group">
                     <span style="position: relative; top: 6px">{{role.name}}</span>
 
                     <span class="input-group-btn">
-                        <button style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;" class="btn btn-default" title="Delete this role" data-ng-click="delete()"><i class="icon-trash"></i>
+                        <button style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;" class="btn btn-default btn-sm" title="Delete this role" data-ng-click="delete()"><i class="icon-trash"></i>
                         </button>
                     </span>
                 </div>
-            </li>
-        </ul>
+            </a>
+        </div>
     </div>
 
     <!-- Nav for large devices -->
