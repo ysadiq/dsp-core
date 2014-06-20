@@ -216,7 +216,7 @@
                             <th class="df-th-cell" data-ng-class="order.orderBy === field.name ? 'df-th-selected' : ''"
                                 data-ng-click="orderOnSelect(field)"
                                 data-ng-repeat="field in schema.field | orderAndShowSchema: tableFields ">
-                                <span class="df-th-text">{{field.label}}</span>
+                                <span class="df-th-text" data-ng-bind-html-unsafe>{{field.label}}</span>
                                 <i data-ng-if="order.orderBy === field.name" class="fa"
                                    data-ng-class="order.orderBy === field.name && order.orderByReverse ? 'fa-caret-down' : 'fa-caret-up'"></i>
                             </th>
@@ -236,7 +236,8 @@
                             </td>
                             <td data-ng-repeat="value in obj | orderAndShowValue : tableFields track by $index"
                                 data-ng-click="toggleSelected(obj)"
-                                data-ng-class="obj.__dfUI.selected ? 'bg-danger' : '' || obj.__dfUI.unsaved ? 'bg-warning' : '' || obj.__dfUI.export ? 'bg-info' : ''">
+                                data-ng-class="obj.__dfUI.selected ? 'bg-danger' : '' || obj.__dfUI.unsaved ? 'bg-warning' : '' || obj.__dfUI.export ? 'bg-info' : ''"
+                                data-ng-bind-html-unsafe>
                                 {{value}}
                             </td>
                         </tr>
@@ -271,7 +272,7 @@
                 </div>
                 <span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" data-ng-if="tableFields[field.name]" data-ng-repeat="field in tableFields">
                     <input type="checkbox" data-ng-model="tableFields[field.name].active">
-                    <p style="display:inline; margin-left: 10px;">{{field.label}}</p>
+                    <p data-ng-bind-html-unsafe style="display:inline; margin-left: 10px;">{{field.label}}</p>
                 </span>
             </div>
         </div>
