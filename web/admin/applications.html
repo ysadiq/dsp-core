@@ -1,37 +1,51 @@
-<div class="panel panel-default">
-<!-- Default panel contents -->
-<div class="panel-heading resource-header"><strong>Applications</strong>
-    <div id="app-buttons" class="btn-group btn-group-sm pull-right">
-        <div class="btn-group">
-            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                Download SDK <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="https://github.com/dreamfactorysoftware/javascript-sdk" target="df-new">JavaScript SDK </a></li>
-                <li><a  href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><iOS SDK </a></li>
-                <li><a href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new">Android SDK </a></li>
-            </ul>
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Manage Applications</div>
         </div>
-        <button ng-click="goToImport()" class="btn btn-default">
-            <span class="fa fa-upload"></span>
-            Import New App
-        </button>
-        <button ng-click="promptForNew()" class="btn btn-default">
-            <span class="fa fa-plus-square"></span>
-            Create New App
-        </button>
+
+        <div class="nav navbar-nav navbar-right" style="margin:8px 0 0 0">
+            <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                    Download SDK <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="https://github.com/dreamfactorysoftware/javascript-sdk" target="df-new">JavaScript
+                        SDK </a></li>
+                    <li><a href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new">
+                        iOS SDK
+                    </a></li>
+                    <li><a href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new">Android SDK </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+            <button ng-click="goToImport()" class="btn btn-default">
+                <span class="fa fa-upload"></span>
+                Import App
+            </button>
+            <button ng-click="promptForNew()" class="btn btn-default">
+                <span class="fa fa-plus-square"></span>
+                Create New App
+            </button>
+                </div>
+        </div>
     </div>
 </div>
+<div>
+<!-- Default panel contents -->
+
 
 <table id="resource-container">
     <tr>
         <td>
-            <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model = "searchText"/><br/>
+            <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
             <ul id="resource-list" class="list-group">
 
 
-                <li ng-click="showDetails()" data-ng-class="app.id === currentAppId ? 'active' : ''"  class="list-group-item" ng-repeat="app in Apps.record | filter:searchText" id="row_{{app.id}}">
-                    <span class="resource-name" >{{app.name}}</span>
+                <li ng-click="showDetails()" data-ng-class="app.id === currentAppId ? 'active' : ''"
+                    class="list-group-item" ng-repeat="app in Apps.record | filter:searchText" id="row_{{app.id}}">
+                    <span class="resource-name">{{app.name}}</span>
 
                             <span class="btn-group btn-group-sm" style="text-align:right;">
                                 <button data-ng-disabled="app.launch_url == null || app.launch_url ==''"
@@ -100,7 +114,9 @@
 
                             <br/>
 
-                            <div data-ng-if="app.is_url_external == 1" class="alert alert-success"><li class="fa fa-cloud"></li>&nbsp;Your URL will be:
+                            <div data-ng-if="app.is_url_external == 1" class="alert alert-success">
+                                <li class="fa fa-cloud"></li>
+                                &nbsp;Your URL will be:
                                 {{app.url}}
                             </div>
                             <div data-ng-hide="app.is_url_external!=0" id="remote_storage">Choose where you want your
@@ -139,10 +155,13 @@
                         <br/>
 
                         <div ng-show="app.is_url_external==0">
-                            <p><b>Default Path<span class="text-info"> This is the default file to load when your app is loaded.</span></b></p>
-                            <input class="form-control" class="local" placeholder="index.html" name="app_path" type="text"
+                            <p><b>Default Path<span class="text-info"> This is the default file to load when your app is loaded.</span></b>
+                            </p>
+                            <input class="form-control" class="local" placeholder="index.html" name="app_path"
+                                   type="text"
                                    ng-model="app.url">
                             <br/>
+
                             <div ng-show="app.is_url_external==0" class="alert alert-success local">
                                 <li class="fa fa-cloud"></li>
                                 &nbsp;Your URL will be:
@@ -153,11 +172,13 @@
                         <span class="glyphicon glyphicon-fullscreen"></span> <b>Full Screen Options</b><br/><br/>
                         <ul class="list-group">
                             <li class="list-group-item" ng-hide="app.is_url_external != 0">
-                                <input  class="form-control-static" type="checkbox" ng-checked="app.requires_fullscreen == 1"
-                                        ng-model="app.requires_fullscreen">&nbsp;Run Full Screen without Toggle
+                                <input class="form-control-static" type="checkbox"
+                                       ng-checked="app.requires_fullscreen == 1"
+                                       ng-model="app.requires_fullscreen">&nbsp;Run Full Screen without Toggle
                             </li>
                             <li class="list-group-item" ng-hide="app.is_url_external != 0">
-                                <input class="form-control-static" type="checkbox" ng-checked="app.allow_fullscreen_toggle == 1"
+                                <input class="form-control-static" type="checkbox"
+                                       ng-checked="app.allow_fullscreen_toggle == 1"
                                        ng-model="app.allow_fullscreen_toggle">&nbsp;Show Full Screen with Toggle
                             </li>
                         </ul>
@@ -203,11 +224,11 @@
                     </div>
 
                     <div data-ng-show="action=='Create'" id="create_button">
-                        <input type="checkbox" data-ng-model = "create_another"/>&nbsp;Create Another&nbsp;
+                        <input type="checkbox" data-ng-model="create_another"/>&nbsp;Create Another&nbsp;
                         <a ng-click="create()"
-                                                                               class="btn btn-primary">
-                        <li class="fa fa-arrow-circle-right"></li>
-                        &nbsp;Create Application</a></div>
+                           class="btn btn-primary">
+                            <li class="fa fa-arrow-circle-right"></li>
+                            &nbsp;Create Application</a></div>
                     <div id="update_button" data-ng-show="action=='Update'"><a ng-click="save()"
                                                                                class="btn btn-primary">
                         <li class="fa fa-save"></li>
