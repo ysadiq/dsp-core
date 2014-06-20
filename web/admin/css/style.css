@@ -469,6 +469,10 @@ a.list-group-item:hover > i.fa {
     cursor: default;
 }
 
+.panel-heading {
+    cursor: pointer;
+}
+
 
 @media (max-width: 991px) {
 	.sidebar .list-group-item {
