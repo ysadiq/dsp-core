@@ -1,16 +1,126 @@
-Actions = {
-	/**
-	 * @var {*}
-	 */
-	_config: {
-	},
-	/**
-	 * @var {*}[]
-	 */
-	_apps:   [],
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-	init: function () {
+//*************************************************************************
+//	Objects
+//*************************************************************************
+
+if ('undefined' == typeof DreamFactory) {
+	DreamFactory = {
+		/** @type {*} */
+		api:     null,
+		/** @type {*} */
+		actions: null,
+		/** @type {array|boolean} */
+		config:  false,
+		/** @type {string} */
+		dspHost: $.url().attr['base'],
+		/** @type {array} */
+		session: null,
+		/** @type {integer|boolean} */
+		user:    false
+	};
+}
+
+/**
+ * LaunchPad actions object
+ * @type {{_apps: {}, $_toolbar: null, $_error: null, $_appFrame: null, errorFadeDuration: number, successFadeDuration: number, init: Function, getConfig: Function, autoRunApp: Function, updateToolbar: Function, createAccount: Function, getApps: Function, toggleFullScreen: Function, showApp: Function, animateNavBarClose: Function, showAppList: Function, showAdmin: Function, appGrouper: Function, updateSession: Function, doSignInDialog: Function, doProfileDialog: Function, doChangePasswordDialog: Function, doSignOutDialog: Function, signOut: Function, showStatus: Function, _buildAppList: Function, _runApp: Function, _setButtonState: Function}}
+ */
+DreamFactory.actions = {
+
+	//*************************************************************************
+	//	Properties
+	//*************************************************************************
+
+	/** @var {*} */
+	_apps:               {},
+	/** @var {*|boolean} */
+	defaultApp:          false,
+	/** @var {int} The number of ms to keep errors on the screen */
+	errorFadeDuration:   8000,
+	/** @var {int} The number of ms to keep messages on the screen */
+	successFadeDuration: 4000,
+	/** @var {jQuery} The #app-container reference */
+	$_appFrame:          null,
+	/** @var {jQuery} The #app-list-container reference */
+	$_appList:           null,
+	/** @var {jQuery} */
+	$_error:             null,
+	/** @var {jQuery} */
+	$_fsToggle:          null,
+	/** @var {jQuery} */
+	$_toolbar:           null,
+
+	//*************************************************************************
+	//    Methods
+	//*************************************************************************
+
+	/**
+	 * Initialize
+	 * @returns {DreamFactory.actions}
+	 */
+	init: function() {
+		//	Get some frequently used jQuery refs
+		this.$_toolbar = $('#main-nav');
+		this.$_error = $('#error-container');
+		this.$_appFrame = $('#app-container');
+		this.$_appList = $('#app-list-container');
+		this.$_fsToggle = $('#fs_toggle');
+
+		//	Initialize the API
+		this.api = DreamFactory.api.init();
+
+		//	Load the configuration
 		this.getConfig();
+
+		return this;
+	},
+
+	/**
+	 * Retrieve the DSP configuration
+	 * @returns {*}
+	 */
+	getConfig: function() {
+		var _this = this;
+
+		if (!Config) {
+			this.api.async(false).get(
+				'system/config'
+			).done(
+				function(response) {
+					if (!response) {
+						throw 'Invalid configuration information received from server.';
+					}
+
+					//	Set up the page now
+					Config = response;
+					_this.updateSession('init');
+				}
+			).fail(
+				function(data) {
+					alertErr(data);
+					Config = false;
+				}
+			);
+		}
+
+		return Config;
 	},
 
 	/**
@@ -18,293 +128,199 @@ Actions = {
 	 *
 	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
 	 */
-	autoRunApp: function () {
+	autoRunApp: function() {
 		//	Auto-run an app?
-		var _appToRun = $.QueryString('run'), _pos = -1;
+		var _appToRun = $.url().param('run');
 
 		if (_appToRun && this._apps.length) {
 			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
-			//	Strip off any hash
-			if (-1 != (
-					_pos = _appToRun.indexOf('#')
-				)) {
-				_appToRun = _appToRun.substr(0, _pos);
+
+			if (this._apps[_appToRun]) {
+				return this.loadApp(this._apps[_appToRun]);
 			}
-
-			this._apps.forEach(function (app) {
-				if (app.api_name == _appToRun) {
-					if (app.is_sys_admin) {
-						app.requires_fullscreen = false;
-					}
-					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
-					return false;
-				}
-
-				return true;
-			});
 		}
-	},
-
-	getConfig: function () {
-		if (this._config.length) {
-			return this._config;
-		}
-
-		var that = this;
-
-		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad').done(function (configInfo) {
-			Config = that._config = configInfo;
-			document.title = "Launchpad " + configInfo.dsp_version;
-			that.updateSession("init");
-			var data = {
-				allow_open_registration: Config.allow_open_registration,
-				allow_guest_user:        Config.allow_guest_user
-			};
-			Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-		}).fail(function (response) {
-			alertErr(response);
-		});
 
 		return false;
 	},
 
-	createAccount: function () {
-		window.top.location.href = '/web/register?return_url=' + encodeURI(window.top.location);
+	/**
+	 * Updates the toolbar buttons accordingly
+	 * @param {*} config copy of Config
+	 * @param {*} [session] the session info
+	 */
+	updateToolbar: function(config, session) {
+		if (config.active_session) {
+			$('#lp-sign-out, #lp-edit-profile, #lp-change-password, #apps-list-btn').removeClass('hide disabled');
+			$('#lp-sign-in, #lp-register').addClass('hide disabled');
+
+			if (session && session.is_sys_admin) {
+				$('#adminLink').addClass('disabled');
+				this.$_fsToggle.addClass('disabled').off('click');
+				$('#apps-list-btn').removeClass('disabled');
+			}
+		} else {
+			$('#adminLink').addClass('disabled').off('click');
+
+			if (config.allow_guest_user) {
+				$('#apps-list-btn').addClass('disabled');
+				$('#lp-sign-out').removeClass('hide disabled');
+				$('#lp-sign-in').addClass('hide disabled');
+			}
+
+			if (config.allow_open_registration) {
+				$('#lp-register').removeClass('hide disabled');
+			}
+		}
 	},
 
-	getApps: function (data, action) {
-		var _apps = [], _defaultShown = false, $_defaultApps = $('#default_app'), _options;
+	/**
+	 * Create a new account
+	 */
+	createAccount: function() {
+		this.api.redirect('web/register?return_url=' + encodeURI(window.top.location));
+	},
 
-		$('#error-container').hide().empty();
+	/**
+	 * Get my DSP's apps
+	 * @param {*} data
+	 * @param {string} action
+	 */
+	getApps: function(data, action) {
+		var _this = this, $_defaultApps = $('#default_app'), _options = '';
+		var _appToRun = false, _groups = data.app_groups, _noGroups = data.no_group_apps;
+
+		this.$_error.hide().empty();
+
+		//	Clear out existing defaults and reload the app list
+		this._apps = this._buildAppList(data);
+
+		var _defaultAppId = this._getDefaultApp();
+
 		$_defaultApps.empty();
 
-		if (data && data.no_group_apps) {
-			_apps = data.no_group_apps;
-		}
-
-		data.app_groups.forEach(function (group) {
-			group.apps.forEach(function (app) {
-				_apps.push(app);
-			});
-		});
-
-		this._apps = _apps;
-
-		_options = "";
-
-		_apps.forEach(function (app) {
-			if (app.is_default && !data.is_sys_admin) {
-				Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
-
-				//window.defaultApp = app.id;
-				_defaultShown = true;
-
+		$.each(
+			this._apps, function(appName, app) {
+				_options += '<option value="' + app.id + '">' + app.name + '</option>';
 			}
+		);
 
-			else if (app.is_default && data.is_sys_admin) {
-				app.requires_fullscreen = false;
+		$_defaultApps.append(_options + '<option value="">None</option>');
 
-				Actions.showApp(app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle);
+		if (_defaultAppId) {
+			this.loadApp(this._apps[_defaultAppId]);
+		}
 
-				//window.defaultApp = app.id;
-				_defaultShown = true;
+		//	Update only or Non-admin with a default app? Bail
+		if ('update' == action || (!data.is_sys_admin && _defaultAppId)) {
+			return true;
+		}
 
-				$('#adminLink').on('click', function () {
-					Actions.showAdmin()
-				});
-
-				$('#adminLink').on('click', function () {
-					Actions.showAdmin()
-				});
-
+		//	Show admin if not default
+		if (data.is_sys_admin) {
+			if ('admin' == _defaultAppId) {
+				_this.showAdmin();
 			}
-
-			_options += '<option value="' + app.id + '">' + app.name + '</option>';
-		});
-
-		$_defaultApps.append(_options + '<option value>None</option>');
-
-		if ('update' == action) {
-			return;
 		}
 
-		if (data.is_sys_admin && _defaultShown) {
-			return;
-		} else if (data.is_sys_admin && !_defaultShown) {
-			this.showApp('admin', '/admin/#/', '0', false);
-			$('#adminLink').off('click');
-			$('#fs_toggle').off('click');
-		} else if (data.app_groups.length == 1 && data.app_groups[0].apps.length == 1 && data.no_group_apps.length == 0) {
-			$('#app-list-container').hide();
-			this.showApp(data.app_groups[0].apps[0].api_name,
-				data.app_groups[0].apps[0].launch_url,
-				data.app_groups[0].apps[0].is_url_external,
-				data.app_groups[0].apps[0].requires_fullscreen,
-				data.app_groups[0].apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
-			$('#app-list-container').hide();
-			this.showApp(data.no_group_apps[0].api_name,
-				data.no_group_apps[0].launch_url,
-				data.no_group_apps[0].is_url_external,
-				data.no_group_apps[0].requires_fullscreen,
-				data.no_group_apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
-			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
-		} else {
-			Actions.showAppList();
+		if (!_groups.length && !_noGroups.length) {
+			this.$_error.html('You have no available applications.  Please contact your system administrator').show('fast');
 		}
+		else {
+			if (1 == _groups.length && 1 == _groups[0].apps.length && !_noGroups.length) {
+				_appToRun = _groups[0].apps[0];
+			} else if (!_groups.length && 1 == _noGroups.length) {
+				_appToRun = _noGroups[0];
+			}
+		}
+
+		if (_appToRun) {
+			return this.loadApp(_appToRun);
+		}
+
+		this.showAppList();
+
+		return true;
 	},
 
-	showApp: function (name, url, type, fullscreen, allowfullscreentoggle) {
-		$('#fs_toggle').addClass('disabled');
-		$('#app-list-container').hide();
-		$('#apps-list-btn').removeClass('disabled');
-		$('iframe').hide();
-
-		// Show the admin if your an admin
-		if (name == "admin") {
-			if ($('#admin').length > 0) {
-				$('#adminLink').addClass('disabled');
-
-				// This reloads the admin app
-				// Did this because when we just $.show(see commented out line below)
-				// Angular hasn't populated the DOM because it's fallen out of scope
-				// I think
-				$('#admin').replaceWith($('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
-					CurrentServer +
-					url).appendTo('#app-container'));
-				//$('#admin').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src', CurrentServer + url).show();
-			} else {
-				$('#adminLink').addClass('disabled');
-				$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src',
-					CurrentServer +
-					url).appendTo('#app-container');
-			}
-			return;
-		}
-
-		// check if there is an element with this id
-		if ($("#" + name).length > 0) {
-
-
-			//check if that element requires fullscreen
-			if (fullscreen) {
-				//Actions.toggleFullScreen(true);
-
-				// It does require fullscreen.
-				// Set app-container to full screen
-				// No other app should be run
-				this.requireFullScreen();
-			}
-
-			// Show the app
-
-			if (!allowfullscreentoggle) {
-				$('#fs_toggle').off('click', function () {
-					Actions.toggleFullScreen(false);
-				});
-			} else if (allowfullscreentoggle) {
-				$('#fs_toggle').removeClass('disabled');
-				$('#fs_toggle').on('click', function () {
-					Actions.toggleFullScreen(true);
-				});
-
-			}
-
-			$("#" + name).show();
-
-			return;
-		}
-
-        url = replaceParams(url, name);
-
-		$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('class', 'app-loader').attr('src', url).appendTo('#app-container');
-
-		/*
-		 if(fullscreen && name != "admin"){
-		 this.toggleFullScreen(true);
-		 }
-		 */
-
-		// Check if the name is admin
-		if (name != 'admin') {
-			//$('#fs_toggle').show();
-
-			// Check if the app requires fullscreen
-			if (fullscreen) {
-
-				// It does so fire it up in fullscreen mode
-				Actions.requireFullScreen();
-			} else {
-				if (!allowfullscreentoggle) {
-					$('#fs_toggle').off('click', function () {
-						Actions.toggleFullScreen(false);
-					});
-				} else if (allowfullscreentoggle) {
-					$('#fs_toggle').removeClass('disabled');
-					$('#fs_toggle').on('click', function () {
-						Actions.toggleFullScreen(true);
-					});
-
+	/**
+	 * Full screen button toggler
+	 * @param [disable]
+	 *
+	 * @private
+	 */
+	toggleFullScreen: function(disable) {
+		if (disable) {
+			$('#app-container, #navbar-container').removeClass('full-screen');
+			this.$_fsToggle.addClass('disabled').off('click');
+			$('#rocket').hide();
+		} else {
+			this.$_fsToggle.removeClass('disabled').on(
+				'click', function() {
+					$('#app-container, #navbar-container').addClass('full-screen');
+					$('#rocket').show('fast');
 				}
+			);
+		}
+	},
 
-				$('#adminLink').removeClass('disabled');
+	/**
+	 * Hides the navbar
+	 * @param callback
+	 */
+	animateNavBarClose: function(callback) {
+		$('#navbar-container').slideUp('fast', callback);
+	},
 
+	/**
+	 * Show the application list
+	 */
+	showAppList: function() {
+		var _this = this;
+
+		//	Enable full-screen
+		this._setButtonState('#fs_toggle', true);
+
+		//	Enable admin
+		this._setButtonState(
+			'#adminLink', false, function() {
+				_this.showAdmin();
 			}
+		);
+
+		//	Show the apps list...
+		this.$_appList.show();
+
+		//	Disable app list
+		this._setButtonState('#apps-list-btn', true);
+	},
+
+	/**
+	 * Shows the Admin Console
+	 */
+	showAdmin: function() {
+		var _adminApp = {
+			api_name:                'admin',
+			name:                    'admin',
+			url:                     '/admin/#/',
+			allow_fullscreen_toggle: 0,
+			requires_fullscreen:     0
+		};
+
+		if (this.loadApp(_adminApp)) {
+			var _this = this;
+
+			this._setButtonState('#adminLink, #fs_toggle', true);
+			this._setButtonState(
+				'#apps-list-btn', false, function() {
+					_this.$_appList.show();
+				}
+			);
 		}
-
 	},
 
-	animateNavBarClose: function (callback) {
-
-		var navbarH = $('#main-nav').height();
-		$('#main-nav').animate({
-			height: 0
-		}).removeClass('in');
-
-		if (typeof callback == 'function') {
-			callback.call(this);
-		}
-	},
-
-	showAppList: function () {
-
-		$('#adminLink').on('click', function () {
-			Actions.showAdmin()
-		});
-		$('#adminLink').removeClass('disabled');
-		$('#fs_toggle').off('click');
-		$('#fs_toggle').addClass('disabled');
-		$('app-container').css({"z-index": 1});
-		$('#app-list-container').show();
-		$('#app-list-container').css({"z-index": 998});
-		$('#apps-list-btn').addClass('disabled');
-		this.animateNavBarClose();
-
-	},
-	showAdmin:   function () {
-
-		$('#adminLink').off('click');
-		$('#fs_toggle').off('click');
-
-		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
-
-		this.animateNavBarClose(function () {
-			this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
-
-		});
-
-	},
-
-	appGrouper: function (sessionInfo) {
+	appGrouper: function(sessionInfo) {
 		// Check if sessionInfo has any apps in the no_group_apps array
-		if (sessionInfo.no_group_apps == 0) {
-			// It doesn't have any apps
-			// Fail silently
-			//console.log('fail');
-		} else {
-			// It does have apps!
-
+		if (sessionInfo.no_group_apps) {
 			//create an array variable to store these apps
 			sessionInfo.mnm_ng_apps = [];
 
@@ -316,475 +332,461 @@ Actions = {
 
 			var no_url_apps = [];
 
-			$.each(apps.apps, function (k, v) {
-				if (v.launch_url === '') {
-					no_url_apps.push(k);
+			$.each(
+				apps.apps, function(k, v) {
+					if ('' === v.launch_url) {
+						no_url_apps.push(k);
 
+					}
 				}
-			});
+			);
 
 			no_url_apps.reverse();
 
-			$.each(no_url_apps, function (k, v) {
-				apps.apps.splice(v, 1);
-			});
+			$.each(
+				no_url_apps, function(k, v) {
+					apps.apps.splice(v, 1);
+				}
+			);
 
 			// push this new app object onto our array
 			sessionInfo.mnm_ng_apps.push(apps);
 
 			return false;
 
-			// **Note** I'm doing all this to mimick how the app_groups are returned
+			// **Note** I'm doing all this to mimic how the app_groups are returned
 			// in order to put ungrouped apps into a group for display.
 			// I know there is a better way...
 		}
 	},
 
-	updateSession: function (action) {
-		var that = this;
-		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad').done(function (sessionInfo) {
-			//$.data(document.body, 'session', data);
-			//var sessionInfo = $.data(document.body, 'session');
-            CurrentSession = sessionInfo;
-			Actions.appGrouper(sessionInfo);
+	/**
+	 * Update the session information
+	 * @param action
+	 */
+	updateSession: function(action) {
+		var _this = this;
 
-			CurrentUserID = sessionInfo.id;
-			if (CurrentUserID) {
-				sessionInfo.activeSession = true;
-			}
-			sessionInfo.allow_open_registration = Config.allow_open_registration;
-			sessionInfo.allow_guest_user = Config.allow_guest_user;
+		document.title = 'LaunchPad ' + window.Config.dsp_version;
 
-			Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
-			Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
+		this.api.get('user/session').done(
+			function(sessionInfo) {
+				window.CurrentSession = sessionInfo;
+				_this.appGrouper(sessionInfo);
 
-			if (sessionInfo.is_sys_admin) {
-				$('#adminLink').addClass('disabled');
-				$('#fs_toggle').addClass('disabled');
-				$('#apps-list-btn').removeClass('disabled');
-				$('#fs_toggle').off('click');
-			}
+				window.CurrentUserID = sessionInfo.id;
 
-			if (action == "init") {
-				that.getApps(sessionInfo, action);
-				that.autoRunApp();
-			}
-		}).fail(function (response) {
-			if (response.status == 401 || response.status == 403) {
-				var data = {
-					allow_open_registration: Config.allow_open_registration,
-					allow_guest_user:        Config.allow_guest_user
-				};
-				Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-				that.doSignInDialog();
-			} else if (response.status == 500) {
-				that.showStatus(response.statusText, "error");
-			}
-		});
-	},
-
-//*************************************************************************
-//* Login
-//*************************************************************************
-
-	clearSignIn: function () {
-		var $_dlg = $('#loginDialog');
-		var $_providers = $('.remote-login-providers', $_dlg);
-
-		$('input', $_dlg).val('');
-
-		if (Config.allow_remote_logins && Config.remote_login_providers) {
-			$_providers.empty();
-
-			Config.remote_login_providers.forEach(function (provider) {
-				if ('1' == provider.is_active) {
-
-					var _icon = provider.api_name.toLowerCase();
-
-					if ('google' == _icon) {
-						_icon = 'google-plus';
-					}
-
-					$_providers.append('<i class="icon-' + _icon + ' icon-3x" data-provider="' + provider.api_name + '"></i>');
-				}
-			});
-
-			$('.remote-login', $_dlg).show();
-		} else {
-			$('.remote-login', $_dlg).hide();
-		}
-	},
-
-	hideSignIn: function () {
-		$('#loginDialog').modal('hide').off().on('hidden', function () {
-			Actions.clearSignIn();
-		});
-	},
-
-	doSignInDialog: function (stay) {
-		window.top.location = '/web/login?redirected=1';
-
-//		var _message = $.QueryString('error');
-//
-//		if (_message) {
-//			_message = decodeURIComponent(_message.replace(/\+/g, '%20'));
-//		}
-//		else {
-//			_message =
-//				( stay ? 'Your Session has expired. Please log in to continue' : 'Please enter your User Email and Password below to sign in.' );
-//		}
-//
-//		window.Stay = false;
-//		$('#loginErrorMessage').removeClass('alert-error').empty().html(_message);
-//		this.clearSignIn();
-//
-//		if (stay) {
-//			$("#loginDialog").modal('show').on('shown', function() {
-//				$('#UserEmail').focus();
-//			});
-//			window.Stay = true;
-//		}
-//		else {
-//			$("#loginDialog").modal('show').on('shown', function() {
-//				$('#UserEmail').focus();
-//			});
-//			window.Stay = false;
-//		}
-	},
-
-	signIn:            function () {
-
-		var that = this;
-		if (!$('#UserEmail').val() || !$('#Password').val()) {
-			$("#loginErrorMessage").addClass('alert-error').html('You must enter your email address and password to continue.');
-			return;
-		}
-		$('#loading').show();
-		$.post(CurrentServer +
-			'/rest/user/session?app_name=launchpad',
-			JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function (data) {
-				if (Stay) {
-					$("#loginDialog").modal('hide');
-					$("#loading").hide();
-					return;
-				}
-
-				if (data.redirect_uri) {
-					var _popup = window.open(data.redirect_uri,
-						'Remote Login',
-						'scrollbars=0');
-				}
-
-				$.data(document.body, 'session', data);
-
-				var sessionInfo = $.data(document.body, 'session');
-                CurrentSession = sessionInfo;
-
-				Actions.appGrouper(sessionInfo);
-
-				CurrentUserID = sessionInfo.id;
-				if (CurrentUserID) {
+				if (window.CurrentUserID) {
+					window.Config.active_session = true;
 					sessionInfo.activeSession = true;
 				}
-				sessionInfo.allow_open_registration =
-					Config.allow_open_registration;
-				sessionInfo.allow_guest_user = Config.allow_guest_user;
 
-				Templates.loadTemplate(Templates.navBarTemplate,
-					{User: sessionInfo},
-					'navbar-container');
-				Templates.loadTemplate(Templates.appIconTemplate,
+				sessionInfo.allow_open_registration = window.Config.allow_open_registration;
+				sessionInfo.allow_guest_user = window.Config.allow_guest_user;
+
+				_this.updateToolbar(window.Config, sessionInfo);
+
+				Templates.loadTemplate(
+					Templates.appIconTemplate,
 					{Applications: sessionInfo},
-					'app-list-container');
-				Actions.getApps(sessionInfo);
-				$("#loginDialog").modal('hide');
-				$("#loading").hide();
-				$('#adminLink').on('click', function () {
-					Actions.showAdmin()
-				});
-			}).fail(function (response) {
-				Actions.displayModalError('#loginErrorMessage',
-					getErrorString(response));
-			});
+					'app-list-container'
+				);
 
+				if (sessionInfo.is_sys_admin) {
+					_this._setButtonState('#adminLink', true);
+					_this._setButtonState('#fs_toggle', true);
+					_this._setButtonState(
+						'#apps-list-btn', false, function() {
+							_this.showAppList();
+						}
+					);
+				}
+
+				if ('init' == action) {
+					_this.getApps(sessionInfo, action);
+					_this.autoRunApp();
+				}
+			}
+		).fail(
+			function(response) {
+				if (401 == response.status || 403 == response.status) {
+					_this.doSignInDialog();
+				} else if (500 == response.status) {
+					_this.showStatus(response.statusText, 'error');
+				}
+			}
+		);
 	},
+
+	//*************************************************************************
+	//* Login
+	//*************************************************************************
+
+	doSignInDialog: function() {
+		this.api.redirect('/web/login?redirected=1');
+	},
+
+	//*************************************************************************
+	//* Profile
+	//*************************************************************************
+
+	doProfileDialog: function() {
+		this.api.redirect('/web/profile');
+	},
+
+	//*************************************************************************
+	//* Password Changing
+	//*************************************************************************
+
+	doChangePasswordDialog: function() {
+		this.api.redirect('/web/password');
+	},
+
+	//*************************************************************************
+	//* Logout Functions
+	//*************************************************************************
+
+	doSignOutDialog: function() {
+		$('#dlg-logout').modal('show');
+	},
+
+	/**
+	 * Perform a logout
+	 */
+	signOut: function() {
+		var _this = this;
+
+		this.api.post('user/session', null, {'method': 'DELETE'})
+			.done(
+			function() {
+				$('#dlg-logout').modal('hide');
+				$('#app-container, #app-list-container').empty().addClass('hide');
+				_this.updateSession('init');
+			}
+		)
+			.fail(
+			function(response) {
+				if (401 == response.status) {
+					_this.api.redirect('web/login?fail=epic');
+				}
+			}
+		);
+	},
+
+	/**
+	 * Shows an alert message on the screen
+	 * @param {string} message
+	 * @param {string} [type] Set to "error" or "danger" for error colors.
+	 * Also can be any bootstrap alert banner color: 'danger', 'success', 'info', etc...
+	 */
+	showStatus: function(message, type) {
+		var _class = 'alert-success', _duration = this.successFadeDuration;
+
+		if ('error' == type) {
+			_class = 'alert-danger';
+			_duration = this.errorFadeDuration;
+		} else if ('string' == typeof type) {
+			_class = 'alert-' + type;
+		}
+
+		this.$_error.html(message).removeClass().addClass(
+			'alert ' +
+			_class +
+			' center'
+		).show('fast').fadeOut(_duration);
+	},
+
+	/**
+	 * Runs an "app"
+	 * @param {*} app
+	 * @param {boolean} [adminFullOff] If true, full-screen not allowed in admin app
+	 * @returns {jQuery}
+	 * @private
+	 */
+	loadApp: function(app, adminFullOff) {
+		//	Not created yet? Make it
+		var $_newApp = $('#' + app.name), _adminForce = ( 'admin' == app.name && (adminFullOff || true));
+
+		if (!$_newApp || !$_newApp.length) {
+			//	Create the app
+			$_newApp = $(
+				'<iframe data-app-id="' +
+				app.id +
+				'" id="' +
+				app.name +
+				'" name="' +
+				app.name +
+				'" seamless="seamless" class="app-loader" src="' +
+				CurrentServer +
+				('admin' == name ? app.url : replaceParams(app.url, name)) +
+				'" style="display: none;">'
+			);
+
+			this.$_appFrame.append($_newApp);
+			this._apps[app.api_name] = app;
+		}
+
+		var _this = this;
+
+		this.$_appList.hide(
+			function() {
+				_this.$_appFrame.show();
+				_this.toggleFullScreen('admin' != app.name && app.allow_fullscreen_toggle && app.requires_fullscreen);
+				$_newApp.show().css({'z-index': 10500 + app.id});
+			}
+		);
+
+		return $_newApp;
+	},
+
 	/**
 	 *
-	 * @param elem
-	 * @param message
+	 * @param data
+	 * @returns {[]}
+	 * @private
 	 */
-	displayModalError: function (elem, message) {
-		if (message) {
-			$("#loading").hide();
-			$(elem).addClass('alert-error').html(message);
-//			$(elem).addClass('alert-error').append('<p><i style="vertical-align: middle; padding-right: 8px;" class="icon-exclamation-sign icon-2x"></i>' + message + '</p>');
-		} else {
-			$(elem).empty().removeClass('alert-error');
-		}
-	},
+	_buildAppList: function(data) {
+		var _apps = this._apps;
 
-//*************************************************************************
-//* Profile
-//*************************************************************************
-
-	clearProfile:    function () {
-
-		$("#email").val('');
-		$("#firstname").val('');
-		$("#lastname").val('');
-		$("#displayname").val('');
-		$("#phone").val('');
-		$("#security_question").val('');
-		$("#security_answer").val('');
-	},
-	doProfileDialog: function () {
-		window.top.location.href = '/web/profile';
-//		this.animateNavBarClose();
-//		var that = this;
-//		$.ajax({
-//			dataType: 'json',
-//			url: CurrentServer + '/rest/user/profile/?method=GET&app_name=launchpad',
-//			cache:    false,
-//			success:  function(response) {
-//				Profile = response;
-//				that.fillProfileForm();
-//				$("#changeProfileErrorMessage").removeClass('alert-error').html('Use the form below to change your user profile.');
-//				$('#changeProfileDialog').modal('show');
-//
-//			},
-//			error:    function(response) {
-//				if (response.status == 401) {
-//					that.doSignInDialog();
-//				}
-//			}
-//		});
-	},
-	fillProfileForm: function () {
-
-		$("#email").val(Profile.email);
-		$("#firstname").val(Profile.first_name);
-		$("#lastname").val(Profile.last_name);
-		$("#displayname").val(Profile.display_name);
-		$("#phone").val(Profile.phone);
-		$("#default_app").val(Profile.default_app_id);
-		if (Profile.security_question) {
-			$("#security_question").val(Profile.security_question);
-		} else {
-			$("#security_question").val('');
-		}
-		$("#security_answer").val('');
-	},
-	updateProfile:   function () {
-
-		var that = this;
-		NewUser = {};
-		NewUser.email = $("#email").val();
-		NewUser.first_name = $("#firstname").val();
-		NewUser.last_name = $("#lastname").val();
-		NewUser.display_name = $("#displayname").val();
-		NewUser.phone = $("#phone").val();
-		NewUser.default_app_id = $("#default_app").val();
-
-		if (NewUser.default_app_id == "") {
-			NewUser.default_app_id = null;
-		}
-
-		var q = $("#security_question").val();
-		var a = $("#security_answer").val();
-		if (!q) {
-			NewUser.security_question = '';
-			NewUser.security_answer = '';
-		} else if (q == Profile.security_question) {
-			if (a) {
-				NewUser.security_question = q;
-				NewUser.security_answer = a;
+		//	Build the application object
+		if (data) {
+			if (data.no_group_apps) {
+				$.each(
+					data.no_group_apps, function(index, app) {
+						_apps[app.api_name] = app;
+					}
+				);
 			}
-		} else {
-			if (!a) {
-				$("#changeProfileErrorMessage").addClass('alert-error').html('You changed your security question. Please enter a security answer.');
-				return;
+
+			if (data.app_groups) {
+				$.each(
+					data.app_groups, function(index, group) {
+						if (group.apps) {
+							$.each(
+								group.apps, function(index, app) {
+									_apps[app.api_name] = app;
+								}
+							);
+						}
+					}
+				);
 			}
-			NewUser.security_question = q;
-			NewUser.security_answer = a;
 		}
 
-		$.ajax({
-			dataType: 'json',
-			type:     'POST',
-			url:      CurrentServer + '/rest/user/profile/?method=MERGE&app_name=launchpad',
-			data:     JSON.stringify(NewUser),
-			cache:    false,
-			success:  function (response) {
-				// update display name
+		return _apps;
+	},
 
-				that.updateSession();
-				$("#changeProfileDialog").modal('hide');
-				that.clearProfile();
-			},
-			error:    function (response) {
-				if (response.status == 401) {
-					$("#changeProfileDialog").modal('hide');
-					that.doSignInDialog();
-				} else {
-					$("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
+	/**
+	 * Locate, if any, the default app for a session
+	 * @private
+	 */
+	_getDefaultApp: function() {
+		if (this._apps.length) {
+			var _this = this;
+
+			$.each(
+				this._apps, function(appName, app) {
+					if (app.is_default) {
+						_this.defaultApp = app;
+						return false;
+					}
 				}
-			}
-		});
+			);
+		}
 	},
 
-//*************************************************************************
-//* Password Changing
-//*************************************************************************
+	/**
+	 * Generic button state setter
+	 * @param {string} selector
+	 * @param {boolean} [disable]
+	 * @param {function} [callback]
+	 * @private
+	 */
+	_setButtonState: function(selector, disable, callback) {
+		this._setButtonClass(selector, !disable);
 
-	clearChangePassword:    function () {
-
-		$('#OPassword').val('');
-		$('#NPassword').val('');
-		$('#VPassword').val('');
+		if (disable) {
+			$(selector).addClass('disabled').off('click');
+		} else {
+			$(selector).removeClass('disabled').on(
+				'click', callback || function(e) {
+				}
+			);
+		}
 	},
-	doChangePasswordDialog: function () {
-		window.top.location.href = '/web/password';
 
-//		$('#changePasswordErrorMessage').removeClass('alert-error').html('Use the form below to change your password.');
-//		this.clearChangePassword();
-//		this.animateNavBarClose(function() {
-//			$("#changePasswordDialog").modal('show')
-//		});
-	},
-	checkPassword:          function () {
+	/**
+	 * Gets the correct class for the button state
+	 * @param {string} selector
+	 * @param {boolean} [enable] Defaults to true
+	 * @private
+	 */
+	_setButtonClass: function(selector, enable) {
+		var $_btn = $(selector);
+		var _classes = {
+			'#fs_toggle':       ['fa-expand', 'fa-compress'],
+			'#apps-list-btn':   ['fa-list-ul', 'fa-list-ul'],
+			'#lp-sign-in':      ['fa-sign-in', 'fa-sign-out'],
+			'#lp-register':     [ 'fa-user', 'fa-user'],
+			'#lp-edit-profile': [ 'fa-user', 'fa-user']
+		};
 
-		if ($("#OPassword").val() == '' || $("#NPassword").val() == '' || $("#VPassword").val() == '') {
-			$("#changePasswordErrorMessage").addClass('alert-error').html('You must enter old and new passwords.');
+		if (!$_btn.length) {
 			return;
 		}
-		if ($("#NPassword").val() == $("#VPassword").val()) {
-			var data = {
-				old_password: $("#OPassword").val(),
-				new_password: $("#NPassword").val()
-			};
-			this.updatePassword(JSON.stringify(data));
-		} else {
-			$("#changePasswordErrorMessage").addClass('alert-error').html('<b style="color:red;">Passwords do not match!</b> New and Verify Password fields need to match before you can submit the request.');
+
+		if (_classes.hasOwnProperty(selector)) {
+			var _on = _classes[selector][enable ? 1 : 0];
+			var _off = _classes[selector][enable ? 1 : 0];
+			return $(selector).removeClass(_on).addClass(_off);
 		}
-	},
-	updatePassword:         function (pass) {
-		var that = this;
-		$.ajax({
-			dataType: 'json',
-			type:     'POST',
-			url:      CurrentServer + '/rest/user/password/?method=MERGE&app_name=launchpad',
-			data:     pass,
-			cache:    false,
-			success:  function (response) {
-				$("#changePasswordDialog").modal('hide');
-				that.clearChangePassword();
-			},
-			error:    function (response) {
-				if (response.status == 401) {
-					$("#changePasswordDialog").modal('hide');
-					that.doSignInDialog();
-				} else {
-					$("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
-				}
-			}
-		});
-	},
 
-//*************************************************************************
-//* Logout Functions
-//*************************************************************************
-	doSignOutDialog:        function () {
-
-		$("#logoffDialog").modal('show');
-	},
-	signOut:                function () {
-		var that = this;
-		$.ajax({
-			dataType: 'json',
-			type:     'POST',
-			url:      CurrentServer + '/rest/user/session/?app_name=launchpad&method=DELETE',
-			cache:    false,
-			success:  function (response) {
-				$('#app-container').empty();
-				$('#app-list-container').empty();
-				$("#logoffDialog").modal('hide');
-				that.updateSession("init");
-
-			},
-			error:    function (response) {
-				if (response.status == 401) {
-					//that.showSignInButton();
-					var data = {
-						allow_open_registration: Config.allow_open_registration,
-						allow_guest_user:        Config.allow_guest_user
-					};
-					Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-					that.doSignInDialog();
-				}
-			}
-		});
-	},
-	showSignInButton:       function () {
-
-		$("#dfControl1").html('<a class="btn btn-primary" onclick="this.doSignInDialog()"><li class="icon-signin"></li>&nbsp;Sign In</a> ');
-		if (Config.allow_open_registration) {
-			$("#dfControl1").append('<a class="btn btn-primary" onclick="this.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a> ');
-		}
-	},
-	showStatus:             function (message, type) {
-		if (type == "error") {
-			$('#error-container').html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
-		} else {
-			$('#error-container').html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
-		}
-	},
-	toggleFullScreen:       function (toggle) {
-		if (toggle) {
-
-			Actions.animateNavBarClose(function () {
-				$('#app-container').css({"top": "0px", "z-index": 998});
-				$('#navbar-container').css({
-					"z-index": 10
-				});
-				$('#rocket').show();
-			});
-
-		} else {
-			$('#app-container').css({"top": "44px", "z-index": 997});
-			$('#navbar-container').css({
-				"z-index": 999
-			})
-			$('#fs_toggle').removeClass('disabled');
-			$('#rocket').hide();
-		}
-	},
-	requireFullScreen:      function () {
-		$('#app-container').css({"top": "0px", "z-index": 998});
+		return false;
 	}
+
+};
+
+/**
+ * A simple API object
+ * @type {*}
+ */
+DreamFactory.api = {
+
+	//*************************************************************************
+	//	Properties
+	//*************************************************************************
+
+	/** @var {boolean} async False for synchronous ajax */
+	_ajaxAsync: true,
+	/** @var {string} The API server with the endpoints */
+	server:     null,
+
+	//*************************************************************************
+	//	Methods
+	//*************************************************************************
+
+	/**
+	 * Controls async setting for next call only. Resets to TRUE after every call
+	 * @param onOff
+	 */
+	async: function(onOff) {
+		this._ajaxAsync = onOff || true;
+		return this;
+	},
+
+	/**
+	 * Init the object
+	 * @param {string} [location]
+	 * @returns {DreamFactory.api}
+	 */
+	init: function(location) {
+		this.server = location || $.url().attr['base'];
+
+		return this;
+	},
+
+	/** API get */
+	'get': function(resource, payload, query, appName) {
+		return this._call('GET', resource, query, appName);
+	},
+
+	/** API post */
+	'post': function(resource, payload, query, appName) {
+		return this._call('POST', resource, query, appName);
+	},
+
+	/** API put */
+	'put': function(resource, payload, query, appName) {
+		return this._call('PUT', resource, query, appName);
+	},
+
+	/** API delete */
+	'delete': function(resource, payload, query, appName) {
+		return this._call('DELETE', resource, query, appName);
+	},
+
+	/** API patch */
+	'patch': function(resource, payload, query, appName) {
+		return this._call('PATCH', resource, query, appName);
+	},
+
+	/** API merge */
+	'merge': function(resource, payload, query, appName) {
+		return this._call('MERGE', resource, query, appName);
+	},
+
+	/**
+	 * DnD redirect
+	 * @param {string} url
+	 */
+	redirect: function(url) {
+		if (window.top) {
+			window.top.location.href = url;
+		}
+		else {
+			window.location.href = url;
+		}
+	},
+
+	//*************************************************************************
+	//	Internal Methods
+	//*************************************************************************
+
+	/**
+	 * Retrieves the full URL to the current server including the API key and resource
+	 * @param resource
+	 * @param [query]
+	 * @param [appName]
+	 * @returns {string}
+	 * @private
+	 */
+	_getEndpoint: function(resource, query, appName) {
+		var _appName = 'app_name=' + (appName || 'launchpad');
+		var _query = (query ? '&' : '?') + _appName;
+		return ( this.server || CurrentServer ) + '/rest/' + resource.replace(/^\/+|\/+$/gm, '') + _query;
+	},
+
+	/**
+	 * API generic call
+	 * Retrieves the full URL to the current server including the API key and resource
+	 * @param {string} method
+	 * @param {string} resource
+	 * @param {*} [payload]
+	 * @param {*} [query]
+	 * @param {string} [appName]
+	 * @private
+	 */
+	_call: function(method, resource, payload, query, appName) {
+		var $_promise = $.ajax(
+			{
+				url:      this._getEndpoint(resource, query, appName),
+				method:   method,
+				data:     payload,
+				dataType: 'json',
+				async:    this._ajaxAsync
+			}
+		);
+
+		//	Reset the async flag back to default
+		this.async();
+
+		return $_promise;
+	}
+
 };
 
 /**
  * DocReady
  */
-jQuery(function($) {
-	var $_body = $('body');
+jQuery(
+	function($) {
+		$('body').on(
+			'touchstart.dropdown', '.dropdown-menu', function(e) {
+				e.stopPropagation();
+			}
+		);
+	}
+);
 
-	$_body.on('touchstart.dropdown', '.dropdown-menu', function(e) {
-		e.stopPropagation();
-	});
-
-	/**
-	 * Support for remote logins
-	 */
-	$('.remote-login-providers').on('click', 'i', function(e) {
-		e.preventDefault();
-
-		var _provider = $(this).data('provider');
-
-		if (_provider) {
-			window.top.location.href = '/web/remoteLogin?pid=' + _provider + '&return_url=' + encodeURI(window.top.location);
-		}
-	});
-});
-
-Actions.init();
+//	Initialize actions
+window.Actions = DreamFactory.actions.init();
