@@ -169,21 +169,25 @@
                             </div>
 
                         </div>
-                        <span class="glyphicon glyphicon-fullscreen"></span> <b>Full Screen Options</b><br/><br/>
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-hide="app.is_url_external != 0">
-                                <input class="form-control-static" type="checkbox"
-                                       ng-checked="app.requires_fullscreen == 1"
-                                       ng-model="app.requires_fullscreen">&nbsp;Run Full Screen without Toggle
-                            </li>
-                            <li class="list-group-item" ng-hide="app.is_url_external != 0">
-                                <input class="form-control-static" type="checkbox"
-                                       ng-checked="app.allow_fullscreen_toggle == 1"
-                                       ng-model="app.allow_fullscreen_toggle">&nbsp;Show Full Screen with Toggle
-                            </li>
-                        </ul>
+                        <div ng-hide="app.is_url_external != 0">
+                            <span class="glyphicon glyphicon-fullscreen"></span> <b>Full Screen Options</b><br/><br/>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <input class="form-control-static" type="checkbox"
+                                           ng-checked="app.requires_fullscreen == 1"
+                                           ng-model="app.requires_fullscreen">&nbsp;Run Full Screen without Toggle
+                                </li>
+                                <li class="list-group-item" >
+                                    <input class="form-control-static" type="checkbox"
+                                           ng-checked="app.allow_fullscreen_toggle == 1"
+                                           ng-model="app.allow_fullscreen_toggle">&nbsp;Show Full Screen with Toggle
+                                </li>
+                            </ul>
 
-                        <br/>
+                            <br/>
+
+                        </div>
+
 
 
                         <div><br/>
