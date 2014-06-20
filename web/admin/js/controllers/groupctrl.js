@@ -75,7 +75,7 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 	$scope.Groups = Group.get({}, function () {$scope.groupsLoaded = true});
 	$scope.Apps = App.get();
 	$scope.action = "Create";
-	$( '#update_button' ).hide();
+	$( '.update_button' ).hide();
 
 	$scope.save = function() {
 

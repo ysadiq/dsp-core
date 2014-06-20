@@ -122,7 +122,30 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
             $scope.updateConfig = function () {
 
-                $scope._updateConfig();
+                $scope._updateConfig().then(
+                    function() {
+
+                        $(function(){
+                            new PNotify({
+                                title: 'Config',
+                                type:  'success',
+                                text:  'Updated Successfully.'
+                            });
+                        });
+
+                    },
+
+                    function(reject) {
+
+                        throw {
+                            module: 'DreamFactory System Config Module',
+                            type: 'error',
+                            provider: 'dreamfactory',
+                            exception: reject
+                        }
+
+                    }
+                )
             };
 
 
