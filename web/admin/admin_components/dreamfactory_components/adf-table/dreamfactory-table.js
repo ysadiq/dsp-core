@@ -52,7 +52,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 '</div>\n' +
             '</div>');
     }])
-    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$filter', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, $filter, dfObjectService, dfTableEventService) {
+    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$q', '$filter', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, $q, $filter, dfObjectService, dfTableEventService) {
 
         return {
             restrict: 'E',
@@ -610,19 +610,24 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._saveRecordsToServer = function (recordsDataArr) {
 
                     if (recordsDataArr.length == 0) {
-                        throw {
-                            module: 'DreamFactory Access Management Module',
-                            type: 'warning',
-                            provider: 'dreamfactory',
-                            exception: {
+
+                        var defer = $q.defer();
+                        var error = {
+
+                            data: {
                                 error: [
                                     {
                                         message: 'No records selected for save.'
                                     }
                                 ]
                             }
-                        }
+                        };
+
+                        defer.reject(error);
+                        return defer.promise;
                     }
+
+
 
                     var requestDataObj = {
                         record: recordsDataArr
@@ -640,20 +645,20 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecordsFromServer = function (recordsDataArr) {
 
 
-                    if (recordsDataArr.length == 0) {
-                        throw {
-                            module: 'DreamFactory Access Management Module',
-                            type: 'warning',
-                            provider: 'dreamfactory',
-                            exception: {
-                                error: [
-                                    {
-                                        message: 'No records selected for delete.'
-                                    }
-                                ]
-                            }
+                    var defer = $q.defer();
+                    var error = {
+
+                        data: {
+                            error: [
+                                {
+                                    message: 'No records selected for delete.'
+                                }
+                            ]
                         }
-                    }
+                    };
+
+                    defer.reject(error);
+                    return defer.promise;
 
                     var requestDataObj = {
                         record: recordsDataArr
@@ -1408,6 +1413,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                         },
                         function (reject) {
+
+                            console.log(reject);
+
                             throw {
                                 module: 'DreamFactory Table Module',
                                 type: 'error',
@@ -1417,9 +1425,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         }
                     ).finally(
                         function () {
+
                             scope._setInProgress(false)
                         },
                         function () {
+
                             scope._setInProgress(false);
                         });
                 };

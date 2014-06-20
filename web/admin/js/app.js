@@ -46,6 +46,82 @@ angular.module(
             $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
         }
     )
+    .config(['$provide', function ($provide) {
+        $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
+            function ($delegate, $injector) {
+                return function (exception) {
+
+                    // Was this error thrown explicitly by a module
+                    if (exception.provider && (exception.provider === 'dreamfactory')) {
+                        $injector.invoke([function () {
+
+
+                            // Custom function to pull the DreamFactory Error out of a
+                            // DreamFactory error object
+                            var parseDreamFactoryError = function (errorDataObj) {
+
+                                //console.log(errorDataObj);
+
+                                // create a place to store the error
+                                var error = null;
+
+                                // If the exception type is a string we don't need to go any further
+                                // This was thrown explicitly by the module due to a module error
+                                // unrelated to the server
+                                if (typeof errorDataObj.exception === 'string') {
+
+                                    // store the error
+                                    // and we're done
+                                    error = errorDataObj.exception;
+
+                                    // the exception is not a string
+                                    // let's assume it came from the server
+                                } else {
+
+                                    // is there more than one error contained in the object
+                                    if (errorDataObj.exception.data.error.length > 1) {
+
+                                        // yes. Let's loop through and concat these to display to the user
+                                        angular.forEach(errorDataObj.exception.data.error, function (obj) {
+
+                                            // add the message from each error obj to the error store
+                                            error += obj.message + '\n';
+                                        });
+
+                                        // We only have on error
+                                    } else {
+
+                                        // store that error message
+                                        error = errorDataObj.exception.data.error[0].message;
+                                    }
+                                }
+
+                                // return the built message to display to the user
+                                return errorDataObj.module + ': ' + error
+
+                            };
+
+                            $(function(){
+                                new PNotify({
+                                    title: exception.module,
+                                    type:  exception.type,
+                                    text:  parseDreamFactoryError(exception)
+                                });
+                            });
+                        }]);
+
+                        $injector.invoke(['$rootScope', function($rootScope) {
+                            $rootScope.$broadcast('dfclient:error');
+                        }])
+                    }
+
+                    else {
+                        // Continue on to normal error handling
+                        return $delegate(exception);
+                    }
+                }
+            }]);
+    }])
     .config(
         [
             '$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {

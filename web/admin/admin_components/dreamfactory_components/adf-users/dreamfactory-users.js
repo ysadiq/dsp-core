@@ -145,7 +145,13 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         // PRIVATE API
         $scope._alertSuccess = function (message) {
 
-            console.log(message)
+            $(function(){
+                new PNotify({
+                    title: 'Users',
+                    type:  'success',
+                    text:  message
+                });
+            });
         };
 
         // MESSAGES

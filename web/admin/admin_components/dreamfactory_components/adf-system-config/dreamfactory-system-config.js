@@ -157,6 +157,7 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                         //$scope._updateCookie(systemConfigDataObj);
                         $scope._updateSystemConfigService(systemConfigDataObj);
 
+                        // Needs to be replaced with angular messaging
                         $(function(){
                             new PNotify({
                                 title: 'Config',
@@ -164,8 +165,6 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                                 text:  'Updated Successfully.'
                             });
                         });
-
-
 
                         $scope.$emit($scope.es.updateSystemConfigSuccess, systemConfigDataObj);
                     },
