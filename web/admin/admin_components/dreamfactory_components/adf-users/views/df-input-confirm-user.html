@@ -1,0 +1,12 @@
+
+<div data-ng-if="activeView === 'new'">
+    <input type="checkbox" data-ng-model="inviteUserOnCreate" data-ng-checked="inviteUserOnCreate" />
+</div>
+
+<div data-ng-if="activeView === 'edit'">
+    <div data-ng-if="currentEditRecord.confirmed"><p>Confirmed</p></div>
+    <div data-ng-if="!currentEditRecord.confirmed">
+        <button type="button" class="btn btn-default" data-ng-click="invite()"><i class="icon-envelope"></i> Send Invite</button>
+    </div>
+</div>
+

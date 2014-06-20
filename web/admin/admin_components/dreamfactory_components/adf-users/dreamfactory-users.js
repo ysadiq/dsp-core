@@ -228,13 +228,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 create: true,
                                 edit: true
                             }
-                        },
-                        {
-                            name: 'confirmed',
-                            fields: {
-                                create: true,
-                                edit: false
-                            }
                         }
                     ],
                     overrideFields: [
@@ -455,27 +448,22 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             }
         }
     }])
-    .directive('dfConfirmUser', ['DSP_URL', '$http', 'dfUserManagementEventService', function(DSP_URL, $http, dfUserManagementEventService) {
+    .directive('dfConfirmUser', ['DSP_URL', 'MODUSER_ASSET_PATH', '$http', 'dfUserManagementEventService', function(DSP_URL, MODUSER_ASSET_PATH, $http, dfUserManagementEventService) {
 
         return {
             restrict: 'E',
             scope: false,
-            template: '<div data-ng-if="currentEditRecord.confirmed"><p>Confirmed</p></div>'+
-                        '<div data-ng-if="!currentEditRecord.confirmed">' +
-                        ' <button type="button" class="btn btn-default" data-ng-click="invite()"><i class="icon-envelope"></i> Send Invite</button>' +
-                      '</div>',
+            templateUrl: MODUSER_ASSET_PATH + 'views/df-input-confirm-user.html',
             link: function(scope, elem, attrs) {
 
 
-
                 scope.es = dfUserManagementEventService;
+
 
                 scope.invite = function() {
 
                     scope._invite();
                 };
-
-
 
                 scope._sendInvite = function () {
 
@@ -510,6 +498,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         }
                     );
                 }
+
             }
         }
     }])

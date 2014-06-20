@@ -645,20 +645,23 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecordsFromServer = function (recordsDataArr) {
 
 
-                    var defer = $q.defer();
-                    var error = {
+                    if (recordsDataArr.length == 0) {
 
-                        data: {
-                            error: [
-                                {
-                                    message: 'No records selected for delete.'
-                                }
-                            ]
-                        }
-                    };
+                        var defer = $q.defer();
+                        var error = {
 
-                    defer.reject(error);
-                    return defer.promise;
+                            data: {
+                                error: [
+                                    {
+                                        message: 'No records selected for delete.'
+                                    }
+                                ]
+                            }
+                        };
+
+                        defer.reject(error);
+                        return defer.promise;
+                    }
 
                     var requestDataObj = {
                         record: recordsDataArr
@@ -1410,11 +1413,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             });
 
                             scope.$emit(scope.es.alertSuccess, {message: 'Records saved.'})
-
                         },
                         function (reject) {
-
-                            console.log(reject);
 
                             throw {
                                 module: 'DreamFactory Table Module',
@@ -2507,7 +2507,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 table: '=?',
                 extendFieldTypes: '=?',
                 overrideFields: '=?',
-                currentEditRecord: '=?'
+                currentEditRecord: '=?',
+                activeView: '=?'
             },
             link: function (scope, elem, attrs) {
 
