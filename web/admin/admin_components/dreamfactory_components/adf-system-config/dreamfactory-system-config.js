@@ -122,31 +122,9 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
             $scope.updateConfig = function () {
 
-                $scope._updateConfig().then(
-                    function() {
-
-                        $(function(){
-                            new PNotify({
-                                title: 'Config',
-                                type:  'success',
-                                text:  'Updated Successfully.'
-                            });
-                        });
-
-                    },
-
-                    function(reject) {
-
-                        throw {
-                            module: 'DreamFactory System Config Module',
-                            type: 'error',
-                            provider: 'dreamfactory',
-                            exception: reject
-                        }
-
-                    }
-                )
+                $scope._updateConfig()
             };
+
 
 
             // PRIVATE API
@@ -178,6 +156,15 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
                         //$scope._updateCookie(systemConfigDataObj);
                         $scope._updateSystemConfigService(systemConfigDataObj);
+
+                        $(function(){
+                            new PNotify({
+                                title: 'Config',
+                                type:  'success',
+                                text:  'Updated Successfully.'
+                            });
+                        });
+
 
 
                         $scope.$emit($scope.es.updateSystemConfigSuccess, systemConfigDataObj);
