@@ -29,7 +29,7 @@
                             <ul id="resource-list" class="list-group">
                                 <li data-ng-class="table.name === currentTable ? 'active' : ''"  data-ng-click="loadSchema()"  class="list-group-item"
                                     ng-repeat="table in service.tables">
-                                    <span  class="user-name">{{table.name}}</span>
+                                    <span  class="table-name" title="{{table.name}}">{{table.name}}</span>
             <span class="btn-group btn-group-sm pull-right">
 
                                       <button class="btn btn-default" title="Show JSON Schema"
