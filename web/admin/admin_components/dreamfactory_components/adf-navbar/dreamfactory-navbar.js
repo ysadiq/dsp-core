@@ -71,7 +71,7 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
             },
             {
                 name: 'api-sdk',
-                label: 'API/SDK',
+                label: 'API Docs',
                 active: true,
                 url: '/api#swagger',
                 icon: 'fa fa-institution'
