@@ -2730,7 +2730,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         if (scope.field.ref_table === scope.table) {
                             scope.templateData.template = 'df-input-text.html';
                             scope.templateData.editable = false;
-                            console.log(scope.currentEditRecord[scope.field])
+                            console.log(scope.currentEditRecord[scope.field.ref_fields])
                             break;
                         }
 
