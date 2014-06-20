@@ -122,6 +122,11 @@ angular.module(
                 }
             }]);
     }])
+    .config(function($sceProvider) {
+        // Completely disable SCE.  For demonstration purposes only!
+        // Do not use in new projects.
+        $sceProvider.enabled(false);
+    })
     .config(
         [
             '$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
