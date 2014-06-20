@@ -1,7 +1,12 @@
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading resource-header"><strong>Manage Schema</strong>
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Manage Schema</div>
+        </div>
     </div>
+</div>
+<div>
+
     <table id="resource-container">
         <tr>
             <td id="schema-list">
@@ -59,10 +64,11 @@
                     <div class="alert alert-info"><p>Choose a Schema DB service from the menu to the left.  You can create new Schema DB (local or remote) service in the Services section of this Admin Console.</p></div>
                 </div>
                 <div data-ng-show="advanced">
-                    <div class="btn-group"><button class="btn btn-default"  data-ng-show="table.schema && !import" data-ng-click="toggleJSON()">Table View</button>
+                    <div class="btn-group">
+                        <button class="btn btn-default"  data-ng-if="table.schema && !import" data-ng-click="toggleJSON()">Table View</button>
                         <button data-ng-click="validateJSON()" class="btn btn-default">Validate</button>
-                        <button class="btn btn-primary" data-ng-show= "!import" data-ng-click="updateJSONSchema()">Update Schema</button>
-                        <button class="btn btn-primary" data-ng-show = "import" data-ng-click="postJSONSchema()">Post Schema</button>
+                        <button class="btn btn-default" data-ng-if= "!import" data-ng-click="updateJSONSchema()">Update Schema</button>
+                        <button class="btn btn-default" data-ng-if = "import" data-ng-click="postJSONSchema()">Post Schema</button>
                     </div>
 <br/><br/>
                     <div  dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0" auto-height-top="175px" id="schema-editor"></div>
@@ -159,7 +165,7 @@
 
                     </accordion>
                     <br/>
-                    <button class="btn btn-primary" data-ng-show="table.schema" data-ng-click="updateSchema()">Update Schema</button>
+                    <button class="btn btn-default" data-ng-show="table.schema" data-ng-click="updateSchema()">Update Schema</button>
 
                 </div>
 
