@@ -314,6 +314,13 @@ margin-right:5px;
 	text-overflow: ellipsis;
 	white-space:   nowrap;
 }
+.table-name {
+    display:       inline-block;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+    white-space:   nowrap;
+    width:200px;
+}
 
 *, .active > a:focus {
 	outline: medium none !important;

@@ -73,10 +73,10 @@
                         <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText" />
                     </div>
                     <ul class="list-group">
-                        <li style="cursor:pointer" ng-click="showDetails()" data-ng-class="app.id === currentAppId ? 'active' : ''" class="list-group-item"
+                        <a style="cursor:pointer" ng-click="showDetails()" data-ng-class="app.id === currentAppId ? 'active' : ''" class="list-group-item"
                             ng-repeat="app in Apps.record | filter:searchText" id="row_{{app.id}}">
                             <span class="user-name">{{app.name}}</span>
-                        </li>
+                        </a>
                     </ul>
                 </div>
             </div>
