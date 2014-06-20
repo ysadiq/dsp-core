@@ -252,7 +252,7 @@ margin-right:5px;
 }
 
 .path-verb {
-    padding:     5px;
+    padding:     0px;
     background-color: #FFFFFF;
     border: 1px solid #DDDDDD;
     margin-bottom: -1px;
@@ -307,7 +307,22 @@ margin-right:5px;
 	display: inline-block;
 
 }
-
+.script-id{
+    background-color: #ffffff;
+    display: inline-block;
+    margin: 0;
+    padding: 3px;
+    width: 100%;
+}
+.active-script{
+    background-color: #428BCA;
+    border-color: #428BCA;
+    color: #FFFFFF;
+    display: inline-block;
+    margin: 0;
+    padding: 3px;
+    width: 100%;
+}
 .user-name {
 	display:       inline-block;
 	overflow:      hidden;

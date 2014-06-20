@@ -32,11 +32,11 @@
 <br/>
 <div class="row">
     <div class="col-xs-12">
-        <div style="height:100%" id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted ">
+        <div style="height:100%" id="event-wrapper" data-ng-if="Config.is_private || !Config.is_hosted " >
             <div class="col-xs-4" style="padding:0">
 
                 <div>
-                    <div id="event-listing">
+                    <div id="event-listing" >
                         <div class="search-box"><input class="form-control" ng-model="searchText"
                                                                    placeholder="Filter by Name"/></div>
                         <div data-ng-repeat="event in Events | filter:searchText" class="event-list">
@@ -54,8 +54,8 @@
                                     <ul data-ng-if="path.path === currentPath || searchText">
                                         <li data-ng-repeat="verb in path.verbs | filter:searchText"
                                             class="path-verb">
-                                                                <span data-ng-repeat="event in verb.event track by $index | filter:searchText "
-                                                                      data-ng-click="loadScript()">{{event}}<br/></span>
+                                                                <span class="script-id" data-ng-repeat="event in verb.event track by $index | filter:searchText "
+                                                                      data-ng-click="loadScript()" data-ng-class="event === currentScript ? 'active-script' : ''">{{event}}<br/></span>
                                         </li>
                                     </ul>
                                 </li>
