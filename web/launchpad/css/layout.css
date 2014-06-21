@@ -3,12 +3,35 @@
 }
 
 body {
-	margin-top: -9px;
+	margin:     0;
+	padding:    0;
 	overflow-x: hidden;
 }
 
-#app-list-container, #app-container {
-	background-color: transparent;
+#navbar-container {
+	z-index:    10;
+	height:     50px;
+	padding:    0;
+	margin:     0;
+	background: #000;
+	position:   fixed;
+	left:       0;
+	right:      0;
+	top:        0;
+}
+
+#navbar-container > .navbar {
+	padding:       4px 0;
+	margin-bottom: 0;
+}
+
+#navbar-container > .navbar-inverse {
+	background: rgba(0, 0, 0, .80);
+}
+
+#main-nav {
+	margin-top: 1px;
+	/*margin-left: 6px;*/
 }
 
 a:hover {
@@ -366,7 +389,6 @@ div.dataTables_wrapper .ui-widget-header {
 
 /* Common layout commands */
 .navbar-inner {
-
 }
 
 #dfControl1 .btn {
@@ -683,10 +705,10 @@ div {
 	left:                       0;
 	position:                   absolute;
 	right:                      0;
-	top:                        44px;
+	top:                        50px;
 	background-color:           white;
-	-webkit-box-shadow:         inset 0 3px 3px 0 rgba(0, 0, 0, .5);
-	box-shadow:                 inset 0 3px 3px 0 rgba(0, 0, 0, .5);
+	/*-webkit-box-shadow:         inset 0 3px 3px 0 rgba(0, 0, 0, .5);*/
+	/*box-shadow:                 inset 0 3px 3px 0 rgba(0, 0, 0, .5);*/
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -697,42 +719,45 @@ div {
 }
 
 html, body {
-
 	margin:   0;
 	padding:  0;
 	overflow: hidden;
 }
 
 #error-container {
-
 	display: none;
 }
 
 .df-logo {
 	margin-right: 20px;
-	margin-top:   2px;
+	margin-top:   0;
 }
 
 .df-logo img {
-	height: 38px;
+	height: 42px;
 }
 
 iframe.app-loader:empty {
 	background-color: transparent;
 }
 
+#app-list-container, #app-container {
+	background-color: transparent;
+}
+
 #app-list-container {
-	margin:             0;
-	bottom:             0;
-	left:               0;
-	position:           absolute;
-	right:              0;
-	top:                42px;
-	background:         none repeat scroll 0 0 white;
-	-webkit-box-shadow: inset 0 3px 3px 0 rgba(0, 0, 0, .5);
-	box-shadow:         inset 0 3px 3px 0 rgba(0, 0, 0, .5);
-	overflow-y:         auto;
-	overflow-x:         hidden;
+	margin:     0;
+	bottom:     0;
+	left:       0;
+	position:   absolute;
+	right:      0;
+	top:        50px;
+	background: none repeat scroll 0 0 white;
+	/*-webkit-box-shadow: inset 0 3px 3px 0 rgba(0, 0, 0, .5);*/
+	/*box-shadow:         inset 0 3px 3px 0 rgba(0, 0, 0, .5);*/
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index:    9;
 }
 
 #app-list-container table {
@@ -772,37 +797,6 @@ iframe.app-loader:empty {
 
 .is_grouped {
 	margin-left: 15px;
-}
-
-body {
-	background-color: #444;
-}
-
-#app-list-container {
-	z-index: 9;
-}
-
-#navbar-container {
-	z-index:          10;
-	/*background-image:  -webkit-gradient(linear, 0 0%, 0 100%, from(#3F3F3F), to(#222222));*/
-	/*background-image:  -webkit-linear-gradient(top, #3F3F3F 0%, #222222 100%);*/
-	/*background-image:  -moz-linear-gradient(top, #3F3F3F 0%, #222222 100%);*/
-	/*background-image:  -ms-linear-gradient(top, #3F3F3F 0%, #222222 100%);*/
-	/*background-image:  -o-linear-gradient(top, #3F3F3F 0%, #222222 100%);*/
-	/*background-image:  linear-gradient(top, #3F3F3F 0%, #222222 100%);*/
-	/*background-image:  -ms-linear-gradient(rgb(63, 63, 63) 0%, rgb(34, 34, 34) 100%);*/
-	/*background-repeat: repeat-x;*/
-	/*border-radius:     0 !important;*/
-	/*border:            0;*/
-	/*border-bottom:     1px solid #777;*/
-	height:           44px;
-	padding-left:     20px;
-	padding-right:    20px;
-	margin-top:       3px;
-	background-color: rgba(0, 0, 0, .80);
-	position:         fixed;
-	left:             0;
-	right:            0;
 }
 
 .formLabel {
@@ -889,17 +883,4 @@ body {
 	height:           250px;
 	background-color: #efefef;
 	color:            darkgreen;
-}
-
-#main-nav {
-	margin-top:  2px;
-	margin-left: 6px;
-}
-
-#navbar-container {
-	padding-left:  10px;
-	padding-right: 10px;
-	margin-right:  0;
-	margin-top:    0;
-	padding-top:   3px;
 }

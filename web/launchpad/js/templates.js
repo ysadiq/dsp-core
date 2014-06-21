@@ -104,7 +104,7 @@ var Templates = {
 	navBarTemplate: '<div class="navbar navbar-inverse">' +
 					'<div class="container">' +
 					'<div class="navbar-spacer">' +
-					'<div class="pull-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>' +
+					'<div class="pull-left df-logo"><a href="/"><img src="/img/logo-navbar-194x42.png"></a></div>' +
 					'<a class="btn btn-navbar pull-right" data-toggle="collapse" data-target="#main-nav">' +
 					'<span class="icon-bar"></span>' +
 					'<span class="icon-bar"></span>' +

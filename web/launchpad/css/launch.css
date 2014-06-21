@@ -7,11 +7,6 @@ Main stylesheet for LaunchPad
 	display: inline-block;
 }
 
-#navbar-container {
-    background: black;
-	z-index: 999;
-}
-
 #app-groups-container {
 	font-family: 'Lato', sans-serif;
 }
@@ -179,28 +174,6 @@ Main stylesheet for LaunchPad
 	border-radius: 0 0 0 0;
 }
 
-.modal-footer a.btn-primary {
-	/*background: #ffaf4b; *//* Old browsers */
-	/*background: -moz-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* FF3.6+ */
-	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffaf4b), color-stop(100%, #ff920a)); *//* Chrome,Safari4+ */
-	/*background: -webkit-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* Chrome10+,Safari5.1+ */
-	/*background: -o-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* Opera 11.10+ */
-	/*background: -ms-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* IE10+ */
-	/*background: linear-gradient(to bottom, #ffaf4b 0%, #ff920a 100%); *//* W3C */
-	/*filter:     progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0); *//* IE6-9 */
-}
-
-.modal-footer a.btn-primary:hover {
-	/*background: #ff920a; *//* Old browsers */
-	/*background: -moz-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* FF3.6+ */
-	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff920a), color-stop(100%, #ff800a)); *//* Chrome,Safari4+ */
-	/*background: -webkit-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* Chrome10+,Safari5.1+ */
-	/*background: -o-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* Opera 11.10+ */
-	/*background: -ms-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* IE10+ */
-	/*background: linear-gradient(to bottom, #ff920a 0%, #ff800a 100%); *//* W3C */
-	/*filter:     progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff920a', endColorstr='#ff800a', GradientType=0); *//* IE6-9 */
-}
-
 @media screen and (max-width: 940px) {
 	.btn-stack {
 		/*display: block;*/
@@ -209,7 +182,7 @@ Main stylesheet for LaunchPad
 
 	#main-nav {
 		width:      100%;
-		background: black;
+		background: rgba(0, 0, 0, .80);
 	}
 
 	#main-nav .btn {
