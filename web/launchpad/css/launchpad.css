@@ -1,0 +1,406 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@import url(//fonts.googleapis.com/css?family=Lato:300,400,700|Open+Sans|Roboto:100,300|Roboto+Condensed:100,300);
+
+/**
+ * Styles for LaunchPad
+ */
+* {
+	outline: medium none !important;
+}
+
+body {
+	min-height:       100%;
+	height:           auto;
+	font-family:      'Open Sans', 'Roboto Condensed', 'Arial', sans-serif;
+	font-weight:      300;
+	color:            #F2F2F2;
+	padding:          0;
+	margin:           0;
+	background-color: rgba(0, 0, 0, .5);
+	overflow:         hidden;
+}
+
+a {
+	text-decoration: none;
+	opacity:         0.8;
+	transition:      opacity 1.0 .25s;
+}
+
+a:focus, a:active, a:hover {
+	transition: opacity 1.0 .25s;
+}
+
+/**************************************************************************
+** Navbar Styles
+**************************************************************************/
+
+.navbar {
+	padding-bottom: 0;
+	margin-bottom:  0;
+	height:         44px;
+	left:           0;
+	padding-left:   20px;
+	padding-right:  20px;
+	position:       fixed;
+	right:          0;
+	box-shadow:     0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-toggle {
+	padding:          6px 7px;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.navbar-inverse {
+	background-color: rgba(0, 0, 0, .80);
+	border-bottom:    1px inset rgba(0, 0, 0, 0.9);
+
+	/*transition:       background-color 1000ms, color 1000ms, border-bottom-color 1000ms;*/
+}
+
+.navbar-inverse:hover {
+	/*background-color: rgba(0, 0, 0, 0.8);*/
+	/*color:            rgba(255, 255, 255, 1);*/
+	/*border-bottom:    1px solid rgba(0, 0, 0, 0.6);*/
+	/*transition:       background-color 1000ms, color 1000ms, border-bottom-color 1000ms;*/
+}
+
+.container-fluid > .navbar-header {
+	width:        100%;
+	margin-left:  0;
+	margin-right: 0;
+}
+
+.df-logo {
+	margin-right: 20px;
+	margin-top:   2px;
+}
+
+.df-logo img {
+	height: 42px;
+}
+
+#navbar-container {
+	padding-left:  10px;
+	padding-right: 10px;
+	margin-right:  0;
+	margin-top:    0;
+	padding-top:   3px;
+}
+
+#main-nav {
+	margin-top:  2px;
+	margin-left: 6px;
+}
+
+#app-list-container, #app-container {
+	background-color: transparent;
+}
+
+/*#header {*/
+/*height:   77px;*/
+/*position: relative;*/
+/*width:    100%;*/
+/*z-index:  -9;*/
+/*}*/
+
+/*#header h1 {*/
+/*background:  url(../../img/logo.png) no-repeat scroll 0 0 transparent;*/
+/*height:      31px;*/
+/*left:        15px;*/
+/*line-height: 600px;*/
+/*overflow:    hidden;*/
+/*position:    relative;*/
+/*top:         24px;*/
+/*width:       191px;*/
+/*}*/
+
+/*#header h1 a {*/
+/*display: block;*/
+/*}*/
+
+.container-fluid .row-fluid:first-child {
+	margin-top: 20px;
+}
+
+/*#footer {*/
+/*color:      #777777;*/
+/*text-align: center;*/
+/*}*/
+
+/*span.icon .checker {*/
+/*margin-right: 0;*/
+/*margin-top:   -5px;*/
+/*}*/
+
+#loading {
+	width:            50px;
+	height:           50px;
+	background-color: #E78F1E;
+	position:         absolute;
+	left:             50%;
+	top:              25%;
+	z-index:          999999;
+	border:           1px solid #c1680e;
+	border-radius:    6px;
+	box-shadow:       0 0 12px rgba(0, 0, 0, .6);
+	padding:          8px;
+	margin:           -33px auto 0 -33px;
+}
+
+#loading .fa-spinner {
+	color: #fff;
+}
+
+#rocket {
+	box-shadow:   0 5px 3px #000000;
+	display:      none;
+	font-size:    0.9em;
+	left:         50%;
+	margin-left:  -68px;
+	margin-right: -68px;
+	padding-top:  10px;
+	position:     absolute;
+	top:          -8px;
+	width:        134px;
+	z-index:      999999;
+	white-space:  nowrap;
+	opacity:      .2;
+}
+
+#navbar-container {
+	height:        50px;
+	padding-left:  20px;
+	padding-right: 20px;
+	left:          0;
+	right:         0;
+	margin-right:  0;
+	margin-top:    0;
+	padding-top:   0;
+}
+
+#navbar-container > .container, #navbar-container > .container-fluid {
+	background-color: transparent;
+}
+
+.navbar-inverse {
+	color:            rgba(255, 255, 255, 0.8);
+	background-color: rgba(0, 0, 0, .80);
+	border-bottom:    1px inset rgba(0, 0, 0, 0.90);
+	transition:       background-color .5s, color .5ms, border-bottom-color .5s;
+}
+
+.navbar-inverse:hover {
+	color:            rgba(255, 255, 255, 1.0);
+	background-color: rgba(0, 0, 0, .90);
+	border-bottom:    1px solid rgba(0, 0, 0, 1);
+	transition:       background-color .5s, color .5ms, border-bottom-color .5s;
+}
+
+#app-groups-container {
+	font-family: 'Lato', sans-serif;
+}
+
+#app-list-container {
+	/*background-image: url('http://galleryheart.com/wp-content/uploads/2012/02/30_Mind-Blowing-Examples-of-Creative-Art-7.jpg');*/
+	/* background: #222 url('/img/launchpad_bg_gray.png') no-repeat;*/
+	background-size:  cover;
+	background-color: rgba(170, 39, 0, 1);
+}
+
+#app-list-container .accordion-group {
+	background-color: rgba(170, 39, 0, .85);
+	border:           none;
+	border-radius:    0;
+}
+
+.accordion-group a {
+	color: white;
+}
+
+.accordion-group a:hover {
+	color: black;
+}
+
+.accordion-group a:active {
+	color: white;
+}
+
+.group-title {
+	margin-bottom: 0;
+	font-weight:   300;
+}
+
+.group-description {
+	margin-left: 20px;
+}
+
+.group-icon {
+	padding: 20px 10px 10px 10px;
+}
+
+.group-items {
+	/*
+	-webkit-box-shadow: 0px 0px 5px #ddd inset;
+	-moz-box-shadow:    0px 0px 5px #ddd inset;
+	box-shadow:         0px 0px 5px #ddd inset;
+	*/
+	padding-left:  0;
+	padding-right: 0;
+}
+
+.group-items ul {
+	margin-left: 0;
+}
+
+.group-items ul li {
+	border-bottom: 1px solid #fff;
+	list-style:    none;
+	padding-left:  45px;
+}
+
+.group-items ul li:hover {
+	color: black !important;
+}
+
+.group-items ul li:last-child {
+	border-bottom: none;
+}
+
+.group-items ul li a {
+	color:       white;
+	font-weight: 300 !important;
+}
+
+.group-items ul li a:hover {
+	color: black !important;
+
+}
+
+.group-items ul li a h4 {
+	margin-bottom: 0;
+	font-weight:   300;
+}
+
+.group-items ul li a p {
+	margin-left: 20px;
+}
+
+.make-inline {
+	display: inline-block;
+}
+
+.btn-launch {
+	background:    #AA2700;
+	margin-left:   5px;
+	border-radius: 0;
+	width:         30px;
+}
+
+.btn-launch:hover {
+	background: #DB9200;
+}
+
+.btn-signin {
+	width: auto;
+}
+
+.modal-header {
+	font-family:   'Lato', sans-serif;
+	font-weight:   400;
+	border-radius: 0;
+	background:    #AA2700;
+	border:        1px solid #AA2700;
+}
+
+.modal-header h3 {
+	text-shadow: 0 2px 2px rgba(0, 0, 0, .8);
+	color:       white;
+	font-size:   18pt;
+}
+
+.alert-area {
+	margin: 20px;
+}
+
+.alert-area .alert {
+	padding: 8px 14px;
+}
+
+.modal-body {
+	padding-top:  0;
+	max-height:   300px;
+	overflow-y:   auto;
+	margin-right: 4px;
+}
+
+.modal-body .alert-error p {
+	margin-top: 2px;
+}
+
+.modal-body-form {
+	display:    block;
+	text-align: left;
+	margin:     0 8px;
+}
+
+.modal-body-form label {
+	font-family:   "Open Sans", "Helvetica Neue Light", 'Arial', sans-serif;
+	font-weight:   bold;
+	text-align:    left;
+	margin-bottom: 2px;
+	font-size:     12pt;
+}
+
+.modal-body-form .input-xlarge {
+	width: 96%;
+}
+
+.modal-footer {
+	border-radius: 0;
+}
+
+@media screen and (max-width: 940px) {
+	.btn-stack {
+		margin: 5px 0 0 5px;
+	}
+
+	#main-nav {
+		width:      100%;
+		background: black;
+	}
+
+	#main-nav .btn {
+		padding:       10px;
+		font-size:     1.3em;
+		border-radius: 0;
+		margin-bottom: 10px;
+	}
+
+	#navbar-container {
+		padding: 0;
+		margin:  0;
+	}
+
+	.navbar-spacer {
+		padding-left:  10px;
+		padding-right: 10px;
+	}
+}

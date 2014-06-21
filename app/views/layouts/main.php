@@ -26,9 +26,9 @@
  */
 $_versions = array(
     'bootstrap'       => '3.1.1',
-    'font-awesome'    => '4.0.3',
+    'font-awesome'    => '4.1.0',
     'bootswatch'      => '3.1.1',
-    'jquery'          => '2.1.0',
+    'jquery'          => '2.1.1',
     'jquery.validate' => '1.11.1',
 );
 

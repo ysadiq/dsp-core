@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
 	<link rel="stylesheet" href="/admin/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="/css/df.callouts.css" type="text/css" />
@@ -15,40 +15,33 @@
 		type="text/css" />
 	<link rel="stylesheet" href="/admin/js/ng-grid/ng-grid.css" type="text/css" />
 	<link rel="stylesheet" href="/js/pnotify/pnotify.custom.min.css" type="text/css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
-
-<body id="admin-console">
-
+<body id="admin-console" class="nano-content">
 <div style="display: none" id="login-page">
 	<iframe seamless="seamless" id="login-frame"></iframe>
 </div>
 
 <div class="container-fluid app-wrapper">
-	<!--<div class="row loader-wrap hiding hide">-->        <!--<div class="col-xs-12"><i class="fa fa-spinner fa-spin"></i></div>-->    <!--</div>-->
+	<div class="row nao">
+		<div data-ng-controller="NavBarCtrl">
+			<div class="col-md-2 hidden-xs hidden-sm">
+				<sidebar-nav-one></sidebar-nav-one>
+			</div>
 
-	<div class="row">
-        <div data-ng-controller="NavBarCtrl">
-            <div class="col-md-2 hidden-xs hidden-sm">
-                <!--<div class="sidebar" ng-include="'navigation.html'"></div>-->
-                    <sidebar-nav-one></sidebar-nav-one>
-            </div>
+			<div class="col-xs-12 col-md-10">
+				<div class="visible-xs visible-sm">
+					<topbar-nav-one></topbar-nav-one>
+				</div>
 
-
-            <div class="col-xs-12 col-md-10">
-                <div class="visible-xs visible-sm">
-                    <topbar-nav-one></topbar-nav-one>
-                </div>
-
-
-                <div id="main-content" class="content-body">
-                    <div id="angular-content" data-ng-view></div>
-                </div>
-            </div>
-        </div>
+				<div id="main-content" class="content-body">
+					<div id="angular-content" data-ng-view></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
 <script src="/admin/js/angular-ui.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-resource.min.js"></script>
@@ -61,8 +54,6 @@
 <script src="/admin/admin_components/dreamfactory_components/adf-system-config/dreamfactory-system-config.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-users/dreamfactory-users.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-navbar/dreamfactory-navbar.js"></script>
-
-
 
 <script src="/js/json2.js"></script>
 <script src="/js/utils.js"></script>
