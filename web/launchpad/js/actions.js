@@ -76,18 +76,26 @@ Actions = {
 
 		var that = this;
 
-		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad').done(function(configInfo) {
-			Config = that._config = configInfo;
-			document.title = "Launchpad " + configInfo.dsp_version;
-			that.updateSession("init");
-			var data = {
-				allow_open_registration: Config.allow_open_registration,
-				allow_guest_user:        Config.allow_guest_user
-			};
-			Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-		}).fail(function(response) {
-			alertErr(response);
-		});
+		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad', {async: false})
+			.done(function(configInfo) {
+					  Config =
+					  that._config =
+					  configInfo;
+					  document.title =
+					  "Launchpad " +
+					  configInfo.dsp_version;
+					  that.updateSession("init");
+					  var data = {
+						  allow_open_registration: Config.allow_open_registration,
+						  allow_guest_user:        Config.allow_guest_user
+					  };
+					  Templates.loadTemplate(Templates.navBarTemplate,
+											 {User: data},
+											 'navbar-container');
+				  })
+			.fail(function(response) {
+					  alertErr(response);
+				  });
 
 		return false;
 	},
@@ -383,7 +391,7 @@ Actions = {
 
 	updateSession: function(action) {
 		var that = this;
-		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad').done(function(sessionInfo) {
+		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad', {async: false}).done(function(sessionInfo) {
 			//$.data(document.body, 'session', data);
 			//var sessionInfo = $.data(document.body, 'session');
 			CurrentSession = sessionInfo;
@@ -497,70 +505,6 @@ Actions = {
 //		}
 	},
 
-	signIn:            function() {
-
-		var that = this;
-		if (!$('#UserEmail').val() || !$('#Password').val()) {
-			$("#loginErrorMessage").addClass('alert-error').html('You must enter your email address and password to continue.');
-			return;
-		}
-		$('#loading').show();
-		$.post(CurrentServer +
-			   '/rest/user/session?app_name=launchpad',
-			   JSON.stringify({email: $('#UserEmail').val(), password: $('#Password').val()})).done(function(data) {
-																										if (Stay) {
-																											$("#loginDialog").modal('hide');
-																											$("#loading").hide();
-																											return;
-																										}
-
-																										if (data.redirect_uri) {
-																											var _popup = window.open(data.redirect_uri,
-																																	 'Remote Login',
-																																	 'scrollbars=0');
-																										}
-
-																										$.data(document.body,
-																											   'session',
-																											   data);
-
-																										var sessionInfo = $.data(document.body,
-																																 'session');
-																										CurrentSession =
-																										sessionInfo;
-
-																										Actions.appGrouper(sessionInfo);
-
-																										CurrentUserID =
-																										sessionInfo.id;
-																										if (CurrentUserID) {
-																											sessionInfo.activeSession =
-																											true;
-																										}
-																										sessionInfo.allow_open_registration =
-																										Config.allow_open_registration;
-																										sessionInfo.allow_guest_user =
-																										Config.allow_guest_user;
-
-																										Templates.loadTemplate(Templates.navBarTemplate,
-																															   {User: sessionInfo},
-																															   'navbar-container');
-																										Templates.loadTemplate(Templates.appIconTemplate,
-																															   {Applications: sessionInfo},
-																															   'app-list-container');
-																										Actions.getApps(sessionInfo);
-																										$("#loginDialog").modal('hide');
-																										$("#loading").hide();
-																										$('#adminLink').on('click',
-																														   function() {
-																															   Actions.showAdmin()
-																														   });
-																									}).fail(function(response) {
-																												Actions.displayModalError('#loginErrorMessage',
-																																		  getErrorString(response));
-																											});
-
-	},
 	/**
 	 *
 	 * @param elem
@@ -580,7 +524,7 @@ Actions = {
 //* Profile
 //*************************************************************************
 
-	clearProfile:    function() {
+	clearProfile: function() {
 
 		$("#email").val('');
 		$("#firstname").val('');
@@ -590,28 +534,11 @@ Actions = {
 		$("#security_question").val('');
 		$("#security_answer").val('');
 	},
+
 	doProfileDialog: function() {
 		window.top.location.href = '/web/profile';
-//		this.animateNavBarClose();
-//		var that = this;
-//		$.ajax({
-//			dataType: 'json',
-//			url: CurrentServer + '/rest/user/profile/?method=GET&app_name=launchpad',
-//			cache:    false,
-//			success:  function(response) {
-//				Profile = response;
-//				that.fillProfileForm();
-//				$("#changeProfileErrorMessage").removeClass('alert-error').html('Use the form below to change your user profile.');
-//				$('#changeProfileDialog').modal('show');
-//
-//			},
-//			error:    function(response) {
-//				if (response.status == 401) {
-//					that.doSignInDialog();
-//				}
-//			}
-//		});
 	},
+
 	fillProfileForm: function() {
 
 		$("#email").val(Profile.email);
@@ -627,130 +554,23 @@ Actions = {
 		}
 		$("#security_answer").val('');
 	},
-	updateProfile:   function() {
 
-		var that = this;
-		NewUser = {};
-		NewUser.email = $("#email").val();
-		NewUser.first_name = $("#firstname").val();
-		NewUser.last_name = $("#lastname").val();
-		NewUser.display_name = $("#displayname").val();
-		NewUser.phone = $("#phone").val();
-		NewUser.default_app_id = $("#default_app").val();
+	//*************************************************************************
+	//* Password Changing
+	//*************************************************************************
 
-		if (NewUser.default_app_id == "") {
-			NewUser.default_app_id = null;
-		}
-
-		var q = $("#security_question").val();
-		var a = $("#security_answer").val();
-		if (!q) {
-			NewUser.security_question = '';
-			NewUser.security_answer = '';
-		} else if (q == Profile.security_question) {
-			if (a) {
-				NewUser.security_question = q;
-				NewUser.security_answer = a;
-			}
-		} else {
-			if (!a) {
-				$("#changeProfileErrorMessage").addClass('alert-error').html('You changed your security question. Please enter a security answer.');
-				return;
-			}
-			NewUser.security_question = q;
-			NewUser.security_answer = a;
-		}
-
-		$.ajax({
-				   dataType: 'json',
-				   type:     'POST',
-				   url: CurrentServer + '/rest/user/profile/?method=MERGE&app_name=launchpad',
-				   data:     JSON.stringify(NewUser),
-				   cache:    false,
-				   success:  function(response) {
-					   // update display name
-
-					   that.updateSession();
-					   $("#changeProfileDialog").modal('hide');
-					   that.clearProfile();
-				   },
-				   error:    function(response) {
-					   if (response.status == 401) {
-						   $("#changeProfileDialog").modal('hide');
-						   that.doSignInDialog();
-					   } else {
-						   $("#changeProfileErrorMessage").addClass('alert-error').html('There was an error updating the profile.');
-					   }
-				   }
-			   });
-	},
-
-//*************************************************************************
-//* Password Changing
-//*************************************************************************
-
-	clearChangePassword:    function() {
-
-		$('#OPassword').val('');
-		$('#NPassword').val('');
-		$('#VPassword').val('');
-	},
 	doChangePasswordDialog: function() {
 		window.top.location.href = '/web/password';
-
-//		$('#changePasswordErrorMessage').removeClass('alert-error').html('Use the form below to change your password.');
-//		this.clearChangePassword();
-//		this.animateNavBarClose(function() {
-//			$("#changePasswordDialog").modal('show')
-//		});
-	},
-	checkPassword:          function() {
-
-		if ($("#OPassword").val() == '' || $("#NPassword").val() == '' || $("#VPassword").val() == '') {
-			$("#changePasswordErrorMessage").addClass('alert-error').html('You must enter old and new passwords.');
-			return;
-		}
-		if ($("#NPassword").val() == $("#VPassword").val()) {
-			var data = {
-				old_password: $("#OPassword").val(),
-				new_password: $("#NPassword").val()
-			};
-			this.updatePassword(JSON.stringify(data));
-		} else {
-			$("#changePasswordErrorMessage").addClass('alert-error').html('<b style="color:red;">Passwords do not match!</b> New and Verify Password fields need to match before you can submit the request.');
-		}
-	},
-	updatePassword:         function(pass) {
-		var that = this;
-		$.ajax({
-				   dataType: 'json',
-				   type:     'POST',
-				   url: CurrentServer + '/rest/user/password/?method=MERGE&app_name=launchpad',
-				   data:     pass,
-				   cache:    false,
-				   success:  function(response) {
-					   $("#changePasswordDialog").modal('hide');
-					   that.clearChangePassword();
-				   },
-				   error:    function(response) {
-					   if (response.status == 401) {
-						   $("#changePasswordDialog").modal('hide');
-						   that.doSignInDialog();
-					   } else {
-						   $("#changePasswordErrorMessage").addClass('alert-error').html('There was an error changing the password. Make sure you entered the correct old password.');
-					   }
-				   }
-			   });
 	},
 
-//*************************************************************************
-//* Logout Functions
-//*************************************************************************
+	//*************************************************************************
+	//* Logout Functions
+	//*************************************************************************
 	doSignOutDialog:        function() {
-
 		$("#logoffDialog").modal('show');
 	},
-	signOut:                function() {
+
+	signOut:           function() {
 		var that = this;
 		$.ajax({
 				   dataType: 'json',
@@ -762,7 +582,6 @@ Actions = {
 					   $('#app-list-container').empty();
 					   $("#logoffDialog").modal('hide');
 					   that.updateSession("init");
-
 				   },
 				   error:    function(response) {
 					   if (response.status == 401) {
@@ -777,21 +596,21 @@ Actions = {
 				   }
 			   });
 	},
-	showSignInButton:       function() {
+	showSignInButton:  function() {
 
 		$("#dfControl1").html('<a class="btn btn-primary" onclick="this.doSignInDialog()"><li class="icon-signin"></li>&nbsp;Sign In</a> ');
 		if (Config.allow_open_registration) {
 			$("#dfControl1").append('<a class="btn btn-primary" onclick="this.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a> ');
 		}
 	},
-	showStatus:             function(message, type) {
+	showStatus:        function(message, type) {
 		if (type == "error") {
 			$('#error-container').html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
 		} else {
 			$('#error-container').html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
 		}
 	},
-	toggleFullScreen:       function(toggle) {
+	toggleFullScreen:  function(toggle) {
 		if (toggle) {
 
 			Actions.animateNavBarClose(function() {
@@ -811,7 +630,7 @@ Actions = {
 			$('#rocket').hide();
 		}
 	},
-	requireFullScreen:      function() {
+	requireFullScreen: function() {
 		$('#app-container').css({"top": "0px", "z-index": 998});
 	}
 };

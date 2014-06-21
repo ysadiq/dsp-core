@@ -1,31 +1,15 @@
 /*
 Main stylesheet for LaunchPad
 */
-@import url(//fonts.googleapis.com/css?family=Lato:300,400,700|Roboto:100,300|Roboto+Condensed:100,300);
+@import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
+
+.make-inline {
+	display: inline-block;
+}
 
 #navbar-container {
+    background: black;
 	z-index: 999;
-}
-
-#navbar-container > .container {
-	background-color: transparent;
-}
-
-.navbar-inverse {
-	background-color: transparent;
-}
-
-#navbar-container {
-	z-index:          10;
-	height:           50px;
-	padding-left:     20px;
-	padding-right:    20px;
-	background-color: rgba(0, 0, 0, .80);
-	left:             0;
-	right:            0;
-	margin-right:     0;
-	margin-top:       0;
-	padding-top:      0;
 }
 
 #app-groups-container {
@@ -121,10 +105,6 @@ Main stylesheet for LaunchPad
 	margin-left: 20px;
 }
 
-.make-inline {
-	display: inline-block;
-}
-
 .btn-launch {
 	background:    #AA2700;
 	margin-left:   5px;
@@ -140,10 +120,14 @@ Main stylesheet for LaunchPad
 	width: auto;
 }
 
+.modal {
+
+}
+
 .modal-header {
 	font-family:   'Lato', sans-serif;
 	font-weight:   400;
-	border-radius: 0;
+	border-radius: 0 0 0 0;
 	background:    #AA2700;
 	border:        1px solid #AA2700;
 }
@@ -192,11 +176,34 @@ Main stylesheet for LaunchPad
 }
 
 .modal-footer {
-	border-radius: 0;
+	border-radius: 0 0 0 0;
+}
+
+.modal-footer a.btn-primary {
+	/*background: #ffaf4b; *//* Old browsers */
+	/*background: -moz-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* FF3.6+ */
+	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffaf4b), color-stop(100%, #ff920a)); *//* Chrome,Safari4+ */
+	/*background: -webkit-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* Chrome10+,Safari5.1+ */
+	/*background: -o-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* Opera 11.10+ */
+	/*background: -ms-linear-gradient(top, #ffaf4b 0%, #ff920a 100%); *//* IE10+ */
+	/*background: linear-gradient(to bottom, #ffaf4b 0%, #ff920a 100%); *//* W3C */
+	/*filter:     progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0); *//* IE6-9 */
+}
+
+.modal-footer a.btn-primary:hover {
+	/*background: #ff920a; *//* Old browsers */
+	/*background: -moz-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* FF3.6+ */
+	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff920a), color-stop(100%, #ff800a)); *//* Chrome,Safari4+ */
+	/*background: -webkit-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* Chrome10+,Safari5.1+ */
+	/*background: -o-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* Opera 11.10+ */
+	/*background: -ms-linear-gradient(top, #ff920a 0%, #ff800a 100%); *//* IE10+ */
+	/*background: linear-gradient(to bottom, #ff920a 0%, #ff800a 100%); *//* W3C */
+	/*filter:     progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff920a', endColorstr='#ff800a', GradientType=0); *//* IE6-9 */
 }
 
 @media screen and (max-width: 940px) {
 	.btn-stack {
+		/*display: block;*/
 		margin: 5px 0 0 5px;
 	}
 
@@ -210,6 +217,10 @@ Main stylesheet for LaunchPad
 		font-size:     1.3em;
 		border-radius: 0;
 		margin-bottom: 10px;
+	}
+
+	#main-nav a:last-child {
+		/*margin-bottom: 10px; */
 	}
 
 	#navbar-container {

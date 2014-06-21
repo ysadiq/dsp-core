@@ -3,9 +3,8 @@
 }
 
 body {
-	margin-top:       -9px;
-	overflow-x:       hidden;
-	background-color: rgba(0, 0, 0, .5);
+	margin-top: -9px;
+	overflow-x: hidden;
 }
 
 #app-list-container, #app-container {
@@ -36,10 +35,6 @@ a:hover {
 
 #header h1 a {
 	display: block;
-}
-
-.container-fluid .row-fluid:first-child {
-	margin-top: 20px;
 }
 
 #footer {
@@ -337,7 +332,7 @@ body {
 	padding: 0 !important;
 }
 
-.container-fluid {
+.container-fluid, .container {
 	padding-left:  20px;
 	padding-right: 20px;
 }
@@ -719,7 +714,7 @@ html, body {
 }
 
 .df-logo img {
-	height: 42px;
+	height: 38px;
 }
 
 iframe.app-loader:empty {
