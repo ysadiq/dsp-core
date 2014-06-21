@@ -3,8 +3,9 @@
 }
 
 body {
-	margin-top: -9px;
-	overflow-x: hidden;
+	margin-top:       -9px;
+	overflow-x:       hidden;
+	background-color: rgba(0, 0, 0, .5);
 }
 
 #app-list-container, #app-container {
@@ -718,7 +719,7 @@ html, body {
 }
 
 .df-logo img {
-	height: 38px;
+	height: 42px;
 }
 
 iframe.app-loader:empty {

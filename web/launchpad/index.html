@@ -9,18 +9,15 @@
 	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
 
 	<!-- Standard CSS -->
-	<link rel="stylesheet"
-		href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-	<!--[if IE 7]>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">    <![endif]-->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
 	<link rel="stylesheet" href="css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="css/launch.css" type="text/css" />
-	<link rel="stylesheet" href="/css/remote-login.css" type="text/css" />
-	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
-	<script type="application/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+	<script type="application/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
 <div id="rocket" class="btn btn-inverse " onclick="Actions.toggleFullScreen(false)">
@@ -30,47 +27,10 @@
 
 <!-- Navigation -->
 <div id="navbar-container"></div>
+
 <div id="app-list-container"></div>
+
 <div id="app-container"></div>
-<div id="changeProfileDialog" class="modal hide">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-			onclick="Actions.clearProfile()">&times;</button>
-		<h3>Change Profile</h3>
-	</div>
-	<div class="alert-area">
-		<div class="alert alert-block" id="changeProfileErrorMessage"></div>
-	</div>
-	<div class="modal-body">
-		<div class="modal-body-form">
-			<label for="email">Email:</label>
-			<input type="email" class="input-xlarge ONKEYUP" id="email" value="" />
-			<label for="firstname">First Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="firstname" value="" />
-			<label for="lastname">Last Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="lastname" value="" />
-			<label for="displayname">Display Name:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="displayname" value="" />
-
-			<label for="displayname">Default Application:</label>
-			<select class="input-xlarge ONKEYUP" id="default_app">
-				<option value>None</option>
-			</select>
-
-			<label for="displayname">Phone:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="phone" value="" />
-			<label for="displayname">Security Question:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="security_question" value="" />
-			<label for="displayname">Security Answer:</label>
-			<input type="text" class="input-xlarge ONKEYUP" id="security_answer" value="" />
-		</div>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" onclick="Actions.clearProfile()">Close</a> <a href="#"
-		class="btn btn-primary"
-		onclick="Actions.updateProfile()">Save changes</a>
-	</div>
-</div>
 
 <div id="logoffDialog" class="modal hide fade">
 	<div class="modal-header">
@@ -89,7 +49,7 @@
 	</div>
 </div>
 
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="/js/mustache.js"></script>
 <script src="/js/utils.js"></script>
 <script src="/js/pnotify/pnotify.js"></script>
