@@ -145,10 +145,8 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
         $scope.activeView = 'manage';
 
-        $scope.open = function (viewStr) {
+        // PUBLIC API
 
-            $scope.activeView = viewStr
-        };
 
 
         // PRIVATE API
@@ -163,17 +161,158 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             });
         };
 
+        $scope._alertFailure = function (message) {
+
+            $(function(){
+                new PNotify({
+                    title: 'Users',
+                    type:  'error',
+                    text:  message
+                });
+            });
+        };
+
 
         // MESSAGES
-
-
         $scope.$on($scope.es.alertSuccess, function (e, messageObj) {
 
             $scope._alertSuccess(messageObj.message)
         });
 
+        $scope.$on($scope.es.alertFailure, function (e, messageObj) {
+
+            $scope._alertFailure(messageObj.message)
+        });
+
+    }])
+    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
+
+        return {
+            restrict: 'A',
+            scope: false,
+            replace: true,
+            link: function (scope, elem, attrs) {
 
 
+                scope.uploadFile = null;
+                scope.field = angular.element('#upload');
+
+                scope.importUsers = function () {
+                    scope._importUsers();
+                };
+
+                scope._importUsers = function () {
+                    scope.field.trigger('click');
+                };
+
+                scope._uploadFile = function (fileObj) {
+
+                    return $http({
+                        method: 'POST',
+                        url: DSP_URL + '/rest/system/user',
+                        params: {},
+                        data: fileObj
+                    })
+                };
+
+                scope._checkFileType = function (fileObj) {
+
+                    var extension = fileObj.name.split('.');
+
+                    extension = extension[extension -1];
+
+                    var value = false;
+
+
+                    switch(extension) {
+
+                        case 'csv':
+                        case 'json':
+                        case 'xml':
+                            value = true;
+                            break;
+
+                        default:
+                            value = false;
+                    }
+
+                    return value;
+                };
+
+                scope.$watch('uploadFile', function (newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+                    if (!scope._checkFileType(newValue)) {
+
+                        scope.uploadFile = null;
+
+                        scope.$emit(scope.es.alertFailure, {message: 'Acceptable file formats are csv, json, and xml.'})
+
+                        return false;
+                    }
+
+                    scope._uploadFile(newValue).then(
+
+                        function (result) {
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
+                        },
+                        function (reject) {
+
+                            throw {
+                                module: 'DreamFactory User Management Module',
+                                type: 'error',
+                                provider: 'dreamfactory',
+                                exception: reject
+                            }
+                        }
+
+                    ).finally(
+
+                        function() {
+
+
+
+                        },
+                        function () {
+
+
+
+                        }
+                    )
+                });
+            }
+        }
+    }])
+    .directive('dfExportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', function (MODUSER_ASSET_PATH, DSP_URL) {
+
+        return {
+
+            restrict: 'A',
+            scope: false,
+            replace: true,
+            link: function (scope, elem, attrs) {
+
+
+                scope.exportUsersSrc = null;
+
+                scope.exportUsers = function(fileFormatStr) {
+                    scope._exportUsers(fileFormatStr);
+                };
+
+                scope._exportUsers = function (fileFormatStr) {
+
+                    if (fileFormatStr === 'csv' || fileFormatStr === 'json' || fileFormatStr === 'xml' ) {
+
+                        var params = 'app_name=admin&file=true&format=' + fileFormatStr;
+
+                        scope.exportUsersSrc = DSP_URL + '/rest/system/user?' + params;
+
+                    }
+                }
+            }
+        }
     }])
     .directive('dfManageUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, DSP_URL, dfUserManagementEventService) {
 
@@ -514,7 +653,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         scope._invite(promiseObj.data.id);
                     }
                 };
-                
+
 
                 dfTableCallbacksService.add('onCreate', 'post', scope._callSendInvite);
 
@@ -694,7 +833,8 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         return {
             resetUserForm: 'reset:userForm',
             createUserSuccess: 'create:user:success',
-            alertSuccess: 'alert:success'
+            alertSuccess: 'alert:success',
+            alertFailure: 'alert:failure'
         }
     }])
     .service('userConfigService', [function () {
