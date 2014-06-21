@@ -16,7 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
+var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Service, $location ) {
+
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -389,7 +391,8 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 	Scope.reload = function() {
 		Scope.Apps = AppsRelated.get(
 			function() {
-				Scope.Apps.record.reverse();
+
+                Scope.Apps.record.reverse();
 			}
 		);
 
@@ -416,6 +419,10 @@ var AppCtrl = function( $scope, AppsRelated, Role, $http, Service, $location ) {
 					factory:    AppsRelated,
 					collection: "Apps",
 					success:    function() {
+
+                        // Stop loading screen
+                        dfLoadingScreen.stop()
+
 						$scope.Apps.record.reverse();
 					}
 				},

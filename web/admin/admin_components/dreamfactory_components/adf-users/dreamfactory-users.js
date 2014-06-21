@@ -13,6 +13,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     templateUrl: MODUSER_ASSET_PATH + 'views/main.html',
                     controller: 'UsersCtrl',
                     resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
                         getSystemConfigData: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             return $http({
@@ -37,7 +43,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 .error(function (error) {
 
                                     throw {
-                                        module: 'DreamFactory Access Management Module',
+                                        module: 'DreamFactory User Management Module',
                                         type: 'error',
                                         provider: 'dreamfactory',
                                         exception: error
@@ -61,7 +67,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 .error(function (error) {
 
                                     throw {
-                                        module: 'DreamFactory Access Management Module',
+                                        module: 'DreamFactory User Management Module',
                                         type: 'error',
                                         provider: 'dreamfactory',
                                         exception: error
@@ -84,7 +90,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 .error(function (error) {
 
                                     throw {
-                                        module: 'DreamFactory Access Management Module',
+                                        module: 'DreamFactory User Management Module',
                                         type: 'error',
                                         provider: 'dreamfactory',
                                         exception: error
@@ -104,10 +110,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         $templateCache.put('df-input-sys-admin.html', '<df-sys-admin-user></df-sys-admin-user>');
         $templateCache.put('df-input-active-user.html', '<df-active-user></df-active-user>');
 
-
-
     }])
-    .controller('UsersCtrl', ['DSP_URL', '$scope', 'getSystemConfigData', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', 'userConfigService', function(DSP_URL, $scope, getSystemConfigData, getUsersData, getRolesData, getAppsData, dfUserManagementEventService, userConfigService){
+    .controller('UsersCtrl', ['dfLoadingScreen', 'DSP_URL', '$scope', 'getSystemConfigData', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', 'userConfigService',
+        function(dfLoadingScreen, DSP_URL, $scope, getSystemConfigData, getUsersData, getRolesData, getAppsData, dfUserManagementEventService, userConfigService){
+
+        // Stop the loading screen
+        dfLoadingScreen.stop();
 
         // PRE-PROCESS API
         $scope.__setNullToEmptyString = function (systemConfigDataObj) {

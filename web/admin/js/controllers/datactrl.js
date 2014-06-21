@@ -16,7 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var DataCtrl = function( $scope, Schema, DB, $http, DSP_URL, getDataServices) {
+var DataCtrl = function( dfLoadingScreen, $scope, Schema, DB, $http, DSP_URL, getDataServices) {
+
+    dfLoadingScreen.stop();
+
 
     $scope.__getDataFromResponse = function (httpResponseObj) {
         return httpResponseObj.data.record;

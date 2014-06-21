@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $http ) {
+var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, App, Service, $http ) {
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -115,6 +116,9 @@ var RoleCtrl = function( $window, $scope, RolesRelated, User, App, Service, $htt
         function( data ) { //success
             // Let us know we're loaded for HACKY div to keep UI from bouncing
             $scope.rolesLoaded = true;
+
+            // Stop loading screen
+            dfLoadingScreen.stop();
 
 
             angular.forEach(data.record, function( role ) {

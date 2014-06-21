@@ -130,13 +130,27 @@ angular.module(
             $routeProvider.when(
                 '/', {
                     controller: QuickStartCtrl,
-                    templateUrl: 'quick-start.html'
+                    templateUrl: 'quick-start.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            //dfLoadingScreen.start()
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/app', {
                     controller: AppCtrl,
-                    templateUrl: 'applications.html'
+                    templateUrl: 'applications.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start()
+                        }]
+                    }
                 }
             );
 /*            $routeProvider.when(
@@ -148,13 +162,27 @@ angular.module(
             $routeProvider.when(
                 '/role', {
                     controller: RoleCtrl,
-                    templateUrl: 'roles.html'
+                    templateUrl: 'roles.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/group', {
                     controller: GroupCtrl,
-                    templateUrl: 'groups.html'
+                    templateUrl: 'groups.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
@@ -162,6 +190,12 @@ angular.module(
                     controller: SchemaCtrl,
                     templateUrl: 'schema.html',
                     resolve : {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
                         getSchemaServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
@@ -176,7 +210,14 @@ angular.module(
             $routeProvider.when(
                 '/service', {
                     controller: ServiceCtrl,
-                    templateUrl: 'services.html'
+                    templateUrl: 'services.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
@@ -194,7 +235,14 @@ angular.module(
             $routeProvider.when(
                 '/package', {
                     controller: PackageCtrl,
-                    templateUrl: 'package.html'
+                    templateUrl: 'package.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
 
@@ -211,6 +259,12 @@ angular.module(
                     controller: DataCtrl,
                     templateUrl: 'data.html',
                     resolve : {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
                         getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
@@ -228,6 +282,11 @@ angular.module(
                     controller: ScriptCtrl,
                     templateUrl: 'scripts.html',
                     resolve : {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
                         getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
@@ -243,7 +302,14 @@ angular.module(
             $routeProvider.when(
                 '/api', {
                     controller: 'ApiSDKCtrl',
-                    templateUrl: 'apisdk.html'
+                    templateUrl: 'apisdk.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
 

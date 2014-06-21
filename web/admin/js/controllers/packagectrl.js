@@ -16,14 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var PackageCtrl = function( $scope, AppsRelatedToService, Service, $http ) {
+var PackageCtrl = function(dfLoadingScreen, $scope, AppsRelatedToService, Service, $http ) {
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
 		}
 	);
 	Scope = $scope;
-	$scope.Apps = AppsRelatedToService.get();
+	$scope.Apps = AppsRelatedToService.get({}, function () {
+
+        // Stop loading screen
+        dfLoadingScreen.stop();
+    });
 	Scope.schemaData = {};
 	Scope.Services = Service.get(
 		function( data ) {

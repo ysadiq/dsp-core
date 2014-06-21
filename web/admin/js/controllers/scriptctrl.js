@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices) {
+var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http, getDataServices) {
+
     $http.defaults.headers.common['Accept'] = 'application/json';
     $http.defaults.headers.common['Content-Type'] = 'text/plain';
     Scope = $scope;
@@ -50,6 +51,11 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
             $scope.buildEventList = function () {
                 Event.get({"all_events": "true"}).$promise.then(
                     function (response) {
+
+
+                        // Stop loading screen
+                        dfLoadingScreen.stop();
+
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
                             event.paths.forEach(function (path) {

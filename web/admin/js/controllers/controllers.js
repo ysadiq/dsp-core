@@ -19,8 +19,12 @@
 'use strict';
 
 angular.module( "AdminApp.controllers", [] ).controller(
-	'ApiSDKCtrl', [
-		'$scope', function( $scope ) {
+	'ApiSDKCtrl', ['dfLoadingScreen',
+		'$scope', function( dfLoadingScreen, $scope ) {
+
+
+            // Stop loading screen
+            dfLoadingScreen.stop();
 		}
 	]
 );
