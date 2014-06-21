@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices) {
+    $http.defaults.headers.common['Accept'] = 'application/json';
+    $http.defaults.headers.common['Content-Type'] = 'text/plain';
     Scope = $scope;
     var editor;
     (
@@ -133,7 +135,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
 
     $scope.loadSamples = function () {
 
-        $http.defaults.headers.common['Accept'] = 'text/plain';
+
         $http({
             method: 'GET',
             url: 'js/example.scripts.js',
