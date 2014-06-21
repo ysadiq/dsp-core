@@ -298,12 +298,28 @@ angular.module('dfUtility', [])
 
                 for (var _key in obj1) {
                     if (obj2.hasOwnProperty(_key)) {
-                        if(Object.prototype.toString.call(obj2[_key]) === '[object Object]') {
+
+                        switch(Object.prototype.toString.call(obj2[_key])) {
+
+                            case '[object Object]':
+                                obj2[_key] = self.deepMergeObjects(obj1[_key], obj2[_key]);
+                                break;
+
+                            case '[object Array]':
+                                 obj2[_key] = obj1[_key];
+                                 //obj2[_key].concat(obj1[_key]);
+                                break;
+
+                            default:
+                                obj2[_key] = obj1[_key];
+                        }
+
+                    /*    if(Object.prototype.toString.call(obj2[_key]) === '[object Object]') {
 
                             obj2[_key] = self.deepMergeObjects(obj1[_key], obj2[_key]);
                         }else {
                             obj2[_key] = obj1[_key];
-                        }
+                        }*/
                     }
                 }
 

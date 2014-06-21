@@ -10,7 +10,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
     .run(['$templateCache', function ($templateCache) {
 
         $templateCache.put('df-input-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
-        $templateCache.put('df-input-ref-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.ref_field]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
+        $templateCache.put('df-input-ref-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
         $templateCache.put('df-input-binary.html', '<p>BINARY DATA</p>');
         $templateCache.put('df-input-datetime.html', '<p>DATETIME</p>');
         $templateCache.put('df-input-reference.html', '<div class="well"><df-table data-options="relatedOptions" data-parent-record="currentEditRecord" data-export-field="field"></df-table></div>');
@@ -53,7 +53,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 '</div>\n' +
             '</div>');
     }])
-    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$q', '$filter', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, $q, $filter, dfObjectService, dfTableEventService) {
+    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$q', '$filter', 'dfObjectService', 'dfTableEventService', 'dfTableCallbacksService', function (DF_TABLE_ASSET_PATH, $http, $q, $filter, dfObjectService, dfTableEventService, dfTableCallbacksService) {
 
         return {
             restrict: 'E',
@@ -154,7 +154,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.filteredSchema = [];
                 scope.groupedSchema = [];
-
 
 
                 // PUBLIC API
@@ -765,6 +764,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         });
 
                         scope.groupedSchema.push(group);
+
+
                     });
                 };
 
@@ -1025,6 +1026,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     scope.pagesArr[0].stopPropagation = true;
                     scope._setCurrentPage(scope.pagesArr[0]);
+
 
                 };
 
@@ -1781,6 +1783,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.options = dfObjectService.deepMergeObjects(newValue, scope.defaults);
 
                     scope._setActiveView('table');
+                    dfTableCallbacksService.reset();
 
                 });
 
@@ -2211,7 +2214,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             }
         }
     }])
-    .directive('editRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService, dfTableEventService) {
+    .directive('editRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfObjectService', 'dfTableEventService', 'dfTableCallbacksService', function (DF_TABLE_ASSET_PATH, $http, dfObjectService, dfTableEventService, dfTableCallbacksService) {
 
         return {
 
@@ -2290,10 +2293,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecord = function () {
 
                     scope._setInProgress(true);
-
+                    dfTableCallbacksService.run('onDelete', 'pre', scope.currentEditRecord);
                     scope._deleteRecordFromServer(scope.currentEditRecord).then(
                         function (result) {
 
+                            dfTableCallbacksService.run('onDelete', 'post', result);
                             scope.$emit(scope.es.alertSuccess, {message: 'Record deleted.'})
 
                             var requestDataObj = {},
@@ -2377,12 +2381,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._saveRecord = function () {
 
                     scope._setInProgress(true);
+                    dfTableCallbacksService.run('onUpdate', 'pre', scope.currentEditRecord);
                     scope._saveRecordToServer(scope.currentEditRecord).then(
                         function (result) {
 
                             scope._removeRevertCopy(scope.currentEditRecord);
                             scope._setUnsavedState(scope.currentEditRecord, false);
 
+                            dfTableCallbacksService.run('onUpdate', 'pre', result);
                             scope.$emit(scope.es.alertSuccess, {message: 'Record saved.'})
 
 
@@ -2419,7 +2425,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
     }])
-    .directive('createRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, $http, dfTableEventService) {
+    .directive('createRecord', ['DF_TABLE_ASSET_PATH', '$http', 'dfTableEventService', 'dfTableCallbacksService', function (DF_TABLE_ASSET_PATH, $http, dfTableEventService, dfTableCallbacksService) {
 
         return {
             restrict: 'E',
@@ -2466,9 +2472,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._saveNewRecord = function () {
 
                    scope._setInProgress(true);
+                    dfTableCallbacksService.run('onCreate', 'pre', scope.newRecord);
                     scope._saveNewRecordToServer().then(
                         function (result) {
-
+                            dfTableCallbacksService.run('onCreate', 'post', result);
                             scope.$emit(scope.es.alertSuccess, {message: 'Record created.'})
                             scope._closeCreateRecord();
                         },
@@ -2728,12 +2735,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     
                     case 'reference':
 
-                        console.log(scope.currentEditRecord);
-
                         if (scope.field.ref_table === scope.table) {
                             scope.templateData.template = 'df-input-ref-text.html';
                             scope.templateData.editable = false;
-                            console.log(scope.currentEditRecord[scope.field.ref_fields])
+                            console.log(scope.currentEditRecord[scope.field])
                             break;
                         }
 
@@ -2888,6 +2893,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 }
 
+
                 elem.append($compile($templateCache.get(scope.templateData.template))(scope));
             }
         }
@@ -2897,5 +2903,60 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
         return {
 
             alertSuccess: 'alert:success'
+        }
+    }])
+    .service('dfTableCallbacksService', [function () {
+
+        var callbacks = {
+            onCreate: {
+                pre: [],
+                post: []
+            },
+            onDelete: {
+                pre: [],
+                post: []
+
+            },
+            onUpdate: {
+                pre: [],
+                post: []
+            }
+        };
+
+
+        return {
+
+            add: function (actionStr, processStr, method) {
+                callbacks[actionStr][processStr].push(method);
+
+            },
+
+            run: function (actionStr, processStr, inputRecord) {
+
+                if (callbacks[actionStr][processStr].length == 0) return false;
+
+                angular.forEach(callbacks[actionStr][processStr], function (value, index) {
+                    value.call(undefined, inputRecord);
+                });
+            },
+
+            reset: function () {
+
+                callbacks = {
+                    onCreate: {
+                        pre: [],
+                        post: []
+                    },
+                    onDelete: {
+                        pre: [],
+                        post: []
+
+                    },
+                    onUpdate: {
+                        pre: [],
+                        post: []
+                    }
+                }
+            }
         }
     }]);

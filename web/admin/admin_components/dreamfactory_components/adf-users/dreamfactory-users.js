@@ -13,6 +13,13 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     templateUrl: MODUSER_ASSET_PATH + 'views/main.html',
                     controller: 'UsersCtrl',
                     resolve: {
+                        getSystemConfigData: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            return $http({
+                                method: "GET",
+                                url: DSP_URL + '/rest/system/config'
+                            })
+                        }],
                         getRolesData: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
@@ -100,7 +107,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
 
     }])
-    .controller('UsersCtrl', ['DSP_URL', '$scope', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', function(DSP_URL, $scope, getUsersData, getRolesData, getAppsData, dfUserManagementEventService){
+    .controller('UsersCtrl', ['DSP_URL', '$scope', 'getSystemConfigData', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', 'userConfigService', function(DSP_URL, $scope, getSystemConfigData, getUsersData, getRolesData, getAppsData, dfUserManagementEventService, userConfigService){
 
         // PRE-PROCESS API
         $scope.__setNullToEmptyString = function (systemConfigDataObj) {
@@ -108,7 +115,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             angular.forEach(systemConfigDataObj, function(value, key) {
 
                 if (systemConfigDataObj[key] == null) {
-
                     systemConfigDataObj[key] = '';
                 }
             });
@@ -125,8 +131,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         $scope.__apps__ = getAppsData;
 
 
+        userConfigService.setConfig(getSystemConfigData.data);
+
         $scope.roles = $scope.__getDataFromResponse($scope.__roles__);
         $scope.apps = $scope.__getDataFromResponse($scope.__apps__);
+
 
 
         $scope.es = dfUserManagementEventService;
@@ -154,9 +163,8 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             });
         };
 
+
         // MESSAGES
-
-
 
 
         $scope.$on($scope.es.alertSuccess, function (e, messageObj) {
@@ -448,7 +456,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             }
         }
     }])
-    .directive('dfConfirmUser', ['DSP_URL', 'MODUSER_ASSET_PATH', '$http', 'dfUserManagementEventService', function(DSP_URL, MODUSER_ASSET_PATH, $http, dfUserManagementEventService) {
+    .directive('dfConfirmUser', ['DSP_URL', 'MODUSER_ASSET_PATH', '$http', 'dfUserManagementEventService', 'dfTableCallbacksService', 'userConfigService', function(DSP_URL, MODUSER_ASSET_PATH, $http, dfUserManagementEventService, dfTableCallbacksService, userConfigService) {
 
         return {
             restrict: 'E',
@@ -456,16 +464,18 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             templateUrl: MODUSER_ASSET_PATH + 'views/df-input-confirm-user.html',
             link: function(scope, elem, attrs) {
 
-
                 scope.es = dfUserManagementEventService;
 
+                scope.inviteUserOnCreate = false;
+
+                scope.systemConfig = userConfigService.getConfig();
 
                 scope.invite = function() {
 
-                    scope._invite();
+                    scope._invite(scope.currentEditRecord.id);
                 };
 
-                scope._sendInvite = function () {
+                scope._sendInvite = function (userId) {
 
                     return  $http({
                         url: DSP_URL + '/rest/system/user',
@@ -474,15 +484,14 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             send_invite: true
                         },
                         data: {
-                            id: scope.currentEditRecord.id
+                            id: userId
                         }
                     })
                 };
 
-                scope._invite = function () {
+                scope._invite = function (userId) {
 
-
-                    scope._sendInvite().then(
+                    scope._sendInvite(userId).then(
                         function(result) {
 
                             scope.$emit(scope.es.alertSuccess, {message: 'Invite sent successfully.'});
@@ -497,7 +506,17 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             }
                         }
                     );
-                }
+                };
+
+                scope._callSendInvite = function (promiseObj) {
+
+                    if (scope.inviteUserOnCreate) {
+                        scope._invite(promiseObj.data.id);
+                    }
+                };
+                
+
+                dfTableCallbacksService.add('onCreate', 'post', scope._callSendInvite);
 
             }
         }
@@ -676,5 +695,22 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             resetUserForm: 'reset:userForm',
             createUserSuccess: 'create:user:success',
             alertSuccess: 'alert:success'
+        }
+    }])
+    .service('userConfigService', [function () {
+
+        var config = null;
+
+        return {
+
+            setConfig: function (configObj) {
+
+                config = configObj;
+            },
+
+            getConfig: function () {
+
+                return config;
+            }
         }
     }]);
