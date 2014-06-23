@@ -344,7 +344,6 @@ angular.module('dfUtility', [])
 
             start: function () {
 
-                console.log('asdfasdf')
                 _startLoadingScreen();
             },
 

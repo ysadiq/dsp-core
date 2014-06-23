@@ -293,7 +293,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             }
         }
     }])
-    .directive('dfExportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', function (MODUSER_ASSET_PATH, DSP_URL) {
+    .directive('dfExportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
 
         return {
 
@@ -303,20 +303,34 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             link: function (scope, elem, attrs) {
 
 
-                scope.exportUsersSrc = null;
+                scope.fileFormatStr = null;
 
                 scope.exportUsers = function(fileFormatStr) {
                     scope._exportUsers(fileFormatStr);
+                };
+
+
+                scope._getFile = function (urlStr) {
+
+                    $http({
+                        method: 'GET',
+                        url: urlStr,
+                        headers: {
+                            "Content-Type": "application/force-download",
+                            "Content-Disposition": "attachment;filename='user." + scope.fileFormatStr + '"'
+                        }
+                    })
                 };
 
                 scope._exportUsers = function (fileFormatStr) {
 
                     if (fileFormatStr === 'csv' || fileFormatStr === 'json' || fileFormatStr === 'xml' ) {
 
+                        scope.fileFormatStr = fileFormatStr;
+
                         var params = 'app_name=admin&file=true&format=' + fileFormatStr;
 
-                        scope.exportUsersSrc = DSP_URL + '/rest/system/user?' + params;
-
+                        scope._getFile(DSP_URL + '/rest/system/user?' + params);
                     }
                 }
             }
@@ -455,7 +469,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     extendSchema: [
                         {
                             name: 'confirmed',
-                            label: 'Confirmed',
+                            label: 'Confirmation',
                             type: 'boolean'
                         },
                         {
@@ -482,7 +496,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             }
         }
     }])
-    .directive('dfCreateUser', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', '$anchorScroll', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, DSP_URL, $http, $anchorScroll, dfUserManagementEventService) {
+   /* .directive('dfCreateUser', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', '$anchorScroll', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, DSP_URL, $http, $anchorScroll, dfUserManagementEventService) {
         return {
             restrict: 'E',
             scope: true,
@@ -602,7 +616,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
             }
         }
-    }])
+    }])*/
     .directive('dfConfirmUser', ['DSP_URL', 'MODUSER_ASSET_PATH', '$http', 'dfUserManagementEventService', 'dfTableCallbacksService', 'userConfigService', function(DSP_URL, MODUSER_ASSET_PATH, $http, dfUserManagementEventService, dfTableCallbacksService, userConfigService) {
 
         return {

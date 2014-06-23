@@ -767,6 +767,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                     });
+
+                    console.log(scope.groupedSchema);
                 };
 
                 scope._checkForGroupedSchema = function (groupNameStr) {
@@ -2960,3 +2962,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             }
         }
     }]);
+
+
+

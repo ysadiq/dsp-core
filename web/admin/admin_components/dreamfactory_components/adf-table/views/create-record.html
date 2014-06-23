@@ -36,8 +36,9 @@
 
                                     <div data-ng-if="newRecord" dreamfactory-build-field data-service="options.service" data-field="field"
                                          data-extend-field-types="extendFieldTypes" data-override-fields="overrideFields" data-active-view="activeView" data-injected-callbacks="injectedCallbacks"
-                                         data-current-edit-record="newRecord" class="form-group col-xs-12"></div>
-                                    <hr data-ng-if="fieldGroup.dividers && !$last" />
+                                         data-current-edit-record="newRecord" class="form-group">
+                                    </div>
+                                    <hr class="df-form-divider" data-ng-if="fieldGroup.dividers && !$last" />
                                 </div>
                             </div>
                         </div>
