@@ -168,13 +168,13 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
             function (response) {
                 editor.setValue(response.script_body, -1);
                 $scope.hasContent = true;
-                $(function(){
-                    new PNotify({
-                        title: $scope.currentScript,
-                        type: 'success',
-                        text: 'Loaded Successfully'
-                    });
-                });
+//                $(function(){
+//                    new PNotify({
+//                        title: $scope.currentScript,
+//                        type: 'success',
+//                        text: 'Loaded Successfully'
+//                    });
+//                });
             },
             function () {
                 $scope.hasContent = false;
