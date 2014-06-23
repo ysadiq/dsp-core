@@ -213,16 +213,15 @@ return array_merge(
         //  If true, event scripts will be ran
         'dsp.enable_event_scripts'      => true,
         //  If true, scripts not distributed by DreamFactory will be allowed
-        'dsp.enable_user_scripts'       => false,
+        'dsp.enable_user_scripts'       => true,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
         // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
-        'dsp.log_all_events'            => false,
+        'dsp.log_all_events'            => true,
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------
         'login.remember_me_copy'        => 'Remember Me',
-
     ),
     $_dspSalts
 );
