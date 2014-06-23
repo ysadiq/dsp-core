@@ -227,7 +227,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                     var extension = fileObj.name.split('.');
 
-                    extension = extension[extension -1];
+                    extension = extension[extension.length -1];
 
                     var value = false;
 
