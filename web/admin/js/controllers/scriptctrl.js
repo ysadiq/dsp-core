@@ -17,9 +17,7 @@
  * limitations under the License.
  */
 var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http, getDataServices) {
-    //delete $httpProvider.defaults.headers.put['Content-Type'];
-   $http.defaults.headers.common['Content-Type'] = 'text/plain';
-   $http.defaults.headers.common['Accept'] = 'text/plain';
+
     Scope = $scope;
     var editor;
     (
@@ -198,7 +196,6 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
     };
     $scope.saveScript = function () {
         //$http.defaults.headers.put['Content-Type'];
-        var script_id = {"script_id": $scope.currentScript};
         var post_body = editor.getValue() || " ";
         $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, {post_body : post_body},{
             headers: {
