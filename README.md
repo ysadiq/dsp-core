@@ -1,14 +1,13 @@
 # dsp-core
 
 ## DreamFactory Services Platform(tm) Core Server v1.5.9
-[![Build Status](http://tc.dreamfactory.com:8111/app/rest/builds/buildType:id:DreamfactoryLibPhpCommonPlatform_Release/statusIcon/)](http://tc.dreamfactory.com:8111/viewType.html?buildTypeId=DreamfactoryLibPhpCommonPlatform_Release&tab=buildTypeStatusDiv&guest=1)
 [![Dependency Status](https://www.versioneye.com/php/dreamfactory:dsp-core/badge.png)](https://www.versioneye.com/php/dreamfactory:dsp-core)
 [![Latest Stable Version](https://poser.pugx.org/dreamfactory/dsp-core/version.png)](https://packagist.org/packages/dreamfactory/dsp-core)
 [![Total Downloads](https://poser.pugx.org/dreamfactory/dsp-core/d/total.png)](https://packagist.org/packages/dreamfactory/dsp-core)
 
-This library contains common components for interacting with the DreamFactory Services Platform&trade;. It is, for all intents and purposes, the PHP SDK; and will be renamed as such, in the future.
+This is the DreamFactory Services Platform&trade; Core Server repository. It contains the core web components necessary to run the system.
 
-Complete documentation is available on our [dedicated site](http://dreamfactorysoftware.github.io/)
+Complete documentation is available on our [documentation site](https://github.com/dreamfactorysoftware/dsp-core/wiki)
 
 ## Feedback and Contributions
 
