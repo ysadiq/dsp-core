@@ -536,7 +536,8 @@ angular.module(
         return $resource(
             '/rest/system/script/:script_id/?app_name=admin', {}, {
                 update: {
-                    method: 'PUT'
+                    method: 'PUT',
+                    headers:{'Content-Type':'text/plain'}
                 },
                 query: {
                     method: 'GET',
