@@ -200,7 +200,7 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
         //$http.defaults.headers.put['Content-Type'];
         var script_id = {"script_id": $scope.currentScript};
         var post_body = editor.getValue() || " ";
-        $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, post_body,{
+        $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, {post_body : post_body},{
             headers: {
                 'Content-Type': 'text/plain'
             }}).then(function(){
