@@ -296,7 +296,7 @@ angular.module('dfUtility', [])
     }])
     .service('dfLoadingScreen', [function () {
 
-        var loadingScreenText = $('<span style="text-align: center; width: 100px; height: 75px;"><h3>Loading &nbsp; </h3><i class="fa fa-cog fa-2x fa-spin"></i></span>');
+        var loadingScreenText = $('<span style="text-align: center; width: 100px; height: 75px;"><h2 style="font-weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
 
         var elem = angular.element('#loading-screen').css({
             'width': 100 + '%',

@@ -18,9 +18,13 @@
  */
 Actions = {
 	/** @type {*} */
-	_config: {},
+	_config:    {},
 	/** @type {*}[] */
-	_apps:   [],
+	_apps:      [],
+	/** @type {jQuery} */
+	$_error:    null,
+	/** @type {jQuery} */
+	$_fsToggle: null,
 
 	//-------------------------------------------------------------------------
 	//	Functions
@@ -30,6 +34,8 @@ Actions = {
 	 * Initialize the component
 	 */
 	init: function() {
+		this.$_error = $('#error-container');
+		this.$_fsToggle = $('#fs_toggle');
 		this.getConfig();
 	},
 
@@ -51,21 +57,25 @@ Actions = {
 				_appToRun = _appToRun.substr(0, _pos);
 			}
 
-			this._apps.forEach(function(app) {
-				if (app.api_name == _appToRun) {
-					if (app.is_sys_admin) {
-						app.requires_fullscreen = false;
+			this._apps.forEach(
+				function(app) {
+					if (app.api_name == _appToRun) {
+						if (app.is_sys_admin) {
+							app.requires_fullscreen = false;
+						}
+						Actions.showApp(
+							app.api_name,
+							app.launch_url,
+							app.is_url_external,
+							app.requires_fullscreen,
+							app.allow_fullscreen_toggle
+						);
+						return false;
 					}
-					Actions.showApp(app.api_name,
-									app.launch_url,
-									app.is_url_external,
-									app.requires_fullscreen,
-									app.allow_fullscreen_toggle);
-					return false;
-				}
 
-				return true;
-			});
+					return true;
+				}
+			);
 		}
 	},
 
@@ -76,26 +86,28 @@ Actions = {
 
 		var that = this;
 
-		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad', {async: false})
-			.done(function(configInfo) {
-					  Config =
-					  that._config =
-					  configInfo;
-					  document.title =
-					  "Launchpad " +
-					  configInfo.dsp_version;
-					  that.updateSession("init");
-					  var data = {
-						  allow_open_registration: Config.allow_open_registration,
-						  allow_guest_user:        Config.allow_guest_user
-					  };
-					  Templates.loadTemplate(Templates.navBarTemplate,
-											 {User: data},
-											 'navbar-container');
-				  })
-			.fail(function(response) {
-					  alertErr(response);
-				  });
+		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad', {async: false}).done(
+			function(configInfo) {
+				Config = that._config = configInfo;
+				document.title = 'LaunchPad ' + configInfo.dsp_version;
+				that.updateSession('init');
+
+				var data = {
+					allow_open_registration: Config.allow_open_registration,
+					allow_guest_user:        Config.allow_guest_user
+				};
+
+				Templates.loadTemplate(
+					Templates.navBarTemplate,
+					{User: data},
+					'navbar-container'
+				);
+			}
+		).fail(
+			function(response) {
+				alertErr(response);
+			}
+		);
 
 		return false;
 	},
@@ -107,60 +119,67 @@ Actions = {
 	getApps: function(data, action) {
 		var _apps = [], _defaultShown = false, $_defaultApps = $('#default_app'), _options;
 
-		$('#error-container').hide().empty();
+		this.$_error.hide().empty();
 		$_defaultApps.empty();
 
 		if (data && data.no_group_apps) {
 			_apps = data.no_group_apps;
 		}
 
-		data.app_groups.forEach(function(group) {
-			group.apps.forEach(function(app) {
-				_apps.push(app);
-			});
-		});
+		data.app_groups.forEach(
+			function(group) {
+				group.apps.forEach(
+					function(app) {
+						_apps.push(app);
+					}
+				);
+			}
+		);
 
 		this._apps = _apps;
 
 		_options = "";
 
-		_apps.forEach(function(app) {
-			if (app.is_default && !data.is_sys_admin) {
-				Actions.showApp(app.api_name,
-								app.launch_url,
-								app.is_url_external,
-								app.requires_fullscreen,
-								app.allow_fullscreen_toggle);
+		_apps.forEach(
+			function(app) {
+				if (app.is_default && !data.is_sys_admin) {
+					Actions.showApp(
+						app.api_name,
+						app.launch_url,
+						app.is_url_external,
+						app.requires_fullscreen,
+						app.allow_fullscreen_toggle
+					);
 
-				//window.defaultApp = app.id;
-				_defaultShown = true;
+					//window.defaultApp = app.id;
+					_defaultShown = true;
 
+				}
+
+				else if (app.is_default && data.is_sys_admin) {
+					app.requires_fullscreen = false;
+
+					Actions.showApp(
+						app.api_name,
+						app.launch_url,
+						app.is_url_external,
+						app.requires_fullscreen,
+						app.allow_fullscreen_toggle
+					);
+
+					//window.defaultApp = app.id;
+					_defaultShown = true;
+
+					$('#adminLink').on(
+						'click', function() {
+							Actions.showAdmin()
+						}
+					);
+				}
+
+				_options += '<option value="' + app.id + '">' + app.name + '</option>';
 			}
-
-			else if (app.is_default && data.is_sys_admin) {
-				app.requires_fullscreen = false;
-
-				Actions.showApp(app.api_name,
-								app.launch_url,
-								app.is_url_external,
-								app.requires_fullscreen,
-								app.allow_fullscreen_toggle);
-
-				//window.defaultApp = app.id;
-				_defaultShown = true;
-
-				$('#adminLink').on('click', function() {
-					Actions.showAdmin()
-				});
-
-				$('#adminLink').on('click', function() {
-					Actions.showAdmin()
-				});
-
-			}
-
-			_options += '<option value="' + app.id + '">' + app.name + '</option>';
-		});
+		);
 
 		$_defaultApps.append(_options + '<option value>None</option>');
 
@@ -170,146 +189,123 @@ Actions = {
 
 		if (data.is_sys_admin && _defaultShown) {
 			return;
-		} else if (data.is_sys_admin && !_defaultShown) {
+		}
+
+		if (data.is_sys_admin && !_defaultShown) {
 			this.showApp('admin', '/admin/#/', '0', false);
 			$('#adminLink').off('click');
-			$('#fs_toggle').off('click');
-		} else if (data.app_groups.length ==
-				   1 &&
-				   data.app_groups[0].apps.length ==
-				   1 &&
-				   data.no_group_apps.length ==
-				   0) {
+			this.$_fsToggle.off('click');
+		} else if (1 == data.app_groups.length && 1 == data.app_groups[0].apps.length && !data.no_group_apps.length) {
 			$('#app-list-container').hide();
-			this.showApp(data.app_groups[0].apps[0].api_name,
-						 data.app_groups[0].apps[0].launch_url,
-						 data.app_groups[0].apps[0].is_url_external,
-						 data.app_groups[0].apps[0].requires_fullscreen,
-						 data.app_groups[0].apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 1) {
+			this.showApp(
+				data.app_groups[0].apps[0].api_name,
+				data.app_groups[0].apps[0].launch_url,
+				data.app_groups[0].apps[0].is_url_external,
+				data.app_groups[0].apps[0].requires_fullscreen,
+				data.app_groups[0].apps[0].allow_fullscreen_toggle
+			);
+		} else if (!data.app_groups.length && data.no_group_apps.length) {
 			$('#app-list-container').hide();
-			this.showApp(data.no_group_apps[0].api_name,
-						 data.no_group_apps[0].launch_url,
-						 data.no_group_apps[0].is_url_external,
-						 data.no_group_apps[0].requires_fullscreen,
-						 data.no_group_apps[0].allow_fullscreen_toggle);
-		} else if (data.app_groups.length == 0 && data.no_group_apps.length == 0) {
-			$('#error-container').html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
+			this.showApp(
+				data.no_group_apps[0].api_name,
+				data.no_group_apps[0].launch_url,
+				data.no_group_apps[0].is_url_external,
+				data.no_group_apps[0].requires_fullscreen,
+				data.no_group_apps[0].allow_fullscreen_toggle
+			);
+		} else if (!data.app_groups.length && !data.no_group_apps.length) {
+			this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
 		} else {
 			Actions.showAppList();
 		}
 	},
 
 	showApp: function(name, url, type, fullscreen, allowfullscreentoggle) {
-		$('#fs_toggle').addClass('disabled');
+		this.$_fsToggle.addClass('disabled');
 		$('#app-list-container').hide();
 		$('#apps-list-btn').removeClass('disabled');
 		$('iframe').hide();
 
-		// Show the admin if your an admin
-		if (name == "admin") {
-			if ($('#admin').length > 0) {
-				$('#adminLink').addClass('disabled');
+		//	Show the admin if your an admin
+		if ('admin' == name) {
+			var $_admin = $('#admin');
 
-				// This reloads the admin app
-				// Did this because when we just $.show(see commented out line below)
-				// Angular hasn't populated the DOM because it's fallen out of scope
-				// I think
-				$('#admin').replaceWith($('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name',
-																										 name).attr('class',
-																													'app-loader').attr('src',
-																																	   CurrentServer +
-																																	   url).appendTo('#app-container'));
-				//$('#admin').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class', 'app-loader').attr('src', CurrentServer + url).show();
-			} else {
-				$('#adminLink').addClass('disabled');
-				$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('name', name).attr('class',
-																									'app-loader').attr('src',
-																													   CurrentServer +
-																													   url).appendTo('#app-container');
+			var $_adminApp = this.buildAppFrame(name, CurrentServer + url);
+
+			if ($_admin.length) {
+				$_admin.replaceWith($_adminApp);
 			}
+
+			$('#adminLink').addClass('disabled');
 			return;
 		}
 
-		// check if there is an element with this id
-		if ($("#" + name).length > 0) {
+		$('#adminLink').removeClass('disabled');
 
+		var $_app = $('#' + name);
 
-			//check if that element requires fullscreen
-			if (fullscreen) {
-				//Actions.toggleFullScreen(true);
+		//	Check if there is an element with this id
+		if (!$_app.length) {
+			var _url = replaceParams(url, name);
+			$_app.appendTo(this.buildAppFrame(name, url));
+		}
 
-				// It does require fullscreen.
-				// Set app-container to full screen
-				// No other app should be run
-				this.requireFullScreen();
-			}
+		//check if that element requires fullscreen
+		if (fullscreen) {
+			this.requireFullScreen();
+		}
 
-			// Show the app
-
-			if (!allowfullscreentoggle) {
-				$('#fs_toggle').off('click', function() {
-					Actions.toggleFullScreen(false);
-				});
-			} else if (allowfullscreentoggle) {
-				$('#fs_toggle').removeClass('disabled');
-				$('#fs_toggle').on('click', function() {
+		// Show the app
+		if (allowfullscreentoggle) {
+			this.$_fsToggle.on(
+				'click', function() {
 					Actions.toggleFullScreen(true);
-				});
-
-			}
-
-			$("#" + name).show();
-
-			return;
-		}
-
-		url = replaceParams(url, name);
-
-		$('<iframe>').attr('seamless', 'seamless').attr('id', name).attr('class', 'app-loader').attr('src',
-																									 url).appendTo('#app-container');
-
-		/*
-		 if(fullscreen && name != "admin"){
-		 this.toggleFullScreen(true);
-		 }
-		 */
-
-		// Check if the name is admin
-		if (name != 'admin') {
-			//$('#fs_toggle').show();
-
-			// Check if the app requires fullscreen
-			if (fullscreen) {
-
-				// It does so fire it up in fullscreen mode
-				Actions.requireFullScreen();
-			} else {
-				if (!allowfullscreentoggle) {
-					$('#fs_toggle').off('click', function() {
-						Actions.toggleFullScreen(false);
-					});
-				} else if (allowfullscreentoggle) {
-					$('#fs_toggle').removeClass('disabled');
-					$('#fs_toggle').on('click', function() {
-						Actions.toggleFullScreen(true);
-					});
-
 				}
-
-				$('#adminLink').removeClass('disabled');
-
-			}
+			).removeClass('disabled');
+		} else {
+			this.$_fsToggle.off(
+				'click', function() {
+					Actions.toggleFullScreen(false);
+				}
+			).addClass('disabled');
 		}
 
+		$_app.show();
+	},
+
+	/**
+	 * Builds a standard iframe
+	 * @param {string} name
+	 * @param {string} url
+	 * @param {boolean} [doNotAppend]
+	 * @returns {*|jQuery|HTMLElement}
+	 */
+	buildAppFrame: function(name, url, doNotAppend) {
+		var $_frame = $(
+			'<iframe seamless="seamless" id="' +
+			name +
+			'" name="' +
+			name +
+			'" class="app-loader" src="' +
+			url +
+			'"></iframe>'
+		);
+
+		if (!doNotAppend) {
+			$_frame.appendTo('#app-container');
+		}
+
+		return $_frame;
 	},
 
 	animateNavBarClose: function(callback) {
 
 		var navbarH = $('#main-nav').height();
-		$('#main-nav').animate({
-								   height: 0
-							   }).removeClass('in');
+		$('#main-nav').animate(
+			{
+				height: 0
+			}
+		).removeClass('in');
 
 		if (typeof callback == 'function') {
 			callback.call(this);
@@ -318,12 +314,14 @@ Actions = {
 
 	showAppList: function() {
 
-		$('#adminLink').on('click', function() {
-			Actions.showAdmin()
-		});
+		$('#adminLink').on(
+			'click', function() {
+				Actions.showAdmin()
+			}
+		);
 		$('#adminLink').removeClass('disabled');
-		$('#fs_toggle').off('click');
-		$('#fs_toggle').addClass('disabled');
+		this.$_fsToggle.off('click');
+		this.$_fsToggle.addClass('disabled');
 		$('app-container').css({"z-index": 1});
 		$('#app-list-container').show();
 		$('#app-list-container').css({"z-index": 998});
@@ -334,14 +332,16 @@ Actions = {
 	showAdmin:   function() {
 
 		$('#adminLink').off('click');
-		$('#fs_toggle').off('click');
+		this.$_fsToggle.off('click');
 
 		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
 
-		this.animateNavBarClose(function() {
-			this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
+		this.animateNavBarClose(
+			function() {
+				this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
 
-		});
+			}
+		);
 
 	},
 
@@ -365,18 +365,22 @@ Actions = {
 
 			var no_url_apps = [];
 
-			$.each(apps.apps, function(k, v) {
-				if (v.launch_url === '') {
-					no_url_apps.push(k);
+			$.each(
+				apps.apps, function(k, v) {
+					if (v.launch_url === '') {
+						no_url_apps.push(k);
 
+					}
 				}
-			});
+			);
 
 			no_url_apps.reverse();
 
-			$.each(no_url_apps, function(k, v) {
-				apps.apps.splice(v, 1);
-			});
+			$.each(
+				no_url_apps, function(k, v) {
+					apps.apps.splice(v, 1);
+				}
+			);
 
 			// push this new app object onto our array
 			sessionInfo.mnm_ng_apps.push(apps);
@@ -391,168 +395,65 @@ Actions = {
 
 	updateSession: function(action) {
 		var that = this;
-		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad', {async: false}).done(function(sessionInfo) {
-			//$.data(document.body, 'session', data);
-			//var sessionInfo = $.data(document.body, 'session');
-			CurrentSession = sessionInfo;
-			Actions.appGrouper(sessionInfo);
+		$.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad', {async: false}).done(
+			function(sessionInfo) {
+				//$.data(document.body, 'session', data);
+				//var sessionInfo = $.data(document.body, 'session');
+				CurrentSession = sessionInfo;
+				Actions.appGrouper(sessionInfo);
 
-			CurrentUserID = sessionInfo.id;
-			if (CurrentUserID) {
-				sessionInfo.activeSession = true;
-			}
-			sessionInfo.allow_open_registration = Config.allow_open_registration;
-			sessionInfo.allow_guest_user = Config.allow_guest_user;
-
-			Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
-			Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
-
-			if (sessionInfo.is_sys_admin) {
-				$('#adminLink').addClass('disabled');
-				$('#fs_toggle').addClass('disabled');
-				$('#apps-list-btn').removeClass('disabled');
-				$('#fs_toggle').off('click');
-			}
-
-			if (action == "init") {
-				that.getApps(sessionInfo, action);
-				that.autoRunApp();
-			}
-		}).fail(function(response) {
-			if (response.status == 401 || response.status == 403) {
-				var data = {
-					allow_open_registration: Config.allow_open_registration,
-					allow_guest_user:        Config.allow_guest_user
-				};
-				Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-				that.doSignInDialog();
-			} else if (response.status == 500) {
-				that.showStatus(response.statusText, "error");
-			}
-		});
-	},
-
-//*************************************************************************
-//* Login
-//*************************************************************************
-
-	clearSignIn: function() {
-		var $_dlg = $('#loginDialog');
-		var $_providers = $('.remote-login-providers', $_dlg);
-
-		$('input', $_dlg).val('');
-
-		if (Config.allow_remote_logins && Config.remote_login_providers) {
-			$_providers.empty();
-
-			Config.remote_login_providers.forEach(function(provider) {
-				if ('1' == provider.is_active) {
-
-					var _icon = provider.api_name.toLowerCase();
-
-					if ('google' == _icon) {
-						_icon = 'google-plus';
-					}
-
-					$_providers.append('<i class="icon-' +
-									   _icon +
-									   ' icon-3x" data-provider="' +
-									   provider.api_name +
-									   '"></i>');
+				CurrentUserID = sessionInfo.id;
+				if (CurrentUserID) {
+					sessionInfo.activeSession = true;
 				}
-			});
+				sessionInfo.allow_open_registration = Config.allow_open_registration;
+				sessionInfo.allow_guest_user = Config.allow_guest_user;
 
-			$('.remote-login', $_dlg).show();
-		} else {
-			$('.remote-login', $_dlg).hide();
-		}
+				Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
+				Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
+
+				if (sessionInfo.is_sys_admin) {
+					$('#adminLink').addClass('disabled');
+					that.$_fsToggle.addClass('disabled');
+					$('#apps-list-btn').removeClass('disabled');
+					that.$_fsToggle.off('click');
+				}
+
+				if (action == "init") {
+					that.getApps(sessionInfo, action);
+					that.autoRunApp();
+				}
+			}
+		).fail(
+			function(response) {
+				if (response.status == 401 || response.status == 403) {
+					var data = {
+						allow_open_registration: Config.allow_open_registration,
+						allow_guest_user:        Config.allow_guest_user
+					};
+					Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+					that.doSignInDialog();
+				} else if (response.status == 500) {
+					that.showStatus(response.statusText, "error");
+				}
+			}
+		);
 	},
 
-	hideSignIn: function() {
-		$('#loginDialog').modal('hide').off().on('hidden', function() {
-			Actions.clearSignIn();
-		});
-	},
+	//*************************************************************************
+	//* Login
+	//*************************************************************************
 
 	doSignInDialog: function(stay) {
 		window.top.location = '/web/login?redirected=1';
-
-//		var _message = $.QueryString('error');
-//
-//		if (_message) {
-//			_message = decodeURIComponent(_message.replace(/\+/g, '%20'));
-//		}
-//		else {
-//			_message =
-//				( stay ? 'Your Session has expired. Please log in to continue' : 'Please enter your User Email and Password below to sign in.' );
-//		}
-//
-//		window.Stay = false;
-//		$('#loginErrorMessage').removeClass('alert-error').empty().html(_message);
-//		this.clearSignIn();
-//
-//		if (stay) {
-//			$("#loginDialog").modal('show').on('shown', function() {
-//				$('#UserEmail').focus();
-//			});
-//			window.Stay = true;
-//		}
-//		else {
-//			$("#loginDialog").modal('show').on('shown', function() {
-//				$('#UserEmail').focus();
-//			});
-//			window.Stay = false;
-//		}
 	},
 
-	/**
-	 *
-	 * @param elem
-	 * @param message
-	 */
-	displayModalError: function(elem, message) {
-		if (message) {
-			$("#loading").hide();
-			$(elem).addClass('alert-error').html(message);
-//			$(elem).addClass('alert-error').append('<p><i style="vertical-align: middle; padding-right: 8px;" class="icon-exclamation-sign icon-2x"></i>' + message + '</p>');
-		} else {
-			$(elem).empty().removeClass('alert-error');
-		}
-	},
-
-//*************************************************************************
-//* Profile
-//*************************************************************************
-
-	clearProfile: function() {
-
-		$("#email").val('');
-		$("#firstname").val('');
-		$("#lastname").val('');
-		$("#displayname").val('');
-		$("#phone").val('');
-		$("#security_question").val('');
-		$("#security_answer").val('');
-	},
+	//*************************************************************************
+	//* Profile
+	//*************************************************************************
 
 	doProfileDialog: function() {
 		window.top.location.href = '/web/profile';
-	},
-
-	fillProfileForm: function() {
-
-		$("#email").val(Profile.email);
-		$("#firstname").val(Profile.first_name);
-		$("#lastname").val(Profile.last_name);
-		$("#displayname").val(Profile.display_name);
-		$("#phone").val(Profile.phone);
-		$("#default_app").val(Profile.default_app_id);
-		if (Profile.security_question) {
-			$("#security_question").val(Profile.security_question);
-		} else {
-			$("#security_question").val('');
-		}
-		$("#security_answer").val('');
 	},
 
 	//*************************************************************************
@@ -566,70 +467,67 @@ Actions = {
 	//*************************************************************************
 	//* Logout Functions
 	//*************************************************************************
-	doSignOutDialog:        function() {
+
+	doSignOutDialog: function() {
 		$("#logoffDialog").modal('show');
 	},
 
-	signOut:           function() {
+	signOut: function() {
 		var that = this;
-		$.ajax({
-				   dataType: 'json',
-				   type:     'POST',
-				   url: CurrentServer + '/rest/user/session/?app_name=launchpad&method=DELETE',
-				   cache:    false,
-				   success:  function(response) {
-					   $('#app-container').empty();
-					   $('#app-list-container').empty();
-					   $("#logoffDialog").modal('hide');
-					   that.updateSession("init");
-				   },
-				   error:    function(response) {
-					   if (response.status == 401) {
-						   //that.showSignInButton();
-						   var data = {
-							   allow_open_registration: Config.allow_open_registration,
-							   allow_guest_user:        Config.allow_guest_user
-						   };
-						   Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-						   that.doSignInDialog();
-					   }
-				   }
-			   });
-	},
-	showSignInButton:  function() {
+		$.ajax(
+			{
+				dataType: 'json',
+				type:     'POST',
+				url: CurrentServer + '/rest/user/session/?app_name=launchpad&method=DELETE',
+				cache:    false,
+				async:    false,
+				success:  function(response) {
+					$('#app-container, #app-list-container').empty();
+					$('#logoffDialog').modal('hide');
 
-		$("#dfControl1").html('<a class="btn btn-primary" onclick="this.doSignInDialog()"><li class="icon-signin"></li>&nbsp;Sign In</a> ');
-		if (Config.allow_open_registration) {
-			$("#dfControl1").append('<a class="btn btn-primary" onclick="this.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a> ');
-		}
+					that.updateSession('init');
+				},
+				error:    function(response) {
+					if (401 == response.status) {
+//						var data = {
+//							allow_open_registration: Config.allow_open_registration,
+//							allow_guest_user:        Config.allow_guest_user
+//						};
+//
+//						Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
+						that.doSignInDialog();
+					}
+				}
+			}
+		);
 	},
-	showStatus:        function(message, type) {
-		if (type == "error") {
-			$('#error-container').html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
+
+	showStatus: function(message, type) {
+		if ('error' == type) {
+			this.$_error.html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
 		} else {
-			$('#error-container').html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
+			this.$_error.html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
 		}
 	},
-	toggleFullScreen:  function(toggle) {
-		if (toggle) {
 
-			Actions.animateNavBarClose(function() {
-				$('#app-container').css({"top": "0px", "z-index": 998});
-				$('#navbar-container').css({
-											   "z-index": 10
-										   });
-				$('#rocket').show();
-			});
+	toggleFullScreen: function(toggle) {
+		if (toggle) {
+			this.animateNavBarClose(
+				function() {
+					$('#app-container').css({"top": "0px", "z-index": 998});
+					$('#navbar-container').css({"z-index": 10});
+					$('#rocket').show();
+				}
+			);
 
 		} else {
 			$('#app-container').css({"top": "44px", "z-index": 997});
-			$('#navbar-container').css({
-										   "z-index": 999
-									   })
-			$('#fs_toggle').removeClass('disabled');
+			$('#navbar-container').css({"z-index": 999});
+			this.$_fsToggle.removeClass('disabled');
 			$('#rocket').hide();
 		}
 	},
+
 	requireFullScreen: function() {
 		$('#app-container').css({"top": "0px", "z-index": 998});
 	}
@@ -638,12 +536,16 @@ Actions = {
 /**
  * DocReady
  */
-jQuery(function($) {
-	var $_body = $('body');
+jQuery(
+	function($) {
+		var $_body = $('body');
 
-	$_body.on('touchstart.dropdown', '.dropdown-menu', function(e) {
-		e.stopPropagation();
-	});
-});
+		$_body.on(
+			'touchstart.dropdown', '.dropdown-menu', function(e) {
+				e.stopPropagation();
+			}
+		);
+	}
+);
 
 Actions.init();
