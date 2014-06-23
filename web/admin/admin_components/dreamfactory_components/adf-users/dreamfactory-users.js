@@ -312,13 +312,9 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 scope._getFile = function (urlStr) {
 
-                    $http({
+                    return $http({
                         method: 'GET',
-                        url: urlStr,
-                        headers: {
-                            "Content-Type": "application/force-download",
-                            "Content-Disposition": "attachment;filename='user." + scope.fileFormatStr + '"'
-                        }
+                        url: urlStr
                     })
                 };
 
@@ -328,9 +324,23 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                         scope.fileFormatStr = fileFormatStr;
 
-                        var params = 'app_name=admin&file=true&format=' + fileFormatStr;
+                        var params = 'app_name=admin&file=user.' + scope.fileFormatStr + '&format=' + fileFormatStr;
 
-                        scope._getFile(DSP_URL + '/rest/system/user?' + params);
+                        scope._getFile(DSP_URL + '/rest/system/user?' + params).then(
+                            function () {
+
+
+                            },
+                            function () {
+
+                                throw {
+                                    module: 'DreamFactory User Management Module',
+                                    type: 'error',
+                                    provider: 'dreamfactory',
+                                    exception: error
+                                }
+                            }
+                        )
                     }
                 }
             }
