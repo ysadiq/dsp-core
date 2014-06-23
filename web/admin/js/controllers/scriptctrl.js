@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices) {
+var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http, getDataServices) {
+
     Scope = $scope;
     var editor;
     (
@@ -48,6 +49,11 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
             $scope.buildEventList = function () {
                 Event.get({"all_events": "true"}).$promise.then(
                     function (response) {
+
+
+                        // Stop loading screen
+                        dfLoadingScreen.stop();
+
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
                             event.paths.forEach(function (path) {
@@ -133,7 +139,7 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
 
     $scope.loadSamples = function () {
 
-        $http.defaults.headers.common['Accept'] = 'text/plain';
+
         $http({
             method: 'GET',
             url: 'js/example.scripts.js',
@@ -189,21 +195,33 @@ var ScriptCtrl = function ($scope, Event, Script, Config, $http, getDataServices
 
     };
     $scope.saveScript = function () {
-        var script_id = {"script_id": $scope.currentScript};
+        //$http.defaults.headers.put['Content-Type'];
         var post_body = editor.getValue() || " ";
-
-        Script.update(script_id, post_body).$promise.then(
-            function (response) {
-                $(function(){
-                    new PNotify({
-                        title: $scope.currentScript,
-                        type: 'success',
-                        text: 'Saved Successfully'
-                    });
+        $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, {post_body : post_body},{
+            headers: {
+                'Content-Type': 'text/plain'
+            }}).then(function(){
+            $(function(){
+                new PNotify({
+                    title: $scope.currentScript,
+                    type: 'success',
+                    text: 'Saved Successfully'
                 });
-                $scope.hasContent = true;
-            }
-        );
+            });
+            $scope.hasContent = true;
+        })
+//        Script.update(script_id, post_body).$promise.then(
+//            function (response) {
+//                $(function(){
+//                    new PNotify({
+//                        title: $scope.currentScript,
+//                        type: 'success',
+//                        text: 'Saved Successfully'
+//                    });
+//                });
+//                $scope.hasContent = true;
+//            }
+//        );
 
     };
     $scope.deleteScript = function () {

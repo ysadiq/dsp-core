@@ -19,7 +19,7 @@
 /**
  * To change this template use File | Settings | File Templates.
  */
-var GroupCtrl = function( $scope, Group, App, $timeout ) {
+var GroupCtrl = function(dfLoadingScreen, $scope, Group, App, $timeout ) {
 
 
     // Used to let us know when the Services are loaded
@@ -72,7 +72,17 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 		}
 	);
 	$scope.group = {apps: []};
-	$scope.Groups = Group.get({}, function () {$scope.groupsLoaded = true});
+	$scope.Groups = Group.get({}, function () {
+
+
+        $scope.groupsLoaded = true;
+
+        // Stop loading screen
+        dfLoadingScreen.stop()
+
+    });
+
+
 	$scope.Apps = App.get();
 	$scope.action = "Create";
 	$( '.update_button' ).hide();

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ServiceCtrl = function( $scope, Service, $rootScope ) {
+var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
 
     // Used to let us know when the Services are loaded
     $scope.servicesLoaded = false;
@@ -202,7 +202,14 @@ var ServiceCtrl = function( $scope, Service, $rootScope ) {
 	{data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, enableCellEditOnFocus: true, enableRowSelection: false, displaySelectionCheckbox: false};
 
 	Scope.service = {};
-	Scope.Services = Service.get({},function() {$scope.servicesLoaded = true});
+	Scope.Services = Service.get({},function() {
+
+        $scope.servicesLoaded = true;
+
+        // Stop loading screen
+        dfLoadingScreen.stop();
+
+        });
 	Scope.action = "Create";
 	Scope.emailOptions = [
 		{name: "Server Default"},

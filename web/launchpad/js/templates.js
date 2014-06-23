@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 var Templates = {
-	thumbPanel:     "<h1>{{name}}</h1><br/>{{desc}}",
+	thumbPanel:   "<h1>{{name}}</h1><br/>{{desc}}",
 	alertMessage: '<div class="alert">' +
 				  '<a class="close" data-dismiss="alert">x</a>' +
 				  '{{message}}' +
@@ -101,15 +101,53 @@ var Templates = {
 					 '</div>' +
 					 '{{/Applications.mnm_ng_apps}}' +
 					 '</div>',
-	errorTemplate: '{{#error}}' +
-				   '<div class="alert alert-dismissable">' +
-				   '	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
-				   '	<strong>{{message}}</strong>' +
-				   '</div>' +
-				   '{{/error}}',
-	loadTemplate:   function(template, data, renderTo) {
+	navBarTemplate: '<div class="navbar navbar-inverse">' +
+					'<div class="container-fluid df-navbar">' +
+					'<div class="navbar-spacer">' +
+					'<div class="pull-left df-logo"><a href="/"><img src="/img/logo-navbar-194x42.png"></a></div>' +
+					'<a class="btn btn-navbar pull-right" data-toggle="collapse" data-target="#main-nav">' +
+					'<span class="icon-bar"></span>' +
+					'<span class="icon-bar"></span>' +
+					'<span class="icon-bar"></span>' +
+					'</a>' +
+					'</div>' +
+					'<div id="error-container" class="alert alert-error center"></div>' +
+					'<!-- Everything you want hidden at 940px or less, place within here -->' +
+					'<div id="main-nav" class="nav-collapse collapse pull-right">' +
+					'<!-- .nav, .navbar-search, .navbar-form, etc -->' +
+					'{{#User.activeSession}}' +
+					'<a id="apps-list-btn" onclick="Actions.showAppList()" class="btn btn-inverse btn-launch btn-stack disabled" title="Show Apps"><i class="icon-list"></i></a>' +
+					'<a onclick="Actions.doProfileDialog()" id="dfProfileLnk" class="btn btn-inverse btn-launch btn-stack" title="Change Your Profile"><i class="icon-user"></i></a>' +
+					'<a id="dfPasswordLnk" onclick="Actions.doChangePasswordDialog()" class="btn btn-inverse btn-launch btn-stack" title="Change Your Password"><i class="icon-key"></i></a>' +
+					'<a id="fs_toggle" class="btn btn-inverse btn-launch btn-stack" title="Full Screen" ><i class="icon-resize-full"></i></a>' +
+					'{{#User.is_sys_admin}}' +
+					'<a id="adminLink" class="btn btn-inverse btn-launch btn-stack" title="Admin Console"><i class="icon-cog"></i></a>' +
+					'{{/User.is_sys_admin}}' +
+					'<a id="helpLink" target="df-new" class="btn btn-inverse btn-launch btn-stack" href="http://www.dreamfactory.com/developers" title="Help"><i class="icon-question-sign"></i></a>' +
+					'<a id="dfSignOutLink" onclick="Actions.doSignOutDialog()" class="btn btn-inverse btn-launch btn-stack" title="End Your Session Now"><i class="icon-signout"></i></a>' +
+					'{{/User.activeSession}}' +
+					'{{^User.activeSession}}' +
+					'{{#User.allow_guest_user}}' +
+					'<a id="apps-list-btn" onclick="Actions.showAppList()" class="btn btn-inverse btn-launch btn-stack disabled" title="Show Apps"><i class="icon-list"></i></a>' +
+					'<a id="fs_toggle" class="btn btn-inverse btn-launch btn-stack" title="Full Screen" ><i class="icon-resize-full"></i></a>' +
+					'{{/User.allow_guest_user}}' +
+					'<a id="helpLink" target="df-new" class="btn btn-inverse btn-launch btn-stack" href="http://www.dreamfactory.com/developers" title="Help"><i class="icon-question-sign"></i></a>' +
+					' <a class="btn btn-inverse btn-launch btn-stack btn-signin" onclick="Actions.doSignInDialog()"><li class="icon-signin"></li>&nbsp;Sign In</a>' +
+					'{{#User.allow_open_registration}}' +
+					'<a class="btn btn-inverse btn-launch btn-stack btn-signin" onclick="Actions.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a>' +
+					'{{/User.allow_open_registration}}' +
+					'{{/User.activeSession}}' +
+					'</div>' +
+					'</div>' +
+					'</div>',
+	errorTemplate: '{{#error}}<div class="alert">' +
+				   '<button type="button" class="close" data-dismiss="alert">x</button>' +
+				   '<strong>{{message}}</strong>' +
+				   '</div>{{/error}}',
+	loadTemplate: function(template, data, renderTo) {
 		var processTpl;
 		processTpl = Mustache.to_html(template, data);
 		$('#' + renderTo).html(processTpl);
+
 	}
 };

@@ -42,7 +42,7 @@
     <li data-ng-class="activeTab === (schema.name + '-table') ? 'active' : '' "><a
             data-ng-click="setTab(schema.name +'-table')">{{schema.plural}}</a></li>
     <li data-ng-class="activeTab === (schema.name + '-config') ? 'active' : '' "><a
-            data-ng-click="setTab(schema.name + '-config')">Config</a></li>
+            data-ng-click="setTab(schema.name + '-config')">Fields</a></li>
 </ul>
 
 <div class="tab-content" resize>
@@ -216,7 +216,7 @@
                             <th class="df-th-cell" data-ng-class="order.orderBy === field.name ? 'df-th-selected' : ''"
                                 data-ng-click="orderOnSelect(field)"
                                 data-ng-repeat="field in schema.field | orderAndShowSchema: tableFields ">
-                                <span class="df-th-text">{{field.label}}</span>
+                                <span class="df-th-text" >{{field.label}}</span>
                                 <i data-ng-if="order.orderBy === field.name" class="fa"
                                    data-ng-class="order.orderBy === field.name && order.orderByReverse ? 'fa-caret-down' : 'fa-caret-up'"></i>
                             </th>
@@ -236,7 +236,8 @@
                             </td>
                             <td data-ng-repeat="value in obj | orderAndShowValue : tableFields track by $index"
                                 data-ng-click="toggleSelected(obj)"
-                                data-ng-class="obj.__dfUI.selected ? 'bg-danger' : '' || obj.__dfUI.unsaved ? 'bg-warning' : '' || obj.__dfUI.export ? 'bg-info' : ''">
+                                data-ng-class="obj.__dfUI.selected ? 'bg-danger' : '' || obj.__dfUI.unsaved ? 'bg-warning' : '' || obj.__dfUI.export ? 'bg-info' : ''"
+                                >
                                 {{value}}
                             </td>
                         </tr>

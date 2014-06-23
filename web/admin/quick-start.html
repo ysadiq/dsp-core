@@ -1,65 +1,81 @@
-<div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="navbar navbar-default">
-                <span style="display: inline" class="navbar-brand">Quick Start</span>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="navbar navbar-default">
+			<span style="display: inline" class="navbar-brand">Quick Start</span>
 
-            </div>
-        </div>
-    </div>
-
-
-
+		</div>
+	</div>
+</div>
 
 <div class="panel panel-default" ng-show="step == 1">
 	<div class="panel-heading">
 		<h4 class="panel-title">Step 1</h4>
 	</div>
-	<div class="panel-body">
 
+	<div class="panel-body">
 		<p class="lead">Welcome to the DreamFactory Admin Console!</p>
 
 		<p>This console is designed to allow you to create and manage nearly all of the back-end services of your project. You can create new applications, manage users, assign roles, create schemas, and/or connect to external services. You are then free to build a front-end, or client, application that utilizes those services. If you're ready, let's get started!</p>
-		<br />
 
-		<p class="lead">Choose an Application ID</p>
+		<form id="qs-1" role="form">
+			<div class="form-group has-feedback">
+				<p class="lead">Choose an Application ID</p>
 
-		<p>The first thing you must do before writing your application's code is to assign it an application ID. This ID will also serve as your
-			<strong>API key</strong> when making API calls to your DSP&trade;. You can fill in the description and a more user-friendly name later. But for now, you must pick a name that contains only the letters A-Z, numbers 0-9, underscores, and dashes. Periods and other characters are not allowed. The reason for this is because this moniker will be used as part of your REST API call's URL. Therefore it must adhere to valid URL conventions.
-		</p>
+				<p>The first thing you must do before writing your application's code is to assign it an application ID. This ID will also serve as your
+					<strong>API key</strong> when making API calls to your DSP&trade;. You can fill in the description and a more user-friendly name later. But for now, you must pick a name that contains only the letters A-Z, numbers 0-9, underscores, and dashes. Periods and other characters are not allowed. The reason for this is because this moniker will be used as part of your REST API call's URL. Therefore it must adhere to valid URL conventions.
+				</p>
 
-		<div class="col-xs-3">
-			<input type="text" class="form-control col-sm-5" data-ng-model="app.api_name" placeholder="Your Application ID">
-		</div>
+				<div class="col-xs-4" style="padding-left: 0;">
+					<input type="text"
+						name="app_api_name"
+						class="form-control validApiName unusedApiName required"
+						data-ng-model="app.api_name"
+						placeholder="Your Application ID">
+					<span class="ajax-toggle form-control-feedback hidden"><i class="fa fa-spinner fa-spin"></i></span>
+				</div>
+			</div>
 
-		<div class="form-group" style="clear: both;padding-top: 15px;">
-			<p class="lead">Application Type</p>
+			<div class="form-group" style="clear: both; padding-top: 15px;">
+				<p class="lead">Application Type</p>
 
-			<p>The next step is to let the system know what <strong>type</strong> of application you're building.</p>
+				<p>The next step is to let the system know what <strong>type</strong> of application you're building.
+				</p>
 
-			<p>Currently you can build applications that are web-based or for native mobile devices. Web-based applications typically run in a browser and use (but are not limited to) HTML5 and Javascript. Native applications, on the other hand, are compiled packages that run directly on the target mobile device.</p>
+				<p>Currently you can build applications that are web-based or for native mobile devices. Web-based applications typically run in a browser and use (but are not limited to) HTML5 and Javascript. Native applications, on the other hand, are compiled packages that run directly on the target mobile device.</p>
 
-			<div class="col-xs-6">
 				<div class="radio">
 					<label>
-						<input type="radio" name="app-type" id="app-type-web" value="0" data-ng-model="app.native" checked="checked">
-						Web-Based <i class="fa fa-html5" title="HTML5"></i><i class="fa fa-css3" title="CSS3"></i><i class="fa fa-file-text"
+						<input type="radio"
+							name="app_type"
+							id="app-type-web"
+							value="0"
+							data-ng-model="app.native"
+							checked="checked">
+						Web-Based <i class="fa fa-html5" title="HTML5"></i><i class="fa fa-css3" title="CSS3"></i><i
+						class="fa fa-file-text"
 						title="Javascript"></i>
 					</label>
 				</div>
 
 				<div class="radio">
 					<label>
-						<input type="radio" name="app-type" id="app-type-native" value="1" data-ng-model="app.native">
-						Native <i class="fa fa-android" title="Android SDK"></i> <i class="fa fa-apple" title="Apple iOS"></i>
+						<input type="radio"
+							name="app_type"
+							id="app-type-native"
+							value="1"
+							data-ng-model="app.native">
+						Native <i class="fa fa-android" title="Android SDK"></i> <i class="fa fa-apple"
+						title="Apple iOS"></i>
 					</label>
 				</div>
 			</div>
-		</div>
 
-		<div class="form-group" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-			<button style="clear: both;" class="btn btn-primary pull-right" data-ng-disabled="!app.api_name" data-ng-click="setStep(2)">Continue</button>
-		</div>
+			<div class="form-group">
+				<button id="btn-step-1" class="btn btn-primary pull-right disabled"
+					data-ng-click="setStep(2)">Continue
+				</button>
+			</div>
+		</form>
 	</div>
 </div>
 
@@ -79,22 +95,34 @@
 		<div class="col-xs-6">
 			<div class="radio">
 				<label>
-					<input type="radio" name="development-locale" id="development-local" value="0" checked="checked" data-ng-model="app.storage_service_id">
+					<input type="radio"
+						name="development-locale"
+						id="development-local"
+						value="0"
+						checked="checked"
+						data-ng-model="app.storage_service_id">
 					Locally (edit code on your desktop)
 				</label>
 			</div>
 
 			<div class="radio">
 				<label>
-					<input type="radio" name="development-locale" id="development-remove" value="1" data-ng-model="app.storage_service_id">
+					<input type="radio"
+						name="development-locale"
+						id="development-remove"
+						value="1"
+						data-ng-model="app.storage_service_id">
 					Here in the Admin Console (edit code in your browser)
 				</label>
 			</div>
 		</div>
 
-		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;" >
+		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
 			<button class="btn btn-primary" data-ng-click="setStep(1)">Previous</button>
-			<button data-ng-disabled="!app.storage_service_id" class="btn btn-primary" data-ng-click="saveConfig(); create(); setStep(3)">Continue</button>
+			<button data-ng-disabled="!app.storage_service_id"
+				class="btn btn-primary"
+				data-ng-click="saveConfig(); create(); setStep(3)">Continue
+			</button>
 		</div>
 	</div>
 </div>
@@ -119,15 +147,19 @@
 			<p>The
 				<strong>DreamFactory Javascript SDK</strong> is a convenient wrapper for the entire DreamFactory Services Platform&trade; REST API. The SDK automatically contains your REST endpoint(s) and
 				<strong>API key</strong> so you can get coding immediately. When a new service is provisioned from the Admin Console, the Javascript SDK will
-				<strong>automatically</strong> be rebuilt to include the new service the next time your application is loaded.</p>
+				<strong>automatically</strong> be rebuilt to include the new service the next time your application is loaded.
+			</p>
 
-			<p>Access to the SDK is provided by the Javascript <code>df</code> object. The <code>df</code> object is a property added to the DOM's
+			<p>Access to the SDK is provided by the Javascript <code>df</code> object. The
+				<code>df</code> object is a property added to the DOM's
 				<code>window</code> object. To see this in action, using Chrome's Developer Tools, open the console and start typing
-				<code>window.df.apis</code>. This will display all the methods and properties of the <code>df</code> object.</p>
+				<code>window.df.apis</code>. This will display all the methods and properties of the
+				<code>df</code> object.</p>
 
 			<p>Your DSP's REST API accepts (and subsequently returns) data in either JSON or XML format. The details of switching input/output formats is explained in the
 				<strong>API / SDK</strong> tab. That tab brings up the known and/or available services with detailed documentation, example code, and a
-				<em>live</em> testing system. There are also examples for iOS and Android at <a href="http://www.dreamfactory.com/developers/examples"
+				<em>live</em> testing system. There are also examples for iOS and Android at
+				<a href="http://www.dreamfactory.com/developers/examples"
 					target="_blank">http://www.dreamfactory.com/developers/examples</a>.</p>
 
 			<p class="callout highlight-block">Use of the SDK on the local file system requires your list of allowed hosts to be open (i.e. "*"). This setting is available in the
@@ -137,8 +169,9 @@
 			<div class="pull-right"><img src="img/native.png" /></div>
 
 			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download SDK</a> <a class="btn btn-default"
-				data-ng-click="goToApps()">Continue</a>
+				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download SDK</a>
+				<a class="btn btn-default"
+					data-ng-click="goToApps()">Continue</a>
 			</div>
 		</div>
 	</div>
@@ -193,15 +226,19 @@
 			<p>The
 				<strong>DreamFactory Javascript SDK</strong> is a convenient wrapper for the entire DreamFactory Services Platform&trade; REST API. The SDK automatically contains your REST endpoint(s) and
 				<strong>API key</strong> so you can get coding immediately. When a new service is provisioned from the Admin Console, the Javascript SDK will
-				<strong>automatically</strong> be rebuilt to include the new service the next time your application is loaded.</p>
+				<strong>automatically</strong> be rebuilt to include the new service the next time your application is loaded.
+			</p>
 
-			<p>Access to the SDK is provided by the Javascript <code>df</code> object. The <code>df</code> object is a property added to the DOM's
+			<p>Access to the SDK is provided by the Javascript <code>df</code> object. The
+				<code>df</code> object is a property added to the DOM's
 				<code>window</code> object. To see this in action, using Chrome's Developer Tools, open the console and start typing
-				<code>window.df.apis</code>. This will display all the methods and properties of the <code>df</code> object.</p>
+				<code>window.df.apis</code>. This will display all the methods and properties of the
+				<code>df</code> object.</p>
 
 			<p>Your DSP's REST API accepts (and subsequently returns) data in either JSON or XML format. The details of switching input/output formats is explained in the
 				<strong>API / SDK</strong> tab. That tab brings up the known and/or available services with detailed documentation, example code, and a
-				<em>live</em> testing system. There are also examples for iOS and Android at <a href="http://www.dreamfactory.com/developers/examples"
+				<em>live</em> testing system. There are also examples for iOS and Android at
+				<a href="http://www.dreamfactory.com/developers/examples"
 					target="_blank">http://www.dreamfactory.com/developers/examples</a>.</p>
 
 			<p class="callout highlight-block">Use of the SDK on the local file system requires your list of allowed hosts to be open (i.e. "*"). This setting is available in the
@@ -211,11 +248,90 @@
 			<div class="pull-right"><img src="img/local.png" /></div>
 
 			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download the SDK</a> <a class="btn btn-primary"
-                                                                                                             data-ng-click="goToApps();">Continue</a>
+				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download the SDK</a>
+				<a class="btn btn-primary"
+					data-ng-click="goToApps();">Continue</a>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
+
 <iframe seamless="seamless" style="display:none" id="sdk-download" src=""></iframe>
+
+<script>
+/**
+ * Little ajax spinner
+ * @param how
+ * @private
+ */
+var _ajaxToggle = function(how) {
+	if (how) {
+		$('.ajax-toggle').removeClass('hidden');
+	} else {
+		$('.ajax-toggle').addClass('hidden');
+	}
+}
+
+jQuery(function($) {
+	var _validator;
+
+	_validator = $('form#qs-1').validate(
+		{
+			onkeyup:     false,
+			highlight:   function(element) {
+				$(element).closest('.form-group').addClass('has-error');
+			},
+			unhighlight: function(element) {
+				$(element).closest('.form-group').removeClass('has-error');
+			},
+			rules:       {
+				app_api_name: {
+					minlength:     3,
+					maxlength:     64,
+					validApiName:  true,
+					unusedApiName: true
+				},
+				app_type:     {
+					required: true
+				}
+			},
+			messages:    {
+				app_api_name: {
+					unusedApiName: 'That application ID is already in use.'
+				}
+			}
+		});
+
+	jQuery.validator.addMethod('validApiName', function(value, element) {
+		return /([0-9a-zA-Z\-_])$/.test(value);
+	}, 'IDs may only contain letters, numbers, dashes, or underscores');
+
+	jQuery.validator.addMethod('unusedApiName', function(value, element) {
+		var _success = false;
+
+		_ajaxToggle(true);
+
+		$.ajax({
+				   url: CurrentServer + '/rest/system/app',
+				   async:    false,
+				   method:   'GET',
+				   data:     {filter: "name='" + value + "'", app_name: 'admin'},
+				   dataType: 'json'
+			   }).done(function(data) {
+			_success = ( 0 === data.record.length );
+			$(element).closest('.form-group').addClass(_success ? 'has-success' : 'has-error');
+
+			if (_success) {
+				$('#btn-step-1').removeClass('disabled')
+			} else {
+				$('#btn-step-1').addClass('disabled');
+			}
+
+		}).always(function() {
+			_ajaxToggle(false);
+		});
+
+		return _success;
+	});
+});
+</script>

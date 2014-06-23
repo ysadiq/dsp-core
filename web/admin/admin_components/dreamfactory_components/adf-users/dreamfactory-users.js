@@ -13,6 +13,19 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     templateUrl: MODUSER_ASSET_PATH + 'views/main.html',
                     controller: 'UsersCtrl',
                     resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
+                        getSystemConfigData: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            return $http({
+                                method: "GET",
+                                url: DSP_URL + '/rest/system/config'
+                            })
+                        }],
                         getRolesData: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
@@ -30,7 +43,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 .error(function (error) {
 
                                     throw {
-                                        module: 'DreamFactory Access Management Module',
+                                        module: 'DreamFactory User Management Module',
                                         type: 'error',
                                         provider: 'dreamfactory',
                                         exception: error
@@ -54,7 +67,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 .error(function (error) {
 
                                     throw {
-                                        module: 'DreamFactory Access Management Module',
+                                        module: 'DreamFactory User Management Module',
                                         type: 'error',
                                         provider: 'dreamfactory',
                                         exception: error
@@ -77,7 +90,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                 .error(function (error) {
 
                                     throw {
-                                        module: 'DreamFactory Access Management Module',
+                                        module: 'DreamFactory User Management Module',
                                         type: 'error',
                                         provider: 'dreamfactory',
                                         exception: error
@@ -97,10 +110,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         $templateCache.put('df-input-sys-admin.html', '<df-sys-admin-user></df-sys-admin-user>');
         $templateCache.put('df-input-active-user.html', '<df-active-user></df-active-user>');
 
-
-
     }])
-    .controller('UsersCtrl', ['DSP_URL', '$scope', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', function(DSP_URL, $scope, getUsersData, getRolesData, getAppsData, dfUserManagementEventService){
+    .controller('UsersCtrl', ['dfLoadingScreen', 'DSP_URL', '$scope', 'getSystemConfigData', 'getUsersData', 'getRolesData', 'getAppsData', 'dfUserManagementEventService', 'userConfigService',
+        function(dfLoadingScreen, DSP_URL, $scope, getSystemConfigData, getUsersData, getRolesData, getAppsData, dfUserManagementEventService, userConfigService){
+
+        // Stop the loading screen
+        dfLoadingScreen.stop();
 
         // PRE-PROCESS API
         $scope.__setNullToEmptyString = function (systemConfigDataObj) {
@@ -108,7 +123,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             angular.forEach(systemConfigDataObj, function(value, key) {
 
                 if (systemConfigDataObj[key] == null) {
-
                     systemConfigDataObj[key] = '';
                 }
             });
@@ -125,8 +139,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         $scope.__apps__ = getAppsData;
 
 
+        userConfigService.setConfig(getSystemConfigData.data);
+
         $scope.roles = $scope.__getDataFromResponse($scope.__roles__);
         $scope.apps = $scope.__getDataFromResponse($scope.__apps__);
+
 
 
         $scope.es = dfUserManagementEventService;
@@ -136,30 +153,174 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
         $scope.activeView = 'manage';
 
-        $scope.open = function (viewStr) {
+        // PUBLIC API
 
-            $scope.activeView = viewStr
-        };
 
 
         // PRIVATE API
         $scope._alertSuccess = function (message) {
 
-            console.log(message)
+            $(function(){
+                new PNotify({
+                    title: 'Users',
+                    type:  'success',
+                    text:  message
+                });
+            });
         };
 
+        $scope._alertFailure = function (message) {
+
+            $(function(){
+                new PNotify({
+                    title: 'Users',
+                    type:  'error',
+                    text:  message
+                });
+            });
+        };
+
+
         // MESSAGES
-
-
-
-
         $scope.$on($scope.es.alertSuccess, function (e, messageObj) {
 
             $scope._alertSuccess(messageObj.message)
         });
 
+        $scope.$on($scope.es.alertFailure, function (e, messageObj) {
+
+            $scope._alertFailure(messageObj.message)
+        });
+
+    }])
+    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
+
+        return {
+            restrict: 'A',
+            scope: false,
+            replace: true,
+            link: function (scope, elem, attrs) {
 
 
+                scope.uploadFile = null;
+                scope.field = angular.element('#upload');
+
+                scope.importUsers = function () {
+                    scope._importUsers();
+                };
+
+                scope._importUsers = function () {
+                    scope.field.trigger('click');
+                };
+
+                scope._uploadFile = function (fileObj) {
+
+                    return $http({
+                        method: 'POST',
+                        url: DSP_URL + '/rest/system/user',
+                        params: {},
+                        data: fileObj
+                    })
+                };
+
+                scope._checkFileType = function (fileObj) {
+
+                    var extension = fileObj.name.split('.');
+
+                    extension = extension[extension -1];
+
+                    var value = false;
+
+
+                    switch(extension) {
+
+                        case 'csv':
+                        case 'json':
+                        case 'xml':
+                            value = true;
+                            break;
+
+                        default:
+                            value = false;
+                    }
+
+                    return value;
+                };
+
+                scope.$watch('uploadFile', function (newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+                    if (!scope._checkFileType(newValue)) {
+
+                        scope.uploadFile = null;
+
+                        scope.$emit(scope.es.alertFailure, {message: 'Acceptable file formats are csv, json, and xml.'})
+
+                        return false;
+                    }
+
+                    scope._uploadFile(newValue).then(
+
+                        function (result) {
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
+                        },
+                        function (reject) {
+
+                            throw {
+                                module: 'DreamFactory User Management Module',
+                                type: 'error',
+                                provider: 'dreamfactory',
+                                exception: reject
+                            }
+                        }
+
+                    ).finally(
+
+                        function() {
+
+
+
+                        },
+                        function () {
+
+
+
+                        }
+                    )
+                });
+            }
+        }
+    }])
+    .directive('dfExportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', function (MODUSER_ASSET_PATH, DSP_URL) {
+
+        return {
+
+            restrict: 'A',
+            scope: false,
+            replace: true,
+            link: function (scope, elem, attrs) {
+
+
+                scope.exportUsersSrc = null;
+
+                scope.exportUsers = function(fileFormatStr) {
+                    scope._exportUsers(fileFormatStr);
+                };
+
+                scope._exportUsers = function (fileFormatStr) {
+
+                    if (fileFormatStr === 'csv' || fileFormatStr === 'json' || fileFormatStr === 'xml' ) {
+
+                        var params = 'app_name=admin&file=true&format=' + fileFormatStr;
+
+                        scope.exportUsersSrc = DSP_URL + '/rest/system/user?' + params;
+
+                    }
+                }
+            }
+        }
     }])
     .directive('dfManageUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, DSP_URL, dfUserManagementEventService) {
 
@@ -221,13 +382,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             fields: {
                                 create: true,
                                 edit: true
-                            }
-                        },
-                        {
-                            name: 'confirmed',
-                            fields: {
-                                create: true,
-                                edit: false
                             }
                         }
                     ],
@@ -449,29 +603,26 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             }
         }
     }])
-    .directive('dfConfirmUser', ['DSP_URL', '$http', 'dfUserManagementEventService', function(DSP_URL, $http, dfUserManagementEventService) {
+    .directive('dfConfirmUser', ['DSP_URL', 'MODUSER_ASSET_PATH', '$http', 'dfUserManagementEventService', 'dfTableCallbacksService', 'userConfigService', function(DSP_URL, MODUSER_ASSET_PATH, $http, dfUserManagementEventService, dfTableCallbacksService, userConfigService) {
 
         return {
             restrict: 'E',
             scope: false,
-            template: '<div data-ng-if="currentEditRecord.confirmed"><p>Confirmed</p></div>'+
-                        '<div data-ng-if="!currentEditRecord.confirmed">' +
-                        ' <button type="button" class="btn btn-default" data-ng-click="invite()"><i class="icon-envelope"></i> Send Invite</button>' +
-                      '</div>',
+            templateUrl: MODUSER_ASSET_PATH + 'views/df-input-confirm-user.html',
             link: function(scope, elem, attrs) {
-
-
 
                 scope.es = dfUserManagementEventService;
 
+                scope.inviteUserOnCreate = false;
+
+                scope.systemConfig = userConfigService.getConfig();
+
                 scope.invite = function() {
 
-                    scope._invite();
+                    scope._invite(scope.currentEditRecord.id);
                 };
 
-
-
-                scope._sendInvite = function () {
+                scope._sendInvite = function (userId) {
 
                     return  $http({
                         url: DSP_URL + '/rest/system/user',
@@ -480,15 +631,14 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             send_invite: true
                         },
                         data: {
-                            id: scope.currentEditRecord.id
+                            id: userId
                         }
                     })
                 };
 
-                scope._invite = function () {
+                scope._invite = function (userId) {
 
-
-                    scope._sendInvite().then(
+                    scope._sendInvite(userId).then(
                         function(result) {
 
                             scope.$emit(scope.es.alertSuccess, {message: 'Invite sent successfully.'});
@@ -503,7 +653,18 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             }
                         }
                     );
-                }
+                };
+
+                scope._callSendInvite = function (promiseObj) {
+
+                    if (scope.inviteUserOnCreate) {
+                        scope._invite(promiseObj.data.id);
+                    }
+                };
+
+
+                dfTableCallbacksService.add('onCreate', 'post', scope._callSendInvite);
+
             }
         }
     }])
@@ -680,6 +841,24 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         return {
             resetUserForm: 'reset:userForm',
             createUserSuccess: 'create:user:success',
-            alertSuccess: 'alert:success'
+            alertSuccess: 'alert:success',
+            alertFailure: 'alert:failure'
+        }
+    }])
+    .service('userConfigService', [function () {
+
+        var config = null;
+
+        return {
+
+            setConfig: function (configObj) {
+
+                config = configObj;
+            },
+
+            getConfig: function () {
+
+                return config;
+            }
         }
     }]);

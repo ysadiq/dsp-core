@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
+
+
 	(
 		function() {
 			setCurrentApp( 'getting_started' );

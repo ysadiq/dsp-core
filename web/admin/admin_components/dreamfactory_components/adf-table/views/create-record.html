@@ -32,10 +32,10 @@
                         <div id="{{fieldGroup.name}}-body" class="panel-collapse collapse in">
                             <div class="panel-body">
                                 <div data-ng-repeat="field in fieldGroup.fields">
-                                    <label>{{field.label}}<small style="margin-left: 8px; font-weight: normal" data-ng-if="field.required" class="text-muted">(required)</small></label>
+                                    <label data-ng-bind-html-unsafe>{{field.label}}<small style="margin-left: 8px; font-weight: normal" data-ng-if="field.required" class="text-muted">(required)</small></label>
 
                                     <div data-ng-if="newRecord" dreamfactory-build-field data-service="options.service" data-field="field"
-                                         data-extend-field-types="extendFieldTypes" data-override-fields="overrideFields"
+                                         data-extend-field-types="extendFieldTypes" data-override-fields="overrideFields" data-active-view="activeView" data-injected-callbacks="injectedCallbacks"
                                          data-current-edit-record="newRecord" class="form-group col-xs-12"></div>
                                     <hr data-ng-if="fieldGroup.dividers && !$last" />
                                 </div>

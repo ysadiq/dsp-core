@@ -16,7 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var SchemaCtrl = function( $scope, Schema, DSP_URL, DB, $http, getSchemaServices ) {
+var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, getSchemaServices ) {
+
+    dfLoadingScreen.stop();
 
     Scope = $scope;
     $scope.typeOptions = [

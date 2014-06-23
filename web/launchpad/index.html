@@ -1,137 +1,79 @@
 <!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
-	<title>DreamFactory LaunchPad&trade;</title>
-
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=yes">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 
+	<title>LaunchPad</title>
 	<link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
 
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+	<!-- Standard CSS -->
+	<link rel="stylesheet"
+		href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css">    <![endif]-->
+
+	<link rel="stylesheet" href="css/layout.css" type="text/css" />
+	<link rel="stylesheet" href="css/launch.css" type="text/css" />
 	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
-
-	<link rel="stylesheet" href="/launchpad/css/layout.css" type="text/css" />
-	<link rel="stylesheet" href="/launchpad/css/launch.css" type="text/css" />
-	<link rel="stylesheet" href="/css/remote-login.css" type="text/css" />
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
+<div id="rocket" class="btn btn-inverse " onclick="Actions.toggleFullScreen(false)">
+	<i id="toggleIcon" class="icon-resize-small"></i> Exit Fullscreen
+</div>
+<div id="loading" class="hide"><i class="icon-spinner icon-spin icon-4x"></i></div>
 
 <!-- Navigation -->
-<div id="navbar-container">
-	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
-					<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand df-logo" href="#"><img src="/img/logo-navbar-194x42.png"></a>
-			</div>
-			<div class="collapse navbar-collapse pull-right" id="main-nav" role="navigation">
-				<div class="btn-toolbar" role="toolbar">
-					<div class="btn-group">
-						<button type="button"
-							id="apps-list-btn"
-							onClick="Actions.showAppList();"
-							class="btn btn-default navbar-btn fa fa-list-ul"
-							data-toggle="button"
-							title="Available Applications"></button>
-						<button type="button"
-							id="lp-sign-in"
-							class="btn btn-default navbar-btn fa fa-sign-in disabled"
-							onclick="Actions.doSignInDialog()"></button>
-						<button type="button"
-							id="lp-sign-out"
-							class="btn btn-default navbar-btn fa fa-sign-out hide disabled"
-							onclick="Actions.doSignOutDialog();"
-							data-toggle="modal"
-							data-target="#dlg-logout"
-							title="Sign Out"></button>
-						<button type="button"
-							id="lp-register"
-							class="btn btn-default navbar-btn fa fa-user hide disabled"
-							onclick="Actions.createAccount()"></button>
-						<button type="button"
-							id="lp-edit-profile"
-							class="btn btn-default navbar-btn fa fa-user hide disabled"
-							onClick="Actions.doProfileDialog();"
-							title="Edit Your Profile"></button>
-						<button type="button"
-							id="lp-change-password"
-							class="btn btn-default navbar-btn fa fa-lock hide disabled"
-							onClick="Actions.doChangePasswordDialog();"
-							title="Change Your Password"></button>
-					</div>
-					<div class="btn-group">
-						<button type="button"
-							id="adminLink"
-							class="btn btn-default navbar-btn fa fa-cog disabled"
-							data-toggle="button"
-							title="Admin Console"></button>
-						<button type="button"
-							id="fs_toggle"
-							class="btn btn-default navbar-btn fa fa-expand"
-							data-toggle="button"
-							title="Full Screen"></button>
-						<button type="button"
-							id="lp-help"
-							class="btn btn-default navbar-btn fa fa-question-circle"
-							onclick="Actions.api.redirect('https://www.dreamfactory.com/developers');"
-							title="Help"></button>
-					</div>
-				</div>
-			</div>
+<div id="navbar-container"></div>
+
+<div id="app-list-container"></div>
+
+<div id="app-container"></div>
+
+<div id="logoffDialog" class="modal hide fade">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3>Sign Out</h3>
+	</div>
+	<div class="modal-body">
+		<div class="modal-body-form" style="margin-top: 20px; font-size: 14px;">
+			Are you sure you want to sign out of the application?<br /><br />
+			<strong style="font-size:18px;">Any unsaved changes will be lost!</strong>
 		</div>
-	</nav>
-</div>
-
-<div id="app-list-container" style="display: none;"></div>
-
-<div id="app-container" style="display: none;"></div>
-
-<div id="dlg-logout" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Sign Out</h4>
-			</div>
-			<div class="modal-body">
-				<strong>Warning!</strong> Any unsaved changes will be lost!
-				<p>Are you sure you want to sign out of the application?</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" onClick="Actions.signOut();">Sign Out</button>
-			</div>
-		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#" class="btn btn-primary"
+		onclick="Actions.signOut()">Sign Out</a>
 	</div>
 </div>
 
-<div id="loading" style="display: none;"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
-
-<button type="button" id="rocket" class="btn btn-inverse" onclick="Actions.toggleFullScreen(false)">
-	<i id="toggleIcon" class="fa fa-expand"></i> Exit Fullscreen
-</button>
-
-<script src="/js/mustache.min.js"></script>
-<script src="/js/simpleStorage.min.js"></script>
-
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="/js/mustache.js"></script>
 <script src="/js/utils.js"></script>
-<script src="/launchpad/js/purl.min.js"></script>
+<script src="/js/pnotify/pnotify.js"></script>
+<script src="/launchpad/js/querystring-0.9.0-min.js"></script>
 <script src="/launchpad/js/templates.js"></script>
+<script src="/js/simpleStorage.min.js"></script>
 <script src="/launchpad/js/actions.js"></script>
-
 <script type="application/javascript">
 jQuery(
 	function($) {
-		$('.modal-body').css({'max-height': ($(window).height() * 0.4) + 'px'});
+		function modalBodySizer() {
+			var h = $(window).height();
+			$('.modal-body').css(
+				{
+					'max-height': (
+								  h * .4
+								  ) + 'px'
+				}
+			);
+		}
+
+		modalBodySizer();
 	}
 );
 </script>

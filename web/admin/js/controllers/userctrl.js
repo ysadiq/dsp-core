@@ -391,10 +391,16 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		$( "#importUsersForm" ).submit();
 	};
 
+
+
+
 	$scope.showExportModal = function() {
 
 		$( '#exportUsersModal' ).modal( 'toggle' );
 	};
+
+
+
 
 	$scope.exportUsers = function() {
 
@@ -405,6 +411,10 @@ var UserCtrl = function( $scope, Config, User, Role, Service ) {
 		$( '#exportUsersFrame' ).attr( 'src', url );
 		$( '#exportUsersModal' ).modal( 'toggle' );
 	};
+
+
+
+
 
 	window.checkImportResults = function( iframe ) {
 

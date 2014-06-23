@@ -191,7 +191,6 @@ angular.module('dfUtility', [])
 
                     scope._setButtonText();
 
-                    console.log(scope.allowedVerbs)
                 });
 
 
@@ -280,6 +279,81 @@ angular.module('dfUtility', [])
             }
         }
     }])
+    .directive('fileModel', ['$parse', function ($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+
+                element.bind('change', function(){
+                    scope.$apply(function(){
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+    }])
+    .service('dfLoadingScreen', [function () {
+
+        var loadingScreenText = $('<span style="text-align: center; width: 100px; height: 75px;"><h3>Loading &nbsp; </h3><i class="fa fa-cog fa-2x fa-spin"></i></span>');
+
+        var elem = angular.element('#loading-screen').css({
+            'width': 100 + '%',
+            'height': 100 + '%',
+            'backgroundColor': 'rgba(0, 0, 0, .8)',
+            'zIndex': 99998,
+            'position': 'absolute',
+            'top': 0,
+            'left': 0,
+            'bottom': 0,
+            'right': 0
+        }).hide();
+
+
+        $(window).resize(function () {
+            $(loadingScreenText).css({
+                'position': 'absolute',
+                'top': ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
+                'left': ($(elem).width() /2) - ($(loadingScreenText).width() / 2)
+            })
+        });
+
+
+        var _startLoadingScreen = function () {
+
+            elem.append($(loadingScreenText).css({
+                'position': 'absolute',
+                'top': ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
+                'left': ($(elem).width() /2) - ($(loadingScreenText).width() / 2),
+                'zIndex': 99999,
+                'color': 'white'
+            }));
+
+            elem.show();
+        };
+
+
+        var _stopLoadingScreen = function () {
+
+            elem.hide();
+            loadingScreenText.remove();
+        };
+
+        return {
+
+            start: function () {
+
+                console.log('asdfasdf')
+                _startLoadingScreen();
+            },
+
+            stop: function () {
+
+                _stopLoadingScreen();
+            }
+        }
+    }])
     .service('dfObjectService', [function () {
 
         return {
@@ -299,12 +373,28 @@ angular.module('dfUtility', [])
 
                 for (var _key in obj1) {
                     if (obj2.hasOwnProperty(_key)) {
-                        if(Object.prototype.toString.call(obj2[_key]) === '[object Object]') {
+
+                        switch(Object.prototype.toString.call(obj2[_key])) {
+
+                            case '[object Object]':
+                                obj2[_key] = self.deepMergeObjects(obj1[_key], obj2[_key]);
+                                break;
+
+                            case '[object Array]':
+                                 obj2[_key] = obj1[_key];
+                                 //obj2[_key].concat(obj1[_key]);
+                                break;
+
+                            default:
+                                obj2[_key] = obj1[_key];
+                        }
+
+                    /*    if(Object.prototype.toString.call(obj2[_key]) === '[object Object]') {
 
                             obj2[_key] = self.deepMergeObjects(obj1[_key], obj2[_key]);
                         }else {
                             obj2[_key] = obj1[_key];
-                        }
+                        }*/
                     }
                 }
 
@@ -401,9 +491,6 @@ angular.module('dfUtility', [])
     }])
     .filter('orderObjectBy', [function () {
         return function (items, field, reverse) {
-
-
-
 
             var filtered = [];
 

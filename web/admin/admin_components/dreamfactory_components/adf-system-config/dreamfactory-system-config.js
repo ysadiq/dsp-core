@@ -10,6 +10,12 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                     templateUrl: MODSYSCONFIG_ASSET_PATH + 'views/main.html',
                     controller: 'SystemConfigurationCtrl',
                     resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
                         getSystemConfigData: ['DSP_URL', '$http', function(DSP_URL, $http) {
 
                             return $http.get(DSP_URL + '/rest/system/config')
@@ -85,8 +91,10 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
     .run(['DSP_URL', '$http', 'SystemConfigDataService', function (DSP_URL, $http, SystemConfigDataService) {
 
     }])
-    .controller('SystemConfigurationCtrl', ['DSP_URL', '$scope', '$http', 'SystemConfigDataService','SystemConfigEventsService', 'getRolesData', 'getEmailTemplatesData', 'getServicesData', 'getSystemConfigData',
-        function (DSP_URL, $scope, $http, SystemConfigDataService, SystemConfigEventsService, getRolesData, getEmailTemplatesData, getServicesData, getSystemConfigData) {
+    .controller('SystemConfigurationCtrl', ['dfLoadingScreen','DSP_URL', '$scope', '$http', 'SystemConfigDataService','SystemConfigEventsService', 'getRolesData', 'getEmailTemplatesData', 'getServicesData', 'getSystemConfigData',
+        function (dfLoadingScreen, DSP_URL, $scope, $http, SystemConfigDataService, SystemConfigEventsService, getRolesData, getEmailTemplatesData, getServicesData, getSystemConfigData) {
+
+            dfLoadingScreen.stop();
 
             // PRE-PROCESS API
             $scope.__setNullToEmptyString = function (systemConfigDataObj) {
@@ -157,6 +165,7 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                         //$scope._updateCookie(systemConfigDataObj);
                         $scope._updateSystemConfigService(systemConfigDataObj);
 
+                        // Needs to be replaced with angular messaging
                         $(function(){
                             new PNotify({
                                 title: 'Config',
@@ -164,8 +173,6 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                                 text:  'Updated Successfully.'
                             });
                         });
-
-
 
                         $scope.$emit($scope.es.updateSystemConfigSuccess, systemConfigDataObj);
                     },

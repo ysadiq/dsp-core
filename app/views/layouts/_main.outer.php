@@ -47,15 +47,8 @@
     <link rel="stylesheet"
         href="//netdna.bootstrapcdn.com/font-awesome/<?php echo $_versions['font-awesome']; ?>/css/font-awesome.min.css">
 
-    <!-- DreamFactory Typography Css -->
-    <link rel="stylesheet" href="/css/df-custom-bs.css">
-
     <!-- DSP UI Styles & Code -->
     <link rel="stylesheet" href="/css/dsp.main.css">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries --><!--[if lt IE 9]>
-    <script src="//cdn.jsdelivr.net/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script><![endif]-->
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/<?php echo $_versions['jquery']; ?>/jquery.min.js"></script>
 </head>
