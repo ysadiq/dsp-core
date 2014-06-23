@@ -293,7 +293,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
             }
         }
     }])
-    .directive('dfExportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
+    .directive('dfExportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', '$window', function (MODUSER_ASSET_PATH, DSP_URL, $http, $window) {
 
         return {
 
@@ -326,6 +326,12 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                         var params = 'app_name=admin&file=user.' + scope.fileFormatStr + '&format=' + fileFormatStr;
 
+
+                        // Jason's method to make it work.  He doesn't check for bad response.
+                        // I'll look into angularJS's $location to fix this.
+                        $window.location.href= DSP_URL + '/rest/system/user?' + params;
+
+/*
                         scope._getFile(DSP_URL + '/rest/system/user?' + params).then(
                             function () {
 
@@ -340,7 +346,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                                     exception: error
                                 }
                             }
-                        )
+                        )*/
                     }
                 }
             }
