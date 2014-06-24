@@ -257,6 +257,8 @@ angular.module('dfUtility', [])
 
                     if (!newValue) return false;
 
+                    scope.resources = [];
+
                     scope._getResources().then(
                         function(result) {
 
