@@ -1,8 +1,6 @@
 'use strict';
 
 
-
-
 angular.module('dfUsers', ['ngRoute', 'dfUtility'])
     .constant('MODUSER_ROUTER_PATH', '/user')
     .constant('MODUSER_ASSET_PATH', 'admin_components/dreamfactory_components/adf-users/')
@@ -193,7 +191,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         });
 
     }])
-    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
+    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', 'dfTableEventService', function (MODUSER_ASSET_PATH, DSP_URL, $http, dfTableEventService) {
 
         return {
             restrict: 'A',
@@ -203,6 +201,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
 
                 scope.uploadFile = null;
+                scope.importType = null;
                 scope.field = angular.element('#upload');
 
                 scope.importUsers = function () {
@@ -215,9 +214,14 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 scope._uploadFile = function (fileObj) {
 
+
+
                     return $http({
                         method: 'POST',
                         url: DSP_URL + '/rest/system/user',
+                        headers: {
+                            "Content-Type" : scope.importType === 'csv' ? 'text/csv' : 'application/' + scope.importType
+                        },
                         params: {},
                         data: fileObj
                     })
@@ -237,6 +241,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         case 'csv':
                         case 'json':
                         case 'xml':
+                            scope.importType = extension;
                             value = true;
                             break;
 
@@ -264,9 +269,16 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                         function (result) {
 
+                            scope.importType = null;
+                            scope.loadFile = null;
+
+                            scope.$broadcast(dfTableEventService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
                         },
                         function (reject) {
+
+                            scope.importType = null;
+                            scope.loadFile = null;
 
                             throw {
                                 module: 'DreamFactory User Management Module',

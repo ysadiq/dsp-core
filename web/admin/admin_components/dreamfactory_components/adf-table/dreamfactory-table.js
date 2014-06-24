@@ -767,8 +767,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                     });
-
-                    console.log(scope.groupedSchema);
                 };
 
                 scope._checkForGroupedSchema = function (groupNameStr) {
@@ -1563,11 +1561,16 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 };
 
-                scope._refreshResults = function () {
+                scope._refreshResults = function (checkUnsavedBool) {
 
-                    if (scope._checkForUnsavedRecords(scope.record)) {
-                        if (!confirm('You have Unsaved records.  Continue without saving?')) {
-                            return false;
+                    checkUnsavedBool = checkUnsavedBool || true;
+
+
+                    if (checkUnsavedBool) {
+                        if (scope._checkForUnsavedRecords(scope.record)) {
+                            if (!confirm('You have Unsaved records.  Continue without saving?')) {
+                                return false;
+                            }
                         }
                     }
 
@@ -2202,6 +2205,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 // MESSAGES
 
+                scope.$on(scope.es.refreshTable, function (e) {
+
+                    scope._refreshResults(false);
+                });
+
                 scope.$on('$destroy', function(e) {
 
                     watchUserOptions();
@@ -2460,7 +2468,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                    return $http({
                         method: 'POST',
                         url: scope.options.url,
-                        data: scope.newRecord
+                        data: scope.newRecord,
+                       params: {
+                           fields: '*'
+                       }
                     })
                 };
 
@@ -2478,7 +2489,20 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope._saveNewRecordToServer().then(
                         function (result) {
                             dfTableCallbacksService.run('onCreate', 'post', result);
-                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'})
+
+                            // check if we can fit the new record into the current page
+                            if (scope.record.length < scope.options.params.limit) {
+                                scope.record.push(result.data);
+
+                            }
+                            // check if we need to update our pagination due to record creation
+                            else if (scope.record.length * scope.pagesArr.length < scope.count + 1) {
+
+                                // manually create new page obj for pagination
+                                scope.pagesArr.push(scope._createPageObj(scope.pagesArr.length))
+                            }
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'});
                             scope._closeCreateRecord();
                         },
                         function (reject) {
@@ -2903,8 +2927,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
     .service('dfTableEventService', [function () {
 
         return {
-
-            alertSuccess: 'alert:success'
+            alertSuccess: 'alert:success',
+            refreshTable: 'refresh:table'
         }
     }])
     .service('dfTableCallbacksService', [function () {
