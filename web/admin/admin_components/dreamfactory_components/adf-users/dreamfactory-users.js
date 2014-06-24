@@ -191,7 +191,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         });
 
     }])
-    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', 'dfTableEventsService', function (MODUSER_ASSET_PATH, DSP_URL, $http, dfTableEventsService) {
+    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', 'dfTableEventService', function (MODUSER_ASSET_PATH, DSP_URL, $http, dfTableEventService) {
 
         return {
             restrict: 'A',
@@ -272,7 +272,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             scope.importType = null;
                             scope.loadFile = null;
 
-                            scope.$broadcast(dfTableEventsService.refreshTable);
+                            scope.$broadcast(dfTableEventService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
                         },
                         function (reject) {
