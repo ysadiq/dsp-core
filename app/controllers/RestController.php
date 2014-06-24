@@ -17,11 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Enums\DataFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\NotFoundException;
 use DreamFactory\Platform\Resources\User\Session;
+use DreamFactory\Platform\Utility\DataFormatter;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
@@ -107,7 +107,7 @@ class RestController extends BaseFactoryController
             $_result = array( 'service' => Service::available( false, array( 'name', 'api_name' ) ) );
 
             $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
-            $_result = DataFormat::reformatData( $_result, null, $_outputFormat );
+            $_result = DataFormatter::reformatData( $_result, null, $_outputFormat );
 
             RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
         }

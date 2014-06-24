@@ -44,10 +44,22 @@ function checkResults( iframe ) {
 		if ( isErrorString( str ) ) {
 			var response = {};
 			response.responseText = str;
-			window.top.Actions.showStatus( getErrorString( response ), "error" );
+            $(function(){
+                new PNotify({
+                    title: 'App Import',
+                    text: getErrorString(response),
+                    type: 'error'
+                });
+            });
 		}
 		else {
-			window.top.Actions.showStatus( "The app was imported successfully!" );
+            $(function(){
+                new PNotify({
+                    title: 'App Import',
+                    text: 'Imported Successfully',
+                    type: 'success'
+                });
+            });
 		}
 	}
 }

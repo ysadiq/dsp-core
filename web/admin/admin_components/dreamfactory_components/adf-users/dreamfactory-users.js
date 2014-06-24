@@ -209,12 +209,11 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 };
 
                 scope._importUsers = function () {
+
                     scope.field.trigger('click');
                 };
 
                 scope._uploadFile = function (fileObj) {
-
-
 
                     return $http({
                         method: 'POST',
@@ -254,6 +253,9 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 scope.$watch('uploadFile', function (newValue, oldValue) {
 
+                    console.log(newValue);
+                    console.log(oldValue);
+
                     if (!newValue) return false;
 
                     if (!scope._checkFileType(newValue)) {
@@ -270,7 +272,9 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         function (result) {
 
                             scope.importType = null;
-                            scope.loadFile = null;
+                            scope.uploadFile = null;
+
+                            $('#upload').val('');
 
                             scope.$broadcast(dfTableEventService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
@@ -278,7 +282,9 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         function (reject) {
 
                             scope.importType = null;
-                            scope.loadFile = null;
+                            scope.uploadFile = null;
+
+                            $('#upload').val('');
 
                             throw {
                                 module: 'DreamFactory User Management Module',

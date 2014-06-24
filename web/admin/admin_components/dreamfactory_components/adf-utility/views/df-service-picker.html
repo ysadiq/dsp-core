@@ -19,7 +19,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <select class="form-control" data-ng-model="activeResource"
-                                    data-ng-options="resource.name as resource.label for resource in resources">
+                                    data-ng-options="resource.name as resource.label for resource in resources" data-ng-disabled="!activeService && resources.length == 0">
                                 <option value="">-- Select Resource --</option>
                             </select>
                         </div>
