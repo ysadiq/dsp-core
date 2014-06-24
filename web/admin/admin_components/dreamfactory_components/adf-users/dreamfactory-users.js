@@ -268,7 +268,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         function (result) {
 
                             scope.importType = null;
-                            scope.loadFile = null;
+                            scope.uploadFile = null;
 
                             scope.$broadcast(dfTableEventService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
@@ -277,7 +277,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                             scope.importType = null;
                             scope.uploadFile = null;
-                            
+
                             throw {
                                 module: 'DreamFactory User Management Module',
                                 type: 'error',
