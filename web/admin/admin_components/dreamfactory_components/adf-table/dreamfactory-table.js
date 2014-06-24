@@ -77,7 +77,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     autoClose: true,
                     params: {
                         filter: null,
-                        limit: 3,
+                        limit: 50,
                         offset: 0,
                         fields: '*',
                         include_schema: true,
@@ -767,8 +767,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                     });
-
-                    console.log(scope.groupedSchema);
                 };
 
                 scope._checkForGroupedSchema = function (groupNameStr) {

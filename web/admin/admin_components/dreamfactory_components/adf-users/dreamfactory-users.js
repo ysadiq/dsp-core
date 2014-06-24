@@ -203,6 +203,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
 
                 scope.uploadFile = null;
+                scope.importType = null;
                 scope.field = angular.element('#upload');
 
                 scope.importUsers = function () {
@@ -215,9 +216,14 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 scope._uploadFile = function (fileObj) {
 
+
+
                     return $http({
                         method: 'POST',
                         url: DSP_URL + '/rest/system/user',
+                        headers: {
+                            "Content-Type" : "text/" + scope.importType
+                        },
                         params: {},
                         data: fileObj
                     })
@@ -237,6 +243,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         case 'csv':
                         case 'json':
                         case 'xml':
+                            scope.importType = extension;
                             value = true;
                             break;
 
@@ -264,6 +271,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                         function (result) {
 
+                            scope.importType = null;
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
                         },
                         function (reject) {
