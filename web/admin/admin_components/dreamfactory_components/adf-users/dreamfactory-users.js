@@ -214,8 +214,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 scope._uploadFile = function (fileObj) {
 
-
-
                     return $http({
                         method: 'POST',
                         url: DSP_URL + '/rest/system/user',
@@ -278,8 +276,8 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         function (reject) {
 
                             scope.importType = null;
-                            scope.loadFile = null;
-
+                            scope.uploadFile = null;
+                            
                             throw {
                                 module: 'DreamFactory User Management Module',
                                 type: 'error',
