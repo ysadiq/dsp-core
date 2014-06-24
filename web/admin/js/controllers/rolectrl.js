@@ -23,6 +23,7 @@ var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, Ap
 			$( window ).resize();
 		}
 	);
+    var componentServices = [2,4, 8,16,32, 4098, 4100]
 	$scope.role = {
 		users:                 [],
 		apps:                  [],
@@ -57,7 +58,8 @@ var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, Ap
 						plural: 'All'
 					};
 					$scope.ServiceComponents[index].push( allRecord );
-					if ( service.id > 0 ) {
+
+					if ( componentServices.indexOf(service.type_id) != -1 ) {
 						$http.get( '/rest/' + service.api_name + '?app_name=admin&fields=*' ).success(
 							function( data ) {
 								// some services return no resource array
