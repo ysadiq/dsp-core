@@ -1561,11 +1561,16 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 };
 
-                scope._refreshResults = function () {
+                scope._refreshResults = function (checkUnsavedBool) {
 
-                    if (scope._checkForUnsavedRecords(scope.record)) {
-                        if (!confirm('You have Unsaved records.  Continue without saving?')) {
-                            return false;
+                    checkUnsavedBool = checkUnsavedBool || true;
+
+
+                    if (checkUnsavedBool) {
+                        if (scope._checkForUnsavedRecords(scope.record)) {
+                            if (!confirm('You have Unsaved records.  Continue without saving?')) {
+                                return false;
+                            }
                         }
                     }
 
@@ -2199,6 +2204,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                 // MESSAGES
+
+                scope.$on(scope.es.refreshTable, function (e) {
+
+                    scope._refreshResults(false);
+                });
 
                 scope.$on('$destroy', function(e) {
 
@@ -2917,8 +2927,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
     .service('dfTableEventService', [function () {
 
         return {
-
-            alertSuccess: 'alert:success'
+            alertSuccess: 'alert:success',
+            refreshTable: 'refresh:table'
         }
     }])
     .service('dfTableCallbacksService', [function () {

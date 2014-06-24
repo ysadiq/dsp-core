@@ -1,8 +1,6 @@
 'use strict';
 
 
-
-
 angular.module('dfUsers', ['ngRoute', 'dfUtility'])
     .constant('MODUSER_ROUTER_PATH', '/user')
     .constant('MODUSER_ASSET_PATH', 'admin_components/dreamfactory_components/adf-users/')
@@ -193,7 +191,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         });
 
     }])
-    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
+    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', 'dfTableEventsService', function (MODUSER_ASSET_PATH, DSP_URL, $http, dfTableEventsService) {
 
         return {
             restrict: 'A',
@@ -272,6 +270,9 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         function (result) {
 
                             scope.importType = null;
+                            scope.loadFile = null;
+                            
+                            scope.$broadcast(dfTableEventsService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
                         },
                         function (reject) {
