@@ -271,11 +271,14 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                             scope.importType = null;
                             scope.loadFile = null;
-                            
+
                             scope.$broadcast(dfTableEventsService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
                         },
                         function (reject) {
+
+                            scope.importType = null;
+                            scope.loadFile = null;
 
                             throw {
                                 module: 'DreamFactory User Management Module',
