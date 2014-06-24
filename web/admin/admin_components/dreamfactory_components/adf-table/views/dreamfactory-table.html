@@ -216,9 +216,9 @@
                             <th class="df-th-cell" data-ng-class="order.orderBy === field.name ? 'df-th-selected' : ''"
                                 data-ng-click="orderOnSelect(field)"
                                 data-ng-repeat="field in schema.field | orderAndShowSchema: tableFields ">
-                                <span class="df-th-text" >{{field.label}}</span>
-                                <i data-ng-if="order.orderBy === field.name" class="fa"
-                                   data-ng-class="order.orderBy === field.name && order.orderByReverse ? 'fa-caret-down' : 'fa-caret-up'"></i>
+                                <span class="df-th-text" >{{field.label}}<i style="margin-left: 5px;" data-ng-if="order.orderBy === field.name" class="fa"
+                                                                            data-ng-class="order.orderBy === field.name && order.orderByReverse ? 'fa-caret-down' : 'fa-caret-up'"></i></span>
+
                             </th>
                         </tr>
 
