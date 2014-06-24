@@ -296,18 +296,17 @@ angular.module('dfUtility', [])
     }])
     .service('dfLoadingScreen', [function () {
 
-        var loadingScreenText = $('<span style="text-align: center; width: 100px; height: 75px;"><h2 style="font- weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
+        var loadingScreenText = $('<span style="text-align: center; width: 250px; height: 75px;"><h2 style="font- weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
 
         var elem = angular.element('#loading-screen').css({
-            'width': 100 + '%',
-            'height': 100 + '%',
             'backgroundColor': 'rgba(0, 0, 0, .8)',
             'zIndex': 99998,
             'position': 'fixed',
             'top': 0,
             'left': 0,
             'bottom': 0,
-            'right': 0
+            'right': 0,
+            'overflow': 'hidden'
         }).hide();
 
 
@@ -330,13 +329,13 @@ angular.module('dfUtility', [])
                 'color': 'white'
             }));
 
-            elem.show();
+            elem.fadeIn();
         };
 
 
         var _stopLoadingScreen = function () {
 
-            elem.hide();
+            elem.fadeOut();
             loadingScreenText.remove();
         };
 
