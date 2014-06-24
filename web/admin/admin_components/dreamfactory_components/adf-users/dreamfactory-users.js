@@ -222,7 +222,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         method: 'POST',
                         url: DSP_URL + '/rest/system/user',
                         headers: {
-                            "Content-Type" : "text/" + scope.importType
+                            "Content-Type" : scope.importType === 'csv' ? 'text/csv' : 'application/' + scope.importType
                         },
                         params: {},
                         data: fileObj
