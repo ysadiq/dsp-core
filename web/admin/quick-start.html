@@ -27,6 +27,7 @@
 
 				<div class="col-xs-4" style="padding-left: 0;">
 					<input type="text"
+						id="app_api_name"
 						name="app_api_name"
 						class="form-control validApiName unusedApiName required"
 						data-ng-model="app.api_name"
@@ -48,8 +49,8 @@
 						<input type="radio"
 							name="app_type"
 							id="app-type-web"
-							value="0"
 							data-ng-model="app.native"
+							value="0"
 							checked="checked">
 						Web-Based <i class="fa fa-html5" title="HTML5"></i><i class="fa fa-css3" title="CSS3"></i><i
 						class="fa fa-file-text"
@@ -71,7 +72,7 @@
 			</div>
 
 			<div class="form-group">
-				<button id="btn-step-1" class="btn btn-primary pull-right disabled"
+				<button id="btn-step-1" class="btn btn-primary pull-right"
 					data-ng-click="setStep(2)">Continue
 				</button>
 			</div>
@@ -179,15 +180,13 @@
 
 <div class="panel panel-default" ng-show="step == 4">
 	<div class="panel-heading">
-		<h4 class="panel-title">Awesomeness Ahead!
-		</h4>
+		<h4 class="panel-title">Awesomeness Ahead!</h4>
 	</div>
 
 	<div class="panel-body">
 		<p class="lead">Congratulations!</p>
 
 		<div ng-show="app.storage_service_id != null"><!-- local storage -->
-
 			<p>Your application has been successfully created. When you select the
 				<strong>Apps</strong> tab from the left sidebar, you will see your application in the list. Each DSP instance comes with example applications to help get you started as well.
 			</p>
@@ -207,12 +206,10 @@
 			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
 				<a data-ng-click="goToApps();" class="btn btn-success">Launch Your App!</a>
 			</div>
-
 		</div>
 
 		<div ng-show="!app.storage_service_id"><!-- remote storage -->
-			<p>Your application's back-end has been successfully created. To get started, click the
-				<strong>Download SDK</strong> button below to download the latest DreamFactory Javascript SDK. Unzip the file into a local folder to create a workspace for building your application. To get started run the
+			<p>Your application's back-end has been successfully created. To get started, click the appropriate SDK download button below to grab the latest SDKs. Unzip the file into a local folder to create a workspace for building your application. To get started run the
 				<strong>index.html</strong> file in a browser, example code is included to help you get started calling the services and building your application. There is also a
 				<strong>README</strong> file with additional pertinent information.
 			</p>
@@ -220,7 +217,9 @@
 			<p>You can return to the
 				<strong>Admin Console</strong> at any time to explore the other available features of your DSP. This includes, but is not limited to, managing users, creating and assigning roles, creating and managing schemata, and wiring up external services!
 			</p>
+		</div>
 
+		<div ng-show="app.native != 1">
 			<p class="lead">Download the SDK!</p>
 
 			<p>The
@@ -244,14 +243,30 @@
 			<p class="callout highlight-block">Use of the SDK on the local file system requires your list of allowed hosts to be open (i.e. "*"). This setting is available in the
 				<strong>CORS Access</strong> section under the <strong>Config</strong> tab.
 			</p>
+		</div>
 
-			<div class="pull-right"><img src="img/local.png" /></div>
+		<div class="pull-right">
+			<span ng-show="app.native != 1"><img src="img/local.png" /></span> <span ng-show="app.native == 1"><img
+			src="img/native.png" /></span>
+		</div>
 
-			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-				<a data-ng-click="downloadSDK(); setStep(4)" class="btn btn-primary">Download the SDK</a>
-				<a class="btn btn-primary"
-					data-ng-click="goToApps();">Continue</a>
-			</div>
+		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+			
+			<span ng-show="app.native == 1">
+				<a href="https://github.com/dreamfactorysoftware/android-sdk" target="_blank" class="btn btn-success"><i
+					class="fa fa-android"
+					style="margin-right: 8px;"></i>Android SDK</a>
+				<a href="https://github.com/dreamfactorysoftware/ios-sdk" target="_blank" class="btn btn-success"><i
+					class="fa fa-apple"
+					style="margin-right: 8px;"></i>iOS SDK</a>
+				<a data-ng-click="goToDocs()" class="btn btn-warning"><i class="fa fa-book"
+					style="margin-right: 8px;"></i>API Documentation</a>
+			</span>
+
+			<span ng-show="app.native != 1"><a data-ng-click="downloadSDK(); setStep(4)"
+				class="btn btn-primary">Download the SDK</a></span>
+
+			<a class="btn btn-primary" data-ng-click="goToApps();">Continue</a>
 		</div>
 	</div>
 </div>
@@ -270,68 +285,76 @@ var _ajaxToggle = function(how) {
 	} else {
 		$('.ajax-toggle').addClass('hidden');
 	}
-}
+};
 
-jQuery(function($) {
-	var _validator;
-
-	_validator = $('form#qs-1').validate(
-		{
-			onkeyup:     false,
-			highlight:   function(element) {
-				$(element).closest('.form-group').addClass('has-error');
-			},
-			unhighlight: function(element) {
-				$(element).closest('.form-group').removeClass('has-error');
-			},
-			rules:       {
-				app_api_name: {
-					minlength:     3,
-					maxlength:     64,
-					validApiName:  true,
-					unusedApiName: true
+jQuery(
+	function($) {
+		var $_validator = $('form#qs-1').validate(
+			{
+				onkeyup:     false,
+				highlight:   function(element) {
+					$(element).closest('.form-group').addClass('has-error');
 				},
-				app_type:     {
-					required: true
-				}
-			},
-			messages:    {
-				app_api_name: {
-					unusedApiName: 'That application ID is already in use.'
+				unhighlight: function(element) {
+					$(element).closest('.form-group').removeClass('has-error');
+				},
+				rules:       {
+					app_api_name: {
+						minlength:     3,
+						maxlength:     64,
+						validApiName:  true,
+						unusedApiName: true
+					},
+					app_type:     {
+						required: true
+					}
+				},
+				messages:    {
+					app_api_name: {
+						unusedApiName: 'That application ID is already in use.'
+					}
 				}
 			}
-		});
+		);
 
-	jQuery.validator.addMethod('validApiName', function(value, element) {
-		return /([0-9a-zA-Z\-_])$/.test(value);
-	}, 'IDs may only contain letters, numbers, dashes, or underscores');
+		jQuery.validator.addMethod(
+			'validApiName', function(value, element) {
+				return /([0-9a-zA-Z\-_])$/.test(value);
+			}, 'IDs may only contain letters, numbers, dashes, or underscores'
+		);
 
-	jQuery.validator.addMethod('unusedApiName', function(value, element) {
-		var _success = false;
+		jQuery.validator.addMethod(
+			'unusedApiName', function(value, element) {
+				var _success = false;
 
-		_ajaxToggle(true);
+				_ajaxToggle(true);
 
-		$.ajax({
-				   url: CurrentServer + '/rest/system/app',
-				   async:    false,
-				   method:   'GET',
-				   data:     {filter: "name='" + value + "'", app_name: 'admin'},
-				   dataType: 'json'
-			   }).done(function(data) {
-			_success = ( 0 === data.record.length );
-			$(element).closest('.form-group').addClass(_success ? 'has-success' : 'has-error');
+				$.ajax(
+					{
+						url: CurrentServer + '/rest/system/app',
+						async:    false,
+						method:   'GET',
+						data:     {filter: "name='" + value + "'", app_name: 'admin'},
+						dataType: 'json'
+					}
+				).done(
+					function(data) {
+						_success = ( 0 === data.record.length );
+						$(element).closest('.form-group').addClass(_success ? 'has-success' : 'has-error');
 
-			if (_success) {
-				$('#btn-step-1').removeClass('disabled')
-			} else {
-				$('#btn-step-1').addClass('disabled');
+						if (!_success) {
+							$('#app_api_name').focus();
+						}
+					}
+				).always(
+					function() {
+						_ajaxToggle(false);
+					}
+				);
+
+				return _success;
 			}
-
-		}).always(function() {
-			_ajaxToggle(false);
-		});
-
-		return _success;
-	});
-});
+		);
+	}
+);
 </script>
