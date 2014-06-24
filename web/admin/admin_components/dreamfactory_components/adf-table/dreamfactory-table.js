@@ -77,7 +77,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     autoClose: true,
                     params: {
                         filter: null,
-                        limit: 50,
+                        limit: 3,
                         offset: 0,
                         fields: '*',
                         include_schema: true,
@@ -2460,7 +2460,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                    return $http({
                         method: 'POST',
                         url: scope.options.url,
-                        data: scope.newRecord
+                        data: scope.newRecord,
+                       params: {
+                           fields: '*'
+                       }
                     })
                 };
 
@@ -2478,7 +2481,20 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope._saveNewRecordToServer().then(
                         function (result) {
                             dfTableCallbacksService.run('onCreate', 'post', result);
-                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'})
+
+                            // check if we can fit the new record into the current page
+                            if (scope.record.length < scope.options.params.limit) {
+                                scope.record.push(result.data);
+
+                            }
+                            // check if we need to update our pagination due to record creation
+                            else if (scope.record.length * scope.pagesArr.length < scope.count + 1) {
+
+                                // manually create new page obj for pagination
+                                scope.pagesArr.push(scope._createPageObj(scope.pagesArr.length))
+                            }
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'});
                             scope._closeCreateRecord();
                         },
                         function (reject) {
