@@ -200,9 +200,10 @@ return array_merge(
         //-------------------------------------------------------------------------
         /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
+        //  I do not believe this is being utilized
         'dsp.debug_level'               => LoggingLevels::DEBUG,
         //-------------------------------------------------------------------------
-        //	Event System Options
+        //	Event and Scripting System Options
         //-------------------------------------------------------------------------
         //  If true, observation of events from afar will be allowed
         'dsp.enable_event_observers'    => true,
@@ -213,11 +214,13 @@ return array_merge(
         //  If true, event scripts will be ran
         'dsp.enable_event_scripts'      => true,
         //  If true, scripts not distributed by DreamFactory will be allowed
-        'dsp.enable_user_scripts'       => true,
+        'dsp.enable_user_scripts'       => false,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
-        // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
-        'dsp.log_all_events'            => true,
+        //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
+        'dsp.log_all_events'            => false,
+        //  If true, current request memory usage will be logged after script execution
+        'dsp.log_script_memory_usage'   => false,
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------
