@@ -128,6 +128,7 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
             $scope.servicesDataObj = $scope.__getDataFromResponse(getServicesData);
 
 
+
             $scope.updateConfig = function () {
 
                 $scope._updateConfig()
