@@ -399,24 +399,32 @@ h3.panel-title {
 	padding: 8px 12px;
 }
 
-.list-group-item > i.fa {
+.alert > i.fa {
+	vertical-align: middle;
+}
+
+.list-group-item > i.fa, .alert > i.fa {
 	min-width:    14px;
 	margin-right: 10px;
 	opacity:      0.8;
+	transition:   opacity 0.3s;
 }
 
-a.list-group-item:hover > i.fa {
-	opacity: 1;
+a.list-group-item:hover > i.fa, .alert:hover > i.fa {
+	opacity:    1;
+	transition: opacity 0.3s;
 }
 
 .radio > label > i.fa, .form-group > a > i.fa {
 	margin-left:  4px;
 	margin-right: 4px;
 	opacity:      0.8;
+	transition:   opacity 0.3s;
 }
 
 .radio > label > i.fa:hover, .form-group > a > i.fa:hover {
-	opacity: 1;
+	opacity:    1;
+	transition: opacity 0.3s;
 }
 
 #schema-editor {
