@@ -46,12 +46,16 @@
                 <span style="position: relative; top: 6px">{{service.name}}</span>
                     <span class="input-group-btn">
                         <button type="button"
-                                data-ng-show="service.type === 'Remote File Storage' || service.type === 'Local File Storage'"
+                                style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
+                                data-ng-if="service.type === 'Remote File Storage' || service.type === 'Local File Storage'"
                                 class="btn btn-default btn-sm"
                                 title="Manage service files" data-ng-click="showFileManager()"><i
                                 class="fa fa-folder-open fa-fw"></i>
                         </button>
-                        <button type="button" data-ng-click="showSwagger()" class="btn btn-default btn-sm"
+                        <button type="button"
+                                data-ng-click="showSwagger()"
+                                class="btn btn-default btn-sm"
+                                style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
                                 title="Explore this service"><i class="fa fa-book fa-fw"></i></button>
 
 
