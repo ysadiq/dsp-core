@@ -296,18 +296,19 @@ angular.module('dfUtility', [])
     }])
     .service('dfLoadingScreen', [function () {
 
-        var loadingScreenText = $('<span style="text-align: center; width: 100px; height: 75px;"><h2 style="font- weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
+        var loadingScreenText = $('<span style="text-align: center; width: 240px; height: 75px;"><h2 style="font-weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
 
         var elem = angular.element('#loading-screen').css({
-            'width': 100 + '%',
-            'height': 100 + '%',
-            'backgroundColor': 'rgba(0, 0, 0, .8)',
-            'zIndex': 99998,
+            'width': '100%',
+            'height': '100%',
+            'background-color': 'rgba(0, 0, 0, .8)',
+            'z-index': 99998,
             'position': 'absolute',
             'top': 0,
             'left': 0,
             'bottom': 0,
-            'right': 0
+            'right': 0,
+			'overflow': 'hidden !important'
         }).hide();
 
 
@@ -316,7 +317,7 @@ angular.module('dfUtility', [])
                 'position': 'absolute',
                 'top': ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
                 'left': ($(elem).width() /2) - ($(loadingScreenText).width() / 2)
-            })
+            });
         });
 
 
