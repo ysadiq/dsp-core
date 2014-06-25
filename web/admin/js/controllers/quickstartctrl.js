@@ -131,7 +131,7 @@ Scope = $scope;
                     });
                 });
 
-				Service.newApp = data;
+				//Service.newApp = data;
                 $scope.step = 4;
 			}
 		);
