@@ -255,7 +255,10 @@ angular.module('dfUtility', [])
                 // WATCHERS AND INIT
                 scope.$watch('activeService', function (newValue, oldValue) {
 
-                    if (!newValue) return false;
+                    if (!newValue) {
+                        scope.resources = [];
+                        return false;
+                    }
 
                     scope.resources = [];
 
