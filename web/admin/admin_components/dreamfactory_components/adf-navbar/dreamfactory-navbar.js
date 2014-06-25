@@ -107,7 +107,7 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 $scope._navigateTo(linkObj);
             }else if (linkObj.url === $scope.currentPage.url) return false;
 
-            
+
             $scope._navigateTo(linkObj);
         };
 
