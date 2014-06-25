@@ -103,7 +103,11 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
 
         $scope.navigateTo = function(linkObj) {
 
-            if (linkObj.url === $scope.currentPage.url) return false;
+            if ($location.$$path === '/import') {
+                $scope._navigateTo(linkObj);
+            }else if (linkObj.url === $scope.currentPage.url) return false;
+
+            
             $scope._navigateTo(linkObj);
         };
 
@@ -137,7 +141,9 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 return false;
             }
 
-            //console.log(newValue.url + ' = ' + $location.$$path + ' = ' + $scope.currentPage.url);
+
+
+
         })
 
     }])
