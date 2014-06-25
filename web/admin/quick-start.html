@@ -52,7 +52,7 @@
 						data-ng-model="app.api_name"
 						data-ng-maxlength="64"
 						data-ng-minlength="3"
-						data-ng-pattern="/[0-9a-zA-Z\-_]/"
+						data-ng-pattern="/^[a-zA-Z0-9_\-]*$/"
 						placeholder="Your Application ID">
 					<span class="text-error" data-ng-show="form.api-name.$dirty && form.api-name.$invalid">Not Cool</span> <span class="text-error"
 					data-ng-show="form.api-name.$dirty && form.api-name.$valid">Cool</span>

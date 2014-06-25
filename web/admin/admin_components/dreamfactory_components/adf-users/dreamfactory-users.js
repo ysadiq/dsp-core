@@ -253,9 +253,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                 scope.$watch('uploadFile', function (newValue, oldValue) {
 
-                    console.log(newValue);
-                    console.log(oldValue);
-
                     if (!newValue) return false;
 
                     if (!scope._checkFileType(newValue)) {
