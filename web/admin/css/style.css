@@ -525,15 +525,19 @@ label.error {
 	font-family: "Open Sans", "Lato", Arial, sans-serif;
 }
 
-.btn-group-nav > .btn-md, .btn-group-nav.btn-group-md > .btn,
-.btn-group-nav > .dropdown-menu, .btn-group-nav > .btn {
+.btn-group-nav > .btn-md,
+.btn-group-nav.btn-group-md > .btn,
+.btn-group-nav > .dropdown-menu,
+.btn-group-nav > .btn {
 	font-size: 13px;
 }
 
-.btn-group-nav > .btn-sm, .btn-group-nav.btn-group-sm > .btn,
-.btn-group-nav > .btn-xs, .btn-group-nav.btn-group-xs > .btn,
+.btn-group-nav > .btn-sm,
+.btn-group-nav > .btn-xs,
+.btn-group-nav.btn-group-sm > .btn,
+.btn-group-nav.btn-group-xs > .btn,
 .btn-group-nav > .dropdown-menu {
-	font-size: 11px;
+	font-size: 13px;
 }
 
 .btn-group-nav > .btn > i.fa {
@@ -553,6 +557,31 @@ label.error {
 	margin-left:  4px;
 }
 
-.btn-group-nav > ul > li > a > i {
-	margin-right: 6px;
+.btn-group-nav > ul > li > a > i[class^="icon-"] {
+	margin-left:  0;
+	margin-right: 8px;
+	font-size:    1.4em;
+	color:        #428bca;
+	opacity:      0.5;
+	transition:   0.3s;
+}
+
+.btn-group-nav > ul > li > a > img[class^="icon-"] {
+	height:         18px;
+	vertical-align: top;
+	margin:         0 8px 0 -1px;
+	opacity:        0.5;
+	transition:     0.3s;
+}
+
+.btn-group-nav > ul > li > a:hover > img[class^="icon-"],
+.btn-group-nav > ul > li > a > img[class^="icon-"]:hover,
+.btn-group-nav > ul > li > a:hover > i[class^="icon-"],
+.btn-group-nav > ul > li > a > i[class^="icon-"]:hover {
+	opacity:    1.0;
+	transition: 0.3s;
+}
+
+.btn-group-nav > .dropdown-menu > li > a {
+	padding: 3px 20px 3px 10px;
 }

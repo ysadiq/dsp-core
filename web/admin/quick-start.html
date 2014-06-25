@@ -12,24 +12,14 @@
 
 		<div class="collapse navbar-collapse" id="admin-app-quickstart">
 			<div class="nav navbar-nav navbar-right">
-				<div class="btn-group btn-group-md btn-group-nav">
-					<button class="btn btn-default navbar-btn dropdown-toggle"
-						type="button"
-						data-toggle="dropdown">Downloads<i class="fa fa-caret-down"></i></button>
-					<ul class="dropdown-menu">
-						<li><a href="https://github.com/dreamfactorysoftware/javascript-sdk"
-							target="df-new"><i class="icon-javascript"></i>Javascript SDK</a></li>
-						<li><a href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><i class="icon-apple"></i>iOS SDK</a></li>
-						<li><a href="https://github.com/dreamfactorysoftware/android-sdk"
-							target="df-new"><i class="icon-android"></i>Android SDK</a>
-						</li>
-					</ul>
+				<div class="btn-group btn-group-nav">
+					<div ng-include="'_downloads.html'"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-	
+
 <style>
 	input.ng-dirty.ng-invalid {
 		border: 1px solid Red;
