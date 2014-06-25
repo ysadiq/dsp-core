@@ -66,7 +66,7 @@ $this->breadcrumbs = array(
                 <?php echo $form->hiddenField( $model, 'dummy' ); ?>
             </div>
             <div class="form-group">
-                <?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn' ) ); ?>
+                <?php echo $form->dropDownList( $model, 'selected', $model->versions, array( 'class' => 'btn btn-default' ) ); ?>
             </div>
 
             <?php echo $form->errorSummary( $model ); ?>
