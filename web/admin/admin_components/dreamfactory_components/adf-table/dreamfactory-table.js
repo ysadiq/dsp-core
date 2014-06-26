@@ -1204,12 +1204,20 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._getCurrentPage = function () {
 
+                    if (!scope.currentPage && scope.pagesArr.length > 0) {
+                        scope.currentPage = scope.pagesArr[0];
+                    } else if (!scope.currentPage && !scope.pagesArr.length) {
+
+                        scope.pagesArr.push(scope._createPageObj(0));
+                        scope.currentPage = scope.pagesArr[0];
+                    }
+
                     return scope.currentPage;
-                }
+                };
 
                 scope._isFirstPage = function () {
 
-                    return scope.currentPage.value === 0;
+                    return scope._getCurrentPage().value === 0;
                 };
 
                 scope._isLastPage = function () {
@@ -2491,7 +2499,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             dfTableCallbacksService.run('onCreate', 'post', result);
 
                             // check if we can fit the new record into the current page
-                            if (scope.record.length < scope.options.params.limit) {
+                            if (scope.record.length === 0) {
+
+                                scope._refreshResults();
+
+                            }
+                            else if (scope.record.length < scope.options.params.limit) {
+
+                                scope._addStateProps(result.data)
                                 scope.record.push(result.data);
 
                             }
