@@ -2286,9 +2286,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecordFromServer = function (recordDataObj) {
 
                     return $http({
-                        method: 'DELETE',
+                        method: 'POST',
                         url: scope.options.url,
-                        data: recordDataObj
+                        data: [recordDataObj],
+                        headers: {
+                            'X-HTTP-METHOD': 'DELETE'
+                        }
                     })
                 };
 
@@ -2311,6 +2314,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecord = function () {
 
                     scope._setInProgress(true);
+
                     dfTableCallbacksService.run('onDelete', 'pre', scope.currentEditRecord);
                     scope._deleteRecordFromServer(scope.currentEditRecord).then(
                         function (result) {
