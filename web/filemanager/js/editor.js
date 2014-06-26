@@ -85,7 +85,7 @@ EditorActions = {
             Editor.getSession().setMode("ace/mode/javascript");
         }
 
-        Editor.setValue(contents);
+        Editor.setValue(contents, -1);
         Editor.focus();
 
         $("#save").click(function(){

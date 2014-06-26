@@ -1,19 +1,26 @@
-<h4>Import App from Package File</h4>
-<div class="well" style=" height: 80%;padding: 10px;position: absolute;width: 100%;">
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Import App</div>
+        </div>
+    </div>
+</div>
+<div>
     <div class="section">
         <h5>Choose a local .dfpkg file to import</h5>
-        <form class="form-inline" id="import-file-form" name="import-file-form"  ng-controller = 'FileCtrl' action="/rest/system/app/?app_name=admin" method="POST" enctype="multipart/form-data" target="importFileIframe">
-            <input id="fileInput" type="file" name="files" style="width:300px;"/><button ng-click='importPackageFile()' class="btn btn-primary">Import</button>
+        <form class="form-inline" id="import-file-form" name="import-file-form"  ng-controller = 'FileCtrl' method="POST" enctype="multipart/form-data" target="importFileIframe">
+            <input id="fileInput" name="files" type="file" style="width:300px;"/>
+            <button ng-click='importPackageFile()' class="btn btn-primary" style="margin-top:10px">Import</button>
         </form>
         <iframe style="display:none" frameBorder="0" id="importFileIframe" name="importFileIframe" src="about:blank" onload="checkResults(this)" width="100%" height="70px"></iframe>
     </div>
     <div class="section">
         <h5>OR enter the URL for a .dfpkg file to import</h5>
-        <form class="form-inline" id="import-url-form" name="import-url-form"  ng-controller = 'FileCtrl' action="/rest/system/app/?app_name=admin" method="POST" target="importUrlIframe">
-            <input id="urlInput" type="text" name="url" style="width:50%;"/>&nbsp;<button ng-click='importPackageUrl()' class="btn btn-primary">Import</button><br/>
+        <form class="form-inline" id="import-url-form" name="import-url-form"  ng-controller = 'FileCtrl' method="POST" target="importUrlIframe">
+            <input id="urlInput" type="text" style="width:50%;"/>&nbsp;<button ng-click='importPackageUrl()' class="btn btn-primary">Import</button><br/>
             <div>
                 <br/>
-                <p>These and other sample apps are at <a href="https://github.com/dreamfactorysoftware">github/dreamfactorysoftware</a>:</p>
+                <p>These and other sample apps are at <a target="_blank" href="https://github.com/dreamfactorysoftware">github/dreamfactorysoftware</a>:</p>
                 <a href="" onclick="$('#urlInput').val('https://raw.github.com/dreamfactorysoftware/app-todo-jquery/master/todojquery.dfpkg')">Todo List jQuery</a>
                 - Learn how to authenticate and make CRUD calls to your DSP using the JavaScript SDK.<br/>
                 <a href="" onclick="$('#urlInput').val('https://raw.github.com/dreamfactorysoftware/app-todo-angular/master/todoangular.dfpkg')">Todo List AngularJS</a>

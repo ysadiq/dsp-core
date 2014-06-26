@@ -1,57 +1,18 @@
-<table style="width:100%" >
-    <tr>
-        <td id="item-list" class="well">
-            <div id="grid-table">
-                <table id="app-list" class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Table Name</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr ng-repeat="table in schemaData" id="row_{{table.name}}">
-                        <td ng-click="showData()">{{table.name}}</td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </td>
-        <td>&nbsp;</td>
-        <td id="app-details" class="well">
-            <div class="navbar">
-                <div class="navbar-inner"><div class="brand">Manage Data</div>
-
-                </div>
-            </div>
-            <div id="splash">
-                <div class="alert alert-info">
-                    <li class="icon-info-sign"></li>
-                    &nbsp;Select a table from the left to begin viewing / editing data.  Click to edit a particular value in the rendered table.
-                </div>
-            </div>
-            <div>
-
-                <div class="detail-view">
-                    <div id="grid-container">
-
-                        <div id="schema-main" ng-grid="browseOptions"></div>
-
-                        <div ng-show = "relatedOptions.length">
-                            <select ng-disabled= "selectedRow.length==0" ng-model = "related">
-                                <option value="">Related Data</option>
-                                <option ng-click="showRelated()" ng-repeat="option in relatedOptions" value="{{option.name}}">{{option.name}}</option>
-                            </select>
-
-                        </div>
-
-                    </div>
-                </div>
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="navbar navbar-default">
+                <span style="display: inline" class="navbar-brand">Data Management</span>
 
             </div>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+
+    <df-service-picker data-services="__services__" data-selected="selected"></df-service-picker>
+    <df-table data-options="options"></df-table>
+</div>
+
+
+
+
 

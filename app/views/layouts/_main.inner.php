@@ -28,7 +28,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid df-navbar">
         <div class="navbar-header">
-            <div class="pull-left df-logo"><a href="/"><img src="/img/logo.png"></a></div>
+            <div class="pull-left df-logo"><a href="/"><img src="/img/logo-navbar-194x42.png"></a></div>
             <!--            <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>--><!--            <span class="pull-left df-brand"><span class="dream-orange">Dream</span>Factory</span>-->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
