@@ -321,35 +321,44 @@ var Docs = {
 
         function program1(depth0,data) {
 
-            var buffer = "", stack1;
-            buffer += "\n        <h4>Implementation Notes</h4>\n        <p>";
+            var buffer = "", stack1, _tempName = '';
+            buffer += "<h4>Implementation Notes</h4>\n        <p>";
             if (stack1 = helpers.notes) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
             else { stack1 = depth0.notes; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
             if(stack1 || stack1 === 0) { buffer += stack1; }
-            buffer += "</p>\n        ";
+            buffer += "</p>";
+			
             if (helpers.event_name || depth0.event_name) {
                 if ($.isArray(helpers.event_name)) {
-                    var _tempName;
-
                     _.each(helpers.event_name, function(event_name) {
                         _tempName += ', ' + event_name;
                     });
 
                     helpers.event_name = _tempName
-                }
+                } else if ($.isString(helpers.event_name) ) {
+					_tempName += ', ' + helpers.event_name;
+				}
+				
+				if ($.isString(depth0.event_name)) {
+					_tempName += ', ' + depth0.event_name;
+				}
 
-                buffer += "\n<h4>Events Generated</h4>\n        <p>";
+                buffer += "<h4>Events Generated</h4><p>";
+				
                 if (stack1 = helpers.event_name) {
                     stack1 = stack1.call(depth0, {hash: {}, data: data});
                 } else {
                     stack1 = depth0.event_name;
                     stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
                 }
-                if (stack1 || stack1 === 0) {
+                
+				if (stack1 || stack1 === 0) {
                     buffer += stack1;
                 }
-                buffer += "</p>\n        ";
+				
+                buffer += "</p>";
             }
+			
             return buffer;
         }
 

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8be604a9049d6cd9eb04bb428cacad07",
+    "hash": "93fb4e9dcb80277aa885592e1c23d286",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -134,9 +134,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -274,9 +274,9 @@
             ],
             "authors": [
                 {
-                    "name": "Jason Sykes",
+                    "name": "Sykes, Jason",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Javascript SDK",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.6.2",
+            "version": "1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "fc1506b7ef9f70ec93ea07b660dfbb1a54293124"
+                "reference": "6f9ce3fb780902311f8b5d16c37f492a99c80dc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/fc1506b7ef9f70ec93ea07b660dfbb1a54293124",
-                "reference": "fc1506b7ef9f70ec93ea07b660dfbb1a54293124",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/6f9ce3fb780902311f8b5d16c37f492a99c80dc6",
+                "reference": "6f9ce3fb780902311f8b5d16c37f492a99c80dc6",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-24 21:38:05"
+            "time": "2014-06-26 13:10:24"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1583,7 +1583,9 @@
             "time": "2013-08-05 19:13:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
@@ -1593,5 +1595,7 @@
     "platform": {
         "php": ">=5.3.18"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
