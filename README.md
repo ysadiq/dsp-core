@@ -1,6 +1,6 @@
 # dsp-core
 
-## DreamFactory Services Platform(tm) Core Server v1.6.0
+## DreamFactory Services Platform(tm) Core Server v1.6.3
 [![Dependency Status](https://www.versioneye.com/php/dreamfactory:dsp-core/badge.png)](https://www.versioneye.com/php/dreamfactory:dsp-core)
 [![Latest Stable Version](https://poser.pugx.org/dreamfactory/dsp-core/version.png)](https://packagist.org/packages/dreamfactory/dsp-core)
 [![Total Downloads](https://poser.pugx.org/dreamfactory/dsp-core/d/total.png)](https://packagist.org/packages/dreamfactory/dsp-core)
