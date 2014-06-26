@@ -2780,12 +2780,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     
                     case 'reference':
 
-                        if (scope.field.ref_table === scope.table) {
+                        /*if (scope.field.ref_table === scope.table && scope.field.value) {
                             scope.templateData.template = 'df-input-ref-text.html';
                             scope.templateData.editable = false;
                             console.log(scope.currentEditRecord[scope.field])
                             break;
-                        }
+                        }*/
 
                         var systemTablePrefix = 'df_sys_';
 
