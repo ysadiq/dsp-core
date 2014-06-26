@@ -30,7 +30,7 @@ if ( defined( 'DSP_VERSION' ) )
 /**
  * @var string
  */
-const DSP_VERSION = '1.6.0';
+const DSP_VERSION = '1.6.3';
 /**
  * @var string
  */
