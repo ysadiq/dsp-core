@@ -115,9 +115,14 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
 
                                 }else{
                                     path.verbs.forEach(function (verb) {
-                                        preEvent = event.name + "." + pathName + "." + verb.type + "." + "pre_process";
+                                        if(event.name !== pathName){
+                                            preEvent = event.name + "." + pathName + "." + verb.type + "." + "pre_process";
+                                            postEvent = event.name + "." + pathName + "." + verb.type + "." + "post_process";
+                                        }else{
+                                            preEvent =  pathName + "." + verb.type + "." + "pre_process";
+                                            postEvent = pathName + "." + verb.type + "." + "post_process";
+                                        }
                                         preObj = {"type": verb.type, "event": [preEvent]};
-                                        postEvent = event.name + "." + pathName + "." + verb.type + "." + "post_process";
                                         postObj = {"type": verb.type, "event": [postEvent]};
                                         path.verbs.push(preObj);
                                         path.verbs.push(postObj);
