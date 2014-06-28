@@ -63,26 +63,26 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
                                 if (Object.keys($scope.tables).indexOf(event.name) != '-1' && pathName !== event.name) {
                                     var newpath = {};
                                     //console.log(event);
-                                  $scope.tables[event.name].forEach(function (table) {
-                                      newpath = {};
-                                      updateEvent =  {"type": "put",
-                                          "event": [
-                                              event.name + "." + table.name + ".update"
-                                          ]};
-                                      deleteEvent =  {"type": "delete",
-                                          "event": [
-                                              event.name + "." + table.name + ".delete"
-                                          ]};
-                                      insertEvent =  {"type": "post",
-                                          "event": [
-                                              event.name + "." + table.name + ".insert"
-                                          ]};
-                                      selectEvent =  {"type": "get",
-                                          "event": [
-                                              event.name + "." + table.name + ".select"
-                                          ]};
-                                      newpath.verbs = [];
-                                      newpath.path = "/" + event.name +"/" + table.name;
+                                    $scope.tables[event.name].forEach(function (table) {
+                                        newpath = {};
+                                        updateEvent =  {"type": "put",
+                                            "event": [
+                                                event.name + "." + table.name + ".update"
+                                            ]};
+                                        deleteEvent =  {"type": "delete",
+                                            "event": [
+                                                event.name + "." + table.name + ".delete"
+                                            ]};
+                                        insertEvent =  {"type": "post",
+                                            "event": [
+                                                event.name + "." + table.name + ".insert"
+                                            ]};
+                                        selectEvent =  {"type": "get",
+                                            "event": [
+                                                event.name + "." + table.name + ".select"
+                                            ]};
+                                        newpath.verbs = [];
+                                        newpath.path = "/" + event.name +"/" + table.name;
 
                                         path.verbs.forEach(function (verb) {
                                             preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
@@ -95,29 +95,29 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
                                             newpath.verbs.push(postObj);
 
                                         });
-                                      var found = false;
-                                      event.paths.forEach(function(pathObj){
+                                        var found = false;
+                                        event.paths.forEach(function(pathObj){
 
-                                          if(pathObj.path === newpath.path){
-                                               found = true;
-                                          }
+                                            if(pathObj.path === newpath.path){
+                                                found = true;
+                                            }
 
-                                          });
-                                      if(!found){
-                                          newpath.verbs.push(selectEvent);
-                                          newpath.verbs.push(insertEvent);
-                                          newpath.verbs.push(updateEvent);
-                                          newpath.verbs.push(deleteEvent);
-                                          event.paths.push(newpath)
-                                      }
+                                        });
+                                        if(!found){
+                                            newpath.verbs.push(selectEvent);
+                                            newpath.verbs.push(insertEvent);
+                                            newpath.verbs.push(updateEvent);
+                                            newpath.verbs.push(deleteEvent);
+                                            event.paths.push(newpath)
+                                        }
 
-                                  });
+                                    });
 
                                 }else{
                                     path.verbs.forEach(function (verb) {
-                                        preEvent = pathName + "." + verb.type + "." + "pre_process";
+                                        preEvent = event.name + "." + pathName + "." + verb.type + "." + "pre_process";
                                         preObj = {"type": verb.type, "event": [preEvent]};
-                                        postEvent = pathName + "." + verb.type + "." + "post_process";
+                                        postEvent = event.name + "." + pathName + "." + verb.type + "." + "post_process";
                                         postObj = {"type": verb.type, "event": [postEvent]};
                                         path.verbs.push(preObj);
                                         path.verbs.push(postObj);
