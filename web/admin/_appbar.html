@@ -1,0 +1,22 @@
+<div class="callout callout-default callout-info">
+	<h4 class="ng-binding">{{action}} Application</h4>
+
+	<div class="btn-toolbar navbar-right">
+		<div class="btn-group btn-group-sm btn-group-nav">
+			<button type="button" class="btn btn-default well-btn" data-ng-click="goToImport()">
+				<i class="fa fa-upload"></i>Import
+			</button>
+			<button type="button" class="btn btn-default well-btn" data-ng-click="promptForNew()">
+				<i class="fa fa-plus-circle"></i>New
+			</button>
+			<button type="button"
+					class="btn btn-default update_button well-btn"
+					data-ng-click="save()"
+					style="display: none;"><i class="fa fa-save"></i>Update
+			</button>
+			<button type="button" class="btn btn-default save_button well-btn" data-ng-click="create()">
+				<i class="fa fa-save"></i>Save
+			</button>
+		</div>
+	</div>
+</div>

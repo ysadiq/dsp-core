@@ -217,13 +217,13 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 			$scope.app.launch_url = "";
 			$scope.app.is_url_external = 0;
 		}
-		
+
 		if ($scope.app.is_url_external == 1) {
 			$scope.app.name = $scope.app.api_name;
 			$scope.app.storage_service_id = null;
 			$scope.app.storage_container = null;
 		}
-		
+
 		AppsRelated.save($scope.app).$promise.then(
 			function(data) {
 				$scope.Apps.record.unshift(data);
@@ -444,7 +444,7 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 	$scope.init = function() {
 		$scope.currentServer = CurrentServer;
 		$scope.currentAppId = 0;
-		$scope.action = 'New';
+		$scope.action = 'Create';
 		$scope.app = {
 			is_url_external:         0,
 			native:                  true,

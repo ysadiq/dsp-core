@@ -7,8 +7,6 @@ blockquote, .callout {
 	box-shadow:         0 0 6px rgba(0, 0, 0, 0.5);
 	font-size:          14px;
 	font-family:        "Open Sans", Arial, sans-serif;
-	min-height:         65px;
-	line-height:        65px;
 }
 
 .column, .columns {
@@ -18,7 +16,9 @@ blockquote, .callout {
 }
 
 .callout.callout-info, .callout.callout-default {
-	border-radius:      0 4px 4px 0;
+	margin:             2px 0 20px 0 !important;
+	padding:            2px 14px 12px 14px;
+	border-radius:      4px;
 	border:             1px solid #e7e7e7;
 	border-left:        .5em solid #49afcd;
 	-webkit-box-shadow: none;
@@ -26,9 +26,11 @@ blockquote, .callout {
 	box-shadow:         none;
 }
 
-.callout-success {
-	border-color: rgba(71, 173, 9, .25);
-	border-left:  .5em solid rgba(71, 173, 9, 1);
+.callout.callout-info > h4:first-child,
+.callout.callout-default > h4:first-child {
+	margin:  0;
+	padding: 10px 0 0;
+	display: inline-block;
 }
 
 .callout-warning {

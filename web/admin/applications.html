@@ -38,28 +38,7 @@
 		</div>
 
 		<div class="col-md-9 app-master">
-			<div class="callout callout-default callout-info">
-				<h4 style="display: inline-block; " class="ng-binding">{{action}} Application</h4>
-
-				<div class="btn-toolbar pull-right">
-					<div class="btn-group btn-group-sm btn-group-nav">
-						<button type="button" class="btn btn-default well-btn" data-ng-click="goToImport()">
-							<i class="fa fa-upload"></i>Import
-						</button>
-						<button type="button" class="btn btn-default well-btn" data-ng-click="promptForNew()">
-							<i class="fa fa-plus-circle"></i>New
-						</button>
-						<button type="button"
-								class="btn btn-default update_button well-btn"
-								data-ng-click="save()"
-								style="display: none;"><i class="fa fa-save"></i>Update
-						</button>
-						<button type="button" class="btn btn-default save_button well-btn" data-ng-click="create()">
-							<i class="fa fa-save"></i>Save
-						</button>
-					</div>
-				</div>
-			</div>
+			<div data-ng-include="'_appbar.html'"></div>
 
 			<div class="add_new">
 				<div id="file-manager">
@@ -72,7 +51,8 @@
 
 				<div id="step1">
 					<div id="context-root" class="local">
-						<label><b>App Name</b></label>
+						<h5><i class="fa fa-key"></i>Application ID</h5>
+
 						<span class="text-info"> <strong>This is your API KEY (X-DreamFactory-Application-Name) </strong></span>
 
 						<input class="form-control"
@@ -83,7 +63,8 @@
 					<br />
 
 					<div class="options">
-						<label><i class="fa fa-hdd-o"></i>&nbsp;<b>Where will this app live?</b></label>
+						<h5><i class="fa fa-hdd-o"></i>Storage Location</h5>
+
 						<ul class="list-group">
 							<li class="list-group-item">
 								<label>
@@ -255,5 +236,6 @@
 
 			</div>
 		</div>
-
-		<iframe style="display: none;" seamless="seamless" id="sdk-download"></iframe>
+	</div>
+</div>
+<iframe style="display: none;" seamless="seamless" id="sdk-download"></iframe>

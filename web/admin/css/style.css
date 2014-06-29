@@ -642,4 +642,16 @@ a.list-group-item:hover > .btn-group-list {
 
 .app-master {
 	padding-left: 0;
+	font-size:    13px;
+}
+
+.app-master > div h5:first-child {
+	font-weight: bold;
+	font-size:   13px;
+}
+
+.app-master > div h5:first-child > i.fa {
+	margin-right:   8px;
+	font-size:      1.4em;
+	vertical-align: middle;
 }
