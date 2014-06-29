@@ -1,5 +1,5 @@
 blockquote, .callout {
-	margin:             1.5em 0 1.5em;
+	margin:             0 0 20px;
 	padding:            .75em .5em .75em 1em;
 	background:         #fff;
 	-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
@@ -7,6 +7,8 @@ blockquote, .callout {
 	box-shadow:         0 0 6px rgba(0, 0, 0, 0.5);
 	font-size:          14px;
 	font-family:        "Open Sans", Arial, sans-serif;
+	min-height:         65px;
+	line-height:        65px;
 }
 
 .column, .columns {
@@ -15,8 +17,26 @@ blockquote, .callout {
 	border-left: .5em solid transparent;
 }
 
-.callout {
-	border-left: .5em solid #fff;
+.callout.callout-info, .callout.callout-default {
+	border-radius:      0 4px 4px 0;
+	border:             1px solid #e7e7e7;
+	border-left:        .5em solid #49afcd;
+	-webkit-box-shadow: none;
+	-moz-box-shadow:    none;
+	box-shadow:         none;
+}
+
+.callout-success {
+	border-color: rgba(71, 173, 9, .25);
+	border-left:  .5em solid rgba(71, 173, 9, 1);
+}
+
+.callout-warning {
+	border-left: .5em solid #d4af37;
+}
+
+.callout-danger {
+	border-left: .5em solid #da4f49;
 }
 
 .callout h2:first-child, blockquote h2:first-child {
