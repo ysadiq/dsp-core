@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.6
+#   More bitnami-aware. Use proper user for web user
+#
 # v1.3.5
 #   Made bitnami-aware. Use PHP from stack instead of installed version
 #
@@ -117,13 +120,14 @@
 ##
 ##	Initial settings
 ##
-VERSION=1.3.5
+VERSION=1.3.6
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
 DARWIN_WEB_USER=_www
+BITNAMI_WEB_USER=daemon
 BASE=`pwd`
 FABRIC=0
 FABRIC_MARKER=/var/www/.fabric_hosted
@@ -139,6 +143,7 @@ EXIT_CODE=0
 EXIT_CMD=()
 NO_COMPOSER=0
 ONLY_VALIDATE=0
+BITNAMI=0
 
 ## Who am I?
 if [ $UID -eq 0 ] ; then
@@ -166,6 +171,7 @@ if [ `basename ${BASE}` = "htdocs" ] ; then
 		PHP=../../../php/bin/php
 	fi
 
+	BITNAMI=1
 	TAG="Mode: ${B1}Bitnami${B2}"
 else
 	TAG="Mode: ${B1}Local${B2}"
@@ -238,18 +244,22 @@ usage() {
 # Determine the OS type and parse arguments accordingly
 #
 _parse_arguments() {
-	if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
-		WEB_USER=${DARWIN_WEB_USER}
-		_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
-
-		PARSED_OPTIONS=`getopt ${SHORT_OPTIONS} $*`
+	if [ BITNAMI -eq 1 ] ; then
+		WEB_USER=${BITNAMI_WEB_USER}
 	else
-		if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
-			_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+		if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
+			WEB_USER=${DARWIN_WEB_USER}
+			_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
+	
+			PARSED_OPTIONS=`getopt ${SHORT_OPTIONS} $*`
+		else
+			if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
+				_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+			fi
+	
+			#	Execute getopt on the arguments passed to this program, identified by the special character $@
+			PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
 		fi
-
-		#	Execute getopt on the arguments passed to this program, identified by the special character $@
-		PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
 	fi
 }
 
@@ -427,6 +437,11 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 	# Git submodules (not currently used, but could be in the future)
 	_dbg "Updating git submodules"
 	/usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
+	
+	_dbg "Cleaning up prior cached data"
+	[ -d "${STORAGE_DIR}/.private/store.cache" ] && rm -rf "${STORAGE_DIR}/.private/store.cache" 
+	[ -d "/tmp/dreamfactory" ] && rm -rf "/tmp/dreamfactory/*" 
+	rm -rf "/tmp/.dsp*" "/tmp/*.dfcc" 
 fi
 
 ##
