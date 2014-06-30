@@ -598,13 +598,13 @@ angular.module(
 
     }
 )
-    .run(function (SystemConfigDataService) {
-        var SystemConfig = SystemConfigDataService.getSystemConfigFromServerSync();
+    .run(['SystemConfigDataService', function (SystemConfigDataService) {
+       var SystemConfig = SystemConfigDataService.getSystemConfigFromServerSync();
         SystemConfigDataService.setSystemConfig(SystemConfig);
     }
 
 
-);
+]);
 
 var setCurrentApp = function (currentApp) {
     //$('.active').removeClass('active');
