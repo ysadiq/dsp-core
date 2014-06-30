@@ -109,7 +109,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $http ) {
                     return;
 
                 }
-                if(newValue === "sqlserver:"){
+                if(newValue === "sqlsrv:"){
                  Scope.sql_server_host_identifier = "Server";
                  Scope.sql_server_db_identifier = "Database";
                 }else{
