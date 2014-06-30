@@ -1,3 +1,7 @@
+a.btn > i.fa {
+	margin-right: 10px;
+}
+
 #grid-table table {
 	width:         250px;
 	margin-bottom: 0;
@@ -177,7 +181,7 @@ html, body, #container {
 
 #swagger, #docs {
 	margin-left:      10px;
-	background-color: white;
+	background-color: #fff;
 	position:         relative;
 	padding-bottom:   65.25%;
 	padding-top:      30px;
@@ -252,7 +256,7 @@ html, body, #container {
 }
 
 .path-verb {
-	padding:          0px;
+	padding:          0;
 	background-color: #FFFFFF;
 	border:           1px solid #DDDDDD;
 	margin-bottom:    -1px;
@@ -292,19 +296,9 @@ html, body, #container {
 	display:    inline;
 }
 
-#resource-container td {
-	vertical-align: top;
-	padding:        10px;
-}
-
-#resource-list {
-	width: 300px;
-}
-
 .resource-name {
-	width:   160px;
+	/*width:   160px;*/
 	display: inline-block;
-
 }
 
 .script-id {
@@ -363,11 +357,6 @@ html, body, #container {
 	margin-bottom: 3px;
 }
 
-#resource-list .active {
-	background-color: #428BCA;
-	color:            #FFFFFF;
-}
-
 #config-form {
 	padding: 10px;
 }
@@ -406,7 +395,7 @@ h3.panel-title {
 .list-group-item > i.fa, .alert > i.fa {
 	min-width:    14px;
 	margin-right: 8px;
-	opacity:      0.8;
+	opacity:      0.5;
 	transition:   opacity 0.3s;
 }
 
@@ -418,7 +407,7 @@ a.list-group-item:hover > i.fa, .alert:hover > i.fa {
 .radio > label > i.fa, .form-group > a > i.fa {
 	margin-left:  4px;
 	margin-right: 4px;
-	opacity:      0.8;
+	opacity:      0.5;
 	transition:   opacity 0.3s;
 }
 
@@ -511,6 +500,10 @@ a.list-group-item:hover > i.fa, .alert:hover > i.fa {
 	cursor: pointer;
 }
 
+.form-filter-input {
+	margin-bottom: 1em;
+}
+
 label.error {
 	margin-top: 5px;
 	color:      darkred;
@@ -519,6 +512,18 @@ label.error {
 .has-feedback .form-control-feedback {
 	top:   0;
 	right: 15px;
+}
+
+.has-feedback > .form-filter-input + .form-control-feedback {
+	opacity:    0.5;
+	transition: opacity 0.3s;
+	top:        -3px;
+}
+
+.has-feedback > .form-filter-input:focus + .form-control-feedback,
+.has-feedback > .form-filter-input:hover + .form-control-feedback {
+	opacity:    1.0;
+	transition: opacity 0.3s;
 }
 
 .btn-group-nav > .btn {
@@ -540,8 +545,15 @@ label.error {
 	font-size: 13px;
 }
 
+/*.btn-group-nav > .btn > .download-icon {*/
+/*width: 18px;*/
+/*}*/
+
 .btn-group-nav > .btn > i.fa {
 	margin-right: 8px;
+	opacity:      0.5;
+	transition:   opacity 0.5s;
+	color:        #428bca;
 }
 
 .btn-group-nav.btn-group-sm > .btn > i.fa {
@@ -557,31 +569,98 @@ label.error {
 	margin-left:  4px;
 }
 
-.btn-group-nav > ul > li > a > i[class^="icon-"] {
-	margin-left:  0;
-	margin-right: 8px;
-	font-size:    1.4em;
-	color:        #428bca;
-	opacity:      0.5;
-	transition:   0.3s;
+.btn-group-nav > .dropdown-menu > li > a {
+	padding-left: 12px;
 }
 
-.btn-group-nav > ul > li > a > img[class^="icon-"] {
+.btn-group-nav > .well-btn {
+	margin-top:    4px;
+	margin-bottom: 4px;
+}
+
+.btn-group-nav > .dropdown-menu > li > a > .dropdown-icon {
+	padding:    0;
+	width:      22px;
+	height:     18px;
+	display:    inline-block;
+	text-align: center;
+	margin:     0 8px 0 0;
+}
+
+.btn-group-nav > ul > li > a > .dropdown-icon > [class^="icon-"] {
+	font-size:  1.4em;
+	opacity:    0.5;
+	transition: 0.3s;
+}
+
+.btn-group-nav > ul > li > a > .dropdown-icon > img[class^="icon-"] {
 	height:         18px;
-	vertical-align: top;
-	margin:         0 8px 0 -1px;
+	vertical-align: middle;
 	opacity:        0.5;
 	transition:     0.3s;
 }
 
-.btn-group-nav > ul > li > a:hover > img[class^="icon-"],
-.btn-group-nav > ul > li > a > img[class^="icon-"]:hover,
-.btn-group-nav > ul > li > a:hover > i[class^="icon-"],
-.btn-group-nav > ul > li > a > i[class^="icon-"]:hover {
+.btn-group-list > .btn-xs, .btn-group-list.btn-group-xs > .btn {
+	padding: 0 4px;
+}
+
+.btn-group-nav > .btn:hover > i.fa,
+.btn-group-nav > ul > li > a:hover > .dropdown-icon > [class^="icon-"],
+.btn-group-nav > ul > li > a > .dropdown-icon:hover > [class^="icon-"],
+.btn-group-nav > ul > li > a > .dropdown-icon > [class^="icon-"]:hover {
 	opacity:    1.0;
 	transition: 0.3s;
 }
 
-.btn-group-nav > .dropdown-menu > li > a {
-	padding: 3px 20px 3px 10px;
+#resource-container {
+	margin:  0;
+	padding: 0;
+}
+
+#angular-content .navbar.navbar-default.ng-scope {
+	margin-bottom: 10px;
+}
+
+.list-group-resources > a.list-group-item {
+	padding:   6px 8px 8px;
+	font-size: 13px;
+}
+
+a.list-group-item > .btn-group-list > .btn.btn-default {
+	min-width: 22px;
+}
+
+a.list-group-item > .btn-group-list {
+	display: none;
+}
+
+a.list-group-item.active > .btn-group-list,
+a.list-group-item:active > .btn-group-list,
+a.list-group-item:focus > .btn-group-list,
+a.list-group-item:hover > .btn-group-list {
+	display: inline-block;
+}
+
+.app-master {
+	padding-bottom: 15px;
+}
+
+.app-master > div h5:first-child {
+	font-weight: bold;
+	font-size:   13px;
+}
+
+.form-group > .alert > p:first-child {
+	margin-top: 10px;
+}
+
+.alert > strong:first-child > i.fa,
+.form-group > .control-label > i.fa {
+	margin-right:   8px;
+	font-size:      1.4em;
+	vertical-align: middle;
+}
+
+.form-group > label {
+	vertical-align: middle;
 }
