@@ -458,6 +458,70 @@ angular.module('dfUtility', [])
         }
 
     }])
+    .service('SystemConfigDataService', ['DSP_URL', function (DSP_URL) {
+
+        var systemConfig = {};
+
+        function _getSystemConfigFromServerSync() {
+
+            var xhr;
+
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xhr=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xhr=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xhr.open("GET", DSP_URL + '/rest/system/config', false);
+            xhr.setRequestHeader("X-DreamFactory-Application-Name", "admin");
+            xhr.overrideMimeType("application/json");
+
+            xhr.send();
+
+            if (xhr.readyState==4 && xhr.status==200) {
+                return angular.fromJson(xhr.responseText);
+            }else {
+                throw {
+                    module: 'DreamFactory System Config Module',
+                    type: 'error',
+                    provider: 'dreamfactory',
+                    exception: 'XMLHTTPRequest Failure:  _getSystemConfigFromServer() Failed retrieve config.  Please contact your system administrator.'
+                }
+            }
+        }
+
+        function _getSystemConfig() {
+
+            return systemConfig;
+        }
+
+        function _setSystemConfig(userDataObj) {
+
+            systemConfig = userDataObj;
+        }
+
+
+        return {
+
+            getSystemConfigFromServerSync: function () {
+
+                return _getSystemConfigFromServer();
+            },
+
+            getSystemConfig: function () {
+
+                return _getSystemConfig();
+            },
+
+            setSystemConfig: function (systemConfigDataObj) {
+
+                _setSystemConfig(systemConfigDataObj);
+            }
+        }
+    }])
     .filter('orderAndShowSchema', [ function () {
 
         return function (items, fields, reverse) {
