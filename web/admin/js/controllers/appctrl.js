@@ -137,8 +137,8 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 	};
 
 	$scope.promptForNew = function() {
-		$scope.currentAppId = '';
-		$scope.action = "Create";
+		$scope.currentAppId = 0;
+		$scope.action = 'Create';
 		Scope.app = {
 			is_url_external:     '0',
 			native:              true,
@@ -147,12 +147,11 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 		};
 		Scope.navbar = {title: ''};
 		Scope.app.storage_service_id = Scope.defaultStorageID;
-		Scope.app.storage_container = "applications";
-		$('#context-root').show();
-		$('#file-manager').hide();
-		$('#app-preview').hide();
+		Scope.app.storage_container = 'applications';
+
+		$('.app-sub-view').hide();
 		$('#step1').show();
-		$("tr.info").removeClass('info');
+
 		$(window).scrollTop(0);
 	};
 
@@ -379,12 +378,10 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 			Scope.app.storage_container = null;
 		}
 		$('#button_holder').hide();
-		$('#file-manager').hide();
-		$('#app-preview').hide();
+		$('.app-sub-view, #file-manager, #app-preview').hide();
 		$('#step1').show();
 		//$scope.app = data;
 		$scope.currentAppId = $scope.app.id;
-
 	};
 
 	Scope.isAppInRole = function() {

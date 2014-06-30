@@ -553,6 +553,7 @@ label.error {
 	margin-right: 8px;
 	opacity:      0.5;
 	transition:   opacity 0.5s;
+	color:        #428bca;
 }
 
 .btn-group-nav.btn-group-sm > .btn > i.fa {
@@ -641,8 +642,7 @@ a.list-group-item:hover > .btn-group-list {
 }
 
 .app-master {
-	padding-left: 0;
-	font-size:    13px;
+	padding-bottom: 15px;
 }
 
 .app-master > div h5:first-child {
@@ -650,8 +650,17 @@ a.list-group-item:hover > .btn-group-list {
 	font-size:   13px;
 }
 
-.app-master > div h5:first-child > i.fa {
+.form-group > .alert > p:first-child {
+	margin-top: 10px;
+}
+
+.alert > strong:first-child > i.fa,
+.form-group > .control-label > i.fa {
 	margin-right:   8px;
 	font-size:      1.4em;
+	vertical-align: middle;
+}
+
+.form-group > label {
 	vertical-align: middle;
 }
