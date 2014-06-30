@@ -508,7 +508,7 @@ angular.module('dfUtility', [])
 
             getSystemConfigFromServerSync: function () {
 
-                return _getSystemConfigFromServer();
+                return _getSystemConfigFromServerSync();
             },
 
             getSystemConfig: function () {

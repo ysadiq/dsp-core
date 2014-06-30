@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $http ) {
+var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataService ) {
 
     // Used to let us know when the Services are loaded
     $scope.servicesLoaded = false;
@@ -70,8 +70,8 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $http ) {
 	);
 	Scope = $scope;
     Scope.sql_placeholder="mysql:host=my_server;dbname=my_database";
-    if(navigator.appVersion.indexOf("Windows") != -1){
-
+    //var systemConfig = SystemConfigDataService.getSystemConfig();
+    if(SystemConfigDataService.getSystemConfig().server_os.indexOf("Microsoft") !== -1){
         Scope.sql_placeholder="mysql:Server=my_server;Database=my_database";
         Scope.microsoft_sql_server_prefix = "sqlsrv:"
     }else{

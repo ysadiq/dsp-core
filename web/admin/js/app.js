@@ -42,10 +42,10 @@ angular.module(
     .constant("DSP_URL", CurrentServer)
     .constant("API_KEY", "admin")
     .config(
-        function($httpProvider, API_KEY){
-            $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
-        }
-    )
+    function ($httpProvider, API_KEY) {
+        $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
+    }
+)
     .config(['$provide', function ($provide) {
         $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
             function ($delegate, $injector) {
@@ -101,16 +101,16 @@ angular.module(
 
                             };
 
-                            $(function(){
+                            $(function () {
                                 new PNotify({
                                     title: exception.module,
-                                    type:  exception.type,
-                                    text:  parseDreamFactoryError(exception)
+                                    type: exception.type,
+                                    text: parseDreamFactoryError(exception)
                                 });
                             });
                         }]);
 
-                        $injector.invoke(['$rootScope', function($rootScope) {
+                        $injector.invoke(['$rootScope', function ($rootScope) {
                             $rootScope.$broadcast('dfclient:error');
                         }])
                     }
@@ -153,12 +153,12 @@ angular.module(
                     }
                 }
             );
-/*            $routeProvider.when(
-                '/user', {
-                    controller: UserCtrl,
-                    templateUrl: 'users.html'
-                }
-            );*/
+            /*            $routeProvider.when(
+             '/user', {
+             controller: UserCtrl,
+             templateUrl: 'users.html'
+             }
+             );*/
             $routeProvider.when(
                 '/role', {
                     controller: RoleCtrl,
@@ -189,7 +189,7 @@ angular.module(
                 '/schema', {
                     controller: SchemaCtrl,
                     templateUrl: 'schema.html',
-                    resolve : {
+                    resolve: {
                         startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
 
                             // start the loading screen
@@ -246,19 +246,19 @@ angular.module(
                 }
             );
 
-           /*=
-            $routeProvider.when(
-                '/config', {
-                    controller: ConfigCtrl,
-                    templateUrl: 'config.html'
-                }
-            );*/
+            /*=
+             $routeProvider.when(
+             '/config', {
+             controller: ConfigCtrl,
+             templateUrl: 'config.html'
+             }
+             );*/
 
             $routeProvider.when(
                 '/data', {
                     controller: DataCtrl,
                     templateUrl: 'data.html',
-                    resolve : {
+                    resolve: {
                         startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
 
                             // start the loading screen
@@ -281,7 +281,7 @@ angular.module(
                 '/scripts', {
                     controller: ScriptCtrl,
                     templateUrl: 'scripts.html',
-                    resolve : {
+                    resolve: {
                         startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
 
                             // start the loading screen
@@ -340,7 +340,7 @@ angular.module(
                             return $q.reject(response);
                         }
                         else {
-                            $(function(){
+                            $(function () {
                                 new PNotify({
                                     title: 'API Error',
                                     text: getErrorString(response),
@@ -537,12 +537,12 @@ angular.module(
             '/rest/system/script/:script_id/?app_name=admin', {}, {
                 update: {
                     method: 'PUT',
-                    headers:{'Content-Type':'text/plain'}
+                    headers: {'Content-Type': 'text/plain'}
                 },
                 query: {
                     method: 'GET',
                     isArray: false,
-                    headers:{'Content-Type':'text/plain'}
+                    headers: {'Content-Type': 'text/plain'}
                 }
             }
         );
@@ -597,6 +597,13 @@ angular.module(
         };
 
     }
+)
+    .run(function (SystemConfigDataService) {
+        var SystemConfig = SystemConfigDataService.getSystemConfigFromServerSync();
+        SystemConfigDataService.setSystemConfig(SystemConfig);
+    }
+
+
 );
 
 var setCurrentApp = function (currentApp) {
