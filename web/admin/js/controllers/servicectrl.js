@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
+var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $http ) {
 
     // Used to let us know when the Services are loaded
     $scope.servicesLoaded = false;
@@ -73,7 +73,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
     if(navigator.appVersion.indexOf("Windows") != -1){
 
         Scope.sql_placeholder="mysql:Server=my_server;Database=my_database";
-        Scope.microsoft_sql_server_prefix = "sqlserver:"
+        Scope.microsoft_sql_server_prefix = "sqlsrv:"
     }else{
 
         Scope.microsoft_sql_server_prefix = "dblib:"
@@ -202,8 +202,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
 	{data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, enableCellEditOnFocus: true, enableRowSelection: false, displaySelectionCheckbox: false};
 
 	Scope.service = {};
-	Scope.Services = Service.get({},function() {
-
+	Scope.Services = Service.get({},function(response) {
         $scope.servicesLoaded = true;
 
         // Stop loading screen
