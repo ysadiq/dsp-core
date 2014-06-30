@@ -244,7 +244,7 @@ usage() {
 # Determine the OS type and parse arguments accordingly
 #
 _parse_arguments() {
-	if [ BITNAMI -eq 1 ] ; then
+	if [ ${BITNAMI} -eq 1 ] ; then
 		WEB_USER=${BITNAMI_WEB_USER}
 	else
 		if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
