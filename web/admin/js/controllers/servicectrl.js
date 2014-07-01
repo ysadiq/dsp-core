@@ -70,12 +70,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	);
 	Scope = $scope;
     Scope.sql_placeholder="mysql:host=my_server;dbname=my_database";
-    //var systemConfig = SystemConfigDataService.getSystemConfig();
-    if(SystemConfigDataService.getSystemConfig().server_os.indexOf("Microsoft") !== -1){
+    var systemConfig = SystemConfigDataService.getSystemConfig();
+    if(systemConfig.server_os.indexOf("win") !== -1 && systemConfig.server_os.indexOf("darwin") === -1){
         Scope.sql_placeholder="mysql:Server=my_server;Database=my_database";
         Scope.microsoft_sql_server_prefix = "sqlsrv:"
     }else{
-
         Scope.microsoft_sql_server_prefix = "dblib:"
     }
     $scope.sqlVendors = [
