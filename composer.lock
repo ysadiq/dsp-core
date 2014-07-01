@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -134,9 +134,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.6.3",
+            "version": "1.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "6f9ce3fb780902311f8b5d16c37f492a99c80dc6"
+                "reference": "5bd9ce9677d22ddba87ef535799854589ab910f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/6f9ce3fb780902311f8b5d16c37f492a99c80dc6",
-                "reference": "6f9ce3fb780902311f8b5d16c37f492a99c80dc6",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/5bd9ce9677d22ddba87ef535799854589ab910f9",
+                "reference": "5bd9ce9677d22ddba87ef535799854589ab910f9",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-26 13:10:24"
+            "time": "2014-06-30 14:01:26"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "be04a000dbea83d736a63086dfc7eaade29013fc"
+                "reference": "b9841339865f7aca62b6f883ab4d7832e6b87b29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/be04a000dbea83d736a63086dfc7eaade29013fc",
-                "reference": "be04a000dbea83d736a63086dfc7eaade29013fc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/b9841339865f7aca62b6f883ab4d7832e6b87b29",
+                "reference": "b9841339865f7aca62b6f883ab4d7832e6b87b29",
                 "shasum": ""
             },
             "require": {
@@ -475,7 +475,7 @@
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
+                    "role": "Lead Developer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -485,7 +485,7 @@
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Engineer, client-side; UX/QA"
+                    "role": "Lead Developer and QA, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -494,7 +494,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-06-23 18:59:40"
+            "time": "2014-06-27 19:12:57"
         },
         {
             "name": "dreamfactory/oasys",
@@ -830,17 +830,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "0951050a1e9bc3a031c780e8e5a8c94bdeb9d9c4"
+                "reference": "8228d1ee833dbec710161ac179d1fb9ff6cd6f28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0951050a1e9bc3a031c780e8e5a8c94bdeb9d9c4",
-                "reference": "0951050a1e9bc3a031c780e8e5a8c94bdeb9d9c4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/8228d1ee833dbec710161ac179d1fb9ff6cd6f28",
+                "reference": "8228d1ee833dbec710161ac179d1fb9ff6cd6f28",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
                 "psr/log": "~1.0"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "~2.4, >2.4.8",
@@ -890,7 +893,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-06-20 14:09:34"
+            "time": "2014-06-30 13:24:53"
         },
         {
             "name": "nikic/php-parser",

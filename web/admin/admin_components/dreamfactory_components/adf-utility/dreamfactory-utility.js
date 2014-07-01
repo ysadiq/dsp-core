@@ -1,6 +1,22 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
-
-
 
 angular.module('dfUtility', [])
     .constant('DF_UTILITY_ASSET_PATH', 'admin_components/dreamfactory_components/adf-utility/')
@@ -441,6 +457,70 @@ angular.module('dfUtility', [])
             }
         }
 
+    }])
+    .service('SystemConfigDataService', ['DSP_URL', function (DSP_URL) {
+
+        var systemConfig = {};
+
+        function _getSystemConfigFromServerSync() {
+
+            var xhr;
+
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xhr=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xhr=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xhr.open("GET", DSP_URL + '/rest/system/config', false);
+            xhr.setRequestHeader("X-DreamFactory-Application-Name", "admin");
+            xhr.overrideMimeType("application/json");
+
+            xhr.send();
+
+            if (xhr.readyState==4 && xhr.status==200) {
+                return angular.fromJson(xhr.responseText);
+            }else {
+                throw {
+                    module: 'DreamFactory System Config Module',
+                    type: 'error',
+                    provider: 'dreamfactory',
+                    exception: 'XMLHTTPRequest Failure:  _getSystemConfigFromServer() Failed retrieve config.  Please contact your system administrator.'
+                }
+            }
+        }
+
+        function _getSystemConfig() {
+
+            return systemConfig;
+        }
+
+        function _setSystemConfig(userDataObj) {
+
+            systemConfig = userDataObj;
+        }
+
+
+        return {
+
+            getSystemConfigFromServerSync: function () {
+
+                return _getSystemConfigFromServerSync();
+            },
+
+            getSystemConfig: function () {
+
+                return _getSystemConfig();
+            },
+
+            setSystemConfig: function (systemConfigDataObj) {
+
+                _setSystemConfig(systemConfigDataObj);
+            }
+        }
     }])
     .filter('orderAndShowSchema', [ function () {
 

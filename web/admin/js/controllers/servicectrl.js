@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
+var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataService ) {
 
     // Used to let us know when the Services are loaded
     $scope.servicesLoaded = false;
@@ -70,12 +70,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
 	);
 	Scope = $scope;
     Scope.sql_placeholder="mysql:host=my_server;dbname=my_database";
-    if(navigator.appVersion.indexOf("Windows") != -1){
-
+    var systemConfig = SystemConfigDataService.getSystemConfig();
+    if(systemConfig.server_os.indexOf("win") !== -1 && systemConfig.server_os.indexOf("darwin") === -1){
         Scope.sql_placeholder="mysql:Server=my_server;Database=my_database";
-        Scope.microsoft_sql_server_prefix = "sqlserver:"
+        Scope.microsoft_sql_server_prefix = "sqlsrv:"
     }else{
-
         Scope.microsoft_sql_server_prefix = "dblib:"
     }
     $scope.sqlVendors = [
@@ -109,7 +108,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
                     return;
 
                 }
-                if(newValue === "sqlserver:"){
+                if(newValue === "sqlsrv:"){
                  Scope.sql_server_host_identifier = "Server";
                  Scope.sql_server_db_identifier = "Database";
                 }else{
@@ -202,8 +201,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, $rootScope ) {
 	{data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, enableCellEditOnFocus: true, enableRowSelection: false, displaySelectionCheckbox: false};
 
 	Scope.service = {};
-	Scope.Services = Service.get({},function() {
-
+	Scope.Services = Service.get({},function(response) {
         $scope.servicesLoaded = true;
 
         // Stop loading screen

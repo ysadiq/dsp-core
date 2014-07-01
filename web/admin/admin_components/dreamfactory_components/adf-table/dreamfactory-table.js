@@ -1,3 +1,21 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
 
 
@@ -1204,12 +1222,20 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._getCurrentPage = function () {
 
+                    if (!scope.currentPage && scope.pagesArr.length > 0) {
+                        scope.currentPage = scope.pagesArr[0];
+                    } else if (!scope.currentPage && !scope.pagesArr.length) {
+
+                        scope.pagesArr.push(scope._createPageObj(0));
+                        scope.currentPage = scope.pagesArr[0];
+                    }
+
                     return scope.currentPage;
-                }
+                };
 
                 scope._isFirstPage = function () {
 
-                    return scope.currentPage.value === 0;
+                    return scope._getCurrentPage().value === 0;
                 };
 
                 scope._isLastPage = function () {
@@ -2278,9 +2304,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecordFromServer = function (recordDataObj) {
 
                     return $http({
-                        method: 'DELETE',
+                        method: 'POST',
                         url: scope.options.url,
-                        data: recordDataObj
+                        data: [recordDataObj],
+                        headers: {
+                            'X-HTTP-METHOD': 'DELETE'
+                        }
                     })
                 };
 
@@ -2303,6 +2332,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecord = function () {
 
                     scope._setInProgress(true);
+
                     dfTableCallbacksService.run('onDelete', 'pre', scope.currentEditRecord);
                     scope._deleteRecordFromServer(scope.currentEditRecord).then(
                         function (result) {
@@ -2491,7 +2521,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             dfTableCallbacksService.run('onCreate', 'post', result);
 
                             // check if we can fit the new record into the current page
-                            if (scope.record.length < scope.options.params.limit) {
+                            if (scope.record.length === 0) {
+
+                                scope._refreshResults();
+
+                            }
+                            else if (scope.record.length < scope.options.params.limit) {
+
+                                scope._addStateProps(result.data)
                                 scope.record.push(result.data);
 
                             }
@@ -2761,12 +2798,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     
                     case 'reference':
 
-                        if (scope.field.ref_table === scope.table) {
+                        /*if (scope.field.ref_table === scope.table && scope.field.value) {
                             scope.templateData.template = 'df-input-ref-text.html';
                             scope.templateData.editable = false;
                             console.log(scope.currentEditRecord[scope.field])
                             break;
-                        }
+                        }*/
 
                         var systemTablePrefix = 'df_sys_';
 
