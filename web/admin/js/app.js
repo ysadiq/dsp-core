@@ -294,6 +294,14 @@ angular.module(
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }],
+                        getFileServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                filter: 'type_id in (2,4098)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
                         }]
                     }
                 }
