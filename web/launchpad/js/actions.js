@@ -230,7 +230,7 @@ Actions = {
 		if ('admin' == name) {
 			var $_admin = $('#admin');
 
-			var $_adminApp = this.buildAppFrame(name, CurrentServer + url);
+			var $_adminApp = this.buildAppFrame(name, CurrentServer + '/admin/index.html?dsp_ver=' + Config.dsp_version + '#/');
 
 			if ($_admin.length) {
 				$_admin.replaceWith($_adminApp);
@@ -334,7 +334,7 @@ Actions = {
 		$('#adminLink').off('click');
 		this.$_fsToggle.off('click');
 
-		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
+		var name = 'admin', url = '/admin/index.html?dsp_ver=' + Config.dsp_version + '#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
 
 		this.animateNavBarClose(
 			function() {
