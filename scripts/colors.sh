@@ -22,7 +22,7 @@ _debug=${DF_DEBUG:=0} # set to 1 to enable debug logging
 # Reset & Escape
 C_ESC='\E['
 C_CLR='\E[0m'
-alias _treset="tput sgr0"
+alias _treset="tput sgr0 2&>/dev/null"
 
 # Foreground Codes
 CF_BLK="30"
@@ -54,11 +54,16 @@ _CYAN='36m'
 _WHITE='37m'
 
 # Initialize terminal database
-tput init
+tput init >/dev/null 2&>1
 
 # Bold on/off
-B1=`tput bold`
-B2=`tput sgr0`
+if [ $? -eq 0 ] ; then
+	B1=`tput bold`
+	B2=`tput sgr0`
+else
+	B1=
+	B2=
+fi
 
 # Color Echo
 # $1 = string to echo
