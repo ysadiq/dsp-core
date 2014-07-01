@@ -35,7 +35,7 @@ Actions = {
 	 */
 	init: function() {
 		this.$_error = $('#error-container');
-		this.$_fsToggle = $('#fs_toggle');
+		//this.$_fsToggle = $('#fs_toggle');
 		this.getConfig();
 	},
 
@@ -194,7 +194,7 @@ Actions = {
 		if (data.is_sys_admin && !_defaultShown) {
 			this.showApp('admin', '/admin/#/', '0', false);
 			$('#adminLink').off('click');
-			this.$_fsToggle.off('click');
+			$('#fs_toggle').off('click');
 		} else if (1 == data.app_groups.length && 1 == data.app_groups[0].apps.length && !data.no_group_apps.length) {
 			$('#app-list-container').hide();
 			this.showApp(
@@ -221,7 +221,11 @@ Actions = {
 	},
 
 	showApp: function(name, url, type, fullscreen, allowfullscreentoggle) {
-		this.$_fsToggle.addClass('disabled');
+
+
+
+		$('#fs_toggle').addClass('disabled');
+
 		$('#app-list-container').hide();
 		$('#apps-list-btn').removeClass('disabled');
 		$('iframe').hide();
@@ -257,13 +261,13 @@ Actions = {
 
 		// Show the app
 		if (allowfullscreentoggle) {
-			this.$_fsToggle.on(
+            $('#fs_toggle').on(
 				'click', function() {
-					Actions.toggleFullScreen(true);
+                    Actions.toggleFullScreen(true);
 				}
 			).removeClass('disabled');
 		} else {
-			this.$_fsToggle.off(
+			$('#fs_toggle').off(
 				'click', function() {
 					Actions.toggleFullScreen(false);
 				}
@@ -313,15 +317,14 @@ Actions = {
 	},
 
 	showAppList: function() {
-
 		$('#adminLink').on(
 			'click', function() {
 				Actions.showAdmin()
 			}
 		);
 		$('#adminLink').removeClass('disabled');
-		this.$_fsToggle.off('click');
-		this.$_fsToggle.addClass('disabled');
+		$('#fs_toggle').off('click');
+		$('#fs_toggle').addClass('disabled');
 		$('app-container').css({"z-index": 1});
 		$('#app-list-container').show();
 		$('#app-list-container').css({"z-index": 998});
@@ -332,7 +335,7 @@ Actions = {
 	showAdmin:   function() {
 
 		$('#adminLink').off('click');
-		this.$_fsToggle.off('click');
+		$('#fs_toggle').off('click');
 
 		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
 
@@ -517,13 +520,13 @@ Actions = {
 					$('#app-container').css({"top": "0px", "z-index": 998});
 					$('#navbar-container').css({"z-index": 10});
 					$('#rocket').show();
-				}
+                }
 			);
 
 		} else {
-			$('#app-container').css({"top": "44px", "z-index": 997});
+			$('#app-container').css({"top": "50px", "z-index": 997});
 			$('#navbar-container').css({"z-index": 999});
-			this.$_fsToggle.removeClass('disabled');
+			$('#fs_toggle').removeClass('disabled');
 			$('#rocket').hide();
 		}
 	},
@@ -549,3 +552,4 @@ jQuery(
 );
 
 Actions.init();
+
