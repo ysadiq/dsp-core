@@ -182,14 +182,14 @@ Main stylesheet for LaunchPad
 
 	#main-nav {
 		width:      100%;
-		background: rgba(0, 0, 0, .80);
+		/*background: rgba(0, 0, 0, .80);*/
 	}
 
 	#main-nav .btn {
 		padding:       10px;
 		font-size:     1.3em;
 		border-radius: 0;
-		margin-bottom: 10px;
+		/*margin-bottom: 10px;*/
 	}
 
 	#main-nav a:last-child {
@@ -201,8 +201,10 @@ Main stylesheet for LaunchPad
 		margin:  0;
 	}
 
+    /*
 	.navbar-spacer {
 		padding-left:  10px;
 		padding-right: 10px;
 	}
+	*/
 }
