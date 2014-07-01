@@ -1,53 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>DreamFactory Kakumu&trade;</title>
+
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>DreamFactory Hanzaki&trade;</title>
-	<meta name="description" content="DreamFactory Hanzaki(tm): Services Platform Manager" />
-	<meta name="keywords" content="rest, api, services, platform, framework, dsp, dsp-core, dreamfactory" />
-	<link rel="shortcut icon" href="img/logo-hanzaki.png">
-	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<link rel="shortcut icon" href="img/logo-app.png">
+
 	<link rel="stylesheet" type="text/css" href="css/demo.css" />
 	<link rel="stylesheet" type="text/css" href="css/icons.css" />
-	<link rel="stylesheet" type="text/css" href="css/component.css" />
-	<script src="js/modernizr.custom.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script type="application/javascript" src="js/modernizr.custom.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid container-pusher">
 	<!-- Push Wrapper -->
 	<div class="mp-pusher" id="mp-pusher">
 
 		<!-- mp-menu -->
-		<nav id="mp-menu" class="mp-menu">
+		<div id="mp-menu" class="mp-menu">
 			<div class="mp-level">
-				<h2 class="icon icon-world">All Categories</h2>
+				<h2><i class="fa fa-road"></i>AdminConsole</h2>
 
 				<ul>
-					<li class="icon icon-arrow-left">
-						<a class="icon icon-display" href="#">Devices</a>
+					<li class="">
+						<a href="#"><i class="fa fa-info-circle"></i>QuickStart</a>
+					</li>
+					<li class="">
 						<div class="mp-level">
-							<h2 class="icon icon-display">Devices</h2>
+							<h2><i class="fa fa-cog"></i>Configuration</h2>
 							<a class="mp-back" href="#">back</a>
 							<ul>
-								<li class="icon icon-arrow-left">
-									<a class="icon icon-phone" href="#">Mobile Phones</a>
-									<div class="mp-level">
-										<h2>Mobile Phones</h2>
+								<li class="fa fa-arrow-circle-left">
+									<a class="fa fa-globe" href="#">Global Settings</a>
+									<div class="mp-level list-group">
+										<h2>Global Settings</h2>
 										<a class="mp-back" href="#">back</a>
 										<ul>
-											<li>
-												<a href="#">Super Smart Phone</a>
+											<li class="">
+												<a href="#">CORS</a>
 											</li>
-											<li>
-												<a href="#">Thin Magic Mobile</a>
+											<li class="">
+												<a href="#">Security</a>
 											</li>
-											<li>
-												<a href="#">Performance Crusher</a>
+											<li class="">
+												<a href="#">Preferences</a>
 											</li>
-											<li>
-												<a href="#">Futuristic Experience</a>
+											<li class="">
+												<a href="#">Reporting</a>
+											</li>
+											<li class="">
+												<a href="#">Troubleshoot</a>
 											</li>
 										</ul>
 									</div>
@@ -100,29 +111,29 @@
 							</ul>
 						</div>
 					</li>
-					<li class="icon icon-arrow-left">
-						<a class="icon icon-news" href="#">Magazines</a>
+					<li class="">
+						<a href="#"><i class="fa fa-cloud"></i>Applications</a>
 						<div class="mp-level">
-							<h2 class="icon icon-news">Magazines</h2>
+							<h2><i class="fa fa-cloud"></i>Applications</h2>
 							<a class="mp-back" href="#">back</a>
 							<ul>
-								<li>
-									<a href="#">National Geographic</a>
+								<li class="">
+									<a href="#">Application #1</a>
 								</li>
-								<li>
-									<a href="#">Scientific American</a>
+								<li class="">
+									<a href="#">Application #2</a>
 								</li>
-								<li>
-									<a href="#">The Spectator</a>
+								<li class="">
+									<a href="#">Application #3</a>
 								</li>
-								<li>
-									<a href="#">The Rambler</a>
+								<li class="">
+									<a href="#">Application #4</a>
 								</li>
-								<li>
-									<a href="#">Physics World</a>
+								<li class="">
+									<a href="#">Application #5</a>
 								</li>
-								<li>
-									<a href="#">The New Scientist</a>
+								<li class="">
+									<a href="#">Application #6</a>
 								</li>
 							</ul>
 						</div>
@@ -208,18 +219,19 @@
 				</ul>
 
 			</div>
-		</nav>
+		</div>
 		<!-- /mp-menu -->
 
 		<div class="scroller"><!-- this is for emulating position fixed of the nav -->
 			<div class="scroller-inner">
 				<!-- Top Navigation -->
 				<div class="codrops-top clearfix">
-					<a class="codrops-icon codrops-icon-prev" href="http://tympanus.net/Tutorials/CircularNavigation/">
+					<a class="codrops-icon codrops-icon-prev"
+					   href="#">
 						<span>Previous Demo</span>
 					</a>
 					<span class="right"><a class="codrops-icon codrops-icon-drop"
-										   href="http://tympanus.net/codrops/?p=16252">
+										   href="#">
 						<span>Back to the Codrops Article</span>
 					</a></span>
 				</div>
@@ -233,11 +245,6 @@
 						<p>
 							<a href="#" id="trigger" class="menu-trigger">Open/Close Menu</a>
 						</p>
-						<nav class="codrops-demos">
-							<a href="index.html">Demo 1: Overlapping levels</a>
-							<a href="index2.html">Demo 2: Covering levels</a>
-							<a class="current-demo" href="index3.html">Demo 3: Overlapping levels with back links</a>
-						</nav>
 					</div>
 					<div class="block block-60">
 						<p><strong>Demo 3:</strong> Overlapping levels with back links</p>
@@ -265,11 +272,12 @@
 	</div>
 	<!-- /pusher -->
 </div>
-<!-- /container -->
+<!-- /container-fluid container-pusher-->
+
 <script src="js/classie.js"></script>
 <script src="js/mlpushmenu.js"></script>
 <script>
-new mlPushMenu(document.getElementById('mp-menu'), document.getElementById('trigger'));
+new mlPushMenu(document.getElementById('mp-menu'), document.getElementById('trigger'), {openMenu: true});
 </script>
 </body>
 </html>
