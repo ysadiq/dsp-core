@@ -22,7 +22,7 @@ _debug=${DF_DEBUG:=0} # set to 1 to enable debug logging
 # Reset & Escape
 C_ESC='\E['
 C_CLR='\E[0m'
-alias _treset="tput sgr0 2&>/dev/null"
+alias _treset="tput sgr0 2>/dev/null"
 
 # Foreground Codes
 CF_BLK="30"
@@ -54,7 +54,7 @@ _CYAN='36m'
 _WHITE='37m'
 
 # Initialize terminal database
-tput init >/dev/null 2&>1
+tput init 2>/dev/null
 
 # Bold on/off
 if [ $? -eq 0 ] ; then
