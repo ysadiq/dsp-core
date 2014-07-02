@@ -17,55 +17,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use Kisma\Core\Utility\HtmlMarkup;
-use Kisma\Core\Utility\Option;
+use Kisma\Core\Enums\HttpResponse;
 
 /**
- * @var $this    WebController
- * @var $error   array
- * @var $message string
+ * @var        $this    WebController
+ * @var        $string  $type
+ * @var string $message string
+ * @var int    $code
  */
 
-$_html = null;
-$_message = Option::get( $error, 'message', CHtml::encode( $message ) );
-
-if ( isset( $error ) && is_array( $error ) )
-{
-    $_html = '<table>';
-
-    foreach ( $error as $_key => $_value )
-    {
-        $_html .= HtmlMarkup::tag(
-            'tr',
-            null,
-            HtmlMarkup::tag( 'td', null, $_key ) .
-            HtmlMarkup::tag( 'td', null, $_value )
-        );
-    }
-
-    $_html .= '</table>';
-}
-
-if ( empty( $_html ) )
-{
-    $_html = 'None provided. Sorry...';
-}
+$_niceCode = HttpResponse::prettyNameOf( $code, true );
 
 ?>
-<div class="container container-error">
+<div class="container-fluid container-error">
     <h1>Well, this is embarrassing...</h1>
 
     <p class="lead">The server has experienced a fatal error. Our administrators will automatically be notified. However, if you would like to report additional information regarding this particular error, please open a case on our
         <a target="_blank" href="https://github.com/dreamfactorysoftware/dsp-core/issues">bug tracker</a>.
     </p>
 
-    <h3>Error <?php echo $code; ?></h3>
+    <div class="inset">
+        <h3>Error <?php echo $code; ?></h3>
+    </div>
 
     <div class="error">
-        <p class="lead"><?php echo $_message; ?></p>
+        <p class="lead"><?php echo $_niceCode; ?></p>
 
         <h3>Error Details</h3>
 
-        <p><?php echo $_html; ?></p>
+        <div class="inset">
+            <p><?php echo $message; ?></p>
+        </div>
     </div>
 </div>
+
+<pre><?php print_r( get_defined_vars() ); ?></pre>

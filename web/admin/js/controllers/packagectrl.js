@@ -16,14 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var PackageCtrl = function( $scope, AppsRelatedToService, Service, $http ) {
+var PackageCtrl = function(dfLoadingScreen, $scope, AppsRelatedToService, Service, $http ) {
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
 		}
 	);
 	Scope = $scope;
-	$scope.Apps = AppsRelatedToService.get();
+	$scope.Apps = AppsRelatedToService.get({}, function () {
+
+        // Stop loading screen
+        dfLoadingScreen.stop();
+    });
 	Scope.schemaData = {};
 	Scope.Services = Service.get(
 		function( data ) {
@@ -45,6 +50,7 @@ var PackageCtrl = function( $scope, AppsRelatedToService, Service, $http ) {
 		this.app.app_service_relations = [];
 		$( "input:checkbox" ).attr( 'checked', false );
 		$scope.app = angular.copy( this.app );
+        $scope.currentAppId = this.app.id;
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + Scope.app.id ).addClass( 'info' );
 

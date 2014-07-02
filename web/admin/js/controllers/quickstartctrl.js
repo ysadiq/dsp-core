@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
+Scope = $scope;
+
 	(
 		function() {
 			setCurrentApp( 'getting_started' );
@@ -48,7 +50,7 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
 
 	$scope.setStep = function( step ) {
 		if ( step == 2 && $scope.app.native == 1 ) {
-			$scope.step = 4;
+			//$scope.step = 4;
 			$scope.create();
 			return;
 		}
@@ -82,15 +84,15 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
 			$scope.CORSConfig, function() {
 
 			}, function( response ) {
-				$.pnotify(
-					{
-						title:    'Error',
-						type:     'error',
-						hide:     false,
-						addclass: "stack-bottomright",
-						text:     getErrorString( response )
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title:    'Error',
+                        type:     'error',
+                        hide:     false,
+                        text:     getErrorString( response )
+                    });
+                });
+
 
 			}
 		);
@@ -121,14 +123,16 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
 				if ( window.top.Actions ) {
 					window.top.Actions.updateSession( "update" );
 				}
-				$.pnotify(
-					{
-						title: $scope.app.api_name,
-						type:  'success',
-						text:  'Created Successfully'
-					}
-				);
-				Service.newApp = data;
+                $(function(){
+                    new PNotify({
+                        title: $scope.app.api_name,
+                        type:  'success',
+                        text:  'Created Successfully'
+                    });
+                });
+
+				//Service.newApp = data;
+                $scope.step = 4;
 			}
 		);
 

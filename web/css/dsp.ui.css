@@ -135,6 +135,10 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	padding-bottom: 44px;
 }
 
+.box-wrapper-wide {
+	max-width: 748px;
+}
+
 #footer {
 	position:         fixed;
 	bottom:           0;
@@ -180,13 +184,12 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	padding-bottom: 0;
 	margin-bottom:  0;
 	height:         44px;
-	border-bottom:  1px solid rgba(255, 255, 255, 0.25);
 	left:           0;
 	padding-left:   20px;
 	padding-right:  20px;
 	position:       fixed;
 	right:          0;
-	box-shadow:     0px 0px 4px rgba(64, 64, 64, .25);;
+	/*box-shadow:     0 2px 6px rgba(0, 0, 0, 0.5);*/
 }
 
 .navbar-toggle {
@@ -195,7 +198,9 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 }
 
 .navbar-inverse {
-	background-color: #000;
+	background-color: rgba(0, 0, 0, .80);
+	border-bottom:    1px inset rgba(0, 0, 0, 0.9);
+
 	/*transition:       background-color 1000ms, color 1000ms, border-bottom-color 1000ms;*/
 }
 
@@ -292,11 +297,11 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 
 .df-logo {
 	margin-right: 20px;
-	margin-top:   4px;
+	margin-top:   3px;
 }
 
 .df-logo img {
-	height: 38px;
+	height: 42px;
 }
 
 /**************************************************************************

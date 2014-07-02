@@ -2037,9 +2037,9 @@ html, body {
 	position:           absolute;
 	right:              0;
 	top:                42px;
-	background:         none repeat scroll 0 0 white;
-	-webkit-box-shadow: inset 0 3px 3px 0 rgba(0, 0, 0, .5);
-	box-shadow:         inset 0 3px 3px 0 rgba(0, 0, 0, .5);
+	/*background:         none repeat scroll 0 0 white;*/
+	/*-webkit-box-shadow: inset 0 3px 3px 0 rgba(0, 0, 0, .5);*/
+	/*box-shadow:         inset 0 3px 3px 0 rgba(0, 0, 0, .5);*/
 	overflow-y:         auto;
 	overflow-x:         hidden;
 

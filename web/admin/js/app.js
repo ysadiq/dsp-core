@@ -26,52 +26,198 @@ var container = $("#container");
  */
 angular.module(
         "AdminApp", [
-            "ngRoute", "ngResource", "ngGrid", "AdminApp.controllers", "AdminApp.apisdk"
+            "ngRoute",
+            "ngResource",
+            "ui.bootstrap.accordion",
+            "ngGrid",
+            "AdminApp.controllers",
+            "AdminApp.apisdk",
+            "dfTable",
+            "dfUtility",
+            "dfSystemConfig",
+            "dfUsers",
+            "dfNavBar"
         ]
-    ).config(
+    )
+    .constant("DSP_URL", CurrentServer)
+    .constant("API_KEY", "admin")
+    .config(
+    function ($httpProvider, API_KEY) {
+        $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
+    }
+)
+    .config(['$provide', function ($provide) {
+        $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
+            function ($delegate, $injector) {
+                return function (exception) {
+
+                    // Was this error thrown explicitly by a module
+                    if (exception.provider && (exception.provider === 'dreamfactory')) {
+                        $injector.invoke([function () {
+
+
+                            // Custom function to pull the DreamFactory Error out of a
+                            // DreamFactory error object
+                            var parseDreamFactoryError = function (errorDataObj) {
+
+                                //console.log(errorDataObj);
+
+                                // create a place to store the error
+                                var error = null;
+
+                                // If the exception type is a string we don't need to go any further
+                                // This was thrown explicitly by the module due to a module error
+                                // unrelated to the server
+                                if (typeof errorDataObj.exception === 'string') {
+
+                                    // store the error
+                                    // and we're done
+                                    error = errorDataObj.exception;
+
+                                    // the exception is not a string
+                                    // let's assume it came from the server
+                                } else {
+
+                                    // is there more than one error contained in the object
+                                    if (errorDataObj.exception.data.error.length > 1) {
+
+                                        // yes. Let's loop through and concat these to display to the user
+                                        angular.forEach(errorDataObj.exception.data.error, function (obj) {
+
+                                            // add the message from each error obj to the error store
+                                            error += obj.message + '\n';
+                                        });
+
+                                        // We only have on error
+                                    } else {
+
+                                        // store that error message
+                                        error = errorDataObj.exception.data.error[0].message;
+                                    }
+                                }
+
+                                // return the built message to display to the user
+                                return errorDataObj.module + ': ' + error
+
+                            };
+
+                            $(function () {
+                                new PNotify({
+                                    title: exception.module,
+                                    type: exception.type,
+                                    text: parseDreamFactoryError(exception)
+                                });
+                            });
+                        }]);
+
+                        $injector.invoke(['$rootScope', function ($rootScope) {
+                            $rootScope.$broadcast('dfclient:error');
+                        }])
+                    }
+
+                    else {
+                        // Continue on to normal error handling
+                        return $delegate(exception);
+                    }
+                }
+            }]);
+    }])
+
+    .config(
         [
             '$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
 
             $routeProvider.when(
                 '/', {
                     controller: QuickStartCtrl,
-                    templateUrl: 'quick-start.html'
+                    templateUrl: 'quick-start.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            //dfLoadingScreen.start()
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/app', {
                     controller: AppCtrl,
-                    templateUrl: 'applications.html'
+                    templateUrl: 'applications.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start()
+                        }]
+                    }
                 }
             );
-            $routeProvider.when(
-                '/user', {
-                    controller: UserCtrl,
-                    templateUrl: 'users.html'
-                }
-            );
+            /*            $routeProvider.when(
+             '/user', {
+             controller: UserCtrl,
+             templateUrl: 'users.html'
+             }
+             );*/
             $routeProvider.when(
                 '/role', {
                     controller: RoleCtrl,
-                    templateUrl: 'roles.html'
+                    templateUrl: 'roles.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/group', {
                     controller: GroupCtrl,
-                    templateUrl: 'groups.html'
+                    templateUrl: 'groups.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/schema', {
                     controller: SchemaCtrl,
-                    templateUrl: 'schema.html'
+                    templateUrl: 'schema.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
+                        getSchemaServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                filter: 'type_id in (8,4104)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/service', {
                     controller: ServiceCtrl,
-                    templateUrl: 'services.html'
+                    templateUrl: 'services.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
@@ -89,31 +235,89 @@ angular.module(
             $routeProvider.when(
                 '/package', {
                     controller: PackageCtrl,
-                    templateUrl: 'package.html'
+                    templateUrl: 'package.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
-            $routeProvider.when(
-                '/config', {
-                    controller: ConfigCtrl,
-                    templateUrl: 'config.html'
-                }
-            );
+
+            /*=
+             $routeProvider.when(
+             '/config', {
+             controller: ConfigCtrl,
+             templateUrl: 'config.html'
+             }
+             );*/
+
             $routeProvider.when(
                 '/data', {
                     controller: DataCtrl,
-                    templateUrl: 'data.html'
+                    templateUrl: 'data.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+
+                        getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                include_schema: true,
+                                filter: 'type_id in (4,4100)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
+                    }
                 }
             );
             $routeProvider.when(
                 '/scripts', {
                     controller: ScriptCtrl,
-                    templateUrl: 'scripts.html'
+                    templateUrl: 'scripts.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }],
+                        getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                filter: 'type_id in (4,16,4100)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }],
+                        getFileServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                filter: 'type_id in (2,4098)'
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
+                    }
                 }
+
             );
             $routeProvider.when(
                 '/api', {
                     controller: 'ApiSDKCtrl',
-                    templateUrl: 'apisdk.html'
+                    templateUrl: 'apisdk.html',
+                    resolve: {
+                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+
+                            // start the loading screen
+                            dfLoadingScreen.start();
+                        }]
+                    }
                 }
             );
 
@@ -144,13 +348,14 @@ angular.module(
                             return $q.reject(response);
                         }
                         else {
-                            $.pnotify(
-                                {
-                                    title: "Error",
-                                    type: 'error',
-                                    text: getErrorString(response)
-                                }
-                            );
+                            $(function () {
+                                new PNotify({
+                                    title: 'API Error',
+                                    text: getErrorString(response),
+                                    type: 'error'
+                                });
+                            });
+
                             return $q.reject(response);
                         }
                     }
@@ -253,7 +458,7 @@ angular.module(
 ).factory(
     'Service',function ($resource) {
         return $resource(
-            '/rest/system/service/:id/?app_name=admin&fields=*', {}, {
+            "/rest/system/service/:id/?app_name=admin&fields=*&filter=type!='Local Portal Service'", {}, {
                 update: {
                     method: 'PUT'
                 },
@@ -339,12 +544,13 @@ angular.module(
         return $resource(
             '/rest/system/script/:script_id/?app_name=admin', {}, {
                 update: {
-                    method: 'PUT'
+                    method: 'PUT',
+                    headers: {'Content-Type': 'text/plain'}
                 },
                 query: {
                     method: 'GET',
                     isArray: false,
-                    headers:{'Content-Type':'text/plain'}
+                    headers: {'Content-Type': 'text/plain'}
                 }
             }
         );
@@ -399,10 +605,17 @@ angular.module(
         };
 
     }
-);
+)
+    .run(['SystemConfigDataService', function (SystemConfigDataService) {
+       var SystemConfig = SystemConfigDataService.getSystemConfigFromServerSync();
+        SystemConfigDataService.setSystemConfig(SystemConfig);
+    }
+
+
+]);
 
 var setCurrentApp = function (currentApp) {
-    $('.active').removeClass('active');
+    //$('.active').removeClass('active');
     $("#nav_" + currentApp).addClass("active");
 };
 

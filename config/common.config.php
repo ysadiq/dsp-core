@@ -19,7 +19,7 @@
  */
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Fabric;
-use Kisma\Core\Interfaces\Levels;
+use Kisma\Core\Enums\LoggingLevels;
 
 /**
  * common.config.php
@@ -48,6 +48,7 @@ $_defaultController = 'web';
 $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file' ) );
 $_appName = 'DreamFactory Services Platform';
+$_fabricHosted = Fabric::fabricHosted();
 
 /**
  * Keys and salts
@@ -107,7 +108,7 @@ $_storageKey = \Kisma::get( 'platform.storage_key' );
 /**
  * Set up and return the common settings...
  */
-if ( Fabric::fabricHosted() )
+if ( $_fabricHosted )
 {
     $_storagePath = $_storageBasePath = LocalStorageTypes::FABRIC_STORAGE_BASE_PATH . '/' . $_storageKey;
     $_privatePath = \Kisma::get( 'platform.private_path' );
@@ -162,6 +163,7 @@ return array_merge(
         'dsp.version'                   => DSP_VERSION,
         'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
+        'dsp.fabric_hosted'             => $_fabricHosted,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
@@ -198,25 +200,31 @@ return array_merge(
         //-------------------------------------------------------------------------
         /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
-        'dsp.debug_level'               => Levels::DEBUG,
+        //  I do not believe this is being utilized
+        'dsp.debug_level'               => LoggingLevels::DEBUG,
         //-------------------------------------------------------------------------
-        //	Event System Options
+        //	Event and Scripting System Options
         //-------------------------------------------------------------------------
+        //  If true, observation of events from afar will be allowed
+        'dsp.enable_event_observers'    => true,
         //  If true, REST events will be generated
         'dsp.enable_rest_events'        => true,
         //  If true, platform events will be generated
         'dsp.enable_platform_events'    => true,
         //  If true, event scripts will be ran
         'dsp.enable_event_scripts'      => true,
+        //  If true, scripts not distributed by DreamFactory will be allowed
+        'dsp.enable_user_scripts'       => false,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
-        // If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
-        'dsp.log_all_events'            => true,
+        //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
+        'dsp.log_all_events'            => false,
+        //  If true, current request memory usage will be logged after script execution
+        'dsp.log_script_memory_usage'   => false,
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------
         'login.remember_me_copy'        => 'Remember Me',
-
     ),
     $_dspSalts
 );

@@ -1,53 +1,51 @@
-//Here are a few examples to get you started.
+//	Here are a few examples to get you started.
 
-//*******Working with System Events********
+//****************** Working with System Events ******************
 
-//	users.list.js
-//	The file contains a script to be run when the event 'users.list' is triggered by a
-//  GET on /rest/system/user
+//	system.users.list.js
+//	A script to be run when the event 'system.users.list' is triggered by a GET on /rest/system/user
 
 var ENABLE_ADD_PROPERTY = true;
 
-_.each(event.data.record, function (record) {
-    record.banned_for_life = (ENABLE_ADD_PROPERTY && (record.email == 'scripts@dreamfactory.com'));
-    print(record.email + ' is ' + ( record.banned_for_life ? '' : 'not') + ' banned for life.      ');
-});
+if (event.request.body.record) {
+	_.each(event.request.body.record, function(record, index, list) {
+		record.banned_for_life = ENABLE_ADD_PROPERTY && 'scripts@dreamfactory.com' == record.email;
 
-//apps.create.js  ## this is a post to /rest/system/app
-//First lets make sure it was just one app sent to be created.
-//We'll do that by seeing if there is a record wrapper object
-if ( event.record ) {
-    //loop through the record array and modify the data before it gets to the database.
-    _.each( event.record, function( record, index, list ) {
-        record.api_name = 'user_' + record.api_name;
-    });
-//Now then, if there is only one, lets modify the data before it gets to the database.
-} else if ( event.api_name ) {
-    event.api_name = 'user_' + event.api_name;
-//We expect api_name to exist in the event object, if its not there, lets throw back an exception
-} else {
-    throw "Unrecognized Data";
+		print(record.email + ' is ' + (
+			record.banned_for_life ? '' : 'not'
+		) + ' banned for life.');
+	});
 }
 
-// **************** Local DB Events ****************************
+//	system.apps.create.js
+//	A script to be run when the event 'system.apps.create' is triggered by a POST to /rest/system/app
 
-// Event name : db.todo.select (Get Records from the todo table)
-//lets take the current result set and modify each record to make sure the dogs get fed today
-event.record.forEach(function(todo){
-    todo.name = "Feed the dogs again";
-});
+//	Inspect the inbound request
+if (event.request.body.record) {
+	//	Loop through the record array and modify the data before it gets to the database.
+	_.each(event.request.body.record, function(record, index, list) {
+		record.api_name = 'user_' + record.api_name;
+	});
+}
 
-//Updating and Inserting works like the system event above.
-//db.todo.insert.js  ## this is a post to /rest/db/to
-if ( event.record ) {
-    //loop through the record array and modify the data before it gets to the database.
-    _.each( event.record, function( record, index, list ) {
-        record.complete = false;
-    });
-//Now then, if there is only one, lets modify the data before it gets to the database.
-} else if ( event.name ) {
-    event.complete = false;
-//We expect api_name to exist in the event object, if its not there, lets throw back an exception
-} else {
-    throw "Unrecognized Data";
+//****************** Local Database Events ******************
+
+//	db.todo.select.js
+//	A script to be run when the event 'db.todo.select' is triggered by a GET to /rest/db/todo
+
+//	Rename all outbound to-do items to be the same string
+if (event.request.body.record) {
+	_.each(event.request.body.record, function(record, index, list) {
+		record.name = 'Feed the dogs again';
+	});
+}
+
+//	db.todo.insert.js
+//	A script to be run when the event 'db.todo.select' is triggered by a POST to /rest/db/todo
+
+if (event.request.body.record) {
+	//	Loop through the record array and add a complete indicator
+	_.each(event.request.body.record, function(record, index, list) {
+		record.complete = false;
+	});
 }

@@ -1,171 +1,287 @@
-<div class="well main">
-<div class="navbar">
-    <div class="navbar-inner condensed">
-        <div class="brand">QuickStart</div>
-    </div>
+<div class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button"
+				class="navbar-toggle"
+				data-toggle="collapse"
+				data-target="#admin-app-quickstart">
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Quick Start</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="admin-app-quickstart">
+			<div class="nav navbar-nav navbar-right">
+				<div class="btn-group btn-group-nav">
+					<div ng-include="'_downloads.html'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div ng-show="step == 1">
-    <p style="font-size:1.7em">Welcome to the DreamFactory Admin Console!</p>
+<style>
+	input.ng-dirty.ng-invalid {
+		border: 1px solid Red;
+	}
+</style>
 
-    <p style="color:#777">The Admin Console is where you can administer all of the various backend services for your
-        project. You can build applications, manage users, assign roles, create schema, and connect external services as
-        needed. Your job is to build a front end application that uses these services. Let's get started!</p>
-    <br/>
+<div class="panel panel-default" data-ng-show="step == 1">
+	<div class="panel-heading">
+		<h4 class="panel-title">Step 1</h4>
+	</div>
 
-    <p><span style="font-size:1.5em">Give your app a name. Your app name will be your API key.<br/><br/>
-        <input type="text" class="input-xlarge" data-ng-model="app.api_name" placeholder="MyAppName">
-        </span></p>
-    <!--<div class="alert alert-info">This is your API KEY. Pass as header : X-DreamFactory-Application-Name, or as-->
-    <!--app_name in your querystring on each request.-->
-    <!--</div>-->
-    <br/>
+	<div class="panel-body">
+		<p class="lead">Welcome to the DreamFactory Admin Console!</p>
 
-    <div style="font-size:1.5em">What kind of app are you building?</div>
-    <br/>
+		<p>This console is designed to allow you to create and manage nearly all of the back-end services of your project. You can create new applications, manage users, assign roles, create schemas, and/or connect to external services. You are then free to build a front-end, or client, application that utilizes those services. If you're ready, let's get started!</p>
 
-    <div class="alert alert-info">Web-based applications run in the browser and use HTML5 and Javascript. Native applications run as compiled code on a mobile device or desktop / server application.
-    </div>
-    <input type="radio" value=0 data-ng-model="app.native">&nbsp;&nbsp;<b>Web</b><img src="img/hcj.png"/><br/><br/>
-    <input style="margin-top:11px;display:inline-block" type="radio" value=1 data-ng-model="app.native">&nbsp;&nbsp;<b>Native</b>
-       <span id="native-list">
-           <span class="icon icon-2x icon-apple"></span>
-           <span style="color:#98C022" class="icon icon-2x icon-android"></span>
-           <span style="color:#0DB3F1" class="icon icon-2x icon-windows"></span>
-       </span>
+		<form name="form" role="form" novalidate>
+			<div class="form-group has-feedback">
+				<p class="lead">Choose an Application ID</p>
 
-    <br/><br/>
+				<p>The first thing you must do before writing your application's code is to assign it an application ID. This ID will also serve as your
+					<strong>API key</strong> when making API calls to your DSP&trade;. You can fill in the description and a more user-friendly name later. But for now, you must pick a name that contains only the letters A-Z, numbers 0-9, underscores, and dashes. Periods and other characters are not allowed. The reason for this is because this moniker will be used as part of your REST API call's URL. Therefore it must adhere to valid URL conventions.
+				</p>
 
-    <button class="btn btn-success" data-ng-disabled="!app.api_name" data-ng-click="setStep(2)">Next</button>
+				<div class="col-xs-4" style="padding-left: 0;">
+					<input type="text"
+						id="app_api_name"
+						name="api-name"
+						class="form-control required"
+						data-ng-model="app.api_name"
+						data-ng-maxlength="64"
+						data-ng-minlength="3"
+						data-ng-pattern="/^[a-zA-Z0-9_\-]*$/"
+						placeholder="Your Application ID">
+					<span class="text-error" data-ng-show="form.api-name.$dirty && form.api-name.$invalid">Not Cool</span> <span class="text-error"
+					data-ng-show="form.api-name.$dirty && form.api-name.$valid">Cool</span>
+					<!--<span class="ajax-toggle form-control-feedback hidden"><i class="fa fa-spinner fa-spin"></i></span>-->
+				</div>
+			</div>
+
+			<div class="form-group" style="clear: both; padding-top: 15px;">
+				<p class="lead">Application Type</p>
+
+				<p>The next step is to let the system know what <strong>type</strong> of application you're building.
+				</p>
+
+				<p>Currently you can build applications that are web-based or for native mobile devices. Web-based applications typically run in a browser and use (but are not limited to) HTML5 and Javascript. Native applications, on the other hand, are compiled packages that run directly on the target mobile device.</p>
+
+				<div class="radio">
+					<label>
+						<input type="radio"
+							name="app_type"
+							id="app-type-web"
+							data-ng-model="app.native"
+							value="0"
+							checked="checked">
+						Web-Based <i class="fa fa-html5" title="HTML5"></i><i class="fa fa-css3" title="CSS3"></i><i
+						class="fa fa-file-text"
+						title="Javascript"></i>
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"
+							name="app_type"
+							id="app-type-native"
+							value="1"
+							data-ng-model="app.native">
+						Native <i class="fa fa-android" title="Android SDK"></i> <i class="fa fa-apple"
+						title="Apple iOS"></i>
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<button id="btn-step-1" class="btn btn-primary pull-right"
+					data-ng-disabled="!app.api_name || form.$invalid" data-ng-click="setStep(2)">Continue
+				</button>
+			</div>
+		</form>
+	</div>
 </div>
-<div ng-show="step == 2">
-    <p style="color:#777">Some developers like to edit all of their HTML, CSS, and JavaScript files on the local computer and then upload them to the DreamFactory Services Platform for deployment. This option makes debugging simpler and allows the use of desktop development tools. Other developers like to edit the hosted application files right here in the Admin Console. This option allows the app to be run immediately. You can always switch back and forth between these methods as needed.</p>
-    <br/>
 
-    <div style="font-size:2em">Where do you want to develop your app?</div>
-    <br/>
-    <input type="radio" value=0 data-ng-model="app.storage_service_id"> On my local computer (edit code on my
-    desktop)<br/>
-    <input type="radio" value=1 data-ng-model="app.storage_service_id"> Here in the Admin Console (edit code in my
-    browser)<br/><br/>
+<div class="panel panel-default" ng-show="step == 2">
+	<div class="panel-heading">
+		<h4 class="panel-title">Step 2
+		</h4>
+	</div>
 
-    <div class="btn-group">
-        <button class="btn" data-ng-click="setStep(1)">Previous</button>
-        <button data-ng-disabled="!app.storage_service_id" class="btn btn-success"
-                data-ng-click="saveConfig();create();setStep(3)">Next
-        </button>
-    </div>
+	<div class="panel-body">
+		<p class="lead">Where Will You Develop?</p>
+
+		<p>Some developers prefer to edit their HTML, CSS, and JavaScript code on their local computers, then deploy the package to DreamFactory Services Platform&trade;. In certain situations, this option can make debugging simpler, and allows use of common desktop development tools. Other prefer to edit hosted application code directly from the Admin Console. This allows you to run and test your application immediately, on-the-fly. You can always switch back and forth between these methods as needed.</p>
+
+		<div style="font-size:2em">Where do you want to develop your app?</div>
+
+		<div class="col-xs-6">
+			<div class="radio">
+				<label>
+					<input type="radio"
+						name="development-locale"
+						id="development-local"
+						value="0"
+						checked="checked"
+						data-ng-model="app.storage_service_id">
+					Locally (edit code on your desktop)
+				</label>
+			</div>
+
+			<div class="radio">
+				<label>
+					<input type="radio"
+						name="development-locale"
+						id="development-remove"
+						value="1"
+						data-ng-model="app.storage_service_id">
+					Here in the Admin Console (edit code in your browser)
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+			<button class="btn btn-primary" data-ng-click="setStep(1)">Previous</button>
+			<button data-ng-disabled="!app.storage_service_id"
+				class="btn btn-primary"
+				data-ng-click="saveConfig(); create();">Continue
+			</button>
+		</div>
+	</div>
 </div>
-<div ng-show="step == 3">
-    <div ng-show="app.native != 1"><h3>The DreamFactory Javascript SDK</h3><br/>
 
-        <p style="font-size:2em">What's in the SDK?</p>
+<div class="panel panel-default" ng-show="step == 3"><!-- remote -->
+	<div class="panel-heading">
+		<h4 class="panel-title">Awesomeness Ahead!
+		</h4>
+	</div>
 
-        <p>The Javascript SDK is a convenience wrapper for all the methods in our REST API. The SDK contains your REST endpoint and API key so you can start coding immediately. When a new service is provisioned in the Admin Console the JavaScript SDK will automatically include that service the next time your application is loaded.</p>
+	<div class="panel-body">
+		<div ng-show="app.native == 1">
+			<p>Your application's back-end has been successfully created. The next section explains how to obtain the latest DreamFactory Javascript SDK. There is also a
+				<strong>README</strong> inside the SDK package with additional applicable information. </p>
 
-        <p>Access the SDK by using the "df" object. You can see the "df" object in your debugger by opening up the DOM inspection tab. The "df" object is attached to the "window" object. For example, using Chrome's Dev Tools, open the console and start typing "window.df.apis" to display all the methods and properties.</p>
+			<p>You can return to the
+				<strong>Admin Console</strong> at any time to explore the other available features of your DSP. This includes, but is not limited to, managing users, creating and assigning roles, creating and managing schemata, and wiring up external services!
+			</p>
 
-        <p>Use of this SDK on the local file system requires "*" to be in your list of allowed hosts in the CORS configuration section of the Admin app.</p>
-        <br/>
-    </div>
-    <br/>
+			<p class="lead">Download the SDK!</p>
 
-    <div class="btn-group">
-        <button data-ng-click="downloadSDK();setStep(4)" class="btn btn-primary">Download SDK</button>
-        <button class="btn btn-success" data-ng-click="setStep(4)">Skip To Development Info</button>
-    </div>
+			<p>The
+				<strong>DreamFactory Javascript SDK</strong> is a convenient wrapper for the entire DreamFactory Services Platform&trade; REST API. The SDK automatically contains your REST endpoint(s) and
+				<strong>API key</strong> so you can get coding immediately. When a new service is provisioned from the Admin Console, the Javascript SDK will
+				<strong>automatically</strong> be rebuilt to include the new service the next time your application is loaded.
+			</p>
+
+			<p>Access to the SDK is provided by the Javascript <code>df</code> object. The <code>df</code> object is a property added to the DOM's
+				<code>window</code> object. To see this in action, using Chrome's Developer Tools, open the console and start typing
+				<code>window.df.apis</code>. This will display all the methods and properties of the <code>df</code> object.</p>
+
+			<p>Your DSP's REST API accepts (and subsequently returns) data in either JSON or XML format. The details of switching input/output formats is explained in the
+				<strong>API / SDK</strong> tab. That tab brings up the known and/or available services with detailed documentation, example code, and a
+				<em>live</em> testing system. There are also examples for iOS and Android at <a href="http://www.dreamfactory.com/developers/examples"
+					target="_blank">http://www.dreamfactory.com/developers/examples</a>.</p>
+
+			<p class="callout highlight-block">Use of the SDK on the local file system requires your list of allowed hosts to be open (i.e. "*"). This setting is available in the
+				<strong>CORS Access</strong> section under the <strong>Config</strong> tab.
+			</p>
+
+			<div class="pull-right"><img src="img/native.png" /></div>
+
+			<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+				<a data-ng-click="downloadSDK(); " class="btn btn-primary">Download SDK</a>
+
+			</div>
+		</div>
+	</div>
 </div>
-<div ng-show="step == 4">
-    <p style="font-size:1.5em">Congratulations</p>
 
-    <div ng-show="app.native != 1 && app.storage_service_id != null">
+<div class="panel panel-default" ng-show="step == 4">
+	<div class="panel-heading">
+		<h4 class="panel-title">Awesomeness Ahead!</h4>
+	</div>
 
-        <p>Your app has been created! When you select the "Apps" tab from the list of options at left you will see your
-            new application in the list, as well as some other example projects.
-        </p>
+	<div class="panel-body">
+		<p class="lead">Congratulations!</p>
 
-        <p>
-            By clicking on the various icons you can change application properties, preview your application, edit the
-            hosted files, or delete the application. In the file editor you will see your "index.html" file. This has
-            some example code to help you get started calling the services. There is also a "ReadMe" file with
-            additional information.
-        </p>
+		<div ng-show="app.storage_service_id != null"><!-- local storage -->
+			<p>Your application has been successfully created. When you select the
+				<strong>Apps</strong> tab from the left sidebar, you will see your application in the list. Each DSP instance comes with example applications to help get you started as well.
+			</p>
 
-        <p>
-            Explore the other tabs at left to manage users, assign roles, create schema, and connect external services
-            to your application!
-        </p>
-        <br/>
-        <div style="width:100%">
-            <div style="display:table-cell">
-                <button style="width:200px" data-ng-click="goToApps();" class="btn btn-success">Launch App</button>
-            </div>
-            <div style="display:table-cell;width:50%">&nbsp;</div>
-            <div style="display:table-cell"><img src="img/hosted.png"/></div>
-        </div>
-    </div>
-    <div ng-show="app.native != 1 && !app.storage_service_id">
-        <p>We have created a backend for your application. Click the "Download" button below and save the DreamFactory
-            Javascript SDK to your desktop. Unzip the file into a local folder to create a workspace for building your
-            application. To get started run the "index.html" file in a browser, we have included example code there to
-            help you get started calling the services. There is also a "ReadMe" file with additional information.
-        </p>
+			<p>You can return to the
+				<strong>Admin Console</strong> at any time to explore the other available features of your DSP. This includes, but is not limited to, managing users, creating and assigning roles, creating and managing schemata, and wiring up external services!
+			</p>
 
-        <p>
-            You can return to the Admin Console at any time and explore the other tabs at left to host your application,
-            manage users, assign roles, create schema, and connect external services!
-        </p>
+			<p>
+				While exploring the Admin Console you'll be able to change application properties, preview your application, edit any hosted files, or even delete the application. In the file editor you will see your
+				<code>index.html</code> file. This has example code to help you get started calling various services and building your application. There is also a
+				<strong>README</strong> file with additional pertinent information.
+			</p>
 
-        <div ng-show="app.native != 1"><br/><br/>
+			<div class="pull-right"><img src="img/hosted.png" /></div>
 
-            <p style="font-size:2em">What's in the SDK?</p>
+		</div>
 
-            <p>The Javascript SDK is a convenience wrapper for all the methods in our REST API. The SDK contains your REST endpoint and API key so you can start coding immediately. When a new service is provisioned in the Admin Console the JavaScript SDK will automatically include that service the next time your application is loaded.</p>
+		<div ng-show="!app.storage_service_id"><!-- remote storage -->
+			<p>Your application's back-end has been successfully created. To get started, click the appropriate SDK download button below to grab the latest SDKs. Unzip the file into a local folder to create a workspace for building your application. To get started run the
+				<strong>index.html</strong> file in a browser, example code is included to help you get started calling the services and building your application. There is also a
+				<strong>README</strong> file with additional pertinent information.
+			</p>
 
-            <p>Access the SDK by using the "df" object. You can see the "df" object in your debugger by opening up the DOM inspection tab. The "df" object is attached to the "window" object. For example, using Chrome's Dev Tools, open the console and start typing "window.df.apis" to display all the methods and properties.</p>
+			<p>You can return to the
+				<strong>Admin Console</strong> at any time to explore the other available features of your DSP. This includes, but is not limited to, managing users, creating and assigning roles, creating and managing schemata, and wiring up external services!
+			</p>
+		</div>
 
-            <p>Use of this SDK on the local file system requires "*" to be in your list of allowed hosts in the CORS configuration section of the Admin app.</p>
-            <br/>
-            <div style="width:100%">
-                <div style="display:table-cell">
-                    <button style="width:200px" data-ng-click="downloadSDK()" class="btn btn-success">Download SDK</button>
-                </div>
-                <div style="display:table-cell;width:50%">&nbsp;</div>
-                <div style="display:table-cell"><img src="img/local.png"/></div>
-            </div>
+		<div ng-show="app.native != 1">
+			<p class="lead">Download the SDK!</p>
 
+			<p>The
+				<strong>DreamFactory Javascript SDK</strong> is a convenient wrapper for the entire DreamFactory Services Platform&trade; REST API. The SDK automatically contains your REST endpoint(s) and
+				<strong>API key</strong> so you can get coding immediately. When a new service is provisioned from the Admin Console, the Javascript SDK will
+				<strong>automatically</strong> be rebuilt to include the new service the next time your application is loaded.
+			</p>
 
-        </div>
-    </div>
-    <div ng-show="app.native == 1">
+			<p>Access to the SDK is provided by the Javascript <code>df</code> object. The <code>df</code> object is a property added to the DOM's
+				<code>window</code> object. To see this in action, using Chrome's Developer Tools, open the console and start typing
+				<code>window.df.apis</code>. This will display all the methods and properties of the <code>df</code> object.</p>
 
-      <span style="color:#98C022" class="icon icon-2x icon-android"></span>
-        <p>Congratulations
+			<p>Your DSP's REST API accepts (and subsequently returns) data in either JSON or XML format. The details of switching input/output formats is explained in the
+				<strong>API / SDK</strong> tab. That tab brings up the known and/or available services with detailed documentation, example code, and a
+				<em>live</em> testing system. There are also examples for iOS and Android at <a href="http://www.dreamfactory.com/developers/examples"
+					target="_blank">http://www.dreamfactory.com/developers/examples</a>.</p>
 
-            We have created a backend for your application. Select your preferred SDK below and save the SDK to your desktop. There is also a "ReadMe" in each SDK with additional information.
-         </p>
-        <p>
-            You can make either JSON or XML documents for request and response. The details of technical integration are explained on the "API / SDK" tab at left. This interface shows the available services and example transactions along with detailed documentation. There are also examples for iOS and Android at <a href="http://www.dreamfactory.com/developers/examples" target="df-new">http://www.dreamfactory.com/developers/examples</a>.
-</p><p>
-            You can return to the Admin Console at any time and explore the other tabs at left to host your application, manage users, assign roles, create schema, and connect external services!
-        </p>
+			<p class="callout highlight-block">Use of the SDK on the local file system requires your list of allowed hosts to be open (i.e. "*"). This setting is available in the
+				<strong>CORS Access</strong> section under the <strong>Config</strong> tab.
+			</p>
+		</div>
 
+		<div class="pull-right">
+			<span ng-show="app.native != 1"><img src="img/local.png" /></span> <span ng-show="app.native == 1"><img
+			src="img/native.png" /></span>
+		</div>
 
+		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
+			
+			<span ng-show="app.native == 1">
+				<a href="https://github.com/dreamfactorysoftware/android-sdk" target="_blank" class="btn btn-success"><i
+					class="fa fa-android"
+					style="margin-right: 8px;"></i>Android SDK</a>
+				<a href="https://github.com/dreamfactorysoftware/ios-sdk" target="_blank" class="btn btn-success"><i
+					class="fa fa-apple"
+					style="margin-right: 8px;"></i>iOS SDK</a>
+				<a data-ng-click="goToDocs()" class="btn btn-warning"><i class="fa fa-book"
+					style="margin-right: 8px;"></i>API Documentation</a>
+			</span>
 
-        <div style="width:100%">
-            <div style="display:table-cell">
-                <div class="btn-group">
-                <button data-ng-click="goToDocs()" class="btn btn-success"> See API Docs </button>
-                <a class="btn btn-success"  style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/ios-sdk" target="df-new"><span class="icon icon-apple"></span> iOS SDK </a>
-                <a class="btn btn-success" style="font-size:14px;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;" href="https://github.com/dreamfactorysoftware/android-sdk" target="df-new"><span class="icon icon-android"></span> Android SDK </a>
-                </div>
-                </div>
-            <div style="display:table-cell;width:50%">&nbsp;</div>
-            <div style="display:table-cell"><img src="img/native.png"/></div>
-        </div>
+			<span ng-show="app.native != 1"><a data-ng-click="downloadSDK()"
+				class="btn btn-primary">Download the SDK</a></span>
 
-
-    </div>
+		</div>
+	</div>
 </div>
-<iframe style="display:none" id="sdk-download" src=""></iframe>
-</div>
+
+<iframe seamless="seamless" style="display:none" id="sdk-download" src=""></iframe>
