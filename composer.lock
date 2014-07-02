@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "93fb4e9dcb80277aa885592e1c23d286",
+    "hash": "7898ffccde2818634c7a06c806e2e831",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -134,7 +134,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.6.6",
+            "version": "1.6.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "5bd9ce9677d22ddba87ef535799854589ab910f9"
+                "reference": "e6bdc966c1d11087748ea9331f07be3ea046a9d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/5bd9ce9677d22ddba87ef535799854589ab910f9",
-                "reference": "5bd9ce9677d22ddba87ef535799854589ab910f9",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e6bdc966c1d11087748ea9331f07be3ea046a9d5",
+                "reference": "e6bdc966c1d11087748ea9331f07be3ea046a9d5",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-06-30 14:01:26"
+            "time": "2014-07-02 15:56:13"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -768,16 +768,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.45",
+            "version": "0.2.46",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "5f0501d309ae6379c58cd22e5a0c598ab082e22b"
+                "reference": "d71a75576e155162cd2a71b4aa737f3441b2cd13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/5f0501d309ae6379c58cd22e5a0c598ab082e22b",
-                "reference": "5f0501d309ae6379c58cd22e5a0c598ab082e22b",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/d71a75576e155162cd2a71b4aa737f3441b2cd13",
+                "reference": "d71a75576e155162cd2a71b4aa737f3441b2cd13",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-06-12 17:48:14"
+            "time": "2014-06-30 17:57:36"
         },
         {
             "name": "monolog/monolog",
@@ -1542,49 +1542,7 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "joseph-lenton/php-error",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JosephLenton/PHP-Error.git",
-                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JosephLenton/PHP-Error/zipball/9918dd5eeec527846d43c92a4c9880bfcdd0de14",
-                "reference": "9918dd5eeec527846d43c92a4c9880bfcdd0de14",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/php_error.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Joseph Lenton",
-                    "homepage": "http://www.playmycode.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Better error reporting for PHP, and prettier too!",
-            "homepage": "https://github.com/JosephLenton/PHP-Error",
-            "keywords": [
-                "error",
-                "php",
-                "reporting"
-            ],
-            "time": "2013-08-05 19:13:00"
-        }
+
     ],
     "aliases": [
 
@@ -1592,8 +1550,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
-        "dreamfactory/lib-php-common-platform": 0,
-        "joseph-lenton/php-error": 20
+        "dreamfactory/lib-php-common-platform": 0
     },
     "platform": {
         "php": ">=5.3.18"

@@ -3,6 +3,7 @@ namespace DreamFactory\Platform;
 
 use DreamFactory\Platform\Components\EventProxy;
 use DreamFactory\Platform\Events\Enums\PlatformServiceEvents;
+use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Yii\Utility\Pii;
@@ -36,10 +37,10 @@ class EventTests extends \PHPUnit_Framework_TestCase
 	public function testServiceRequestEvents()
 	{
 		//	A post test
-		Pii::app()->on( 'user.list', 'http://dsp.local/web/eventReceiver', static::API_KEY );
+		Platform::on( 'user.list', 'http://dsp.local/web/eventReceiver', static::API_KEY );
 
 		//	An inline test
-		Pii::app()->on(
+		Platform::on(
 			'user.list',
 			function ( $event, $eventName, $dispatcher )
 			{
