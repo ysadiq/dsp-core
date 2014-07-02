@@ -16,17 +16,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var ScriptCtrl = function ($scope, Event, Script, DB, Config, $http) {
-Scope = $scope;
+var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http, getDataServices, getFileServices) {
+
+    Scope = $scope;
     var editor;
     (
         function () {
-            DB.get().$promise.then(
-                function (response) {
-                    $scope.tables = response.resource;
-                    $scope.buildEventList();
-                }
-            )
+            $scope.containers = [];
+            $scope.fileServices = getFileServices.data.record;
+            $scope.fileServices.forEach(function (service) {
+                $scope.containers[service.api_name] = [];
+                $http.get(CurrentServer + "/rest/" + service.api_name)
+                    .then(function (response) {
+                        response.data.resource.forEach(function (container) {
+                            $scope.containers[service.api_name].push(container);
+                        });
+                    });
+            });
+
+            $scope.tables = [];
+            $scope.dataServices = getDataServices.data.record;
+
+            //$scope.dataServiceNames = [];
+            $scope.dataServices.forEach(function (service) {
+                $scope.tables[service.api_name] = [];
+                $http.get(CurrentServer + "/rest/" + service.api_name)
+                    .then(function (response) {
+                        response.data.resource.forEach(function (table) {
+                            $scope.tables[service.api_name].push(table);
+                        });
+                    });
+            });
+
             $scope.Config = Config.get(
                 function (response) {
                     if (response.is_private || !response.is_hosted) {
@@ -38,52 +59,157 @@ Scope = $scope;
                     }
                 }
             );
-            //get ALL events
-
             $scope.buildEventList = function () {
                 Event.get({"all_events": "true"}).$promise.then(
                     function (response) {
+
+
+                        // Stop loading screen
+                        dfLoadingScreen.stop();
+
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
-                            if (event.name === "db") {
-                                $scope.tables.forEach(
-                                    function (table) {
-                                        var newPath = {};
-                                        newPath.path = "/db/" + table.name;
-                                        newPath.verbs = [
-                                            {"type": "get",
-                                            "event": ["db." + table.name + ".select"]},
-                                            {"type": "put",
+                            event.paths.forEach(function (path) {
+                                var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
+                                var pathIndex = path.path.lastIndexOf("/") + 1;
+                                var pathName = path.path.substr(pathIndex);
+                                if (Object.keys($scope.tables).indexOf(event.name) != '-1' && pathName !== event.name) {
+                                    var newpath = {};
+                                    //console.log(event);
+                                    $scope.tables[event.name].forEach(function (table) {
+                                        newpath = {};
+                                        updateEvent =  {"type": "put",
                                             "event": [
-                                                "db." + table.name + ".update"
-                                            ]},
-                                            {"type": "post",
+                                                event.name + "." + table.name + ".update"
+                                            ]};
+                                        deleteEvent =  {"type": "delete",
                                             "event": [
-                                                "db." + table.name + ".insert"
-                                            ]},
-                                            {"type": "delete",
+                                                event.name + "." + table.name + ".delete"
+                                            ]};
+                                        insertEvent =  {"type": "post",
                                             "event": [
-                                                "db." + table.name + ".delete"
-                                            ]}
-                                        ];
-                                        event.paths.push(newPath);
-                                    }
-                                );
-                            }
-                        })
+                                                event.name + "." + table.name + ".insert"
+                                            ]};
+                                        selectEvent =  {"type": "get",
+                                            "event": [
+                                                event.name + "." + table.name + ".select"
+                                            ]};
+                                        newpath.verbs = [];
+                                        newpath.path = "/" + event.name +"/" + table.name;
+
+                                        path.verbs.forEach(function (verb) {
+                                            preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
+                                            preObj = {"type": verb.type, "event": [preEvent]};
+                                            postEvent =  event.name + "." + table.name + "." + verb.type + "." + "post_process";
+                                            postObj = {"type": verb.type, "event": [postEvent]};
+
+
+                                            newpath.verbs.push(preObj);
+                                            newpath.verbs.push(postObj);
+
+                                        });
+                                        var found = false;
+                                        event.paths.forEach(function(pathObj){
+
+                                            if(pathObj.path === newpath.path){
+                                                found = true;
+                                            }
+
+                                        });
+                                        if(!found){
+                                            newpath.verbs.push(selectEvent);
+                                            newpath.verbs.push(insertEvent);
+                                            newpath.verbs.push(updateEvent);
+                                            newpath.verbs.push(deleteEvent);
+                                            event.paths.push(newpath)
+                                        }
+
+                                    });
+                                }else if (Object.keys($scope.containers).indexOf(event.name) != '-1' && pathName !== event.name) {
+                                        var newpath = {};
+                                        //console.log(event);
+                                        $scope.containers[event.name].forEach(function (table) {
+                                            newpath = {};
+                                            updateEvent =  {"type": "put",
+                                                "event": [
+                                                    event.name + "." + table.name + ".update"
+                                                ]};
+                                            deleteEvent =  {"type": "delete",
+                                                "event": [
+                                                    event.name + "." + table.name + ".delete"
+                                                ]};
+                                            insertEvent =  {"type": "post",
+                                                "event": [
+                                                    event.name + "." + table.name + ".insert"
+                                                ]};
+                                            selectEvent =  {"type": "get",
+                                                "event": [
+                                                    event.name + "." + table.name + ".select"
+                                                ]};
+                                            newpath.verbs = [];
+                                            newpath.path = "/" + event.name +"/" + table.name;
+
+                                            path.verbs.forEach(function (verb) {
+                                                preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
+                                                preObj = {"type": verb.type, "event": [preEvent]};
+                                                postEvent =  event.name + "." + table.name + "." + verb.type + "." + "post_process";
+                                                postObj = {"type": verb.type, "event": [postEvent]};
+
+
+                                                newpath.verbs.push(preObj);
+                                                newpath.verbs.push(postObj);
+
+                                            });
+                                            var found = false;
+                                            event.paths.forEach(function(pathObj){
+
+                                                if(pathObj.path === newpath.path){
+                                                    found = true;
+                                                }
+
+                                            });
+                                            if(!found){
+//                                                newpath.verbs.push(selectEvent);
+//                                                newpath.verbs.push(insertEvent);
+//                                                newpath.verbs.push(updateEvent);
+//                                                newpath.verbs.push(deleteEvent);
+                                                event.paths.push(newpath)
+                                            }
+
+                                        });
+
+                                }else{
+                                    path.verbs.forEach(function (verb) {
+                                        if(event.name !== pathName){
+                                            preEvent = event.name + "." + pathName + "." + verb.type + "." + "pre_process";
+                                            postEvent = event.name + "." + pathName + "." + verb.type + "." + "post_process";
+                                        }else{
+                                            preEvent =  pathName + "." + verb.type + "." + "pre_process";
+                                            postEvent = pathName + "." + verb.type + "." + "post_process";
+                                        }
+                                        preObj = {"type": verb.type, "event": [preEvent]};
+                                        postObj = {"type": verb.type, "event": [postEvent]};
+                                        path.verbs.push(preObj);
+                                        path.verbs.push(postObj);
+                                    });
+                                }
+
+
+                            });
+                        });
 
 
                     }
                 );
-            }
+            };
 
-
+            $scope.buildEventList();
         }()
         );
 
     $scope.loadSamples = function () {
 
-        $http.defaults.headers.common['Accept'] = 'text/plain';
+
         $http({
             method: 'GET',
             url: 'js/example.scripts.js',
@@ -92,14 +218,14 @@ Scope = $scope;
             $scope.currentScript = null;
             $scope.hasContent = false;
             $scope.exampleScripts = response;
-            editor.setValue(response);
+            editor.setValue(response, -1);
         });
 
     };
     $scope.showSamples = function () {
         $scope.currentScript = null;
         $scope.hasContent = false;
-        editor.setValue($scope.exampleScripts);
+        editor.setValue($scope.exampleScripts, -1);
     };
     $scope.loadScript = function () {
         editor.setValue('');
@@ -110,16 +236,15 @@ Scope = $scope;
         var script_id = {"script_id": $scope.currentScript};
         Script.get(script_id).$promise.then(
             function (response) {
-                editor.setValue(response.script_body);
+                editor.setValue(response.script_body, -1);
                 $scope.hasContent = true;
-                $.pnotify(
-                    {
-                        title: $scope.currentScript,
-                        type: 'success',
-                        text: 'Loaded Successfully'
-                    }
-                );
-
+//                $(function(){
+//                    new PNotify({
+//                        title: $scope.currentScript,
+//                        type: 'success',
+//                        text: 'Loaded Successfully'
+//                    });
+//                });
             },
             function () {
                 $scope.hasContent = false;
@@ -140,21 +265,33 @@ Scope = $scope;
 
     };
     $scope.saveScript = function () {
-        var script_id = {"script_id": $scope.currentScript};
+        //$http.defaults.headers.put['Content-Type'];
         var post_body = editor.getValue() || " ";
-
-        Script.update(script_id, post_body).$promise.then(
-            function (response) {
-                $.pnotify(
-                    {
-                        title: $scope.currentScript,
-                        type: 'success',
-                        text: 'Saved Successfully'
-                    }
-                );
-                $scope.hasContent = true;
-            }
-        );
+        $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, {post_body : post_body},{
+            headers: {
+                'Content-Type': 'text/plain'
+            }}).then(function(){
+            $(function(){
+                new PNotify({
+                    title: $scope.currentScript,
+                    type: 'success',
+                    text: 'Saved Successfully'
+                });
+            });
+            $scope.hasContent = true;
+        })
+//        Script.update(script_id, post_body).$promise.then(
+//            function (response) {
+//                $(function(){
+//                    new PNotify({
+//                        title: $scope.currentScript,
+//                        type: 'success',
+//                        text: 'Saved Successfully'
+//                    });
+//                });
+//                $scope.hasContent = true;
+//            }
+//        );
 
     };
     $scope.deleteScript = function () {
@@ -164,13 +301,14 @@ Scope = $scope;
 
         Script.delete(script_id).$promise.then(
             function (response) {
-                $.pnotify(
-                    {
+                $(function(){
+                    new PNotify({
                         title: $scope.currentScript,
                         type: 'success',
                         text: 'Deleted Successfully'
-                    }
-                );
+                    });
+                });
+                $scope.hasContent = false;
             }
         );
 

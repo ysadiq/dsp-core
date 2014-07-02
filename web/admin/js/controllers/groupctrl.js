@@ -19,17 +19,73 @@
 /**
  * To change this template use File | Settings | File Templates.
  */
-var GroupCtrl = function( $scope, Group, App, $timeout ) {
+var GroupCtrl = function(dfLoadingScreen, $scope, Group, App, $timeout ) {
+
+
+    // Used to let us know when the Services are loaded
+    $scope.groupsLoaded = false;
+
+    // Added controls for responsive
+    $scope.xsWidth = $(window).width() <= 992 ? true : false;
+    $scope.activeView = 'list';
+
+    $scope.setActiveView = function (viewStr) {
+
+        $scope.activeView = viewStr;
+    };
+
+    $scope.close = function () {
+
+        $scope.setActiveView('list');
+    };
+
+    $scope.open = function () {
+
+        $scope.setActiveView('form');
+    };
+
+    $scope.$watch('xsWidth', function (newValue, oldValue) {
+
+        if (newValue == false) {
+            $scope.close();
+        }
+    });
+
+    $(window).resize(function(){
+        if(!$scope.$$phase) {
+            $scope.$apply(function () {
+                if ($(window).width() <= 992) {
+                    $scope.xsWidth = true;
+                }else {
+                    $scope.xsWidth = false;
+                }
+            })
+        }
+    });
+
+    // End Controls for responsive
+
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
 		}
 	);
 	$scope.group = {apps: []};
-	$scope.Groups = Group.get();
+	$scope.Groups = Group.get({}, function () {
+
+
+        $scope.groupsLoaded = true;
+
+        // Stop loading screen
+        dfLoadingScreen.stop()
+
+    });
+
+
 	$scope.Apps = App.get();
 	$scope.action = "Create";
-	$( '#update_button' ).hide();
+	$( '.update_button' ).hide();
 
 	$scope.save = function() {
 
@@ -38,30 +94,39 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 			{id: id}, $scope.group, function() {
 				$scope.promptForNew();
 				window.top.Actions.updateSession( "update" );
-				$.pnotify(
-					{
-						title: 'App Groups',
-						type:  'success',
-						text:  'Updated Successfully.'
-					}
-				);
+
+                // Added for responsive
+                $scope.close();
+
+                $(function(){
+                    new PNotify({
+                        title: 'App Groups',
+                        type:  'success',
+                        text:  'Updated Successfully.'
+                    });
+                });
+
 			}
 		);
 	};
 	$scope.create = function() {
+
+        // Added for responsive
+        $scope.close();
 
 		Group.save(
 			$scope.group, function( data ) {
 				$scope.Groups.record.push( data );
 				$scope.promptForNew();
 				window.top.Actions.updateSession( "update" );
-				$.pnotify(
-					{
-						title: 'App Groups',
-						type:  'success',
-						text:  'Created Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'App Groups',
+                        type:  'success',
+                        text:  'Created Successfully.'
+                    });
+                });
+
 			}
 		);
 	};
@@ -107,46 +172,41 @@ var GroupCtrl = function( $scope, Group, App, $timeout ) {
 		Group.delete(
 			{ id: id }, function() {
 				$scope.promptForNew();
-				$.pnotify(
-					{
-						title: 'App Groups',
-						type:  'success',
-						text:  'Deleted Successfully.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'App Groups',
+                        type:  'success',
+                        text:  'Deleted Successfully.'
+                    });
+                });
 
 				$( "#row_" + id ).fadeOut();
-			}, function( response ) {
-				var code = response.status;
-				if ( code == 401 ) {
-					window.top.Actions.doSignInDialog( "stay" );
-					return;
-				}
-				$.pnotify(
-					{
-						title:    'Error',
-						type:     'error',
-						hide:     false,
-						addclass: "stack-bottomright",
-						text:     getErrorString( response )
-					}
-				);
 			}
 		);
 	};
 	$scope.promptForNew = function() {
+
+        // Added for responsive
+        $scope.open();
+
+        $scope.currentGroupId = '';
 		$scope.action = "Create";
 		$scope.group = {apps: []};
-		$( '#save_button' ).show();
-		$( '#update_button' ).hide();
+		$( '.save_button' ).show();
+		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		$( window ).scrollTop( 0 );
 	};
 	$scope.showDetails = function() {
+
+        // Added for responsive
+        $scope.open();
+
 		$scope.action = "Update";
 		$scope.group = this.group;
-		$( '#save_button' ).hide();
-		$( '#update_button' ).show();
+        $scope.currentGroupId = $scope.group.id;
+		$( '.save_button' ).hide();
+		$( '.update_button' ).show();
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + $scope.group.id ).addClass( 'info' );
 	}

@@ -5,7 +5,7 @@ use Kisma\Core\Utility\FilterInput;
 
 /**
  * @var string          $content
- * @var AdminController $this
+ * @var ConsoleController $this
  */
 $_route = $this->route;
 $_step = 'light';

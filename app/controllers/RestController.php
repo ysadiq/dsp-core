@@ -17,9 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Enums\DataFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
+use DreamFactory\Platform\Exceptions\NotFoundException;
+use DreamFactory\Platform\Resources\User\Session;
+use DreamFactory\Platform\Utility\DataFormatter;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
@@ -67,6 +69,23 @@ class RestController extends BaseFactoryController
     }
 
     /**
+     * @param string $actionId
+     *
+     * @throws DreamFactory\Platform\Exceptions\NotFoundException
+     */
+    public function missingAction( $actionId = null )
+    {
+        try
+        {
+            parent::missingAction( $actionId );
+        }
+        catch ( CHttpException $_ex )
+        {
+            throw new NotFoundException();
+        }
+    }
+
+    /**
      * All authorization handled by services
      *
      * @return array
@@ -83,10 +102,12 @@ class RestController extends BaseFactoryController
     {
         try
         {
-            $_result = array( 'service' => Service::available( false, array( 'id', 'api_name' ) ) );
+            // require admin currently to list APIs
+            Session::checkServicePermission( 'admin', null );
+            $_result = array( 'service' => Service::available( false, array( 'name', 'api_name' ) ) );
 
             $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
-            $_result = DataFormat::reformatData( $_result, null, $_outputFormat );
+            $_result = DataFormatter::reformatData( $_result, null, $_outputFormat );
 
             RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
         }
@@ -145,17 +166,25 @@ class RestController extends BaseFactoryController
     /**
      * {@InheritDoc}
      */
-    public function actionMerge()
+    public function actionPut()
     {
-        $this->_handleAction( HttpMethod::MERGE );
+        $this->_handleAction( HttpMethod::PUT );
     }
 
     /**
      * {@InheritDoc}
      */
-    public function actionPut()
+    public function actionPatch()
     {
-        $this->_handleAction( HttpMethod::PUT );
+        $this->_handleAction( HttpMethod::PATCH );
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    public function actionMerge()
+    {
+        $this->_handleAction( HttpMethod::MERGE );
     }
 
     /**
@@ -184,6 +213,8 @@ class RestController extends BaseFactoryController
         catch ( \Exception $ex )
         {
             RestResponse::sendErrors( $ex, isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON, false, false );
+
+            return null;
         }
     }
 
@@ -216,8 +247,7 @@ class RestController extends BaseFactoryController
             if ( !empty( $this->_resource ) )
             {
                 $requestUri = Yii::app()->request->requestUri;
-                if ( ( false === strpos( $requestUri, '?' ) &&
-                       '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+                if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
                      ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
                 )
                 {

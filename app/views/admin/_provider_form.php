@@ -83,7 +83,7 @@ $_form = new BootstrapForm(
 );
 
 //	Make sure the renderer removes these...
-$_form->setRemovePrefix( AdminController::SCHEMA_PREFIX );
+$_form->setRemovePrefix( ConsoleController::SCHEMA_PREFIX );
 
 $_form->setFormData( $model->getAttributes() );
 

@@ -1,366 +1,561 @@
-<table style="width:100%">
-<tr>
-<td id="item-list" class="well">
-	<div id="grid-table">
-		<table id="app-list" class="table table-hover table-striped">
-			<thead>
-				<tr>
-					<th>Name</th>
-
-					<th class="no-border"></th>
-				</tr>
-			</thead>
-			<tbody>
-
-				<tr ng-repeat="service in Services.record" id="row_{{service.id}}">
-					<td ng-click='showDetails()'>{{service.name}}</td>
-					<td class="no-border">
-						<div class="btn-group pull-right">
-							<a ng-show="service.type === 'Remote File Storage' || service.type === 'Local File Storage'" class="btn btn-small btn-inverse"
-								title="Manage service files" ng-click="showFileManager()"><i
-								class="icon-folder-open"></i></a> <a ng-click="showSwagger()" class="btn btn-small btn-inverse" title="Explore this service"><i
-							class="icon-book"></i></a> <a ng-hide="service.is_system" class="btn btn-small btn-inverse" title="Delete this service"
-							ng-click="delete()"><i class="icon-trash"></i></a>
-						</div>
-					</td>
-				</tr>
-
-			</tbody>
-		</table>
-	</div>
-</td>
-<td>&nbsp;</td>
-<td id="app-details" class="well">
-<div class="navbar">
-	<div class="navbar-inner">
-		<div class="brand">Services</div>
-		<div class="btn-group pull-right">
-			<a ng-click="promptForNew()" class="btn btn-small">
-				<li class="icon-plus-sign-alt"></li>
-				Create New Service </a>
-		</div>
-	</div>
-</div>
-<div class="alert alert-info">
-	<li class="icon-info-sign"></li>
-	Services are used by apps to provide functionality. This could be file/blob storage, database, email, or any external web service with a REST API. You can add as many services as you like.
-</div>
 <div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="navbar navbar-default">
+            <span style="display: inline" class="navbar-brand">Services Management</span>
 
-<div class="detail-view"></div>
-
-<div class="add_new">
-
-<span class="label label-info">{{action}} service</span>
-
-<div id="file-manager">
-	<iframe style="display:none" frameBorder=0 ng-src="" seamless="seamless"></iframe>
-</div>
-<!--
-<div ng-include src="'swagger.html'">
-</div>
--->
-<swagger stand-alone="true"></swagger>
-
-<div id="step1">
-<div class="section" ng-show="action=='Update'">
-	<span>Type</span> <select ng-disabled="service.is_system || action == 'Update'" ng-init="showFields()"
-	ng-change="showFields()" ng-model="service.type"
-	ng-options="option.name as option.name for option in serviceOptions"></select>
-</div>
-<div class="section" ng-show="action!='Update'">
-	<span>Type</span> <select ng-change="showFields()" ng-model="service.type"
-	ng-options="option.name as option.name for option in serviceCreateOptions"></select>
-</div>
-<div class="section" ng-show="service.type == 'Email Service'">
-	<span>Provider</span> <select ng-change="showEmailFields()"
-	ng-model="email_type"
-	ng-options="option.name as option.name for option in emailOptions"></select>
-</div>
-<div class="section">
-	<span>API Name</span>
-
-	<input ng-disabled="service.is_system" ng-model="service.api_name" type="text" />
-</div>
-<div class="section">
-	<span>Name</span>
-
-	<input ng-model="service.name" type="text" />
-</div>
-<div class="section">
-	<span>Description</span>
-
-	<input ng-model="service.description" type="text" style="width:80%;" />
-</div>
-<div class="section base_url">
-	<span>Base URL</span>
-
-	<input ng-model="service.base_url" type="text" style="width:80%;" />
-</div>
-<div class="section host">
-	<span>Host</span>
-
-	<input ng-model="service.host" type="text" placeholder="e.g. SMTP.gmail.com" />
-</div>
-<div class="section port">
-	<span>Port</span>
-
-	<input ng-model="service.port" type="text" placeholder="e.g. 465" />
-</div>
-<div class="section security">
-	<span>Security</span> <select ng-options="option.value as option.name for option in securityOptions"
-	ng-model="service.security">
-	<option style="display:none" value="">None</option>
-</select>
-</div>
-<div class="section command">
-
-	<div class="alert alert-info">
-		<li class="icon-info-sign"></li>
-		OPTIONAL : Defaults to use the local mail service.
-	</div>
-	<span>Command</span>
-
-	<input class="input-large" ng-value="" type="text" ng-model="service.storage_type"
-		placeholder="e.g. /usr/sbin/sendmail -bs" />
-</div>
-<div class="section user">
-	<span>Username</span>
-
-	<input ng-model="service.user" type="text" />
-</div>
-<div class="section pwd">
-	<span>Password</span>
-
-	<input ng-model="service.pwd" type="password" />
-</div>
-<div class="section parameters">
-	<p>Parameters</p>
-
-	<div id="grid-container">
-		<div id="parameter-grid" ng-grid="browseOptions"></div>
-	</div>
-	<div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
-	<div ng-show="service.type == 'Remote Web Service'">
-		<input id="param-name" placeholder="Param Name" class="input-small" type="text"
-			ng-model="param.name" />
-		<input id="param-value" placeholder="Param Value" type="text"
-			ng-model="param.value" />
-		<br />
-
-		<a id="param-update" class="btn btn-inverse" ng-click="updateParams()"><i
-			class="icon-plus-sign"></i> Add Parameter </a>
-	</div>
-</div>
-<div class="section dsn">
-	<span>Connection String</span>
-
-	<input ng-model="service.dsn" type="text" style="width:80%;" placeholder="mysql:host=my_server;dbname=my_database" />
-	<div class="alert alert-info">
-		<li class="icon-info-sign"></li>
-		&nbsp;&nbsp;The connection string consist of the driver type, the server and any non-default port number and the database name. For Microsoft SQL Server, use the format 'dblib:host=my_server;dbname=my_database'.
-	</div>
+        </div>
+    </div>
 </div>
 
-<div class="section headers">
-	<p>Headers</p>
-
-	<div>
-		<div id="header-grid" ng-grid="headerOptions"></div>
-	</div>
-	<div style="display:none" id="header-error-container" class="alert alert-danger">Param already exists
-	</div>
-	<input id="header-name" placeholder="Header Name" class="input-small" type="text"
-		ng-model="header.name" />
-	<input id="header-value" placeholder="Header Value" type="text"
-		ng-model="header.value" />
-	<br />
-
-	<a id="header-update" class="btn btn-inverse" ng-click="updateHeaders()"><i class="icon-plus-sign"></i> Add Header </a>
-</div>
-<!--<div class="section storage_name">--><!--<p>Storage Name</p>--><!--<input ng-model="service.storage_name" type="text"/>--><!--</div>-->
-<div class="section salesforce" ng-show="service.type=='Salesforce'">
-
-	<span>Username</span>
-
-	<input ng-model="salesforce.username" type="text" />
-	<div></div>
-	<span>Password</span>
-
-	<input ng-model="salesforce.password" type="password" />
-	<div></div>
-	<span>Security Token</span>
-
-	<input ng-model="salesforce.security_token" type="text" />
-	<div></div>
-	<span>API Version</span>
-
-	<input ng-model="salesforce.version" placeholder="v28.0" type="text" />
-
-</div>
-<div class="section nosql_type">
-	<span>NoSQL Type</span> <select ng-options="option.value as option.name for option in NoSQLOptions"
-	ng-model="service.storage_type"></select>
-
-	<div class=" well sub-section aws_info" ng-show="service.storage_type=='aws dynamodb'">
-		<label>Access Key</label>
-		<input style="width:80%;" type="text" ng-model="aws.access_key" />
-		<label>Secret Key</label>
-		<input style="width:80%;" type="text" ng-model="aws.secret_key" />
-		<label>Region</label>
-		<select ng-options="region.value as region.name for region in awsRegions" ng-model="aws.region"></select>
-	</div>
-	<div class=" well sub-section aws_info" ng-show="service.storage_type=='aws simpledb'">
-		<label>Access Key</label>
-		<input style="width:80%;" type="text" ng-model="aws.access_key" />
-		<label>Secret Key</label>
-		<input style="width:80%;" type="text" ng-model="aws.secret_key" />
-		<label>Region</label>
-		<select ng-options="region.value as region.name for region in awsRegions" ng-model="aws.region"></select>
-	</div>
-	<div class=" well sub-section azure_info" ng-show="service.storage_type =='azure tables'">
-		<label>Account Name</label>
-		<input type="text" ng-model="azure.account_name" />
-		<label>Account Key</label>
-		<input style="width:80%;" type="text" ng-model="azure.account_key" />
-        <label>Default Partition Key</label>
-        <input style="width:80%;" type="text" ng-model="azure.PartitionKey" />
-
-	</div>
-	<div class=" well sub-section azure_info" ng-show="service.storage_type =='couchdb'">
-		<p>Connection String</p>
-
-		<input ng-model="couchdb.service.dsn" type="text" style="width:80%;" />
-
-		<p>Username</p>
-
-		<input ng-model="couchdb.service.user" type="text" />
-
-		<p>Password</p>
-
-		<input ng-model="couchdb.service.pwd" type="password" />
-
-	</div>
-	<div class=" well sub-section" ng-show="service.storage_type =='mongodb'">
-		<p>Connection String</p>
-
-		<input style="width:80%;" ng-model="mongodb.service.dsn" type="text" />
-
-		<div class="alert alert-info">
-			<li class="icon-info-sign"></li>
-			&nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they contain special characters, please enter them below.
-		</div>
-		<p>Database</p>
-
-		<input ng-model="mongodb.service.db" type="text" />
-
-		<p>Username</p>
-
-		<input ng-model="mongodb.service.user" type="text" />
-
-		<p>Password</p>
-
-		<input ng-model="mongodb.service.pwd" type="password" />
-
-	</div>
-	<div class=" well sub-section" ng-show="service.storage_type =='mongohq'">
-		<p>Connection String</p>
-
-		<input style="width:80%;" ng-model="mongohq.service.dsn" type="text" />
-
-		<div class="alert alert-info">
-			<li class="icon-info-sign"></li>
-			&nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they contain special characters, please enter them below.
-		</div>
-		<p>Database</p>
-
-		<input ng-model="mongohq.service.db" type="text" />
-
-		<p>Username</p>
-
-		<input ng-model="mongohq.service.user" type="text" />
-
-		<p>Password</p>
-
-		<input ng-model="mongohq.service.pwd" type="password" />
-
-	</div>
-</div>
-<div class="section storage_type">
-	<span>Storage Type</span> <select ng-options="option.value as option.name for option in remoteOptions"
-	ng-model="service.storage_type" type="text"></select>
-
-	<div class=" well sub-section " ng-show="service.storage_type=='aws s3'">
-		<label>Access Key</label>
-		<input type="text" ng-model="aws.access_key" />
-		<label>Secret Key</label>
-		<input type="text" ng-model="aws.secret_key" />
-	</div>
-	<div class=" well sub-section azure_info" ng-show="service.storage_type =='azure blob'">
-		<label>Account Name</label>
-		<input type="text" ng-model="azure.account_name" />
-		<label>Account Key</label>
-		<input type="text" ng-model="azure.account_key" />
-
-	</div>
-	<div class=" well sub-section " ng-show="service.storage_type =='rackspace cloudfiles'">
-		<label>Username</label>
-		<input type="text" ng-model="rackspace.username" />
-		<label>API Key</label>
-		<input type="text" ng-model="rackspace.api_key" />
-		<label>Tenant Name</label>
-		<input type="text" ng-model="rackspace.tenant_name" />
-		<label>Region</label>
-		<select ng-change="changeUrl()"
-			ng-options="option.value as option.name for option in rackspaceRegions"
-			ng-model="rackspace.region"></select>
-
-		<label>URL/Endpoint</label>
-		<input ng-disabled="!rackspace.region" type="text"
-			ng-model="rackspace.url" />
-	</div>
-	<div class=" well sub-section" ng-show="service.storage_type =='openstack object storage'">
-
-		<label>Username</label>
-		<input type="text" ng-model="openstack.username" />
-		<label>API Key</label>
-		<input type="text" ng-model="openstack.api_key" />
-		<label>Tenant Name</label>
-		<input type="text" ng-model="openstack.tenant_name" />
-		<label>Region</label>
-		<input type="text" ng-model="openstack.region" />
-		<label>URL/Endpoint</label>
-		<input type="text" ng-model="openstack.url" />
-	</div>
-</div>
-<div class="section credentials">
-	<p>Credentials</p>
-
-	<input ng-model="service.credentials" type="text" />
-</div>
-<div class="section native_format">
-	<p>Native Format</p>
-
-	<input ng-model="service.native_format" type="text" />
-</div>
-<div ng-class="{'alert alert-success': service.is_active}" class="section">
-	<input ng-checked="service.is_active" type="checkbox" ng-model="service.is_active" />
-	&nbsp;Active
+<!-- Nav For small devices 'sm' && 'xs' -->
+<div class="col-sm-12 visible-sm visible-xs" data-ng-class="xsWidth ? 'df-col-padding-override' : ''">
+    <div class="well well-sm">
+        <div class="">
+            <h4 style="display: inline-block; ">{{action}} Service</h4>
+            <small>
+                <div class="btn-group pull-right" style="margin: 4px auto">
+                    <button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New
+                    </button>
+                    <button data-ng-show="activeView === 'form'" type="button"
+                            class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+                    </button>
+                    <button data-ng-show="activeView === 'form'" type="button"
+                            class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+                    </button>
+                    <button data-ng-show="xsWidth && activeView === 'form'" type="button" class="btn btn-default btn-sm"
+                            data-ng-click="close()">Close
+                    </button>
+                </div>
+            </small>
+        </div>
+    </div>
 </div>
 
-</div>
-<div id="button_holder">
-	<a id="save_button" ng-click="create()" class="btn btn-primary">
-		<li class="icon-save"></li>
-		&nbsp;Save </a> <a id="update_button" ng-click="save()" class="btn btn-primary">
-	<li class="icon-save"></li>
-	&nbsp;Update </a>
+
+<div class="col-sm-12 col-md-3 df-col-padding-override" data-ng-show="!xsWidth || (xsWidth && activeView === 'list')">
+    <input placeholder="Filter by Name" type="text" class="form-control" data-ng-model="searchText"/><br/>
+
+    <div class="list-group df-list-group">
+        <a data-ng-click="showDetails()"
+           class="list-group-item"
+           data-ng-class="service.id === currentServiceId && !xsWidth ? 'active' : '' "
+           data-ng-repeat="service in Services.record | filter:searchText" id="row_{{service.id}}">
+
+            <div class="input-group">
+                <span style="position: relative; top: 6px">{{service.name}}</span>
+                    <span class="input-group-btn">
+                        <button type="button"
+                                style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
+                                data-ng-if="service.type === 'Remote File Storage' || service.type === 'Local File Storage'"
+                                class="btn btn-default btn-sm"
+                                title="Manage service files" data-ng-click="showFileManager()"><i
+                                class="fa fa-folder-open fa-fw"></i>
+                        </button>
+                        <button type="button"
+                                data-ng-click="showSwagger()"
+                                class="btn btn-default btn-sm"
+                                style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
+                                title="Explore this service"><i class="fa fa-book fa-fw"></i></button>
+
+
+                        <button type="button" data-ng-if="!service.is_system" class="btn btn-default btn-sm"
+                                title="Delete this service" ng-click="delete()"><i class="fa fa-trash-o fa-fw"></i>
+                        </button>
+                    </span>
+            </div>
+        </a>
+    </div>
 </div>
 
+<!-- Nav for large devices -->
+<div class="col-md-9 hidden-sm hidden-xs" data-ng-class="xsWidth ? 'df-col-padding-override' : ''">
+    <div class="well well-sm">
+        <div class="">
+            <h4 style="display: inline-block; ">{{action}} Service</h4>
+            <small>
+                <div class="btn-group pull-right" style="margin: 4px auto">
+                    <button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+                    </button>
+                    <button data-ng-show="xsWidth" type="button" class="btn btn-default btn-sm" data-ng-click="close()">
+                        Close
+                    </button>
+                </div>
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- This is a hacky way to keep this UI from bouncing on load.
+We need to preload data but I'm not doing that today. MNM -->
+
+<div data-ng-if="(!servicesLoaded && !xsWidth) || (Services.record.length === 0)" class="col-sm-3">
+    <span data-ng-show="(Services.record.length === 0)">No Services found.</span>
+    <div style="height: 300px; background: rgba(255, 0, 0, 0);"></div>
+</div>
+
+<div class="col-sm-12 col-md-9" data-ng-show="!xsWidth || (xsWidth && activeView === 'form')"
+     data-ng-class="xsWidth && (activeView === 'form') ? 'df-col-padding-override' : ''">
+<form novalidate class="css-form" name="roleform">
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#services-info-body">
+            <h4 class="panel-title">Service Info</h4>
+        </a>
+    </div>
+
+    <div id="services-info-body" class="panel-collapse collapse in">
+        <div class="panel-body">
+
+            <div class="alert alert-info">
+                <li class="icon-info-sign"></li>
+                You can use lookup keys for service configuration and credentials but the keys must be made private.
+            </div>
+
+            <div id="file-manager">
+                <iframe style="display:none" frameBorder=0 ng-src="" seamless="seamless"></iframe>
+            </div>
+
+
+            <div id="step1">
+                <div class="form-group" ng-show="action=='Update'">
+                    <label>Type</label> <select class="form-control"
+                                                ng-disabled="service.is_system || action == 'Update'"
+                                                ng-init="showFields()"
+                                                ng-change="showFields()" ng-model="service.type"
+                                                ng-options="option.name as option.name for option in serviceOptions"></select>
+                </div>
+
+
+                <div class="form-group" ng-show="action!='Update'">
+                    <label>Type</label>
+                    <select class="form-control" ng-change="showFields()" ng-model="service.type"
+                            ng-options="option.name as option.name for option in serviceCreateOptions"></select>
+                </div>
+
+
+                <div class="form-group" ng-show="service.type == 'Email Service'">
+                    <label>Provider</label> <select class="form-control" ng-change="showEmailFields()"
+                                                    ng-model="email_type"
+                                                    ng-options="option.name as option.name for option in emailOptions"></select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>API Name</label>
+
+                    <input class="form-control" ng-disabled="service.is_system" ng-model="service.api_name"
+                           type="text"/>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Name</label>
+
+                    <input class="form-control" ng-model="service.name" type="text"/>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Description</label>
+
+                    <input class="form-control" ng-model="service.description" type="text"/>
+                </div>
+
+
+                <div class="form-group base_url">
+                    <label>Base URL</label>
+
+                    <input class="form-control" ng-model="service.base_url" type="text"/>
+                </div>
+
+
+                <div class="form-group host">
+                    <label>Host</label>
+
+                    <input class="form-control" ng-model="service.host" type="text" placeholder="e.g. SMTP.gmail.com"/>
+                </div>
+
+
+                <div class="form-group port">
+                    <label>Port</label>
+
+                    <input class="form-control" ng-model="service.port" type="text" placeholder="e.g. 465"/>
+                </div>
+
+
+                <div class="form-group security">
+                    <label>Security</label>
+                    <select class="form-control"
+                            ng-options="option.value as option.name for option in securityOptions"
+                            ng-model="service.security">
+                        <option style="display:none" value="">None</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group command">
+
+                    <div class="alert alert-info">
+                        <li class="icon-info-sign"></li>
+                        OPTIONAL : Defaults to use the local mail service.
+                    </div>
+                    <label>Command</label>
+
+                    <input class="form-control" ng-value="" type="text" ng-model="service.storage_type"
+                           placeholder="e.g. /usr/sbin/sendmail -bs"/>
+                </div>
+
+
+                <div class="form-group user">
+                    <label>Username</label>
+
+                    <input class="form-control" ng-model="service.user" type="text"/>
+                </div>
+                <div class="form-group pwd">
+                    <label>Password</label>
+
+                    <input class="form-control" ng-model="service.pwd" type="password"/>
+                </div>
+
+
+                <div class="form-group dsn">
+
+                    <div ng-show="action === 'Create'">
+                        <div class="form-group"><label>SQL Vendor :</label>&nbsp;
+                            <select class="form-control" data-ng-model="sqlServerPrefix"
+                                    data-ng-options="server.prefix as server.name for server in sqlVendors"></select>
+                        </div>
+                        <div class="form-group"><label>Host :</label>&nbsp;<input data-ng-disabled="!sqlServerPrefix"
+                                                                                  class="form-control"
+                                                                                  data-ng-model="sqlServerHost"/>
+                        </div>
+                        <div class="form-group"><label>Database Name :</label>&nbsp;<input
+                                data-ng-disabled="!sqlServerHost"
+                                class="form-control"
+                                data-ng-model="sqlServerDb"/></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Connection String</label>
+                        <input class="form-control" data-ng-model="service.dsn" type="text"
+                               placeholder="{{sql_placeholder}}"/>
+                        <br/>
+
+                        <div class="alert alert-info">
+                            <li class="icon-info-sign"></li>
+                            &nbsp;&nbsp;The connection string consists of the driver type, the server, any non-default
+                            port number, and
+                            the database name.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="section salesforce" ng-show="service.type=='Salesforce'">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input class="form-control" data-ng-model="salesforce.username" type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" ng-model="salesforce.password" type="password"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Security Token</label>
+                            <input class="form-control" ng-model="salesforce.security_token" type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <label>API Version</label>
+                            <input ng-model="salesforce.version" placeholder="v28.0" type="text"/>
+                        </div>
+                    </div>
+                    <div class="section nosql_type">
+                        <div class="form-group">
+                            <label>NoSQL Type</label>
+                            <select class="form-control" ng-options="option.value as option.name for option in NoSQLOptions"
+                                    ng-model="service.storage_type"></select>
+                        </div>
+                        <div class="sub-section aws_info" ng-show="service.storage_type=='aws dynamodb'">
+                            <div class="form-group">
+                                <label>Access Key</label>
+                                <input class="form-control" type="text" ng-model="aws.access_key"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Secret Key</label>
+                                <input class="form-control" type="text" ng-model="aws.secret_key"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Region</label>
+                                <select class="form-control" ng-options="region.value as region.name for region in awsRegions"
+                                        ng-model="aws.region"></select>
+                            </div>
+
+                        </div>
+                        <div class="sub-section aws_info" ng-show="service.storage_type=='aws simpledb'">
+                            <div class="form-group">
+                                <label>Access Key</label>
+                                <input class="form-control" type="text" ng-model="aws.access_key"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Secret Key</label>
+                                <input class="form-control" type="text" ng-model="aws.secret_key"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Region</label>
+                                <select class="form-control" ng-options="region.value as region.name for region in awsRegions"
+                                        ng-model="aws.region"></select>
+                            </div>
+                        </div>
+                        <div class="sub-section azure_info" ng-show="service.storage_type =='azure tables'">
+                            <div class="form-group">
+                                <label>Account Name</label>
+                                <input class="form-control" type="text" ng-model="azure.account_name"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Account Key</label>
+                                <input class="form-control" type="text" ng-model="azure.account_key"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Default Partition Key</label>
+                                <input class="form-control" type="text" ng-model="azure.PartitionKey"/>
+                            </div>
+                        </div>
+                        <div class="sub-section azure_info" ng-show="service.storage_type =='couchdb'">
+                            <div class="form-group">
+                                <label>Connection String</label>
+
+                                <input ng-model="couchdb.service.dsn" type="text" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+
+                                <input class="form-control" ng-model="couchdb.service.user" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+
+                                <input class="form-control" ng-model="couchdb.service.pwd" type="password"/>
+                            </div>
+                        </div>
+                        <div class="sub-section" ng-show="service.storage_type =='mongodb'">
+                            <div class="form-group">
+                                <label>Connection String</label>
+
+                                <input class="form-control" ng-model="mongodb.service.dsn" type="text"/>
+                            </div>
+                            <div class="alert alert-info">
+                                <li class="icon-info-sign"></li>
+                                &nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they
+                                contain special characters, please enter them below.
+                            </div>
+                            <div class="form-group">
+                                <label>Database</label>
+
+                                <input class="form-control" ng-model="mongodb.service.db" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+
+                                <input class="form-control" ng-model="mongodb.service.user" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" ng-model="mongodb.service.pwd" type="password"/>
+                            </div>
+                        </div>
+                        <div class="sub-section" ng-show="service.storage_type =='mongohq'">
+                            <div class="form-group">
+                                <label>Connection String</label>
+                                <input class="form-control" ng-model="mongohq.service.dsn" type="text"/>
+                            </div>
+                            <div class="alert alert-info">
+                                <li class="icon-info-sign"></li>
+                                &nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they
+                                contain special characters, please enter them below.
+                            </div>
+                            <div class="form-group">
+                                <label>Database</label>
+                                <input class="form-control" ng-model="mongohq.service.db" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" ng-model="mongohq.service.user" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" ng-model="mongohq.service.pwd" type="password"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section storage_type">
+                        <div class="form-group">
+                            <label>Storage Type</label>
+                            <select class="form-control" ng-options="option.value as option.name for option in remoteOptions"
+                                    ng-model="service.storage_type" type="text"></select>
+                        </div>
+
+
+                        <div class="sub-section " ng-show="service.storage_type=='aws s3'">
+                            <div class="form-group">
+                                <label>Access Key</label>
+                                <input class="form-control" type="text" ng-model="aws.access_key"/>
+                                <label>Secret Key</label>
+                                <input class="form-control" type="text" ng-model="aws.secret_key"/>
+                            </div>
+                        </div>
+                        <div class="sub-section azure_info" ng-show="service.storage_type =='azure blob'">
+                            <div class="form-group">
+                                <label>Account Name</label>
+                                <input class="form-control" type="text" ng-model="azure.account_name"/>
+                                <label>Account Key</label>
+                                <input class="form-control" type="text" ng-model="azure.account_key"/>
+                            </div>
+                        </div>
+                        <div class="sub-section " ng-show="service.storage_type =='rackspace cloudfiles'">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" type="text" ng-model="rackspace.username"/>
+                                <label>API Key</label>
+                                <input class="form-control" type="text" ng-model="rackspace.api_key"/>
+                                <label>Tenant Name</label>
+                                <input class="form-control" type="text" ng-model="rackspace.tenant_name"/>
+                                <label>Region</label>
+                                <select class="form-control" ng-change="changeUrl()"
+                                        ng-options="option.value as option.name for option in rackspaceRegions"
+                                        ng-model="rackspace.region"></select>
+
+                                <label>URL/Endpoint</label>
+                                <input class="form-control" ng-disabled="!rackspace.region" type="text"
+                                       ng-model="rackspace.url"/>
+                            </div>
+                        </div>
+                        <div class="sub-section" ng-show="service.storage_type =='openstack object storage'">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" type="text" ng-model="openstack.username"/>
+                                <label>API Key</label>
+                                <input class="form-control" type="text" ng-model="openstack.api_key"/>
+                                <label>Tenant Name</label>
+                                <input class="form-control" type="text" ng-model="openstack.tenant_name"/>
+                                <label>Region</label>
+                                <input class="form-control" type="text" ng-model="openstack.region"/>
+                                <label>URL/Endpoint</label>
+                                <input class="form-control" type="text" ng-model="openstack.url"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section credentials">
+                        <div class="form-group">
+                            <label>Credentials</label>
+
+                            <input class="form-control" ng-model="service.credentials" type="text"/>
+                        </div>
+                    </div>
+                    <div class="section native_format">
+                        <div class="form-group">
+                            <label>Native Format</label>
+
+                            <input class="form-control" ng-model="service.native_format" type="text"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#services-parameters-body">
+            <h4 class="panel-title">Parameters</h4>
+        </a>
+    </div>
+
+    <div id="services-parameters-body" class="panel-collapse collapse">
+        <div class="panel-body">
+
+            <p id="no-params-message">No parameters can be assigned for this service.</p>
+
+
+            <div class="form-group parameters">
+                <label>Parameters</label>
+
+                <div id="grid-container">
+                    <div id="parameter-grid" ng-grid="browseOptions"></div>
+                </div>
+                <br/>
+
+                <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
+                <div class="form-inline" ng-show="service.type == 'Remote Web Service'">
+                    <input id="param-name" placeholder="Param Name" class="form-control" type="text"
+                           ng-model="param.name"/>
+                    <input class="form-control" id="param-value" placeholder="Param Value" type="text"
+                           ng-model="param.value"/>
+                    <br/>
+                    <br/>
+                    <button id="param-update" class="btn btn-default" ng-click="updateParams()"><i
+                            class="icon-plus-sign"></i> Add Parameter
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#services-headers-body">
+            <h4 class="panel-title">Headers</h4>
+        </a>
+    </div>
+
+    <div id="services-headers-body" class="panel-collapse collapse">
+        <div class="panel-body">
+
+            <p id="no-headers-message">No headers can be assigned for this service.</p>
+
+            <div class="form-group headers">
+                <label>Headers</label>
+
+                <div>
+                    <div id="header-grid" ng-grid="headerOptions"></div>
+                </div>
+                <div style="display:none" id="header-error-container" class="alert alert-danger">Param already exists
+                </div>
+                <div class="form-inline">
+                    <input class="form-control" id="header-name" placeholder="Header Name" class="input-small"
+                           type="text"
+                           ng-model="header.name"/>
+                    <input class="form-control" id="header-value" placeholder="Header Value" type="text"
+                           ng-model="header.value"/>
+                </div>
+                <br/>
+
+                <a id="header-update" class="btn btn-default" ng-click="updateHeaders()"><i class="icon-plus-sign"></i>
+                    Add Header
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</form>
 </div>
 </div>
-</td>
-</tr>
-</table>
+
+
+
+
+
 
 

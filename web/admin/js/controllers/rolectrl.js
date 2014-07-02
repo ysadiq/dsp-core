@@ -16,12 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
+var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, App, Service, $http ) {
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
 		}
 	);
+    var componentServices = [2,4, 8,16,32, 4098, 4100]
 	$scope.role = {
 		users:                 [],
 		apps:                  [],
@@ -29,9 +31,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		role_system_accesses:  [],
 		lookup_keys:           []
 	};
-	$scope.action = "Create new ";
+	$scope.action = "Create New ";
 	$scope.actioned = "Created";
-	$( '#update_button' ).hide();
+	$( '.update_button' ).hide();
 	$scope.AllUsers = User.get();
 	$scope.Apps = App.get();
 	// service access
@@ -56,7 +58,8 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 						plural: 'All'
 					};
 					$scope.ServiceComponents[index].push( allRecord );
-					if ( service.id > 0 ) {
+
+					if ( componentServices.indexOf(service.type_id) != -1 ) {
 						$http.get( '/rest/' + service.api_name + '?app_name=admin&fields=*' ).success(
 							function( data ) {
 								// some services return no resource array
@@ -74,24 +77,9 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		}
 	);
 
-	$scope.uniqueServiceAccess = function() {
-		var size = $scope.role.role_service_accesses.length;
 
-		for ( var i = 0; i < size; i++ ) {
-			var access = $scope.role.role_service_accesses[i];
-			var matches = $scope.role.role_service_accesses.filter(
-				function( itm ) {
-					return itm.service_id === access.service_id && itm.component === access.component;
-				}
-			);
-
-			if ( matches.length > 1 ) {
-				return false;
-			}
-		}
-
-		return true;
-	};
+    // Used to let us know when the roles are loaded
+    $scope.rolesLoaded = false;
 
 	$scope.cleanServiceAccess = function() {
 		var size = $scope.role.role_service_accesses.length;
@@ -115,21 +103,6 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 		function() {
 		}
 	);
-	$scope.uniqueSystemAccess = function() {
-		var size = $scope.role.role_system_accesses.length;
-		for ( i = 0; i < size; i++ ) {
-			var access = $scope.role.role_system_accesses[i];
-			var matches = $scope.role.role_system_accesses.filter(
-				function( itm ) {
-					return itm.component === access.component;
-				}
-			);
-			if ( matches.length > 1 ) {
-				return false;
-			}
-		}
-		return true;
-	};
 	$scope.cleanSystemAccess = function() {
 		var size = $scope.role.role_system_accesses.length;
 		for ( i = 0; i < size; i++ ) {
@@ -139,65 +112,56 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 
 	$scope.FilterOps = ["=", "!=", ">", "<", ">=", "<=", "in", "not in", "starts with", "ends with", "contains", "is null", "is not null"];
 
+    //
 	$scope.Roles = RolesRelated.get(
-		{}, //params
-		function( data ) { //success
-			angular.forEach(
-				data.record, function( role ) {
-					angular.forEach(
-						role.role_service_accesses, function( access ) {
-							// ng-options doesn't play nice with null so we change it to 0
-							// server will accept 0 for "all services" but returns null
-							if ( !access.service_id ) {
-								access.service_id = 0;
-							}
-						}
-					);
-				}
-			);
-		}
-	);
+        {}, //params
+        function( data ) { //success
+            // Let us know we're loaded for HACKY div to keep UI from bouncing
+            $scope.rolesLoaded = true;
+
+            // Stop loading screen
+            dfLoadingScreen.stop();
+
+
+            angular.forEach(data.record, function( role ) {
+                    angular.forEach(
+                        role.role_service_accesses, function( access ) {
+                            // ng-options doesn't play nice with null so we change it to 0
+                            // server will accept 0 for "all services" but returns null
+                            if ( !access.service_id ) {
+                                access.service_id = 0;
+                            }
+                        }
+                    );
+                }
+            );
+        }
+    );
+
+
 
 	$scope.save = function() {
 
-		if ( !$scope.uniqueServiceAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate service access entries are not allowed.'
-				}
-			);
-			return;
-		}
-		if ( !$scope.uniqueSystemAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate system access entries are not allowed.'
-				}
-			);
-			return;
-		}
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Empty key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		$scope.cleanServiceAccess();
@@ -213,57 +177,44 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				$scope.promptForNew();
 				//window.top.Actions.showStatus("Updated Successfully");
 
+
+                // added for small devices
+                $scope.close();
+
 				// Success Message
-				$.pnotify(
-					{
-						title: 'Roles',
-						type:  'success',
-						text:  'Role Updated Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Roles',
+                        type:  'success',
+                        text:  'Role Updated Successfully'
+                    });
+                });
+
 			}
 		);
 	};
 	$scope.create = function() {
 
-		if ( !$scope.uniqueServiceAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate service access entries are not allowed.'
-				}
-			);
-			return;
-		}
-		if ( !$scope.uniqueSystemAccess() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate system access entries are not allowed.'
-				}
-			);
-			return;
-		}
 		if ( $scope.emptyKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Empty key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Empty key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		if ( !$scope.uniqueKey() ) {
-			$.pnotify(
-				{
-					title: 'Roles',
-					type:  'error',
-					text:  'Duplicate key names are not allowed.'
-				}
-			);
+            $(function(){
+                new PNotify({
+                    title: 'Roles',
+                    type:  'error',
+                    text:  'Duplicate key names are not allowed.'
+                });
+            });
+
 			return;
 		}
 		$scope.cleanServiceAccess();
@@ -274,14 +225,18 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 				//window.top.Actions.showStatus("Created Successfully");
 				$scope.promptForNew();
 
+                // added for small devices
+                $scope.close();
+
 				// Success Message
-				$.pnotify(
-					{
-						title: 'Roles',
-						type:  'success',
-						text:  'Role Created Successfully'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Roles',
+                        type:  'success',
+                        text:  'Role Created Successfully'
+                    });
+                });
+
 
 			}
 		);
@@ -345,13 +300,14 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.newServiceAccess = function() {
 
 		var newAccess = {
-			"access":     "Full Access",
-			"component":  "*",
-			"service_id": 0
+			"verbs": [],
+			"component": "*",
+			"service_id": 0,
+            "filters": [],
+            "filter_op": "AND",
+            "show_filters": false
 		};
-		newAccess.filters = [];
-		newAccess.filter_op = "AND";
-		newAccess.show_filters = false;
+
 		$scope.role.role_service_accesses.push( newAccess );
 	};
 
@@ -447,12 +403,13 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.newSystemAccess = function() {
 
 		var newAccess = {
-			"access":    "Read Only",
-			"component": "user"
-		};
-		newAccess.filters = [];
-		newAccess.filter_op = "AND";
-		newAccess.show_filters = false;
+            "verbs": ["GET"],
+            "component": "user",
+            "filters": [],
+            "filter_op": "AND",
+            "show_filters": false
+        };
+
 		$scope.role.role_system_accesses.push( newAccess );
 	};
 
@@ -564,21 +521,25 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 
 				$( "#row_" + id ).fadeOut();
 
+                // Added for small devices
+                $scope.close();
+
 				// Success message
-				$.pnotify(
-					{
-						title: 'Roles',
-						type:  'success',
-						text:  'Role deleted.'
-					}
-				);
+                $(function(){
+                    new PNotify({
+                        title: 'Roles',
+                        type:  'success',
+                        text:  'Role deleted.'
+                    });
+                });
 			}
 		);
 
 	};
 	$scope.promptForNew = function() {
 		angular.element( ":checkbox" ).attr( 'checked', false );
-		$scope.action = "Create new";
+        $scope.currentRoleId = '';
+		$scope.action = "Create New";
 		$scope.actioned = "Created";
 		$scope.role = {
 			users:                 [],
@@ -587,21 +548,28 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 			role_system_accesses:  [],
 			lookup_keys:           []
 		};
-		$( '#save_button' ).show();
-		$( '#update_button' ).hide();
+		$( '.save_button' ).show();
+		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		$( window ).scrollTop( 0 );
+
+        // Added for small devices
+        $scope.open();
 	};
 	$scope.showDetails = function() {
-		$scope.action = "Edit this ";
+		$scope.action = "Edit ";
 		$scope.actioned = "Updated";
 		$scope.role = angular.copy( this.role );
+        $scope.currentRoleId = $scope.role.id;
 		$scope.users = angular.copy( $scope.role.users );
 		$scope.apps = angular.copy( $scope.role.apps );
-		$( '#save_button' ).hide();
-		$( '#update_button' ).show();
+		$( '.save_button' ).hide();
+		$( '.update_button' ).show();
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + $scope.role.id ).addClass( 'info' );
+
+        // Added for small devices
+        $scope.open();
 	};
 	$scope.makeDefault = function() {
 		$scope.role.default_app_id = this.app.id;
@@ -609,4 +577,45 @@ var RoleCtrl = function( $scope, RolesRelated, User, App, Service, $http ) {
 	$scope.clearDefault = function() {
 		$scope.role.default_app_id = null;
 	};
+
+
+
+
+    // Added controls for dealing with xs small devices
+    $scope.xsWidth = $(window).width() <= 992 ? true : false;
+    $scope.activeView = 'list';
+
+    $scope.setActiveView = function (viewStr) {
+
+        $scope.activeView = viewStr;
+    };
+
+    $scope.close = function () {
+
+        $scope.setActiveView('list');
+    };
+
+    $scope.open = function () {
+
+        $scope.setActiveView('form');
+    };
+
+    $scope.$watch('xsWidth', function (newValue, oldValue) {
+
+        if (newValue == false) {
+            $scope.close();
+        }
+    });
+
+    $(window).resize(function(){
+        if(!$scope.$$phase) {
+            $scope.$apply(function () {
+                if ($(window).width() <= 992) {
+                    $scope.xsWidth = true;
+                }else {
+                    $scope.xsWidth = false;
+                }
+            })
+        }
+    });
 };
