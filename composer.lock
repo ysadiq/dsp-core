@@ -134,7 +134,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.6.8",
+            "version": "1.6.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "63a7a44ef21cefa48b0c89c568e48d170ef512bc"
+                "reference": "e6bdc966c1d11087748ea9331f07be3ea046a9d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/63a7a44ef21cefa48b0c89c568e48d170ef512bc",
-                "reference": "63a7a44ef21cefa48b0c89c568e48d170ef512bc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e6bdc966c1d11087748ea9331f07be3ea046a9d5",
+                "reference": "e6bdc966c1d11087748ea9331f07be3ea046a9d5",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-07-02 14:37:13"
+            "time": "2014-07-02 15:56:13"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
