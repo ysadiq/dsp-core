@@ -549,6 +549,43 @@ We need to preload data but I'm not doing that today. MNM -->
         </div>
     </div>
 </div>
+<!-- Small devices -->
+<div class="visible-xs visible-sm" data-ng-class="xsWidth ? 'df-col-padding-override' : ''">
+    <div class="well well-sm">
+        <div class="btn-toolbar">
+            <div class="btn-group pull-right" style="margin: 4px auto">
+                <button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New
+                </button>
+                <button data-ng-show="activeView === 'form'" type="button"
+                        class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+                </button>
+                <button data-ng-show="activeView === 'form'" type="button"
+                        class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+                </button>
+                <button data-ng-show="xsWidth && activeView === 'form'" type="button" class="btn btn-default btn-sm"
+                        data-ng-click="close()">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Everything larger than 'sm' -->
+<div class="well well-sm hidden-xs hidden-sm">
+    <div class="btn-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New
+            </button>
+            <button type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+            </button>
+            <button type="button" class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+            </button>
+            <button data-ng-show="xsWidth" type="button" class="btn btn-default btn-sm" data-ng-click="close()">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
 </form>
 </div>
 </div>
