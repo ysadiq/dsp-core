@@ -39,7 +39,9 @@ $this->breadcrumbs = array(
 
         <?php elseif ( empty( $model->versions ) ): ?>
 
-            <p>This DSP is currently running the latest available version. </p>
+            <p>This DSP is currently running the latest available version. <br />
+                If you have just successfully upgraded, please clear your browser cache to ensure you have the latest interface.
+            </p>
 
             <div class="form-buttons">
                 <button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>

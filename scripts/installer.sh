@@ -22,7 +22,7 @@
 # CHANGELOG:
 #
 # v1.3.6
-#   More bitnami-aware. Use proper user for web user
+#   More bitnami-aware. Use proper user for web user when running on a full stack
 #
 # v1.3.5
 #   Made bitnami-aware. Use PHP from stack instead of installed version
@@ -127,7 +127,8 @@ NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
 DARWIN_WEB_USER=_www
-BITNAMI_WEB_USER=daemon
+BITNAMI_WEB_USER=www-data
+BITNAMI_FULL_STACK=`[ -d "../../../properties.ini" ] && grep -c 'base_stack_name=Bitnami DreamFactory Stack' ../../../properties.ini`
 BASE=`pwd`
 FABRIC=0
 FABRIC_MARKER=/var/www/.fabric_hosted
@@ -160,19 +161,22 @@ fi
 if [ "x" = "${TERM}x" ] ; then
 	B1=
 	B2=
-else
-	B1=`tput bold`
-	B2=`tput sgr0`
 fi
 
 # Check for Bitnami install
 if [ `basename ${BASE}` = "htdocs" ] ; then
-	if [ -d "../../../php" ] ; then
-		PHP=../../../php/bin/php
-	fi
+	[ -d "../../../php/bin" ] && PHP=../../../php/bin/php
 
-	BITNAMI=1
 	TAG="Mode: ${B1}Bitnami${B2}"
+	BITNAMI=1
+
+	# Set bitnami apache user name based on config file if this is a hosted-VM
+	if [ "${BITNAMI_FULL_STACK}" = "1" ] ; then
+		if [ -d "../../../apache2/conf" ] ; then 
+			BITNAMI_WEB_USER=`grep -e "^User " ../../../apache2/conf/httpd.conf |awk 'gsub("User ","")'`
+			TAG="Mode: ${B1}Bitnami Full${B2}"
+		fi
+	fi	
 else
 	TAG="Mode: ${B1}Local${B2}"
 fi
@@ -244,22 +248,22 @@ usage() {
 # Determine the OS type and parse arguments accordingly
 #
 _parse_arguments() {
+	if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
+		WEB_USER=${DARWIN_WEB_USER}
+		_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
+	
+		PARSED_OPTIONS=`getopt ${SHORT_OPTIONS} $*`
+	else
+		if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
+			_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
+		fi
+	
+		#	Execute getopt on the arguments passed to this program, identified by the special character $@
+		PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
+	fi
+
 	if [ ${BITNAMI} -eq 1 ] ; then
 		WEB_USER=${BITNAMI_WEB_USER}
-	else
-		if [ "Darwin" = "${SYSTEM_TYPE}" ] ; then
-			WEB_USER=${DARWIN_WEB_USER}
-			_notice "OS X installation: Apache user set to \"${B1}${WEB_USER}${B2}\""
-	
-			PARSED_OPTIONS=`getopt ${SHORT_OPTIONS} $*`
-		else
-			if [ "Linux" != "${SYSTEM_TYPE}" ] ; then
-				_notice "Windows/other installation. ${B1}Not fully tested so your mileage may vary${B2}."
-			fi
-	
-			#	Execute getopt on the arguments passed to this program, identified by the special character $@
-			PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
-		fi
 	fi
 }
 
@@ -267,6 +271,8 @@ _parse_arguments() {
 ##	Makes sure our directories are in place...
 ##
 _check_structure() {
+	[ "${BITNAMI_FULL_STACK}" = "1" ] && _dbg "Bitnami full stack install (hosted VM). Web user set to \"${BITNAMI_WEB_USER}\""
+
 	if [ ! -d "${STORAGE_DIR}" ] ; then
 		mkdir -p "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
 	fi
@@ -292,7 +298,7 @@ _check_structure() {
 	fi
 
 	_dbg "Finding all directories & files needing permissions change..."
-	find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod ${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
+	find ./ -path ./.git -prune -o -type f -exec chmod ${FILE_PERMS} {} >>${MY_LOG} 2>&1 \; -type d -exec chmod	${DIR_PERMS} {} >>${MY_LOG} 2>&1 \;
 	_dbg "Finding all scripts for permissions change..."
 	find ./scripts/ -name '*.sh' -exec chmod ${SCRIPT_PERMS} {} >>${MY_LOG} 2>&1 \;
 }
@@ -316,9 +322,15 @@ for _i
 do
 	case "$_i" in
 		-i|--interactive)
+			_info "Interactive mode enabled"
 			NO_INTERACTION=
 			shift;
-			_info "Interactive mode enabled"
+			;;
+
+		-V|--validate)
+			_info "Validating installation, no software installation."
+			ONLY_VALIDATE=1
+			shift
 			;;
 
 		-n|--no-composer)
@@ -338,22 +350,16 @@ do
 	    	;;
 
 		-v|--verbose)
+			_info "Verbose mode enabled"
 			VERBOSE="-v"
 			QUIET=
-			_info "Verbose mode enabled"
-			shift
-			;;
-
-		-V|--validate)
-			_info "Validating installation, no software installation."
-			ONLY_VALIDATE=1
 			shift
 			;;
 
 		-D|--debug)
+			_info "Extra verbose/debug logging enabled"
 			VERBOSE="-vvv"
 			QUIET=
-			_info "Extra verbose/debug logging enabled"
 			DF_DEBUG=1
 			shift
 			;;
@@ -466,7 +472,8 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
 		fi
 
-		[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
+		[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate
+		 properly."
 	fi
 
 	if [ -d "${VENDOR_DIR}" ] ; then
