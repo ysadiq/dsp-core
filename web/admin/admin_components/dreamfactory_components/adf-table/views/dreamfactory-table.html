@@ -226,20 +226,22 @@
 
                         <tr data-ng-hide="obj.__dfUI.hide" data-ng-repeat="obj in record | dfFilterBy:{'field':filter.prop, 'value':filter.value, 'on':tableFilterOn} | orderObjectBy:order.orderBy:order.orderByReverse">
                             <td style="width: 100px;" data-ng-class="obj.__dfUI.selected ? 'bg-danger' : '' || obj.__dfUI.unsaved ? 'bg-warning' : '' || obj.__dfUI.export ? 'bg-info' : ''">
-                                <div class="btn-group">
-                                    <button type="button" data-ng-click="editRecord(obj)" class="btn btn-default btn-sm">
-                                        <i class="fa fa-fw fa-pencil"></i>
-                                    </button>
+                                <div class="btn-toolbar df-table-btn-bar" >
+                                    <div class="btn-group" >
+                                        <button type="button" data-ng-click="editRecord(obj)" class="btn btn-default btn-sm">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                        </button>
 
-                                    <button type="button" data-ng-if="options.allowChildTable" class="btn btn-default btn-sm"
-                                            data-ng-click="showChildTable(obj)">
-                                        <i class="fa fa-fw fa-dashboard"></i>
-                                    </button>
+                                        <button type="button" data-ng-if="options.allowChildTable" class="btn btn-default btn-sm"
+                                                data-ng-click="showChildTable(obj)">
+                                            <i class="fa fa-fw fa-dashboard"></i>
+                                        </button>
 
-                                    <button type="button" data-ng-if="options.exportValueOn" class="btn btn-default btn-sm"
-                                            data-ng-click="setExportValue(obj)">
-                                        <i class="fa fa-fw fa-flash"></i>
-                                    </button>
+                                        <button type="button" data-ng-if="options.exportValueOn" class="btn btn-default btn-sm"
+                                                data-ng-click="setExportValue(obj)">
+                                            <i class="fa fa-fw fa-flash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                             <td data-ng-repeat="value in obj | orderAndShowValue : tableFields track by $index"
