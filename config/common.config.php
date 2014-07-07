@@ -201,7 +201,7 @@ return array_merge(
         /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
         //  I do not believe this is being utilized
-        'dsp.debug_level'               => LoggingLevels::DEBUG,
+        'dsp.debug_level'               => LoggingLevels::WARNING,
         //-------------------------------------------------------------------------
         //	Event and Scripting System Options
         //-------------------------------------------------------------------------

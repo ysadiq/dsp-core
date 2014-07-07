@@ -23,10 +23,12 @@ use DreamFactory\Yii\Utility\Pii;
  * index.php
  * Main entry point/bootstrap for all processes
  */
+
 /**
- * @type bool If true, your logs will grow large.
+ * Global debug flag
+ * @type bool If true, your logs will grow large and your performance will suffer, but fruitful information will be gathered.
  */
-const DSP_DEBUG = true;
+const DSP_DEBUG = false;
 
 //	Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
@@ -40,16 +42,21 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
  */
 if ( DSP_DEBUG )
 {
-//	ini_set( 'display_errors', true );
-//  ini_set( 'error_reporting', -1 );
+    ini_set( 'display_errors', true );
+    ini_set( 'error_reporting', -1 );
 
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 
-//    if ( function_exists( 'reportErrors' ) )
-//    {
-//        reportErrors();
-//    }
+/**
+ * "php_error" support (uncomment to enable)
+
+    if ( function_exists( 'reportErrors' ) )
+    {
+        reportErrors();
+    }
+
+**/
 }
 
 //	Create the application and run
