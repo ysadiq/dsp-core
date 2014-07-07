@@ -78,29 +78,29 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
                                     //console.log(event);
                                     $scope.tables[event.name].forEach(function (table) {
                                         newpath = {};
-                                        updateEvent =  {"type": "put",
+                                        updateEvent = {"type": "put",
                                             "event": [
                                                 event.name + "." + table.name + ".update"
                                             ]};
-                                        deleteEvent =  {"type": "delete",
+                                        deleteEvent = {"type": "delete",
                                             "event": [
                                                 event.name + "." + table.name + ".delete"
                                             ]};
-                                        insertEvent =  {"type": "post",
+                                        insertEvent = {"type": "post",
                                             "event": [
                                                 event.name + "." + table.name + ".insert"
                                             ]};
-                                        selectEvent =  {"type": "get",
+                                        selectEvent = {"type": "get",
                                             "event": [
                                                 event.name + "." + table.name + ".select"
                                             ]};
                                         newpath.verbs = [];
-                                        newpath.path = "/" + event.name +"/" + table.name;
+                                        newpath.path = "/" + event.name + "/" + table.name;
 
                                         path.verbs.forEach(function (verb) {
                                             preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
                                             preObj = {"type": verb.type, "event": [preEvent]};
-                                            postEvent =  event.name + "." + table.name + "." + verb.type + "." + "post_process";
+                                            postEvent = event.name + "." + table.name + "." + verb.type + "." + "post_process";
                                             postObj = {"type": verb.type, "event": [postEvent]};
 
 
@@ -109,82 +109,82 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
 
                                         });
                                         var found = false;
-                                        event.paths.forEach(function(pathObj){
+                                        event.paths.forEach(function (pathObj) {
 
-                                            if(pathObj.path === newpath.path){
+                                            if (pathObj.path === newpath.path) {
                                                 found = true;
                                             }
 
                                         });
-                                        if(!found){
-                                            newpath.verbs.push(selectEvent);
-                                            newpath.verbs.push(insertEvent);
-                                            newpath.verbs.push(updateEvent);
-                                            newpath.verbs.push(deleteEvent);
+                                        if (!found) {
+//                                            newpath.verbs.push(selectEvent);
+//                                            newpath.verbs.push(insertEvent);
+//                                            newpath.verbs.push(updateEvent);
+//                                            newpath.verbs.push(deleteEvent);
                                             event.paths.push(newpath)
                                         }
 
                                     });
-                                }else if (Object.keys($scope.containers).indexOf(event.name) != '-1' && pathName !== event.name) {
-                                        var newpath = {};
-                                        //console.log(event);
-                                        $scope.containers[event.name].forEach(function (table) {
-                                            newpath = {};
-                                            updateEvent =  {"type": "put",
-                                                "event": [
-                                                    event.name + "." + table.name + ".update"
-                                                ]};
-                                            deleteEvent =  {"type": "delete",
-                                                "event": [
-                                                    event.name + "." + table.name + ".delete"
-                                                ]};
-                                            insertEvent =  {"type": "post",
-                                                "event": [
-                                                    event.name + "." + table.name + ".insert"
-                                                ]};
-                                            selectEvent =  {"type": "get",
-                                                "event": [
-                                                    event.name + "." + table.name + ".select"
-                                                ]};
-                                            newpath.verbs = [];
-                                            newpath.path = "/" + event.name +"/" + table.name;
+                                } else if (Object.keys($scope.containers).indexOf(event.name) != '-1' && pathName !== event.name) {
+                                    var newpath = {};
+                                    //console.log(event);
+                                    $scope.containers[event.name].forEach(function (table) {
+                                        newpath = {};
+                                        updateEvent = {"type": "put",
+                                            "event": [
+                                                event.name + "." + table.name + ".update"
+                                            ]};
+                                        deleteEvent = {"type": "delete",
+                                            "event": [
+                                                event.name + "." + table.name + ".delete"
+                                            ]};
+                                        insertEvent = {"type": "post",
+                                            "event": [
+                                                event.name + "." + table.name + ".insert"
+                                            ]};
+                                        selectEvent = {"type": "get",
+                                            "event": [
+                                                event.name + "." + table.name + ".select"
+                                            ]};
+                                        newpath.verbs = [];
+                                        newpath.path = "/" + event.name + "/" + table.name;
 
-                                            path.verbs.forEach(function (verb) {
-                                                preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
-                                                preObj = {"type": verb.type, "event": [preEvent]};
-                                                postEvent =  event.name + "." + table.name + "." + verb.type + "." + "post_process";
-                                                postObj = {"type": verb.type, "event": [postEvent]};
+                                        path.verbs.forEach(function (verb) {
+                                            preEvent = event.name + "." + table.name + "." + verb.type + "." + "pre_process";
+                                            preObj = {"type": verb.type, "event": [preEvent]};
+                                            postEvent = event.name + "." + table.name + "." + verb.type + "." + "post_process";
+                                            postObj = {"type": verb.type, "event": [postEvent]};
 
 
-                                                newpath.verbs.push(preObj);
-                                                newpath.verbs.push(postObj);
+                                            newpath.verbs.push(preObj);
+                                            newpath.verbs.push(postObj);
 
-                                            });
-                                            var found = false;
-                                            event.paths.forEach(function(pathObj){
+                                        });
+                                        var found = false;
+                                        event.paths.forEach(function (pathObj) {
 
-                                                if(pathObj.path === newpath.path){
-                                                    found = true;
-                                                }
+                                            if (pathObj.path === newpath.path) {
+                                                found = true;
+                                            }
 
-                                            });
-                                            if(!found){
+                                        });
+                                        if (!found) {
 //                                                newpath.verbs.push(selectEvent);
 //                                                newpath.verbs.push(insertEvent);
 //                                                newpath.verbs.push(updateEvent);
 //                                                newpath.verbs.push(deleteEvent);
-                                                event.paths.push(newpath)
-                                            }
+                                            event.paths.push(newpath)
+                                        }
 
-                                        });
+                                    });
 
-                                }else{
+                                } else {
                                     path.verbs.forEach(function (verb) {
-                                        if(event.name !== pathName){
+                                        if (event.name !== pathName) {
                                             preEvent = event.name + "." + pathName + "." + verb.type + "." + "pre_process";
                                             postEvent = event.name + "." + pathName + "." + verb.type + "." + "post_process";
-                                        }else{
-                                            preEvent =  pathName + "." + verb.type + "." + "pre_process";
+                                        } else {
+                                            preEvent = pathName + "." + verb.type + "." + "pre_process";
                                             postEvent = pathName + "." + verb.type + "." + "post_process";
                                         }
                                         preObj = {"type": verb.type, "event": [preEvent]};
@@ -267,11 +267,11 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
     $scope.saveScript = function () {
         //$http.defaults.headers.put['Content-Type'];
         var post_body = editor.getValue() || " ";
-        $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, {post_body : post_body},{
+        $http.put(CurrentServer + "/rest/system/script/" + $scope.currentScript, {post_body: post_body}, {
             headers: {
                 'Content-Type': 'text/plain'
-            }}).then(function(){
-            $(function(){
+            }}).then(function () {
+            $(function () {
                 new PNotify({
                     title: $scope.currentScript,
                     type: 'success',
@@ -301,7 +301,7 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
 
         Script.delete(script_id).$promise.then(
             function (response) {
-                $(function(){
+                $(function () {
                     new PNotify({
                         title: $scope.currentScript,
                         type: 'success',
