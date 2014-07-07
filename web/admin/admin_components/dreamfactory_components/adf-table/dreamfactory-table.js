@@ -3131,7 +3131,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     if (!newValue) return false;
 
                     var options = {
-                        service: scope.service,
+                        service: scope._setSystemService(newValue.ref_table),
                         table: newValue.ref_table,
                         url: DSP_URL + '/rest/' + scope._setSystemService(newValue.ref_table) + '/' + scope._parseSystemTableName(newValue.ref_table),
                         params: {
@@ -3140,6 +3140,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     };
 
                     scope.options = dfObjectService.deepMergeObjects(options, scope.childOptions);
+
                 });
 
 
