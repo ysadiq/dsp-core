@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -136,7 +136,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "b9841339865f7aca62b6f883ab4d7832e6b87b29"
+                "reference": "ed82d3d176f4fd85afd83b244ea20e4b6aa9b53a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/b9841339865f7aca62b6f883ab4d7832e6b87b29",
-                "reference": "b9841339865f7aca62b6f883ab4d7832e6b87b29",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/ed82d3d176f4fd85afd83b244ea20e4b6aa9b53a",
+                "reference": "ed82d3d176f4fd85afd83b244ea20e4b6aa9b53a",
                 "shasum": ""
             },
             "require": {
@@ -470,12 +470,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Sr. Software Engineer"
                 },
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -485,7 +485,7 @@
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Developer and QA, client-side"
+                    "role": "Lead Engineer, client-side; UX/QA"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -494,7 +494,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-06-27 19:12:57"
+            "time": "2014-07-08 18:17:07"
         },
         {
             "name": "dreamfactory/oasys",
@@ -768,16 +768,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.46",
+            "version": "0.2.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "d71a75576e155162cd2a71b4aa737f3441b2cd13"
+                "reference": "c2a9340a86b66e40657325eb4b9c0c997603c3df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/d71a75576e155162cd2a71b4aa737f3441b2cd13",
-                "reference": "d71a75576e155162cd2a71b4aa737f3441b2cd13",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/c2a9340a86b66e40657325eb4b9c0c997603c3df",
+                "reference": "c2a9340a86b66e40657325eb4b9c0c997603c3df",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-06-30 17:57:36"
+            "time": "2014-07-08 16:42:40"
         },
         {
             "name": "monolog/monolog",
@@ -1433,12 +1433,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "7a4f4b42886f8c2e35acb1071f157a0b8eb1bd39"
+                "reference": "dc2182b4275f153469321b99c3a675ef3cffafd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/7a4f4b42886f8c2e35acb1071f157a0b8eb1bd39",
-                "reference": "7a4f4b42886f8c2e35acb1071f157a0b8eb1bd39",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/dc2182b4275f153469321b99c3a675ef3cffafd4",
+                "reference": "dc2182b4275f153469321b99c3a675ef3cffafd4",
                 "shasum": ""
             },
             "require": {
@@ -1483,7 +1483,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-23 14:36:49"
+            "time": "2014-07-08 12:21:41"
         },
         {
             "name": "symfony/http-foundation",
