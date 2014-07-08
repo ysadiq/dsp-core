@@ -290,7 +290,7 @@ angular.module(
                         getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
-                                filter: 'type_id in (4,16,4100)'
+                                filter: 'type_id in (4,8,16,4100,4104)'
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});

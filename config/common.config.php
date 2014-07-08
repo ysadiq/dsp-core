@@ -71,7 +71,7 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
         {
             if ( $_salt )
             {
-                $_dspSalts[ 'dsp.salts.' . $_key ] = $_salt;
+                $_dspSalts['dsp.salts.' . $_key] = $_salt;
             }
         }
     }
@@ -201,7 +201,7 @@ return array_merge(
         /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
         //  I do not believe this is being utilized
-        'dsp.debug_level'               => LoggingLevels::DEBUG,
+        'dsp.debug_level'               => LoggingLevels::WARNING,
         //-------------------------------------------------------------------------
         //	Event and Scripting System Options
         //-------------------------------------------------------------------------
@@ -221,6 +221,23 @@ return array_merge(
         'dsp.log_all_events'            => false,
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
+        //-------------------------------------------------------------------------
+        //	Memcached Settings
+        //-------------------------------------------------------------------------
+        //  If true, and if Memcached extension is available, use memcache instead of files
+        'dsp.use_memcached'             => false,
+        //  An array of memcached servers to use if memcache enabled
+        'dsp.memcached.servers'         => array(
+            array(
+                'host'   => 'localhost',
+                'port'   => 11211,
+                'weight' => 0,
+            ),
+        ),
+        //  If true, cache stats will be logged when "dsp.cache_stats_event" is fired
+        'dsp.log_cache_stats'           => false,
+        //  The event on which to dump cache stats
+        'dsp.cache_stats_event'         => 'system.config.read',
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------

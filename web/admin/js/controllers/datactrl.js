@@ -37,7 +37,9 @@ var DataCtrl = function( dfLoadingScreen, $scope, Schema, DB, $http, DSP_URL, ge
     $scope.options = {
         service: $scope.selected.service,
         table: $scope.selected.resource,
-        url: DSP_URL + '/rest/' + $scope.selected.service + '/' + $scope.selected.resource
+        url: DSP_URL + '/rest/' + $scope.selected.service + '/' + $scope.selected.resource,
+        allowChildTable: true,
+        childTableAttachPoint: '#child-table-attach'
     };
 
     $scope.$watchCollection('selected', function (newValue, oldValue) {
@@ -45,7 +47,9 @@ var DataCtrl = function( dfLoadingScreen, $scope, Schema, DB, $http, DSP_URL, ge
         var options = {
             service: newValue.service,
             table: newValue.resource,
-            url: DSP_URL + '/rest/' + newValue.service + '/' + newValue.resource
+            url: DSP_URL + '/rest/' + newValue.service + '/' + newValue.resource,
+            allowChildTable: true,
+            childTableAttachPoint: '#child-table-attach'
         };
 
         $scope.options = options;
