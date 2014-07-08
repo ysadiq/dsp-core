@@ -1,19 +1,21 @@
 #!/bin/bash
 
-URL="http://jablan.cloud.dreamfactory.com/rest/system/user?app_name=admin"
-ITERATIONS=50 
-CONCURRENT=4
+URL="http://jablan.cloud.dreamfactory.com/rest/system/config?app_name=admin"
+ITERATIONS=25 
+CONCURRENT=1
 VERBOSITY=""
-HEADERS='-H "Connection: close" -H "Cache-Control: no-cache" -H "Content-Type: application/json"'
-COOKIE="Cookie: "
 
 if [ "$1" != "" ] ; then
-	COOKIE="PHPSESSID=${1}"
+	ab -n ${ITERATIONS} -c ${CONCURRENT} ${VERBOSITY} \
+	    -H "Cookie: PHPSESSID=${1}" \
+	    -H "Connection: close" \
+	    -H "Cache-Control: no-cache" \
+	    -H "Content-Type: application/json" \
+	    ${URL}
+else
+	ab -n ${ITERATIONS} -c ${CONCURRENT} ${VERBOSITY} \
+	    -H "Connection: close" \
+	    -H "Cache-Control: no-cache" \
+	    -H "Content-Type: application/json" \
+	    ${URL}
 fi
-
-ab -n ${ITERATIONS} -c ${CONCURRENT} ${VERBOSITY} \
-    -H "Cookie: ${COOKIE}" \
-    -H "Connection: close" \
-    -H "Cache-Control: no-cache" \
-    -H "Content-Type: application/json" \
-    ${URL}

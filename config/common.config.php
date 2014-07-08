@@ -225,7 +225,7 @@ return array_merge(
         //	Memcached Settings
         //-------------------------------------------------------------------------
         //  If true, and if Memcached extension is available, use memcache instead of files
-        'dsp.use_memcached'             => false,
+        'dsp.use_memcached'             => true,
         //  An array of memcached servers to use if memcache enabled
         'dsp.memcached.servers'         => array(
             array(
