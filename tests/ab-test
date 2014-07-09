@@ -1,8 +1,8 @@
 #!/bin/bash
 
 URL="http://jablan.cloud.dreamfactory.com/rest/system/config?app_name=admin"
-ITERATIONS=25 
-CONCURRENT=1
+ITERATIONS=120 
+CONCURRENT=4
 VERBOSITY=""
 
 if [ "$1" != "" ] ; then

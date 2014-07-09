@@ -54,7 +54,7 @@
 		"pear-pear.php.net/Net_URL2":           "*",
 		"pear-pear.php.net/Mail_Mime":          "*",
 		"pear-pear.php.net/Mail_mimeDecode":    "*",
-		"dreamfactory/lib-php-common-platform": "~1.6.0@stable"
+		"dreamfactory/lib-php-common-platform": "~1.6.0@dev"
 	},
 	"require-dev":       {
 	},

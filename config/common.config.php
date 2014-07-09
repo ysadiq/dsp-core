@@ -46,7 +46,7 @@ $_dbCacheEnabled = true;
 $_defaultController = 'web';
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
-$_logFileName = basename( \Kisma::get( 'app.log_file' ) );
+$_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
 $_appName = 'DreamFactory Services Platform';
 $_fabricHosted = Fabric::fabricHosted();
 
@@ -222,18 +222,8 @@ return array_merge(
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
         //-------------------------------------------------------------------------
-        //	Memcached Settings
+        //	Cache stats logging
         //-------------------------------------------------------------------------
-        //  If true, and if Memcached extension is available, use memcache instead of files
-        'dsp.use_memcached'             => true,
-        //  An array of memcached servers to use if memcache enabled
-        'dsp.memcached.servers'         => array(
-            array(
-                'host'   => 'localhost',
-                'port'   => 11211,
-                'weight' => 0,
-            ),
-        ),
         //  If true, cache stats will be logged when "dsp.cache_stats_event" is fired
         'dsp.log_cache_stats'           => false,
         //  The event on which to dump cache stats

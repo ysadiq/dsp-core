@@ -28,7 +28,7 @@ use DreamFactory\Yii\Utility\Pii;
  * Global debug flag
  * @type bool If true, your logs will grow large and your performance will suffer, but fruitful information will be gathered.
  */
-const DSP_DEBUG = false;
+const DSP_DEBUG = true;
 
 //	Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
