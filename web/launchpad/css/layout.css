@@ -33,20 +33,15 @@ iframe {
 	height:     50px;
 	padding:    0;
 	margin:     0;
-	background: rgba(0, 0, 0, .80);
-	position:   fixed;
 	left:       0;
 	right:      0;
 	top:        0;
+	background: rgba(2, 2, 2, .80);
 }
 
 #navbar-container > .navbar {
 	padding:       4px 0;
 	margin-bottom: 0;
-}
-
-#navbar-container > .navbar-inverse {
-	background: rgba(0, 0, 0, .80);
 }
 
 #main-nav {
@@ -127,6 +122,10 @@ span.icon .checker {
 .modal-header {
 	height:  auto;
 	padding: 8px 15px 5px;
+}
+
+.modal-header > h3 {
+	margin-top: 10px;
 }
 
 .notify-ui ul {
@@ -749,10 +748,17 @@ html, body {
 .df-logo {
 	margin-right: 20px;
 	margin-top:   0;
+	padding:      0;
+	height:       auto;
 }
 
 .df-logo img {
 	height: 42px;
+}
+
+#main-nav > .btn-toolbar.btn-toolbar-nav {
+	margin-top:   5px;
+	margin-right: 10px;
 }
 
 #app-list-container {
@@ -892,4 +898,16 @@ html, body {
 	height:           250px;
 	background-color: #efefef;
 	color:            darkgreen;
+}
+
+@media screen and (max-width: 768px) {
+	.navbar-toggle {
+		padding:       6px 10px;
+		margin-top:    7px;
+		margin-bottom: 7px;
+	}
+
+	.container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
+		margin-left: 0;
+	}
 }

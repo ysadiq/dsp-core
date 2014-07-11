@@ -88,7 +88,6 @@ Main stylesheet for LaunchPad
 
 .group-items ul li a:hover {
 	color: black !important;
-
 }
 
 .group-items ul li a h4 {
@@ -105,6 +104,7 @@ Main stylesheet for LaunchPad
 	margin-left:   5px;
 	border-radius: 0;
 	width:         30px;
+	color:         #fff;
 }
 
 .btn-launch:hover {
@@ -172,39 +172,4 @@ Main stylesheet for LaunchPad
 
 .modal-footer {
 	border-radius: 0 0 0 0;
-}
-
-@media screen and (max-width: 940px) {
-	.btn-stack {
-		/*display: block;*/
-		margin: 5px 0 0 5px;
-	}
-
-	#main-nav {
-		width:      100%;
-		/*background: rgba(0, 0, 0, .80);*/
-	}
-
-	#main-nav .btn {
-		padding:       10px;
-		font-size:     1.3em;
-		border-radius: 0;
-		/*margin-bottom: 10px;*/
-	}
-
-	#main-nav a:last-child {
-		/*margin-bottom: 10px; */
-	}
-
-	#navbar-container {
-		padding: 0;
-		margin:  0;
-	}
-
-    /*
-	.navbar-spacer {
-		padding-left:  10px;
-		padding-right: 10px;
-	}
-	*/
 }

@@ -30,8 +30,10 @@ use DreamFactory\Platform\Resources\User\Profile;
 use DreamFactory\Platform\Resources\User\Register;
 use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Services\AsgardService;
+use DreamFactory\Platform\Services\SwaggerManager;
 use DreamFactory\Platform\Services\SystemManager;
 use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Platform\Utility\ResourceStore;
 use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Platform\Yii\Models\User;
@@ -145,6 +147,7 @@ class WebController extends BaseWebController
                     'apiReference',
                     'logout',
                     'config',
+                    'flush',
                 ),
                 'users'   => array('@'),
             ),
@@ -1224,4 +1227,33 @@ class WebController extends BaseWebController
         return true;
     }
 
+    /**
+     * @param string $cache Which cache to flush
+     *
+     * @return bool
+     * @throws DreamFactory\Platform\Exceptions\BadRequestException
+     */
+    public function actionFlush( $cache )
+    {
+        $this->layout = false;
+
+        switch ( strtolower( $cache ) )
+        {
+            case 'platform':
+                Platform::storeDeleteAll();
+                Pii::flushConfig();
+                break;
+
+            case 'swagger':
+                SwaggerManager::clearCache();
+                break;
+
+            default:
+                throw new BadRequestException();
+        }
+
+        echo json_encode( array('success' => true, 'cache' => $cache) );
+
+        return Pii::end();
+    }
 }
