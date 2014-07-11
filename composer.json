@@ -48,7 +48,7 @@
 	],
 	"require":           {
 		"php":                                  ">=5.3.18",
-		"kisma/kisma":                          "~0.2.5050505050@stable",
+		"kisma/kisma":                          "~0.2.50@stable",
 		"jeremeamia/superclosure":              "~1.0",
 		"pear-pear.php.net/HTTP_Request2":      "*",
 		"pear-pear.php.net/Net_URL2":           "*",
