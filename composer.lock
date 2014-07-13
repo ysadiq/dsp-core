@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7898ffccde2818634c7a06c806e2e831",
+    "hash": "1af3f6932cf9775d8d4d75436daec921",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -136,7 +136,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -298,12 +298,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "13323b2bd2ab6e218da6b91807e2d426a60b0490"
+                "reference": "8da8fb68cf6ee39d63f7bd93ae15cbba6748d958"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/13323b2bd2ab6e218da6b91807e2d426a60b0490",
-                "reference": "13323b2bd2ab6e218da6b91807e2d426a60b0490",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/8da8fb68cf6ee39d63f7bd93ae15cbba6748d958",
+                "reference": "8da8fb68cf6ee39d63f7bd93ae15cbba6748d958",
                 "shasum": ""
             },
             "require": {
@@ -346,20 +346,20 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-06-23 18:49:03"
+            "time": "2014-07-09 23:04:36"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.6.10",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1bb8e74beccec3e710ae6d8bbcc9a51143800267"
+                "reference": "796a83f8bd1155e881c0118f4be02d99dcc80093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1bb8e74beccec3e710ae6d8bbcc9a51143800267",
-                "reference": "1bb8e74beccec3e710ae6d8bbcc9a51143800267",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/796a83f8bd1155e881c0118f4be02d99dcc80093",
+                "reference": "796a83f8bd1155e881c0118f4be02d99dcc80093",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +372,7 @@
                 "dreamfactory/oasys": "~0.4@stable",
                 "dreamfactory/yii": "~1.1.13.1",
                 "jeremeamia/superclosure": "*",
-                "kisma/kisma": "~0.2.45@stable",
+                "kisma/kisma": "~0.2.49@stable",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-07-02 16:28:42"
+            "time": "2014-07-13 18:46:34"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "ed82d3d176f4fd85afd83b244ea20e4b6aa9b53a"
+                "reference": "dcc89d7f1dad598d79356b10b815603b26f0f8e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/ed82d3d176f4fd85afd83b244ea20e4b6aa9b53a",
-                "reference": "ed82d3d176f4fd85afd83b244ea20e4b6aa9b53a",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/dcc89d7f1dad598d79356b10b815603b26f0f8e5",
+                "reference": "dcc89d7f1dad598d79356b10b815603b26f0f8e5",
                 "shasum": ""
             },
             "require": {
@@ -470,7 +470,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Jason Sykes",
@@ -485,7 +485,7 @@
                 {
                     "name": "Todd Appleton",
                     "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Engineer, client-side; UX/QA"
+                    "role": "Lead Developer and QA, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -494,7 +494,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-07-08 18:17:07"
+            "time": "2014-07-11 13:56:29"
         },
         {
             "name": "dreamfactory/oasys",
@@ -548,16 +548,16 @@
         },
         {
             "name": "dreamfactory/yii",
-            "version": "1.1.13.1",
+            "version": "1.1.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "6c0dabc38eee78fe9d018add20ce8e1efc066195"
+                "reference": "8cf385458278df6948a5f7e934db742b69bd4ea5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/6c0dabc38eee78fe9d018add20ce8e1efc066195",
-                "reference": "6c0dabc38eee78fe9d018add20ce8e1efc066195",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/8cf385458278df6948a5f7e934db742b69bd4ea5",
+                "reference": "8cf385458278df6948a5f7e934db742b69bd4ea5",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +624,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-06-05 15:21:23"
+            "time": "2014-07-10 20:38:08"
         },
         {
             "name": "guzzle/guzzle",
@@ -632,12 +632,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "49104c619b663038e636a819718adce3b27ba6f2"
+                "reference": "f7f3c2e66c9e60e6cc5b40298880588af52edf56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/49104c619b663038e636a819718adce3b27ba6f2",
-                "reference": "49104c619b663038e636a819718adce3b27ba6f2",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/f7f3c2e66c9e60e6cc5b40298880588af52edf56",
+                "reference": "f7f3c2e66c9e60e6cc5b40298880588af52edf56",
                 "shasum": ""
             },
             "require": {
@@ -716,7 +716,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-06-04 19:49:37"
+            "time": "2014-07-08 18:26:17"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -768,16 +768,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.47",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "c2a9340a86b66e40657325eb4b9c0c997603c3df"
+                "reference": "a267ea18e1b4ddc1d74a9effe1819c8b2cc3f0d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/c2a9340a86b66e40657325eb4b9c0c997603c3df",
-                "reference": "c2a9340a86b66e40657325eb4b9c0c997603c3df",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/a267ea18e1b4ddc1d74a9effe1819c8b2cc3f0d2",
+                "reference": "a267ea18e1b4ddc1d74a9effe1819c8b2cc3f0d2",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-07-08 16:42:40"
+            "time": "2014-07-09 21:04:31"
         },
         {
             "name": "monolog/monolog",
@@ -1101,17 +1101,17 @@
         },
         {
             "name": "pear-pear.php.net/PEAR",
-            "version": "1.9.4",
+            "version": "1.9.5",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/PEAR-1.9.4.tgz",
+                "url": "http://pear.php.net/get/PEAR-1.9.5.tgz",
                 "reference": null,
                 "shasum": null
             },
             "require": {
                 "ext-pcre": "*",
                 "ext-xml": "*",
-                "pear-pear.php.net/archive_tar": ">=1.3.7.0",
+                "pear-pear.php.net/archive_tar": ">=1.3.11.0",
                 "pear-pear.php.net/console_getopt": ">=1.2.0.0",
                 "pear-pear.php.net/structures_graph": ">=1.0.2.0",
                 "pear-pear.php.net/xml_util": ">=1.2.0.0",
@@ -1122,7 +1122,7 @@
                 "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
             },
             "replace": {
-                "pear-pear/pear": "== 1.9.4.0"
+                "pear-pear/pear": "== 1.9.5.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -1549,8 +1549,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kisma/kisma": 0,
-        "dreamfactory/lib-php-common-platform": 0
+        "kisma/kisma": 20,
+        "dreamfactory/lib-php-common-platform": 20
     },
     "platform": {
         "php": ">=5.3.18"
