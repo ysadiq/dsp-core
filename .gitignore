@@ -1,6 +1,5 @@
 .idea
 vendor
-vendor/dreamfactory/*.setdev-on
 log
 storage
 composer.phar

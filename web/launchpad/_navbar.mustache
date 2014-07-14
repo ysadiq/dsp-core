@@ -40,7 +40,7 @@
 
 						{{#user.is_sys_admin}}
 							<div class="btn-group btn-group-sm">
-								<button type="button" class="btn btn-inverse btn-launch dropdown-toggle" data-toggle="dropdown" style="padding: 5px;">
+								<button type="button" class="btn btn-inverse btn-launch dropdown-toggle" title="Admin Tools" data-toggle="dropdown" style="padding: 5px;">
 									<i class="fa fa-wrench"></i>
 
 									<span class="caret"></span>
@@ -65,7 +65,7 @@
 					{{^user.activeSession}}
 						<a class="btn btn-inverse btn-launch  btn-signin" onclick="Actions.doSignInDialog()"><i class="fa fa-sign-in"></i>Sign In</a>
 						{{#user.allow_open_registration}}
-							<a class="btn btn-inverse btn-launch  btn-signin" onclick="Actions.createAccount()"><i class="fa fa-key"></i> Register</a>
+							<a class="btn btn-inverse btn-launch btn-signin" onclick="Actions.createAccount()"><i class="fa fa-key"></i>Register</a>
 						{{/user.allow_open_registration}}
 					{{/user.activeSession}}
 				</div>

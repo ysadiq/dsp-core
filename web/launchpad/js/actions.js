@@ -32,7 +32,7 @@ Actions = {
 	 * Initialize the component
 	 */
 	init: function () {
-		this.$_error = $('#error-container');
+		this.$_error = $('#error-container').hide();
 
 		this.getConfig();
 	},

@@ -601,25 +601,6 @@ div.dataTables_wrapper .ui-widget-header {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
-.notify-ui ul {
-	list-style: none outside none;
-	margin:     0;
-	padding:    0;
-}
-
-.notify-ui li {
-	background-image: -moz-linear-gradient(center top, #EEEEEE, #DDDDDD);
-	border:           1px solid #DDDDDD;
-	margin-bottom:    5px;
-	padding:          5px 10px;
-	text-align:       center;
-}
-
-.notify-ui li:hover {
-	color:  #777777;
-	cursor: pointer;
-}
-
 form {
 	margin-bottom: 0;
 }
