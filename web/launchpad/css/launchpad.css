@@ -37,7 +37,7 @@ html, body {
 body {
 	min-height:  100%;
 	height:      auto;
-	font-family: 'Lato', 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+	font-family: 'Lato', "Open Sans", 'Helvetica Neue Light', 'Arial', sans-serif;
 	font-weight: 300;
 }
 
@@ -191,8 +191,8 @@ div {
 }
 
 #app-list-container .accordion-group {
-	background-color: rgba(170, 39, 0, .85);
-	border:           none;
+	background-color: rgba(170, 39, 0, .75);
+	border:           rgba(170, 39, 0, .85);
 	border-radius:    0;
 }
 

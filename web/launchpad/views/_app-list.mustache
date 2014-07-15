@@ -1,0 +1,41 @@
+{{#apps.app_groups}}
+<h3>{{name}}</h3>
+<table class="table is_grouped">
+	{{#apps}}
+	<tr>
+		<td>
+			<div class="media"
+				style="margin: 0;"
+				onclick="Actions.showApp('{{api_name}}', '{{launch_url}}', '{{is_url_external}}', '{{requires_fullscreen}}')">
+				<span class="well well-small pull-left"><i class="fa fa-cloud fa-2x"></i></span>
+
+				<div class="media-body">
+					<h4 class="media-heading">{{name}}</h4>
+
+					<p>{{description}}</p>
+				</div>
+			</div>
+		</td>
+	</tr>
+	{{/apps}}
+</table>
+{{/apps.app_groups}}
+<table class="table">
+	{{#apps.no_group_apps}}
+	<tr>
+		<td>
+			<div class="media"
+				style="margin: 0;"
+				onclick="Actions.showApp('{{api_name}}', '{{launch_url}}','{{is_url_external}}','{{requires_fullscreen}}');">
+				<span class=" well well-small warning pull-left" data-target="#" href="#"><i class="fa fa-cloud fa-2x"></i></span>
+
+				<div class="media-body">
+					<h4 class="media-heading">{{name}}</h4>
+
+					<p>{{description}}</p>
+				</div>
+			</div>
+		</td>
+	</tr>
+	{{/apps.no_group_apps}}
+</table>

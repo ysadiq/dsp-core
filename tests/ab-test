@@ -8,7 +8,6 @@ VERBOSITY=""
 if [ "$1" != "" ] ; then
 	ab -n ${ITERATIONS} -c ${CONCURRENT} ${VERBOSITY} \
 	    -H "Cookie: PHPSESSID=${1}" \
-	    -H "Connection: close" \
 	    -H "Cache-Control: no-cache" \
 	    -H "Content-Type: application/json" \
 	    ${URL}
