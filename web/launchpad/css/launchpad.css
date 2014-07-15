@@ -26,11 +26,12 @@
 }
 
 html, body {
-	height:   100%;
-	width:    100%;
-	margin:   0;
-	padding:  0;
-	overflow: hidden;
+	height:     100%;
+	width:      100%;
+	margin:     0;
+	padding:    0;
+	overflow:   hidden;
+	background: rgba(0, 0, 0, .80);
 }
 
 body {
@@ -41,7 +42,7 @@ body {
 }
 
 body > iframe {
-	background: rgba(0, 0, 0, .8);
+	background: rgba(0, 0, 0, .80);
 }
 
 a {
@@ -75,27 +76,32 @@ div {
 	box-shadow:     0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-.navbar-toggle {
-	padding:          6px 7px;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
 .navbar-inverse {
 	background-color: rgba(0, 0, 0, .80);
 	border-bottom:    1px inset rgba(0, 0, 0, 0.9);
 	transition:       background-color .3s, color .3ms, border-bottom-color .3s;
+	color:            rgba(255, 255, 255, .8);
 }
 
 .navbar-inverse:hover {
 	color:            rgba(255, 255, 255, 1.0);
-	background-color: rgba(0, 0, 0, .80);
-	border-bottom:    1px solid rgba(0, 0, 0, .9);
+	background-color: rgba(0, 0, 0, .9);
+	border-bottom:    1px solid rgba(0, 0, 0, 1);
 	transition:       background-color .3s, color .3ms, border-bottom-color .3s;
 }
 
-#main-nav {
-	margin-top:  2px;
-	margin-left: 6px;
+.navbar-toggle, .navbar-inverse .navbar-toggle {
+	margin-top:       7px;
+	margin-right:     9px;
+	border-radius:    3px;
+	border-color:     rgba(255, 255, 255, 0.15);
+	background-color: rgba(255, 255, 255, 0.35);
+	box-shadow:       0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggle:hover, .navbar-inverse .navbar-toggle:hover {
+	border-color:     rgba(255, 255, 255, 0.35);
+	background-color: rgba(255, 255, 255, 0.55);
 }
 
 #navbar-container {
@@ -158,7 +164,6 @@ div {
 }
 
 .container-fluid > .navbar-header {
-	width:        100%;
 	margin-left:  0;
 	margin-right: 0;
 }
@@ -518,25 +523,6 @@ div {
 	.btn-stack {
 		margin: 5px 0 0 5px;
 	}
-
-	/*#main-nav {*/
-	/*width:      100%;*/
-	/*background: black;*/
-	/*}*/
-	/*#main-nav .btn {*/
-	/*padding:       10px;*/
-	/*font-size:     1.3em;*/
-	/*border-radius: 0;*/
-	/*margin-bottom: 10px;*/
-	/*}*/
-	/*#navbar-container {*/
-	/*padding: 0;*/
-	/*margin:  0;*/
-	/*}*/
-	/*.navbar-spacer {*/
-	/*padding-left:  10px;*/
-	/*padding-right: 10px;*/
-	/*}*/
 }
 
 .make-inline {
@@ -548,10 +534,6 @@ div {
 }
 
 #app-list-container {
-	/*background-image: url('http://galleryheart.com/wp-content/uploads/2012/02/30_Mind-Blowing-Examples-of-Creative-Art-7.jpg');*/
-	/*
-		background: #222 url('/img/launchpad_bg_gray.png') no-repeat;
-	*/
 	background-size:  cover;
 	background-color: #222;
 }
@@ -569,7 +551,6 @@ div {
 **************************************************************************/
 
 #app-container {
-	background:                 rgba(0, 0, 0, .8);
 	bottom:                     0;
 	left:                       0;
 	position:                   absolute;
@@ -760,14 +741,13 @@ div {
 }
 
 #navbar-container {
-	z-index:    999;
-	height:     50px;
-	padding:    0;
-	margin:     0;
-	left:       0;
-	right:      0;
-	top:        0;
-	background: rgba(2, 2, 2, .80);
+	z-index: 999;
+	height:  50px;
+	padding: 0;
+	margin:  0;
+	left:    0;
+	right:   0;
+	top:     0;
 }
 
 #navbar-container > .navbar {
@@ -805,4 +785,42 @@ div {
 #footer {
 	color:      #777777;
 	text-align: center;
+}
+
+.loading-screen {
+	background-color: rgba(0, 0, 0, .7);
+	z-index:          -1;
+	position:         absolute;
+	top:              0;
+	left:             0;
+	bottom:           0;
+	right:            0;
+	overflow:         hidden;
+	display:          none;
+	height:           100%;
+	width:            100%;
+	transition:       color .5s ease-in-out;
+	color:            rgba(255, 255, 255, .90);
+}
+
+.loading-screen.active {
+	z-index:          99999;
+	display:          block;
+	color:            rgb(255, 140, 0);
+	background-color: rgba(0, 0, 0, .80);
+}
+
+.loading-screen.active > .loading-screen-body > h2:first-child {
+	display:     inline-block;
+	padding:     0;
+	text-align:  right;
+	font-weight: bold;
+}
+
+.loading-screen-body {
+	width:        auto;
+	display:      inline-block;
+	float:        right;
+	margin-right: 67px;
+	margin-top:   -9px;
 }
