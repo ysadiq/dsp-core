@@ -82,6 +82,14 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
     }
     $scope.loadServices();
     $scope.referenceFields  = [];
+    $scope.loadNewSchema = function(table){
+        $scope.import = false;
+        $scope.table = table;
+        $http.get(CurrentServer + "/rest/" + $scope.service + "/" + $scope.table.name)
+            .then(function(response){
+                $scope.table.schema = response;
+            })
+    }
     $scope.loadSchema = function(advanced){
         $scope.import = false;
         $scope.table = this.table;
@@ -125,10 +133,11 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         }
     }
     $scope.addColumn = function(){
-       $scope.newColumn = {
-           name : "New_Column"
-       }
-       $scope.table.schema.data.field.unshift($scope.newColumn)
+        $scope.newColumn = {
+            name : "New_Column"
+        }
+        $scope.currentField = "New_Column";
+        $scope.table.schema.data.field.unshift($scope.newColumn)
     }
     $scope.deleteColumn = function(){
         //console.log(this);
@@ -177,6 +186,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
                 });
             });
             $scope.loadServices();
+
         })
     }
     $scope.createTable = function(){
@@ -186,12 +196,18 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
             name : name,
             field: [
                 {name : "id",
-                 type : "id"
+                    type : "id"
                 }
             ]
         };
         $http.post(CurrentServer + "/rest/" + this.service.api_name , requestObject).then(function(response){
-            $scope.loadServices();
+            //$scope.loadServices();
+            $scope.currentTable = name;
+            $scope.currentTables.unshift(name);
+            $scope.dbServices[$scope.service_index].tables.unshift(requestObject);
+            $scope.loadNewSchema(requestObject);
+
+
         })
     }
 
@@ -201,12 +217,13 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         }
         $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
             .then(function(response){
-            $scope.loadServices();
-            $scope.table = {};
-        })
+                $scope.loadServices();
+                $scope.table = {};
+            })
     }
     $scope.setService = function(){
         $scope.service = this.service.api_name;
+        $scope.service_index = this.service.service_index;
     }
     $scope.validateJSON = function() {
         try {
@@ -219,7 +236,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
                         type: 'success'
                     });
                 });
-            editor.setValue(angular.toJson(result, true), -1);
+                editor.setValue(angular.toJson(result, true), -1);
             }
         }
         catch ( e ) {
