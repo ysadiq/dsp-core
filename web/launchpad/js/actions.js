@@ -82,7 +82,7 @@ Actions = {
 		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad').done(
 			function (configInfo) {
 				Config = that._config = configInfo;
-				document.title = 'LaunchPad ' + configInfo.dsp_version;
+				document.title = 'DreamFactory ' + configInfo.dsp_version;
 				that.updateSession('init');
 			}
 		).fail(
