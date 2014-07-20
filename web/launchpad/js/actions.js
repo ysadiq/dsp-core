@@ -38,53 +38,22 @@ Actions = {
 	},
 
 	/**
-	 * Auto run an app passed in on the command line:
-	 *
-	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
+	 * Loads the DSP configuration and caches
+	 * @returns {*}
 	 */
-	autoRunApp: function() {
-		//	Auto-run an app?
-		var _appToRun = $.QueryString('run'), _pos = -1;
-
-		if (_appToRun && this._apps.length) {
-			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
-			//	Strip off any hash
-			if (-1 != (
-					_pos = _appToRun.indexOf('#')
-				)) {
-				_appToRun = _appToRun.substr(0, _pos);
-			}
-
-			this._apps.forEach(
-				function(app) {
-					if (app.api_name == _appToRun) {
-						if (app.is_sys_admin) {
-							app.requires_fullscreen = false;
-						}
-						Actions.showApp(
-							app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle
-						);
-						return false;
-					}
-
-					return true;
-				}
-			);
-		}
-	},
-
 	getConfig: function() {
 		if (this._config && this._config.length) {
 			return this._config;
 		}
 
-		var that = this;
+		var _this = this;
 
-		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad').done(
-			function(configInfo) {
-				Config = that._config = configInfo;
-				document.title = 'LaunchPad ' + configInfo.dsp_version;
-				that.updateSession('init');
+		$.getJSON(this.endpoint('/system/config')).done(
+			function(data) {
+				Config = _this._config = data;
+				document.title = 'LaunchPad ' + data.dsp_version;
+
+				_this.updateSession('init');
 			}
 		).fail(
 			function(response) {
@@ -95,14 +64,76 @@ Actions = {
 		return false;
 	},
 
+	/**
+	 *
+	 * @param {*} app
+	 * @param {string|jQuery} [target] For future use
+	 */
+	loadApp: function(app, target) {
+		var $_target = target ? $(target) : $('#app-container');
+		this.showApp(app.api_name, app.launch_url, app.is_url_external, !data.is_sys_admin, app.allow_fullscreen_toggle);
+
+		return this;
+	},
+
+	/**
+	 * Auto run an app passed in on the command line:
+	 *
+	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
+	 */
+	autoRunApp: function() {
+		//	Auto-run an app?
+		var _appToRun = $.QueryString('run'), _pos = -1, _this = this;
+
+		if (_appToRun && this._apps.length) {
+			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
+			//	Strip off any hash
+			if (-1 != (_pos = _appToRun.indexOf('#'))) {
+				_appToRun = _appToRun.substr(0, _pos);
+			}
+
+			this._apps.forEach(
+				function(app) {
+					if (app.api_name == _appToRun) {
+						app.requires_fullscreen &= !app.is_sys_admin;
+						_this.loadApp(app);
+						return false;
+					}
+
+					return true;
+				}
+			);
+		}
+	},
+
+	/**
+	 * Builds an endpoint from an uri
+	 *
+	 * @param {string} uri
+	 * @param {string} [appName]
+	 * @returns {string}
+	 */
+	endpoint: function(uri, appName) {
+		var _appName = appName || 'launchpad';
+		var _url = CurrentServer + '/rest' + uri;
+
+		return _url += ( -1 == _url.indexOf('?') ? '?' : '#') + 'app_name=' + _appName;
+	},
+
 	createAccount: function() {
 		this._redirect('/web/register?return_url=' + encodeURI(window.top.location));
 	},
 
+	/**
+	 * Load all available apps
+	 * @param data
+	 * @param action
+	 */
 	getApps: function(data, action) {
 		var _apps = [], _defaultShown = false, $_defaultApps = $('#default_app'), _options, _this = this;
 
 		this.$_error.hide().empty();
+
 		$_defaultApps.empty();
 
 		if (data && data.no_group_apps) {
@@ -141,16 +172,15 @@ Actions = {
 			return;
 		}
 
+		var _app = null;
+
 		if (data.is_sys_admin) {
 			if (_defaultShown) {
 				return;
 			}
 
-			this.showApp('admin', '/admin/#/', '0', false);
-			return;
+			return this.showAdmin();
 		}
-
-		var _app = null;
 
 		if (1 == data.app_groups.length && 1 == data.app_groups[0].apps.length && !data.no_group_apps.length) {
 			_app = data.app_groups[0].apps[0];
@@ -158,16 +188,16 @@ Actions = {
 			_app = data.no_group_apps[0];
 		} else if (!data.app_groups.length && !data.no_group_apps.length) {
 			this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
-			return;
+			return this;
 		}
 
-		if (null !== _app) {
+		if (_app) {
 			$('#app-list-container').hide();
-			this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
-			return;
+			this.loadApp(_app);
+			return this;
 		}
 
-		Actions.showAppList();
+		return this.showAppList();
 	},
 
 	showApp: function(name, url, type, fullscreen, allowFullScreenToggle) {
@@ -251,7 +281,6 @@ Actions = {
 		this.toggleAppsListLink(false);
 
 		this.animateNavBarClose();
-
 	},
 
 	toggleAdminLink: function(on) {
@@ -305,6 +334,8 @@ Actions = {
 
 		this.toggleAdminLink(false);
 		this.toggleFullScreenLink(false);
+
+		return this;
 	},
 
 	appGrouper: function(sessionInfo) {
@@ -356,7 +387,7 @@ Actions = {
 	},
 
 	updateSession: function(action) {
-		var that = this;
+		var _this = this;
 
 		$.ajax({dataType: 'json', url: CurrentServer + '/rest/user/session?app_name=launchpad'}).done(
 			function(sessionInfo) {
@@ -384,22 +415,22 @@ Actions = {
 				$('#app-list-container').html(Mustache.render(Templates.appIconTemplate, {Applications: sessionInfo}));
 
 				if (sessionInfo.is_sys_admin) {
-					that.toggleAdminLink(false);
-					that.toggleFullScreenLink(false);
-					that.toggleAppsListLink(true);
+					_this.toggleAdminLink(false);
+					_this.toggleFullScreenLink(false);
+					_this.toggleAppsListLink(true);
 				}
 
 				if ('init' == action) {
-					that.getApps(sessionInfo, action);
-					that.autoRunApp();
+					_this.getApps(sessionInfo, action);
+					_this.autoRunApp();
 				}
 			}
 		).fail(
 			function(response) {
 				if (401 == response.status || 403 == response.status) {
-					that.doSignInDialog();
+					_this.doSignInDialog();
 				} else if (500 == response.status) {
-					that.showStatus(response.statusText, "error");
+					_this.showStatus(response.statusText, "error");
 				}
 			}
 		);
@@ -427,7 +458,7 @@ Actions = {
 	},
 
 	signOut: function() {
-		var that = this;
+		var _this = this;
 
 		$.ajax(
 			{
@@ -438,16 +469,16 @@ Actions = {
 				async:    false,
 				success:  function(response) {
 					$('#app-container, #app-list-container').empty();
-					that.doSignOutDialog(true);
-					that.updateSession('init');
+					_this.doSignOutDialog(true);
+					_this.updateSession('init');
 
 					if (401 == response.status) {
-						that.doSignInDialog();
+						_this.doSignInDialog();
 					}
 				},
 				error:    function(response) {
 					if (401 == response.status) {
-						that.doSignInDialog();
+						_this.doSignInDialog();
 					}
 				}
 			}
@@ -538,7 +569,7 @@ Actions = {
 	 * @private
 	 */
 	_redirect: function(url) {
-		window.top.location.href = url;
+		window.top.location = url;
 	},
 
 	/**

@@ -15,13 +15,17 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/launchpad.css" type="text/css" />
-	<link rel="stylesheet" href="/js/pnotify/pnotify.min.css" type="text/css" />
 
 	<!-- Scripts -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="/js/modernizr.custom.min.js"></script>
 </head>
 <body>
+
+<div class="container-fluid">
+	<div id="navbar-container"></div>
+	<div id="app-container"></div>
+</div>
 
 <div id="logoffDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-sign-out" aria-hidden="true">
 	<div class="modal-dialog">
@@ -35,7 +39,7 @@
 			</div>
 			<div class="modal-body">
 				<h3>All unsaved changes will be lost!</h3>
-				<h4><br />Are you sure you want to sign out of the application?</h4>
+				<h4>Are you sure you want to sign out of the application?</h4>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -45,19 +49,13 @@
 	</div>
 </div>
 
-<div class="container-fluid">
-	<div id="navbar-container"></div>
-
-	<div id="app-container"></div>
-
-	<div class="loading-screen">
-		<div class="loading-screen-body">
-			<h2 style="font-weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2>
-		</div>
+<div class="loading-screen">
+	<div class="loading-screen-body">
+		<h2 style="font-weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2>
 	</div>
-
-	<div id="app-list-container"></div>
 </div>
+
+<div id="app-list-container"></div>
 
 <div id="rocket" class="btn btn-inverse " onclick="Actions.toggleFullScreen(false)">
 	<i id="toggleIcon" class="fa fa-compress"></i> Exit Fullscreen

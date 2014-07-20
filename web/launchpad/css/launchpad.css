@@ -18,6 +18,10 @@
  */
 @import url(//fonts.googleapis.com/css?family=Lato:300,400,700|Open+Sans|Roboto:100,300|Roboto+Condensed:100,300);
 
+/**************************************************************************
+** Markup
+**************************************************************************/
+
 /**
  * Styles for LaunchPad
  */
@@ -26,13 +30,13 @@
 }
 
 html, body, iframe {
-	height:           100%;
-	width:            100%;
-	background-color: rgba(0, 0, 0, .25);
-	margin:           0;
-	padding:          0;
-	overflow:         hidden;
-	border:           none;
+	height:     100%;
+	width:      100%;
+	background: rgba(0, 0, 0, .25);
+	margin:     0;
+	padding:    0;
+	overflow:   hidden;
+	border:     none;
 }
 
 body {
@@ -40,11 +44,6 @@ body {
 	min-height:  100%;
 	height:      auto;
 	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
-	font-weight: 300;
-	padding:     0;
-	margin:      0;
-	background:  rgba(0, 0, 0, .75);
-
 }
 
 a:not(.btn) {
@@ -75,7 +74,6 @@ div {
 	padding-right:  20px;
 	position:       fixed;
 	right:          0;
-	/*box-shadow:     0 2px 6px rgba(0, 0, 0, 0.5);*/
 }
 
 .navbar-inverse {
@@ -117,42 +115,12 @@ div {
 	padding-top:   0;
 }
 
-/*.container {*/
-/*background-color: transparent;*/
-/*}*/
-
-/*#navbar-container > .container,*/
-/*#navbar-container > .container-fluid {*/
-/*background-color: rgba(1, 1, 1, 1);*/
-/*opacity:          1;*/
-/*transition:       opacity 1s;*/
-/*}*/
-
 /**************************************************************************
 ** Containers
 **************************************************************************/
 
-#app-list-container, #app-container {
-	/*background-color: rgba(0, 0, 0, .25);*/
-}
-
-#loading {
-	width:            50px;
-	height:           50px;
-	background-color: #E78F1E;
-	position:         absolute;
-	left:             50%;
-	top:              25%;
-	z-index:          999999;
-	border:           1px solid #c1680e;
-	border-radius:    6px;
-	box-shadow:       0 0 12px rgba(0, 0, 0, .6);
-	padding:          8px;
-	margin:           -33px auto 0 -33px;
-}
-
-#loading .fa.fa-spinner {
-	color: #fff;
+.container-fluid {
+	background-color: rgba(0, 0, 0, .25);
 }
 
 #rocket {
@@ -171,14 +139,9 @@ div {
 	opacity:      .2;
 }
 
-.container-fluid > .navbar-header {
-	margin-left:  0;
-	margin-right: 0;
-}
-
-.container-fluid .row-fluid:first-child {
-	margin-top: 20px;
-}
+/**************************************************************************
+** Navbar
+**************************************************************************/
 
 .df-logo {
 	margin-right: 20px;
@@ -188,6 +151,10 @@ div {
 .df-logo img {
 	height: 42px;
 }
+
+/**************************************************************************
+** Application List
+**************************************************************************/
 
 #app-groups-container {
 	font-family: 'Lato', sans-serif;
@@ -292,17 +259,34 @@ div {
 	margin-left: 20px;
 }
 
+/**************************************************************************
+** Miscellaneous
+**************************************************************************/
+
 .make-inline {
 	display: inline-block;
 }
 
-.btn-launch:hover {
-	background: #DB9200;
+.btn-launch {
+	background:  rgba(180, 58, 0, 1);
+	color:       rgba(255, 255, 255, .90);
+	font-weight: bold;
+	transition:  color 0.3s;
 }
 
-.btn-toolbar > .btn-group > .btn.btn-inverse.btn-launch.btn-signin > .fa {
-	padding-right: 4px;
+.btn-launch:hover {
+	background: rgba(251, 154, 29, 1);
+	color:      rgba(255, 255, 255, 1);
+	transition: color 0.3s;
 }
+
+.btn-launch.disabled {
+	color: rgba(255, 255, 255, .5);
+}
+
+/*.btn-toolbar > .btn-group > .btn.btn-inverse.btn-launch.btn-signin > .fa {*/
+/*padding-right: 4px;*/
+/*}*/
 
 .modal-header {
 	font-family: 'Lato', sans-serif;
@@ -434,25 +418,6 @@ div {
 	margin-left: 20px;
 }
 
-#loading {
-	width:            50px;
-	height:           50px;
-	background-color: #E78F1E;
-	position:         absolute;
-	left:             50%;
-	top:              25%;
-	z-index:          999999;
-	border:           1px solid #c1680e;
-	border-radius:    6px;
-	box-shadow:       0 0 12px rgba(0, 0, 0, .6);
-	padding:          8px;
-	margin:           -33px auto 0 -33px;
-}
-
-#loading .icon-spinner {
-	color: #fff;
-}
-
 #rocket {
 	box-shadow:   0 5px 3px #000000;
 	display:      none;
@@ -578,8 +543,8 @@ div {
 }
 
 #main-nav > .btn-toolbar.btn-toolbar-nav {
-	margin-top:   5px;
-	margin-right: 10px;
+	margin-top:   4px;
+	/*margin-right: 10px;*/
 }
 
 #app-list-container {
@@ -602,20 +567,6 @@ div {
 	background-color: transparent;
 	border-bottom:    1px solid #DDDDDD;
 	border-top:       0 none;
-}
-
-.btn-launch {
-	background:  #AA2700;
-	color:       #fff;
-	font-weight: bold;
-}
-
-.btn-launch.disabled {
-	color: rgba(255, 255, 255, .7);
-}
-
-.btn-launch:hover {
-	background: #DB9200;
 }
 
 .alert-area {
@@ -657,10 +608,6 @@ div {
 
 .modal-footer {
 	/*border-radius: 0 0 0 0;*/
-}
-
-.df-navbar {
-	background: rgba(0, 0, 0.80);
 }
 
 .no_group a {
