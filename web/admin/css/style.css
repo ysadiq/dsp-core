@@ -533,3 +533,27 @@ label.error {
 .ng-scope > .panel.panel-default {
 	margin-bottom: 10px;
 }
+
+.list-group.list-group-sm {
+	font-size: 11px;
+}
+
+.navbar.navbar-default.bg-info {
+	/*background-color: #d9edf7;*/
+	/*border-color:     #e8dce6;*/
+}
+
+.navbar-default.bg-info .navbar-brand,
+.navbar-default.bt-info .navbar-brand {
+	color: rgba(0, 0, 0, .8);
+}
+
+.navbar-default.bg-info .navbar-brand:hover,
+.navbar-default.bt-info .navbar-brand:focus {
+	color:            rgba(0, 0, 0, 1);
+	background-color: transparent;
+}
+
+.well.well-sm .btn-toolbar.pull-right {
+	margin-top: 4px;
+}
