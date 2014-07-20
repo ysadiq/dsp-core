@@ -50,13 +50,13 @@ if ( DSP_DEBUG )
 
 /**
  * "php_error" support (uncomment to enable)
-
+ */
     if ( function_exists( 'reportErrors' ) )
     {
         reportErrors();
     }
 
-**/
+/**/
 }
 
 //	Create the application and run

@@ -322,44 +322,43 @@ angular.module('dfUtility', [])
         var loadingScreenText = $('<span style="text-align: center; width: 250px; height: 75px;"><h2 style="font- weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
 
         var elem = angular.element('#loading-screen').css({
-            'backgroundColor': 'rgba(0, 0, 0, .8)',
-            'zIndex': 99998,
-            'position': 'fixed',
-            'top': 0,
-            'left': 0,
-            'bottom': 0,
-            'right': 0,
-            'overflow': 'hidden'
+            'background-color': 'rgba(0, 0, 0, .75)',
+            'z-index': -1,
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            overflow: 'hidden'
         }).hide();
 
-
-        $(window).resize(function () {
-            $(loadingScreenText).css({
-                'position': 'absolute',
-                'top': ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
-                'left': ($(elem).width() /2) - ($(loadingScreenText).width() / 2)
-            })
-        });
+//        $(window).resize(function () {
+//            $(loadingScreenText).css({
+//                position: 'absolute',
+//                top: ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
+//                left: ($(elem).width() /2) - ($(loadingScreenText).width() / 2)
+//            })
+//        });
 
 
         var _startLoadingScreen = function () {
-
-            elem.append($(loadingScreenText).css({
-                'position': 'absolute',
-                'top': ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
-                'left': ($(elem).width() /2) - ($(loadingScreenText).width() / 2),
-                'zIndex': 99999,
-                'color': 'white'
-            }));
-
-            elem.fadeIn();
-        };
+            elem.css({'z-index':99998}).append($(loadingScreenText).css({
+                top: '50%',
+                left: 0,
+                right: 0,
+				bottom: 0,
+				position: 'absolute',
+                'color': 'white',
+				margin: '0 auto'
+            })).fadeIn('fast');
+		};
 
 
         var _stopLoadingScreen = function () {
 
-            elem.fadeOut();
-            loadingScreenText.remove();
+            elem.fadeOut('fast',function() {
+	            loadingScreenText.remove();
+			});
         };
 
         return {

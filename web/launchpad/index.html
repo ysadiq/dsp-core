@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>LaunchPad</title>
+	<title>DreamFactory Services Platform&trade;</title>
 	<meta charset="UTF-8" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/launchpad.css" type="text/css" />
-	<link rel="stylesheet" href="/js/pnotify/pnotify.css" type="text/css" />
+	<link rel="stylesheet" href="/js/pnotify/pnotify.min.css" type="text/css" />
 
 	<!-- Scripts -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -23,43 +23,44 @@
 </head>
 <body>
 
+<div id="logoffDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-sign-out" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h3 id="modal-sign-out" class="modal-title">Sign Out</h3>
+			</div>
+			<div class="modal-body">
+				<h3>All unsaved changes will be lost!</h3>
+				<h4><br />Are you sure you want to sign out of the application?</h4>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-warning" onClick="Actions.signOut();">Sign Out</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="container-fluid">
 	<div id="navbar-container"></div>
+
 	<div id="app-container"></div>
+
+	<div class="loading-screen">
+		<div class="loading-screen-body">
+			<h2 style="font-weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2>
+		</div>
+	</div>
+
+	<div id="app-list-container"></div>
 </div>
 
 <div id="rocket" class="btn btn-inverse " onclick="Actions.toggleFullScreen(false)">
 	<i id="toggleIcon" class="fa fa-compress"></i> Exit Fullscreen
-</div>
-
-<div class="loading-screen">
-	<div class="loading-screen-body">
-		<h2 style="font-weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2>
-	</div>
-</div>
-
-<div id="app-list-container"></div>
-
-<div id="logoffDialog" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Sign Out</h3>
-			</div>
-			<div class="modal-body">
-				<div class="modal-body-form" style="margin-top: 20px; font-size: 14px;">
-					Are you sure you want to sign out of the application?<br /><br /> <strong style="font-size:18px;">Any unsaved changes will be lost!</strong>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Close</a>
-				<a href="#" class="btn btn-primary"
-				   onclick="Actions.signOut()">Sign Out
-				</a>
-			</div>
-		</div>
-	</div>
 </div>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
