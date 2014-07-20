@@ -387,8 +387,8 @@ a.list-group-item:hover > i.fa, .alert:hover > i.fa {
 
 .table-listing {
 	max-height: 300px;
-	width:      300px;
-	overflow:   auto;
+	width:      310px;
+	overflow-x:   hidden;
 }
 
 .df-list-group .bg-primary {

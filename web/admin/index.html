@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="AdminApp">
+<html ng-app="AdminApp" xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-	<link href="/css/font-mfizz-1.2/font-mfizz.css" rel="stylesheet">
+	<link href="/vendor/font-mfizz-1.2/font-mfizz.css" rel="stylesheet">
+
 	<link rel="stylesheet" href="/admin/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="/css/df.callouts.css" type="text/css" />
-	<link rel="stylesheet" href="/admin/admin_components/dreamfactory_components/adf-table/style/style.css" type="text/css" />
-	<link rel="stylesheet" href="/admin/js/ng-grid/ng-grid.css" type="text/css" />
-	<link rel="stylesheet" href="/css/pnotify.custom.min.css" type="text/css" />
 
+	<link rel="stylesheet"
+		  href="/admin/admin_components/dreamfactory_components/adf-table/style/style.css"
+		  type="text/css" />
+	<link rel="stylesheet" href="/admin/js/ng-grid/ng-grid.css" type="text/css" />
+	<link rel="stylesheet" href="/js/pnotify/pnotify.custom.min.css" type="text/css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body id="admin-console">
- 	
-<div class="app-wrapper">
-	<div class="row">
+<div class="container-fluid app-wrapper">
+	<div class="row nao">
 		<div data-ng-controller="NavBarCtrl">
 			<div class="col-md-2 hidden-xs hidden-sm no-right-padding">
 				<sidebar-nav-one></sidebar-nav-one>
@@ -43,13 +45,11 @@
 	<iframe seamless="seamless" id="login-frame"></iframe>
 </div>
 
-<!-- Needed Packages -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
 <script src="/admin/js/angular-ui.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-resource.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-route.min.js"></script>
-<script src="/js/utils.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-resource.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-route.min.js"></script>
+<script src="/admin/js/ng-grid/ng-grid-2.0.7.min.js"></script>
 
 <!-- DreamFactory Modules -->
 <script src="/admin/admin_components/dreamfactory_components/adf-utility/dreamfactory-utility.js"></script>
@@ -58,7 +58,9 @@
 <script src="/admin/admin_components/dreamfactory_components/adf-users/dreamfactory-users.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-navbar/dreamfactory-navbar.js"></script>
 
-<!-- DreamFactory Controllers -->
+<script src="/js/json2.js"></script>
+<script src="/js/utils.js"></script>
+
 <script src="/admin/js/controllers/quickstartctrl.js"></script>
 <script src="/admin/js/controllers/userctrl.js"></script>
 <script src="/admin/js/controllers/groupctrl.js"></script>
@@ -73,14 +75,13 @@
 <script src="/admin/js/controllers/filectrl.js"></script>
 <script src="/admin/js/controllers/controllers.js"></script>
 
-<!-- DreamFactory SDK and admin app -->
 <script src="/admin/js/directives/AdminApp.apisdk.js"></script>
+
 <script src="/admin/js/app.js"></script>
 
 <!-- Deferred Loads -->
 <script src="/admin/js/ng-grid/ng-grid-2.0.7.min.js" defer="defer"></script>
 <script src="/js/pnotify.custom.min.js" defer="defer"></script>
-<script src="/js/json2.js" defer="defer"></script>
 <script src="/admin/js/jsonlint.js" defer="defer"></script>
 <script src="/filemanager/js/ace/ace.js" defer="defer"></script>
 <script src="/filemanager/js/ace/mode-javascript.js" defer="defer"></script>
