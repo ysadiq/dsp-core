@@ -104,7 +104,7 @@ class RestController extends BaseFactoryController
         {
             // require admin currently to list APIs
             Session::checkServicePermission( 'admin', null );
-            $_result = array( 'service' => Service::available( false, array( 'name', 'api_name' ) ) );
+            $_result = array('service' => Service::available( false, array('name', 'api_name') ));
 
             $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
             $_result = DataFormatter::reformatData( $_result, null, $_outputFormat );
@@ -134,13 +134,19 @@ class RestController extends BaseFactoryController
 
         try
         {
-            //	Check for verb tunneling via X-Http-Method/X-Http-Method-Override header
+            //	Check for verb tunneling via overriding headers
+            //  X-HTTP-Method (Microsoft)
+            //  X-HTTP-Method-Override (Google/GData)
+            //  X-METHOD-OVERRIDE (IBM)
             $_tunnelMethod = strtoupper(
                 $this->_requestObject->headers->get(
                     'x-http-method',
                     $this->_requestObject->headers->get(
                         'x-http-method-override',
-                        $this->_requestObject->get( 'method' )
+                        $this->_requestObject->headers->get(
+                            'x-method-override',
+                            $this->_requestObject->get( 'method' )
+                        )
                     )
                 )
             );
@@ -212,7 +218,12 @@ class RestController extends BaseFactoryController
         }
         catch ( \Exception $ex )
         {
-            RestResponse::sendErrors( $ex, isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON, false, false );
+            RestResponse::sendErrors(
+                $ex,
+                isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON,
+                false,
+                false
+            );
 
             return null;
         }
@@ -247,7 +258,8 @@ class RestController extends BaseFactoryController
             if ( !empty( $this->_resource ) )
             {
                 $requestUri = Yii::app()->request->requestUri;
-                if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+                if ( ( false === strpos( $requestUri, '?' ) &&
+                       '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
                      ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
                 )
                 {
