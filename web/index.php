@@ -32,7 +32,7 @@ const DSP_DEBUG = true;
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
 //	Load up Yii
-require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
+require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
 
 /**
  * Debug-level output is enabled by default below.
@@ -40,16 +40,16 @@ require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
  */
 if ( DSP_DEBUG )
 {
-//	ini_set( 'display_errors', true );
-//	ini_set( 'error_reporting', -1 );
+    ini_set( 'display_errors', true );
+    ini_set( 'error_reporting', -1 );
 
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 
-//    if ( function_exists( 'reportErrors' ) )
-//    {
-//        reportErrors();
-//    }
+    if ( function_exists( 'reportErrors' ) )
+    {
+        reportErrors();
+    }
 }
 
 //	Create the application and run
