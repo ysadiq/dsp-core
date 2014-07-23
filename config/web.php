@@ -121,7 +121,7 @@ return array(
     /**
      * Preloads
      */
-    'preload'            => array('log', 'session', 'db'),
+    'preload'            => array('log', 'session', 'db', 'urlManager'),
     /**
      * Imports
      */
