@@ -132,7 +132,7 @@ class WebController extends BaseWebController
                     'confirmPassword',
                     'eventReceiver',
                 ),
-                'users'   => array('*'),
+                'users'   => array( '*' ),
             ),
             //	Allow authenticated users access to init commands
             array(
@@ -149,7 +149,7 @@ class WebController extends BaseWebController
                     'config',
                     'flush',
                 ),
-                'users'   => array('@'),
+                'users'   => array( '@' ),
             ),
             //	Deny all others access to init commands
             array(
@@ -409,6 +409,9 @@ class WebController extends BaseWebController
             {
                 if ( $_model->validate() )
                 {
+                    //  Restore private storage
+                    Platform::restorePrivateStorage();
+
                     $this->redirect( $this->_getRedirectUrl() );
 
                     return;
@@ -424,7 +427,7 @@ class WebController extends BaseWebController
                 'redirected'     => $redirected,
                 'loginProviders' => ResourceStore::model( 'provider' )->findAll(
                     'is_login_provider = :is_login_provider AND is_active = :is_active',
-                    array(':is_login_provider' => 1, ':is_active' => 1)
+                    array( ':is_login_provider' => 1, ':is_active' => 1 )
                 ),
             )
         );
@@ -900,7 +903,7 @@ class WebController extends BaseWebController
                     $_cleanPath = '/';
                 }
 
-                $_data[$_cleanPath][] = basename( $_name );
+                $_data[ $_cleanPath ][] = basename( $_name );
             }
         }
 
@@ -1252,7 +1255,7 @@ class WebController extends BaseWebController
                 throw new BadRequestException();
         }
 
-        echo json_encode( array('success' => true, 'cache' => $cache) );
+        echo json_encode( array( 'success' => true, 'cache' => $cache ) );
 
         return Pii::end();
     }

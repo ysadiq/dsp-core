@@ -71,7 +71,7 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
         {
             if ( $_salt )
             {
-                $_dspSalts['dsp.salts.' . $_key] = $_salt;
+                $_dspSalts[ 'dsp.salts.' . $_key ] = $_salt;
             }
         }
     }
@@ -164,6 +164,7 @@ return array_merge(
         'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
         'dsp.fabric_hosted'             => $_fabricHosted,
+        'dsp.no_persistent_storage'     => true,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
@@ -180,9 +181,9 @@ return array_merge(
         'dsp.service_location_map'      => array(),
         /** Default services provided by all DSPs */
         'dsp.default_services'          => array(
-            array('api_name' => 'user', 'name' => 'User Login'),
-            array('api_name' => 'system', 'name' => 'System Configuration'),
-            array('api_name' => 'api_docs', 'name' => 'API Documentation'),
+            array( 'api_name' => 'user', 'name' => 'User Login' ),
+            array( 'api_name' => 'system', 'name' => 'System Configuration' ),
+            array( 'api_name' => 'api_docs', 'name' => 'API Documentation' ),
         ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
