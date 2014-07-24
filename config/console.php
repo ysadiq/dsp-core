@@ -63,7 +63,7 @@ else
 
         if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
         {
-            $_dbName = 'hpp_' . str_ireplace( array( '.dreamfactory.com', '-', '.cloud', '.' ), array( null, '_', null, '_' ), $_host );
+            $_dbName = 'hpp_' . str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
         }
         else
         {
@@ -116,7 +116,7 @@ return array(
     /**
      * Preloads
      */
-    'preload'            => array('log'),
+    'preload'            => array('log', 'db', 'urlManager'),
     /**
      * Imports
      */
