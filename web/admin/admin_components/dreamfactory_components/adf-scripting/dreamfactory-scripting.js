@@ -18,7 +18,7 @@
  */
 'use strict';
 
-angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
+angular.module('dfScripting', ['ngRoute', 'dfUtility'])
     .constant('MODSCRIPTING_ROUTER_PATH', '/scripts')
     .constant('MODSCRIPTING_ASSET_PATH', 'admin_components/dreamfactory_components/adf-scripting/')
     .config(['$routeProvider', 'MODSCRIPTING_ROUTER_PATH', 'MODSCRIPTING_ASSET_PATH',

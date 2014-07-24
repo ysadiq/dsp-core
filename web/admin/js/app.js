@@ -36,7 +36,8 @@ angular.module(
             "dfUtility",
             "dfSystemConfig",
             "dfUsers",
-            "dfNavBar"
+            "dfNavBar",
+            "dfScripting"
         ]
     )
     .constant("DSP_URL", CurrentServer)
