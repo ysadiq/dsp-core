@@ -1,4 +1,4 @@
-/**
+7/**
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
@@ -17,535 +17,580 @@
  * limitations under the License.
  */
 Actions = {
-    /** @type {*} */
-    _config:    {},
-    /** @type {*}[] */
-    _apps:      [],
-    /** @type {jQuery} */
-    $_error:    null,
-    /** @type {jQuery} */
-    $_fsToggle: null,
-
-    //-------------------------------------------------------------------------
-    //	Functions
-    //-------------------------------------------------------------------------
-
-    /**
-     * Initialize the component
-     */
-    init: function() {
-        this.$_error = $('#error-container');
-        this.$_fsToggle = $('#fs_toggle');
-        this.getConfig();
-    },
-
-    /**
-     * Auto run an app passed in on the command line:
-     *
-     *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
-     */
-    autoRunApp: function() {
-        //	Auto-run an app?
-        var _appToRun = $.QueryString('run'), _pos = -1;
-
-        if (_appToRun && this._apps.length) {
-            _appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
-            //	Strip off any hash
-            if (-1 != (
-                _pos = _appToRun.indexOf('#')
-                )) {
-                _appToRun = _appToRun.substr(0, _pos);
-            }
-
-            this._apps.forEach(
-                function(app) {
-                    if (app.api_name == _appToRun) {
-                        if (app.is_sys_admin) {
-                            app.requires_fullscreen = false;
-                        }
-                        Actions.showApp(
-                            app.api_name,
-                            app.launch_url,
-                            app.is_url_external,
-                            app.requires_fullscreen,
-                            app.allow_fullscreen_toggle
-                        );
-                        return false;
-                    }
-
-                    return true;
-                }
-            );
-        }
-    },
-
-    getConfig: function() {
-        if (this._config.length) {
-            return this._config;
-        }
-
-        var that = this;
-
-        $.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad', {async: false}).done(
-            function(configInfo) {
-                Config = that._config = configInfo;
-                document.title = 'LaunchPad ' + configInfo.dsp_version;
-                that.updateSession('init');
-
-                var data = {
-                    allow_open_registration: Config.allow_open_registration,
-                    allow_guest_user:        Config.allow_guest_user
-                };
-
-                Templates.loadTemplate(
-                    Templates.navBarTemplate,
-                    {User: data},
-                    'navbar-container'
-                );
-            }
-        ).fail(
-            function(response) {
-                alertErr(response);
-            }
-        );
-
-        return false;
-    },
-
-    createAccount: function() {
-        window.top.location.href = '/web/register?return_url=' + encodeURI(window.top.location);
-    },
-
-    getApps: function(data, action) {
-        var _apps = [], _defaultShown = false, $_defaultApps = $('#default_app'), _options;
-
-        this.$_error.hide().empty();
-        $_defaultApps.empty();
-
-        if (data && data.no_group_apps) {
-            _apps = data.no_group_apps;
-        }
-
-        data.app_groups.forEach(
-            function(group) {
-                group.apps.forEach(
-                    function(app) {
-                        _apps.push(app);
-                    }
-                );
-            }
-        );
-
-        this._apps = _apps;
-
-        _options = "";
-
-        _apps.forEach(
-            function(app) {
-                if (app.is_default && !data.is_sys_admin) {
-                    Actions.showApp(
-                        app.api_name,
-                        app.launch_url,
-                        app.is_url_external,
-                        app.requires_fullscreen,
-                        app.allow_fullscreen_toggle
-                    );
-
-                    //window.defaultApp = app.id;
-                    _defaultShown = true;
-
-                }
-
-                else if (app.is_default && data.is_sys_admin) {
-                    app.requires_fullscreen = false;
-
-                    Actions.showApp(
-                        app.api_name,
-                        app.launch_url,
-                        app.is_url_external,
-                        app.requires_fullscreen,
-                        app.allow_fullscreen_toggle
-                    );
-
-                    //window.defaultApp = app.id;
-                    _defaultShown = true;
-
-                    $('#adminLink').on(
-                        'click', function() {
-                            Actions.showAdmin()
-                        }
-                    );
-                }
-
-                _options += '<option value="' + app.id + '">' + app.name + '</option>';
-            }
-        );
-
-        $_defaultApps.append(_options + '<option value>None</option>');
-
-        if ('update' == action) {
-            return;
-        }
-
-        if (data.is_sys_admin && _defaultShown) {
-            return;
-        }
-
-        if (data.is_sys_admin && !_defaultShown) {
-            this.showApp('admin', '/admin/#/', '0', false);
-            $('#adminLink').off('click');
-            this.$_fsToggle.off('click');
-        } else if (1 == data.app_groups.length && 1 == data.app_groups[0].apps.length && !data.no_group_apps.length) {
-            $('#app-list-container').hide();
-            this.showApp(
-                data.app_groups[0].apps[0].api_name,
-                data.app_groups[0].apps[0].launch_url,
-                data.app_groups[0].apps[0].is_url_external,
-                data.app_groups[0].apps[0].requires_fullscreen,
-                data.app_groups[0].apps[0].allow_fullscreen_toggle
-            );
-        } else if (!data.app_groups.length && data.no_group_apps.length) {
-            $('#app-list-container').hide();
-            this.showApp(
-                data.no_group_apps[0].api_name,
-                data.no_group_apps[0].launch_url,
-                data.no_group_apps[0].is_url_external,
-                data.no_group_apps[0].requires_fullscreen,
-                data.no_group_apps[0].allow_fullscreen_toggle
-            );
-        } else if (!data.app_groups.length && !data.no_group_apps.length) {
-            this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
-        } else {
-            Actions.showAppList();
-        }
-    },
-
-    showApp: function(name, url, type, fullscreen, allowfullscreentoggle) {
-        this.$_fsToggle.addClass('disabled');
-        $('#app-list-container').hide();
-        $('#apps-list-btn').removeClass('disabled');
-        $('iframe').hide();
-
-        //	Show the admin if your an admin
-        if ('admin' == name) {
-            var $_admin = $('#admin');
-
-            var $_adminApp = this.buildAppFrame(name, url);
-
-            if ($_admin.length) {
-                $_admin.replaceWith($_adminApp);
-            }
-
-            $('#adminLink').addClass('disabled');
-            return;
-        }
-
-        $('#adminLink').removeClass('disabled');
-
-        var $_app = $('#' + name);
-
-        //	Check if there is an element with this id
-        if (!$_app.length) {
-            var _url = replaceParams(url, name);
-            $_app.appendTo(this.buildAppFrame(name, url));
-        }
-
-        //check if that element requires fullscreen
-        if (fullscreen) {
-            this.requireFullScreen();
-        }
-
-        // Show the app
-        if (allowfullscreentoggle) {
-            this.$_fsToggle.on(
-                'click', function() {
-                    Actions.toggleFullScreen(true);
-                }
-            ).removeClass('disabled');
-        } else {
-            this.$_fsToggle.off(
-                'click', function() {
-                    Actions.toggleFullScreen(false);
-                }
-            ).addClass('disabled');
-        }
-
-        $_app.show();
-    },
-
-    /**
-     * Builds a standard iframe
-     * @param {string} name
-     * @param {string} url
-     * @param {boolean} [doNotAppend]
-     * @returns {*|jQuery|HTMLElement}
-     */
-    buildAppFrame: function(name, url, doNotAppend) {
-        var $_frame = $(
-            '<iframe seamless="seamless" id="' +
-                name +
-                '" name="' +
-                name +
-                '" class="app-loader" src="' +
-                url +
-                '"></iframe>'
-        );
-
-        if (!doNotAppend) {
-            $_frame.appendTo('#app-container');
-        }
-
-        return $_frame;
-    },
-
-    animateNavBarClose: function(callback) {
-
-        var navbarH = $('#main-nav').height();
-        $('#main-nav').animate(
-            {
-                height: 0
-            }
-        ).removeClass('in');
-
-        if (typeof callback == 'function') {
-            callback.call(this);
-        }
-    },
-
-    showAppList: function() {
-
-        $('#adminLink').on(
-            'click', function() {
-                Actions.showAdmin()
-            }
-        );
-        $('#adminLink').removeClass('disabled');
-        this.$_fsToggle.off('click');
-        this.$_fsToggle.addClass('disabled');
-        $('app-container').css({"z-index": 1});
-        $('#app-list-container').show();
-        $('#app-list-container').css({"z-index": 998});
-        $('#apps-list-btn').addClass('disabled');
-        this.animateNavBarClose();
-
-    },
-    showAdmin:   function() {
-
-        $('#adminLink').off('click');
-        this.$_fsToggle.off('click');
-
-        var name = 'admin', url = '/admin/#/', type = 0, fullscreen = 0, allowfullscreentoggle = 0;
-
-        this.animateNavBarClose(
-            function() {
-                this.showApp(name, url, type, fullscreen, allowfullscreentoggle);
-
-            }
-        );
-
-    },
-
-    appGrouper: function(sessionInfo) {
-        // Check if sessionInfo has any apps in the no_group_apps array
-        if (sessionInfo.no_group_apps == 0) {
-            // It doesn't have any apps
-            // Fail silently
-            //console.log('fail');
-        } else {
-            // It does have apps!
-
-            //create an array variable to store these apps
-            sessionInfo.mnm_ng_apps = [];
-
-            // Fire up an new object
-            var apps = {};
-
-            // create the property 'apps' on our new object
-            apps.apps = sessionInfo.no_group_apps;
-
-            var no_url_apps = [];
-
-            $.each(
-                apps.apps, function(k, v) {
-                    if (v.launch_url === '') {
-                        no_url_apps.push(k);
-
-                    }
-                }
-            );
-
-            no_url_apps.reverse();
-
-            $.each(
-                no_url_apps, function(k, v) {
-                    apps.apps.splice(v, 1);
-                }
-            );
-
-            // push this new app object onto our array
-            sessionInfo.mnm_ng_apps.push(apps);
-
-            return false;
-
-            // **Note** I'm doing all this to mimick how the app_groups are returned
-            // in order to put ungrouped apps into a group for display.
-            // I know there is a better way...
-        }
-    },
-
-    updateSession: function(action) {
-        var that = this;
-        $.getJSON(CurrentServer + '/rest/user/session?app_name=launchpad', {async: false}).done(
-            function(sessionInfo) {
-                //$.data(document.body, 'session', data);
-                //var sessionInfo = $.data(document.body, 'session');
-                CurrentSession = sessionInfo;
-                Actions.appGrouper(sessionInfo);
-
-                CurrentUserID = sessionInfo.id;
-                if (CurrentUserID) {
-                    sessionInfo.activeSession = true;
-                }
-                sessionInfo.allow_open_registration = Config.allow_open_registration;
-                sessionInfo.allow_guest_user = Config.allow_guest_user;
-
-                Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
-                Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
-
-                if (sessionInfo.is_sys_admin) {
-                    $('#adminLink').addClass('disabled');
-                    that.$_fsToggle.addClass('disabled');
-                    $('#apps-list-btn').removeClass('disabled');
-                    that.$_fsToggle.off('click');
-                }
-
-                if (action == "init") {
-                    that.getApps(sessionInfo, action);
-                    that.autoRunApp();
-                }
-            }
-        ).fail(
-            function(response) {
-                if (response.status == 401 || response.status == 403) {
-                    var data = {
-                        allow_open_registration: Config.allow_open_registration,
-                        allow_guest_user:        Config.allow_guest_user
-                    };
-                    Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-                    that.doSignInDialog();
-                } else if (response.status == 500) {
-                    that.showStatus(response.statusText, "error");
-                }
-            }
-        );
-    },
-
-    //*************************************************************************
-    //* Login
-    //*************************************************************************
-
-    doSignInDialog: function(stay) {
-        window.top.location = '/web/login?redirected=1';
-    },
-
-    //*************************************************************************
-    //* Profile
-    //*************************************************************************
-
-    doProfileDialog: function() {
-        window.top.location.href = '/web/profile';
-    },
-
-    //*************************************************************************
-    //* Password Changing
-    //*************************************************************************
-
-    doChangePasswordDialog: function() {
-        window.top.location.href = '/web/password';
-    },
-
-    //*************************************************************************
-    //* Logout Functions
-    //*************************************************************************
-
-    doSignOutDialog: function() {
-        $("#logoffDialog").modal('show');
-    },
-
-    signOut: function() {
-        var that = this;
-        $.ajax(
-            {
-                dataType: 'json',
-                type:     'POST',
-                url: CurrentServer + '/rest/user/session/?app_name=launchpad&method=DELETE',
-                cache:    false,
-                async:    false,
-                success:  function(response) {
-                    $('#app-container, #app-list-container').empty();
-                    $('#logoffDialog').modal('hide');
-
-                    that.updateSession('init');
-                },
-                error:    function(response) {
-                    if (401 == response.status) {
-//						var data = {
-//							allow_open_registration: Config.allow_open_registration,
-//							allow_guest_user:        Config.allow_guest_user
-//						};
-//
-//						Templates.loadTemplate(Templates.navBarTemplate, {User: data}, 'navbar-container');
-                        that.doSignInDialog();
-                    }
-                }
-            }
-        );
-    },
-
-    showStatus: function(message, type) {
-        if ('error' == type) {
-            this.$_error.html(message).removeClass().addClass('alert alert-danger center').show().fadeOut(10000);
-        } else {
-            this.$_error.html(message).removeClass().addClass('alert alert-success center').show().fadeOut(5000);
-        }
-    },
-
-    toggleFullScreen: function(toggle) {
-        if (toggle) {
-            this.animateNavBarClose(
-                function() {
-                    $('#app-container').css({"top": "0px", "z-index": 998});
-                    $('#navbar-container').css({"z-index": 10});
-                    $('#rocket').show();
-                }
-            );
-
-        } else {
-            $('#app-container').css({"top": "44px", "z-index": 997});
-            $('#navbar-container').css({"z-index": 999});
-            this.$_fsToggle.removeClass('disabled');
-            $('#rocket').hide();
-        }
-    },
-
-    requireFullScreen: function() {
-        $('#app-container').css({"top": "0px", "z-index": 998});
-    }
+	/** @type {*} */
+	_config:     {}, /** @type {*}[] */
+	_apps:       [], /** @type {jQuery} */
+	$_error:     null, /** @type {jQuery} */
+	$_fsToggle:  null, /** @type {jQuery} */
+	$_adminLink: null,
+
+	//-------------------------------------------------------------------------
+	//	Functions
+	//-------------------------------------------------------------------------
+
+	/**
+	 * Initialize the component
+	 */
+	init: function() {
+		this.$_error = $('#error-container').hide();
+		this.getConfig();
+	},
+
+	/**
+	 * Auto run an app passed in on the command line:
+	 *
+	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
+	 */
+	autoRunApp: function() {
+		//	Auto-run an app?
+		var _appToRun = $.QueryString('run'), _pos = -1;
+
+		if (_appToRun && this._apps.length) {
+			_appToRun = decodeURIComponent(_appToRun.replace(/\+/g, '%20'));
+			//	Strip off any hash
+			if (-1 != (
+					_pos = _appToRun.indexOf('#')
+				)) {
+				_appToRun = _appToRun.substr(0, _pos);
+			}
+
+			this._apps.forEach(
+				function(app) {
+					if (app.api_name == _appToRun) {
+						if (app.is_sys_admin) {
+							app.requires_fullscreen = false;
+						}
+						Actions.showApp(
+							app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle
+						);
+						return false;
+					}
+
+					return true;
+				}
+			);
+		}
+	},
+
+	getConfig: function() {
+		if (this._config && this._config.length) {
+			return this._config;
+		}
+
+		var that = this;
+
+		$.getJSON(CurrentServer + '/rest/system/config?app_name=launchpad').done(
+			function(configInfo) {
+				Config = that._config = configInfo;
+				document.title = 'DreamFactory ' + configInfo.dsp_version;
+				that.updateSession('init');
+			}
+		).fail(
+			function(response) {
+				alertErr(response);
+			}
+		);
+
+		return false;
+	},
+
+	createAccount: function() {
+		this._redirect('/web/register?return_url=' + encodeURI(window.top.location));
+	},
+
+	getApps: function(data, action) {
+		var _apps = [], _defaultShown = false, $_defaultApps = $('#default_app'), _options, _this = this;
+
+		this.$_error.hide().empty();
+		$_defaultApps.empty();
+
+		if (data && data.no_group_apps) {
+			_apps = data.no_group_apps;
+		}
+
+		data.app_groups.forEach(
+			function(group) {
+				group.apps.forEach(
+					function(app) {
+						_apps.push(app);
+					}
+				);
+			}
+		);
+
+		this._apps = _apps;
+
+		_options = '';
+
+		_apps.forEach(
+			function(app) {
+				if (!_defaultShown && app.is_default) {
+					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, !data.is_sys_admin, app.allow_fullscreen_toggle);
+					_defaultShown = true;
+					_this.toggleAdminLink(false);
+				}
+
+				_options += '<option value="' + app.id + '">' + app.name + '</option>';
+			}
+		);
+
+		$_defaultApps.append(_options + '<option value>None</option>');
+
+		if ('update' == action) {
+			return;
+		}
+
+		if (data.is_sys_admin) {
+			if (_defaultShown) {
+				return;
+			}
+
+			this.showApp('admin', '/admin/#/', '0', false);
+			return;
+		}
+
+		var _app = null;
+
+		if (1 == data.app_groups.length && 1 == data.app_groups[0].apps.length && !data.no_group_apps.length) {
+			_app = data.app_groups[0].apps[0];
+		} else if (!data.app_groups.length && data.no_group_apps.length) {
+			_app = data.no_group_apps[0];
+		} else if (!data.app_groups.length && !data.no_group_apps.length) {
+			this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
+			return;
+		}
+
+		if (null !== _app) {
+			$('#app-list-container').hide();
+			this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
+			return;
+		}
+
+		Actions.showAppList();
+	},
+
+	showApp: function(name, url, type, fullscreen, allowFullScreenToggle) {
+		$('#app-list-container').hide();
+		$('iframe').hide();
+
+		//	Show the admin if your an admin
+		if ('admin' == name) {
+			var $_admin = $('#admin');
+
+			if ($_admin.length) {
+				$_admin.show();
+			} else {
+				var $_adminApp = this.buildAppFrame(name, url);
+
+				if ($_admin.length) {
+					$_admin.replaceWith($_adminApp);
+				}
+			}
+
+			this.toggleLinksForApp('admin');
+			return;
+		}
+
+		var $_app = $('#' + name);
+
+		//	Check if there is an element with this id
+		if (!$_app.length) {
+			var _url = replaceParams(url, name);
+			$_app.appendTo(this.buildAppFrame(name, _url));
+		}
+
+		//check if that element requires fullscreen
+		if (fullscreen) {
+			this.requireFullScreen();
+		}
+
+		// Show the app
+		this.toggleAdminLink(true);
+		this.toggleAppsListLink(true);
+		this.toggleFullScreenLink(allowFullScreenToggle);
+
+		$_app.show();
+	},
+
+	/**
+	 * Builds a standard iframe
+	 * @param {string} name
+	 * @param {string} url
+	 * @param {boolean} [doNotAppend]
+	 * @returns {*|jQuery|HTMLElement}
+	 */
+	buildAppFrame: function(name, url, doNotAppend) {
+		var $_frame = $(
+			'<iframe seamless="seamless" id="' + name + '" name="' + name + '" class="app-loader" src="' + url + '"></iframe>'
+		);
+
+		if (!doNotAppend) {
+			$_frame.appendTo('#app-container');
+		}
+
+		return $_frame;
+	},
+
+	animateNavBarClose: function(callback) {
+		$('#main-nav').animate(
+			{height: 0}, function() {
+				if ('function' == typeof callback) {
+					callback.call(this);
+				}
+			}
+		).removeClass('in');
+	},
+
+	showAppList: function() {
+		$('app-container').css({zIndex: 1});
+		$('#app-list-container').css({zIndex: 998}).show();
+
+		this.toggleAdminLink(true);
+		this.toggleFullScreenLink(false);
+		this.toggleAppsListLink(false);
+
+		this.animateNavBarClose();
+
+	},
+
+	toggleAdminLink: function(on) {
+		if (!this.$_adminLink) {
+			this.$_adminLink = $('#adminLink');
+		}
+
+		if (on) {
+			this.toggleLink(
+				'#adminLink', false, function() {
+					Actions.showAdmin();
+				}
+			);
+		} else {
+			this.toggleLink('#adminLink', true, true);
+		}
+	},
+
+	toggleFullScreenLink: function(on) {
+		if (!this.$_fsToggle) {
+			this.$_fsToggle = $('#fs_toggle');
+		}
+
+		if (on) {
+			this.toggleLink(
+				'#fs_toggle', false, function() {
+					Actions.toggleFullScreen(true);
+				}
+			);
+		} else {
+			this.toggleLink(
+				'#fs_toggle', true, function() {
+					Actions.toggleFullScreen(false);
+				}
+			);
+		}
+
+	},
+
+	toggleAppsListLink: function(on) {
+		this.toggleLink('#apps-list-btn', !on);
+	},
+
+	/**
+	 * Show the admin app
+	 */
+	showAdmin: function() {
+		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = false, allowToggle = false;
+
+		this.showApp(name, url, type, fullscreen, allowToggle);
+
+		this.toggleAdminLink(false);
+		this.toggleFullScreenLink(false);
+	},
+
+	appGrouper: function(sessionInfo) {
+		// Check if sessionInfo has any apps in the no_group_apps array
+		if (0 === sessionInfo.no_group_apps) {
+			// It doesn't have any apps
+			// Fail silently
+			//console.log('fail');
+		} else {
+			// It does have apps!
+
+			//create an array variable to store these apps
+			sessionInfo.mnm_ng_apps = [];
+
+			// Fire up an new object
+			var apps = {};
+
+			// create the property 'apps' on our new object
+			apps.apps = sessionInfo.no_group_apps;
+
+			var no_url_apps = [];
+
+			$.each(
+				apps.apps, function(k, v) {
+					if ('' === v.launch_url) {
+						no_url_apps.push(k);
+
+					}
+				}
+			);
+
+			no_url_apps.reverse();
+
+			$.each(
+				no_url_apps, function(k, v) {
+					apps.apps.splice(v, 1);
+				}
+			);
+
+			// push this new app object onto our array
+			sessionInfo.mnm_ng_apps.push(apps);
+
+			return false;
+
+			// **Note** I'm doing all this to mimick how the app_groups are returned
+			// in order to put ungrouped apps into a group for display.
+			// I know there is a better way...
+		}
+	},
+
+	updateSession: function(action) {
+		var that = this;
+
+		$.ajax({dataType: 'json', url: CurrentServer + '/rest/user/session?app_name=launchpad'}).done(
+			function(sessionInfo) {
+				CurrentSession = sessionInfo;
+				Actions.appGrouper(sessionInfo);
+				sessionInfo.activeSession = false;
+
+				CurrentUserID = sessionInfo.id;
+
+				if (CurrentUserID) {
+					sessionInfo.activeSession = true;
+				}
+
+				sessionInfo.allow_open_registration = Config.allow_open_registration;
+				sessionInfo.allow_guest_user = Config.allow_guest_user;
+				sessionInfo.show_apps_list_btn = (sessionInfo.activeSession || sessionInfo.allow_guest_user);
+
+				Templates.loadTemplate(Templates.navBarTemplate, {User: sessionInfo}, 'navbar-container');
+				Templates.loadTemplate(Templates.appIconTemplate, {Applications: sessionInfo}, 'app-list-container');
+
+				if (sessionInfo.is_sys_admin) {
+					that.toggleAdminLink(false);
+					that.toggleFullScreenLink(false);
+					that.toggleAppsListLink(true);
+				}
+
+				if ('init' == action) {
+					that.getApps(sessionInfo, action);
+					that.autoRunApp();
+				}
+			}
+		).fail(
+			function(response) {
+				if (401 == response.status || 403 == response.status) {
+					that.doSignInDialog();
+				} else if (500 == response.status) {
+					that.showStatus(response.statusText, "error");
+				}
+			}
+		);
+
+	},
+
+	/**
+	 * Loads a partial view from file and let's mustache render it
+	 *
+	 * @param {string} partial The name of the partial. Must follow pattern: "_xxxx.mustache" where "xxxx" is "partial" value
+	 * @param {string} container The target selector
+	 * @param {*} data Data for the view
+	 *
+	 * @private
+	 */
+	_loadPartial: function(partial, container, data) {
+		var _fileName = 'views/_' + partial + '.mustache';
+
+		$.get(
+			'_' + partial + '.mustache', function(template) {
+				var _html = Mustache.render(template, data);
+				$(container).html(_html);
+			}
+		);
+	},
+
+	//*************************************************************************
+	//* User Management
+	//*************************************************************************
+
+	doSignInDialog: function() {
+		this._redirect('/web/login?redirected=1');
+	},
+
+	doProfileDialog: function() {
+		this._redirect('/web/profile');
+	},
+
+	doChangePasswordDialog: function() {
+		this._redirect('/web/password');
+	},
+
+	doSignOutDialog: function(off) {
+		$('#logoffDialog').modal(off ? 'hide' : 'show');
+	},
+
+	signOut: function() {
+		var that = this;
+
+		$.ajax(
+			{
+				dataType: 'json',
+				type:     'POST',
+				url: CurrentServer + '/rest/user/session/?app_name=launchpad&method=DELETE',
+				cache:    false,
+				async:    false,
+				success:  function(response) {
+					$('#app-container, #app-list-container').empty();
+					that.doSignOutDialog(true);
+					that.updateSession('init');
+
+					if (401 == response.status) {
+						that.doSignInDialog();
+					}
+				},
+				error:    function(response) {
+					if (401 == response.status) {
+						that.doSignInDialog();
+					}
+				}
+			}
+		);
+	},
+
+	showStatus: function(message, type) {
+		this.$_error.html(message).removeClass('alert-danger alert-warning alert-success').addClass(
+			'error' == type ? 'alert-danger' : 'alert-success'
+		).show().fadeOut('error' == type ? 10000 : 5000);
+	},
+
+	toggleFullScreen: function(toggle) {
+		if (toggle) {
+			this.animateNavBarClose(
+				function() {
+					$('#app-container').css({top: 0, zIndex: 998});
+					$('#navbar-container').css({zIndex: 10});
+					$('#rocket').show();
+				}
+			);
+
+		} else {
+			this.toggleLink(this.$_fsToggle, true);
+			$('#app-container').css({top: '44px', zIndex: 997});
+			$('#navbar-container').css({zIndex: 999});
+			$('#rocket').hide();
+		}
+	},
+
+	requireFullScreen: function() {
+		$('#app-container').css({top: 0, zIndex: 998});
+	},
+
+	/**
+	 * Toggles a link/button on/off
+	 * @param selector
+	 * @param [disabled]
+	 * @param [click]
+	 */
+	toggleLink: function(selector, disabled, click) {
+		var $_link = $(selector);
+
+		if (disabled) {
+			$_link.addClass('disabled');
+
+			if (click) {
+				$_link.off('click', click);
+			}
+		} else {
+			$_link.removeClass('disabled');
+
+			if (click) {
+				$_link.on('click', click);
+			}
+		}
+	},
+
+	toggleLinksForApp: function(apiName) {
+		var _isAdmin = (
+		'admin' == apiName
+		);
+
+		this.toggleAdminLink(!_isAdmin);
+		this.toggleAppsListLink(_isAdmin);
+		this.toggleFullScreenLink(!_isAdmin);
+	},
+
+	flushPlatformCache: function() {
+		$.get(CurrentServer + '/web/flush?cache=platform').done(
+			function() {
+				console.log('Platform cache flushed.');
+				alert('Flushed!');
+			}
+		);
+	},
+
+	flushSwaggerCache: function() {
+		$.get(CurrentServer + '/web/flush?cache=swagger').done(
+			function() {
+				console.log('Swagger cache flushed. Rebuild on next request.');
+				alert('Flushed!');
+			}
+		);
+	},
+
+	/**
+	 * Redirects the page to url
+	 * @param {string} url
+	 * @private
+	 */
+	_redirect: function(url) {
+		window.top.location.href = url;
+	},
+
+	_showHideOverlay: function(hide) {
+		var $_overlay = $('.loading-screen');
+
+		if (!hide) {
+			if (!$_overlay.hasClass('active')) {
+				$_overlay.addClass('active');
+			}
+		} else {
+			if ($_overlay.hasClass('active')) {
+				$_overlay.removeClass('active');
+			}
+		}
+	}
 };
 
 /**
  * DocReady
  */
 jQuery(
-    function($) {
-        var $_body = $('body');
-
-        $_body.on(
-            'touchstart.dropdown', '.dropdown-menu', function(e) {
-                e.stopPropagation();
-            }
-        );
-    }
+	function($) {
+		$(document).on(
+			'touchstart.dropdown', '.dropdown-menu', function(e) {
+				e.stopPropagation();
+			}
+			//	Global loading page
+		).ajaxSend(
+			function() {
+				Actions._showHideOverlay();
+			}
+		).ajaxStop(
+			function() {
+				Actions._showHideOverlay(true);
+			}
+		);
+	}
 );
 
 Actions.init();

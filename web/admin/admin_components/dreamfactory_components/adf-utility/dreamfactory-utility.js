@@ -344,13 +344,13 @@ angular.module('dfUtility', [])
                 'color': 'white'
             }));
 
-            elem.fadeIn();
+            elem.fadeIn('fast');
         };
 
 
         var _stopLoadingScreen = function () {
 
-            elem.fadeOut();
+            elem.fadeOut('fast');
             loadingScreenText.remove();
         };
 
