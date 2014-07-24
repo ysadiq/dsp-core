@@ -704,43 +704,48 @@ div {
 	text-align: center;
 }
 
+/**************************************************************************
+** Loading screen
+**************************************************************************/
+
 .loading-screen {
-	background-color: rgba(0, 0, 0, .5);
-	z-index:          -1;
+	background-color: rgba(0, 0, 0, .75);
+	color:            rgba(255, 255, 255, 1);
+	z-index:          99998;
 	position:         absolute;
 	top:              0;
 	left:             0;
 	bottom:           0;
 	right:            0;
 	overflow:         hidden;
-	display:          none;
 	height:           100%;
 	width:            100%;
-	transition:       color .25s;
-	color:            rgba(255, 255, 255, .90);
 	padding-top:      8px;
 }
 
 .loading-screen.active {
 	z-index:          99999;
 	display:          block;
-	color:            rgb(255, 140, 0);
 	background-color: rgba(0, 0, 0, .75);
 }
 
-.loading-screen-body h2:first-child {
-	display:     inline-block;
-	padding:     0;
-	margin:      12px 3px;
-	font-weight: bold;
+.loading-screen-body {
+	margin:     15% auto 0;
+	text-align: center;
 }
 
-.loading-screen-body {
-	width:        auto;
-	display:      inline-block;
-	float:        right;
-	margin-right: 72px;
-	margin-top:   -12px;
+.loading-screen-body h2 {
+	font-weight: bold;
+	font-size:   33px;
+	text-shadow: 0 0 25px rgba(233, 157, 60, .8);
+	color:       #ffffff;
+	padding:     0;
+	margin:      0;
+}
+
+.loading-screen-body h2 i.fa {
+	display:      inline;
+	margin-right: 10px;
 }
 
 .col-md-nopad-left {

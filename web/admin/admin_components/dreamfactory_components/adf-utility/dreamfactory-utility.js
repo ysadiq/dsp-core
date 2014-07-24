@@ -18,32 +18,33 @@
  */
 'use strict';
 
-angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_components/dreamfactory_components/adf-utility/').directive(
+angular.module(
+	'dfUtility', []
+).constant(
+	'DF_UTILITY_ASSET_PATH', 'admin_components/dreamfactory_components/adf-utility/'
+).directive(
 	'dreamfactoryAutoHeight', [
 		'$window', '$route', function($window) {
 
 			return {
-				restrict: 'A', link: function(scope, elem, attrs) {
-
+				restrict: 'A',
+				link:     function(scope, elem, attrs) {
 					// Return jQuery window ref
 					scope._getWindow = function() {
-
 						return $(window);
 					};
 
 					// Return jQuery document ref
 					scope._getDocument = function() {
-
 						return $(document);
 					};
 
-					// Return jQuery window or document.  If neither justreturn the
+					// Return jQuery window or document.  If neither just return the
 					// string value for the selector engine
 					scope._getParent = function(parentStr) {
-
 						switch (parentStr) {
 							case 'window':
-								return scope._getWindow()
+								return scope._getWindow();
 								break;
 
 							case 'document':
@@ -57,11 +58,7 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 
 					// TODO: Element position/offset out of whack on route change.  Set explicitly.  Not the best move.
 					scope._setElementHeight = function() {
-						angular.element(elem).css(
-							{
-								height: scope._getParent(attrs.autoHeightParent).height() - 173 - attrs.autoHeightPadding
-							}
-						);
+						angular.element(elem).css({height: scope._getParent(attrs.autoHeightParent).height() - 173 - attrs.autoHeightPadding});
 
 						/*console.log(scope._getParent(attrs.autoHeightParent).height());
 						 console.log($(elem).offset().top)
@@ -76,7 +73,6 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 							scope._setElementHeight();
 						}
 					);
-
 				}
 			}
 		}
@@ -85,21 +81,21 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 	'resize', function($window) {
 		return function(scope, element) {
 			var w = angular.element($window);
+
 			scope.getWindowDimensions = function() {
-				return {
-					'h': w.height(), 'w': w.width()
-				};
+				return {'h': w.height(), 'w': w.width()};
 			};
 
 			scope.$watch(
 				scope.getWindowDimensions, function(newValue, oldValue) {
-
 					scope.windowHeight = newValue.h;
 					scope.windowWidth = newValue.w;
 
 					angular.element(element).css(
 						{
-							width: (newValue.w - angular.element('sidebar').css('width')) + 'px'
+							width: (
+								   newValue.w - angular.element('sidebar').css('width')
+								   ) + 'px'
 						}
 					);
 
@@ -123,10 +119,13 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 		'DF_UTILITY_ASSET_PATH', function(DF_UTILITY_ASSET_PATH) {
 
 			return {
-				restrict:                                                               'E', scope: {
-					allowedVerbs: '=?', description: '=?'
-				}, templateUrl: DF_UTILITY_ASSET_PATH + 'views/verb-picker.html', link: function(scope, elem, attrs) {
-
+				restrict: 'E',
+				scope:    {
+					allowedVerbs: '=?',
+					description:  '=?'
+				},
+				templateUrl: DF_UTILITY_ASSET_PATH + 'views/verb-picker.html',
+				link:     function(scope, elem, attrs) {
 					scope.verbs = {
 						GET:    {name: 'GET', active: false, description: ' (read)'},
 						POST:   {name: 'POST', active: false, description: ' (create)'},
@@ -140,7 +139,6 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 					scope.description = true;
 
 					scope._setVerbState = function(nameStr, stateBool) {
-
 						var verb = scope.verbs[nameStr];
 						if (scope.verbs.hasOwnProperty(verb.name)) {
 							scope.verbs[verb.name].active = stateBool;
@@ -148,7 +146,6 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 					};
 
 					scope._toggleVerbState = function(nameStr, event) {
-
 						event.stopPropagation();
 
 						if (scope.verbs.hasOwnProperty(scope.verbs[nameStr].name)) {
@@ -186,7 +183,10 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 								verbs, function(_value, _index) {
 									if (scope._isVerbActive(_value)) {
 										if (_index != verbs.length - 1) {
-											scope.btnText += (_value + ', ');
+											scope.btnText +=
+											(
+											_value + ', '
+											);
 										} else {
 											scope.btnText += _value
 										}
@@ -327,50 +327,26 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 ).service(
 	'dfLoadingScreen', [
 		function() {
-
-			var loadingScreenText = $('<span style="text-align: center; width: 250px; height: 75px;"><h2 style="font- weight: bold;"><i class="fa fa-cog fa-spin" style="display: inline; margin-right: 10px;"></i>Loading...</h2></span>');
-
-			var elem = angular.element('#loading-screen').css(
-				{
-					'background-color': 'rgba(0, 0, 0, .75)', 'z-index': -1, position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, overflow: 'hidden'
-				}
-			).hide();
-
-			//        $(window).resize(function () {
-			//            $(loadingScreenText).css({
-			//                position: 'absolute',
-			//                top: ($(elem).height() /2) - ($(loadingScreenText).height() / 2)-50,
-			//                left: ($(elem).width() /2) - ($(loadingScreenText).width() / 2)
-			//            })
-			//        });
+			var _elem = angular.element('.loading-screen');
 
 			var _startLoadingScreen = function() {
-				elem.css({'z-index': 99998}).append(
-					$(loadingScreenText).css(
-						{
-							top: '50%', left: 0, right: 0, bottom: 0, position: 'absolute', 'color': 'white', margin: '0 auto'
-						}
-					)
-				).fadeIn('fast');
+				_elem.addClass('active').fadeIn('fast');
 			};
 
 			var _stopLoadingScreen = function() {
-				elem.fadeOut(
+				_elem.fadeOut(
 					'fast', function() {
-						loadingScreenText.remove();
+						_elem.removeClass('active');
 					}
 				);
 			};
 
 			return {
-
 				start: function() {
-
 					_startLoadingScreen();
 				},
 
 				stop: function() {
-
 					_stopLoadingScreen();
 				}
 			}
@@ -632,7 +608,11 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 							function sortfn(a, b) {
 								var upA = a[field].toUpperCase();
 								var upB = b[field].toUpperCase();
-								return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+								return (
+									   upA < upB
+									   ) ? -1 : (
+												upA > upB
+												) ? 1 : 0;
 							}
 						);
 						break;
@@ -642,7 +622,11 @@ angular.module('dfUtility', []).constant('DF_UTILITY_ASSET_PATH', 'admin_compone
 							function sortfn(a, b) {
 								var upA = a[field]
 								var upB = b[field]
-								return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+								return (
+									   upA < upB
+									   ) ? -1 : (
+												upA > upB
+												) ? 1 : 0;
 							}
 						);
 				}
@@ -757,7 +741,9 @@ angular.module('ui.bootstrap.position', [])
 			 * @param element - raw DOM element
 			 */
 			function isStaticPositioned(element) {
-				return (getStyle(element, "position") || 'static' ) === 'static';
+				return (
+					   getStyle(element, "position") || 'static'
+					   ) === 'static';
 			}
 
 			/**
@@ -806,8 +792,14 @@ angular.module('ui.bootstrap.position', [])
 					return {
 						width: boundingClientRect.width || element.prop('offsetWidth'),
 						height: boundingClientRect.height || element.prop('offsetHeight'),
-						top: boundingClientRect.top + ($window.pageYOffset || $document[0].body.scrollTop || $document[0].documentElement.scrollTop),
-						left: boundingClientRect.left + ($window.pageXOffset || $document[0].body.scrollLeft || $document[0].documentElement.scrollLeft)
+						top: boundingClientRect.top +
+							 (
+							 $window.pageYOffset || $document[0].body.scrollTop || $document[0].documentElement.scrollTop
+							 ),
+						left: boundingClientRect.left +
+							  (
+							  $window.pageXOffset || $document[0].body.scrollLeft || $document[0].documentElement.scrollLeft
+							  )
 					};
 				}
 			};
@@ -875,7 +867,9 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 				{
 					name:   'day', getVisibleDates: function(date, selected) {
 					var year = date.getFullYear(), month = date.getMonth(), firstDayOfMonth = new Date(year, month, 1);
-					var difference = startingDay - firstDayOfMonth.getDay(), numDisplayedFromPreviousMonth = (difference > 0)
+					var difference = startingDay - firstDayOfMonth.getDay(), numDisplayedFromPreviousMonth = (
+																											 difference > 0
+																											 )
 						? 7 -
 						  difference
 						: -difference, firstDate = new Date(firstDayOfMonth), numDates = 0;
@@ -885,7 +879,10 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 						numDates += numDisplayedFromPreviousMonth; // Previous
 					}
 					numDates += getDaysInMonth(year, month + 1); // Current
-					numDates += (7 - numDates % 7) % 7; // Next
+					numDates +=
+					(
+					7 - numDates % 7
+					) % 7; // Next
 
 					var days = getDates(firstDate, numDates), labels = new Array(7);
 					for (var i = 0; i < numDates; i++) {
@@ -893,7 +890,9 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 						days[i] = makeDate(
 							dt,
 							format.day,
-							(selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()),
+							(
+							selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()
+							),
 							dt.getMonth() !==
 							month
 						);
@@ -903,40 +902,66 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 					}
 					return {objects: days, title: dateFilter(date, format.dayTitle), labels: labels};
 				}, compare: function(date1, date2) {
-					return (new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) - new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()) );
+					return (
+					new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) - new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+					);
 				}, split:   7, step: {months: 1}
-				},
-				{
-					name:   'month', getVisibleDates: function(date, selected) {
-					var months = new Array(12), year = date.getFullYear();
-					for (var i = 0; i < 12; i++) {
-						var dt = new Date(year, i, 1);
-						months[i] = makeDate(dt, format.month, (selected && selected.getMonth() === i && selected.getFullYear() === year));
-					}
-					return {objects: months, title: dateFilter(date, format.monthTitle)};
-				}, compare: function(date1, date2) {
-					return new Date(date1.getFullYear(), date1.getMonth()) - new Date(date2.getFullYear(), date2.getMonth());
-				}, split:   3, step: {years: 1}
-				},
-				{
-					name:   'year', getVisibleDates: function(date, selected) {
-					var years = new Array(yearRange), year = date.getFullYear(), startYear = parseInt((year - 1) / yearRange, 10) * yearRange + 1;
-					for (var i = 0; i < yearRange; i++) {
-						var dt = new Date(startYear + i, 0, 1);
-						years[i] = makeDate(dt, format.year, (selected && selected.getFullYear() === dt.getFullYear()));
-					}
-					return {objects: years, title: [years[0].label, years[yearRange - 1].label].join(' - ')};
-				}, compare: function(date1, date2) {
-					return date1.getFullYear() - date2.getFullYear();
-				}, split:   5, step: {years: yearRange}
+				}, {
+					name:       'month', getVisibleDates: function(date, selected) {
+						var months = new Array(12), year = date.getFullYear();
+						for (var i = 0; i < 12; i++) {
+							var dt = new Date(year, i, 1);
+							months[i] =
+							makeDate(
+								dt,
+								format.month,
+								(
+								selected && selected.getMonth() === i && selected.getFullYear() === year
+								)
+							);
+						}
+						return {objects: months, title: dateFilter(date, format.monthTitle)};
+					}, compare: function(date1, date2) {
+						return new Date(date1.getFullYear(), date1.getMonth()) - new Date(date2.getFullYear(), date2.getMonth());
+					}, split:   3, step: {years: 1}
+				}, {
+					name:       'year', getVisibleDates: function(date, selected) {
+						var years = new Array(yearRange), year = date.getFullYear(), startYear = parseInt(
+								(
+								year - 1
+								) / yearRange, 10
+							) * yearRange + 1;
+						for (var i = 0; i < yearRange; i++) {
+							var dt = new Date(startYear + i, 0, 1);
+							years[i] =
+							makeDate(
+								dt,
+								format.year,
+								(
+								selected && selected.getFullYear() === dt.getFullYear()
+								)
+							);
+						}
+						return {objects: years, title: [years[0].label, years[yearRange - 1].label].join(' - ')};
+					}, compare: function(date1, date2) {
+						return date1.getFullYear() - date2.getFullYear();
+					}, split:   5, step: {years: yearRange}
 				}
 			];
 
 			this.isDisabled = function(date, mode) {
 				var currentMode = this.modes[mode || 0];
-				return ((this.minDate && currentMode.compare(date, this.minDate) < 0) ||
-						(this.maxDate && currentMode.compare(date, this.maxDate) > 0) ||
-						($scope.dateDisabled && $scope.dateDisabled({date: date, mode: currentMode.name})));
+				return (
+				(
+				this.minDate && currentMode.compare(date, this.minDate) < 0
+				) ||
+				(
+				this.maxDate && currentMode.compare(date, this.maxDate) > 0
+				) ||
+				(
+				$scope.dateDisabled && $scope.dateDisabled({date: date, mode: currentMode.name})
+				)
+				);
 			};
 		}
 	]
@@ -1021,7 +1046,12 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 							}
 						);
 
-						ngModel.$setValidity('date-disabled', (!date || !datepickerCtrl.isDisabled(date)));
+						ngModel.$setValidity(
+							'date-disabled',
+							(
+							!date || !datepickerCtrl.isDisabled(date)
+							)
+						);
 
 						scope.rows = split(data.objects, currentMode.split);
 						scope.labels = data.labels || [];
@@ -1051,24 +1081,54 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 					};
 					scope.move = function(direction) {
 						var step = datepickerCtrl.modes[mode].step;
-						selected.setMonth(selected.getMonth() + direction * (step.months || 0));
-						selected.setFullYear(selected.getFullYear() + direction * (step.years || 0));
+						selected.setMonth(
+							selected.getMonth() +
+							direction *
+							(
+							step.months || 0
+							)
+						);
+						selected.setFullYear(
+							selected.getFullYear() +
+							direction *
+							(
+							step.years || 0
+							)
+						);
 						refill();
 					};
 					scope.toggleMode = function() {
-						setMode((mode + 1) % datepickerCtrl.modes.length);
+						setMode(
+							(
+							mode + 1
+							) % datepickerCtrl.modes.length
+						);
 					};
 					scope.getWeekNumber = function(row) {
-						return ( mode === 0 && scope.showWeekNumbers && row.length === 7 ) ? getISO8601WeekNumber(row[0].date) : null;
+						return (
+							   mode === 0 && scope.showWeekNumbers && row.length === 7
+							   ) ? getISO8601WeekNumber(row[0].date) : null;
 					};
 
 					function getISO8601WeekNumber(date) {
 						var checkDate = new Date(date);
-						checkDate.setDate(checkDate.getDate() + 4 - (checkDate.getDay() || 7)); // Thursday
+						checkDate.setDate(
+							checkDate.getDate() +
+							4 -
+							(
+							checkDate.getDay() || 7
+							)
+						); // Thursday
 						var time = checkDate.getTime();
 						checkDate.setMonth(0); // Compare with Jan 1
 						checkDate.setDate(1);
-						return Math.floor(Math.round((time - checkDate) / 86400000) / 7) + 1;
+						return Math.floor(
+							Math.round(
+								(
+								time - checkDate
+								) / 86400000
+							) / 7
+						) + 1;
 					}
 				}
 			};
@@ -1405,7 +1465,13 @@ angular.module('ui.bootstrap.timepicker', [])
 					// Get scope.hours in 24H mode if valid
 					function getHoursFromTemplate() {
 						var hours = parseInt(scope.hours, 10);
-						var valid = ( scope.showMeridian ) ? (hours > 0 && hours < 13) : (hours >= 0 && hours < 24);
+						var valid = (
+										scope.showMeridian
+									) ? (
+									hours > 0 && hours < 13
+									) : (
+									hours >= 0 && hours < 24
+									);
 						if (!valid) {
 							return undefined;
 						}
@@ -1423,18 +1489,24 @@ angular.module('ui.bootstrap.timepicker', [])
 
 					function getMinutesFromTemplate() {
 						var minutes = parseInt(scope.minutes, 10);
-						return ( minutes >= 0 && minutes < 60 ) ? minutes : undefined;
+						return (
+							   minutes >= 0 && minutes < 60
+							   ) ? minutes : undefined;
 					}
 
 					function pad(value) {
-						return ( angular.isDefined(value) && value.toString().length < 2 ) ? '0' + value : value;
+						return (
+							   angular.isDefined(value) && value.toString().length < 2
+							   ) ? '0' + value : value;
 					}
 
 					// Input elements
 					var inputs = element.find('input'), hoursInputEl = inputs.eq(0), minutesInputEl = inputs.eq(1);
 
 					// Respond on mousewheel spin
-					var mousewheel = (angular.isDefined(attrs.mousewheel)) ? scope.$eval(attrs.mousewheel) : timepickerConfig.mousewheel;
+					var mousewheel = (
+										 angular.isDefined(attrs.mousewheel)
+									 ) ? scope.$eval(attrs.mousewheel) : timepickerConfig.mousewheel;
 					if (mousewheel) {
 
 						var isScrollingUp = function(e) {
@@ -1442,26 +1514,41 @@ angular.module('ui.bootstrap.timepicker', [])
 								e = e.originalEvent;
 							}
 							//pick correct delta variable depending on event
-							var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
-							return (e.detail || delta > 0);
+							var delta = (
+											e.wheelDelta
+										) ? e.wheelDelta : -e.deltaY;
+							return (
+							e.detail || delta > 0
+							);
 						};
 
 						hoursInputEl.bind(
 							'mousewheel wheel', function(e) {
-								scope.$apply((isScrollingUp(e)) ? scope.incrementHours() : scope.decrementHours());
+								scope.$apply(
+									(
+										isScrollingUp(e)
+									) ? scope.incrementHours() : scope.decrementHours()
+								);
 								e.preventDefault();
 							}
 						);
 
 						minutesInputEl.bind(
 							'mousewheel wheel', function(e) {
-								scope.$apply((isScrollingUp(e)) ? scope.incrementMinutes() : scope.decrementMinutes());
+								scope.$apply(
+									(
+										isScrollingUp(e)
+									) ? scope.incrementMinutes() : scope.decrementMinutes()
+								);
 								e.preventDefault();
 							}
 						);
 					}
 
-					scope.readonlyInput = (angular.isDefined(attrs.readonlyInput)) ? scope.$eval(attrs.readonlyInput) : timepickerConfig.readonlyInput;
+					scope.readonlyInput =
+					(
+						angular.isDefined(attrs.readonlyInput)
+					) ? scope.$eval(attrs.readonlyInput) : timepickerConfig.readonlyInput;
 					if (!scope.readonlyInput) {
 
 						var invalidate = function(invalidHours, invalidMinutes) {
@@ -1557,7 +1644,10 @@ angular.module('ui.bootstrap.timepicker', [])
 						var hours = selected.getHours(), minutes = selected.getMinutes();
 
 						if (scope.showMeridian) {
-							hours = ( hours === 0 || hours === 12 ) ? 12 : hours % 12; // Convert 24 to 12 hour system
+							hours =
+							(
+							hours === 0 || hours === 12
+							) ? 12 : hours % 12; // Convert 24 to 12 hour system
 						}
 						scope.hours = keyboardChange === 'h' ? hours : pad(hours);
 						scope.minutes = keyboardChange === 'm' ? minutes : pad(minutes);
@@ -1583,7 +1673,15 @@ angular.module('ui.bootstrap.timepicker', [])
 						addMinutes(-minuteStep);
 					};
 					scope.toggleMeridian = function() {
-						addMinutes(12 * 60 * (( selected.getHours() < 12 ) ? 1 : -1));
+						addMinutes(
+							12 *
+							60 *
+							(
+								(
+								selected.getHours() < 12
+								) ? 1 : -1
+							)
+						);
 					};
 				}
 			};
@@ -1716,7 +1814,9 @@ angular.module('ui.bootstrap.position', [])
 			 * @param element - raw DOM element
 			 */
 			function isStaticPositioned(element) {
-				return (getStyle(element, "position") || 'static' ) === 'static';
+				return (
+					   getStyle(element, "position") || 'static'
+					   ) === 'static';
 			}
 
 			/**
@@ -1765,8 +1865,14 @@ angular.module('ui.bootstrap.position', [])
 					return {
 						width: boundingClientRect.width || element.prop('offsetWidth'),
 						height: boundingClientRect.height || element.prop('offsetHeight'),
-						top: boundingClientRect.top + ($window.pageYOffset || $document[0].body.scrollTop || $document[0].documentElement.scrollTop),
-						left: boundingClientRect.left + ($window.pageXOffset || $document[0].body.scrollLeft || $document[0].documentElement.scrollLeft)
+						top: boundingClientRect.top +
+							 (
+							 $window.pageYOffset || $document[0].body.scrollTop || $document[0].documentElement.scrollTop
+							 ),
+						left: boundingClientRect.left +
+							  (
+							  $window.pageXOffset || $document[0].body.scrollLeft || $document[0].documentElement.scrollLeft
+							  )
 					};
 				}
 			};
@@ -1834,7 +1940,9 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 				{
 					name:   'day', getVisibleDates: function(date, selected) {
 					var year = date.getFullYear(), month = date.getMonth(), firstDayOfMonth = new Date(year, month, 1);
-					var difference = startingDay - firstDayOfMonth.getDay(), numDisplayedFromPreviousMonth = (difference > 0)
+					var difference = startingDay - firstDayOfMonth.getDay(), numDisplayedFromPreviousMonth = (
+																											 difference > 0
+																											 )
 						? 7 -
 						  difference
 						: -difference, firstDate = new Date(firstDayOfMonth), numDates = 0;
@@ -1844,7 +1952,10 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 						numDates += numDisplayedFromPreviousMonth; // Previous
 					}
 					numDates += getDaysInMonth(year, month + 1); // Current
-					numDates += (7 - numDates % 7) % 7; // Next
+					numDates +=
+					(
+					7 - numDates % 7
+					) % 7; // Next
 
 					var days = getDates(firstDate, numDates), labels = new Array(7);
 					for (var i = 0; i < numDates; i++) {
@@ -1852,7 +1963,9 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 						days[i] = makeDate(
 							dt,
 							format.day,
-							(selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()),
+							(
+							selected && selected.getDate() === dt.getDate() && selected.getMonth() === dt.getMonth() && selected.getFullYear() === dt.getFullYear()
+							),
 							dt.getMonth() !==
 							month
 						);
@@ -1862,40 +1975,66 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 					}
 					return {objects: days, title: dateFilter(date, format.dayTitle), labels: labels};
 				}, compare: function(date1, date2) {
-					return (new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) - new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()) );
+					return (
+					new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) - new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+					);
 				}, split:   7, step: {months: 1}
-				},
-				{
-					name:   'month', getVisibleDates: function(date, selected) {
-					var months = new Array(12), year = date.getFullYear();
-					for (var i = 0; i < 12; i++) {
-						var dt = new Date(year, i, 1);
-						months[i] = makeDate(dt, format.month, (selected && selected.getMonth() === i && selected.getFullYear() === year));
-					}
-					return {objects: months, title: dateFilter(date, format.monthTitle)};
-				}, compare: function(date1, date2) {
-					return new Date(date1.getFullYear(), date1.getMonth()) - new Date(date2.getFullYear(), date2.getMonth());
-				}, split:   3, step: {years: 1}
-				},
-				{
-					name:   'year', getVisibleDates: function(date, selected) {
-					var years = new Array(yearRange), year = date.getFullYear(), startYear = parseInt((year - 1) / yearRange, 10) * yearRange + 1;
-					for (var i = 0; i < yearRange; i++) {
-						var dt = new Date(startYear + i, 0, 1);
-						years[i] = makeDate(dt, format.year, (selected && selected.getFullYear() === dt.getFullYear()));
-					}
-					return {objects: years, title: [years[0].label, years[yearRange - 1].label].join(' - ')};
-				}, compare: function(date1, date2) {
-					return date1.getFullYear() - date2.getFullYear();
-				}, split:   5, step: {years: yearRange}
+				}, {
+					name:       'month', getVisibleDates: function(date, selected) {
+						var months = new Array(12), year = date.getFullYear();
+						for (var i = 0; i < 12; i++) {
+							var dt = new Date(year, i, 1);
+							months[i] =
+							makeDate(
+								dt,
+								format.month,
+								(
+								selected && selected.getMonth() === i && selected.getFullYear() === year
+								)
+							);
+						}
+						return {objects: months, title: dateFilter(date, format.monthTitle)};
+					}, compare: function(date1, date2) {
+						return new Date(date1.getFullYear(), date1.getMonth()) - new Date(date2.getFullYear(), date2.getMonth());
+					}, split:   3, step: {years: 1}
+				}, {
+					name:       'year', getVisibleDates: function(date, selected) {
+						var years = new Array(yearRange), year = date.getFullYear(), startYear = parseInt(
+								(
+								year - 1
+								) / yearRange, 10
+							) * yearRange + 1;
+						for (var i = 0; i < yearRange; i++) {
+							var dt = new Date(startYear + i, 0, 1);
+							years[i] =
+							makeDate(
+								dt,
+								format.year,
+								(
+								selected && selected.getFullYear() === dt.getFullYear()
+								)
+							);
+						}
+						return {objects: years, title: [years[0].label, years[yearRange - 1].label].join(' - ')};
+					}, compare: function(date1, date2) {
+						return date1.getFullYear() - date2.getFullYear();
+					}, split:   5, step: {years: yearRange}
 				}
 			];
 
 			this.isDisabled = function(date, mode) {
 				var currentMode = this.modes[mode || 0];
-				return ((this.minDate && currentMode.compare(date, this.minDate) < 0) ||
-						(this.maxDate && currentMode.compare(date, this.maxDate) > 0) ||
-						($scope.dateDisabled && $scope.dateDisabled({date: date, mode: currentMode.name})));
+				return (
+				(
+				this.minDate && currentMode.compare(date, this.minDate) < 0
+				) ||
+				(
+				this.maxDate && currentMode.compare(date, this.maxDate) > 0
+				) ||
+				(
+				$scope.dateDisabled && $scope.dateDisabled({date: date, mode: currentMode.name})
+				)
+				);
 			};
 		}
 	]
@@ -1980,7 +2119,12 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 							}
 						);
 
-						ngModel.$setValidity('date-disabled', (!date || !datepickerCtrl.isDisabled(date)));
+						ngModel.$setValidity(
+							'date-disabled',
+							(
+							!date || !datepickerCtrl.isDisabled(date)
+							)
+						);
 
 						scope.rows = split(data.objects, currentMode.split);
 						scope.labels = data.labels || [];
@@ -2010,24 +2154,54 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 					};
 					scope.move = function(direction) {
 						var step = datepickerCtrl.modes[mode].step;
-						selected.setMonth(selected.getMonth() + direction * (step.months || 0));
-						selected.setFullYear(selected.getFullYear() + direction * (step.years || 0));
+						selected.setMonth(
+							selected.getMonth() +
+							direction *
+							(
+							step.months || 0
+							)
+						);
+						selected.setFullYear(
+							selected.getFullYear() +
+							direction *
+							(
+							step.years || 0
+							)
+						);
 						refill();
 					};
 					scope.toggleMode = function() {
-						setMode((mode + 1) % datepickerCtrl.modes.length);
+						setMode(
+							(
+							mode + 1
+							) % datepickerCtrl.modes.length
+						);
 					};
 					scope.getWeekNumber = function(row) {
-						return ( mode === 0 && scope.showWeekNumbers && row.length === 7 ) ? getISO8601WeekNumber(row[0].date) : null;
+						return (
+							   mode === 0 && scope.showWeekNumbers && row.length === 7
+							   ) ? getISO8601WeekNumber(row[0].date) : null;
 					};
 
 					function getISO8601WeekNumber(date) {
 						var checkDate = new Date(date);
-						checkDate.setDate(checkDate.getDate() + 4 - (checkDate.getDay() || 7)); // Thursday
+						checkDate.setDate(
+							checkDate.getDate() +
+							4 -
+							(
+							checkDate.getDay() || 7
+							)
+						); // Thursday
 						var time = checkDate.getTime();
 						checkDate.setMonth(0); // Compare with Jan 1
 						checkDate.setDate(1);
-						return Math.floor(Math.round((time - checkDate) / 86400000) / 7) + 1;
+						return Math.floor(
+							Math.round(
+								(
+								time - checkDate
+								) / 86400000
+							) / 7
+						) + 1;
 					}
 				}
 			};
@@ -2364,7 +2538,13 @@ angular.module('ui.bootstrap.timepicker', [])
 					// Get scope.hours in 24H mode if valid
 					function getHoursFromTemplate() {
 						var hours = parseInt(scope.hours, 10);
-						var valid = ( scope.showMeridian ) ? (hours > 0 && hours < 13) : (hours >= 0 && hours < 24);
+						var valid = (
+										scope.showMeridian
+									) ? (
+									hours > 0 && hours < 13
+									) : (
+									hours >= 0 && hours < 24
+									);
 						if (!valid) {
 							return undefined;
 						}
@@ -2382,18 +2562,24 @@ angular.module('ui.bootstrap.timepicker', [])
 
 					function getMinutesFromTemplate() {
 						var minutes = parseInt(scope.minutes, 10);
-						return ( minutes >= 0 && minutes < 60 ) ? minutes : undefined;
+						return (
+							   minutes >= 0 && minutes < 60
+							   ) ? minutes : undefined;
 					}
 
 					function pad(value) {
-						return ( angular.isDefined(value) && value.toString().length < 2 ) ? '0' + value : value;
+						return (
+							   angular.isDefined(value) && value.toString().length < 2
+							   ) ? '0' + value : value;
 					}
 
 					// Input elements
 					var inputs = element.find('input'), hoursInputEl = inputs.eq(0), minutesInputEl = inputs.eq(1);
 
 					// Respond on mousewheel spin
-					var mousewheel = (angular.isDefined(attrs.mousewheel)) ? scope.$eval(attrs.mousewheel) : timepickerConfig.mousewheel;
+					var mousewheel = (
+										 angular.isDefined(attrs.mousewheel)
+									 ) ? scope.$eval(attrs.mousewheel) : timepickerConfig.mousewheel;
 					if (mousewheel) {
 
 						var isScrollingUp = function(e) {
@@ -2401,26 +2587,41 @@ angular.module('ui.bootstrap.timepicker', [])
 								e = e.originalEvent;
 							}
 							//pick correct delta variable depending on event
-							var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
-							return (e.detail || delta > 0);
+							var delta = (
+											e.wheelDelta
+										) ? e.wheelDelta : -e.deltaY;
+							return (
+							e.detail || delta > 0
+							);
 						};
 
 						hoursInputEl.bind(
 							'mousewheel wheel', function(e) {
-								scope.$apply((isScrollingUp(e)) ? scope.incrementHours() : scope.decrementHours());
+								scope.$apply(
+									(
+										isScrollingUp(e)
+									) ? scope.incrementHours() : scope.decrementHours()
+								);
 								e.preventDefault();
 							}
 						);
 
 						minutesInputEl.bind(
 							'mousewheel wheel', function(e) {
-								scope.$apply((isScrollingUp(e)) ? scope.incrementMinutes() : scope.decrementMinutes());
+								scope.$apply(
+									(
+										isScrollingUp(e)
+									) ? scope.incrementMinutes() : scope.decrementMinutes()
+								);
 								e.preventDefault();
 							}
 						);
 					}
 
-					scope.readonlyInput = (angular.isDefined(attrs.readonlyInput)) ? scope.$eval(attrs.readonlyInput) : timepickerConfig.readonlyInput;
+					scope.readonlyInput =
+					(
+						angular.isDefined(attrs.readonlyInput)
+					) ? scope.$eval(attrs.readonlyInput) : timepickerConfig.readonlyInput;
 					if (!scope.readonlyInput) {
 
 						var invalidate = function(invalidHours, invalidMinutes) {
@@ -2516,7 +2717,10 @@ angular.module('ui.bootstrap.timepicker', [])
 						var hours = selected.getHours(), minutes = selected.getMinutes();
 
 						if (scope.showMeridian) {
-							hours = ( hours === 0 || hours === 12 ) ? 12 : hours % 12; // Convert 24 to 12 hour system
+							hours =
+							(
+							hours === 0 || hours === 12
+							) ? 12 : hours % 12; // Convert 24 to 12 hour system
 						}
 						scope.hours = keyboardChange === 'h' ? hours : pad(hours);
 						scope.minutes = keyboardChange === 'm' ? minutes : pad(minutes);
@@ -2542,7 +2746,15 @@ angular.module('ui.bootstrap.timepicker', [])
 						addMinutes(-minuteStep);
 					};
 					scope.toggleMeridian = function() {
-						addMinutes(12 * 60 * (( selected.getHours() < 12 ) ? 1 : -1));
+						addMinutes(
+							12 *
+							60 *
+							(
+								(
+								selected.getHours() < 12
+								) ? 1 : -1
+							)
+						);
 					};
 				}
 			};
