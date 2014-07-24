@@ -61,13 +61,8 @@ angular.module('dfUtility', [])
                 // TODO: Element position/offset out of whack on route change.  Set explicitly.  Not the best move.
                 scope._setElementHeight = function () {
                     angular.element(elem).css({
-                        height: scope._getParent(attrs.autoHeightParent).height() - 173 - attrs.autoHeightPadding
+                        height: scope._getParent(attrs.autoHeightParent).height() - attrs.bottomHeight - attrs.autoHeightPadding
                     });
-
-
-                    /*console.log(scope._getParent(attrs.autoHeightParent).height());
-                    console.log($(elem).offset().top)
-                    console.log(angular.element(elem).height())*/
                 };
 
 
@@ -77,9 +72,6 @@ angular.module('dfUtility', [])
                 angular.element($window).on('resize', function () {
                     scope._setElementHeight();
                 });
-
-
-
             }
         }
     }])

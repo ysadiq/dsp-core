@@ -69,10 +69,21 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
 
                         $scope.Events = response.record;
                         $scope.Events.forEach(function (event) {
+
+
                             event.paths.forEach(function (path) {
+
+
                                 var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
                                 var pathIndex = path.path.lastIndexOf("/") + 1;
                                 var pathName = path.path.substr(pathIndex);
+
+                                console.log(event.name);
+                                console.log(pathName);
+                                console.log(pathIndex);
+                                console.log($scope.tables);
+
+
                                 if (Object.keys($scope.tables).indexOf(event.name) != '-1' && pathName !== event.name) {
                                     var newpath = {};
                                     //console.log(event);
@@ -108,6 +119,9 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
                                             newpath.verbs.push(postObj);
 
                                         });
+
+
+
                                         var found = false;
                                         event.paths.forEach(function (pathObj) {
 

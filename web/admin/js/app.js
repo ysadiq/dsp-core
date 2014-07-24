@@ -277,7 +277,7 @@ angular.module(
                     }
                 }
             );
-            $routeProvider.when(
+/*            $routeProvider.when(
                 '/scripts', {
                     controller: ScriptCtrl,
                     templateUrl: 'scripts.html',
@@ -306,7 +306,7 @@ angular.module(
                     }
                 }
 
-            );
+            );*/
             $routeProvider.when(
                 '/api', {
                     controller: 'ApiSDKCtrl',
