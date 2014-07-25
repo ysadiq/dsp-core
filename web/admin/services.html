@@ -482,28 +482,36 @@ We need to preload data but I'm not doing that today. MNM -->
 
             <p id="no-params-message">No parameters can be assigned for this service.</p>
 
-
-            <div class="form-group parameters">
-                <label>Parameters</label>
-
-                <div id="grid-container">
-                    <div id="parameter-grid" ng-grid="browseOptions"></div>
-                </div>
-                <br/>
-
-                <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
-                <div class="form-inline" ng-show="service.type == 'Remote Web Service'">
-                    <input id="param-name" placeholder="Param Name" class="form-control" type="text"
-                           ng-model="param.name"/>
-                    <input class="form-control" id="param-value" placeholder="Param Value" type="text"
-                           ng-model="param.value"/>
-                    <br/>
-                    <br/>
-                    <button id="param-update" class="btn btn-default" ng-click="updateParams()"><i
-                            class="icon-plus-sign"></i> Add Parameter
-                    </button>
+            <div class="container">
+                <div class="row" data-ng-repeat = "parameter in service.parameters">
+                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
+                        <div class="input-group input-group-option col-xs-12">
+                            <input type="text" data-ng-model =  "parameter.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="parameter.value" class="form-control" placeholder="Parameter Value">
+    			<span data-ng-click="deleteParameter()" style="cursor:pointer" class="input-group-addon input-group-addon-remove">
+    				<span  class="glyphicon glyphicon-remove"></span>
+    			</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+
+
+                <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
+            <div class="container">
+                <div class="row">
+                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
+                        <div class="input-group input-group-option col-xs-12">
+                            <input type="text" data-ng-model =  "param.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="param.value" class="form-control" placeholder="Parameter Value">
+    			<span data-ng-click="addParameter()"  style="cursor:pointer" class="input-group-addon input-group-addon-remove">
+    				<span class="glyphicon glyphicon-plus"></span>
+    			</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
         </div>
@@ -522,27 +530,32 @@ We need to preload data but I'm not doing that today. MNM -->
         <div class="panel-body">
 
             <p id="no-headers-message">No headers can be assigned for this service.</p>
-
-            <div class="form-group headers">
-                <label>Headers</label>
-
-                <div>
-                    <div id="header-grid" ng-grid="headerOptions"></div>
+            <div class="container">
+                <div class="row" data-ng-repeat = "header in service.headers">
+                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
+                        <div class="input-group input-group-option col-xs-12">
+                            <input type="text" data-ng-model =  "header.name" class="form-control" placeholder="Header Name">
+                            <input type="text" data-ng-model="header.value" class="form-control" placeholder="Header Value">
+    			<span data-ng-click="deleteHeader()" style="cursor:pointer" class="input-group-addon input-group-addon-remove">
+    				<span  class="glyphicon glyphicon-remove"></span>
+    			</span>
+                        </div>
+                    </div>
                 </div>
-                <div style="display:none" id="header-error-container" class="alert alert-danger">Param already exists
+            </div>
+            <div style="display:none" id="header-error-container" class="alert alert-danger">Param already exists</div>
+            <div class="container">
+                <div class="row">
+                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
+                        <div class="input-group input-group-option col-xs-12">
+                            <input type="text" data-ng-model =  "header.name" class="form-control" placeholder="Header Name">
+                            <input type="text" data-ng-model="header.value" class="form-control" placeholder="Header Value">
+    			<span data-ng-click="addHeader()"  style="cursor:pointer" class="input-group-addon input-group-addon-remove">
+    				<span class="glyphicon glyphicon-plus"></span>
+    			</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-inline">
-                    <input class="form-control" id="header-name" placeholder="Header Name" class="input-small"
-                           type="text"
-                           ng-model="header.name"/>
-                    <input class="form-control" id="header-value" placeholder="Header Value" type="text"
-                           ng-model="header.value"/>
-                </div>
-                <br/>
-
-                <a id="header-update" class="btn btn-default" ng-click="updateHeaders()"><i class="icon-plus-sign"></i>
-                    Add Header
-                </a>
             </div>
 
 
