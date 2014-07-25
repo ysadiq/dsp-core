@@ -1,0 +1,7 @@
+
+
+/**** SCRIPTING BREADCRUMB NAV ****/
+
+#scripting-bc-nav.breadcrumb > li + li:before{
+    content: ">"
+}
