@@ -103,8 +103,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         // PUBLIC VARS
         $scope.events = $scope.__getDataFromHttpResponse(getEventList);
 
-        console.log($scope.events);
-
         $scope.recentScripts = $scope.__getDataFromHttpResponse(getRecentScripts);
 
         $scope.sampleScripts = getSampleScripts.data;
@@ -855,7 +853,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             $scope._createEvents(event, records);
                             $scope._setCurrentEvent(event);
                             $scope.eventList = event;
-                            console.log($scope.eventList);
                             $scope._bcAddPath(event.name);
                             $scope._clearFilter();
                             $scope._incrementMenuLevel();
