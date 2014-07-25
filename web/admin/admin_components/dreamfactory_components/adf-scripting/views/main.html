@@ -51,18 +51,18 @@
         <div class="row">
             <div class="" dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0" auto-height-top="175px" data-bottom-height="220" style="overflow: scroll">
 
-                <div class="list-group" data-ng-show="menuLevel === 0">
+                <div class="list-group scripting-list-group" data-ng-show="menuLevel === 0">
                     <a class="list-group-item" data-ng-repeat="event in events | filter: pathFilter" data-ng-click="setEvent(event)">{{event.name}}</a>
                 </div>
 
-                <div class="list-group" data-ng-show="menuLevel === 1 ">
+                <div class="list-group scripting-list-group" data-ng-show="menuLevel === 1 ">
                     <a class="list-group-item"
                        data-ng-if="!_isVariablePath(path)"
                        data-ng-repeat="path in eventList.paths | filter: pathFilter"
                        data-ng-click="setEventPath(path)">{{path.path}}</a>
                 </div>
 
-                <div id="scripting-list-group" class="list-group" data-ng-show="menuLevel >= 2 ">
+                <div class="list-group scripting-list-group" data-ng-show="menuLevel >= 2 ">
                     <span data-ng-repeat="verb in menuEventPath.verbs | filter: pathFilter">
                         <a  data-ng-click="setScript(path.path, event)" data-ng-repeat="event in verb.event">{{event}}
                             <span data-ng-if="!uppercaseVerbLabels"class="pull-right text-muted" style="font-size: 10px; margin-top: 5px;">{{verb.type}}</span>
