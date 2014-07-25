@@ -470,7 +470,7 @@ We need to preload data but I'm not doing that today. MNM -->
     </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service' || service.type === 'Email Service'">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-parameters-body">
             <h4 class="panel-title">Parameters</h4>
@@ -480,8 +480,8 @@ We need to preload data but I'm not doing that today. MNM -->
     <div id="services-parameters-body" class="panel-collapse collapse">
         <div class="panel-body">
 
-            <p id="no-params-message">No parameters can be assigned for this service.</p>
-            <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
+
+
             <table class="table table-hover table-striped field-list">
                 <thead>
                 <tr>
@@ -519,35 +519,7 @@ We need to preload data but I'm not doing that today. MNM -->
                 </tr>
                 </tbody>
             </table>
-            <!--<div class="container">-->
-                <!--<div class="row" data-ng-repeat = "parameter in service.parameters">-->
-                    <!--<div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">-->
-                        <!--<div class="input-group input-group-option col-xs-12">-->
-                            <!--<input type="text" data-ng-model =  "parameter.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="parameter.value" class="form-control" placeholder="Parameter Value">-->
-    			<!--<span data-ng-click="deleteParameter()" style="cursor:pointer" class="input-group-addon input-group-addon-remove">-->
-    				<!--<span  class="glyphicon glyphicon-remove"></span>-->
-    			<!--</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
 
-
-
-
-                <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
-            <!--<div class="container">-->
-                <!--<div class="row">-->
-                    <!--<div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">-->
-                        <!--<div class="input-group input-group-option col-xs-12">-->
-                            <!--<input type="text" data-ng-model =  "param.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="param.value" class="form-control" placeholder="Parameter Value">-->
-    			<!--<span data-ng-click="addParameter()"  style="cursor:pointer" class="input-group-addon input-group-addon-remove">-->
-    				<!--<span class="glyphicon glyphicon-plus"></span>-->
-    			<!--</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
 
 
 
@@ -556,7 +528,7 @@ We need to preload data but I'm not doing that today. MNM -->
 </div>
 
 
-<div class="panel panel-default">
+<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service'">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-headers-body">
             <h4 class="panel-title">Headers</h4>
@@ -566,7 +538,7 @@ We need to preload data but I'm not doing that today. MNM -->
     <div id="services-headers-body" class="panel-collapse collapse">
         <div class="panel-body">
 
-            <p id="no-headers-message">No headers can be assigned for this service.</p>
+
             <table class="table table-hover table-striped field-list">
                 <thead>
                 <tr>
