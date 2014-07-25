@@ -247,7 +247,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	];
 	Scope.service.storage_type = "aws s3";
 	Scope.serviceOptions = [
-		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Local SQL DB"},
 		{name: "Remote SQL DB"},
@@ -260,7 +259,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Email Service"}
 	];
 	Scope.serviceCreateOptions = [
-		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Remote SQL DB"},
 		{name: "Remote SQL DB Schema"},
@@ -813,126 +811,57 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + Scope.service.id ).addClass( 'info' );
 	};
-	Scope.updateParams = function() {
-		$( "#error-container" ).hide();
-		if ( !Scope.param ) {
-			return false;
-		}
-		if ( !Scope.param.name || !Scope.param.value ) {
-			$( "#error-container" ).html( "Both name and value are required" ).show();
-			return false;
-		}
-		if ( checkForDuplicate( Scope.tableData, 'name', Scope.param.name ) ) {
-			$( "#error-container" ).html( "Parameter already exists" ).show();
-			$( '#param-name, #param-value' ).val( '' );
-			return false;
-		}
-		var newRecord = {};
-		newRecord.name = Scope.param.name;
-		newRecord.value = Scope.param.value;
-		Scope.tableData.push( newRecord );
-		Scope.param = null;
-		$( '#param-name, #param-value' ).val( '' );
-	};
-	Scope.updateHeaders = function() {
-		$( "#header-error-container" ).hide();
-		if ( !Scope.header ) {
-			return false;
-		}
-		if ( !Scope.header.name || !Scope.header.value ) {
-			$( "#header-error-container" ).html( "Both name and value are required" ).show();
-			return false;
-		}
-		if ( checkForDuplicate( Scope.headerData, 'name', Scope.header.name ) ) {
-			$( "#header-error-container" ).html( "Header already exists" ).show();
-			$( '#header-name, #header-value' ).val( '' );
-			return false;
-		}
-		var newRecord = {};
-		newRecord.name = Scope.header.name;
-		newRecord.value = Scope.header.value;
-		Scope.headerData.push( newRecord );
-		Scope.header = null;
-		$( '#header-name, #header-value' ).val( '' );
-	};
-	Scope.deleteRow = function() {
-		var name = this.row.entity.name;
-		Scope.tableData = removeByAttr( Scope.tableData, 'name', name );
 
-	};
-	Scope.deleteHeaderRow = function() {
-		var name = this.row.entity.name;
-		Scope.headerData = removeByAttr( Scope.headerData, 'name', name );
-
-	};
     $scope.deleteParameter = function(){
         var item = this.$index;
         $scope.service.parameters.splice(item, 1);
     }
     $scope.addParameter = function(){
-        $( "#error-container" ).hide();
-        if ( !Scope.param ) {
-            return false;
-        }
-        if ( !Scope.param.name || !Scope.param.value ) {
-            $( "#error-container" ).html( "Both name and value are required" ).show();
-            return false;
-        }
-        if ( checkForDuplicate( Scope.service.parameters, 'name', Scope.param.name ) ) {
-            $( "#error-container" ).html( "Parameter already exists" ).show();
-            $( '#param-name, #param-value' ).val( '' );
-            return false;
-        }
-        $scope.service.parameters.unshift($scope.param);
+//        $( "#error-container" ).hide();
+//        if ( !Scope.param ) {
+//            return false;
+//        }
+//        if ( !Scope.param.name || !Scope.param.value ) {
+//            $( "#error-container" ).html( "Both name and value are required" ).show();
+//            return false;
+//        }
+//        if ( checkForDuplicate( Scope.service.parameters, 'name', Scope.param.name ) ) {
+//            $( "#error-container" ).html( "Parameter already exists" ).show();
+//            $( '#param-name, #param-value' ).val( '' );
+//            return false;
+//        }
         $scope.param = {};
+        $scope.service.parameters.unshift($scope.param);
     }
     $scope.deleteHeader = function(){
         var item = this.$index;
         $scope.service.headers.splice(item, 1);
     }
     $scope.addHeader = function(){
-        $( "#header-error-container" ).hide();
-        if ( !Scope.header ) {
-            return false;
-        }
-        if ( !Scope.header.name || !Scope.header.value ) {
-            $( "#header-error-container" ).html( "Both name and value are required" ).show();
-            return false;
-        }
-        if ( checkForDuplicate( Scope.service.headers, 'name', Scope.header.name ) ) {
-            $( "#header-error-container" ).html( "Header already exists" ).show();
-            $( '#header-name, #header-value' ).val( '' );
-            return false;
-        }
-        $scope.service.headers.unshift($scope.header);
+//        $( "#header-error-container" ).hide();
+//        if ( !Scope.header ) {
+//            return false;
+//        }
+//        if ( !Scope.header.name || !Scope.header.value ) {
+//            $( "#header-error-container" ).html( "Both name and value are required" ).show();
+//            return false;
+//        }
+//        if ( checkForDuplicate( Scope.service.headers, 'name', Scope.header.name ) ) {
+//            $( "#header-error-container" ).html( "Header already exists" ).show();
+//            $( '#header-name, #header-value' ).val( '' );
+//            return false;
+//        }
         $scope.header = {};
+        $scope.service.headers.unshift($scope.header);
+
     }
-	Scope.saveRow = function() {
-		var index = this.row.rowIndex;
-		var newRecord = this.row.entity;
-		var name = this.row.entity.name;
-		updateByAttr( Scope.tableData, "name", name, newRecord );
-		$( "#save_" + index ).prop( 'disabled', true );
-	};
-	Scope.saveHeaderRow = function() {
-		var index = this.row.rowIndex;
-		var newRecord = this.row.entity;
-		var name = this.row.entity.name;
-		updateByAttr( Scope.headerData, "name", name, newRecord );
-		$( "#header_save_" + index ).prop( 'disabled', true );
-	};
-	Scope.enableSave = function() {
-		$( "#save_" + this.row.rowIndex ).prop( 'disabled', false );
-	};
-	Scope.enableHeaderSave = function() {
-		$( "#header_save_" + this.row.rowIndex ).prop( 'disabled', false );
-	};
-	Scope.updateEmailScope = function() {
-		//var index = this.row.rowIndex;
-		var newRecord = this.row.entity;
-		var name = this.row.entity.name;
-		updateByAttr( Scope.tableData, "name", name, newRecord );
-	};
+
+//	Scope.updateEmailScope = function() {
+//		//var index = this.row.rowIndex;
+//		var newRecord = this.row.entity;
+//		var name = this.row.entity.name;
+//		updateByAttr( Scope.tableData, "name", name, newRecord );
+//	};
 	Scope.changeUrl = function() {
 		switch ( this.rackspace.region ) {
 			case "LON":
