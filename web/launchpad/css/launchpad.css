@@ -46,14 +46,15 @@ body {
 	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 }
 
+/*noinspection CssInvalidElement*/
 a:not(.btn) {
 	text-decoration: none;
 	opacity:         0.8;
-	transition:      opacity 1.0 .3s;
+	transition:      opacity .3s;
 }
 
 a:focus, a:active, a:hover {
-	transition: opacity 1.0 .3s;
+	transition: opacity .3s;
 }
 
 div {
