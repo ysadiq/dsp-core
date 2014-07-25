@@ -1,3 +1,21 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
 
 
@@ -53,7 +71,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 '</div>\n' +
             '</div>');
     }])
-    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$q', '$filter', 'dfObjectService', 'dfTableEventService', 'dfTableCallbacksService', function (DF_TABLE_ASSET_PATH, $http, $q, $filter, dfObjectService, dfTableEventService, dfTableCallbacksService) {
+    .directive('dfTable', ['DF_TABLE_ASSET_PATH', '$http', '$q', '$filter', '$compile', 'dfObjectService', 'dfTableEventService', 'dfTableCallbacksService', function (DF_TABLE_ASSET_PATH, $http, $q, $filter, $compile, dfObjectService, dfTableEventService, dfTableCallbacksService) {
 
         return {
             restrict: 'E',
@@ -91,12 +109,16 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     relatedData: [],
                     excludeFields: [],
                     groupFields: [],
-                    exportValueOn: false
+                    exportValueOn: false,
+                    allowChildTable: false,
+                    childTableAttachPoint: null,
+                    isChildTable: false
                 };
 
                 //scope.options = dfObjectService.deepMergeObjects(scope.options, scope.defaults);
                 // merged by watch userOptions
                 scope.options = {};
+                scope.disableTableBtns = false;
 
                 scope.record = null;
                 scope.schema = null;
@@ -110,6 +132,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.defaultFieldsShown = {};
                 scope.numAutoSelectFields = 8;
                 scope.selectedAll = false;
+
 
                 scope.filterOn = false;
                 scope.filter = {
@@ -154,6 +177,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.filteredSchema = [];
                 scope.groupedSchema = [];
+
+                scope.childTableActive = false;
+                scope.childTableOptions = {};
+
+                scope.childTableParentRecord = null;
 
 
                 // PUBLIC API
@@ -279,6 +307,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope._toggleAllRecords();
                 };
 
+                scope.showChildTable = function (parentRecordObj) {
+
+                    scope._showChildTable(parentRecordObj);
+
+                };
+
 
                 // PRIVATE API
 
@@ -303,7 +337,14 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         dataObj.__dfUI['export'] = false;
                     }
 
-                }
+                };
+
+                scope._addHideProp = function (dataObj) {
+
+                    if (!dataObj.__dfUI.hasOwnProperty('hide')) {
+                        dataObj.__dfUI['hide'] = false
+                    }
+                };
 
                 scope._addStateProps = function (dataObj) {
 
@@ -314,6 +355,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope._addSelectedProp(dataObj);
                     scope._addUnsavedProp(dataObj);
                     scope._addExportProp(dataObj);
+                    scope._addHideProp(dataObj);
                 };
 
                 scope._removeStateProps = function (dataObj) {
@@ -346,6 +388,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     if (dataObj) {
                         dataObj.__dfUI.export = stateBool;
+                    }
+                };
+
+                scope._setHideState = function (dataObj, stateBool) {
+
+                    if (dataObj) {
+                        dataObj.__dfUI.hide = stateBool;
                     }
                 };
 
@@ -767,8 +816,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
 
                     });
-
-                    console.log(scope.groupedSchema);
                 };
 
                 scope._checkForGroupedSchema = function (groupNameStr) {
@@ -819,6 +866,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._setElementActive = function (tabStr) {
 
                     scope.activeTab = tabStr;
+                };
+
+                scope._setDisableTableBtnsState = function (stateBool) {
+
+                    scope.disableTableBtns = stateBool;
                 };
 
                 // This workhorse of a function builds a fields object that contains schema field objects with
@@ -1206,12 +1258,20 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._getCurrentPage = function () {
 
+                    if (!scope.currentPage && scope.pagesArr.length > 0) {
+                        scope.currentPage = scope.pagesArr[0];
+                    } else if (!scope.currentPage && !scope.pagesArr.length) {
+
+                        scope.pagesArr.push(scope._createPageObj(0));
+                        scope.currentPage = scope.pagesArr[0];
+                    }
+
                     return scope.currentPage;
-                }
+                };
 
                 scope._isFirstPage = function () {
 
-                    return scope.currentPage.value === 0;
+                    return scope._getCurrentPage().value === 0;
                 };
 
                 scope._isLastPage = function () {
@@ -1330,6 +1390,33 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     } else {
                         scope.options.params.order = scope._createOrderParams();
                     }
+                };
+
+
+                // Child Table
+                scope._setChildTableActive = function (stateBool) {
+
+                    scope.childTableActive = stateBool;
+                };
+
+                scope._setChildTableParentRecord = function (recordObj) {
+
+                    scope.childTableParentRecord = recordObj;
+                };
+
+                scope._buildChildTableOptions = function () {
+
+                    scope.childTableOptions = {
+                        isChildTable: true,
+                        allowChildTable: false
+                    };
+
+                    scope.childTableOptions = dfObjectService.deepMergeObjects(scope.childTableOptions, angular.copy(scope.defaults));
+                };
+
+                scope._addChildTable = function () {
+
+                    angular.element(scope.options.childTableAttachPoint).append($compile('<df-child-table data-child-options="childTableOptions" data-parent-schema="schema" data-child-table-parent-record="childTableParentRecord"></df-child-table>')(scope))
                 };
 
 
@@ -1563,11 +1650,16 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 };
 
-                scope._refreshResults = function () {
+                scope._refreshResults = function (checkUnsavedBool) {
 
-                    if (scope._checkForUnsavedRecords(scope.record)) {
-                        if (!confirm('You have Unsaved records.  Continue without saving?')) {
-                            return false;
+                    checkUnsavedBool = checkUnsavedBool || true;
+
+
+                    if (checkUnsavedBool) {
+                        if (scope._checkForUnsavedRecords(scope.record)) {
+                            if (!confirm('You have Unsaved records.  Continue without saving?')) {
+                                return false;
+                            }
                         }
                     }
 
@@ -1773,7 +1865,17 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         scope._setSelectedState(_obj, scope.selectedAll);
 
                     })
-                }
+                };
+
+                scope._showChildTable = function (parentRecordObj) {
+
+                    scope._setChildTableActive(true);
+                    scope._setChildTableParentRecord(parentRecordObj);
+                    scope._buildChildTableOptions();
+                    scope._addChildTable();
+                    scope._setDisableTableBtnsState(true)
+
+                };
 
 
                 // WATCHERS / INIT
@@ -2199,8 +2301,41 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     }
                 });
 
+                var watchChildTableParentRecord = scope.$watch('childTableParentRecord', function (newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+
+                    // Hide all records but the child table parent in main records table
+                    angular.forEach(scope.record, function (obj) {
+
+                        if (obj.$$hashKey != newValue.$$hashKey) {
+                            scope._setHideState(obj, true);
+                        }
+                    })
+                });
+
+
 
                 // MESSAGES
+
+                scope.$on(scope.es.refreshTable, function (e) {
+
+                    scope._refreshResults(false);
+                });
+
+                scope.$on(scope.es.closeChildTable, function (e) {
+
+                    scope._setChildTableParentRecord(null);
+
+                    // Show all records again
+                    angular.forEach(scope.record, function (obj) {
+
+                        scope._setHideState(obj, false);
+                    });
+
+                    scope._setDisableTableBtnsState(false);
+                });
 
                 scope.$on('$destroy', function(e) {
 
@@ -2212,6 +2347,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     watchParentRecord();
                     watchExportValue();
                     watchNewRecord();
+                    watchChildTableParentRecord();
                 })
             }
         }
@@ -2270,9 +2406,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecordFromServer = function (recordDataObj) {
 
                     return $http({
-                        method: 'DELETE',
+                        method: 'POST',
                         url: scope.options.url,
-                        data: recordDataObj
+                        data: [recordDataObj],
+                        headers: {
+                            'X-HTTP-METHOD': 'DELETE'
+                        }
                     })
                 };
 
@@ -2295,6 +2434,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope._deleteRecord = function () {
 
                     scope._setInProgress(true);
+
                     dfTableCallbacksService.run('onDelete', 'pre', scope.currentEditRecord);
                     scope._deleteRecordFromServer(scope.currentEditRecord).then(
                         function (result) {
@@ -2460,7 +2600,10 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                    return $http({
                         method: 'POST',
                         url: scope.options.url,
-                        data: scope.newRecord
+                        data: scope.newRecord,
+                       params: {
+                           fields: '*'
+                       }
                     })
                 };
 
@@ -2478,7 +2621,27 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope._saveNewRecordToServer().then(
                         function (result) {
                             dfTableCallbacksService.run('onCreate', 'post', result);
-                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'})
+
+                            // check if we can fit the new record into the current page
+                            if (scope.record.length === 0) {
+
+                                scope._refreshResults();
+
+                            }
+                            else if (scope.record.length < scope.options.params.limit) {
+
+                                scope._addStateProps(result.data)
+                                scope.record.push(result.data);
+
+                            }
+                            // check if we need to update our pagination due to record creation
+                            else if (scope.record.length * scope.pagesArr.length < scope.count + 1) {
+
+                                // manually create new page obj for pagination
+                                scope.pagesArr.push(scope._createPageObj(scope.pagesArr.length))
+                            }
+
+                            scope.$emit(scope.es.alertSuccess, {message: 'Record created.'});
                             scope._closeCreateRecord();
                         },
                         function (reject) {
@@ -2737,12 +2900,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     
                     case 'reference':
 
-                        if (scope.field.ref_table === scope.table) {
+                        /*if (scope.field.ref_table === scope.table && scope.field.value) {
                             scope.templateData.template = 'df-input-ref-text.html';
                             scope.templateData.editable = false;
                             console.log(scope.currentEditRecord[scope.field])
                             break;
-                        }
+                        }*/
 
                         var systemTablePrefix = 'df_sys_';
 
@@ -2900,11 +3063,101 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
             }
         }
     }])
+    .directive('dfChildTable', ['DF_TABLE_ASSET_PATH', 'DSP_URL', 'dfObjectService', 'dfTableEventService', function (DF_TABLE_ASSET_PATH, DSP_URL, dfObjectService, dfTableEventService) {
+
+        return {
+            restrict: 'E',
+            scope: {
+                childOptions: '=',
+                parentSchema: '=',
+                childTableParentRecord: '='
+            },
+            templateUrl: DF_TABLE_ASSET_PATH + 'views/df-child-table.html',
+            link: function (scope, elem, attrs) {
+
+                var systemTablePrefix = 'df_sys_';
+
+                scope.options = {};
+
+                scope.childRecordsBy = '';
+
+                scope.service = scope.childOptions.service;
+
+
+                // PUBLIC API
+                scope.closeChildTable = function () {
+
+                    scope._closeChildTable();
+                };
+
+
+
+                // PRIVATE API
+                scope._parseSystemTableName = function (tableNameStr) {
+
+                    var tableName = tableNameStr.substr(0, systemTablePrefix.length);
+
+                    if (tableName === systemTablePrefix) {
+                        return tableNameStr.substr(systemTablePrefix.length);
+                    }
+                    else {
+                        return tableNameStr;
+                    }
+                };
+
+                scope._setSystemService = function (tableNameStr) {
+
+                    if (tableNameStr.substr(0, systemTablePrefix.length) === systemTablePrefix) {
+
+                        return 'system'
+                    }else {
+                        return scope.service
+                    }
+                };
+
+
+
+                // COMPLEX IMPLEMENTATION
+                scope._closeChildTable = function () {
+
+                    scope.$emit(dfTableEventService.closeChildTable);
+                    angular.element(elem).remove();
+                };
+
+
+                // WATCHERS & INIT
+                var watchChildRecordsBy = scope.$watch('childRecordsBy', function (newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+                    var options = {
+                        service: scope._setSystemService(newValue.ref_table),
+                        table: newValue.ref_table,
+                        url: DSP_URL + '/rest/' + scope._setSystemService(newValue.ref_table) + '/' + scope._parseSystemTableName(newValue.ref_table),
+                        params: {
+                            filter: newValue.ref_field + ' = '  + scope.childTableParentRecord[newValue.field]
+                        }
+                    };
+
+                    scope.options = dfObjectService.deepMergeObjects(options, scope.childOptions);
+
+                });
+
+
+                // MESSAGES
+                scope.$on('$destroy', function (e) {
+
+                    watchChildRecordsBy();
+                });
+            }
+        }
+    }])
     .service('dfTableEventService', [function () {
 
         return {
-
-            alertSuccess: 'alert:success'
+            alertSuccess: 'alert:success',
+            refreshTable: 'refresh:table',
+            closeChildTable: 'close:childtable'
         }
     }])
     .service('dfTableCallbacksService', [function () {

@@ -145,9 +145,7 @@ var Templates = {
 				   '<strong>{{message}}</strong>' +
 				   '</div>{{/error}}',
 	loadTemplate: function(template, data, renderTo) {
-		var processTpl;
-		processTpl = Mustache.to_html(template, data);
-		$('#' + renderTo).html(processTpl);
-
+		var _html = Mustache.render(template, data);
+		$('#' + renderTo).html(_html);
 	}
 };

@@ -1,4 +1,5 @@
 
+<!-- Active when creating a User -->
 <div data-ng-show="activeView === 'new'">
     <div class="alert alert-info" data-ng-show="!systemConfig.invite_email_service_id">
         <li class="icon-info-sign"></li>
@@ -10,6 +11,7 @@
     </p>
 </div>
 
+        <!-- Active when editing a user -->
 <div data-ng-show="activeView === 'edit'">
     <div data-ng-if="currentEditRecord.confirmed"><p>Confirmed</p></div>
     <div data-ng-if="!currentEditRecord.confirmed">

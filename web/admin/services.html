@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="navbar navbar-default">
-            <span style="display: inline" class="navbar-brand">Services Management</span>
+            <span style="display: inline" class="navbar-brand">Service Manager</span>
 
         </div>
     </div>
@@ -46,12 +46,16 @@
                 <span style="position: relative; top: 6px">{{service.name}}</span>
                     <span class="input-group-btn">
                         <button type="button"
-                                data-ng-show="service.type === 'Remote File Storage' || service.type === 'Local File Storage'"
+                                style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
+                                data-ng-if="service.type === 'Remote File Storage' || service.type === 'Local File Storage'"
                                 class="btn btn-default btn-sm"
                                 title="Manage service files" data-ng-click="showFileManager()"><i
                                 class="fa fa-folder-open fa-fw"></i>
                         </button>
-                        <button type="button" data-ng-click="showSwagger()" class="btn btn-default btn-sm"
+                        <button type="button"
+                                data-ng-click="showSwagger()"
+                                class="btn btn-default btn-sm"
+                                style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
                                 title="Explore this service"><i class="fa fa-book fa-fw"></i></button>
 
 
@@ -542,6 +546,43 @@ We need to preload data but I'm not doing that today. MNM -->
             </div>
 
 
+        </div>
+    </div>
+</div>
+<!-- Small devices -->
+<div class="visible-xs visible-sm" data-ng-class="xsWidth ? 'df-col-padding-override' : ''">
+    <div class="well well-sm">
+        <div class="btn-toolbar">
+            <div class="btn-group pull-right" style="margin: 4px auto">
+                <button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New
+                </button>
+                <button data-ng-show="activeView === 'form'" type="button"
+                        class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+                </button>
+                <button data-ng-show="activeView === 'form'" type="button"
+                        class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+                </button>
+                <button data-ng-show="xsWidth && activeView === 'form'" type="button" class="btn btn-default btn-sm"
+                        data-ng-click="close()">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Everything larger than 'sm' -->
+<div class="well well-sm hidden-xs hidden-sm">
+    <div class="btn-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New
+            </button>
+            <button type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+            </button>
+            <button type="button" class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+            </button>
+            <button data-ng-show="xsWidth" type="button" class="btn btn-default btn-sm" data-ng-click="close()">
+                Close
+            </button>
         </div>
     </div>
 </div>

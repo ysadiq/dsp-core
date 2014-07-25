@@ -17,11 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Common\Utility\DataFormat;
 use DreamFactory\Platform\Enums\DataFormats;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\NotFoundException;
 use DreamFactory\Platform\Resources\User\Session;
+use DreamFactory\Platform\Utility\DataFormatter;
 use DreamFactory\Platform\Utility\RestResponse;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Platform\Yii\Models\Service;
@@ -104,10 +104,10 @@ class RestController extends BaseFactoryController
         {
             // require admin currently to list APIs
             Session::checkServicePermission( 'admin', null );
-            $_result = array( 'service' => Service::available( false, array( 'name', 'api_name' ) ) );
+            $_result = array('service' => Service::available( false, array('name', 'api_name') ));
 
             $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );
-            $_result = DataFormat::reformatData( $_result, null, $_outputFormat );
+            $_result = DataFormatter::reformatData( $_result, null, $_outputFormat );
 
             RestResponse::sendResults( $_result, RestResponse::Ok, $_outputFormat );
         }
@@ -134,13 +134,19 @@ class RestController extends BaseFactoryController
 
         try
         {
-            //	Check for verb tunneling via X-Http-Method/X-Http-Method-Override header
+            //	Check for verb tunneling via overriding headers
+            //  X-HTTP-Method (Microsoft)
+            //  X-HTTP-Method-Override (Google/GData)
+            //  X-METHOD-OVERRIDE (IBM)
             $_tunnelMethod = strtoupper(
                 $this->_requestObject->headers->get(
                     'x-http-method',
                     $this->_requestObject->headers->get(
                         'x-http-method-override',
-                        $this->_requestObject->get( 'method' )
+                        $this->_requestObject->headers->get(
+                            'x-method-override',
+                            $this->_requestObject->get( 'method' )
+                        )
                     )
                 )
             );
@@ -212,7 +218,12 @@ class RestController extends BaseFactoryController
         }
         catch ( \Exception $ex )
         {
-            RestResponse::sendErrors( $ex, isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON, false, false );
+            RestResponse::sendErrors(
+                $ex,
+                isset( $_service ) ? $_service->getOutputFormat() : DataFormats::JSON,
+                false,
+                false
+            );
 
             return null;
         }
@@ -247,7 +258,8 @@ class RestController extends BaseFactoryController
             if ( !empty( $this->_resource ) )
             {
                 $requestUri = Yii::app()->request->requestUri;
-                if ( ( false === strpos( $requestUri, '?' ) && '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
+                if ( ( false === strpos( $requestUri, '?' ) &&
+                       '/' === substr( $requestUri, strlen( $requestUri ) - 1, 1 ) ) ||
                      ( '/' === substr( $requestUri, strpos( $requestUri, '?' ) - 1, 1 ) )
                 )
                 {

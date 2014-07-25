@@ -15,11 +15,19 @@
     background: lightsteelblue !important;
 }
 
+.df-th-text {
+    white-space: nowrap;
+}
+
 .df-dropdown-height {
 
-    height: 160px;
+    max-height: 160px;
     overflow-y: scroll
+}
 
+
+.df-table-btn-bar {
+    min-width: 80px;
 }
 
 .df-v-margin {

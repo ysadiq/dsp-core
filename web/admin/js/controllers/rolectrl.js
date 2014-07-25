@@ -60,7 +60,7 @@ var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, Ap
 					$scope.ServiceComponents[index].push( allRecord );
 
 					if ( componentServices.indexOf(service.type_id) != -1 ) {
-						$http.get( '/rest/' + service.api_name + '?app_name=admin&fields=*' ).success(
+						$http.get( '/rest/' + service.api_name + '?app_name=admin&include_procs=true&include_schemas=true' ).success(
 							function( data ) {
 								// some services return no resource array
 								if ( data.resource != undefined ) {

@@ -327,6 +327,7 @@ var Docs = {
             else { stack1 = depth0.notes; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
             if(stack1 || stack1 === 0) { buffer += stack1; }
             buffer += "</p>\n        ";
+            console.log(helpers);
             if (helpers.event_name || depth0.event_name) {
                 if ($.isArray(helpers.event_name)) {
                     var _tempName;

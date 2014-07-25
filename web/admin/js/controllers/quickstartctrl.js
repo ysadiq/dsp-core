@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
-
+Scope = $scope;
 
 	(
 		function() {
@@ -50,7 +50,7 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
 
 	$scope.setStep = function( step ) {
 		if ( step == 2 && $scope.app.native == 1 ) {
-			$scope.step = 4;
+			//$scope.step = 4;
 			$scope.create();
 			return;
 		}
@@ -131,7 +131,8 @@ var QuickStartCtrl = function( $scope, App, Config, Service, $location ) {
                     });
                 });
 
-				Service.newApp = data;
+				//Service.newApp = data;
+                $scope.step = 4;
 			}
 		);
 

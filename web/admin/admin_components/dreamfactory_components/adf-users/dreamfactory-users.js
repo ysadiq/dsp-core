@@ -1,6 +1,22 @@
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
-
-
 
 
 angular.module('dfUsers', ['ngRoute', 'dfUtility'])
@@ -193,7 +209,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         });
 
     }])
-    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', function (MODUSER_ASSET_PATH, DSP_URL, $http) {
+    .directive('dfImportUsers', ['MODUSER_ASSET_PATH', 'DSP_URL', '$http', 'dfTableEventService', function (MODUSER_ASSET_PATH, DSP_URL, $http, dfTableEventService) {
 
         return {
             restrict: 'A',
@@ -203,6 +219,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
 
                 scope.uploadFile = null;
+                scope.importType = null;
                 scope.field = angular.element('#upload');
 
                 scope.importUsers = function () {
@@ -210,6 +227,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 };
 
                 scope._importUsers = function () {
+
                     scope.field.trigger('click');
                 };
 
@@ -218,6 +236,9 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     return $http({
                         method: 'POST',
                         url: DSP_URL + '/rest/system/user',
+                        headers: {
+                            "Content-Type" : scope.importType === 'csv' ? 'text/csv' : 'application/' + scope.importType
+                        },
                         params: {},
                         data: fileObj
                     })
@@ -237,6 +258,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                         case 'csv':
                         case 'json':
                         case 'xml':
+                            scope.importType = extension;
                             value = true;
                             break;
 
@@ -264,9 +286,20 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
                         function (result) {
 
+                            scope.importType = null;
+                            scope.uploadFile = null;
+
+                            $('#upload').val('');
+
+                            scope.$broadcast(dfTableEventService.refreshTable);
                             scope.$emit(scope.es.alertSuccess, {message: 'Users imported successfully.'});
                         },
                         function (reject) {
+
+                            scope.importType = null;
+                            scope.uploadFile = null;
+
+                            $('#upload').val('');
 
                             throw {
                                 module: 'DreamFactory User Management Module',

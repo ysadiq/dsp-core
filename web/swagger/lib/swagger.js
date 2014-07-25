@@ -468,7 +468,7 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
                 }
             }
             o.nickname = this.sanitize(o.nickname);
-            op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations);
+            op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations, o.event_name);
             this.operations[op.nickname] = op;
             output.push(this.operationsArray.push(op));
         }
@@ -659,11 +659,11 @@ SwaggerModelProperty.prototype.toString = function() {
     return str;
 };
 
-var SwaggerOperation = function(nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations) {
+var SwaggerOperation = function(nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations, event_name) {
     var _this = this;
-
     var errors = [];
     this.nickname = (nickname||errors.push("SwaggerOperations must have a nickname."));
+    this.event_name = event_name;
     this.path = (path||errors.push("SwaggerOperation " + nickname + " is missing path."));
     this.method = (method||errors.push("SwaggerOperation " + nickname + " is missing method."));
     this.parameters = parameters != null ? parameters : [];
