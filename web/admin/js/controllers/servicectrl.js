@@ -247,7 +247,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	];
 	Scope.service.storage_type = "aws s3";
 	Scope.serviceOptions = [
-		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Local SQL DB"},
 		{name: "Remote SQL DB"},
@@ -260,7 +259,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Email Service"}
 	];
 	Scope.serviceCreateOptions = [
-		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Remote SQL DB"},
 		{name: "Remote SQL DB Schema"},
