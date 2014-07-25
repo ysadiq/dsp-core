@@ -54,7 +54,6 @@ a:not(.btn) {
 }
 
 a:focus, a:active, a:hover {
-	opacity:    1.0;
 	transition: opacity .3s;
 }
 
@@ -131,13 +130,13 @@ div {
 	background:  rgba(180, 58, 0, 1);
 	color:       rgba(255, 255, 255, .90);
 	font-weight: bold;
-	transition:  background-color 0.2s, color 0.3s;
+	transition:  background-color 0.2s color 0.3s;
 }
 
 .btn.btn-launch:hover {
 	background: rgba(251, 154, 29, 1);
 	color:      rgba(255, 255, 255, 1);
-	transition: background-color 0.2s, color 0.3s;
+	transition: background-color 0.2s color 0.3s;
 }
 
 .btn.btn-launch.disabled {
