@@ -111,6 +111,10 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	transition: color 2s;
 }
 
+.container-fluid.df-navbar {
+    padding-left: 0;
+}
+
 #page-content {
 	width:      100%;
 	min-height: 100%;

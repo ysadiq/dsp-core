@@ -103,8 +103,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         // PUBLIC VARS
         $scope.events = $scope.__getDataFromHttpResponse(getEventList);
 
-        console.log($scope.events);
-
         $scope.recentScripts = $scope.__getDataFromHttpResponse(getRecentScripts);
 
         $scope.sampleScripts = getSampleScripts.data;
@@ -855,7 +853,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             $scope._createEvents(event, records);
                             $scope._setCurrentEvent(event);
                             $scope.eventList = event;
-                            console.log($scope.eventList);
                             $scope._bcAddPath(event.name);
                             $scope._clearFilter();
                             $scope._incrementMenuLevel();
@@ -1158,6 +1155,14 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                         function(result) {
 
                             scope._cleanEditor();
+                            // Needs to be replaced with angular messaging
+                            $(function(){
+                                new PNotify({
+                                    title: 'Scripts',
+                                    type:  'success',
+                                    text:  'Script saved successfully.'
+                                });
+                            });
 
                         },
                         function(reject) {
@@ -1185,6 +1190,14 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                             scope.editor.setValue('', false);
                             scope._cleanEditor();
+
+                            $(function(){
+                                new PNotify({
+                                    title: 'Scripts',
+                                    type:  'success',
+                                    text:  'Script deleted successfully.'
+                                });
+                            });
                         },
                         function(reject) {
 
