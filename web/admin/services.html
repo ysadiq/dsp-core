@@ -481,36 +481,73 @@ We need to preload data but I'm not doing that today. MNM -->
         <div class="panel-body">
 
             <p id="no-params-message">No parameters can be assigned for this service.</p>
+            <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
+            <table class="table table-hover table-striped field-list">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
 
-            <div class="container">
-                <div class="row" data-ng-repeat = "parameter in service.parameters">
-                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
-                        <div class="input-group input-group-option col-xs-12">
-                            <input type="text" data-ng-model =  "parameter.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="parameter.value" class="form-control" placeholder="Parameter Value">
-    			<span data-ng-click="deleteParameter()" style="cursor:pointer" class="input-group-addon input-group-addon-remove">
-    				<span  class="glyphicon glyphicon-remove"></span>
-    			</span>
+
+                    <th class="no-border">
+                        <div class="btn-group pull-left">
+                            <button class="btn btn-default btn-sm" data-ng-click="addParameter()">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr data-ng-repeat="param in service.parameters">
+                    <td>
+                        <input class="form-control" data-ng-model="param.name" type="text" />
+                    </td>
+                    <td>
+                        <input class="form-control" data-ng-model="param.value" type="text" />
+                    </td>
+
+                    <td class="no-border">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deleteParameter()">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<div class="container">-->
+                <!--<div class="row" data-ng-repeat = "parameter in service.parameters">-->
+                    <!--<div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">-->
+                        <!--<div class="input-group input-group-option col-xs-12">-->
+                            <!--<input type="text" data-ng-model =  "parameter.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="parameter.value" class="form-control" placeholder="Parameter Value">-->
+    			<!--<span data-ng-click="deleteParameter()" style="cursor:pointer" class="input-group-addon input-group-addon-remove">-->
+    				<!--<span  class="glyphicon glyphicon-remove"></span>-->
+    			<!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
 
 
 
                 <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
-            <div class="container">
-                <div class="row">
-                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
-                        <div class="input-group input-group-option col-xs-12">
-                            <input type="text" data-ng-model =  "param.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="param.value" class="form-control" placeholder="Parameter Value">
-    			<span data-ng-click="addParameter()"  style="cursor:pointer" class="input-group-addon input-group-addon-remove">
-    				<span class="glyphicon glyphicon-plus"></span>
-    			</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="container">-->
+                <!--<div class="row">-->
+                    <!--<div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">-->
+                        <!--<div class="input-group input-group-option col-xs-12">-->
+                            <!--<input type="text" data-ng-model =  "param.name" class="form-control" placeholder="Parameter Name"><input type="text" data-ng-model="param.value" class="form-control" placeholder="Parameter Value">-->
+    			<!--<span data-ng-click="addParameter()"  style="cursor:pointer" class="input-group-addon input-group-addon-remove">-->
+    				<!--<span class="glyphicon glyphicon-plus"></span>-->
+    			<!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
 
 
@@ -530,33 +567,43 @@ We need to preload data but I'm not doing that today. MNM -->
         <div class="panel-body">
 
             <p id="no-headers-message">No headers can be assigned for this service.</p>
-            <div class="container">
-                <div class="row" data-ng-repeat = "header in service.headers">
-                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
-                        <div class="input-group input-group-option col-xs-12">
-                            <input type="text" data-ng-model =  "header.name" class="form-control" placeholder="Header Name">
-                            <input type="text" data-ng-model="header.value" class="form-control" placeholder="Header Value">
-    			<span data-ng-click="deleteHeader()" style="cursor:pointer" class="input-group-addon input-group-addon-remove">
-    				<span  class="glyphicon glyphicon-remove"></span>
-    			</span>
+            <table class="table table-hover table-striped field-list">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+
+
+                    <th class="no-border">
+                        <div class="btn-group pull-left">
+                            <button class="btn btn-default btn-sm" data-ng-click="addHeader()">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div style="display:none" id="header-error-container" class="alert alert-danger">Param already exists</div>
-            <div class="container">
-                <div class="row">
-                    <div class="form-group form-group-options col-xs-11 col-sm-8 col-md-4">
-                        <div class="input-group input-group-option col-xs-12">
-                            <input type="text" data-ng-model =  "header.name" class="form-control" placeholder="Header Name">
-                            <input type="text" data-ng-model="header.value" class="form-control" placeholder="Header Value">
-    			<span data-ng-click="addHeader()"  style="cursor:pointer" class="input-group-addon input-group-addon-remove">
-    				<span class="glyphicon glyphicon-plus"></span>
-    			</span>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr data-ng-repeat="header in service.headers">
+                    <td>
+                        <input class="form-control" data-ng-model="header.name" type="text" />
+                    </td>
+                    <td>
+                        <input class="form-control" data-ng-model="header.value" type="text" />
+                    </td>
+
+                    <td class="no-border">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deleteHeader()">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
 
         </div>
