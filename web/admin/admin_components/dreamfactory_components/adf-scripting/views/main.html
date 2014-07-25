@@ -62,9 +62,9 @@
                        data-ng-click="setEventPath(path)">{{path.path}}</a>
                 </div>
 
-                <div class="list-group" data-ng-show="menuLevel >= 2 ">
+                <div id="scripting-list-group" class="list-group" data-ng-show="menuLevel >= 2 ">
                     <span data-ng-repeat="verb in menuEventPath.verbs | filter: pathFilter">
-                        <a class="list-group-item" data-ng-click="setScript(path.path, event)" data-ng-repeat="event in verb.event">{{event}}
+                        <a  data-ng-click="setScript(path.path, event)" data-ng-repeat="event in verb.event">{{event}}
                             <span data-ng-if="!uppercaseVerbLabels"class="pull-right text-muted" style="font-size: 10px; margin-top: 5px;">{{verb.type}}</span>
                             <span data-ng-if="uppercaseVerbLabels" class="pull-right text-muted" style="font-size: 10px; margin-top: 5px; text-transform: uppercase;">{{verb.type}}</span>
                         </a>
