@@ -29,7 +29,6 @@ angular.module(
             "ngRoute",
             "ngResource",
             "ui.bootstrap.accordion",
-            "ngGrid",
             "AdminApp.controllers",
             "AdminApp.apisdk",
             "dfTable",
