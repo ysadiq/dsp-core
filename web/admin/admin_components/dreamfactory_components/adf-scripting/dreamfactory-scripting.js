@@ -1155,6 +1155,14 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                         function(result) {
 
                             scope._cleanEditor();
+                            // Needs to be replaced with angular messaging
+                            $(function(){
+                                new PNotify({
+                                    title: 'Scripts',
+                                    type:  'success',
+                                    text:  'Script saved successfully.'
+                                });
+                            });
 
                         },
                         function(reject) {
@@ -1182,6 +1190,14 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                             scope.editor.setValue('', false);
                             scope._cleanEditor();
+
+                            $(function(){
+                                new PNotify({
+                                    title: 'Scripts',
+                                    type:  'success',
+                                    text:  'Script deleted successfully.'
+                                });
+                            });
                         },
                         function(reject) {
 
