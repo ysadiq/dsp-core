@@ -19,7 +19,7 @@
 'use strict';
 
 angular.module('dfScripting', ['ngRoute', 'dfUtility'])
-    .constant('MODSCRIPTING_ROUTER_PATH', '/scripts')
+    .constant('MODSCRIPTING_ROUTER_PATH', '/scriptss')
     .constant('MODSCRIPTING_ASSET_PATH', 'admin_components/dreamfactory_components/adf-scripting/')
     .config(['$routeProvider', 'MODSCRIPTING_ROUTER_PATH', 'MODSCRIPTING_ASSET_PATH',
         function ($routeProvider, MODSCRIPTING_ROUTER_PATH, MODSCRIPTING_ASSET_PATH) {
@@ -102,6 +102,9 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
         // PUBLIC VARS
         $scope.events = $scope.__getDataFromHttpResponse(getEventList);
+
+        console.log($scope.events);
+
         $scope.recentScripts = $scope.__getDataFromHttpResponse(getRecentScripts);
 
         $scope.sampleScripts = getSampleScripts.data;
@@ -109,7 +112,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         $scope.serviceName = '/system/script';
 
         $scope.currentEvent = '';
-        $scope.currentEventType = '';
 
         $scope.currentScript = '';
         $scope.currentScriptPath = '';
@@ -120,24 +122,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         $scope.preprocessEventName = "pre_process";
         $scope.postprocessEventName = "post_process";
 
-
-        $scope.eventTypes = {
-            staticEvent: {
-                name: 'static',
-                label: "Static"
-            },
-            preprocessEvent: {
-                name: 'pre_process',
-                label: 'Pre-Process'
-            },
-            postprocessEvent: {
-                name: 'post_process',
-                label: 'Post-Process'
-            }
-        };
-
         $scope.menuOpen = true;
-        $scope.menuEventType = '';
         $scope.menuEventPath = '';
         $scope.menuLevel = 0;
 
@@ -146,6 +131,12 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         $scope.isClean = true;
 
         $scope.pathFilter = '';
+
+        $scope.staticEventsOn = true;
+        $scope.preprocessEventsOn = true;
+        $scope.postprocessEventsOn = true;
+        $scope.uppercaseVerbs = false;
+        $scope.uppercaseVerbLabels = true;
 
         // PUBLIC API
         $scope.toggleMenu = function () {
@@ -156,11 +147,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         $scope.setEvent = function (event) {
 
             $scope._setEvent(event);
-        };
-
-        $scope.setEventType = function (eventType) {
-
-            $scope._setEventType(eventType);
         };
 
         $scope.setEventPath = function (eventPath) {
@@ -255,157 +241,201 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
         $scope._createEvents = function(event, associatedData) {
 
-            if (event.paths[1].path.indexOf("table_name") != "-1" ) {
-                angular.forEach(event.paths, function (path) {
+            // returns an empty Path Object
+            function PathObj() {
 
-
-                    $scope._stripLeadingSlash(path);
-
-
-                    var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
-                    var pathIndex = path.path.lastIndexOf("/") + 1;
-                    var pathName = path.path.substr(pathIndex);
-
-                    angular.forEach(associatedData, function(obj) {
-
-                        var newpath = {};
-                        updateEvent = {"type": "put",
-                            "event": [
-                                event.name + "." + obj.name + ".update"
-                            ]};
-                        deleteEvent = {"type": "delete",
-                            "event": [
-                                event.name + "." + obj.name + ".delete"
-                            ]};
-                        insertEvent = {"type": "post",
-                            "event": [
-                                event.name + "." + obj.name + ".insert"
-                            ]};
-                        selectEvent = {"type": "get",
-                            "event": [
-                                event.name + "." + obj.name + ".select"
-                            ]};
-                        newpath.verbs = [];
-                        newpath.path = "/" + event.name + "/" + obj.name;
-
-                        path.verbs.forEach(function (verb) {
-                            preEvent = event.name + "." + obj.name + "." + verb.type + "." + "pre_process";
-                            preObj = {"type": verb.type, "event": [preEvent]};
-                            postEvent = event.name + "." + obj.name + "." + verb.type + "." + "post_process";
-                            postObj = {"type": verb.type, "event": [postEvent]};
-
-
-                            newpath.verbs.push(preObj);
-                            newpath.verbs.push(postObj);
-
-                        });
-
-                        var found = false;
-                        event.paths.forEach(function (pathObj) {
-
-                            if (pathObj.path === newpath.path) {
-                                found = true;
-                            }
-
-                        });
-
-                        if (!found) {
-                            //                                            newpath.verbs.push(selectEvent);
-                            //                                            newpath.verbs.push(insertEvent);
-                            //                                            newpath.verbs.push(updateEvent);
-                            //                                            newpath.verbs.push(deleteEvent);
-                            event.paths.push(newpath)
-                        }
-                    })
-                })
+                return {
+                    path: null,
+                    verbs: []
+                }
             }
-            else if (event.paths[1].path.indexOf("container") != "-1") {
 
-                angular.forEach(event.paths, function (path) {
+            // returns an empty Verb Object
+            function VerbObj() {
 
-                    $scope._stripLeadingSlash(path);
+                return {
+                    event: [],
+                    type: null
+                };
+            }
 
+            // builds a Verb Object
+            function buildVerbObj(eventName, pathRefName, verb, operation, includeVerbInFileName) {
 
-                    var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
-                    var pathIndex = path.path.lastIndexOf("/") + 1;
-                    var pathName = path.path.substr(pathIndex);
-
-                    var newpath = {};
-                    angular.forEach(associatedData, function(obj) {
-                        newpath = {};
-                        updateEvent = {"type": "put",
-                            "event": [
-                                event.name + "." + obj.name + ".update"
-                            ]};
-                        deleteEvent = {"type": "delete",
-                            "event": [
-                                event.name + "." + obj.name + ".delete"
-                            ]};
-                        insertEvent = {"type": "post",
-                            "event": [
-                                event.name + "." + obj.name + ".insert"
-                            ]};
-                        selectEvent = {"type": "get",
-                            "event": [
-                                event.name + "." + obj.name + ".select"
-                            ]};
-                        newpath.verbs = [];
-                        newpath.path = "/" + event.name + "/" + obj.name;
-
-                        path.verbs.forEach(function (verb) {
-                            preEvent = event.name + "." + obj.name + "." + verb.type + "." + "pre_process";
-                            preObj = {"type": verb.type, "event": [preEvent]};
-                            postEvent = event.name + "." + obj.name + "." + verb.type + "." + "post_process";
-                            postObj = {"type": verb.type, "event": [postEvent]};
+                includeVerbInFileName = includeVerbInFileName || false;
 
 
-                            newpath.verbs.push(preObj);
-                            newpath.verbs.push(postObj);
+                var nvo = new VerbObj(),
+                    eventString;
 
+                eventString = eventName ? eventName + '.' : '';
+                eventString += pathRefName ? pathRefName + '.' : '';
+                eventString += includeVerbInFileName ? verb + '.' : '';
+                eventString += operation ? operation : '';
+
+                nvo.event.push(eventString);
+
+                nvo.type = verb;
+
+                return nvo;
+            }
+
+            // Are we dealing with a table
+            function isTable() {
+
+                return event.paths[1].path.indexOf("table_name") != '-1';
+            }
+
+            // Are we dealing with a container
+            function isContainer() {
+
+                return event.paths[1].path.indexOf("container") != '-1';
+            }
+
+            // change verbs to uppercase
+
+            if ($scope.uppercaseVerbs) {
+                angular.forEach(event.paths[0].verbs, function(verb) {
+                    verb.type = verb.type.toUpperCase();
+                });
+            }
+
+
+            // Is this a database service
+            if (isTable() || isContainer()) {
+
+                // place to store static events
+                var staticEvents;
+
+                // Loop through the associated data (tables returned from 'GET' on the service name)
+                angular.forEach(associatedData, function(pathRef) {
+
+                    // Set our staticEvents empty
+                    staticEvents = [];
+
+                    // Create a new empty Path Object
+                    var npo = new PathObj();
+
+                    // Set the path in the Path Obj
+                    npo.path = '/' + event.name + '/' + pathRef.name;
+
+                    // Store the verbs from the associated data. if !associatedData assign array.
+                    var verbs;
+                    if ($scope.uppercaseVerbs) {
+
+                        verbs = pathRef.access || ['GET', 'POST', 'PATCH', 'DELETE'];
+
+                    }else {
+
+                        angular.forEach(pathRef.access, function (verb) {
+                            verb.toLowerCase();
                         });
-                        var found = false;
-                        event.paths.forEach(function (pathObj) {
 
-                            if (pathObj.path === newpath.path) {
-                                found = true;
+                        verbs = pathRef.access || ['get', 'post', 'patch', 'delete'];
+                    }
+
+
+
+                    // Loop through the verbs and create Verb Objects
+                    angular.forEach(verbs, function (verb, index) {
+
+                        // Do we want static events
+                        if ($scope.staticEventsOn) {
+
+                            // What everb are we dealing with
+                            switch (verb) {
+
+                                case "GET":
+
+                                    // build Verb Object and store in static events
+                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'select'));
+                                    break;
+
+                                case "POST":
+
+                                    // SAO
+                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'insert'));
+                                    break;
+
+                                case "PUT":
+
+                                    // SAO
+                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
+                                    break;
+
+                                case "PATCH":
+
+                                    // SAO
+                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
+                                    break;
+
+                                case "MERGE":
+
+                                    // No support for a static merge event at this time
+                                    break;
+
+                                case "DELETE":
+
+                                    // SAO
+                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'delete'));
+                                    break;
                             }
+                        }
 
-                        });
-                        if (!found) {
-                            //                                                newpath.verbs.push(selectEvent);
-                            //                                                newpath.verbs.push(insertEvent);
-                            //                                                newpath.verbs.push(updateEvent);
-                            //                                                newpath.verbs.push(deleteEvent);
-                            event.paths.push(newpath)
+                        // Do we want pre-process events
+                        if ($scope.preprocessEventsOn) {
+
+                            // Yep.  Build Verb Object and store in our Path Object verbs array
+                            npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.preprocessEventName, true))
+                        }
+
+                        // Do we want post-process events
+                        if ($scope.postprocessEventsOn) {
+                            // Yep.  Build Verb Object and store in our Path Object verbs array
+                            npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.postprocessEventName, true))
                         }
 
                     });
+
+                    // Do we want static events
+                    if ($scope.staticEventsOn) {
+
+                        // Yes.  Loop through the array
+                        // array reverse to get events in proper order
+                        angular.forEach(staticEvents.reverse(), function(event) {
+
+                            // put events at the front of the verbs array in the Path Object
+                            npo.verbs.unshift(event);
+                        })
+                    }
+
+                    // push our Path Object back to our event
+                    event.paths.push(npo);
                 });
+
             }
+
             else {
-                angular.forEach(event.paths, function (path) {
+                angular.forEach(event.paths, function (pathRef) {
 
-                    $scope._stripLeadingSlash(path);
+                    angular.forEach(pathRef.verbs, function (verb) {
 
-                    var preEvent, postEvent, preObj, postObj, deleteEvent, selectEvent, updateEvent, insertEvent;
-                    var pathIndex = path.path.lastIndexOf("/") + 1;
-                    var pathName = path.path.substr(pathIndex);
-
-                    angular.forEach(path.verbs, function(verb){
-
-                        if (event.name !== pathName) {
-                            preEvent = event.name + "." + pathName + "." + verb.type + "." + "pre_process";
-                            postEvent = event.name + "." + pathName + "." + verb.type + "." + "post_process";
-                        } else {
-                            preEvent = pathName + "." + verb.type + "." + "pre_process";
-                            postEvent = pathName + "." + verb.type + "." + "post_process";
+                        if ($scope.uppercaseVerbs) {
+                            verb.type = verb.type.toUpperCase();
                         }
-                        preObj = {"type": verb.type, "event": [preEvent]};
-                        postObj = {"type": verb.type, "event": [postEvent]};
 
-                        path.verbs.push(preObj);
-                        path.verbs.push(postObj);
+                        // Do we want pre-process events
+                        if ($scope.preprocessEventsOn) {
 
+                            // Yep.  Build Verb Object and store in our Path Object verbs array
+                            pathRef.verbs.push(buildVerbObj(event.name, null, verb.type, $scope.preprocessEventName, true))
+                        }
+
+                        // Do we want post-process events
+                        if ($scope.postprocessEventsOn) {
+                            // Yep.  Build Verb Object and store in our Path Object verbs array
+                            pathRef.verbs.push(buildVerbObj(event.name, null, verb.type, $scope.postprocessEventName, true))
+                        }
                     });
                 });
             }
@@ -471,11 +501,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             $scope.currentEvent = event;
         };
 
-        $scope._setCurrentEventType = function (eventType) {
-
-            $scope.menuEventType = eventType;
-        };
-
         $scope._setCurrentEventPath = function (eventPath) {
 
             $scope.menuEventPath = eventPath;
@@ -504,7 +529,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             switch($scope.menuLevel) {
 
                 case 0:
-                    $scope._setCurrentEventType('');
                     $scope._setCurrentEventPath('');
                     $scope._setCurrentScript('');
 
@@ -518,7 +542,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                     break;
 
                 case 1:
-                    $scope._setCurrentEventType('');
                     $scope._setCurrentEventPath('');
                     $scope._setCurrentScript('');
 
@@ -532,19 +555,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                     break;
 
                 case 2:
-                    $scope._setCurrentEventPath('');
-                    $scope._setCurrentScript('');
-
-                    if (index) {
-                        $scope._bcRemovePaths(index);
-                    }else {
-                        $scope._bcRemovePath();
-                    }
-
-                    $scope._clearFilter();
-                    break;
-
-                case 3:
                     $scope._closeScript();
                     $scope._setCurrentScript('');
                     $scope._bcRemovePath();
@@ -555,8 +565,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             }
         };
 
-        $scope._parseScriptPathFromName = function (_nameStr) {
-            /*
+        /*$scope._parseScriptPathFromName = function (_nameStr) {
+
              var pathObj = {
              event: null,
              eventType: null,
@@ -666,8 +676,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
              console.log(pathObj);
 
-             return pathObj;*/
-        };
+             return pathObj;
+        };*/
 
 
         // Breadcrumbs
@@ -811,7 +821,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             $scope.menuLevel = 0;
             $scope.breadcrumbs = [];
             $scope.eventList = [];
-            $scope._setCurrentEventType('');
             $scope._setCurrentEventPath('');
             $scope._setCurrentScript('');
         };
@@ -846,6 +855,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             $scope._createEvents(event, records);
                             $scope._setCurrentEvent(event);
                             $scope.eventList = event;
+                            console.log($scope.eventList);
                             $scope._bcAddPath(event.name);
                             $scope._clearFilter();
                             $scope._incrementMenuLevel();
@@ -870,15 +880,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                 $scope._incrementMenuLevel();
 
             }
-
-        };
-
-        $scope._setEventType = function (eventType)  {
-
-            $scope._setCurrentEventType(eventType);
-            $scope._bcAddPath(eventType.name);
-            $scope._clearFilter();
-            $scope._incrementMenuLevel();
 
         };
 
@@ -940,12 +941,10 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             $scope.$broadcast('load:direct', $scope.sampleScripts);
         }
 
-        $scope._openRecent = function (scriptNameStr) {
+       /* $scope._openRecent = function (scriptNameStr) {
 
             var pathObj = $scope._parseScriptPathFromName(scriptNameStr);
             var event =  $scope._getEventByName(pathObj.event)
-
-            console.log($scope.currentEvent.name + ' = ' + event.name);
 
             if ($scope.currentEvent.name !== event.name) {
 
@@ -966,7 +965,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             $scope._bcAddPath(event.name);
                             $scope._clearFilter();
                             $scope._incrementMenuLevel();
-                            $scope._setEventType($scope.eventTypes[pathObj.eventType + 'Event']);
                             $scope._setEventPath($scope._getEventPathByName(pathObj.eventPath));
                             $scope._setScript('', pathObj.scriptName);
                         }
@@ -989,11 +987,10 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                 $scope._bcAddPath(event.name);
                 $scope._clearFilter();
                 $scope._incrementMenuLevel();
-                $scope._setEventType($scope.eventTypes[pathObj.eventType + 'Event']);
                 $scope._setEventPath($scope._getEventPathByName(pathObj.eventPath));
                 $scope._setScript('', pathObj.scriptName);
             }
-        };
+        };*/
 
 
         // WATCHERS AND INIT
@@ -1207,4 +1204,4 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                 })
             }
         }
-    }]);
+    }])
