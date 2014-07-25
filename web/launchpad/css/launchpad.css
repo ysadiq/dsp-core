@@ -78,29 +78,16 @@ div {
 }
 
 .navbar-inverse {
-	background-color: rgba(0, 0, 0, .80);
-	border-bottom:    1px inset rgba(0, 0, 0, 0.9);
-	transition:       background-color .3s, color .3ms, border-bottom-color .3s;
-	color:            rgba(255, 255, 255, .8);
-}
-
-.navbar-inverse:hover {
 	color:            rgba(255, 255, 255, 1.0);
 	background-color: rgba(0, 0, 0, .9);
 	border-bottom:    1px solid rgba(0, 0, 0, 1);
-	transition:       background-color .3s, color .3ms, border-bottom-color .3s;
 }
 
 .navbar-toggle, .navbar-inverse .navbar-toggle {
 	margin-top:       7px;
 	margin-right:     9px;
 	border-radius:    3px;
-	border-color:     rgba(255, 255, 255, 0.15);
-	background-color: rgba(255, 255, 255, 0.35);
 	box-shadow:       0 0 1px rgba(255, 255, 255, 0.5);
-}
-
-.navbar-toggle:hover, .navbar-inverse .navbar-toggle:hover {
 	border-color:     rgba(255, 255, 255, 0.35);
 	background-color: rgba(255, 255, 255, 0.55);
 }

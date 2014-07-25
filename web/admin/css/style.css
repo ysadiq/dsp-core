@@ -448,6 +448,10 @@ label.error {
 	right: 15px;
 }
 
+.navbar-dropdown {
+	margin-top: -6px;
+}
+
 .btn-group-nav > .btn {
 	font-family: "Open Sans", "Lato", Arial, sans-serif;
 }
@@ -484,16 +488,21 @@ label.error {
 	margin-left:  4px;
 }
 
-.btn-group-nav > ul > li > a > i[class^="icon-"] {
+.dropdown .dropdown-menu li a {
+	padding: 3px 20px 3px 10px;
+}
+
+.dropdown .dropdown-menu li > a > i[class^="icon-"],
+.dropdown .dropdown-menu li > a > i.fa {
 	margin-left:  0;
 	margin-right: 8px;
-	font-size:    1.4em;
+	font-size:    1.3em;
 	color:        #428bca;
 	opacity:      0.5;
 	transition:   0.3s;
 }
 
-.btn-group-nav > ul > li > a > img[class^="icon-"] {
+.dropdown .dropdown-menu li > a > img[class^="icon-"] {
 	height:         18px;
 	vertical-align: top;
 	margin:         0 8px 0 -1px;
@@ -501,16 +510,14 @@ label.error {
 	transition:     0.3s;
 }
 
-.btn-group-nav > ul > li > a:hover > img[class^="icon-"],
-.btn-group-nav > ul > li > a > img[class^="icon-"]:hover,
-.btn-group-nav > ul > li > a:hover > i[class^="icon-"],
-.btn-group-nav > ul > li > a > i[class^="icon-"]:hover {
+.dropdown .dropdown-menu li > a:hover img[class^="icon-"],
+.dropdown .dropdown-menu li > a > img[class^="icon-"]:hover,
+.dropdown .dropdown-menu li > a:hover > i[class^="icon-"],
+.dropdown .dropdown-menu li > a > i[class^="icon-"]:hover,
+.dropdown .dropdown-menu li > a:hover > i.fa,
+.dropdown .dropdown-menu li > a > i.fa:hover {
 	opacity:    1.0;
 	transition: 0.3s;
-}
-
-.btn-group-nav > .dropdown-menu > li > a {
-	padding: 3px 20px 3px 10px;
 }
 
 /** maximize space for main content by trimming padding left. */
@@ -581,6 +588,7 @@ label.error {
 	z-index:          99999;
 	display:          block;
 	background-color: rgba(0, 0, 0, .75);
+	cursor:           wait;
 }
 
 .loading-screen-body {
