@@ -134,9 +134,10 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
     }
     $scope.addColumn = function(){
         $scope.newColumn = {
-            name : "New_Column"
-        }
-        $scope.currentField = "New_Column";
+            name : "New_Column",
+            is_new : true
+        };
+        //$scope.currentField = "New_Column";
         $scope.table.schema.data.field.unshift($scope.newColumn)
     }
     $scope.deleteColumn = function(){

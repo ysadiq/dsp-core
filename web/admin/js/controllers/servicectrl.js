@@ -98,7 +98,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         Scope.currentServiceId = '';
 		Scope.action = "Create";
 		$( '#step1' ).show();
-		Scope.service = {};
+		Scope.service = {headers: [], parameters: []};
         $scope.$watch(
             "sqlServerPrefix",
             function( newValue, oldValue ) {
@@ -385,7 +385,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					break;
 				case "SMTP":
 
-					Scope.service.storage_type = "smtp";
+					//Scope.service.storage_type = "smtp";
 					Scope.service.credentials =
 					{host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
 					Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -865,6 +865,48 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.headerData = removeByAttr( Scope.headerData, 'name', name );
 
 	};
+    $scope.deleteParameter = function(){
+        var item = this.$index;
+        $scope.service.parameters.splice(item, 1);
+    }
+    $scope.addParameter = function(){
+        $( "#error-container" ).hide();
+        if ( !Scope.param ) {
+            return false;
+        }
+        if ( !Scope.param.name || !Scope.param.value ) {
+            $( "#error-container" ).html( "Both name and value are required" ).show();
+            return false;
+        }
+        if ( checkForDuplicate( Scope.service.parameters, 'name', Scope.param.name ) ) {
+            $( "#error-container" ).html( "Parameter already exists" ).show();
+            $( '#param-name, #param-value' ).val( '' );
+            return false;
+        }
+        $scope.service.parameters.unshift($scope.param);
+        $scope.param = {};
+    }
+    $scope.deleteHeader = function(){
+        var item = this.$index;
+        $scope.service.headers.splice(item, 1);
+    }
+    $scope.addHeader = function(){
+        $( "#header-error-container" ).hide();
+        if ( !Scope.header ) {
+            return false;
+        }
+        if ( !Scope.header.name || !Scope.header.value ) {
+            $( "#header-error-container" ).html( "Both name and value are required" ).show();
+            return false;
+        }
+        if ( checkForDuplicate( Scope.service.headers, 'name', Scope.header.name ) ) {
+            $( "#header-error-container" ).html( "Header already exists" ).show();
+            $( '#header-name, #header-value' ).val( '' );
+            return false;
+        }
+        $scope.service.headers.unshift($scope.header);
+        $scope.header = {};
+    }
 	Scope.saveRow = function() {
 		var index = this.row.rowIndex;
 		var newRecord = this.row.entity;

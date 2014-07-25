@@ -81,7 +81,7 @@
     <br/><br/>
     <accordion close-others=true>
 
-        <accordion-group ng-repeat="column in table.schema.data.field" is-open="column.name==currentField">
+        <accordion-group ng-repeat="column in table.schema.data.field" is-open="column.is_new">
             <accordion-heading>{{column.name}}
 
                 <button class="btn btn-xs btn-default pull-right" title="Delete Column"
