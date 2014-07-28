@@ -45,7 +45,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             });
                         }],
 
-                        getRecentScripts: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getAllScripts: ['DSP_URL', '$http', function(DSP_URL, $http) {
 
                             return $http({
                                 method: 'GET',
@@ -61,15 +61,16 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                                 dataType: "text"
                             });
                         }]
-
                     }
                 });
         }])
     .run(['DSP_URL', '$http', function (DSP_URL, $http) {
 
     }])
-    .controller('ScriptingCtrl', ['DSP_URL', '$scope', '$http', 'getEventList', 'getRecentScripts', 'getSampleScripts', 'dfLoadingScreen', function (DSP_URL, $scope, $http, getEventList, getRecentScripts, getSampleScripts, dfLoadingScreen) {
+    .controller('ScriptingCtrl', ['DSP_URL', '$scope', '$http', 'getEventList', 'getAllScripts', 'getSampleScripts', 'dfLoadingScreen', 'SystemConfigDataService', function (DSP_URL, $scope, $http, getEventList, getAllScripts, getSampleScripts, dfLoadingScreen, SystemConfigDataService) {
 
+
+        $scope.isHostedSystem = SystemConfigDataService.getSystemConfig().is_hosted;
 
         $scope.__getDataFromHttpResponse = function (httpResponseObj) {
 
@@ -94,7 +95,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             }
         };
 
-
         dfLoadingScreen.stop();
 
         // @TODO: Problem with parsing email.  Nothing returned at the momment.  Need to fix httpresp func to deal with that scenario.
@@ -103,7 +103,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         // PUBLIC VARS
         $scope.events = $scope.__getDataFromHttpResponse(getEventList);
 
-        $scope.recentScripts = $scope.__getDataFromHttpResponse(getRecentScripts);
+        $scope.allScripts = $scope.__getDataFromHttpResponse(getAllScripts);
 
         $scope.sampleScripts = getSampleScripts.data;
 

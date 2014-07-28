@@ -98,7 +98,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         Scope.currentServiceId = '';
 		Scope.action = "Create";
 		$( '#step1' ).show();
-		Scope.service = {headers: [], parameters: []};
+		Scope.service = {headers: [], parameters: [], credentials: {public_paths: []}};
         $scope.$watch(
             "sqlServerPrefix",
             function( newValue, oldValue ) {
@@ -295,18 +295,18 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
-					{url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
 					break;
 				case "openstack object storage":
 					Scope.service.credentials =
-					{url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -369,8 +369,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 	};
 	Scope.create = function() {
-		Scope.service.parameters = Scope.tableData;
-		Scope.service.headers = Scope.headerData;
 		if ( Scope.service.type == "Salesforce" ) {
 			Scope.service.credentials =
 			{username: Scope.salesforce.username, password: Scope.salesforce.password, security_token: Scope.salesforce.security_token, version: Scope.salesforce.version};
@@ -389,20 +387,21 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
-					{url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
 					break;
 				case "openstack object storage":
 					Scope.service.credentials =
-					{url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
 					break;
 			}
+
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
 		if ( Scope.service.type == "NoSQL DB" ) {
@@ -750,30 +749,20 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         $scope.service.headers.splice(item, 1);
     }
     $scope.addHeader = function(){
-//        $( "#header-error-container" ).hide();
-//        if ( !Scope.header ) {
-//            return false;
-//        }
-//        if ( !Scope.header.name || !Scope.header.value ) {
-//            $( "#header-error-container" ).html( "Both name and value are required" ).show();
-//            return false;
-//        }
-//        if ( checkForDuplicate( Scope.service.headers, 'name', Scope.header.name ) ) {
-//            $( "#header-error-container" ).html( "Header already exists" ).show();
-//            $( '#header-name, #header-value' ).val( '' );
-//            return false;
-//        }
+
         $scope.header = {};
         $scope.service.headers.unshift($scope.header);
 
     }
+    $scope.addPath = function(){
+        $scope.path = "";
+        $scope.service.credentials.public_paths.unshift($scope.path);
+    }
+    $scope.deletePath = function(){
+        var item = this.$index;
+        $scope.service.credentials.public_paths.splice(item, 1);
+    }
 
-//	Scope.updateEmailScope = function() {
-//		//var index = this.row.rowIndex;
-//		var newRecord = this.row.entity;
-//		var name = this.row.entity.name;
-//		updateByAttr( Scope.tableData, "name", name, newRecord );
-//	};
 	Scope.changeUrl = function() {
 		switch ( this.rackspace.region ) {
 			case "LON":
