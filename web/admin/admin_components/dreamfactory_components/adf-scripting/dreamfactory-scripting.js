@@ -68,8 +68,10 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
     .run(['DSP_URL', '$http', function (DSP_URL, $http) {
 
     }])
-    .controller('ScriptingCtrl', ['DSP_URL', '$scope', '$http', 'getEventList', 'getRecentScripts', 'getSampleScripts', 'dfLoadingScreen', function (DSP_URL, $scope, $http, getEventList, getRecentScripts, getSampleScripts, dfLoadingScreen) {
+    .controller('ScriptingCtrl', ['DSP_URL', '$scope', '$http', 'getEventList', 'getRecentScripts', 'getSampleScripts', 'dfLoadingScreen', 'SystemConfigDataService', function (DSP_URL, $scope, $http, getEventList, getRecentScripts, getSampleScripts, dfLoadingScreen, SystemConfigDataService) {
 
+
+        $scope.isHostedSystem = SystemConfigDataService.getSystemConfig().is_hosted;
 
         $scope.__getDataFromHttpResponse = function (httpResponseObj) {
 
@@ -93,7 +95,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                 //console.log("No data prop in response");
             }
         };
-
 
         dfLoadingScreen.stop();
 

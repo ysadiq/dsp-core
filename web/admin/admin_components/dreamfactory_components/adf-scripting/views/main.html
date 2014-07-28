@@ -2,8 +2,14 @@
     <span style="display: inline" class="navbar-brand">Scripts</span>
 </div>
 
-<div>
+<div data-ng-if="isHostedSystem">
+    <div class="alert alert-info">
+        <li class="icon-info-sign"></li>
+        The Free Hosted Edition of the DreamFactory Services Platform does not support Server Side Scripting. Please install DreamFactory on your cloud or server for this capability. Click <a href="https://bitnami.com/stack/dreamfactory" target="df-new">here</a> to download the open source software package.
+    </div>
+</div>
 
+<div data-ng-if="!isHostedSystem">
     <div class="well well-sm">
         <div class="btn-toolbar">
             <div class="btn-group btn-group-sm">
