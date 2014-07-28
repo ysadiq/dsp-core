@@ -499,9 +499,9 @@ We need to preload data but I'm not doing that today. MNM -->
 
                 <tbody>
 
-                <tr data-ng-repeat="path in service.credentials.public_paths">
+                <tr data-ng-repeat="path in service.credentials.public_paths track by $index">
                     <td>
-                        <input class="form-control" data-ng-model="path" type="text" />
+                        <input class="form-control" data-ng-model="service.credentials.public_paths[$index]" type="text" />
                     </td>
 
 
