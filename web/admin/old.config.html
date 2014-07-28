@@ -38,8 +38,7 @@
 	</h3>
 	<br />
 	<button ng-click="promptForNew()" class="btn btn-success">
-		<li class="icon-add"></li>
-		Add New Host
+		<i class="fa fa-plus-circle"></i> Add New Host
 	</button>
 	<br /><br />
 
@@ -56,7 +55,7 @@
 
 			<tr ng-repeat="host in Config.allowed_hosts">
 				<td>
-					<li ng-click="removeHost()" class="btn btn-danger icon-remove"></li>
+					<i ng-click="removeHost()" class="btn btn-danger fa fa-minus-circle"></i>
 				</td>
 				<td>
 					<input class="form-control" placeholder="Enter Host Name" type="text" ng-model="host.host" />
@@ -389,7 +388,7 @@
 				<th class="no-border">
 					<div class="btn-group pull-left">
 						<button class="btn btn-sm" ng-click="newKey()">
-							<span class="icon-plus"></span>
+							<span class="fa fa-plus-circle"></span>
 						</button>
 					</div>
 				</th>
@@ -411,7 +410,7 @@
 				<td class="no-border">
 					<div class="btn-group pull-left">
 						<button class="btn btn-sm" ng-click="removeKey()">
-							<span class="icon-trash"></span>
+							<i class="fa fa-trash-o"></i>
 						</button>
 					</div>
 				</td>

@@ -16,7 +16,7 @@
 			<h4 style="display: inline-block; ">{{action}} App Group</h4>
 			<small>
 				<div class="btn-group pull-right" style="margin: 4px auto">
-					<button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New</button>
+					<button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()"><i class="fa fa-plus-circle"></i>New</button>
 					<button data-ng-show="activeView === 'form'" type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()">Save</button>
 					<button data-ng-show="activeView === 'form'"
 						type="button"
@@ -47,7 +47,7 @@
                             <button style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
 								class="btn btn-default btn-sm"
 								title="Delete this role"
-								data-ng-click="delete()"><i class="icon-trash"></i>
+								data-ng-click="delete()"><i class="fa fa-trash-o"></i>
 							</button>
                         </span>
 			</div>
@@ -62,9 +62,9 @@
 			<h4 style="display: inline-block; ">{{action}} Group</h4>
 			<small>
 				<div class="btn-group pull-right" style="margin: 4px auto">
-					<button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New</button>
-					<button type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()">Save</button>
-					<button type="button" class="btn btn-default btn-sm update_button" data-ng-click="save()">Update</button>
+					<button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()"><i class="fa fa-plus-circle"></i>New</button>
+					<button type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()"><i class="fa fa-save"></i>Save</button>
+					<button type="button" class="btn btn-default btn-sm update_button" data-ng-click="save()"><i class="fa fa-save"></i>Update</button>
 				</div>
 			</small>
 		</div>
@@ -95,7 +95,9 @@ We need to preload data but I'm not doing that today. MNM -->
 				<div class="panel-body">
 
 					<div class="alert alert-info">
-						<i class="fa fa-info-circle"></i> Applications can optionally be put into groups. When selecting an application to launch they will be ordered by group.
+						<p>
+							<i class="fa fa-info-circle"></i> Applications can optionally be put into groups. When selecting an application to launch they will be ordered by group.
+						</p>
 					</div>
 					<div class="add_new">
 						<div id="step1">

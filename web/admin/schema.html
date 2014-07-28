@@ -50,8 +50,7 @@
 			</div>
 
 			<button ng-click="showImport()" class="btn btn-default">
-				<li class="icon-plus-sign-alt"></li>
-				Import JSON Schema
+				<i class="fa fa-plus-circle"></i> Import JSON Schema
 			</button>
 		</accordion-group>
 
@@ -197,8 +196,7 @@
 
 	<div id="create-form" data-ng-show="createBasic">
 		<div class="alert alert-info">
-			<li class="fa fa-info-circle"></li>
-			&nbsp;Propose table structure and click "Create Table" to save.
+			<p><i class="fa fa-info-circle"></i> &nbsp;Propose table structure and click "Create Table" to save.</p>
 		</div>
 		<div class="section">
 			<span>Table Name:</span>
@@ -207,8 +205,7 @@
 		</div>
 
 		<div class="alert alert-info">
-			<li class="fa fa-info-circle"></li>
-			&nbsp;Add fields
+			<i class="fa fa-info-circle"></i> &nbsp;Add fields
 		</div>
 
 		<div class="section">
@@ -244,9 +241,7 @@
 
 			<div>
 				<button ng-disabled="!schema.table.name || !schema.table.field.name || !schema.table.field.type"
-					class="btn btn-success" ng-click="addField()">
-					<li class="icon-plus-sign-alt"></li>
-					&nbsp;Add Field
+					class="btn btn-success" ng-click="addField()"><i class="fa fa-plus-circle"></i> Add Field
 				</button>
 			</div>
 		</div>
@@ -276,8 +271,7 @@
 		<div>
 			<button ng-disabled="!newTable.table.field.length" class="btn btn-primary"
 				ng-click="create()">
-				<li class="icon-save"></li>
-				&nbsp;Create Table
+				<i class="fa fa-table"></i> Create Table
 			</button>
 		</div>
 	</div>
@@ -323,8 +317,7 @@
 		<h2>Results</h2>
 		<pre id="result"></pre>
 		<p>
-			<button class="btn btn-primary" ng-click="postJSON()" class="icon-save"> Create Table(s)
-			</button>
+			<button class="btn btn-primary" ng-click="postJSON()"><i class="fa fa-table"></i> Create Table(s)</button>
 		</p>
 	</div>
 

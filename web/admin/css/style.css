@@ -327,7 +327,7 @@ h3.panel-title {
 }
 
 .list-group-item {
-    padding: 8px 12px;
+	padding: 8px 12px;
 }
 
 .alert > i.fa {
@@ -607,4 +607,23 @@ label.error {
 .loading-screen-body h2 i.fa {
 	display:      inline;
 	margin-right: 10px;
+}
+
+.alert > h4 > i.fa,
+.alert > p:first-child > i.fa {
+	margin-right:   8px;
+	font-size:      2em;
+	vertical-align: middle;
+}
+
+.btn.btn-default i.fa {
+	margin-right: 8px;
+}
+
+.btn.btn-default.btn-sm i.fa {
+	margin-right: 6px;
+}
+
+.btn.btn-default.btn-xs i.fa {
+	margin-right: 4px;
 }
