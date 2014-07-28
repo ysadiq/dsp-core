@@ -489,7 +489,7 @@ We need to preload data but I'm not doing that today. MNM -->
 
                     <th class="no-border">
                         <div class="btn-group pull-left">
-                            <button class="btn btn-default btn-sm" data-ng-click="addParameter()">
+                            <button class="btn btn-default btn-sm" data-ng-click="addPath()">
                                 <i class="fa fa-plus fa-fw"></i>
                             </button>
                         </div>
@@ -499,15 +499,15 @@ We need to preload data but I'm not doing that today. MNM -->
 
                 <tbody>
 
-                <tr data-ng-repeat="param in service.parameters">
+                <tr data-ng-repeat="path in service.credentials.public_paths">
                     <td>
-                        <input class="form-control" data-ng-model="path.name" type="text" />
+                        <input class="form-control" data-ng-model="path" type="text" />
                     </td>
 
 
                     <td class="no-border">
                         <div class="btn-group pull-left">
-                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deleteParameter()">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deletePath()">
                                 <i class="fa fa-trash-o fa-fw"></i>
                             </button>
                         </div>
