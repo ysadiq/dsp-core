@@ -1,7 +1,7 @@
-<div class="navbar navbar-default">
+<div class="navbar navbar-default bg-info">
     <div class="container-fluid">
         <div class="navbar-header">
-            <div class="navbar-brand">Server-Side Scripting</div>
+            <div class="navbar-brand">Script Manager</div>
         </div>
 
         <div  data-ng-if="Config.is_private || !Config.is_hosted " class="nav navbar-nav navbar-right" style="margin:8px 0 0 0">
@@ -34,7 +34,7 @@
     <div class="col-xs-12">
         <div data-ng-if="!Config.is_private && Config.is_hosted">
             <div style="width:750px" class="alert alert-info">
-                <li class="icon-info-sign"></li>
+                <li class="fa fa-info-circle"></li>
                 The Free Hosted Edition of the DreamFactory Services Platform does not support Server Side Scripting. Please install DreamFactory on your cloud or server for this capability. Click <a href="https://bitnami.com/stack/dreamfactory" target="df-new">here</a> to download the open source software package.
             </div>
         </div>

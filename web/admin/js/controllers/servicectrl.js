@@ -173,7 +173,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.script = {};
         Scope.service.is_active = true;
 		$( window ).scrollTop( 0 );
-		Scope.email_type = "Server Default";
 	};
 
 	var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
@@ -210,9 +209,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         });
 	Scope.action = "Create";
 	Scope.emailOptions = [
-		{name: "Server Default"},
-		{name: "Server Command"},
-		{name: "SMTP"}
+		{name: "Server Default", value: null},
+		{name: "Server Command", value: "command"},
+		{name: "SMTP", value:"smtp"}
 	];
 	Scope.email_type = "Server Default";
 	Scope.remoteOptions = [
@@ -281,11 +280,17 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		}
 		if ( Scope.service.type == "Email Service" ) {
 			if ( Scope.email_type == "SMTP" ) {
-				Scope.service.storage_type = "smtp";
 				Scope.service.credentials =
-				{host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
+				{transport_type : "smtp" ,host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
 				Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-			}
+			}else if(Scope.email_type==="Server Command"){
+                Scope.service.credentials =
+                {transport_type: "command", command : Scope.service.storage_type};
+                Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+            }else{
+                Scope.service.credentials = {transport_type:null};
+            }
+
 		}
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
@@ -374,29 +379,12 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 		if ( Scope.service.type == "Email Service" ) {
 
-			switch ( Scope.email_type ) {
-				case "Server Default":
-					Scope.service.storage_type = null;
-					break;
-				case "Server Command":
-					//Scope.service.storage_type = null;
-					break;
-				case "SMTP":
-
-					//Scope.service.storage_type = "smtp";
-					Scope.service.credentials =
-					{host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
-					Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-					break;
-			}
+            Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 
 		}
-
 		if ( Scope.service.type == "Remote SQL DB" || Scope.service.type == "Remote SQL DB Schema" ) {
-
 			Scope.service.credentials = {dsn: Scope.service.dsn, user: Scope.service.user, pwd: Scope.service.pwd};
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-
 		}
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
@@ -430,7 +418,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "azure tables":
 					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
 					break;
-
 				case "couchdb":
 					Scope.service.credentials = {user: Scope.couchdb.service.username, pwd: Scope.couchdb.service.username, dsn: Scope.couchdb.service.dsn};
 					break;
@@ -445,7 +432,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
-
 		Service.save(
 			Scope.service, function( data ) {
 				Scope.promptForNew();
@@ -465,124 +451,68 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			}
 		);
 	};
-
 	Scope.showFields = function() {
-		if ( Scope.service.type.indexOf( "Email" ) != -1 ) {
-			if ( !Scope.service.id ) {
-				Scope.tableData = [
-					{"name": "from_name", "value": ""},
-					{"name": "from_email", "value": ""},
-					{"name": "reply_to_name", "value": ""},
-					{"name": "reply_to_email", "value": ""}
-				];
-			}
-
-			Scope.columnDefs = [
-				{field: 'name', width: '*'},
-				{field: 'value', enableFocusedCellEdit: true, width: '**', enableCellSelection: true, editableCellTemplate: emailInputTemplate }
-
-			];
-		}
-		else {
-			Scope.columnDefs = [
-				{field: 'name', enableCellEdit: false, width: 100},
-				{field: 'value', enableCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
-				{field: 'Update', cellTemplate: buttonTemplate, enableCellEdit: false, width: 100}
-			];
-			Scope.tableData = [];
-		}
+//		if ( Scope.service.type.indexOf( "Email" ) != -1 ) {
+//			if ( !Scope.service.id ) {
+//				Scope.tableData = [
+//					{"name": "from_name", "value": ""},
+//					{"name": "from_email", "value": ""},
+//					{"name": "reply_to_name", "value": ""},
+//					{"name": "reply_to_email", "value": ""}
+//				];
+//			}
+//			Scope.columnDefs = [
+//				{field: 'name', width: '*'},
+//				{field: 'value', enableFocusedCellEdit: true, width: '**', enableCellSelection: true, editableCellTemplate: emailInputTemplate }
+//			];
+//		}
+//		else {
+//			Scope.columnDefs = [
+//				{field: 'name', enableCellEdit: false, width: 100},
+//				{field: 'value', enableCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
+//				{field: 'Update', cellTemplate: buttonTemplate, enableCellEdit: false, width: 100}
+//			];
+//			Scope.tableData = [];
+//		}
 
 		switch ( Scope.service.type ) {
 			case "Local SQL DB":
 				$( '.base_url, .host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn, .nosql_type' ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
-				// $(".user, .pwd, .dsn").show();
 				break;
 			case "Local SQL DB Schema":
 				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
-				// $(".user, .pwd, .dsn").show();
 				break;
 			case "Remote SQL DB":
 				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Remote SQL DB Schema":
 				$( ".base_url,.host,.command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Script Service":
 			case "Remote Web Service":
 				$( ".user, .pwd,.host, .command, .security, .port, .dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Hide message
-                $( '#no-headers-message').hide();
-                $( '#no-params-message').hide();
-
 				$( ".base_url, .parameters, .headers" ).show();
 				break;
 			case "Local File Storage":
 				$( ".user, .pwd,.host, .command, .security, .port,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".storage_name" ).show();
 				break;
 			case "Remote File Storage":
 				$( ".user, .host, .security,.command,  .port, .pwd,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".storage_name, .storage_type" ).show();
 				break;
-
 			case "NoSQL DB":
 				$( ".base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".nosql_type" ).show();
 				break;
 			case "Email Service":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				Scope.showEmailFields();
 				break;
 			case "Salesforce":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				break;
 		}
 	};
@@ -592,42 +522,19 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	};
 
 	Scope.showEmailFields = function() {
+        Scope.service.credentials = Scope.service.credentials || {transport_type: "smtp"};
+		switch ( Scope.service.credentials.transport_type ) {
 
-		switch ( Scope.email_type ) {
-			case "Server Default":
-				Scope.service.storage_type = null;
+			case null:
 				$( ".user, .pwd,.host,.port,.command,  .security, .base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
-				//$(".user, .pwd,.host,.port,.command,  .security, .parameters").show();
 				$( ".parameters" ).show();
 				break;
-			case "Server Command":
-				Scope.service.storage_type = null;
+			case "command":
 				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-
-                // hide no params message
-                $( '#no-params-message').hide();
-
 				$( ".command, .parameters" ).show();
 				break;
-			case "SMTP":
-
-				Scope.service.storage_type = "smtp";
+			case "smtp":
 				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').hide();
-
-                // hide message
-                $( '#no-params-message').hide();
-
 				$( ".user, .pwd,.host,.port,  .security, .parameters" ).show();
 				break;
 		}
@@ -682,29 +589,34 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		//$("#swagger, #swagger iframe, #swagctrl").hide();
 		Scope.service = angular.copy( this.service );
         Scope.currentServiceId = Scope.service.id;
+        Scope.service.credentials = Scope.service.credentials || {};
+        var cString = $scope.service.credentials;
 		if ( Scope.service.type.indexOf( "Email Service" ) != -1 ) {
 			Scope.service.type = "Email Service";
-			if ( Scope.service.storage_type == "smtp" ) {
-				if ( Scope.service.credentials ) {
-					var cString = Scope.service.credentials;
+			if ( Scope.service.credentials.transport_type === "smtp" ) {
+
 					Scope.service.host = cString.host;
 					Scope.service.port = cString.port;
 					Scope.service.security = cString.security;
 					Scope.service.user = cString.user;
 					Scope.service.pwd = cString.pwd;
 
+
 				}
 				Scope.email_type = "SMTP";
 			}
-			else if ( Scope.service.storage_type != null ) {
+			else if ( Scope.service.credentials.transport_type === "command" ) {
 				Scope.email_type = "Server Command";
+
+                Scope.service.storage_type = cString.command;
 			}
 			else {
 				Scope.email_type = "Server Default";
+                Scope.service.credentials.transport_type=null;
 			}
 
 			Scope.showEmailFields();
-		}
+
 		if ( Scope.service.type == "Salesforce" ) {
 			var cString = Scope.service.credentials;
 			Scope.salesforce.username = cString.username;

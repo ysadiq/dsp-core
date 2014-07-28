@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Interfaces\FileServiceLike;
+use DreamFactory\Platform\Services\BaseFileSvc;
 use DreamFactory\Platform\Utility\ServiceHandler;
 use DreamFactory\Yii\Controllers\BaseWebController;
 use DreamFactory\Yii\Utility\Pii;
@@ -45,16 +45,43 @@ class StorageController extends BaseWebController
 		$_service = FilterInput::get( INPUT_GET, 'service', '' );
 		try
 		{
-			/** @var FileServiceLike $_obj */
+			/** @var BaseFileSvc $_obj */
 			$_obj = ServiceHandler::getServiceObject( $_service );
 			switch ( $_obj->getType() )
 			{
 				case 'Local File Storage':
 				case 'Remote File Storage':
-					$_fullPath = FilterInput::get( INPUT_GET, 'path', '' );
-					$_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
-					$_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
-					$_obj->streamFile( $_container, $_path );
+                    if (!empty( $_obj->publicPaths))
+                    {
+                        $_fullPath = FilterInput::get( INPUT_GET, 'path', '' );
+                        // match path pieces to public accessible
+                        $_count = substr_count($_fullPath, '/');
+                        $_pos = -1;
+                        for ($_ndx = 0; $_ndx < $_count; $_ndx++)
+                        {
+                            $_pos = strpos($_fullPath, '/', $_pos + 1);
+                            $_piece = substr($_fullPath, 0, $_pos) . '/';
+                            if (false !== array_search($_piece, $_obj->publicPaths))
+                            {
+                                $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
+                                $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
+                                $_obj->streamFile( $_container, $_path );
+
+                                Pii::end();
+                            }
+                        }
+                        // check for full file path
+                        if (false !== array_search($_fullPath, $_obj->publicPaths))
+                        {
+                            $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
+                            $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
+                            $_obj->streamFile( $_container, $_path );
+
+                            Pii::end();
+                        }
+
+
+                    }
 					break;
 			}
 
