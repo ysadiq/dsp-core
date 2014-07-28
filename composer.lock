@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1af3f6932cf9775d8d4d75436daec921",
+    "hash": "e3c4aab4bbb07b0e047132087c38f525",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -136,7 +136,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -332,7 +332,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "dba2fc57b0fe63ddd14183efa48fdeeed3437ab5"
+                "reference": "59419b54907fbf5559b1f3f3d3208dcdd50cc069"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/dba2fc57b0fe63ddd14183efa48fdeeed3437ab5",
-                "reference": "dba2fc57b0fe63ddd14183efa48fdeeed3437ab5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/59419b54907fbf5559b1f3f3d3208dcdd50cc069",
+                "reference": "59419b54907fbf5559b1f3f3d3208dcdd50cc069",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-07-23 00:26:44"
+            "time": "2014-07-25 22:38:46"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -470,17 +470,17 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
@@ -772,12 +772,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "a267ea18e1b4ddc1d74a9effe1819c8b2cc3f0d2"
+                "reference": "706e0de919b9a2353dac9e48b8a41674deab08d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/a267ea18e1b4ddc1d74a9effe1819c8b2cc3f0d2",
-                "reference": "a267ea18e1b4ddc1d74a9effe1819c8b2cc3f0d2",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/706e0de919b9a2353dac9e48b8a41674deab08d2",
+                "reference": "706e0de919b9a2353dac9e48b8a41674deab08d2",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-07-09 21:04:31"
+            "time": "2014-07-25 18:03:31"
         },
         {
             "name": "monolog/monolog",
@@ -900,12 +900,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "5960ecfc105011b8d1bfedf7647b4b8989dbcb4c"
+                "reference": "ef70767475434bdb3615b43c327e2cae17ef12eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/5960ecfc105011b8d1bfedf7647b4b8989dbcb4c",
-                "reference": "5960ecfc105011b8d1bfedf7647b4b8989dbcb4c",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ef70767475434bdb3615b43c327e2cae17ef12eb",
+                "reference": "ef70767475434bdb3615b43c327e2cae17ef12eb",
                 "shasum": ""
             },
             "require": {
@@ -937,7 +937,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2014-04-19 20:26:05"
+            "time": "2014-07-23 18:24:17"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
