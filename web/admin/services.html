@@ -141,8 +141,8 @@ We need to preload data but I'm not doing that today. MNM -->
 
                 <div class="form-group" ng-show="service.type == 'Email Service'">
                     <label>Provider</label> <select class="form-control" ng-change="showEmailFields()"
-                                                    ng-model="email_type"
-                                                    ng-options="option.name as option.name for option in emailOptions"></select>
+                                                    ng-model="service.credentials.transport_type"
+                                                    ng-options="option.value as option.name for option in emailOptions"></select>
                 </div>
 
 
@@ -469,7 +469,59 @@ We need to preload data but I'm not doing that today. MNM -->
         </div>
     </div>
 </div>
+<div class="panel panel-default" data-ng-if="service.type.indexOf('File Storage') != '-1'">
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#services-parameters-body">
+            <h4 class="panel-title">Public File Access</h4>
+        </a>
+    </div>
 
+    <div id="services-parameters-body" class="panel-collapse collapse">
+        <div class="panel-body">
+
+
+
+            <table class="table table-hover table-striped field-list">
+                <thead>
+                <tr>
+                    <th>Path</th>
+
+
+                    <th class="no-border">
+                        <div class="btn-group pull-left">
+                            <button class="btn btn-default btn-sm" data-ng-click="addParameter()">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr data-ng-repeat="param in service.parameters">
+                    <td>
+                        <input class="form-control" data-ng-model="path.name" type="text" />
+                    </td>
+
+
+                    <td class="no-border">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deleteParameter()">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+
+
+        </div>
+    </div>
+</div>
 <div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service' || service.type === 'Email Service'">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-parameters-body">
