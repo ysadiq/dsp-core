@@ -316,6 +316,227 @@ angular.module('dfUtility', [])
             };
         }
     ])
+    .directive('dfAceEditor', ['DSP_URL', 'DF_UTILITY_ASSET_PATH', '$http', function (DSP_URL, DF_UTILITY_ASSET_PATH, $http) {
+
+        return {
+            restrict: 'E',
+            scope: {
+                serviceName: '=',
+                fileName: '=',
+                filePath: '=',
+                isClean: '='
+            },
+            templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-ace-editor.html',
+            link: function (scope, elem, attrs) {
+
+
+
+                scope.editor = null;
+                scope.currentScriptObj = '';
+
+
+                // PRIVATE API
+                scope._getFileFromServer = function (requestDataObj) {
+
+                    return $http({
+                        method: 'GET',
+                        url: DSP_URL + '/rest' + requestDataObj.serviceName + '/' + requestDataObj.fileName,
+                        cache: false
+                    })
+                };
+
+                scope._saveFileOnServer = function (requestDataObj) {
+
+                    return $http({
+                        method: 'PUT',
+                        url: DSP_URL + '/rest' + requestDataObj.serviceName + '/' + requestDataObj.fileName,
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        data: {
+                            post_body: requestDataObj.body
+                        }
+                    })
+                };
+
+                scope._deleteFileOnServer = function (requestDataObj) {
+
+                    return $http({
+
+                        method: 'DELETE',
+                        url: DSP_URL + '/rest' + requestDataObj.serviceName + '/' + requestDataObj.fileName,
+                        params: {
+                            script_id:requestDataObj.scriptId
+                        }
+                    })
+                };
+
+                scope._setEditorInactive = function (stateBool) {
+
+                    if (stateBool) {
+
+                        scope.editor.setOptions({
+                            readOnly: true,
+                            highlightActiveLine: false,
+                            highlightGutterLine: false
+                        })
+                        scope.editor.renderer.$cursorLayer.element.style.opacity=0;
+                    }else {
+                        scope.editor.setOptions({
+                            readOnly: false,
+                            highlightActiveLine: true,
+                            highlightGutterLine: true
+                        })
+                        scope.editor.renderer.$cursorLayer.element.style.opacity=100;
+                    }
+                };
+
+                scope._loadEditor = function (contents, mode, inactive) {
+
+                    inactive = inactive || false;
+
+                    scope.editor = ace.edit('ide');
+
+                    //scope.editor.setTheme("ace/theme/twilight");
+
+                    if(mode){
+                        scope.editor.session.setMode("ace/mode/json");
+                    }else{
+                        scope.editor.session.setMode("ace/mode/javascript");
+                    }
+
+                    scope._setEditorInactive(inactive);
+
+
+                    scope.editor.session.setValue(contents);
+
+                    scope.editor.focus();
+
+                    scope.editor.on('input', function() {
+                        scope.$apply(function() {
+                            scope.isClean = scope.editor.session.getUndoManager().isClean();
+
+                        })
+                    });
+                };
+
+                scope._cleanEditor = function () {
+
+                    scope.editor.session.getUndoManager().reset();
+                    scope.editor.session.getUndoManager().markClean();
+                };
+
+
+                // WATCHERS AND INIT
+                var watchScriptFileName = scope.$watch('fileName', function (newValue, oldValue) {
+
+                    if (newValue === 'samples') return false;
+
+                    if (!newValue) {
+                        scope._loadEditor('', false, true);
+                        return false;
+                    }
+
+                    var requestDataObj = {
+                        serviceName: scope.serviceName,
+                        fileName: newValue
+                    };
+
+                    scope._getFileFromServer(requestDataObj).then(
+                        function(result) {
+
+                            scope.currentScript = result.data;
+                            scope._loadEditor(result.data.script_body, false);
+                        },
+                        function(reject) {
+
+                            scope._loadEditor('', false);
+                        }
+                    )
+                });
+
+
+                // MESSAGES
+                scope.$on('$destroy', function (e) {
+
+                    watchScriptFileName();
+                });
+
+                scope.$on('save:script', function(e) {
+
+                    var requestDataObj = {
+                        serviceName: scope.serviceName,
+                        fileName: scope.fileName,
+                        body:  scope.editor.getValue() || " "
+                    };
+
+                    scope._saveFileOnServer(requestDataObj).then(
+                        function(result) {
+
+                            scope._cleanEditor();
+                            // Needs to be replaced with angular messaging
+                            $(function(){
+                                new PNotify({
+                                    title: 'Scripts',
+                                    type:  'success',
+                                    text:  'Script saved successfully.'
+                                });
+                            });
+
+                        },
+                        function(reject) {
+
+                            throw {
+                                module: 'DreamFactory System Config Module',
+                                type: 'error',
+                                provider: 'dreamfactory',
+                                exception: reject
+                            }
+                        }
+                    )
+                });
+
+                scope.$on('delete:script', function (e) {
+
+                    var requestDataObj = {
+                        serviceName: scope.serviceName,
+                        fileName: scope.fileName,
+                        scriptId:  scope.currentScriptObj.script_id
+                    };
+
+                    scope._deleteFileOnServer(requestDataObj).then(
+                        function(result) {
+
+                            scope.editor.setValue('', false);
+                            scope._cleanEditor();
+
+                            $(function(){
+                                new PNotify({
+                                    title: 'Scripts',
+                                    type:  'success',
+                                    text:  'Script deleted successfully.'
+                                });
+                            });
+                        },
+                        function(reject) {
+
+                            throw {
+                                module: 'DreamFactory System Config Module',
+                                type: 'error',
+                                provider: 'dreamfactory',
+                                exception: reject
+                            }
+                        }
+                    )
+                });
+
+                scope.$on('load:direct', function (e, dataObj) {
+
+                    scope._loadEditor(dataObj, false);
+                })
+            }
+        }
+    }])
     .service('dfLoadingScreen', [
         function () {
             var _elem = angular.element('.loading-screen');
