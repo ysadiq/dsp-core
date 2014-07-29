@@ -409,9 +409,6 @@ class WebController extends BaseWebController
             {
                 if ( $_model->validate() )
                 {
-                    //  Restore private storage
-                    Platform::restorePrivateStorage();
-
                     $this->redirect( $this->_getRedirectUrl() );
 
                     return;
