@@ -18,6 +18,7 @@
  */
 'use strict';
 
+
 angular.module('dfUtility', [])
     .constant('DF_UTILITY_ASSET_PATH', 'admin_components/dreamfactory_components/adf-utility/')
     .directive('dreamfactoryAutoHeight', ['$window', '$route', function ($window) {
@@ -120,6 +121,7 @@ angular.module('dfUtility', [])
                 },
                 templateUrl: DF_UTILITY_ASSET_PATH + 'views/verb-picker.html',
                 link: function (scope, elem, attrs) {
+
                     scope.verbs = {
                         GET: {name: 'GET', active: false, description: ' (read)'},
                         POST: {name: 'POST', active: false, description: ' (create)'},
@@ -226,9 +228,12 @@ angular.module('dfUtility', [])
         'DF_UTILITY_ASSET_PATH', 'DSP_URL', '$http', function (DF_UTILITY_ASSET_PATH, DSP_URL, $http) {
 
             return {
-                restrict: 'E', scope: {
-                    services: '=?', selected: '=?'
-                }, templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-service-picker.html', link: function (scope, elem, attrs) {
+                restrict: 'E',
+                scope: {
+                    services: '=?',
+                    selected: '=?'
+                },
+                templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-service-picker.html', link: function (scope, elem, attrs) {
 
                     scope.resources = [];
                     scope.activeResource = null;
@@ -295,41 +300,20 @@ angular.module('dfUtility', [])
             }
         }
     ])
-    .directive('fileModel', [
-        '$parse', function ($parse) {
-            return {
-                restrict: 'A', link: function (scope, element, attrs) {
-
-                    var model = $parse(attrs.fileModel);
-                    var modelSetter = model.assign;
-
-                    element.on(
-                        'change', function () {
-                            scope.$apply(
-                                function () {
-                                    modelSetter(scope, element[0].files[0]);
-                                }
-                            );
-                        }
-                    );
-                }
-            };
-        }
-    ])
     .directive('dfAceEditor', ['DSP_URL', 'DF_UTILITY_ASSET_PATH', '$http', function (DSP_URL, DF_UTILITY_ASSET_PATH, $http) {
 
         return {
             restrict: 'E',
             scope: {
-                serviceName: '=',
-                fileName: '=',
-                filePath: '=',
-                isClean: '='
+                directData: '=?',
+                currentEditor: '=?',
+                serviceName: '=?',
+                fileName: '=?',
+                filePath: '=?',
+                isClean: '=?'
             },
             templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-ace-editor.html',
             link: function (scope, elem, attrs) {
-
-
 
                 scope.editor = null;
                 scope.currentScriptObj = '';
@@ -407,7 +391,6 @@ angular.module('dfUtility', [])
 
                     scope._setEditorInactive(inactive);
 
-
                     scope.editor.session.setValue(contents);
 
                     scope.editor.focus();
@@ -415,8 +398,7 @@ angular.module('dfUtility', [])
                     scope.editor.on('input', function() {
                         scope.$apply(function() {
                             scope.isClean = scope.editor.session.getUndoManager().isClean();
-
-                        })
+                        });
                     });
                 };
 
@@ -455,11 +437,21 @@ angular.module('dfUtility', [])
                     )
                 });
 
+                var watchDirectData = scope.$watch('directData', function (newValue, oldValue) {
+
+                    if (!newValue) return false;
+
+                    scope._loadEditor(newValue, true);
+                    scope.currentEditor = scope.editor;
+
+                });
+
 
                 // MESSAGES
                 scope.$on('$destroy', function (e) {
 
                     watchScriptFileName();
+                    watchDirectData();
                 });
 
                 scope.$on('save:script', function(e) {
@@ -533,10 +525,32 @@ angular.module('dfUtility', [])
                 scope.$on('load:direct', function (e, dataObj) {
 
                     scope._loadEditor(dataObj, false);
-                })
+                });
+
             }
         }
     }])
+    .directive('fileModel', [
+        '$parse', function ($parse) {
+            return {
+                restrict: 'A', link: function (scope, element, attrs) {
+
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.on(
+                        'change', function () {
+                            scope.$apply(
+                                function () {
+                                    modelSetter(scope, element[0].files[0]);
+                                }
+                            );
+                        }
+                    );
+                }
+            };
+        }
+    ])
     .service('dfLoadingScreen', [
         function () {
             var _elem = angular.element('.loading-screen');

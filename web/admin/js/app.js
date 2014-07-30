@@ -24,8 +24,7 @@ var container = $("#container");
 /**
  * Angular module declaration
  */
-angular.module(
-        "AdminApp", [
+angular.module("AdminApp", [
             "ngRoute",
             "ngResource",
             "ui.bootstrap.accordion",
@@ -460,11 +459,21 @@ angular.module(
         return $resource(
             "/rest/system/service/:id/?app_name=admin&fields=*&filter=type!='Local Portal Service'", {}, {
                 update: {
-                    method: 'PUT'
+                    method: 'PUT',
+                    params: {
+                        related: 'docs'
+                    }
                 },
                 query: {
                     method: 'GET',
                     isArray: false
+                },
+                get: {
+                    method: 'GET',
+                    isArray: false,
+                    params: {
+                        related:'docs'
+                    }
                 }
             }
         );

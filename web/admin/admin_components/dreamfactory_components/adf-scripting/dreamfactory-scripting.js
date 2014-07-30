@@ -325,13 +325,12 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                     }else {
 
-                        angular.forEach(pathRef.access, function (verb) {
-                            verb.toLowerCase();
+                        angular.forEach(pathRef.access, function (verb, index) {
+                            pathRef.access[index] = verb.toLowerCase();
                         });
 
                         verbs = pathRef.access || ['get', 'post', 'patch', 'delete'];
                     }
-
 
 
                     // Loop through the verbs and create Verb Objects
@@ -344,36 +343,40 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             switch (verb) {
 
                                 case "GET":
+                                case "get":
 
                                     // build Verb Object and store in static events
                                     staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'select'));
                                     break;
 
                                 case "POST":
+                                case "post":
 
                                     // SAO
                                     staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'insert'));
                                     break;
 
                                 case "PUT":
+                                case "put":
 
                                     // SAO
                                     staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
                                     break;
 
                                 case "PATCH":
-
+                                case "patch":
                                     // SAO
                                     staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
                                     break;
 
                                 case "MERGE":
+                                case "merge":
 
                                     // No support for a static merge event at this time
                                     break;
 
                                 case "DELETE":
-
+                                case "delete":
                                     // SAO
                                     staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'delete'));
                                     break;

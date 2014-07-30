@@ -62,6 +62,49 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     // End Controls for responsive
 
 
+    // Remote Web Services Definition Editor
+
+    $scope.isEditorClean = true;
+    $scope.currentEditor = null;
+
+    $scope.createNewServiceDef = function (currentService) {
+
+        function createServiceDefObj() {
+            return {
+                content: 'Test Content'
+            }
+        }
+
+
+        if (!currentService.hasOwnProperty('docs')) {
+
+            throw {
+                module: 'DreamFactory Services Module',
+                type: 'error',
+                provider: 'dreamfactory',
+                exception: "No docs Property on service object."
+            };
+
+            return false;
+        }
+
+        // Add new service def obj to currentService obj
+        currentService.docs.push(createServiceDefObj());
+    };
+
+
+    $scope.updateServiceDefObj = function (currentService) {
+
+        $scope.isEditorClean = false;
+
+        if ($scope.isEditorClean) {
+         return false;
+         }
+
+         currentService.docs[0].content = $scope.currentEditor.session.getValue();
+    };
+
+    // End Remote Web Services Definition Editor
 
 	$scope.$on(
 		'$routeChangeSuccess', function() {
@@ -202,6 +245,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	Scope.service = {};
 	Scope.Services = Service.get({},function(response) {
         $scope.servicesLoaded = true;
+        console.log(response);
 
         // Stop loading screen
         dfLoadingScreen.stop();
@@ -346,9 +390,16 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		}
 		Scope.service.parameters = Scope.tableData;
 		Scope.service.headers = Scope.headerData;
-		var id = Scope.service.id;
+
+        if (Scope.service.type === 'Remote Web Service') {
+
+            $scope.updateServiceDefObj(Scope.service);
+        }
+
+
+        var id = Scope.service.id;
 		Service.update(
-			{id: id}, Scope.service, function( data ) {
+			{id : id}, Scope.service, function( data ) {
 				updateByAttr( Scope.Services.record, 'id', id, data );
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Updated Successfully");
@@ -712,6 +763,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				}
 			}
 		}
+
+
+
 		Scope.action = "Update";
 		$( '.save_button' ).hide();
 		$( '.update_button' ).show();
@@ -804,3 +858,5 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	Scope.promptForNew();
 
 };
+
+
