@@ -180,23 +180,16 @@ div {
 	font-weight: 300;
 }
 
-#app-groups-container .panel-warning > .panel-heading {
-	border-bottom: 1px solid rgba(138, 109, 59, 0.10);
+#app-groups-container > .panel-group .panel + .panel {
+	margin-top: 0;
 }
 
 #app-groups-container .panel-warning > .panel-body {
-	background:    rgba(252, 248, 227, .50);
-	border-bottom: 1px solid rgba(138, 109, 59, 0.10);
-}
-
-#app-groups-container .panel-warning > .panel-body {
-	background:    rgba(252, 248, 227, .50);
-	border-bottom: 1px solid rgba(138, 109, 59, 0.10);
+	background: rgba(252, 248, 227, .25);
 }
 
 #app-groups-container .panel-warning > ul > li {
-	background:    rgba(250, 242, 204, .05);
-	border-bottom: 1px solid rgba(250, 242, 204, .10);
+	background: rgba(250, 242, 204, .05);
 }
 
 .list-group-item.list-group-item-warning.app-icon {
