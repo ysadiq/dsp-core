@@ -43,7 +43,7 @@ body {
 	font-weight: 300;
 	min-height:  100%;
 	height:      auto;
-	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+	font-family: 'Lato', 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 }
 
 /*noinspection CssInvalidElement*/
@@ -191,92 +191,92 @@ div {
 	border-radius:    0;
 }
 
-.accordion-heading {
-	border-bottom: 0;
-}
+/*.accordion-heading {*/
+/*border-bottom: 0;*/
+/*}*/
 
-.accordion-toggle {
-	cursor: pointer;
-}
+/*.accordion-toggle {*/
+/*cursor: pointer;*/
+/*}*/
 
-.accordion-heading .accordion-toggle {
-	display: block;
-	padding: 8px 15px;
-}
+/*.accordion-heading .accordion-toggle {*/
+/*display: block;*/
+/*padding: 8px 15px;*/
+/*}*/
 
-.accordion-group a {
-	color: white;
-}
+/*.accordion-group a {*/
+/*color: white;*/
+/*}*/
 
-.accordion-group a:hover {
-	color: black;
-}
+/*.accordion-group a:hover {*/
+/*color: black;*/
+/*}*/
 
-.accordion-group a:active {
-	color: white;
-}
+/*.accordion-group a:active {*/
+/*color: white;*/
+/*}*/
 
-.group-title {
-	margin-bottom: 0;
-	font-weight:   300;
-	line-height:   40px;
-}
+/*.group-title {*/
+/*margin-bottom: 0;*/
+/*font-weight:   300;*/
+/*line-height:   40px;*/
+/*}*/
 
-.group-description {
-	margin-left: 20px;
-}
+/*.group-description {*/
+/*margin-left: 20px;*/
+/*}*/
 
-.group-icon {
-	padding:        20px 10px 10px 10px;
-	vertical-align: middle;
-}
+/*.group-icon {*/
+/*padding:        20px 10px 10px 10px;*/
+/*vertical-align: middle;*/
+/*}*/
 
-.group-items {
-	/*
-	-webkit-box-shadow: 0px 0px 5px #ddd inset;
-	-moz-box-shadow:    0px 0px 5px #ddd inset;
-	box-shadow:         0px 0px 5px #ddd inset;
-	*/
-	padding-left:  0;
-	padding-right: 0;
-}
+/*.group-items {*/
+/**/
+/*-webkit-box-shadow: 0px 0px 5px #ddd inset;*/
+/*-moz-box-shadow:    0px 0px 5px #ddd inset;*/
+/*box-shadow:         0px 0px 5px #ddd inset;*/
+/**/
+/*padding-left:  0;*/
+/*padding-right: 0;*/
+/*}*/
 
-.group-items ul {
-	margin-left: 0;
-}
+/*.group-items ul {*/
+/*margin-left: 0;*/
+/*}*/
 
-.group-items ul li {
-	border-bottom: 1px solid #fff;
-	list-style:    none;
-	padding-left:  45px;
-}
+/*.group-items ul li {*/
+/*border-bottom: 1px solid #fff;*/
+/*list-style:    none;*/
+/*padding-left:  45px;*/
+/*}*/
 
-.group-items ul li:hover {
-	color: black !important;
-}
+/*.group-items ul li:hover {*/
+/*color: black !important;*/
+/*}*/
 
-.group-items ul li:last-child {
-	border-bottom: none;
-}
+/*.group-items ul li:last-child {*/
+/*border-bottom: none;*/
+/*}*/
 
-.group-items ul li a {
-	color:       white;
-	font-weight: 300 !important;
-}
+/*.group-items ul li a {*/
+/*color:       white;*/
+/*font-weight: 300 !important;*/
+/*}*/
 
-.group-items ul li a:hover {
-	color: black !important;
+/*.group-items ul li a:hover {*/
+/*color: black !important;*/
 
-}
+/*}*/
 
-.group-items ul li a h4 {
-	margin-bottom: 0;
-	font-weight:   300;
-}
+/*.group-items ul li a h4 {*/
+/*margin-bottom: 0;*/
+/*font-weight:   300;*/
+/*}*/
 
-.group-items ul li a p {
-	margin-left: 20px;
-}
+/*.group-items ul li a p {*/
+/*margin-left: 20px;*/
+/*}*/
 
 /**************************************************************************
 ** Miscellaneous
@@ -327,7 +327,7 @@ div {
 }
 
 .modal-body-form label {
-	font-family:   "Open Sans", "Helvetica Neue Light", 'Arial', sans-serif;
+	font-family:   "Lato", "Open Sans", "Helvetica Neue Light", 'Arial', sans-serif;
 	font-weight:   bold;
 	text-align:    left;
 	margin-bottom: 2px;
@@ -367,72 +367,72 @@ div {
 	transition:         transform 0.0s ease-out;
 }
 
-.accordion-group a {
-	color: white;
-}
+/*.accordion-group a {*/
+/*color: white;*/
+/*}*/
 
-.accordion-group a:hover {
-	color: black;
-}
+/*.accordion-group a:hover {*/
+/*color: black;*/
+/*}*/
 
-.accordion-group a:active {
-	color: white;
-}
+/*.accordion-group a:active {*/
+/*color: white;*/
+/*}*/
 
-.group-title {
-	margin-bottom: 0;
-	font-weight:   300;
-}
+/*.group-title {*/
+/*margin-bottom: 0;*/
+/*font-weight:   300;*/
+/*}*/
 
-.group-description {
-	margin-left: 20px;
-}
+/*.group-description {*/
+/*margin-left: 20px;*/
+/*}*/
 
-.group-items {
-	/*
-	-webkit-box-shadow: 0px 0px 5px #ddd inset;
-	-moz-box-shadow:    0px 0px 5px #ddd inset;
-	box-shadow:         0px 0px 5px #ddd inset;
-	*/
-	padding-left:  0;
-	padding-right: 0;
-}
+/*.group-items {*/
+/**/
+/*-webkit-box-shadow: 0px 0px 5px #ddd inset;*/
+/*-moz-box-shadow:    0px 0px 5px #ddd inset;*/
+/*box-shadow:         0px 0px 5px #ddd inset;*/
+/**/
+/*padding-left:  0;*/
+/*padding-right: 0;*/
+/*}*/
 
-.group-items ul {
-	margin-left: 0;
-}
+/*.group-items ul {*/
+/*margin-left: 0;*/
+/*}*/
 
-.group-items ul li {
-	border-bottom: 1px solid #fff;
-	list-style:    none;
-	padding-left:  45px;
-}
+/*.group-items ul li {*/
+/*border-bottom: 1px solid #fff;*/
+/*list-style:    none;*/
+/*padding-left:  45px;*/
+/*}*/
 
-.group-items ul li:hover {
-	color: black !important;
-}
+/*.group-items ul li:hover {*/
+/*color: black !important;*/
+/*}*/
 
-.group-items ul li:last-child {
-	border-bottom: none;
-}
+/*.group-items ul li:last-child {*/
+/*border-bottom: none;*/
+/*}*/
 
-.group-items ul li a {
-	color:       white;
-	font-weight: 300 !important;
-}
+/*.group-items ul li a {*/
+/*color:       white;*/
+/*font-weight: 300 !important;*/
+/*}*/
 
-.group-items ul li a:hover {
-	color: black !important;
-}
+/*.group-items ul li a:hover {*/
+/*color: black !important;*/
+/*}*/
 
-.group-items ul li a h4 {
-	margin-bottom: 0;
-	font-weight:   300;
-}
+/*.group-items ul li a h4 {*/
+/*margin-bottom: 0;*/
+/*font-weight:   300;*/
+/*}*/
 
-.group-items ul li a p {
-	margin-left: 20px;
-}
+/*.group-items ul li a p {*/
+/*margin-left: 20px;*/
+/*}*/
 
 #rocket {
 	box-shadow:   0 5px 3px #000000;
@@ -792,6 +792,27 @@ div {
 .app-list-item-body {
 	margin-left: 78px;
 	margin-top:  -10px;
+}
+
+.group-title {
+	font-size: 30px;
+}
+
+.list-group-item.app-icon {
+	display:    inline-block;
+	float:      left;
+	height:     48px;
+	width:      48px;
+	margin-top: 8px 0 9px;
+	padding:    0;
+}
+
+.list-group-item.app-listing {
+	padding-left: 40px;
+}
+
+#app-groups-container .panel-warning > .panel-heading {
+	border-bottom: 1px solid rgba(138, 109, 59, 0.15);
 }
 
 @media screen and (max-width: 768px) {

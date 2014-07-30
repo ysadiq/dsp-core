@@ -1,41 +1,59 @@
-{{#apps.app_groups}}
-<h3>{{name}}</h3>
-<table class="table is_grouped">
-	{{#apps}}
-	<tr>
-		<td>
-			<div class="media"
-				style="margin: 0;"
-				onclick="Actions.showApp('{{api_name}}', '{{launch_url}}', '{{is_url_external}}', '{{requires_fullscreen}}')">
-				<span class="well well-small pull-left"><i class="fa fa-cloud fa-2x"></i></span>
-
-				<div class="media-body">
-					<h4 class="media-heading">{{name}}</h4>
-
-					<p>{{description}}</p>
+<div id="app-groups-container">
+	{{#Applications.app_groups}}
+		<div class="panel-group" id="accordion">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title group-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{id}}">{{name}}</a>
+					</h3>
 				</div>
+				{{#description}}
+					<div class="panel-body group-description"><p>{{description}}</p></div>
+				{{/description}}
+
+				<ul id="collapse-{{id}}" class="list-group">
+					{{#apps}}
+						<li>
+							<a href="#"
+							   class="list-group-item app-listing list-group-item-warning "
+							   data-ng-click="Actions.showApp('{{api_name}}','{{launch_url}}','{{is_url_external}}','{{requires_fullscreen}}');">
+								<h4 class="list-group-item-heading">{{name}}</h4>
+
+								<p class="list-group-item-text">{{description}}</p>
+							</a>
+						</li>
+					{{/apps}}
+				</ul>
 			</div>
-		</td>
-	</tr>
-	{{/apps}}
-</table>
-{{/apps.app_groups}}
-<table class="table">
-	{{#apps.no_group_apps}}
-	<tr>
-		<td>
-			<div class="media"
-				style="margin: 0;"
-				onclick="Actions.showApp('{{api_name}}', '{{launch_url}}','{{is_url_external}}','{{requires_fullscreen}}');">
-				<span class=" well well-small warning pull-left" data-target="#" href="#"><i class="fa fa-cloud fa-2x"></i></span>
-
-				<div class="media-body">
-					<h4 class="media-heading">{{name}}</h4>
-
-					<p>{{description}}</p>
+		</div>
+	{{/Applications.app_groups}}
+	{{#Applications.mnm_ng_apps}}
+		<div class="panel-group" id="accordion">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title group-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{id}}">Default Group</a>
+					</h3>
 				</div>
+				{{#description}}
+					<div class="panel-body group-description"><p>{{description}}</p></div>
+				{{/description}}
+
+
+				<ul id="collapse-{{id}}" class="list-group">
+					{{#apps}}
+						<li>
+							<a href="#"
+							   class="list-group-item app-listing list-group-item-warning"
+							   onClick="Actions.showApp( '{{api_name}}', '{{launch_url}}', '{{is_url_external}}', {{requires_fullscreen}}, {{allow_fullscreen_toggle}} );">
+								<h4 class="list-group-item-heading">{{name}}</h4>
+
+								<p class="list-group-item-text">{{description}}</p>
+							</a>
+						</li>
+					{{/apps}}
+				</ul>
 			</div>
-		</td>
-	</tr>
-	{{/apps.no_group_apps}}
-</table>
+		</div>
+	{{/Applications.mnm_ng_apps}}
+</div>
