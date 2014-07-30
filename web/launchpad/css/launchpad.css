@@ -180,6 +180,46 @@ div {
 	font-weight: 300;
 }
 
+#app-groups-container .panel-warning > .panel-heading {
+	border-bottom: 1px solid rgba(138, 109, 59, 0.10);
+}
+
+#app-groups-container .panel-warning > .panel-body {
+	background:    rgba(252, 248, 227, .50);
+	border-bottom: 1px solid rgba(138, 109, 59, 0.10);
+}
+
+#app-groups-container .panel-warning > .panel-body {
+	background:    rgba(252, 248, 227, .50);
+	border-bottom: 1px solid rgba(138, 109, 59, 0.10);
+}
+
+#app-groups-container .panel-warning > ul > li {
+	background:    rgba(250, 242, 204, .05);
+	border-bottom: 1px solid rgba(250, 242, 204, .10);
+}
+
+.list-group-item.list-group-item-warning.app-icon {
+	display:    inline-block;
+	float:      left;
+	height:     48px;
+	width:      48px;
+	margin-top: 8px 0 9px;
+	padding:    0;
+}
+
+.list-group-item.list-group-item-warning.app-listing {
+	padding-left: 40px;
+}
+
+.list-group-item-heading {
+	font-size: 21px;
+}
+
+.list-group-item-text {
+	font-size: 17px;
+}
+
 #app-list-container {
 	background-size:  cover;
 	background-color: rgba(0, 0, 0, 1);
@@ -503,10 +543,6 @@ div {
 	display: inline-block;
 }
 
-#app-groups-container {
-	font-family: 'Lato', sans-serif;
-}
-
 #app-list-container {
 	background-size:  cover;
 	background-color: rgba(0, 0, 0, .25);
@@ -796,23 +832,6 @@ div {
 
 .group-title {
 	font-size: 30px;
-}
-
-.list-group-item.app-icon {
-	display:    inline-block;
-	float:      left;
-	height:     48px;
-	width:      48px;
-	margin-top: 8px 0 9px;
-	padding:    0;
-}
-
-.list-group-item.app-listing {
-	padding-left: 40px;
-}
-
-#app-groups-container .panel-warning > .panel-heading {
-	border-bottom: 1px solid rgba(138, 109, 59, 0.15);
 }
 
 @media screen and (max-width: 768px) {

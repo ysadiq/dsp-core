@@ -1,6 +1,6 @@
 <div id="app-groups-container">
-	{{#Applications.app_groups}}
-		<div class="panel-group" id="accordion">
+	<div class="panel-group" id="accordion">
+		{{#Applications.app_groups}}
 			<div class="panel panel-warning">
 				<div class="panel-heading">
 					<h3 class="panel-title group-title">
@@ -25,10 +25,8 @@
 					{{/apps}}
 				</ul>
 			</div>
-		</div>
-	{{/Applications.app_groups}}
-	{{#Applications.mnm_ng_apps}}
-		<div class="panel-group" id="accordion">
+		{{/Applications.app_groups}}
+		{{#Applications.mnm_ng_apps}}
 			<div class="panel panel-warning">
 				<div class="panel-heading">
 					<h3 class="panel-title group-title">
@@ -54,6 +52,6 @@
 					{{/apps}}
 				</ul>
 			</div>
-		</div>
-	{{/Applications.mnm_ng_apps}}
+		{{/Applications.mnm_ng_apps}}
+	</div>
 </div>
