@@ -2,10 +2,7 @@
 	<div class="container-fluid df-navbar">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
 			<span class="df-logo"><img src="/img/logo-navbar-194x42.png"></span>
 		</div>
@@ -14,12 +11,15 @@
 			<div class="btn-toolbar btn-toolbar-nav" role="toolbar">
 				<div class="btn-group btn-group-md">
 					{{#user.activeSession}}
-						<a onclick="Actions.doProfileDialog()" id="dfProfileLnk" class="btn btn-launch" title="Change Your Profile"><i class="fa fa-user"></i></a>
+						<a onclick="Actions.doProfileDialog()"
+							id="dfProfileLnk"
+							class="btn btn-launch"
+							title="Change Your Profile"><i class="fa fa-user"></i></a>
 
 						<a id="dfPasswordLnk"
-						   onclick="Actions.doChangePasswordDialog()"
-						   class="btn btn-launch "
-						   title="Change Your Password"><i class="fa fa-key"></i></a>
+							onclick="Actions.doChangePasswordDialog()"
+							class="btn btn-launch "
+							title="Change Your Password"><i class="fa fa-key"></i></a>
 
 						{{#user.is_sys_admin}}
 							<button type="button" class="btn btn-launch dropdown-toggle" title="Admin Tools" data-toggle="dropdown">
@@ -35,6 +35,7 @@
 									<a href="#" onclick="Actions.flushSwaggerCache();">Rebuild Swagger Cache</a>
 								</li>
 							</ul>
+							<a id="adminLink" class="btn btn-launch disabled" title="Admin Console"><i class="fa fa-cog"></i></a>
 						{{/user.is_sys_admin}}
 
 						<a
@@ -53,21 +54,16 @@
 
 				<div class="btn-group btn-group-md">
 					{{#user.show_apps_list_btn}}
-						<a id="apps-list-btn" onclick="Actions.showAppList()" class="btn btn-launch " title="Show Apps"><i class="fa fa-list"></i></a>
+						<a id="apps-list-btn" onclick="Actions.toggleAppList()" class="btn btn-launch" title="Show Apps"><i class="fa fa-list"></i></a>
+						<a id="fs-enter"
+							class="btn btn-launch"
+							title="Full Screen"
+							href="#"
+							onclick="Actions._showHideNavbar(false);"><i class="fa fa-expand"></i></a>
 					{{/user.show_apps_list_btn}}
-
-					{{#user.show_apps_list_btn}}
-						<a id="fs_toggle" class="btn btn-launch disabled" title="Full Screen">
-							<i class="fa fa-expand"></i></a>
-					{{/user.show_apps_list_btn}}
-
-					{{#user.is_sys_admin}}
-						<a id="adminLink" class="btn btn-launch disabled" title="Admin Console"><i class="fa fa-cog"></i></a>
-					{{/user.is_sys_admin}}
 
 					<a id="helpLink" target="df-new" class="btn btn-launch " href="http://www.dreamfactory.com/developers" title="Help">
-						<i class="fa fa-question-circle"></i>
-					</a>
+						<i class="fa fa-question-circle"></i> </a>
 				</div>
 			</div>
 		</div>
