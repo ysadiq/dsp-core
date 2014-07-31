@@ -188,14 +188,38 @@ Actions = {
 			return this.showAdmin();
 		}
 
-		if (1 == data.app_groups.length && 1 == data.app_groups[0].apps.length && !data.no_group_apps.length) {
-			_app = data.app_groups[0].apps[0];
-		} else if (!data.app_groups.length && data.no_group_apps.length) {
-			_app = data.no_group_apps[0];
-		} else if (!data.app_groups.length && !data.no_group_apps.length) {
-			this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
-			return this;
-		}
+        // If no apps present show error.
+
+        if (data.app_groups.length === 0 && data.no_group_apps.length === 0) {
+            this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
+            return this;
+        }
+
+        // If there is a single app present we should launch it immediately.
+        // Case 1: No grouped apps and 1 ungrouped app
+        // Case 2: One or more groups with the same single app in each group and no ungrouped apps
+
+        var _uniqueGroupedApps = [];
+
+        data.app_groups.forEach(
+            function(group) {
+                group.apps.forEach(
+                    function(app) {
+                        if (_uniqueGroupedApps.indexOf(app.id) === -1) {
+                            _uniqueGroupedApps.push(app.id);
+                        }
+                    }
+                );
+            }
+        );
+
+        if (_uniqueGroupedApps.length === 0 && data.no_group_apps.length === 1) {
+            // case 1
+            _app = data.no_group_apps[0];
+        } else if (_uniqueGroupedApps.length === 1 && data.no_group_apps.length === 0) {
+            // case 2
+            _app = data.app_groups[0].apps[0];
+        }
 
 		if (_app) {
 			$('#app-list-container').hide();
@@ -346,11 +370,7 @@ Actions = {
 
 	appGrouper: function(sessionInfo) {
 		// Check if sessionInfo has any apps in the no_group_apps array
-		if (0 === sessionInfo.no_group_apps) {
-			// It doesn't have any apps
-			// Fail silently
-			//console.log('fail');
-		} else {
+		if (sessionInfo.no_group_apps.length > 0) {
 			// It does have apps!
 
 			//create an array variable to store these apps
@@ -362,6 +382,7 @@ Actions = {
 			// create the property 'apps' on our new object
 			apps.apps = sessionInfo.no_group_apps;
 
+			// remove apps not launchable from here
 			var no_url_apps = [];
 
 			$.each(
