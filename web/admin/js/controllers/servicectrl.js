@@ -67,41 +67,65 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     $scope.isEditorClean = true;
     $scope.currentEditor = null;
 
+    $scope.confirmServiceDefOverwrite = function () {
+        return confirm("Overwrite current service definition?  This operation cannot be undone.");
+    };
+
+    $scope.confirmServiceDefDelete = function () {
+
+        return confirm("Delete service definition?  This operation cannot be undone.");
+    };
+
     $scope.createNewServiceDef = function (currentService) {
 
+        console.log(angular.fromJson(swaggerTemplate()))
+
+        // Create a service def obj
         function createServiceDefObj() {
             return {
-                content: 'Test Content'
+                content: serviceDefDisclaimer() + '\n' + angular.toJson(swaggerTemplate(), true)
             }
         }
 
-
+        // Do we have a docs property
         if (!currentService.hasOwnProperty('docs')) {
 
-            throw {
-                module: 'DreamFactory Services Module',
-                type: 'error',
-                provider: 'dreamfactory',
-                exception: "No docs Property on service object."
-            };
-
-            return false;
+            // No.  Create it and add a service def obj
+            currentService['docs'] = [];
+            currentService.docs.push(createServiceDefObj());
         }
+        // We do have docs property.  Is it empty or null
+        else if (currentService.docs.length > 0 && (currentService.docs[0].content != '' || currentService.docs[0].content != null)) {
 
-        // Add new service def obj to currentService obj
-        currentService.docs.push(createServiceDefObj());
+            // No.  We need confirmation.
+            // Add new service def obj to currentService obj
+            if ($scope.confirmServiceDefOverwrite()) {
+
+                currentService.docs[0] = createServiceDefObj();
+            }
+        }
+        // We have an empty docs object
+        else {
+
+            // Just add the service def obj
+            currentService.docs[0] = createServiceDefObj();
+        }
     };
 
-
     $scope.updateServiceDefObj = function (currentService) {
-
-        $scope.isEditorClean = false;
 
         if ($scope.isEditorClean) {
          return false;
          }
 
          currentService.docs[0].content = $scope.currentEditor.session.getValue();
+    };
+
+    $scope.deleteServiceDef = function (currentService) {
+
+        if ($scope.confirmServiceDefDelete()) {
+            currentService.docs = [];
+        }
     };
 
     // End Remote Web Services Definition Editor
@@ -142,6 +166,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.action = "Create";
 		$( '#step1' ).show();
 		Scope.service = {headers: [], parameters: [], credentials: {public_paths: []}};
+
         $scope.$watch(
             "sqlServerPrefix",
             function( newValue, oldValue ) {
@@ -857,6 +882,346 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	//$( "#swagger, #swagger iframe" ).hide();
 	Scope.promptForNew();
 
+
+
+    // Create Swagger Definition Template
+    function serviceDefDisclaimer() {
+
+        var text = '/**\n' +
+            '* This file is a swagger template for the definition\n' +
+            '* of a remote web service.  Errors in this file will\n' +
+            '* contribute to undefined behavior, such as Swagger UI\n' +
+            '* not loading, in the DSP.  Create/Edit with care and \n' +
+            '* delete these comments before saving the service.\n' +
+            '* \n' +
+            '* FAILURE TO DELETE THESE COMMENTS WILL RESULT IN SWAGGER\'S\n' +
+            '* INABILITY TO DISPLAY YOUR SERVICE.\n' +
+            '**/\n\n';
+        return text;
+
+    }
+    function swaggerTemplate() {
+        return {
+            "swaggerVersion": "1.2",
+            "apiVersion":     "1.0",
+            "basePath":       "http://localhost/rest",
+            "resourcePath":   "/{api_name}",
+            "produces":       [
+                "application/json", "application/xml"
+            ],
+            "consumes":       [
+                "application/json", "application/xml"
+            ],
+            "apis":           [
+                {
+                    "path":        "/{api_name}",
+                    "operations":  [
+                        {
+                            "method":   "GET",
+                            "summary":  "List resource types available for this service.",
+                            "nickname": "getResources",
+                            "type":     "Resources",
+                            "notes":    "See listed operations for each resource type available."
+                        }
+                    ],
+                    "description": "Operations available for this service."
+                },
+                {
+                    "path":        "/{api_name}/{resource_type}",
+                    "operations":  [
+                        {
+                            "method":           "GET",
+                            "summary":          "Retrieve multiple items of a resource type.",
+                            "nickname":         "getItems",
+                            "type":             "Items",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "ids",
+                                    "description":   "Comma-delimited list of the identifiers of the resources to retrieve.",
+                                    "allowMultiple": true,
+                                    "type":          "string",
+                                    "paramType":     "query",
+                                    "required":      false
+                                },
+                                {
+                                    "name":          "include_count",
+                                    "description":   "Include the total number of items in the returned metadata results.",
+                                    "allowMultiple": false,
+                                    "type":          "boolean",
+                                    "paramType":     "query",
+                                    "required":      false
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Use the 'ids' parameter to limit items that are returned."
+                        },
+                        {
+                            "method":           "POST",
+                            "summary":          "Create one or more items.",
+                            "nickname":         "createItems",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "items",
+                                    "description":   "JSON array of objects containing name-value pairs of items to create.",
+                                    "allowMultiple": false,
+                                    "type":          "Items",
+                                    "paramType":     "body",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Post data should be a single object or an array of objects (shown)."
+                        },
+                        {
+                            "method":           "DELETE",
+                            "summary":          "Delete one or more items.",
+                            "nickname":         "deleteItems",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "ids",
+                                    "description":   "Comma-delimited list of the identifiers of the resources to retrieve.",
+                                    "allowMultiple": true,
+                                    "type":          "string",
+                                    "paramType":     "query",
+                                    "required":      false
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "If no ids are given, nothing is deleted."
+                        }
+                    ],
+                    "description": "Operations for resource type administration."
+                },
+                {
+                    "path":        "/{api_name}/{resource_type}/{id}",
+                    "operations":  [
+                        {
+                            "method":           "GET",
+                            "summary":          "Retrieve one item by identifier.",
+                            "nickname":         "getItem",
+                            "type":             "Item",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "id",
+                                    "description":   "Identifier of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "All name-value pairs are returned for that item."
+                        },
+                        {
+                            "method":           "PUT",
+                            "summary":          "Update one item by identifier.",
+                            "nickname":         "updateItem",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "id",
+                                    "description":   "Identifier of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "item",
+                                    "description":   "Data containing name-value pairs to update in the item.",
+                                    "allowMultiple": false,
+                                    "type":          "Item",
+                                    "paramType":     "body",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Post data should be a single object of name-value pairs for a single item."
+                        },
+                        {
+                            "method":           "DELETE",
+                            "summary":          "Delete one item by identifier.",
+                            "nickname":         "deleteItem",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to delete.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "id",
+                                    "description":   "Identifier of the resource to delete.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Use the 'fields' and/or 'related' parameter to return deleted properties. By default, the id is returned."
+                        }
+                    ],
+                    "description": "Operations for single item administration."
+                }
+            ],
+            "models":         {
+                "Resources": {
+                    "id":         "Resources",
+                    "properties": {
+                        "resource": {
+                            "type":  "Array",
+                            "items": {
+                                "$ref": "Resource"
+                            }
+                        }
+                    }
+                },
+                "Resource":  {
+                    "id":         "Resource",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "Items":     {
+                    "id":         "Items",
+                    "properties": {
+                        "item": {
+                            "type":        "Array",
+                            "description": "Array of items of the given resource.",
+                            "items":       {
+                                "$ref": "Item"
+                            }
+                        },
+                        "meta": {
+                            "type":        "MetaData",
+                            "description": "Available meta data for the response."
+                        }
+                    }
+                },
+                "Item":      {
+                    "id":         "Item",
+                    "properties": {
+                        "field": {
+                            "type":        "Array",
+                            "description": "Example name-value pairs.",
+                            "items":       {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "Success":   {
+                    "id":         "Success",
+                    "properties": {
+                        "success": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    }
 };
-
-

@@ -439,7 +439,10 @@ angular.module('dfUtility', [])
 
                 var watchDirectData = scope.$watch('directData', function (newValue, oldValue) {
 
-                    if (!newValue) return false;
+                    if (!newValue) {
+                        scope._loadEditor('', false, true);
+                        return false;
+                    }
 
                     scope._loadEditor(newValue, true);
                     scope.currentEditor = scope.editor;
