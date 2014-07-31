@@ -65,18 +65,6 @@ Actions = {
 	},
 
 	/**
-	 *
-	 * @param {*} app
-	 * @param {string|jQuery} [target] For future use
-	 */
-	loadApp: function(app, target) {
-		var $_target = target ? $(target) : $('#app-container');
-		this.showApp(app.api_name, app.launch_url, app.is_url_external, !data.is_sys_admin, app.allow_fullscreen_toggle);
-
-		return this;
-	},
-
-	/**
 	 * Auto run an app passed in on the command line:
 	 *
 	 *    https://dsp-awesome.cloud.dreamfactory.com/?run=app-xyz
@@ -98,9 +86,13 @@ Actions = {
 			this._apps.forEach(
 				function(app) {
 					if (app.api_name == _appToRun) {
-						app.requires_fullscreen &= !app.is_sys_admin;
-						_this.loadApp(app);
-						return false;
+                        if (app.is_sys_admin) {
+                            app.requires_fullscreen = false;
+                        }
+                        Actions.showApp(
+                            app.api_name, app.launch_url, app.is_url_external, app.requires_fullscreen, app.allow_fullscreen_toggle
+                        );
+                        return false;
 					}
 
 					return true;
@@ -143,7 +135,8 @@ Actions = {
 		$_defaultApps.empty();
 
 		if (data && data.no_group_apps) {
-			_apps = data.no_group_apps;
+			// copy
+			_apps = data.no_group_apps.slice(0);
 		}
 
 		data.app_groups.forEach(
@@ -222,9 +215,10 @@ Actions = {
         }
 
 		if (_app) {
+            console.log("Launching app " + _app.api_name);
 			$('#app-list-container').hide();
-			this.loadApp(_app);
-			return this;
+            this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
+            return this;
 		}
 
 		return this.showAppList();
@@ -442,8 +436,12 @@ Actions = {
 					}
 				);
 
-				$.get(
-					'views/_app-list.mustache', function(template) {
+                var _template = 'views/_app-list.mustache';
+                if (sessionInfo.app_groups.length === 0) {
+                    var _template = 'views/_app-list-no-groups.mustache';
+                }
+                $.get(
+					_template, function(template) {
 						var _html = Mustache.render(template, {Applications: sessionInfo});
 						$('#app-list-container').html(_html);
 					}
