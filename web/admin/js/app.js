@@ -198,7 +198,7 @@ angular.module("AdminApp", [
                         getSchemaServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
-                                filter: 'type_id in (8,4104)'
+                                filter: 'type_id in (4, 4100)'
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
