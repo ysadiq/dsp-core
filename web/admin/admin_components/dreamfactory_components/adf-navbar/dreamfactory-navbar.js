@@ -50,7 +50,7 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 label: 'App Groups',
                 active: true,
                 url: '/group',
-                icon: 'fa fa-sitemap'
+                icon: 'fa fa-list'
             },
             {
                 name: 'user',
