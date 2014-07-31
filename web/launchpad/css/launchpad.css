@@ -117,13 +117,11 @@ div {
 	background:  rgba(180, 58, 0, 1);
 	color:       rgba(255, 255, 255, .90);
 	font-weight: bold;
-	transition:  background-color 0.2s color 0.3s;
 }
 
 .btn.btn-launch:hover {
 	background: rgba(251, 154, 29, 1);
 	color:      rgba(255, 255, 255, 1);
-	transition: background-color 0.2s color 0.3s;
 }
 
 .btn.btn-launch.disabled {
@@ -142,20 +140,28 @@ div {
 	background-color: rgba(0, 0, 0, .25);
 }
 
-#rocket {
-	box-shadow:   0 5px 3px #000000;
-	display:      block;
-	font-size:    0.9em;
-	left:         50%;
-	margin-left:  -68px;
-	margin-right: -68px;
-	padding-top:  10px;
-	position:     absolute;
-	top:          -8px;
-	width:        134px;
-	z-index:      999999;
-	white-space:  nowrap;
-	opacity:      .2;
+#fs-exit {
+	font-size:                   8pt;
+	display:                     inline-block;
+	left:                        50%;
+	margin:                      0 auto;
+	padding:                     1px 5px 2px;
+	text-align:                  center;
+	position:                    fixed;
+	top:                         0;
+	z-index:                     999999;
+	white-space:                 nowrap;
+	opacity:                     .25;
+	-moz-border-radius-topleft:  0;
+	-moz-border-radius-topright: 0;
+	border-top-left-radius:      0;
+	border-top-right-radius:     0;
+	transition:                  opacity 0.3s;
+}
+
+#fs-exit:hover {
+	opacity:    1;
+	transition: opacity 0.3s;
 }
 
 /**************************************************************************
@@ -467,23 +473,6 @@ div {
 /*margin-left: 20px;*/
 /*}*/
 
-#rocket {
-	box-shadow:   0 5px 3px #000000;
-	display:      none;
-	font-size:    0.9em;
-	left:         50%;
-	margin-left:  -68px;
-	margin-right: -68px;
-	padding-top:  10px;
-	position:     absolute;
-	top:          -8px;
-	width:        134px;
-	z-index:      999999;
-	white-space:  nowrap;
-	opacity:      .2;
-
-}
-
 .panel-left {
 	margin-right: 0;
 }
@@ -563,7 +552,7 @@ div {
 
 #app-container {
 	bottom:                     0;
-	position:                   fixed;
+	position:                   absolute;
 	left:                       0;
 	right:                      0;
 	top:                        50px;
@@ -810,12 +799,12 @@ div {
 	margin-top:  0;
 	color:       #cd8300;
 	opacity:     0.75;
-	transition:  opacity 1s;
+	transition:  opacity .25s;
 }
 
 .app-list-item-title a:hover {
 	opacity:    1;
-	transition: opacity 0.3s;
+	transition: opacity 0.25s;
 }
 
 .app-list-item-body {
