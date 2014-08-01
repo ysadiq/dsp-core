@@ -639,7 +639,7 @@ We need to preload data but I'm not doing that today. MNM -->
 
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-default" data-ng-click="createNewServiceDef(service)">Create New</button>
-                <button type="button" class="btn btn-default" data-ng-click="deleteServiceDef(service)">Delete</button>
+                <button type="button" class="btn btn-default" data-ng-click="deleteServiceDef(service)" data-ng-disabled="(!service.docs) || service.docs.length === 0">Delete</button>
             </div>
 
         </div>

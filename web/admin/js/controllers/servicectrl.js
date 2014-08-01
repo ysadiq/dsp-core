@@ -22,7 +22,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     $scope.servicesLoaded = false;
 
     // Added controls for responsive
-    $scope.xsWidth = $(window).width() <= 992 ? true : false;
+    $scope.xsWidth = $(window).width() <= 992;
     $scope.activeView = 'list';
 
     $scope.setActiveView = function (viewStr) {
@@ -62,6 +62,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     // End Controls for responsive
 
 
+
     // Remote Web Services Definition Editor
 
     $scope.isEditorClean = true;
@@ -77,8 +78,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     };
 
     $scope.createNewServiceDef = function (currentService) {
-
-        console.log(angular.fromJson(swaggerTemplate()))
 
         // Create a service def obj
         function createServiceDefObj() {
@@ -129,6 +128,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     };
 
     // End Remote Web Services Definition Editor
+
+
+
 
 	$scope.$on(
 		'$routeChangeSuccess', function() {
