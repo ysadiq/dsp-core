@@ -168,7 +168,17 @@ angular.module("AdminApp", [
                             // start the loading screen
                             dfLoadingScreen.start();
                         }]
+                        ,
+                        getServicesAndComponents: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                include_components: true
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
                     }
+
                 }
             );
             $routeProvider.when(

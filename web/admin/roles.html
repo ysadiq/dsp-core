@@ -224,7 +224,7 @@
                                     <div class="col-xs-3 form-group">
                                         <select class="form-control"
                                                 data-ng-model="service_access.component"
-                                                data-ng-options="component.name as component.name for component in ServiceComponents[serviceId2Index(service_access.service_id)]">
+                                                data-ng-options="component as component for component in ServiceComponents[serviceId2Index(service_access.service_id)]">
                                         </select>
                                     </div>
                                     <div class="col-xs-3 form-group">
