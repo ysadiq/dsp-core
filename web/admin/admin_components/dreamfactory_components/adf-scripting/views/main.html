@@ -59,14 +59,14 @@
             <div class="" dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0" auto-height-top="175px" data-bottom-height="220" style="overflow: scroll">
 
                 <div class="list-group scripting-list-group" data-ng-show="menuLevel === 0">
-                    <a class="list-group-item" data-ng-repeat="event in events | filter: pathFilter" data-ng-click="setEvent(event)">{{event.name}}</a>
+                    <a class="list-group-item" data-ng-repeat="event in events | filter: pathFilter" data-ng-click="setEvent(event)">{{event.name}}<i class="fa fa-fw fa-chevron-right pull-right"></i></a>
                 </div>
 
                 <div class="list-group scripting-list-group" data-ng-show="menuLevel === 1 ">
                     <a class="list-group-item"
                        data-ng-if="!_isVariablePath(path)"
                        data-ng-repeat="path in eventList.paths | filter: pathFilter"
-                       data-ng-click="setEventPath(path)">{{path.path}}</a>
+                       data-ng-click="setEventPath(path)">{{path.path}} <i class="fa fa-fw fa-chevron-right pull-right"></i></a>
                 </div>
 
                 <div class="list-group scripting-list-group" data-ng-show="menuLevel >= 2 ">

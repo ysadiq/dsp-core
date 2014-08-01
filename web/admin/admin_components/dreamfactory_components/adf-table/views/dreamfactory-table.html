@@ -228,12 +228,14 @@
                             <td style="width: 100px;" data-ng-class="obj.__dfUI.selected ? 'bg-danger' : '' || obj.__dfUI.unsaved ? 'bg-warning' : '' || obj.__dfUI.export ? 'bg-info' : ''">
                                 <div class="btn-toolbar df-table-btn-bar" >
                                     <div class="btn-group" >
-                                        <button type="button" data-ng-click="editRecord(obj)" class="btn btn-default btn-sm">
+                                        <button type="button" data-ng-click="editRecord(obj)" class="btn btn-default btn-sm"
+                                                data-ng-disabled="childTableActive">
                                             <i class="fa fa-fw fa-pencil"></i>
                                         </button>
 
                                         <button type="button" data-ng-if="options.allowChildTable" class="btn btn-default btn-sm"
-                                                data-ng-click="showChildTable(obj)">
+                                                data-ng-click="showChildTable(obj)"
+                                                data-ng-disabled="childTableActive">
                                             <i class="fa fa-fw fa-sitemap"></i>
                                         </button>
 
