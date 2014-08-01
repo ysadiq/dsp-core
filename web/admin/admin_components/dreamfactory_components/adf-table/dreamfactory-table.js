@@ -192,6 +192,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope.toggleSelected = function (dataObj) {
 
+                    if (scope.childTableActive) return false;
+                    
                     scope._toggleSelected(dataObj);
                 };
 
@@ -1869,6 +1871,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._showChildTable = function (parentRecordObj) {
 
+
+                    if (scope.childTableActive) return false;
+
                     scope._setChildTableActive(true);
                     scope._setChildTableParentRecord(parentRecordObj);
                     scope._buildChildTableOptions();
@@ -2335,6 +2340,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     });
 
                     scope._setDisableTableBtnsState(false);
+                    scope._setChildTableActive(false);
                 });
 
                 scope.$on('$destroy', function(e) {
