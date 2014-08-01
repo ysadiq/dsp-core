@@ -193,7 +193,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                 scope.toggleSelected = function (dataObj) {
 
                     if (scope.childTableActive) return false;
-                    
+
                     scope._toggleSelected(dataObj);
                 };
 
