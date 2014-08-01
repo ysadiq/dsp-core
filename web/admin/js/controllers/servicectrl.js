@@ -72,9 +72,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         return confirm("Overwrite current service definition?  This operation cannot be undone.");
     };
 
-    $scope.confirmServiceDefDelete = function () {
+    $scope.confirmServiceDefReset = function () {
 
-        return confirm("Delete service definition?  This operation cannot be undone.");
+        return confirm("Reset service definition?  This operation cannot be undone.");
     };
 
     $scope.createNewServiceDef = function (currentService) {
@@ -120,9 +120,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
          currentService.docs[0].content = $scope.currentEditor.session.getValue();
     };
 
-    $scope.deleteServiceDef = function (currentService) {
+    $scope.resetServiceDef = function (currentService) {
 
-        if ($scope.confirmServiceDefDelete()) {
+        if ($scope.confirmServiceDefReset()) {
             currentService.docs = [];
         }
     };
