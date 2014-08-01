@@ -18,6 +18,11 @@
     background: white;
 }
 
+.scripting-list-group > a > i {
+
+    padding-top:5px;
+}
+
 .scripting-list-group > a:hover {
 
     background :white !important;
