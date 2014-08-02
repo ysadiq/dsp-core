@@ -1,24 +1,21 @@
-<div class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default bg-info" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<button type="button"
-				class="navbar-toggle"
-				data-toggle="collapse"
-				data-target="#admin-app-quickstart">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin-app-quickstart">
 				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Quick Start</a>
+			<span class="navbar-brand">Quick Start</span>
 		</div>
 
 		<div class="collapse navbar-collapse" id="admin-app-quickstart">
 			<div class="nav navbar-nav navbar-right">
 				<div class="btn-group btn-group-nav">
-					<div ng-include="'_downloads.html'"></div>
+					<div data-ng-include="'_downloads.html'"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</nav>
 
 <style>
 	input.ng-dirty.ng-invalid {
@@ -265,7 +262,7 @@
 		</div>
 
 		<div class="form-group pull-right" style="clear: both;padding-top: 10px;margin-bottom: 5px;">
-			
+
 			<span ng-show="app.native == 1">
 				<a href="https://github.com/dreamfactorysoftware/android-sdk" target="_blank" class="btn btn-success"><i
 					class="fa fa-android"

@@ -24,19 +24,18 @@ var container = $("#container");
 /**
  * Angular module declaration
  */
-angular.module(
-        "AdminApp", [
+angular.module("AdminApp", [
             "ngRoute",
             "ngResource",
             "ui.bootstrap.accordion",
-            "ngGrid",
             "AdminApp.controllers",
             "AdminApp.apisdk",
             "dfTable",
             "dfUtility",
             "dfSystemConfig",
             "dfUsers",
-            "dfNavBar"
+            "dfNavBar",
+            "dfScripting"
         ]
     )
     .constant("DSP_URL", CurrentServer)
@@ -169,7 +168,17 @@ angular.module(
                             // start the loading screen
                             dfLoadingScreen.start();
                         }]
+                        ,
+                        getServicesAndComponents: ['DSP_URL', '$http', function (DSP_URL, $http) {
+
+                            var requestDataObj = {
+                                include_components: true
+                            };
+
+                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+                        }]
                     }
+
                 }
             );
             $routeProvider.when(
@@ -199,7 +208,7 @@ angular.module(
                         getSchemaServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
-                                filter: 'type_id in (8,4104)'
+                                filter: 'type_id in (4, 4100)'
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
@@ -277,7 +286,7 @@ angular.module(
                     }
                 }
             );
-            $routeProvider.when(
+/*            $routeProvider.when(
                 '/scripts', {
                     controller: ScriptCtrl,
                     templateUrl: 'scripts.html',
@@ -290,7 +299,7 @@ angular.module(
                         getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             var requestDataObj = {
-                                filter: 'type_id in (4,16,4100)'
+                                filter: 'type_id in (4,8,16,4100,4104)'
                             };
 
                             return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
@@ -306,7 +315,7 @@ angular.module(
                     }
                 }
 
-            );
+            );*/
             $routeProvider.when(
                 '/api', {
                     controller: 'ApiSDKCtrl',
@@ -460,11 +469,21 @@ angular.module(
         return $resource(
             "/rest/system/service/:id/?app_name=admin&fields=*&filter=type!='Local Portal Service'", {}, {
                 update: {
-                    method: 'PUT'
+                    method: 'PUT',
+                    params: {
+                        related: 'docs'
+                    }
                 },
                 query: {
                     method: 'GET',
                     isArray: false
+                },
+                get: {
+                    method: 'GET',
+                    isArray: false,
+                    params: {
+                        related:'docs'
+                    }
                 }
             }
         );

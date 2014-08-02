@@ -1,0 +1,26 @@
+<div id="app-groups-container">
+	<div class="panel-group" id="accordion">
+		{{#Applications.mnm_ng_apps}}
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title group-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{id}}">Your Apps</a>
+					</h3>
+				</div>
+				<ul id="collapse-{{id}}" class="list-group">
+					{{#apps}}
+						<li>
+							<a href="#"
+							   class="list-group-item app-listing list-group-item-warning"
+							   onClick="Actions.showApp( '{{api_name}}', '{{launch_url}}', '{{is_url_external}}', {{requires_fullscreen}}, {{allow_fullscreen_toggle}} );">
+								<h4 class="list-group-item-heading">{{name}}</h4>
+
+								<p class="list-group-item-text">{{description}}</p>
+							</a>
+						</li>
+					{{/apps}}
+				</ul>
+			</div>
+		{{/Applications.mnm_ng_apps}}
+	</div>
+</div>

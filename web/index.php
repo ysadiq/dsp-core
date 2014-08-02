@@ -19,42 +19,50 @@
  */
 use DreamFactory\Yii\Utility\Pii;
 
+/** index.php -- Main entry point/bootstrap for all processes **/
+
+//******************************************************************************
+//* Constants
+//******************************************************************************
+
 /**
- * index.php
- * Main entry point/bootstrap for all processes
- */
-/**
- * @type bool If true, your logs will grow large.
+ * @type bool Global debug flag: If true, your logs will grow large and your performance will suffer, but fruitful information will be gathered.
  */
 const DSP_DEBUG = true;
+/**
+ * @type bool Global PHP-ERROR flag: If true, PHP-ERROR will be utilized if available. See https://github.com/JosephLenton/PHP-Error for more info.
+ */
+const DSP_DEBUG_PHP_ERROR = false;
+
+$_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
 //	Load up composer...
-$_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
+$_autoloader = require_once( dirname( __DIR__ ) . '/vendor/autoload.php' );
 
-//	Load up Yii
-require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
+//	Load up Yii if it's not been already
+if ( !class_exists( '\\Yii', false ) )
+{
+    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
+}
 
 /**
  * Debug-level output is enabled by default below.
- * For production mode, you'll want to comment-out the section below.
+ * For production mode, you'll want to set the above constants to FALSE
  */
 if ( DSP_DEBUG )
 {
-//	ini_set( 'display_errors', true );
-//  ini_set( 'error_reporting', -1 );
+    ini_set( 'display_errors', true );
+    ini_set( 'error_reporting', -1 );
 
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 
-//    if ( function_exists( 'reportErrors' ) )
-//    {
-//        reportErrors();
-//    }
+    //  "php_error" support (uncomment to enable)
+    if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
+    {
+        reportErrors();
+    }
 }
 
-//	Create the application and run
-Pii::run(
-    __DIR__,
-    $_autoloader,
-    'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application'
-);
+//	Create the application and run. This doe not return until the request is complete.
+Pii::run( __DIR__, $_autoloader, $_class );

@@ -23,7 +23,11 @@
 
     max-height: 160px;
     overflow-y: scroll
+}
 
+
+.df-table-btn-bar {
+    min-width: 80px;
 }
 
 .df-v-margin {

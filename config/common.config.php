@@ -46,7 +46,7 @@ $_dbCacheEnabled = true;
 $_defaultController = 'web';
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
-$_logFileName = basename( \Kisma::get( 'app.log_file' ) );
+$_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
 $_appName = 'DreamFactory Services Platform';
 $_fabricHosted = Fabric::fabricHosted();
 
@@ -71,7 +71,7 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
         {
             if ( $_salt )
             {
-                $_dspSalts[ 'dsp.salts.' . $_key ] = $_salt;
+                $_dspSalts['dsp.salts.' . $_key] = $_salt;
             }
         }
     }
@@ -164,6 +164,7 @@ return array_merge(
         'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
         'dsp.fabric_hosted'             => $_fabricHosted,
+        'dsp.no_persistent_storage'     => false,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
@@ -180,9 +181,9 @@ return array_merge(
         'dsp.service_location_map'      => array(),
         /** Default services provided by all DSPs */
         'dsp.default_services'          => array(
-            array( 'api_name' => 'user', 'name' => 'User Login' ),
-            array( 'api_name' => 'system', 'name' => 'System Configuration' ),
-            array( 'api_name' => 'api_docs', 'name' => 'API Documentation' ),
+            array('api_name' => 'user', 'name' => 'User Login'),
+            array('api_name' => 'system', 'name' => 'System Configuration'),
+            array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
@@ -201,7 +202,7 @@ return array_merge(
         /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
         //  I do not believe this is being utilized
-        'dsp.debug_level'               => LoggingLevels::DEBUG,
+        'dsp.debug_level'               => LoggingLevels::WARNING,
         //-------------------------------------------------------------------------
         //	Event and Scripting System Options
         //-------------------------------------------------------------------------
@@ -221,6 +222,13 @@ return array_merge(
         'dsp.log_all_events'            => false,
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
+        //-------------------------------------------------------------------------
+        //	Cache stats logging
+        //-------------------------------------------------------------------------
+        //  If true, cache stats will be logged when "dsp.cache_stats_event" is fired
+        'dsp.log_cache_stats'           => false,
+        //  The event on which to dump cache stats
+        'dsp.cache_stats_event'         => 'system.config.read',
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------

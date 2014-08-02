@@ -22,7 +22,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     $scope.servicesLoaded = false;
 
     // Added controls for responsive
-    $scope.xsWidth = $(window).width() <= 992 ? true : false;
+    $scope.xsWidth = $(window).width() <= 992;
     $scope.activeView = 'list';
 
     $scope.setActiveView = function (viewStr) {
@@ -63,6 +63,75 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 
 
+    // Remote Web Services Definition Editor
+
+    $scope.isEditorClean = true;
+    $scope.currentEditor = null;
+
+    $scope.confirmServiceDefOverwrite = function () {
+        return confirm("Overwrite current service definition?  This operation cannot be undone.");
+    };
+
+    $scope.confirmServiceDefReset = function () {
+
+        return confirm("Reset service definition?  This operation cannot be undone.");
+    };
+
+    $scope.createNewServiceDef = function (currentService) {
+
+        // Create a service def obj
+        function createServiceDefObj() {
+            return {
+                content: serviceDefDisclaimer() + '\n' + angular.toJson(swaggerTemplate(), true)
+            }
+        }
+
+        // Do we have a docs property
+        if (!currentService.hasOwnProperty('docs')) {
+
+            // No.  Create it and add a service def obj
+            currentService['docs'] = [];
+            currentService.docs.push(createServiceDefObj());
+        }
+        // We do have docs property.  Is it empty or null
+        else if (currentService.docs.length > 0 && (currentService.docs[0].content != '' || currentService.docs[0].content != null)) {
+
+            // No.  We need confirmation.
+            // Add new service def obj to currentService obj
+            if ($scope.confirmServiceDefOverwrite()) {
+
+                currentService.docs[0] = createServiceDefObj();
+            }
+        }
+        // We have an empty docs object
+        else {
+
+            // Just add the service def obj
+            currentService.docs[0] = createServiceDefObj();
+        }
+    };
+
+    $scope.updateServiceDefObj = function (currentService) {
+
+        if ($scope.isEditorClean) {
+         return false;
+         }
+
+         currentService.docs[0].content = $scope.currentEditor.session.getValue();
+    };
+
+    $scope.resetServiceDef = function (currentService) {
+
+        if ($scope.confirmServiceDefReset()) {
+            currentService.docs = [];
+        }
+    };
+
+    // End Remote Web Services Definition Editor
+
+
+
+
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -98,7 +167,8 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         Scope.currentServiceId = '';
 		Scope.action = "Create";
 		$( '#step1' ).show();
-		Scope.service = {};
+		Scope.service = {headers: [], parameters: [], credentials: {public_paths: []}};
+
         $scope.$watch(
             "sqlServerPrefix",
             function( newValue, oldValue ) {
@@ -173,7 +243,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.script = {};
         Scope.service.is_active = true;
 		$( window ).scrollTop( 0 );
-		Scope.email_type = "Server Default";
 	};
 
 	var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
@@ -203,6 +272,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	Scope.service = {};
 	Scope.Services = Service.get({},function(response) {
         $scope.servicesLoaded = true;
+        console.log(response);
 
         // Stop loading screen
         dfLoadingScreen.stop();
@@ -210,9 +280,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         });
 	Scope.action = "Create";
 	Scope.emailOptions = [
-		{name: "Server Default"},
-		{name: "Server Command"},
-		{name: "SMTP"}
+		{name: "Server Default", value: null},
+		{name: "Server Command", value: "command"},
+		{name: "SMTP", value:"smtp"}
 	];
 	Scope.email_type = "Server Default";
 	Scope.remoteOptions = [
@@ -247,7 +317,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	];
 	Scope.service.storage_type = "aws s3";
 	Scope.serviceOptions = [
-		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Local SQL DB"},
 		{name: "Remote SQL DB"},
@@ -260,7 +329,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Email Service"}
 	];
 	Scope.serviceCreateOptions = [
-		{name: "Script Service"},
 		{name: "Remote Web Service"},
 		{name: "Remote SQL DB"},
 		{name: "Remote SQL DB Schema"},
@@ -283,27 +351,33 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		}
 		if ( Scope.service.type == "Email Service" ) {
 			if ( Scope.email_type == "SMTP" ) {
-				Scope.service.storage_type = "smtp";
 				Scope.service.credentials =
-				{host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
+				{transport_type : "smtp" ,host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
 				Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-			}
+			}else if(Scope.email_type==="Server Command"){
+                Scope.service.credentials =
+                {transport_type: "command", command : Scope.service.storage_type};
+                Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+            }else{
+                Scope.service.credentials = {transport_type:null};
+            }
+
 		}
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
-					{url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
 					break;
 				case "openstack object storage":
 					Scope.service.credentials =
-					{url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -343,9 +417,16 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		}
 		Scope.service.parameters = Scope.tableData;
 		Scope.service.headers = Scope.headerData;
-		var id = Scope.service.id;
+
+        if (Scope.service.type === 'Remote Web Service') {
+
+            $scope.updateServiceDefObj(Scope.service);
+        }
+
+
+        var id = Scope.service.id;
 		Service.update(
-			{id: id}, Scope.service, function( data ) {
+			{id : id}, Scope.service, function( data ) {
 				updateByAttr( Scope.Services.record, 'id', id, data );
 				Scope.promptForNew();
 				//window.top.Actions.showStatus("Updated Successfully");
@@ -366,8 +447,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 	};
 	Scope.create = function() {
-		Scope.service.parameters = Scope.tableData;
-		Scope.service.headers = Scope.headerData;
 		if ( Scope.service.type == "Salesforce" ) {
 			Scope.service.credentials =
 			{username: Scope.salesforce.username, password: Scope.salesforce.password, security_token: Scope.salesforce.security_token, version: Scope.salesforce.version};
@@ -376,47 +455,31 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 		if ( Scope.service.type == "Email Service" ) {
 
-			switch ( Scope.email_type ) {
-				case "Server Default":
-					Scope.service.storage_type = null;
-					break;
-				case "Server Command":
-					//Scope.service.storage_type = null;
-					break;
-				case "SMTP":
-
-					Scope.service.storage_type = "smtp";
-					Scope.service.credentials =
-					{host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
-					Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-					break;
-			}
+            Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 
 		}
-
 		if ( Scope.service.type == "Remote SQL DB" || Scope.service.type == "Remote SQL DB Schema" ) {
-
 			Scope.service.credentials = {dsn: Scope.service.dsn, user: Scope.service.user, pwd: Scope.service.pwd};
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-
 		}
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
-					{url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
 					break;
 				case "openstack object storage":
 					Scope.service.credentials =
-					{url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
+					{public_paths : Scope.service.credentials.public_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
 					break;
 			}
+
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
 		if ( Scope.service.type == "NoSQL DB" ) {
@@ -432,7 +495,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "azure tables":
 					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
 					break;
-
 				case "couchdb":
 					Scope.service.credentials = {user: Scope.couchdb.service.username, pwd: Scope.couchdb.service.username, dsn: Scope.couchdb.service.dsn};
 					break;
@@ -447,7 +509,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
-
 		Service.save(
 			Scope.service, function( data ) {
 				Scope.promptForNew();
@@ -467,124 +528,68 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			}
 		);
 	};
-
 	Scope.showFields = function() {
-		if ( Scope.service.type.indexOf( "Email" ) != -1 ) {
-			if ( !Scope.service.id ) {
-				Scope.tableData = [
-					{"name": "from_name", "value": ""},
-					{"name": "from_email", "value": ""},
-					{"name": "reply_to_name", "value": ""},
-					{"name": "reply_to_email", "value": ""}
-				];
-			}
-
-			Scope.columnDefs = [
-				{field: 'name', width: '*'},
-				{field: 'value', enableFocusedCellEdit: true, width: '**', enableCellSelection: true, editableCellTemplate: emailInputTemplate }
-
-			];
-		}
-		else {
-			Scope.columnDefs = [
-				{field: 'name', enableCellEdit: false, width: 100},
-				{field: 'value', enableCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
-				{field: 'Update', cellTemplate: buttonTemplate, enableCellEdit: false, width: 100}
-			];
-			Scope.tableData = [];
-		}
+//		if ( Scope.service.type.indexOf( "Email" ) != -1 ) {
+//			if ( !Scope.service.id ) {
+//				Scope.tableData = [
+//					{"name": "from_name", "value": ""},
+//					{"name": "from_email", "value": ""},
+//					{"name": "reply_to_name", "value": ""},
+//					{"name": "reply_to_email", "value": ""}
+//				];
+//			}
+//			Scope.columnDefs = [
+//				{field: 'name', width: '*'},
+//				{field: 'value', enableFocusedCellEdit: true, width: '**', enableCellSelection: true, editableCellTemplate: emailInputTemplate }
+//			];
+//		}
+//		else {
+//			Scope.columnDefs = [
+//				{field: 'name', enableCellEdit: false, width: 100},
+//				{field: 'value', enableCellEdit: true, width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate },
+//				{field: 'Update', cellTemplate: buttonTemplate, enableCellEdit: false, width: 100}
+//			];
+//			Scope.tableData = [];
+//		}
 
 		switch ( Scope.service.type ) {
 			case "Local SQL DB":
 				$( '.base_url, .host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn, .nosql_type' ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
-				// $(".user, .pwd, .dsn").show();
 				break;
 			case "Local SQL DB Schema":
 				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
-				// $(".user, .pwd, .dsn").show();
 				break;
 			case "Remote SQL DB":
 				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Remote SQL DB Schema":
 				$( ".base_url,.host,.command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Script Service":
 			case "Remote Web Service":
 				$( ".user, .pwd,.host, .command, .security, .port, .dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Hide message
-                $( '#no-headers-message').hide();
-                $( '#no-params-message').hide();
-
 				$( ".base_url, .parameters, .headers" ).show();
 				break;
 			case "Local File Storage":
 				$( ".user, .pwd,.host, .command, .security, .port,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".storage_name" ).show();
 				break;
 			case "Remote File Storage":
 				$( ".user, .host, .security,.command,  .port, .pwd,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".storage_name, .storage_type" ).show();
 				break;
-
 			case "NoSQL DB":
 				$( ".base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				$( ".nosql_type" ).show();
 				break;
 			case "Email Service":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				Scope.showEmailFields();
 				break;
 			case "Salesforce":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
 				break;
 		}
 	};
@@ -594,42 +599,19 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	};
 
 	Scope.showEmailFields = function() {
+        Scope.service.credentials = Scope.service.credentials || {transport_type: "smtp"};
+		switch ( Scope.service.credentials.transport_type ) {
 
-		switch ( Scope.email_type ) {
-			case "Server Default":
-				Scope.service.storage_type = null;
+			case null:
 				$( ".user, .pwd,.host,.port,.command,  .security, .base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-                $( '#no-params-message').show();
-
-				//$(".user, .pwd,.host,.port,.command,  .security, .parameters").show();
 				$( ".parameters" ).show();
 				break;
-			case "Server Command":
-				Scope.service.storage_type = null;
+			case "command":
 				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').show();
-
-                // hide no params message
-                $( '#no-params-message').hide();
-
 				$( ".command, .parameters" ).show();
 				break;
-			case "SMTP":
-
-				Scope.service.storage_type = "smtp";
+			case "smtp":
 				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-
-                // Show message
-                $( '#no-headers-message').hide();
-
-                // hide message
-                $( '#no-params-message').hide();
-
 				$( ".user, .pwd,.host,.port,  .security, .parameters" ).show();
 				break;
 		}
@@ -684,29 +666,34 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		//$("#swagger, #swagger iframe, #swagctrl").hide();
 		Scope.service = angular.copy( this.service );
         Scope.currentServiceId = Scope.service.id;
+        Scope.service.credentials = Scope.service.credentials || {};
+        var cString = $scope.service.credentials;
 		if ( Scope.service.type.indexOf( "Email Service" ) != -1 ) {
 			Scope.service.type = "Email Service";
-			if ( Scope.service.storage_type == "smtp" ) {
-				if ( Scope.service.credentials ) {
-					var cString = Scope.service.credentials;
+			if ( Scope.service.credentials.transport_type === "smtp" ) {
+
 					Scope.service.host = cString.host;
 					Scope.service.port = cString.port;
 					Scope.service.security = cString.security;
 					Scope.service.user = cString.user;
 					Scope.service.pwd = cString.pwd;
 
+
 				}
 				Scope.email_type = "SMTP";
 			}
-			else if ( Scope.service.storage_type != null ) {
+			else if ( Scope.service.credentials.transport_type === "command" ) {
 				Scope.email_type = "Server Command";
+
+                Scope.service.storage_type = cString.command;
 			}
 			else {
 				Scope.email_type = "Server Default";
+                Scope.service.credentials.transport_type=null;
 			}
 
 			Scope.showEmailFields();
-		}
+
 		if ( Scope.service.type == "Salesforce" ) {
 			var cString = Scope.service.credentials;
 			Scope.salesforce.username = cString.username;
@@ -803,6 +790,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				}
 			}
 		}
+
+
+
 		Scope.action = "Update";
 		$( '.save_button' ).hide();
 		$( '.update_button' ).show();
@@ -813,84 +803,47 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		$( "tr.info" ).removeClass( 'info' );
 		$( '#row_' + Scope.service.id ).addClass( 'info' );
 	};
-	Scope.updateParams = function() {
-		$( "#error-container" ).hide();
-		if ( !Scope.param ) {
-			return false;
-		}
-		if ( !Scope.param.name || !Scope.param.value ) {
-			$( "#error-container" ).html( "Both name and value are required" ).show();
-			return false;
-		}
-		if ( checkForDuplicate( Scope.tableData, 'name', Scope.param.name ) ) {
-			$( "#error-container" ).html( "Parameter already exists" ).show();
-			$( '#param-name, #param-value' ).val( '' );
-			return false;
-		}
-		var newRecord = {};
-		newRecord.name = Scope.param.name;
-		newRecord.value = Scope.param.value;
-		Scope.tableData.push( newRecord );
-		Scope.param = null;
-		$( '#param-name, #param-value' ).val( '' );
-	};
-	Scope.updateHeaders = function() {
-		$( "#header-error-container" ).hide();
-		if ( !Scope.header ) {
-			return false;
-		}
-		if ( !Scope.header.name || !Scope.header.value ) {
-			$( "#header-error-container" ).html( "Both name and value are required" ).show();
-			return false;
-		}
-		if ( checkForDuplicate( Scope.headerData, 'name', Scope.header.name ) ) {
-			$( "#header-error-container" ).html( "Header already exists" ).show();
-			$( '#header-name, #header-value' ).val( '' );
-			return false;
-		}
-		var newRecord = {};
-		newRecord.name = Scope.header.name;
-		newRecord.value = Scope.header.value;
-		Scope.headerData.push( newRecord );
-		Scope.header = null;
-		$( '#header-name, #header-value' ).val( '' );
-	};
-	Scope.deleteRow = function() {
-		var name = this.row.entity.name;
-		Scope.tableData = removeByAttr( Scope.tableData, 'name', name );
 
-	};
-	Scope.deleteHeaderRow = function() {
-		var name = this.row.entity.name;
-		Scope.headerData = removeByAttr( Scope.headerData, 'name', name );
+    $scope.deleteParameter = function(){
+        var item = this.$index;
+        $scope.service.parameters.splice(item, 1);
+    }
+    $scope.addParameter = function(){
+//        $( "#error-container" ).hide();
+//        if ( !Scope.param ) {
+//            return false;
+//        }
+//        if ( !Scope.param.name || !Scope.param.value ) {
+//            $( "#error-container" ).html( "Both name and value are required" ).show();
+//            return false;
+//        }
+//        if ( checkForDuplicate( Scope.service.parameters, 'name', Scope.param.name ) ) {
+//            $( "#error-container" ).html( "Parameter already exists" ).show();
+//            $( '#param-name, #param-value' ).val( '' );
+//            return false;
+//        }
+        $scope.param = {};
+        $scope.service.parameters.unshift($scope.param);
+    }
+    $scope.deleteHeader = function(){
+        var item = this.$index;
+        $scope.service.headers.splice(item, 1);
+    }
+    $scope.addHeader = function(){
 
-	};
-	Scope.saveRow = function() {
-		var index = this.row.rowIndex;
-		var newRecord = this.row.entity;
-		var name = this.row.entity.name;
-		updateByAttr( Scope.tableData, "name", name, newRecord );
-		$( "#save_" + index ).prop( 'disabled', true );
-	};
-	Scope.saveHeaderRow = function() {
-		var index = this.row.rowIndex;
-		var newRecord = this.row.entity;
-		var name = this.row.entity.name;
-		updateByAttr( Scope.headerData, "name", name, newRecord );
-		$( "#header_save_" + index ).prop( 'disabled', true );
-	};
-	Scope.enableSave = function() {
-		$( "#save_" + this.row.rowIndex ).prop( 'disabled', false );
-	};
-	Scope.enableHeaderSave = function() {
-		$( "#header_save_" + this.row.rowIndex ).prop( 'disabled', false );
-	};
-	Scope.updateEmailScope = function() {
-		//var index = this.row.rowIndex;
-		var newRecord = this.row.entity;
-		var name = this.row.entity.name;
-		updateByAttr( Scope.tableData, "name", name, newRecord );
-	};
+        $scope.header = {};
+        $scope.service.headers.unshift($scope.header);
+
+    }
+    $scope.addPath = function(){
+        $scope.path = "";
+        $scope.service.credentials.public_paths.unshift($scope.path);
+    }
+    $scope.deletePath = function(){
+        var item = this.$index;
+        $scope.service.credentials.public_paths.splice(item, 1);
+    }
+
 	Scope.changeUrl = function() {
 		switch ( this.rackspace.region ) {
 			case "LON":
@@ -931,4 +884,346 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	//$( "#swagger, #swagger iframe" ).hide();
 	Scope.promptForNew();
 
+
+
+    // Create Swagger Definition Template
+    function serviceDefDisclaimer() {
+
+        var text = '/**\n' +
+            '* This file is a swagger template for the definition\n' +
+            '* of a remote web service.  Errors in this file will\n' +
+            '* contribute to undefined behavior, such as Swagger UI\n' +
+            '* not loading, in the DSP.  Create/Edit with care and \n' +
+            '* delete these comments before saving the service.\n' +
+            '* \n' +
+            '* FAILURE TO DELETE THESE COMMENTS WILL RESULT IN SWAGGER\'S\n' +
+            '* INABILITY TO DISPLAY YOUR SERVICE.\n' +
+            '**/\n\n';
+        return text;
+
+    }
+    function swaggerTemplate() {
+        return {
+            "swaggerVersion": "1.2",
+            "apiVersion":     "1.0",
+            "basePath":       "http://localhost/rest",
+            "resourcePath":   "/{api_name}",
+            "produces":       [
+                "application/json", "application/xml"
+            ],
+            "consumes":       [
+                "application/json", "application/xml"
+            ],
+            "apis":           [
+                {
+                    "path":        "/{api_name}",
+                    "operations":  [
+                        {
+                            "method":   "GET",
+                            "summary":  "List resource types available for this service.",
+                            "nickname": "getResources",
+                            "type":     "Resources",
+                            "notes":    "See listed operations for each resource type available."
+                        }
+                    ],
+                    "description": "Operations available for this service."
+                },
+                {
+                    "path":        "/{api_name}/{resource_type}",
+                    "operations":  [
+                        {
+                            "method":           "GET",
+                            "summary":          "Retrieve multiple items of a resource type.",
+                            "nickname":         "getItems",
+                            "type":             "Items",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "ids",
+                                    "description":   "Comma-delimited list of the identifiers of the resources to retrieve.",
+                                    "allowMultiple": true,
+                                    "type":          "string",
+                                    "paramType":     "query",
+                                    "required":      false
+                                },
+                                {
+                                    "name":          "include_count",
+                                    "description":   "Include the total number of items in the returned metadata results.",
+                                    "allowMultiple": false,
+                                    "type":          "boolean",
+                                    "paramType":     "query",
+                                    "required":      false
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Use the 'ids' parameter to limit items that are returned."
+                        },
+                        {
+                            "method":           "POST",
+                            "summary":          "Create one or more items.",
+                            "nickname":         "createItems",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "items",
+                                    "description":   "JSON array of objects containing name-value pairs of items to create.",
+                                    "allowMultiple": false,
+                                    "type":          "Items",
+                                    "paramType":     "body",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Post data should be a single object or an array of objects (shown)."
+                        },
+                        {
+                            "method":           "DELETE",
+                            "summary":          "Delete one or more items.",
+                            "nickname":         "deleteItems",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "ids",
+                                    "description":   "Comma-delimited list of the identifiers of the resources to retrieve.",
+                                    "allowMultiple": true,
+                                    "type":          "string",
+                                    "paramType":     "query",
+                                    "required":      false
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "If no ids are given, nothing is deleted."
+                        }
+                    ],
+                    "description": "Operations for resource type administration."
+                },
+                {
+                    "path":        "/{api_name}/{resource_type}/{id}",
+                    "operations":  [
+                        {
+                            "method":           "GET",
+                            "summary":          "Retrieve one item by identifier.",
+                            "nickname":         "getItem",
+                            "type":             "Item",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "id",
+                                    "description":   "Identifier of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "All name-value pairs are returned for that item."
+                        },
+                        {
+                            "method":           "PUT",
+                            "summary":          "Update one item by identifier.",
+                            "nickname":         "updateItem",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "id",
+                                    "description":   "Identifier of the resource to retrieve.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "item",
+                                    "description":   "Data containing name-value pairs to update in the item.",
+                                    "allowMultiple": false,
+                                    "type":          "Item",
+                                    "paramType":     "body",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Post data should be a single object of name-value pairs for a single item."
+                        },
+                        {
+                            "method":           "DELETE",
+                            "summary":          "Delete one item by identifier.",
+                            "nickname":         "deleteItem",
+                            "type":             "Success",
+                            "parameters":       [
+                                {
+                                    "name":          "resource_type",
+                                    "description":   "Type of the resource to delete.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                },
+                                {
+                                    "name":          "id",
+                                    "description":   "Identifier of the resource to delete.",
+                                    "allowMultiple": false,
+                                    "type":          "string",
+                                    "paramType":     "path",
+                                    "required":      true
+                                }
+                            ],
+                            "responseMessages": [
+                                {
+                                    "message": "Bad Request - Request does not have a valid format, all required parameters, etc.",
+                                    "code":    400
+                                },
+                                {
+                                    "message": "System Error - Specific reason is included in the error message.",
+                                    "code":    500
+                                }
+                            ],
+                            "notes":            "Use the 'fields' and/or 'related' parameter to return deleted properties. By default, the id is returned."
+                        }
+                    ],
+                    "description": "Operations for single item administration."
+                }
+            ],
+            "models":         {
+                "Resources": {
+                    "id":         "Resources",
+                    "properties": {
+                        "resource": {
+                            "type":  "Array",
+                            "items": {
+                                "$ref": "Resource"
+                            }
+                        }
+                    }
+                },
+                "Resource":  {
+                    "id":         "Resource",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "Items":     {
+                    "id":         "Items",
+                    "properties": {
+                        "item": {
+                            "type":        "Array",
+                            "description": "Array of items of the given resource.",
+                            "items":       {
+                                "$ref": "Item"
+                            }
+                        },
+                        "meta": {
+                            "type":        "MetaData",
+                            "description": "Available meta data for the response."
+                        }
+                    }
+                },
+                "Item":      {
+                    "id":         "Item",
+                    "properties": {
+                        "field": {
+                            "type":        "Array",
+                            "description": "Example name-value pairs.",
+                            "items":       {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "Success":   {
+                    "id":         "Success",
+                    "properties": {
+                        "success": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    }
 };

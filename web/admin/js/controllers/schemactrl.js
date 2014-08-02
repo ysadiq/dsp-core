@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, getSchemaServices ) {
+var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchemaServices ) {
 
     dfLoadingScreen.stop();
 
@@ -53,7 +53,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         $scope.currentTables = [];
         if($scope.service_index){
 
-            $http.get(DSP_URL + "/rest/" + $scope.service + "?include_schema=true").then(function(response){
+            $http.get(DSP_URL + "/rest/" + $scope.service + "/_schema").then(function(response){
                 //console.log( $scope.dbServices[$scope.service]);
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
@@ -64,7 +64,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
             });
         }else{
             $scope.dbServices.forEach(function(service, index){
-                $http.get(DSP_URL + "/rest/" + service.api_name + "?include_schema=true").then(function(response){
+                $http.get(DSP_URL + "/rest/" + service.api_name + "/_schema").then(function(response){
 
                     service.tables = [];
 
@@ -82,13 +82,21 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
     }
     $scope.loadServices();
     $scope.referenceFields  = [];
+    $scope.loadNewSchema = function(table){
+        $scope.import = false;
+        $scope.table = table;
+        $http.get(CurrentServer + "/rest/" + $scope.service + "/_schema/" + $scope.table.name)
+            .then(function(response){
+                $scope.table.schema = response;
+            })
+    }
     $scope.loadSchema = function(advanced){
         $scope.import = false;
         $scope.table = this.table;
         $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
         $scope.service_index = this.service.service_index;
-        $http.get(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
+        $http.get(CurrentServer + "/rest/" + this.service.api_name + "/_schema/" + this.table.name)
             .then(function(response){
                 $scope.table.schema = response;
                 //console.log(table.schema);
@@ -103,7 +111,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
     }
     $scope.loadReferenceFields = function(){
         var refTable = this.column.ref_table;
-        $http.get(CurrentServer + "/rest/" + $scope.service + "/" + refTable)
+        $http.get(CurrentServer + "/rest/" + $scope.service + "/_schema/" + refTable)
             .then(function(response){
                 //console.log(response);
                 $scope.referenceFields = response.data.field;
@@ -125,10 +133,12 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         }
     }
     $scope.addColumn = function(){
-       $scope.newColumn = {
-           name : "New_Column"
-       }
-       $scope.table.schema.data.field.unshift($scope.newColumn)
+        $scope.newColumn = {
+            name : "New_Column",
+            is_new : true
+        };
+        //$scope.currentField = "New_Column";
+        $scope.table.schema.data.field.unshift($scope.newColumn)
     }
     $scope.deleteColumn = function(){
         //console.log(this);
@@ -146,7 +156,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
 
     }
     $scope.updateJSONSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service , editor.getValue()).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , {table:editor.getValue()}).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -157,7 +167,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         })
     }
     $scope.updateSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service , $scope.table.schema.data).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , {table:$scope.table.schema.data}).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -168,7 +178,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         })
     }
     $scope.postJSONSchema = function(){
-        $http.post(CurrentServer + "/rest/" + $scope.service, editor.getValue()).then(function(response){
+        $http.post(CurrentServer + "/rest/" + $scope.service + "/_schema", {table:editor.getValue()}).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -177,6 +187,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
                 });
             });
             $scope.loadServices();
+
         })
     }
     $scope.createTable = function(){
@@ -186,12 +197,18 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
             name : name,
             field: [
                 {name : "id",
-                 type : "id"
+                    type : "id"
                 }
             ]
         };
-        $http.post(CurrentServer + "/rest/" + this.service.api_name , requestObject).then(function(response){
-            $scope.loadServices();
+        $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema" , {table:requestObject}).then(function(response){
+            //$scope.loadServices();
+            $scope.currentTable = name;
+            $scope.currentTables.unshift(name);
+            $scope.dbServices[$scope.service_index].tables.unshift(requestObject);
+            $scope.loadNewSchema(requestObject);
+
+
         })
     }
 
@@ -199,14 +216,15 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
         if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
             return;
         }
-        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/" + this.table.name)
+        $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/_schema/" + this.table.name)
             .then(function(response){
-            $scope.loadServices();
-            $scope.table = {};
-        })
+                $scope.loadServices();
+                $scope.table = {};
+            })
     }
     $scope.setService = function(){
         $scope.service = this.service.api_name;
+        $scope.service_index = this.service.service_index;
     }
     $scope.validateJSON = function() {
         try {
@@ -219,7 +237,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, Schema, DSP_URL, DB, $http, 
                         type: 'success'
                     });
                 });
-            editor.setValue(angular.toJson(result, true), -1);
+                editor.setValue(angular.toJson(result, true), -1);
             }
         }
         catch ( e ) {

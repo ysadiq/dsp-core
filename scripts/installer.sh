@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.7
+#   Changed local store location during cleanup
+#
 # v1.3.6
 #   More bitnami-aware. Use proper user for web user when running on a full stack
 #
@@ -120,7 +123,7 @@
 ##
 ##	Initial settings
 ##
-VERSION=1.3.6
+VERSION=1.3.7
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 NO_INTERACTION="--no-interaction"
@@ -445,9 +448,7 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 	/usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
 	
 	_dbg "Cleaning up prior cached data"
-	[ -d "${STORAGE_DIR}/.private/store.cache" ] && rm -rf "${STORAGE_DIR}/.private/store.cache" 
-	[ -d "/tmp/dreamfactory" ] && rm -rf "/tmp/dreamfactory/*" 
-	rm -rf "/tmp/.dsp*" "/tmp/*.dfcc" 
+	rm -rf "${STORAGE_DIR}/.private/*.store" "/tmp/dreamfactory/*" "/tmp/.dsp*" "/tmp/*.dfcc" 
 fi
 
 ##
