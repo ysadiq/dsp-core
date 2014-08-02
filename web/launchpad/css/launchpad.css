@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import url(//fonts.googleapis.com/css?family=Lato:300,400,700|Open+Sans|Roboto:100,300|Roboto+Condensed:100,300);
+@import url(//fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto|Roboto+Condensed);
 
 /**************************************************************************
 ** Markup
@@ -30,20 +30,24 @@
 }
 
 html, body, iframe {
-	height:     100%;
-	width:      100%;
-	background: rgba(0, 0, 0, .25);
-	margin:     0;
-	padding:    0;
-	overflow:   hidden;
-	border:     none;
+	height:           100%;
+	width:            100%;
+	background-color: rgba(0, 0, 0, .75);
+	margin:           0;
+	padding:          0;
+	overflow:         hidden;
+	border:           none;
+	font-family:      'Lato', 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 }
 
 body {
-	font-weight: 300;
 	min-height:  100%;
 	height:      auto;
 	font-family: 'Lato', 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+	font-weight: 300;
+}
+
+body > p {
 }
 
 /*noinspection CssInvalidElement*/
@@ -138,6 +142,10 @@ div {
 
 .container-fluid {
 	background-color: rgba(0, 0, 0, .25);
+}
+
+.container-fluid.df-navbar {
+	padding-left: 10px;
 }
 
 #fs-exit {

@@ -27,6 +27,7 @@ use DreamFactory\Yii\Utility\Validate;
  * @var bool          $redirected
  * @var CActiveForm   $form
  * @var Provider[]    $loginProviders
+ * @var bool          $allowRegistration
  */
 $_html = null;
 
@@ -98,7 +99,7 @@ HTML;
 <div class="box-wrapper">
     <div id="formbox" class="form-light boxed drop-shadow lifted">
         <h2 class="inset">User Login</h2>
-        <h4>You must be logged in to continue</h4>
+        <h4>Please sign in to continue</h4>
 
         <?php echo $_flash; ?>
         <?php echo CHtml::errorSummary( $model, '<strong>Login Error</strong>' ); ?>
@@ -114,9 +115,9 @@ HTML;
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
                     <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-                        name="LoginForm[username]" placeholder="DSP User Email Address"
-                        spellcheck="false" autocapitalize="off" autocorrect="off"
-                        value="<?php echo $model->username; ?>" />
+                           name="LoginForm[username]" placeholder="DSP User Email Address"
+                           spellcheck="false" autocapitalize="off" autocorrect="off"
+                           value="<?php echo $model->username; ?>" />
                 </div>
             </div>
 
@@ -127,9 +128,9 @@ HTML;
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
                     <input tabindex="2" class="form-control required" type="password" id="LoginForm_password"
-                        name="LoginForm[password]"
-                        autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false"
-                        placeholder="Password" value="" />
+                           name="LoginForm[password]"
+                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false"
+                           placeholder="Password" value="" />
                 </div>
             </div>
 
@@ -137,10 +138,10 @@ HTML;
                 <div class="checkbox remember-me pull-right">
                     <label>
                         <input type="checkbox"
-                            tabindex="3"
+                               tabindex="3"
                             <?php echo $model->rememberMe ? ' checked="checked" ' : null; ?>
-                            id="LoginForm_rememberMe"
-                            name="LoginForm[rememberMe]">
+                               id="LoginForm_rememberMe"
+                               name="LoginForm[rememberMe]">
                         <?php echo $_rememberMeCopy; ?>
                     </label>
                 </div>
@@ -158,8 +159,13 @@ HTML;
             </div>
 
             <div class="form-buttons">
-                <button type="submit" id="btn-submit" class="btn btn-success pull-right">Login</button>
-                <button type="button" id="btn-forgot" class="btn btn-default pull-left">Forgot Password?</button>
+                <button type="submit" id="btn-submit" class="btn btn-md btn-success pull-right">Login</button>
+                <button type="button" id="btn-forgot" class="btn btn-default btn-md btn-warning">Forgot Password?</button>
+                <?php if ( $allowRegistration )
+                {
+                    ?>
+                    <a id="btn-register" href="/web/register" class="btn btn-info btn-md pull-right" style="margin-right:8px;">Register</a>
+                <?php } ?>
             </div>
         </form>
     </div>
