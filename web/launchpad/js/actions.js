@@ -173,7 +173,7 @@ Actions = {
 				if (!_defaultShown && app.is_default) {
 					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, !data.is_sys_admin, app.allow_fullscreen_toggle);
 					_defaultShown = true;
-					_this.toggleAdminLink(false);
+					// _this.toggleAdminLink(false);
 				}
 
 				_options += '<option value="' + app.id + '">' + app.name + '</option>';
@@ -208,8 +208,7 @@ Actions = {
         }
 
 		if (_app) {
-            console.log("Launching app " + _app.api_name);
-			//$('#app-list-container').hide();
+
             this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
             return this;
 		}
@@ -254,7 +253,7 @@ Actions = {
 		}
 
 		// Show the app
-		this.toggleAdminLink(true);
+		// this.toggleAdminLink(true);
 		this.toggleAppsListLink(true);
 		this.toggleFullScreenLink(allowFullScreenToggle);
 
@@ -330,7 +329,7 @@ Actions = {
 
 		this.showApp(name, url, type, fullscreen, allowToggle);
 
-		this.toggleAdminLink(false);
+		// this.toggleAdminLink(false);
 		this.toggleFullScreenLink(true);
 
 		return this;
@@ -498,7 +497,7 @@ Actions = {
 				);
 
 				if (sessionInfo.is_sys_admin) {
-					_this.toggleAdminLink(false);
+					// _this.toggleAdminLink(false);
 					_this.toggleFullScreenLink(true);
 					_this.toggleAppsListLink(true);
 				}
@@ -587,7 +586,7 @@ Actions = {
 		'admin' == apiName
 		);
 
-		this.toggleAdminLink(!_isAdmin);
+		// this.toggleAdminLink(!_isAdmin);
 		this.toggleAppsListLink(_isAdmin);
 		this.toggleFullScreenLink(true);
 	},
@@ -683,7 +682,7 @@ Actions = {
 
 	toggleAppList: function (hide) {
 
-		return this._showHideAppList(hide || $('#apps-list-btn').hasClass('app-list-hidden'));
+        return this._showHideAppList(hide || $('#apps-list-btn').hasClass('app-list-hidden'));
 	},
 
 	_showHideAppList: function (hide) {
