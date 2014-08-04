@@ -74,7 +74,7 @@
 <!-- This is a hacky way to keep this UI from bouncing on load.
 We need to preload data but I'm not doing that today. MNM -->
 
-<div data-ng-if="(!groupsLoaded && !xsWidth) || (Groups.record.length === 0)" class="col-sm-3">
+<div data-ng-if="((!groupsLoaded && !xsWidth) || (Groups.record.length === 0))" class="col-sm-3">
 	<p data-ng-show="Groups.record.length === 0">No Groups found</p>
 
 	<div style="height: 300px; background: rgba(255, 0, 0, 0);"></div>
