@@ -285,15 +285,17 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
             headers: {
                 'Content-Type': 'text/plain'
             }}).then(function () {
-            $(function () {
-                new PNotify({
-                    title: $scope.currentScript,
-                    type: 'success',
-                    text: 'Saved Successfully'
-                });
-            });
+				_showMessage($scope.currentScript, 'Script saved');
+			
+//            $(function () {
+//                new PNotify({
+//                    title: $scope.currentScript,
+//                    type: 'success',
+//                    text: 'Saved Successfully'
+//                });
+//            });
             $scope.hasContent = true;
-        })
+        });
 //        Script.update(script_id, post_body).$promise.then(
 //            function (response) {
 //                $(function(){
@@ -315,13 +317,15 @@ var ScriptCtrl = function (dfLoadingScreen, $scope, Event, Script, Config, $http
 
         Script.delete(script_id).$promise.then(
             function (response) {
-                $(function () {
-                    new PNotify({
-                        title: $scope.currentScript,
-                        type: 'success',
-                        text: 'Deleted Successfully'
-                    });
-                });
+				_showMessage($scope.currentScript, 'Script deleted');
+				
+//                $(function () {
+//                    new PNotify({
+//                        title: $scope.currentScript,
+//                        type: 'success',
+//                        text: 'Deleted Successfully'
+//                    });
+//                });
                 $scope.hasContent = false;
             }
         );

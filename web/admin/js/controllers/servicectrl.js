@@ -433,14 +433,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
                 // Added for small devices
                 $scope.close();
-
-                $(function(){
-                    new PNotify({
-                        title: 'Services',
-                        type:  'success',
-                        text:  'Updated Successfully.'
-                    });
-                });
+				_showMessage('Services', 'Service updated');
+//
+//                $(function(){
+//                    new PNotify({
+//                        title: 'Services',
+//                        type:  'success',
+//                        text:  'Updated Successfully.'
+//                    });
+//                });
 
 			}
 		);
@@ -517,13 +518,14 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                 // Added for small devices
                 $scope.close();
 
-                $(function(){
-                    new PNotify({
-                        title: 'Services',
-                        type:  'success',
-                        text:  'Created Successfully.'
-                    });
-                });
+				_showMessage('Services', 'Service created');
+//                $(function(){
+//                    new PNotify({
+//                        title: 'Services',
+//                        type:  'success',
+//                        text:  'Created Successfully.'
+//                    });
+//                });
 				Scope.Services.record.push( data );
 			}
 		);
@@ -639,13 +641,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                 // Added for small devices
                 $scope.close();
 
-                $(function(){
-                    new PNotify({
-                        title: 'Services',
-                        type:  'success',
-                        text:  'Deleted Successfully.'
-                    });
-                });
+				_showMessage('Services', 'Service deleted');
+				
+//                $(function(){
+//                    new PNotify({
+//                        title: 'Services',
+//                        type:  'success',
+//                        text:  'Deleted Successfully.'
+//                    });
+//                });
 
 				$( "#row_" + id ).fadeOut();
 			}

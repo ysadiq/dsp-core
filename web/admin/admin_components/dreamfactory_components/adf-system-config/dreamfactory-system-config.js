@@ -185,13 +185,15 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                         $scope._updateSystemConfigService(systemConfigDataObj);
 
                         // Needs to be replaced with angular messaging
-                        $(function(){
-                            new PNotify({
-                                title: 'Config',
-                                type:  'success',
-                                text:  'Updated Successfully.'
-                            });
-                        });
+						_showMessage('Config', 'Updated Successfully');
+//                        $(function(){
+//                            new PNotify({
+//                                title: 'Config',
+//                                type:  'success',
+//                                text:  'Updated Successfully.',
+//								styling: 'bootstrap3'
+//                            });
+//                        });
 
                         $scope.$emit($scope.es.updateSystemConfigSuccess, systemConfigDataObj);
                     },
@@ -493,13 +495,14 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
                     EmailTemplates.update(
                         {id: templateParams.id}, templateParams, function() {
-                            $.pnotify(
-                                {
-                                    title: 'Email Template',
-                                    type:  'success',
-                                    text:  'Updated Successfully'
-                                }
-                            );
+							_showMessage('Email Template', 'Updated Successfully');
+//                            $.pnotify(
+//                                {
+//                                    title: 'Email Template',
+//                                    type:  'success',
+//                                    text:  'Updated Successfully'
+//                                }
+//                            );
                         }
                     );
 
@@ -528,13 +531,14 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
                             scope.$emit( 'updateTemplateListNew', emitArgs );
 
-                            $.pnotify(
-                                {
-                                    title: 'Email Template',
-                                    type:  'success',
-                                    text:  'Created Successfully'
-                                }
-                            );
+							_showMessage('Email Template', 'Created Successfully');
+//                            $.pnotify(
+//                                {
+//                                    title: 'Email Template',
+//                                    type:  'success',
+//                                    text:  'Created Successfully'
+//                                }
+//                            );
                         }
                     );
                 };
@@ -548,13 +552,15 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
                     EmailTemplates.delete(
                         {id: templateId}, function() {
-                            $.pnotify(
-                                {
-                                    title: 'Email Templates',
-                                    type:  'success',
-                                    text:  'Template Deleted'
-                                }
-                            );
+							_showMessage('EmailTemplates', 'Template Deleted');
+							
+//                            $.pnotify(
+//                                {
+//                                    title: 'Email Templates',
+//                                    type:  'success',
+//                                    text:  'Template Deleted'
+//                                }
+//                            );
                         }
                     );
 
@@ -577,13 +583,14 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                         ) ) {
                         console.log( 'No email template Selected' );
 
-                        $.pnotify(
-                            {
-                                title: 'Email Templates',
-                                type:  'error',
-                                text:  'No template selected.'
-                            }
-                        );
+						_showMessage('Email Templates', 'No template selected.', 'error');
+//                        $.pnotify(
+//                            {
+//                                title: 'Email Templates',
+//                                type:  'error',
+//                                text:  'No template selected.'
+//                            }
+//                        );
                     }
                     else {
                         templateCopy = angular.copy( scope.getSelectedEmailTemplate );

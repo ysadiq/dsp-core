@@ -327,7 +327,7 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 				this.app.api_name
 			);
 		} else {
-			$("#file-manager iframe").css('height', $(window).height() - 200).attr(
+			$("#file-manager").find("iframe").css('height', $(window).height() - 200).attr(
 				"src", CurrentServer + '/filemanager/?path=/' + Scope.defaultStorageName + '/applications/' + this.app.api_name + '/&allowroot=false'
 			).show();
 		}

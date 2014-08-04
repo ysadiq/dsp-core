@@ -18,7 +18,6 @@
  */
 'use strict';
 
-
 angular.module('dfUtility', [])
     .constant('DF_UTILITY_ASSET_PATH', 'admin_components/dreamfactory_components/adf-utility/')
     .directive('dreamfactoryAutoHeight', ['$window', '$route', function ($window) {
@@ -469,14 +468,16 @@ angular.module('dfUtility', [])
                         function(result) {
 
                             scope._cleanEditor();
+							
                             // Needs to be replaced with angular messaging
-                            $(function(){
-                                new PNotify({
-                                    title: 'Scripts',
-                                    type:  'success',
-                                    text:  'Script saved successfully.'
-                                });
-                            });
+							_showMessage('Scripts', 'Script Saved');
+//                            $(function(){
+//                                new PNotify({
+//                                    title: 'Scripts',
+//                                    type:  'success',
+//                                    text:  'Script saved successfully.'
+//                                });
+//                            });
 
                         },
                         function(reject) {
@@ -505,13 +506,14 @@ angular.module('dfUtility', [])
                             scope.editor.setValue('', false);
                             scope._cleanEditor();
 
-                            $(function(){
-                                new PNotify({
-                                    title: 'Scripts',
-                                    type:  'success',
-                                    text:  'Script deleted successfully.'
-                                });
-                            });
+							_showMessage('Scripts', 'Script Deleted');
+//                            $(function(){
+//                                new PNotify({
+//                                    title: 'Scripts',
+//                                    type:  'success',
+//                                    text:  'Script deleted successfully.'
+//                                });
+//                            });
                         },
                         function(reject) {
 
@@ -1995,7 +1997,7 @@ angular.module("template/timepicker/timepicker.html", []).run(
                 "			</td>\n" +
                 "			<td data-ng-show=\"showMeridian\"><button type=\"button\" class=\"btn btn-default text-center\" data-ng-click=\"toggleMeridian()\">{{meridian}}</button></td>\n" +
                 "		</tr>\n" +
-                "		<tr data-ng-if=\"showSelector\"class=\"text-center\">\n" +
+                "		<tr data-ng-if=\"showSelector\" class=\"text-center\">\n" +
                 "			<td ><a data-ng-click=\"decrementHours()\" class=\"btn btn-link\"><span class=\"fa fa-chevron-down\"></span></a></td>\n" +
                 "			<td>&nbsp;</td>\n" +
                 "			<td><a data-ng-click=\"decrementMinutes()\" class=\"btn btn-link\"><span class=\"fa fa-chevron-down\"></span></a></td>\n" +

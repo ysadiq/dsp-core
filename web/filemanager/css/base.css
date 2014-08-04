@@ -1,7 +1,7 @@
 
 #fileModal input[type="radio"], input[type="checkbox"] {
     float: left;
-    margin: 0px 5px;
+    margin: 0 5px;
 }
 
 #fileInput {

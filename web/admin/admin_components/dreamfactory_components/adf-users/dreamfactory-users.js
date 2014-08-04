@@ -30,26 +30,23 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                     controller: 'UsersCtrl',
                     resolve: {
                         startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
-
                             // start the loading screen
                             dfLoadingScreen.start();
                         }],
 
                         getSystemConfigData: ['DSP_URL', '$http', function (DSP_URL, $http) {
-
                             return $http({
                                 method: "GET",
                                 url: DSP_URL + '/rest/system/config'
                             })
                         }],
-                        getRolesData: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
+                        getRolesData: ['DSP_URL', '$http', function (DSP_URL, $http) {
                             var requestDataObj = {
                                 limit: 100,
                                 include_count: true,
                                 include_schema: true
                             };
-
 
                             return $http.get(DSP_URL + '/rest/system/role', {params: requestDataObj})
                                 .success(function (data) {
@@ -176,24 +173,26 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
         // PRIVATE API
         $scope._alertSuccess = function (message) {
 
-            $(function(){
-                new PNotify({
-                    title: 'Users',
-                    type:  'success',
-                    text:  message
-                });
-            });
+			_showMessage('Users', message);
+//            $(function(){
+//                new PNotify({
+//                    title: 'Users',
+//                    type:  'success',
+//                    text:  message
+//                });
+//            });
         };
 
         $scope._alertFailure = function (message) {
 
-            $(function(){
-                new PNotify({
-                    title: 'Users',
-                    type:  'error',
-                    text:  message
-                });
-            });
+			_showMessage('Users', message, 'error');
+//            $(function(){
+//                new PNotify({
+//                    title: 'Users',
+//                    type:  'error',
+//                    text:  message
+//                });
+//            });
         };
 
 
