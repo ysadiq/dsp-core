@@ -637,6 +637,14 @@ jQuery(
 	function($) {
 		//	Turn on font-awesome for PNotify
 		PNotify.prototype.options.styling = 'fontawesome';
+		PNotify.prototype.options.effect_in = 'show';
+		PNotify.prototype.options.effect_out = 'slide';
+		PNotify.prototype.options.cornerclass = 'ui-pnotify-sharp';
+		PNotify.prototype.options.shadow = false;
+		PNotify.prototype.options.delay = 3500;
+		PNotify.prototype.options.mouse_reset = false;
+		PNotify.prototype.options.animate_speed = 250;
+		PNotify.prototype.options.position_animate_speed = 250;
 	}
 );
 

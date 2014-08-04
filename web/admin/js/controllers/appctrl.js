@@ -178,15 +178,18 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 				if (window.top.Actions) {
 					window.top.Actions.updateSession("update");
 				}
-				$(
-					function() {
-						new PNotify(
-							{
-								title: Scope.app.name, type: 'success', text: 'Updated Successfully'
-							}
-						);
-					}
-				);
+
+				_showMessage(Scope.app.name, Scope.app.name + ' updated');
+
+//				$(
+//					function() {
+//						new PNotify(
+//							{
+//								title: Scope.app.name, type: 'success', text: 'Updated Successfully'
+//							}
+//						);
+//					}
+//				);
 
 				$(document).scrollTop();
 				Scope.promptForNew();
@@ -221,15 +224,18 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 				if (window.top.Actions) {
 					window.top.Actions.updateSession("update");
 				}
-				$(
-					function() {
-						new PNotify(
-							{
-								title: $scope.app.name, type: 'success', text: 'Created Successfully'
-							}
-						);
-					}
-				);
+
+				_showMessage(Scope.app.name, Scope.app.name + ' created');
+
+//				$(
+//					function() {
+//						new PNotify(
+//							{
+//								title: $scope.app.name, type: 'success', text: 'Created Successfully'
+//							}
+//						);
+//					}
+//				);
 
 				if ($scope.create_another) {
 					$scope.promptForNew();
@@ -273,15 +279,17 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 					window.top.Actions.updateSession();
 				}
 
-				$(
-					function() {
-						new PNotify(
-							{
-								title: $scope.app.name, type: 'success', text: 'Removed Successfully'
-							}
-						);
-					}
-				);
+				_showMessage(Scope.app.name,Scope.app.name +' deleted');
+				
+//				$(
+//					function() {
+//						new PNotify(
+//							{
+//								title: $scope.app.name, type: 'success', text: 'Removed Successfully'
+//							}
+//						);
+//					}
+//				);
 				Scope.promptForNew();
 			}
 		);
@@ -424,11 +432,9 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 
 					$scope.Apps.record.reverse();
 				}
-				},
-				{
+				}, {
 					factory: Role, collection: "Roles"
-				},
-				{
+				}, {
 					factory: Service, collection: "Services", success: function() {
 					$scope.buildServices()
 				}
