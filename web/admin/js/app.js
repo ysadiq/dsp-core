@@ -97,15 +97,6 @@ angular.module(
 										};
 
 										_showMessage(exception.module, parseDreamFactoryError(exception), exception.type);
-//										$(
-//											function() {
-//												new PNotify(
-//													{
-//														title: exception.module, type: exception.type, text: parseDreamFactoryError(exception), styling: 'bootstrap3'
-//													}
-//												);
-//											}
-//										);
 									}
 								]
 							);
@@ -363,16 +354,6 @@ angular.module(
 						return $q.reject(response);
 					} else {
 						_showMessage('API Error', getErrorString(response), 'error');
-//						$(
-//							function() {
-//								new PNotify(
-//									{
-//										title: 'API Error', text: getErrorString(response), type: 'error', styling: 'bootstrap3'
-//									}
-//								);
-//							}
-//						);
-
 						return $q.reject(response);
 					}
 				}
@@ -644,7 +625,7 @@ jQuery(
 				effect_out:             'slide',
 				cornerclass:            'ui-pnotify-sharp',
 				shadow:                 false,
-				delay:                  3500,
+				delay:                  2000,
 				mouse_reset:            false,
 				animate_speed:          250,
 				position_animate_speed: 250
