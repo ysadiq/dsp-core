@@ -196,7 +196,7 @@ We need to preload data but I'm not doing that today. MNM -->
                 <div class="form-group command">
 
                     <div class="alert alert-info">
-                        <li class="icon-info-sign"></li>
+                       <i class="fa fa-fw fa-info-circle"></i>
                         OPTIONAL : Defaults to use the local mail service.
                     </div>
                     <label>Command</label>
@@ -241,7 +241,7 @@ We need to preload data but I'm not doing that today. MNM -->
                         <br/>
 
                         <div class="alert alert-info">
-                            <li class="icon-info-sign"></li>
+                           <i class="fa fa-fw fa-info-circle"></i>
                             &nbsp;&nbsp;The connection string consists of the driver type, the server, any non-default
                             port number, and
                             the database name.
@@ -343,7 +343,7 @@ We need to preload data but I'm not doing that today. MNM -->
                                 <input class="form-control" ng-model="mongodb.service.dsn" type="text"/>
                             </div>
                             <div class="alert alert-info">
-                                <li class="icon-info-sign"></li>
+                               <i class="fa fa-fw fa-info-circle"></i>
                                 &nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they
                                 contain special characters, please enter them below.
                             </div>
@@ -368,7 +368,7 @@ We need to preload data but I'm not doing that today. MNM -->
                                 <input class="form-control" ng-model="mongohq.service.dsn" type="text"/>
                             </div>
                             <div class="alert alert-info">
-                                <li class="icon-info-sign"></li>
+                               <i class="fa fa-fw fa-info-circle"></i>
                                 &nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they
                                 contain special characters, please enter them below.
                             </div>
@@ -517,6 +517,9 @@ We need to preload data but I'm not doing that today. MNM -->
     </div>
 </div>
 <div class="alert alert-info">
+
+    <i class="fa fa-fw fa-info-circle"></i>
+
     You can use lookup keys for service configuration and credentials but the keys must be made private.
 </div>
 <div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service' || service.type === 'Email Service'">
