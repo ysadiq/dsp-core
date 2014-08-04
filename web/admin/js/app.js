@@ -636,15 +636,20 @@ var _showMessage = function(title, text, type) {
 jQuery(
 	function($) {
 		//	Turn on font-awesome for PNotify
-		PNotify.prototype.options.styling = 'fontawesome';
-		PNotify.prototype.options.effect_in = 'show';
-		PNotify.prototype.options.effect_out = 'slide';
-		PNotify.prototype.options.cornerclass = 'ui-pnotify-sharp';
-		PNotify.prototype.options.shadow = false;
-		PNotify.prototype.options.delay = 3500;
-		PNotify.prototype.options.mouse_reset = false;
-		PNotify.prototype.options.animate_speed = 250;
-		PNotify.prototype.options.position_animate_speed = 250;
+		$.extend(
+			PNotify.prototype.options,
+			{
+				styling:                'fontawesome',
+				effect_in:              'show',
+				effect_out:             'slide',
+				cornerclass:            'ui-pnotify-sharp',
+				shadow:                 false,
+				delay:                  3500,
+				mouse_reset:            false,
+				animate_speed:          250,
+				position_animate_speed: 250
+			}
+		);
 	}
 );
 
