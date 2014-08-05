@@ -66,7 +66,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     // Remote Web Services Definition Editor
 
     $scope.isEditorClean = true;
+    $scope.isEditable = false;
     $scope.currentEditor = null;
+    $scope.backupServiceDef = null;
 
     $scope.confirmServiceDefOverwrite = function () {
         return confirm("Overwrite current service definition?  This operation cannot be undone.");
@@ -117,15 +119,31 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
          return false;
          }
 
-         currentService.docs[0].content = $scope.currentEditor.session.getValue();
+        currentService.docs[0].content = $scope.currentEditor.session.getValue();
     };
 
     $scope.resetServiceDef = function (currentService) {
 
         if ($scope.confirmServiceDefReset()) {
-            currentService.docs = [];
+
+            currentService.docs = angular.copy($scope.backupServiceDef)
+            $scope.$broadcast('reload:script', true);
+
         }
     };
+
+    $scope.$watch('service', function (newValue, oldValue) {
+
+        if (!newValue) return false;
+
+        if (newValue.type === 'Remote Web Service') {
+
+            $scope.isEditable = true;
+            $scope.backupServiceDef = angular.copy(newValue.docs);
+        }else {
+            $scope.isEditable = false;
+        }
+    });
 
     // End Remote Web Services Definition Editor
 

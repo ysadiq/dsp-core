@@ -630,7 +630,7 @@ We need to preload data but I'm not doing that today. MNM -->
 
 <!-- Editor for Remote Web Services-->
 
-<div class="panel panel-default" data-ng-show="service.type === 'Remote Web Service'">
+<div class="panel panel-default" >
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-editor-body">
             <h4 class="panel-title">Service Definition</h4>
@@ -640,13 +640,20 @@ We need to preload data but I'm not doing that today. MNM -->
     <div id="services-editor-body" class="panel-collapse collapse">
         <div class="panel-body">
 
-            <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default" data-ng-click="createNewServiceDef(service)">Create New</button>
-                <button type="button" class="btn btn-default" data-ng-click="resetServiceDef(service)" data-ng-disabled="(!service.docs) || service.docs.length === 0">Reset</button>
+            <div data-ng-if="service.type != 'Remote Web Service'" class="alert alert-danger">
+                <i class="fa fa-fw fa-warning"></i>
+                This service definition is not editable.
             </div>
 
+            <div  class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default" data-ng-click="createNewServiceDef(service)"
+                        data-ng-disabled="service.type != 'Remote Web Service'">Create New</button>
+                <button type="button" class="btn btn-default" data-ng-click="resetServiceDef(service)"
+                        data-ng-disabled="((!service.docs) || service.docs.length === 0) || (service.type != 'Remote Web Service')"
+                        >Reset</button>
+            </div>
         </div>
-        <df-ace-editor data-direct-data="service.docs[0].content" data-is-clean="isEditorClean" data-current-editor="currentEditor"></df-ace-editor>
+        <df-ace-editor data-direct-data="service.docs[0].content" data-is-editable="isEditable" data-is-clean="isEditorClean" data-current-editor="currentEditor"></df-ace-editor>
     </div>
 </div>
 

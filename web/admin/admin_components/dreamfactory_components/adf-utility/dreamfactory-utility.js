@@ -310,14 +310,15 @@ angular.module('dfUtility', [])
                 serviceName: '=?',
                 fileName: '=?',
                 filePath: '=?',
-                isClean: '=?'
+                isClean: '=?',
+                isEditable: '=?'
             },
             templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-ace-editor.html',
             link: function (scope, elem, attrs) {
 
                 scope.editor = null;
                 scope.currentScriptObj = '';
-
+                scope.backupDoc = '';
 
                 // PRIVATE API
                 scope._getFileFromServer = function (requestDataObj) {
@@ -448,7 +449,8 @@ angular.module('dfUtility', [])
                     newValue = angular.fromJson(newValue);
                     newValue = angular.toJson(newValue, true);
 
-                    scope._loadEditor(newValue, true);
+                    scope._loadEditor(newValue, true, !scope.isEditable);
+                    scope.backupDoc = angular.copy(newValue);
                     scope.currentEditor = scope.editor;
 
                 });
@@ -532,6 +534,12 @@ angular.module('dfUtility', [])
                 scope.$on('load:direct', function (e, dataObj) {
 
                     scope._loadEditor(dataObj, false);
+                });
+
+                scope.$on('reload:script', function (e, mode) {
+
+                    scope._loadEditor(scope.backupDoc, mode);
+
                 });
 
             }
