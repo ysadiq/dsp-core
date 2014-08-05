@@ -131,6 +131,7 @@ class WebController extends BaseWebController
                     'confirmInvite',
                     'confirmPassword',
                     'eventReceiver',
+                    'dumper',
                 ),
                 'users'   => array('*'),
             ),
@@ -300,10 +301,10 @@ class WebController extends BaseWebController
      */
     public function actionActivate()
     {
-//        if ( $this->_activated )
-//        {
-//            $this->redirect( '/' );
-//        }
+        //        if ( $this->_activated )
+        //        {
+        //            $this->redirect( '/' );
+        //        }
 
         $_model = new ActivateForm();
 
@@ -1274,5 +1275,13 @@ class WebController extends BaseWebController
         echo json_encode( array('success' => true, 'cache' => $cache) );
 
         return Pii::end();
+    }
+
+    /**
+     * Shows the post-bootstrap dump
+     */
+    public function actionDumper()
+    {
+        $this->render( 'dumper' );
     }
 }
