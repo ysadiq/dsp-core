@@ -47,7 +47,7 @@
                             <button style="border-bottom-left-radius: 3px !important; border-top-left-radius: 3px; !important;"
 								class="btn btn-default btn-sm"
 								title="Delete this role"
-								data-ng-click="delete()"><i class="icon-trash"></i>
+								data-ng-click="delete()"><i class="fa fa-fw fa-trash-o"></i>
 							</button>
                         </span>
 			</div>
@@ -74,7 +74,7 @@
 <!-- This is a hacky way to keep this UI from bouncing on load.
 We need to preload data but I'm not doing that today. MNM -->
 
-<div data-ng-if="(!groupsLoaded && !xsWidth) || (Groups.record.length === 0)" class="col-sm-3">
+<div data-ng-if="((!groupsLoaded && !xsWidth) || (Groups.record.length === 0))" class="col-sm-3">
 	<p data-ng-show="Groups.record.length === 0">No Groups found</p>
 
 	<div style="height: 300px; background: rgba(255, 0, 0, 0);"></div>
@@ -95,7 +95,7 @@ We need to preload data but I'm not doing that today. MNM -->
 				<div class="panel-body">
 
 					<div class="alert alert-info">
-						<i class="fa fa-info-circle"></i> Applications can optionally be put into groups. When selecting an application to launch they will be ordered by group.
+						<i class="fa fa-info-circle fa-fw"></i> Applications can optionally be put into groups. When selecting an application to launch they will be ordered by group.
 					</div>
 					<div class="add_new">
 						<div id="step1">

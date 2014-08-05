@@ -272,8 +272,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	Scope.service = {};
 	Scope.Services = Service.get({},function(response) {
         $scope.servicesLoaded = true;
-        console.log(response);
-
         // Stop loading screen
         dfLoadingScreen.stop();
 

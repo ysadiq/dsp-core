@@ -173,7 +173,7 @@ Actions = {
 				if (!_defaultShown && app.is_default) {
 					Actions.showApp(app.api_name, app.launch_url, app.is_url_external, !data.is_sys_admin, app.allow_fullscreen_toggle);
 					_defaultShown = true;
-					_this.toggleAdminLink(false);
+					// _this.toggleAdminLink(false);
 				}
 
 				_options += '<option value="' + app.id + '">' + app.name + '</option>';
@@ -195,7 +195,6 @@ Actions = {
 		}
 
         // If no apps present show error.
-
         if (_apps.length === 0) {
             this.$_error.html("Sorry, it appears you have no active applications.  Please contact your system administrator").show();
             return this;
@@ -209,8 +208,7 @@ Actions = {
         }
 
 		if (_app) {
-            console.log("Launching app " + _app.api_name);
-			$('#app-list-container').hide();
+
             this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
             return this;
 		}
@@ -255,7 +253,7 @@ Actions = {
 		}
 
 		// Show the app
-		this.toggleAdminLink(true);
+		// this.toggleAdminLink(true);
 		this.toggleAppsListLink(true);
 		this.toggleFullScreenLink(allowFullScreenToggle);
 
@@ -331,13 +329,14 @@ Actions = {
 
 		this.showApp(name, url, type, fullscreen, allowToggle);
 
-		this.toggleAdminLink(false);
+		// this.toggleAdminLink(false);
 		this.toggleFullScreenLink(true);
 
 		return this;
 	},
 
 	appGrouper: function (sessionInfo) {
+
 		// Check if sessionInfo has any apps in the no_group_apps array
 		if (sessionInfo.no_group_apps.length > 0) {
 			// It does have apps!
@@ -358,7 +357,6 @@ Actions = {
 				apps.apps, function (k, v) {
 					if ('' === v.launch_url) {
 						no_url_apps.push(k);
-
 					}
 				}
 			);
@@ -408,6 +406,28 @@ Actions = {
 					sessionInfo.activeSession || sessionInfo.allow_guest_user
 					);
 
+                // A few helper functions
+                var hasAppGroups = function(sessionInfo) {
+
+                    return sessionInfo.app_groups.length > 0;
+
+                }
+                var hasOneAppInGroup = function (sessionInfo) {
+
+                    if (sessionInfo.app_groups.length === 1) {
+
+                        if (sessionInfo.app_groups[0].apps.length === 1) {
+
+                            return true;
+                        }
+
+                    }
+                    return false;
+                }
+
+
+
+
 				$.get(
 					'views/_navbar.mustache', function (template) {
 						var _html = Mustache.render(template, {user: sessionInfo});
@@ -419,22 +439,72 @@ Actions = {
                 if (sessionInfo.app_groups.length === 0) {
                     var _template = 'views/_app-list-no-groups.mustache';
                 }
+
+
                 $.get(
 					_template, function(template) {
 						var _html = Mustache.render(template, {Applications: sessionInfo});
 						_this.$_appList.html(_html);
+
+                        // Are we an admin.
+                        if (sessionInfo.is_sys_admin) {
+
+                            // Yes!  Admin app will load and we should never lock out app list button
+                            $('#apps-list-btn').addClass('app-list-hidden');
+                        }
+
+                        // Do we have any apps
+                        else if (!sessionInfo.mnm_ng_apps && !hasAppGroups(sessionInfo)) {
+
+                            // No.
+                            // Apps list is hidden
+                            $('#apps-list-btn').addClass('app-list-hidden');
+
+                            // No toggle bc we have only one app
+                            _this.toggleAppsListLink(false);
+
+                        }
+
+                        // Not an admin
+                        // Do we have only one app that is not grouped
+                        else if (sessionInfo.mnm_ng_apps && (sessionInfo.mnm_ng_apps[0].apps.length === 1 && !hasAppGroups(sessionInfo))) {
+
+                            // Apps list is hidden
+                            $('#apps-list-btn').addClass('app-list-hidden');
+
+                            // No toggle bc we have only one app
+                            _this.toggleAppsListLink(false);
+                        }
+
+                        // Not admin
+                        // Do we have only one app that is grouped
+                        else if (!sessionInfo.mnm_ng_apps && hasOneAppInGroup(sessionInfo)) {
+
+                            // Apps list is hidden
+                            $('#apps-list-btn').addClass('app-list-hidden');
+
+                            // No toggle bc we have only one app
+                            _this.toggleAppsListLink(false);
+                        }
+
+                        // We have multiple apps
+                        else {
+
+                            // Apps list is being shown
+                            $('#apps-list-btn').removeClass('app-list-hidden');
+                        }
 					}
 				);
 
 				if (sessionInfo.is_sys_admin) {
-					_this.toggleAdminLink(false);
+					// _this.toggleAdminLink(false);
 					_this.toggleFullScreenLink(true);
 					_this.toggleAppsListLink(true);
 				}
 
 				if ('init' == action) {
 					_this.getApps(sessionInfo, action);
-					_this.autoRunApp();
+                    _this.autoRunApp();
 				}
 			}
 		).fail(
@@ -466,7 +536,7 @@ Actions = {
 	},
 
 	doSignOutDialog: function (off) {
-		$('#logoffDialog').modal(off ? 'hide' : 'show');
+		$('#logoffDialog').modal(off ? 'hide' : 'show')
 	},
 
 	signOut: function () {
@@ -516,7 +586,7 @@ Actions = {
 		'admin' == apiName
 		);
 
-		this.toggleAdminLink(!_isAdmin);
+		// this.toggleAdminLink(!_isAdmin);
 		this.toggleAppsListLink(_isAdmin);
 		this.toggleFullScreenLink(true);
 	},
@@ -609,11 +679,14 @@ Actions = {
 		return this;
 	},
 
+
 	toggleAppList: function (hide) {
-		return this._showHideAppList(hide || $('#apps-list-btn').hasClass('app-list-hidden'));
+
+        return this._showHideAppList(hide || $('#apps-list-btn').hasClass('app-list-hidden'));
 	},
 
 	_showHideAppList: function (hide) {
+
 		if (true === hide) {
 			this.$_appList.slideDown('fast').css({zIndex: 998});
 			$('#apps-list-btn').removeClass('app-list-hidden');
@@ -652,5 +725,22 @@ jQuery(
 		}
 
 		Actions.init();
+
+
+        // Hide/Show Error Container on modal event;
+        var hasError = false;
+
+        $(document).on('show.bs.modal', function () {
+            if ($('#error-container').is(':visible')) {
+                hasError = true;
+                $('#error-container').hide();
+            }
+        });
+
+        $(document).on('hide.bs.modal', function() {
+            if (hasError) {
+                $('#error-container').fadeIn();
+            }
+        });
 	}
 );
