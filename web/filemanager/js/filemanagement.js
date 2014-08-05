@@ -152,14 +152,14 @@ function buildEditor(mime,path) {
 
 
     if (allowEdit(mime)) {
-        return '<a href="#" class="btn btn-small fmSquareButton cRight download_file" data-mime="' + mime + '" data-path="' + path + '"><i class="icon-download-alt"></i></a><a href="#" class="btn btn-small fmSquareButton cRight editor" data-mime="' + mime + '" data-path="' + path + '"><i class="icon-pencil"></i></a>';
+        return '<a href="#" class="btn btn-small fmSquareButton cRight download_file" data-mime="' + mime + '" data-path="' + path + '"><i class="fa fa-download"></i></a><a href="#" class="btn btn-small fmSquareButton cRight editor" data-mime="' + mime + '" data-path="' + path + '"><i class="fa fa-pencil"></i></a>';
     }
     return '';
 }
 
 function buildFolderControl(path) {
 
-    return '<a href="#" class="btn btn-small fmSquareButton cRight folder_open" data-path="' + path + '"><i class="icon-folder-open"></i></a>';
+    return '<a href="#" class="btn btn-small fmSquareButton cRight" data-path="' + path + '"><i class="fa fa-folder-open"></i></a>';
 }
 
 function buildListingUI(json, svc) {
