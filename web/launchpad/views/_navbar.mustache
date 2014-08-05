@@ -35,7 +35,7 @@
 									<a href="#" onclick="Actions.flushSwaggerCache();">Rebuild Swagger Cache</a>
 								</li>
 							</ul>
-							<a id="adminLink" class="btn btn-launch disabled" title="Admin Console"><i class="fa fa-cog"></i></a>
+							<a id="adminLink" class="btn btn-launch" onclick="Actions.showAdmin()" title="Admin Console"><i class="fa fa-cog"></i></a>
 						{{/user.is_sys_admin}}
 
 						<a
@@ -59,7 +59,7 @@
 							class="btn btn-launch"
 							title="Full Screen"
 							href="#"
-							onclick="Actions._showHideNavbar(false);"><i class="fa fa-expand"></i></a>
+							onclick="Actions._showHideNavbar(true);"><i class="fa fa-expand"></i></a>
 					{{/user.show_apps_list_btn}}
 
 					<a id="helpLink" target="df-new" class="btn btn-launch " href="http://www.dreamfactory.com/developers" title="Help">
@@ -67,7 +67,5 @@
 				</div>
 			</div>
 		</div>
-
-		<div id="error-container" class="alert alert-error center"></div>
 	</div>
 </nav>

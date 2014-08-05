@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Fabric;
 use Kisma\Core\Enums\LoggingLevels;
@@ -37,7 +38,7 @@ if ( !defined( 'DSP_VERSION' ) )
 //	The base path of the project, where it's checked out basically
 $_basePath = dirname( __DIR__ );
 //	The document root
-$_docRoot = $_basePath . '/web';
+$_docRoot = $_basePath . ( InstallationTypes::BLUEMIX_PACKAGE === InstallationTypes::determineType() ? '/htdocs' : '/web' );
 //	The vendor path
 $_vendorPath = $_basePath . '/vendor';
 //	Set to false to disable database caching

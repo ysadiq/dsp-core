@@ -133,7 +133,7 @@ class WebController extends BaseWebController
                     'eventReceiver',
                     'dumper',
                 ),
-                'users'   => array( '*' ),
+                'users'   => array('*'),
             ),
             //	Allow authenticated users access to init commands
             array(
@@ -150,7 +150,7 @@ class WebController extends BaseWebController
                     'config',
                     'flush',
                 ),
-                'users'   => array( '@' ),
+                'users'   => array('@'),
             ),
             //	Deny all others access to init commands
             array(
@@ -420,12 +420,13 @@ class WebController extends BaseWebController
         $this->render(
             'login',
             array(
-                'model'          => $_model,
-                'activated'      => $this->_activated,
-                'redirected'     => $redirected,
-                'loginProviders' => ResourceStore::model( 'provider' )->findAll(
+                'model'             => $_model,
+                'activated'         => $this->_activated,
+                'allowRegistration' => Config::getOpenRegistration(),
+                'redirected'        => $redirected,
+                'loginProviders'    => ResourceStore::model( 'provider' )->findAll(
                     'is_login_provider = :is_login_provider AND is_active = :is_active',
-                    array( ':is_login_provider' => 1, ':is_active' => 1 )
+                    array(':is_login_provider' => 1, ':is_active' => 1)
                 ),
             )
         );
@@ -1169,14 +1170,32 @@ class WebController extends BaseWebController
                 $this->redirect( $_defaultApp );
             }
 
-            //	Fall back to this app default site
-            $this->render( 'index' );
+            Log::notice(
+                'No default application defined/found. Running launchpad...' .
+                PHP_EOL .
+                '==============================' .
+                PHP_EOL .
+                'Config dump:' .
+                PHP_EOL .
+                print_r( \Kisma::get( null ), true ) .
+                '==============================' .
+                PHP_EOL .
+                '==============================' .
+                PHP_EOL .
+                'Params dump:' .
+                PHP_EOL .
+                print_r( Pii::params(), true ) .
+                '==============================' .
+                PHP_EOL
+            );
+
+            //	If we have no app, run the launchpad
+            $this->redirect( static::DEFAULT_STARTUP_APP );
         }
         else if ( !$this->_handleAction( $_state ) )
         {
             Log::error( 'Invalid state "' . $_state . '" or no handler configured.' );
         }
-
     }
 
     /**
@@ -1253,7 +1272,7 @@ class WebController extends BaseWebController
                 throw new BadRequestException();
         }
 
-        echo json_encode( array( 'success' => true, 'cache' => $cache ) );
+        echo json_encode( array('success' => true, 'cache' => $cache) );
 
         return Pii::end();
     }

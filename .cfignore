@@ -1,0 +1,5 @@
+.git
+manifest.yml
+docs/
+logs/*
+web/assets/*
