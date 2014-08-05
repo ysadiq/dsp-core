@@ -444,6 +444,10 @@ angular.module('dfUtility', [])
                         return false;
                     }
 
+                    // Format JSON
+                    newValue = angular.fromJson(newValue);
+                    newValue = angular.toJson(newValue, true);
+
                     scope._loadEditor(newValue, true);
                     scope.currentEditor = scope.editor;
 
