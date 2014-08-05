@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 /**
- * database.bluemix.config.php-dist
+ * database.pivotal.config.php-dist
  *
  * Connects to a vcap mysql service specified in the runtime environment
  */
@@ -30,7 +30,7 @@
 /**
  * @type string The name of the key containing the credentials
  */
-const MYSQL_KEY = 'mysql-5.5';
+const MYSQL_KEY = 'cleardb-n/a';
 /**
  * @type int The index into the array of services containing the mysql service
  */
