@@ -83,7 +83,7 @@ angular.module(
 														}
 													);
 
-													// We only have on error
+													// We only have one error
 												} else {
 
 													// store that error message
@@ -152,12 +152,6 @@ angular.module(
 				}
 			}
 		);
-		/*            $routeProvider.when(
-		 '/user', {
-		 controller: UserCtrl,
-		 templateUrl: 'users.html'
-		 }
-		 );*/
 		$routeProvider.when(
 			'/role', {
 				controller: RoleCtrl, templateUrl: 'roles.html', resolve: {
@@ -254,15 +248,6 @@ angular.module(
 				}
 			}
 		);
-
-		/*=
-		 $routeProvider.when(
-		 '/config', {
-		 controller: ConfigCtrl,
-		 templateUrl: 'config.html'
-		 }
-		 );*/
-
 		$routeProvider.when(
 			'/data', {
 				controller: DataCtrl, templateUrl: 'data.html', resolve: {
@@ -287,36 +272,6 @@ angular.module(
 				}
 			}
 		);
-		/*            $routeProvider.when(
-		 '/scripts', {
-		 controller: ScriptCtrl,
-		 templateUrl: 'scripts.html',
-		 resolve: {
-		 startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
-
-		 // start the loading screen
-		 dfLoadingScreen.start();
-		 }],
-		 getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
-
-		 var requestDataObj = {
-		 filter: 'type_id in (4,8,16,4100,4104)'
-		 };
-
-		 return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
-		 }],
-		 getFileServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
-
-		 var requestDataObj = {
-		 filter: 'type_id in (2,4098)'
-		 };
-
-		 return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
-		 }]
-		 }
-		 }
-
-		 );*/
 		$routeProvider.when(
 			'/api', {
 				controller: 'ApiSDKCtrl', templateUrl: 'apisdk.html', resolve: {
@@ -355,7 +310,8 @@ angular.module(
 					} else if (response.status === 404) {
 						return $q.reject(response);
 					} else {
-						_showMessage('API Error', parseDreamFactoryError(response), 'error');
+
+						_showMessage('API Error',response.data.error[0].message, 'error');
 						return $q.reject(response);
 					}
 				}
@@ -637,9 +593,3 @@ jQuery(
 	}
 );
 
-//window.onresize = resize;
-//window.onload = resize;
-//
-//function resize() {
-//    $("#grid-table").css('height', $(window).height() - 60);
-//}
