@@ -18,10 +18,17 @@
  */
 var FileCtrl = function( $scope, $location, $timeout ) {
 	Scope = $scope;
+
+
+
 	Scope.importPackageFile = function() {
         $('form#import-file-form').attr('action', "/rest/system/app/?app_name=admin");
 		document.forms["import-file-form"].submit();
 	};
+
+
+
+
 	Scope.importPackageUrl = function() {
         var _url = $('#urlInput').val();
         $('form#import-url-form').attr('action', "/rest/system/app/?app_name=admin&url=" + _url);

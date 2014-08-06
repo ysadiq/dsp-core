@@ -16,7 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Service, $location) {
+
+
+var AppCtrl = function(DSP_URL, dfLoadingScreen, $scope, AppsRelated, Role, $http, Service, $location) {
 
 	$scope.$on(
 		'$routeChangeSuccess', function() {
@@ -439,4 +441,5 @@ var AppCtrl = function(dfLoadingScreen, $scope, AppsRelated, Role, $http, Servic
 
 	};
 	$scope.init();
+
 };
