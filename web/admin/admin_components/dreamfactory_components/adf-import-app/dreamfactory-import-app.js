@@ -82,6 +82,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             ]
 
 
+            // PUBLIC API
             $scope.submitApp = function () {
 
                 if (!$scope.appPath) {
@@ -110,6 +111,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             }
 
 
+            // PRIVATE API
             $scope._isAppPathUrl = function (appPathStr) {
 
                 return appPathStr.substr(0, 4) === 'http';
@@ -139,6 +141,8 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 })
             };
 
+
+            // COMPLEX IMPLEMENTATION
             $scope._loadSampleApp = function (appObj) {
 
                 $scope.appPath = appObj.url;
@@ -196,6 +200,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             };
 
 
+            // WATCHERS AND INIT
             $scope.$watch('uploadFile', function(newValue, oldValue) {
 
                 if (!newValue) return false;
@@ -240,6 +245,8 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 )
             });
 
+
+            //  MESSAGES
             $scope.$on('success:request', function (e, message) {
 
 
