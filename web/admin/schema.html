@@ -40,7 +40,7 @@
 										  ng-click="loadSchema(true)"><i class="fa fa-code"></i>
 									  </button>
                 <button class="btn btn-danger" title="Drop Table"
-					ng-click="dropTable()"><i
+					ng-click="dropTable();$event.stopPropagation();"><i
 					class="fa fa-trash-o"></i>
 				</button>
             </span>
