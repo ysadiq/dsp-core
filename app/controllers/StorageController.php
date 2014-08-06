@@ -29,39 +29,39 @@ use Kisma\Core\Utility\FilterInput;
 class StorageController extends BaseWebController
 {
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array();
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array();
+    }
 
-	/**
-	 *
-	 */
-	public function actionGet()
-	{
-		$_service = FilterInput::get( INPUT_GET, 'service', '' );
-		try
-		{
-			/** @var BaseFileSvc $_obj */
-			$_obj = ServiceHandler::getServiceObject( $_service );
-			switch ( $_obj->getType() )
-			{
-				case 'Local File Storage':
-				case 'Remote File Storage':
-                    if (!empty( $_obj->publicPaths))
+    /**
+     *
+     */
+    public function actionGet()
+    {
+        $_service = FilterInput::get( INPUT_GET, 'service', '' );
+        try
+        {
+            /** @var BaseFileSvc $_obj */
+            $_obj = ServiceHandler::getServiceObject( $_service );
+            switch ( $_obj->getType() )
+            {
+                case 'Local File Storage':
+                case 'Remote File Storage':
+                    if ( !empty( $_obj->publicPaths ) )
                     {
                         $_fullPath = FilterInput::get( INPUT_GET, 'path', '' );
                         // match path pieces to public accessible
-                        $_count = substr_count($_fullPath, '/');
+                        $_count = substr_count( $_fullPath, '/' );
                         $_pos = -1;
-                        for ($_ndx = 0; $_ndx < $_count; $_ndx++)
+                        for ( $_ndx = 0; $_ndx < $_count; $_ndx++ )
                         {
-                            $_pos = strpos($_fullPath, '/', $_pos + 1);
-                            $_piece = substr($_fullPath, 0, $_pos) . '/';
-                            if (false !== array_search($_piece, $_obj->publicPaths))
+                            $_pos = strpos( $_fullPath, '/', $_pos + 1 );
+                            $_piece = substr( $_fullPath, 0, $_pos ) . '/';
+                            if ( false !== array_search( $_piece, $_obj->publicPaths ) )
                             {
                                 $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
                                 $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
@@ -71,7 +71,7 @@ class StorageController extends BaseWebController
                             }
                         }
                         // check for full file path
-                        if (false !== array_search($_fullPath, $_obj->publicPaths))
+                        if ( false !== array_search( $_fullPath, $_obj->publicPaths ) )
                         {
                             $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
                             $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
@@ -79,26 +79,28 @@ class StorageController extends BaseWebController
 
                             Pii::end();
                         }
-
-
                     }
-					break;
-			}
+                    break;
+            }
 
-			Pii::end();
-		}
-		catch ( \Exception $ex )
-		{
-			die( $ex->getMessage() );
-		}
-	}
+            $_statusHeader = 'HTTP/1.1 403 Forbidden. You have no access to this file or folder.';
+            header( $_statusHeader );
+            header( 'Content-Type: text/html' );
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		Pii::end();
-	}
+            Pii::end();
+        }
+        catch ( \Exception $ex )
+        {
+            die( $ex->getMessage() );
+        }
+    }
+
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
+        Pii::end();
+    }
 
 }
