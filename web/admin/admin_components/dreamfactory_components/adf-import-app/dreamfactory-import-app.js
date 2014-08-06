@@ -25,7 +25,6 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
         }])
     .run(['DSP_URL', 'dfLoadingScreen', function (DSP_URL, dfLoadingScreen) {
 
-        //dfLoadingScreen.stop();
 
     }])
     .controller('ImportAppCtrl', ['dfLoadingScreen', 'DSP_URL', '$scope', '$http', 'getStorageServices',
