@@ -434,9 +434,16 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.service.parameters = Scope.tableData;
 		Scope.service.headers = Scope.headerData;
 
+        // If we are a Remote Web Service
         if (Scope.service.type === 'Remote Web Service') {
 
+            // Get the updated docs from the the editor
             $scope.updateServiceDefObj(Scope.service);
+        }
+        else {
+
+            // Don't send the docs property
+            delete Scope.service.docs;
         }
 
 
