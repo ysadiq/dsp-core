@@ -102,14 +102,6 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 $scope._loadSampleApp(appObj);
             };
 
-            $scope._resetImportApp = function () {
-
-                $scope.appPath = null;
-                $scope.storageService = '';
-                $scope.storageContainer = '';
-                $scope.uploadFile = null;
-            }
-
 
             // PRIVATE API
             $scope._isAppPathUrl = function (appPathStr) {
@@ -140,6 +132,14 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                     url: DSP_URL + '/rest/' + requestDataObj.serviceApiName
                 })
             };
+
+            $scope._resetImportApp = function () {
+
+                $scope.appPath = null;
+                $scope.storageService = '';
+                $scope.storageContainer = '';
+                $scope.uploadFile = null;
+            }
 
 
             // COMPLEX IMPLEMENTATION
