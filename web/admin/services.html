@@ -466,7 +466,7 @@ We need to preload data but I'm not doing that today. MNM -->
 <div class="panel panel-default" data-ng-if="service.type.indexOf('File Storage') != '-1'">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-parameters-body">
-            <h4 class="panel-title">Public File Access</h4>
+            <h4 class="panel-title">Private Folders and Files</h4>
         </a>
     </div>
 
@@ -493,9 +493,9 @@ We need to preload data but I'm not doing that today. MNM -->
 
                 <tbody>
 
-                <tr data-ng-repeat="path in service.credentials.public_paths track by $index">
+                <tr data-ng-repeat="path in service.credentials.private_paths track by $index">
                     <td>
-                        <input class="form-control" data-ng-model="service.credentials.public_paths[$index]" type="text" />
+                        <input class="form-control" data-ng-model="service.credentials.private_paths[$index]" type="text" />
                     </td>
 
 
