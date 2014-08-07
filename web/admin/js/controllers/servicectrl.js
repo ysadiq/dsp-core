@@ -255,7 +255,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.rackspace = {};
 		Scope.openstack = {};
 		Scope.mongodb = {};
-		Scope.mongohq = {};
 		Scope.couch = {};
 		Scope.salesforce = {};
 		Scope.script = {};
@@ -328,7 +327,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Windows Azure Tables", value: "azure tables"},
 		{name: "CouchDB", value: "couchdb"},
 		{name: "MongoDB", value: "mongodb"},
-		{name: "MongoHQ", value: "mongohq"}
 
 	];
 	Scope.service.storage_type = "aws s3";
@@ -423,10 +421,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "mongodb":
 					Scope.service.credentials =
 					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db};
-					break;
-				case "mongohq":
-					Scope.service.credentials =
-					{dsn: Scope.mongohq.service.dsn, user: Scope.mongohq.service.user, pwd: Scope.mongohq.service.pwd, db: Scope.mongohq.service.db};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -524,10 +518,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "mongodb":
 					Scope.service.credentials =
 					{user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, dsn: Scope.mongodb.service.dsn, db: Scope.mongodb.service.db};
-					break;
-				case "mongohq":
-					Scope.service.credentials =
-					{user: Scope.mongohq.service.user, pwd: Scope.mongohq.service.pwd, dsn: Scope.mongohq.service.dsn, db: Scope.mongohq.service.db};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -771,7 +761,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			Scope.azure = {};
 			Scope.couchdb = {service: {}};
 			Scope.mongodb = {service: {}};
-			Scope.mongohq = {service: {}};
 
 			if ( Scope.service.credentials ) {
 				var fString = Scope.service.credentials;
@@ -803,12 +792,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 						Scope.mongodb.service.user = fString.user;
 						Scope.mongodb.service.pwd = fString.pwd;
 						Scope.mongodb.service.db = fString.db;
-						break;
-					case "mongohq":
-						Scope.mongohq.service.dsn = fString.dsn;
-						Scope.mongohq.service.user = fString.user;
-						Scope.mongohq.service.pwd = fString.pwd;
-						Scope.mongohq.service.db = fString.db;
 						break;
 				}
 			}
