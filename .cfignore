@@ -1,7 +1,9 @@
 log/*.log
+vendor/
+!htdocs/vendor/
+!web/vendor/
 htdocs/assets/*
 manifest.yml
 .git/
 docs/
 .idea/
-bin/set*
