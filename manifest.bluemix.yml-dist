@@ -1,9 +1,9 @@
 ---
 applications:
-- name: bluedream
+- name: [app-name]
   memory: 512M
   instances: 1
-  host: bluedream
+  host: [host-name]
   domain: mybluemix.net
   path: .
   buildpack: https://github.com/dmikusa-pivotal/cf-php-build-pack.git

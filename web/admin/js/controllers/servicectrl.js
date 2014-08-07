@@ -185,7 +185,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         Scope.currentServiceId = '';
 		Scope.action = "Create";
 		$( '#step1' ).show();
-		Scope.service = {headers: [], parameters: [], credentials: {public_paths: []}};
+		Scope.service = {headers: [], parameters: [], credentials: {private_paths: []}};
 
         $scope.$watch(
             "sqlServerPrefix",
@@ -255,7 +255,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.rackspace = {};
 		Scope.openstack = {};
 		Scope.mongodb = {};
-		Scope.mongohq = {};
 		Scope.couch = {};
 		Scope.salesforce = {};
 		Scope.script = {};
@@ -328,7 +327,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Windows Azure Tables", value: "azure tables"},
 		{name: "CouchDB", value: "couchdb"},
 		{name: "MongoDB", value: "mongodb"},
-		{name: "MongoHQ", value: "mongohq"}
 
 	];
 	Scope.service.storage_type = "aws s3";
@@ -382,18 +380,18 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
-					{public_paths : Scope.service.credentials.public_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
+					{private_paths : Scope.service.credentials.private_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
 					break;
 				case "openstack object storage":
 					Scope.service.credentials =
-					{public_paths : Scope.service.credentials.public_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
+					{private_paths : Scope.service.credentials.private_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -423,10 +421,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "mongodb":
 					Scope.service.credentials =
 					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db};
-					break;
-				case "mongohq":
-					Scope.service.credentials =
-					{dsn: Scope.mongohq.service.dsn, user: Scope.mongohq.service.user, pwd: Scope.mongohq.service.pwd, db: Scope.mongohq.service.db};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -488,18 +482,18 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {public_paths : Scope.service.credentials.public_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
-					{public_paths : Scope.service.credentials.public_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
+					{private_paths : Scope.service.credentials.private_paths,url: Scope.rackspace.url, api_key: Scope.rackspace.api_key, username: Scope.rackspace.username, tenant_name: Scope.rackspace.tenant_name, region: Scope.rackspace.region};
 					break;
 				case "openstack object storage":
 					Scope.service.credentials =
-					{public_paths : Scope.service.credentials.public_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
+					{private_paths : Scope.service.credentials.private_paths,url: Scope.openstack.url, api_key: Scope.openstack.api_key, username: Scope.openstack.username, tenant_name: Scope.openstack.tenant_name, region: Scope.openstack.region};
 					break;
 			}
 
@@ -524,10 +518,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "mongodb":
 					Scope.service.credentials =
 					{user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, dsn: Scope.mongodb.service.dsn, db: Scope.mongodb.service.db};
-					break;
-				case "mongohq":
-					Scope.service.credentials =
-					{user: Scope.mongohq.service.user, pwd: Scope.mongohq.service.pwd, dsn: Scope.mongohq.service.dsn, db: Scope.mongohq.service.db};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -771,7 +761,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			Scope.azure = {};
 			Scope.couchdb = {service: {}};
 			Scope.mongodb = {service: {}};
-			Scope.mongohq = {service: {}};
 
 			if ( Scope.service.credentials ) {
 				var fString = Scope.service.credentials;
@@ -803,12 +792,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 						Scope.mongodb.service.user = fString.user;
 						Scope.mongodb.service.pwd = fString.pwd;
 						Scope.mongodb.service.db = fString.db;
-						break;
-					case "mongohq":
-						Scope.mongohq.service.dsn = fString.dsn;
-						Scope.mongohq.service.user = fString.user;
-						Scope.mongohq.service.pwd = fString.pwd;
-						Scope.mongohq.service.db = fString.db;
 						break;
 				}
 			}
@@ -860,11 +843,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     }
     $scope.addPath = function(){
         $scope.path = "";
-        $scope.service.credentials.public_paths.unshift($scope.path);
+        $scope.service.credentials.private_paths.unshift($scope.path);
     }
     $scope.deletePath = function(){
         var item = this.$index;
-        $scope.service.credentials.public_paths.splice(item, 1);
+        $scope.service.credentials.private_paths.splice(item, 1);
     }
 
 	Scope.changeUrl = function() {

@@ -3,11 +3,16 @@ vendor
 log
 storage
 composer.phar
+manifest.yml
 build/
 web/assets
 web/apps/
 web/favicon.ico
 !web/vendor/
+htdocs/assets
+htdocs/apps/
+htdocs/favicon.ico
+!htdocs/vendor/
 config/memcached.config.php
 config/database.config.php
 config/keys.config.php
@@ -16,4 +21,3 @@ tests/config/memcached.config.php
 tests/config/database.config.php
 tests/config/keys.config.php
 tests/config/salt.config.php
-manifest.yml

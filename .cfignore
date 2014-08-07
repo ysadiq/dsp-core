@@ -1,5 +1,7 @@
-.git
+log/*.log
+htdocs/assets/*
 manifest.yml
+.git/
 docs/
-logs/*
-web/assets/*
+.idea/
+bin/set*

@@ -51,9 +51,10 @@ class StorageController extends BaseWebController
             {
                 case 'Local File Storage':
                 case 'Remote File Storage':
-                    if ( !empty( $_obj->publicPaths ) )
+                    $_fullPath = FilterInput::get( INPUT_GET, 'path', '' );
+
+                    if ( !empty( $_obj->privatePaths ) )
                     {
-                        $_fullPath = FilterInput::get( INPUT_GET, 'path', '' );
                         // match path pieces to public accessible
                         $_count = substr_count( $_fullPath, '/' );
                         $_pos = -1;
@@ -61,25 +62,32 @@ class StorageController extends BaseWebController
                         {
                             $_pos = strpos( $_fullPath, '/', $_pos + 1 );
                             $_piece = substr( $_fullPath, 0, $_pos ) . '/';
-                            if ( false !== array_search( $_piece, $_obj->publicPaths ) )
+                            if ( false !== array_search( $_piece, $_obj->privatePaths ) )
                             {
-                                $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
-                                $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
-                                $_obj->streamFile( $_container, $_path );
+                                $_statusHeader = 'HTTP/1.1 403 Forbidden. You have no access to this file or folder.';
+                                header( $_statusHeader );
+                                header( 'Content-Type: text/html' );
 
                                 Pii::end();
                             }
                         }
                         // check for full file path
-                        if ( false !== array_search( $_fullPath, $_obj->publicPaths ) )
+                        if ( false !== array_search( $_fullPath, $_obj->privatePaths ) )
                         {
-                            $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
-                            $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
-                            $_obj->streamFile( $_container, $_path );
+                            $_statusHeader = 'HTTP/1.1 403 Forbidden. You have no access to this file or folder.';
+                            header( $_statusHeader );
+                            header( 'Content-Type: text/html' );
 
                             Pii::end();
                         }
                     }
+
+                    $_container = substr( $_fullPath, 0, strpos( $_fullPath, '/' ) );
+                    $_path = ltrim( substr( $_fullPath, strpos( $_fullPath, '/' ) + 1 ), '/' );
+                    $_obj->streamFile( $_container, $_path );
+
+                    Pii::end();
+
                     break;
             }
 
