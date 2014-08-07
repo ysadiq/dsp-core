@@ -54,7 +54,7 @@
                     <div class="col-lg-6" >
                         <div class="form-group">
                             <select class="form-control" data-ng-model="storageService" data-ng-options="obj as obj.name for obj in services" data-ng-disabled="!appPath || uploadFile != null" >
-                                <option value="" >-- Selete Storage Service --</option>
+                                <option value="" >-- Select Storage Service --</option>
                             </select>
                         </div>
                     </div>
@@ -63,8 +63,8 @@
                 <div class="row">
                     <div class="col-lg-6" >
                         <div class="form-group">
-                            <select class="form-control" data-ng-model="storageContainer" data-ng-options="obj as obj.name for obj in containers" data-ng-disabled="!appPath || uploadFile != null || containers.length <= 1">
-                                <option value="" >-- Selete Storage Container--</option>
+                            <select class="form-control" data-ng-model="storageContainer" data-ng-options="obj as obj.name for obj in containers" data-ng-disabled="!appPath || uploadFile != null || !containers.length">
+                                <option value="" >-- Select Storage Container--</option>
                             </select>
                         </div>
                     </div>
