@@ -67,18 +67,18 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 icon: 'fa fa-group'
             },
             {
-                name: 'data',
-                label: 'Data',
-                active: true,
-                url: '/data',
-                icon: 'fa fa-database'
-            },
-            {
                 name: 'services',
                 label: 'Services',
                 active: true,
                 url: '/service',
                 icon: 'fa fa-exchange'
+            },
+            {
+                name: 'data',
+                label: 'Data',
+                active: true,
+                url: '/data',
+                icon: 'fa fa-database'
             },
             {
                 name: 'schema',

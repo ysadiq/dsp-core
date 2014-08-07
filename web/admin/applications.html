@@ -54,9 +54,12 @@
 				<div class="btn-group btn-group-sm btn-group-nav">
 					<button type="button" class="btn btn-default" data-ng-click="goToImport()"><i class="fa fa-upload"></i>Import</button>
 					<button type="button" class="btn btn-default" data-ng-click="promptForNew()"><i class="fa fa-plus-circle"></i>New</button>
-					<button type="button" class="btn btn-default update_button" data-ng-click="save()" style="display: none;"><i class="fa fa-save"></i>Update
+					<button type="button" class="btn btn-default update_button" data-ng-show="action=='Update'" data-ng-click="save()">
+                        <i class="fa fa-save"></i>Update
 					</button>
-					<button type="button" class="btn btn-default save_button" data-ng-click="create()"><i class="fa fa-save"></i>Save</button>
+					<button type="button" class="btn btn-default save_button" data-ng-show="action=='Create'" data-ng-click="create()">
+                        <i class="fa fa-save"></i>Save
+                    </button>
 				</div>
 			</div>
 		</div>

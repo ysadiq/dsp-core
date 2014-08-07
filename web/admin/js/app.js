@@ -26,13 +26,16 @@ var container = $("#container");
  */
 angular.module(
 	"AdminApp", [
-		"ngRoute", "ngResource", "ui.bootstrap.accordion", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility", "dfSystemConfig", "dfUsers", "dfNavBar", "dfScripting"
-	]
-).constant("DSP_URL", CurrentServer).constant("API_KEY", "admin").config(
-	function($httpProvider, API_KEY) {
-		$httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
-	}
-).config(
+		"ngRoute", "ngResource", "ui.bootstrap.accordion", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility", "dfSystemConfig", "dfUsers", "dfNavBar", "dfScripting", "dfImportApp"
+	])
+
+    .constant("DSP_URL", CurrentServer)
+    .constant("API_KEY", "admin")
+    .config(
+        function($httpProvider, API_KEY) {
+            $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
+        })
+    .config(
 	[
 		'$provide', function($provide) {
 		$provide.decorator(
@@ -225,11 +228,11 @@ angular.module(
 				}
 			}
 		);
-		$routeProvider.when(
-			'/import', {
+		/*$routeProvider.when(
+			'/import-app', {
 				controller: FileCtrl, templateUrl: 'import.html'
 			}
-		);
+		);*/
 		$routeProvider.when(
 			'/file', {
 				controller: FileCtrl, templateUrl: 'files.html'

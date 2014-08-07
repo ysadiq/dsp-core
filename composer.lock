@@ -353,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "a2eb38bd76fe1041bd6fc449a71072f72037542e"
+                "reference": "f6ddb100f75ac2cba64563e0dc6bd7d8ed804b75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/a2eb38bd76fe1041bd6fc449a71072f72037542e",
-                "reference": "a2eb38bd76fe1041bd6fc449a71072f72037542e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/f6ddb100f75ac2cba64563e0dc6bd7d8ed804b75",
+                "reference": "f6ddb100f75ac2cba64563e0dc6bd7d8ed804b75",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +422,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-05 16:25:09"
+            "time": "2014-08-06 17:28:30"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -771,12 +771,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "41c75746607305328b22c8d54c5f8eee94636ca4"
+                "reference": "79b75ffd076b5073bad864472bbd0f24c52f4b9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/41c75746607305328b22c8d54c5f8eee94636ca4",
-                "reference": "41c75746607305328b22c8d54c5f8eee94636ca4",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/79b75ffd076b5073bad864472bbd0f24c52f4b9c",
+                "reference": "79b75ffd076b5073bad864472bbd0f24c52f4b9c",
                 "shasum": ""
             },
             "require": {
@@ -821,7 +821,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-07-29 19:06:53"
+            "time": "2014-08-05 20:03:26"
         },
         {
             "name": "monolog/monolog",
