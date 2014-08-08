@@ -106,7 +106,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             // PRIVATE API
             $scope._isAppPathUrl = function (appPathStr) {
 
-                return appPathStr.substr(0, 4) === 'http';
+                return appPathStr.substr(0, 7) === 'http://' || appPathStr.substr(0, 8) === 'https://';
             };
 
             $scope._importAppToServer = function(requestDataObj) {
