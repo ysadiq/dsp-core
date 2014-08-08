@@ -197,12 +197,13 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                         $scope._resetImportApp();
 
-                        throw {
+                        //Error handled by api error handler in app.js
+                       /* throw {
                             module: 'DreamFactory Import App Module',
                             type: 'error',
                             provider: 'dreamfactory',
                             exception: reject
-                        }
+                        }*/
                     }
                 )
                     .finally(
