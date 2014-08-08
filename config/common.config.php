@@ -95,7 +95,7 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
         'app.vendor_path'   => $_vendorPath,
         'app.log_path'      => $_logFilePath,
         'app.log_file_name' => $_logFileName,
-        'app.install_type'  => array( $_installType => $_installName ),
+        'app.install_type'  => array($_installType => $_installName),
         'app.fabric_hosted' => $_fabricHosted,
         'app.doc_root'      => $_docRoot,
     )
@@ -193,6 +193,8 @@ return array_merge(
             array('api_name' => 'system', 'name' => 'System Configuration'),
             array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
+        /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
+        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX == $_installType ? array('PATCH') : array() ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
