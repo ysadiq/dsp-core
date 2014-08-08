@@ -122,16 +122,19 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 }
                 else {
                     _headers = {
-                        "Content-type": "application/octet-stream"
+                        "Content-type": undefined
                     }
                 }
 
                 return $http({
-                    method: 'POST',
+
+                    method: "POST",
                     url: DSP_URL + '/rest/system/app',
                     data: requestDataObj,
-                    headers: _headers
-                })
+                    headers: _headers,
+                    transformRequest: angular.identity
+                });
+
             };
 
             $scope._isDFPackage = function (appPathStr) {
@@ -176,7 +179,10 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 }
                 else {
 
-                    requestDataObj = $scope.uploadFile;
+
+                    var fd = new FormData();
+                    fd.append('files', $scope.uploadFile);
+                    requestDataObj = fd
                 }
 
 
