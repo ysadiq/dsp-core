@@ -106,7 +106,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             // PRIVATE API
             $scope._isAppPathUrl = function (appPathStr) {
 
-                return appPathStr.substr(0, 4) === 'http';
+                return appPathStr.substr(0, 7) === 'http://' || appPathStr.substr(0, 8) === 'https://';
             };
 
             $scope._importAppToServer = function(requestDataObj) {
@@ -162,7 +162,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 }
                 else {
 
-                    requestDataObj = $scope.appPath;
+                    requestDataObj = $scope.uploadFile;
                 }
 
 
@@ -204,7 +204,6 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             $scope.$watch('uploadFile', function(newValue, oldValue) {
 
                 if (!newValue) return false;
-
 
                 if (!$scope._isDFPackage(newValue.name)) {
 
