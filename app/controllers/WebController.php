@@ -1170,24 +1170,24 @@ class WebController extends BaseWebController
                 $this->redirect( $_defaultApp );
             }
 
-            Log::notice(
-                'No default application defined/found. Running launchpad...' .
-                PHP_EOL .
-                '==============================' .
-                PHP_EOL .
-                'Config dump:' .
-                PHP_EOL .
-                print_r( \Kisma::get( null ), true ) .
-                '==============================' .
-                PHP_EOL .
-                '==============================' .
-                PHP_EOL .
-                'Params dump:' .
-                PHP_EOL .
-                print_r( Pii::params(), true ) .
-                '==============================' .
-                PHP_EOL
-            );
+//            Log::notice(
+//                'No default application defined/found. Running launchpad...' .
+//                PHP_EOL .
+//                '==============================' .
+//                PHP_EOL .
+//                'Config dump:' .
+//                PHP_EOL .
+//                print_r( \Kisma::get( null ), true ) .
+//                '==============================' .
+//                PHP_EOL .
+//                '==============================' .
+//                PHP_EOL .
+//                'Params dump:' .
+//                PHP_EOL .
+//                print_r( Pii::params(), true ) .
+//                '==============================' .
+//                PHP_EOL
+//            );
 
             //	If we have no app, run the launchpad
             $this->redirect( static::DEFAULT_STARTUP_APP );
