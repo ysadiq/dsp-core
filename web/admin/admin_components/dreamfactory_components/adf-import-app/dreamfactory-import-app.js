@@ -94,6 +94,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
             $scope.browseFileSystem = function () {
 
+                $scope._resetImportApp();
                 $scope.field.trigger('click');
             };
 
@@ -221,8 +222,6 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
             // WATCHERS AND INIT
             $scope.$watch('uploadFile', function(newValue, oldValue) {
-
-                console.log(newValue);
 
                 if (!newValue) return false;
 
