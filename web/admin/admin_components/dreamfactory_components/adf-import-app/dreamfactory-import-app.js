@@ -154,6 +154,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 $scope.storageService = '';
                 $scope.storageContainer = '';
                 $scope.uploadFile = null;
+                $scope.field.val('');
             }
 
 
@@ -188,11 +189,9 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                     function(result) {
 
                         $scope.$broadcast('success:request', 'App imported successfully.');
-                        $scope._resetImportApp();
+
                     },
                     function(reject) {
-
-                        $scope._resetImportApp();
 
                         //Error handled by api error handler in app.js
                        /* throw {
@@ -207,12 +206,14 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                         function(success) {
 
                             dfLoadingScreen.stop();
+                            $scope._resetImportApp();
 
                         },
 
                         function (error) {
 
                             dfLoadingScreen.stop();
+                            $scope._resetImportApp();
                         }
                     )
             };
@@ -220,6 +221,8 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
             // WATCHERS AND INIT
             $scope.$watch('uploadFile', function(newValue, oldValue) {
+
+                console.log(newValue);
 
                 if (!newValue) return false;
 
