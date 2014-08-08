@@ -102,6 +102,11 @@ We need to preload data but I'm not doing that today. MNM -->
      data-ng-class="xsWidth && (activeView === 'form') ? 'df-col-padding-override' : ''">
 <form novalidate class="css-form" name="roleform">
 
+<div class="alert alert-info">
+    <i class="fa fa-fw fa-info-circle"></i>
+    You can use lookup keys for service credentials, parameters, and headers but the keys must be made private.
+</div>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-info-body">
@@ -458,7 +463,7 @@ We need to preload data but I'm not doing that today. MNM -->
             <table class="table table-hover table-striped field-list">
                 <thead>
                 <tr>
-                    <th>Path</th>
+                    <th>Path (e.g., myfolder/ or myfolder/myfile.txt)</th>
 
 
                     <th class="no-border">
@@ -495,12 +500,6 @@ We need to preload data but I'm not doing that today. MNM -->
 
         </div>
     </div>
-</div>
-<div class="alert alert-info">
-
-    <i class="fa fa-fw fa-info-circle"></i>
-
-    You can use lookup keys for service configuration and credentials but the keys must be made private.
 </div>
 <div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service' || service.type === 'Email Service'">
     <div class="panel-heading">
