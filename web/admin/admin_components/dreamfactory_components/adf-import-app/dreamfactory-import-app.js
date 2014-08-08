@@ -113,10 +113,24 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                 dfLoadingScreen.start();
 
+                var _headers = {};
+
+                if ($scope._isAppPathUrl($scope.appPath)) {
+                    _headers = {
+                        "Content-type" : "application/json"
+                    }
+                }
+                else {
+                    _headers = {
+                        "Content-type": "application/octet-stream"
+                    }
+                }
+
                 return $http({
                     method: 'POST',
                     url: DSP_URL + '/rest/system/app',
-                    data: requestDataObj
+                    data: requestDataObj,
+                    headers: _headers
                 })
             };
 
@@ -129,7 +143,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                 return $http({
                     method: 'GET',
-                    url: DSP_URL + '/rest/' + requestDataObj.serviceApiName
+                    url: DSP_URL + '/rest/' + requestDataObj.serviceApiName,
                 })
             };
 
