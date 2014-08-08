@@ -113,27 +113,25 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                 dfLoadingScreen.start();
 
-                var _headers = {};
-
-                if ($scope._isAppPathUrl($scope.appPath)) {
-                    _headers = {
-                        "Content-type" : "application/json"
-                    }
-                }
-                else {
-                    _headers = {
-                        "Content-type": undefined
-                    }
-                }
-
-                return $http({
-
+                var _options = {
                     method: "POST",
                     url: DSP_URL + '/rest/system/app',
-                    data: requestDataObj,
-                    headers: _headers,
-                    transformRequest: angular.identity
-                });
+                    data: requestDataObj
+                };
+
+                if ($scope._isAppPathUrl($scope.appPath)) {
+
+                    _options['headers'] = {
+                        "Content-type" : 'application/json'
+                    }
+
+                }
+                else {
+                    _options['headers'] = {"Content-type" : undefined};
+                    _options['transformRequest'] = angular.identity
+                }
+
+                return $http(_options);
 
             };
 
@@ -184,7 +182,6 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                     fd.append('files', $scope.uploadFile);
                     requestDataObj = fd
                 }
-
 
                 $scope._importAppToServer(requestDataObj).then(
 
