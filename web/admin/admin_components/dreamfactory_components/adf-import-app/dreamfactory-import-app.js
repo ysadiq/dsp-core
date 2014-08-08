@@ -162,7 +162,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
                 }
                 else {
 
-                    requestDataObj = $scope.appPath;
+                    requestDataObj = $scope.uploadFile;
                 }
 
 
@@ -204,7 +204,6 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
             $scope.$watch('uploadFile', function(newValue, oldValue) {
 
                 if (!newValue) return false;
-
 
                 if (!$scope._isDFPackage(newValue.name)) {
 
