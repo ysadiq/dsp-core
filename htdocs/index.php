@@ -34,17 +34,6 @@ const DSP_DEBUG = true;
  */
 const DSP_DEBUG_PHP_ERROR = false;
 
-$_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
-
-//	Load up composer...
-$_autoloader = require_once( dirname( __DIR__ ) . '/vendor/autoload.php' );
-
-//	Load up Yii if it's not been already
-if ( !class_exists( '\\Yii', false ) )
-{
-    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
-}
-
 /**
  * Debug-level output is enabled by default below.
  * For production mode, you'll want to set the above constants to FALSE
@@ -62,6 +51,17 @@ if ( DSP_DEBUG )
     {
         reportErrors();
     }
+}
+
+$_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
+
+//	Load up composer...
+$_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
+
+//	Load up Yii if it's not been already
+if ( !class_exists( '\\Yii', false ) )
+{
+    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
 }
 
 //	Create the application and run. This doe not return until the request is complete.
