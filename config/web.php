@@ -121,7 +121,7 @@ return array(
     /**
      * Preloads
      */
-    'preload'            => array('log', 'session', 'db', 'urlManager'),
+    'preload'            => array('log', 'session', 'db'),
     /**
      * Imports
      */
@@ -172,8 +172,9 @@ return array(
                 //  Console controller's cache action has sub-commands
                 array('console/cache/<command>', 'pattern' => 'console/cache/<command:[_0-9a-zA-Z-]+>'),
                 // fall through to storage services for direct access
-                array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
                 array('storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
+                //  admin
+                //array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
             ),
         ),
         //	User configuration
@@ -196,7 +197,12 @@ return array(
                     'maxFileSize' => '102400',
                     'logFile'     => $_logFileName,
                     'logPath'     => $_logFilePath,
-                    'levels'      => 'error, warning, info, debug, notice',
+                    //  Super Debug Mode
+                    //'levels' => 'error, warning, info, debug, trace, notice',
+                    // Normal debug mode
+                    //'levels'      => 'error, warning, info, debug, notice',
+                    // Production
+                    'levels'      => 'error, warning, info, notice',
                 ),
             ),
         ),

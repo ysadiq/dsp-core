@@ -194,7 +194,7 @@ return array_merge(
             array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
         /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
-        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX == $_installType ? array('PATCH') : array() ),
+        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array('PATCH') : array() ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
