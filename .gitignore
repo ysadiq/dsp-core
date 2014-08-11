@@ -1,7 +1,6 @@
 .idea
 vendor
 log
-!storage/.private/config/local.config.php-dist
 storage/
 composer.phar
 manifest.yml

@@ -18,6 +18,21 @@
  * limitations under the License.
  */
 
-//	Send back a pong
-echo 'pong' . PHP_EOL;
-
+/**
+ * This is a local configuration file. Use it to override any configuration
+ * setting of your DSP (options in config/common.config.php for instance).
+ *
+ * This file will be loaded and override any DSP settings previously
+ * retrieved. You may also use it for your own settings.
+ *
+ * To put your local settings in play, copy this file to
+ * /path/to/dsp/storage/.private/config/local.config.php, add your settings
+ * to the array below and you're all set.
+ */
+//  A few examples...
+return array(
+    //  Uncomment to have all events fired, logged...
+    //    'dsp.log_all_events'      => true,
+    //  Uncomment to enable user scripts
+    //    'dsp.enable_user_scripts' => true,
+);

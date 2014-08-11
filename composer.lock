@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/azure-sdk-for-php.git",
-                "reference": "9cd4deea63e70b68489588ee106be0f42fe4345d"
+                "reference": "3326524639e3f42521f7259ea6ca02a6e901e3d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/9cd4deea63e70b68489588ee106be0f42fe4345d",
-                "reference": "9cd4deea63e70b68489588ee106be0f42fe4345d",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/azure-sdk-for-php/zipball/3326524639e3f42521f7259ea6ca02a6e901e3d3",
+                "reference": "3326524639e3f42521f7259ea6ca02a6e901e3d3",
                 "shasum": ""
             },
             "require": {
@@ -251,7 +251,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2014-04-16 22:03:38"
+            "time": "2014-08-08 21:07:14"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -332,7 +332,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Sr. Software Engineer"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Lee Hicks",
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "f94a34090f7d821d30e181f25641c2b60dedea93"
+                "reference": "02b9b72e12c7aacbb11bf512cbdd64ba6ea59043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/f94a34090f7d821d30e181f25641c2b60dedea93",
-                "reference": "f94a34090f7d821d30e181f25641c2b60dedea93",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/02b9b72e12c7aacbb11bf512cbdd64ba6ea59043",
+                "reference": "02b9b72e12c7aacbb11bf512cbdd64ba6ea59043",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-07 16:31:08"
+            "time": "2014-08-11 00:22:04"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -470,17 +470,17 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side"
+                    "role": "Lead Developer, server-side/client-side"
                 },
                 {
                     "name": "Todd Appleton",
@@ -548,16 +548,16 @@
         },
         {
             "name": "dreamfactory/yii",
-            "version": "1.1.13.2",
+            "version": "1.1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "8cf385458278df6948a5f7e934db742b69bd4ea5"
+                "reference": "dbf877d565ff08dc1d4d22cc6e4235a63e939080"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/8cf385458278df6948a5f7e934db742b69bd4ea5",
-                "reference": "8cf385458278df6948a5f7e934db742b69bd4ea5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/dbf877d565ff08dc1d4d22cc6e4235a63e939080",
+                "reference": "dbf877d565ff08dc1d4d22cc6e4235a63e939080",
                 "shasum": ""
             },
             "require": {
@@ -599,12 +599,10 @@
                 },
                 {
                     "name": "Sebastián Thierer",
-                    "email": "sebas@artfos.com",
                     "role": "Component development"
                 },
                 {
                     "name": "Jeffrey Winesett",
-                    "email": "jefftulsa@gmail.com",
                     "role": "Documentation and marketing"
                 },
                 {
@@ -624,26 +622,26 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-07-10 20:38:08"
+            "time": "2014-08-11 00:12:50"
         },
         {
             "name": "guzzle/guzzle",
-            "version": "dev-master",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "13e577cd52b836ebaf5e09c2938bdffb6b913d65"
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/13e577cd52b836ebaf5e09c2938bdffb6b913d65",
-                "reference": "13e577cd52b836ebaf5e09c2938bdffb6b913d65",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
+                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1"
+                "symfony/event-dispatcher": ">=2.1"
             },
             "replace": {
                 "guzzle/batch": "self.version",
@@ -670,18 +668,18 @@
                 "guzzle/stream": "self.version"
             },
             "require-dev": {
-                "doctrine/cache": "~1.3",
-                "monolog/monolog": "~1.0",
+                "doctrine/cache": "*",
+                "monolog/monolog": "1.*",
                 "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/class-loader": "~2.1",
-                "zendframework/zend-cache": "2.*,<2.3",
-                "zendframework/zend-log": "2.*,<2.3"
+                "psr/log": "1.0.*",
+                "symfony/class-loader": "*",
+                "zendframework/zend-cache": "<2.3",
+                "zendframework/zend-log": "<2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.9-dev"
+                    "dev-master": "3.8-dev"
                 }
             },
             "autoload": {
@@ -716,7 +714,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-08-06 20:57:30"
+            "time": "2014-01-28 22:29:15"
         },
         {
             "name": "jeremeamia/SuperClosure",
