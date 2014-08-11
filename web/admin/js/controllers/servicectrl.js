@@ -345,7 +345,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	Scope.serviceCreateOptions = [
 		{name: "Remote Web Service"},
 		{name: "Remote SQL DB"},
-		{name: "Remote SQL DB Schema"},
 		{name: "NoSQL DB"},
 		{name: "Salesforce"},
 		{name: "Local File Storage"},
