@@ -425,6 +425,45 @@ Actions = {
                     return false;
                 }
 
+                var hasAnyDefaultApp = function (sessionInfo) {
+
+                    var _hasDefaultApp = false;
+
+
+                    if (hasAppGroups(sessionInfo)) {
+
+                        _hasDefaultApp = hasDefaultApp(sessionInfo.app_groups[0].apps);
+                    }
+
+                    if (!_hasDefaultApp && sessionInfo.mnm_ng_apps && sessionInfo.mnm_ng_apps[0].apps.length > 0) {
+
+                        _hasDefaultApp = hasDefaultApp(sessionInfo.mnm_ng_apps[0].apps);
+
+                    }
+
+                    return _hasDefaultApp;
+                };
+
+
+
+                var hasDefaultApp = function (appsArr) {
+
+                    var _hasDefaultApp = false,
+                        i = 0;
+
+
+                    while(!_hasDefaultApp && i < appsArr.length) {
+
+                        if (appsArr[i].is_default) {
+                            _hasDefaultApp = true;
+                        }
+
+                        i++
+                    }
+
+                    return _hasDefaultApp;
+                };
+
 
 
 
@@ -490,8 +529,16 @@ Actions = {
                         // We have multiple apps
                         else {
 
-                            // Apps list is being shown
-                            $('#apps-list-btn').removeClass('app-list-hidden');
+                            if (hasAnyDefaultApp(sessionInfo)) {
+                                $('#apps-list-btn').addClass('app-list-hidden');
+                                $('#app-list-container').css({
+                                    display: 'none'
+                                })
+                            } else {
+
+                                // Apps list is being shown
+                                $('#apps-list-btn').removeClass('app-list-hidden');
+                            }
                         }
 					}
 				);
