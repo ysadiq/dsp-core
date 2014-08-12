@@ -51,8 +51,8 @@ Scope = $scope;
 
         services.unshift(
             {
-                id:   null,
-                name: "REST",
+                id:   0,
+                name: "All",
                 type: ""
             }
         );
