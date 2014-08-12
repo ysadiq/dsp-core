@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "23fe7b328211dbed1b7250a50fef0405",
+    "hash": "edf6e4e7837dadb707ef9210b82cc1a2",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -115,7 +115,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -136,7 +136,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.7.0",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "77331c0991976c7e4283383fe4f9e0b6bacf0bbc"
+                "reference": "efa156844e47f2e1555c5cb26c9453e0b5ec2ec5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/77331c0991976c7e4283383fe4f9e0b6bacf0bbc",
-                "reference": "77331c0991976c7e4283383fe4f9e0b6bacf0bbc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/efa156844e47f2e1555c5cb26c9453e0b5ec2ec5",
+                "reference": "efa156844e47f2e1555c5cb26c9453e0b5ec2ec5",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-12 14:58:21"
+            "time": "2014-08-12 14:58:50"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -766,16 +766,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.53",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "20655e5badf3a89f5f2d33fb461cc1edab0457cf"
+                "reference": "79b75ffd076b5073bad864472bbd0f24c52f4b9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/20655e5badf3a89f5f2d33fb461cc1edab0457cf",
-                "reference": "20655e5badf3a89f5f2d33fb461cc1edab0457cf",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/79b75ffd076b5073bad864472bbd0f24c52f4b9c",
+                "reference": "79b75ffd076b5073bad864472bbd0f24c52f4b9c",
                 "shasum": ""
             },
             "require": {
@@ -820,7 +820,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-08-05 20:03:20"
+            "time": "2014-08-05 20:03:26"
         },
         {
             "name": "monolog/monolog",
@@ -1538,16 +1538,22 @@
             "time": "2014-05-26 19:02:51"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kisma/kisma": 0,
-        "dreamfactory/lib-php-common-platform": 0
+        "kisma/kisma": 20,
+        "dreamfactory/lib-php-common-platform": 20
     },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.18"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
