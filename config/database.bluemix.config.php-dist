@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 use DreamFactory\Platform\Exceptions\MisconfigurationException;
+use Kisma\Core\Utility\Option;
 
 /**
  * database.bluemix.config.php-dist
@@ -69,7 +70,14 @@ if ( !isset( $_services[DB_KEY], $_services[DB_KEY][DB_INDEX] ) )
 $_dbConfig = $_services[DB_KEY][DB_INDEX][DB_CREDENTIALS_KEY];
 
 $_db = array(
-    'connectionString'      => 'mysql:host=' . $_dbConfig['host'] . ';port=' . $_dbConfig['port'] . ';dbname=' . $_dbConfig['name'],
+    'connectionString'      =>
+        'mysql:host=' .
+        //  Check for 'host', then 'hostname', default to 'localhost'
+        Option::get( $_dbConfig, 'host', Option::get( $_dbConfig, 'hostname', 'localhost' ) ) .
+        ';port=' .
+        $_dbConfig['port'] .
+        ';dbname=' .
+        $_dbConfig['name'],
     'username'              => $_dbConfig['username'],
     'password'              => $_dbConfig['password'],
     'emulatePrepare'        => true,

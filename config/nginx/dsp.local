@@ -21,17 +21,17 @@ server {
 	## Settings
 	##**************************************************************************
 
-	charset utf-8;
-	#root 		"@{HOME}/htdocs";
-	#error_log 	"@{HOME}/log/dsp.log";
+	root 		            "/path/to/dsp/installation/web";
+	error_log 	            "/path/to/dsp/installation/log/dsp.log";
+	charset                 utf-8;
 
-	## GZip output
-	gzip on;
-	gzip_disable msie6;
-	gzip_static on;
-	gzip_comp_level 9;
-	gzip_proxied any;
-	gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+	## GZip output (Optional. Comment out to not use)
+	gzip                    on;
+	gzip_disable            msie6;
+	gzip_static             on;
+	gzip_comp_level         9;
+	gzip_proxied            any;
+	gzip_types              text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
 	##**************************************************************************
 	## Variables
@@ -40,13 +40,13 @@ server {
 	set $index_file         "index.php";
 	set $x_forwarded_port   80;
 
-	index $index_file index.html;
+	index                   $index_file index.html;
 
 	##**************************************************************************
 	## Locations
 	##**************************************************************************
 
-	#   don't log favicon requests
+	#   don't log requests for favicon.ico, robots.txt, .DS_Store, or admin/{{iframeurl}}
 	location = ^(favicon.ico|robots.txt|\.DS_Store|admin/\{\{iframeUrl\}\})$ {
 		try_files $uri $uri/ =404;
 		access_log off;
@@ -65,7 +65,7 @@ server {
 		try_files $uri $uri/ /$index_file?$args;
 	}
 
-	#   do not sent static file requests upstream
+	#   send static file requests upstream if they do not exist
 	location ~* \.(png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
 		try_files $uri /$index_file?r=$uri$is_args$args;
 	}
