@@ -190,8 +190,8 @@ Actions = {
 			if (_defaultShown) {
 				return;
 			}
-
-			return this.showAdmin();
+            this.showAdmin();
+			return ;
 		}
 
         // If no apps present show error.
@@ -209,6 +209,7 @@ Actions = {
 
 		if (_app) {
 
+
             this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
             return this;
 		}
@@ -218,6 +219,10 @@ Actions = {
 
 	showApp: function (name, url, type, fullscreen, allowFullScreenToggle) {
 		this._showHideAppList(false);
+
+        // For some reason were getting a string for false and a bool for true
+        // Convert false to bool here
+        allowFullScreenToggle = allowFullScreenToggle !== 'false' && allowFullScreenToggle != false;
 
 		$('iframe').hide();
 
@@ -236,6 +241,7 @@ Actions = {
 			}
 
 			this.toggleLinksForApp('admin');
+            this.toggleFullScreen(!allowFullScreenToggle);
 			return;
 		}
 
@@ -255,7 +261,9 @@ Actions = {
 		// Show the app
 		// this.toggleAdminLink(true);
 		this.toggleAppsListLink(true);
+
 		this.toggleFullScreenLink(allowFullScreenToggle);
+        this.toggleFullScreen(!allowFullScreenToggle);
 
 		$_app.show();
 	},
@@ -301,17 +309,14 @@ Actions = {
 	},
 
 	toggleFullScreenLink: function (on) {
+
 		if (on) {
 			this.toggleLink(
-				'#fs_toggle', false, function () {
-					Actions.toggleFullScreen(true);
-				}
+				'#fs_toggle', false, Actions.toggleFullScreen(true)
 			);
 		} else {
 			this.toggleLink(
-				'#fs_toggle', true, function () {
-					Actions.toggleFullScreen(false);
-				}
+				'#fs_toggle', true, Actions.toggleFullScreen(false)
 			);
 		}
 
@@ -597,6 +602,7 @@ Actions = {
 	},
 
 	toggleFullScreen: function (toggle) {
+
 		this.toggleNavbar(toggle);
 	},
 
@@ -611,6 +617,7 @@ Actions = {
 	 * @param [click]
 	 */
 	toggleLink: function (selector, disabled, click) {
+
 		var $_link = $(selector);
 
 		if (disabled) {
@@ -644,13 +651,16 @@ Actions = {
 	 * @returns {*}
 	 */
 	toggleNavbar: function (how) {
+
 		var _this = this, _visible = this.$_navbar.is(':visible');
 
-		if (false === how || _visible) {
+		if (false === how || $('#navbar-container').is(':visible')) {
+
 			return this._showHideNavbar(false);
 		}
 
-		if (true === how || !_visible) {
+		else if (true === how || $('#navbar-container').is(':hidden')) {
+
 			return this._showHideNavbar(true);
 		}
 	},
@@ -658,7 +668,7 @@ Actions = {
 	flushPlatformCache: function () {
 		$.get(CurrentServer + '/web/flush?cache=platform').done(
 			function () {
-				console.log('Platform cache flushed.');
+				// console.log('Platform cache flushed.');
 				alert('Flushed!');
 			}
 		);
@@ -667,7 +677,7 @@ Actions = {
 	flushSwaggerCache: function () {
 		$.get(CurrentServer + '/web/flush?cache=swagger').done(
 			function () {
-				console.log('Swagger cache flushed. Rebuild on next request.');
+				// console.log('Swagger cache flushed. Rebuild on next request.');
 				alert('Flushed!');
 			}
 		);
@@ -723,7 +733,7 @@ Actions = {
 			$('#fs-exit').hide();
 		}
 
-		return this;
+		//return this;
 	},
 
 

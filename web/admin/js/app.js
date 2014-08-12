@@ -325,10 +325,42 @@ angular.module(
 			}
 		];
 
+
 		$httpProvider.responseInterceptors.push(interceptor);
+        $httpProvider.interceptors.push('httpVerbInterceptor');
 	}
 	]
-).factory(
+)
+    .factory('httpVerbInterceptor', ['SystemConfigDataService', function(SystemConfigDataService) {
+
+        return {
+
+            request: function(config) {
+
+                if (!SystemConfigDataService.getSystemConfig().restricted_verbs) return config;
+
+                var restricted_verbs = SystemConfigDataService.getSystemConfig().restricted_verbs,
+                    i = 0,
+                    restricted = false,
+                    currMethod = config.method;
+
+                while(!restricted && i < restricted_verbs.length) {
+
+                    if (currMethod === restricted_verbs[i]) {
+                        config.method = "POST";
+                        config.headers['X-HTTP-METHOD'] = currMethod;
+                        restricted = true;
+                    }
+
+                    i++
+                }
+
+                return config;
+            }
+        }
+
+    }])
+    .factory(
 	'AppsRelated', function($resource) {
 		return $resource(
 			'/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
