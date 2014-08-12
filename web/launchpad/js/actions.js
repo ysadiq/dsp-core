@@ -190,8 +190,8 @@ Actions = {
 			if (_defaultShown) {
 				return;
 			}
-
-			return this.showAdmin();
+            this.showAdmin();
+			return ;
 		}
 
         // If no apps present show error.
@@ -209,6 +209,7 @@ Actions = {
 
 		if (_app) {
 
+
             this.showApp(_app.api_name, _app.launch_url, _app.is_url_external, _app.requires_fullscreen, _app.allow_fullscreen_toggle);
             return this;
 		}
@@ -221,8 +222,9 @@ Actions = {
 
         // For some reason were getting a string for false and a bool for true
         // Convert false to bool here
-        allowFullScreenToggle = allowFullScreenToggle !== 'false';
+        allowFullScreenToggle = allowFullScreenToggle !== 'false' && allowFullScreenToggle != false;
 
+        console.log(allowFullScreenToggle);
 		$('iframe').hide();
 
 		//	Show the admin if your an admin
@@ -240,6 +242,7 @@ Actions = {
 			}
 
 			this.toggleLinksForApp('admin');
+            this.toggleFullScreen(!allowFullScreenToggle);
 			return;
 		}
 
