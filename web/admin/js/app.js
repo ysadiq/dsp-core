@@ -339,7 +339,7 @@ angular.module(
 
                 if (!SystemConfigDataService.getSystemConfig().restricted_verbs) return config;
 
-                var restricted_verbs = SystemConfigDataService.getCurrentConfig().restricted_verbs,
+                var restricted_verbs = SystemConfigDataService.getSystemConfig().restricted_verbs,
                     i = 0,
                     restricted = false,
                     currMethod = config.method;
