@@ -339,16 +339,20 @@ angular.module(
 
                 if (!SystemConfigDataService.getSystemConfig().restricted_verbs) return config;
 
-                var restricted_verbs = SystemConfigDataService.getSystemConfig().restricted_verbs,
+                var restricted_verbs = SystemConfigDataService.getCurrentConfig().restricted_verbs,
                     i = 0,
-                    restricted = false;
+                    restricted = false,
+                    currMethod = config.method;
 
                 while(!restricted && i < restricted_verbs.length) {
 
-                    if (method === restricted_verbs[i]) {
+                    if (currMethod === restricted_verbs[i]) {
                         config.method = "POST";
-                        config.header['X-HTTP-METHOD'] = method;
+                        config.headers['X-HTTP-METHOD'] = currMethod;
+                        restricted = true;
                     }
+
+                    i++
                 }
 
                 return config;
