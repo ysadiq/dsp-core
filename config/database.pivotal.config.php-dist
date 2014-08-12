@@ -59,6 +59,8 @@ if ( false === ( $_services = json_decode( $_envData, true ) ) || JSON_ERROR_NON
     throw new MisconfigurationException( 'The ENV_KEY "' . ENV_KEY . '" value is empty or invalid.' );
 }
 
+error_log( 'ENV=' . print_r( $_services, true ) );
+
 //  Get credentials environment data
 if ( !isset( $_services[DB_KEY], $_services[DB_KEY][DB_INDEX] ) )
 {
