@@ -13,7 +13,7 @@ $_html = null;
 Pii::cssFile( '/css/df.datatables.css' );
 Pii::scriptFile(
 	array(
-		'/vendor/datatables/js/jquery.dataTables.js',
+		'/static/datatables/js/jquery.dataTables.js',
 		'/js/df.datatables.js'
 	),
 	PageLocation::End

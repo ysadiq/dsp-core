@@ -37,7 +37,7 @@ const DSP_DEBUG_PHP_ERROR = false;
 $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
 //	Load up composer...
-$_autoloader = require_once( dirname( __DIR__ ) . '/vendor/autoload.php' );
+$_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
 //	Load up Yii if it's not been already
 if ( !class_exists( '\\Yii', false ) )

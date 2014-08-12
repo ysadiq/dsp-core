@@ -8,7 +8,7 @@ build/
 web/assets
 web/apps/
 web/favicon.ico
-!web/vendor/
+!web/static/
 htdocs/assets
 htdocs/apps/
 htdocs/favicon.ico

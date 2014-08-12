@@ -76,7 +76,7 @@ color: #FFFFFF;
 }
 
 #user-nav > ul > li > a > i, #sidebar li a i {
-background-image: url("../../vendor/bootstrap/img/glyphicons-halflings-white.png");
+background-image: url("../../static/bootstrap/img/glyphicons-halflings-white.png");
 margin-top:       2px;
 opacity:          0.5;
 vertical-align:   top;
@@ -688,7 +688,7 @@ text-transform: uppercase;
 }
 
 #sidebar > a > i {
-background-image: url("../../vendor/bootstrap/img/glyphicons-halflings-white.png");
+background-image: url("../../static/bootstrap/img/glyphicons-halflings-white.png");
 margin-right:     10px;
 }
 
