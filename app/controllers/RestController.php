@@ -103,7 +103,7 @@ class RestController extends BaseFactoryController
         try
         {
             // require admin currently to list APIs
-            Session::checkServicePermission( 'admin', null );
+            Session::checkServicePermission( HttpMethod::GET, null );
             $_result = array('service' => Service::available( false, array('name', 'api_name') ));
 
             $_outputFormat = RestResponse::detectResponseFormat( null, $_internal );

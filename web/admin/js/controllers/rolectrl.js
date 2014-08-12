@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, App, Service, $http ,getServicesAndComponents ) {
-
+Scope = $scope;
 	$scope.$on(
 		'$routeChangeSuccess', function() {
 			$( window ).resize();
@@ -45,7 +45,20 @@ var RoleCtrl = function(dfLoadingScreen, $window, $scope, RolesRelated, User, Ap
             $scope.ServiceComponents[index] = $scope.ServiceComponents[index].concat( service.components );
         }
     );
-	$scope.Services = Service.get();
+
+	$scope.Services = Service.get(function(data){
+        var services = data.record;
+
+        services.unshift(
+            {
+                id:   0,
+                name: "All",
+                type: ""
+            }
+        );
+    //$scope.ServiceComponents.push(allRecord);
+    });
+
 
 
     // Used to let us know when the roles are loaded
