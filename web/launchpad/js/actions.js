@@ -224,7 +224,6 @@ Actions = {
         // Convert false to bool here
         allowFullScreenToggle = allowFullScreenToggle !== 'false' && allowFullScreenToggle != false;
 
-        console.log(allowFullScreenToggle);
 		$('iframe').hide();
 
 		//	Show the admin if your an admin
