@@ -102,6 +102,11 @@ We need to preload data but I'm not doing that today. MNM -->
      data-ng-class="xsWidth && (activeView === 'form') ? 'df-col-padding-override' : ''">
 <form novalidate class="css-form" name="roleform">
 
+<div class="alert alert-info">
+    <i class="fa fa-fw fa-info-circle"></i>
+    You can use lookup keys for service credentials, parameters, and headers but the keys must be made private.
+</div>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-info-body">
@@ -111,12 +116,6 @@ We need to preload data but I'm not doing that today. MNM -->
 
     <div id="services-info-body" class="panel-collapse collapse in">
         <div class="panel-body">
-
-            <div class="alert alert-info">
-                <li class="icon-info-sign"></li>
-                You can use lookup keys for service configuration and credentials but the keys must be made private.
-            </div>
-
             <div id="file-manager">
                 <iframe style="display:none" frameBorder=0 ng-src="" seamless="seamless"></iframe>
             </div>
@@ -141,8 +140,8 @@ We need to preload data but I'm not doing that today. MNM -->
 
                 <div class="form-group" ng-show="service.type == 'Email Service'">
                     <label>Provider</label> <select class="form-control" ng-change="showEmailFields()"
-                                                    ng-model="email_type"
-                                                    ng-options="option.name as option.name for option in emailOptions"></select>
+                                                    ng-model="service.credentials.transport_type"
+                                                    ng-options="option.value as option.name for option in emailOptions"></select>
                 </div>
 
 
@@ -202,7 +201,7 @@ We need to preload data but I'm not doing that today. MNM -->
                 <div class="form-group command">
 
                     <div class="alert alert-info">
-                        <li class="icon-info-sign"></li>
+                       <i class="fa fa-fw fa-info-circle"></i>
                         OPTIONAL : Defaults to use the local mail service.
                     </div>
                     <label>Command</label>
@@ -247,7 +246,7 @@ We need to preload data but I'm not doing that today. MNM -->
                         <br/>
 
                         <div class="alert alert-info">
-                            <li class="icon-info-sign"></li>
+                           <i class="fa fa-fw fa-info-circle"></i>
                             &nbsp;&nbsp;The connection string consists of the driver type, the server, any non-default
                             port number, and
                             the database name.
@@ -349,7 +348,7 @@ We need to preload data but I'm not doing that today. MNM -->
                                 <input class="form-control" ng-model="mongodb.service.dsn" type="text"/>
                             </div>
                             <div class="alert alert-info">
-                                <li class="icon-info-sign"></li>
+                               <i class="fa fa-fw fa-info-circle"></i>
                                 &nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they
                                 contain special characters, please enter them below.
                             </div>
@@ -366,29 +365,6 @@ We need to preload data but I'm not doing that today. MNM -->
                             <div class="form-group">
                                 <label>Password</label>
                                 <input class="form-control" ng-model="mongodb.service.pwd" type="password"/>
-                            </div>
-                        </div>
-                        <div class="sub-section" ng-show="service.storage_type =='mongohq'">
-                            <div class="form-group">
-                                <label>Connection String</label>
-                                <input class="form-control" ng-model="mongohq.service.dsn" type="text"/>
-                            </div>
-                            <div class="alert alert-info">
-                                <li class="icon-info-sign"></li>
-                                &nbsp;&nbsp;The connection string can include authentication credentials as well as database name. If they
-                                contain special characters, please enter them below.
-                            </div>
-                            <div class="form-group">
-                                <label>Database</label>
-                                <input class="form-control" ng-model="mongohq.service.db" type="text"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input class="form-control" ng-model="mongohq.service.user" type="text"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input class="form-control" ng-model="mongohq.service.pwd" type="password"/>
                             </div>
                         </div>
                     </div>
@@ -469,8 +445,63 @@ We need to preload data but I'm not doing that today. MNM -->
         </div>
     </div>
 </div>
+<div class="panel panel-default" data-ng-if="service.type.indexOf('File Storage') != '-1'">
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#services-parameters-body">
+            <h4 class="panel-title">Private Folders and Files</h4>
+        </a>
+    </div>
 
-<div class="panel panel-default">
+    <div id="services-parameters-body" class="panel-collapse collapse">
+        <div class="panel-body">
+
+            <div class="alert alert-info">
+                <i class="fa fa-fw fa-info-circle"></i>
+                These settings apply to direct folder/file access only. Folders in this list must end with '/'. Access via the REST API is controlled by Role Service Access.
+            </div>
+
+            <table class="table table-hover table-striped field-list">
+                <thead>
+                <tr>
+                    <th>Path (e.g., myfolder/ or myfolder/myfile.txt)</th>
+
+
+                    <th class="no-border">
+                        <div class="btn-group pull-left">
+                            <button class="btn btn-default btn-sm" data-ng-click="addPath()">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr data-ng-repeat="path in service.credentials.private_paths track by $index">
+                    <td>
+                        <input class="form-control" data-ng-model="service.credentials.private_paths[$index]" type="text" />
+                    </td>
+
+
+                    <td class="no-border">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deletePath()">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+
+
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service' || service.type === 'Email Service'">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-parameters-body">
             <h4 class="panel-title">Parameters</h4>
@@ -480,38 +511,51 @@ We need to preload data but I'm not doing that today. MNM -->
     <div id="services-parameters-body" class="panel-collapse collapse">
         <div class="panel-body">
 
-            <p id="no-params-message">No parameters can be assigned for this service.</p>
 
 
-            <div class="form-group parameters">
-                <label>Parameters</label>
-
-                <div id="grid-container">
-                    <div id="parameter-grid" ng-grid="browseOptions"></div>
-                </div>
-                <br/>
-
-                <div style="display:none" id="error-container" class="alert alert-danger">Param already exists</div>
-                <div class="form-inline" ng-show="service.type == 'Remote Web Service'">
-                    <input id="param-name" placeholder="Param Name" class="form-control" type="text"
-                           ng-model="param.name"/>
-                    <input class="form-control" id="param-value" placeholder="Param Value" type="text"
-                           ng-model="param.value"/>
-                    <br/>
-                    <br/>
-                    <button id="param-update" class="btn btn-default" ng-click="updateParams()"><i
-                            class="icon-plus-sign"></i> Add Parameter
-                    </button>
-                </div>
-            </div>
+            <table class="table table-hover table-striped field-list">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
 
 
+                    <th class="no-border">
+                        <div class="btn-group pull-left">
+                            <button class="btn btn-default btn-sm" data-ng-click="addParameter()">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr data-ng-repeat="param in service.parameters">
+                    <td>
+                        <input class="form-control" data-ng-model="param.name" type="text" />
+                    </td>
+                    <td>
+                        <input class="form-control" data-ng-model="param.value" type="text" />
+                    </td>
+
+                    <td class="no-border">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deleteParameter()">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 
-<div class="panel panel-default">
+<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service'">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#services-headers-body">
             <h4 class="panel-title">Headers</h4>
@@ -521,40 +565,118 @@ We need to preload data but I'm not doing that today. MNM -->
     <div id="services-headers-body" class="panel-collapse collapse">
         <div class="panel-body">
 
-            <p id="no-headers-message">No headers can be assigned for this service.</p>
 
-            <div class="form-group headers">
-                <label>Headers</label>
+            <table class="table table-hover table-striped field-list">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
 
-                <div>
-                    <div id="header-grid" ng-grid="headerOptions"></div>
-                </div>
-                <div style="display:none" id="header-error-container" class="alert alert-danger">Param already exists
-                </div>
-                <div class="form-inline">
-                    <input class="form-control" id="header-name" placeholder="Header Name" class="input-small"
-                           type="text"
-                           ng-model="header.name"/>
-                    <input class="form-control" id="header-value" placeholder="Header Value" type="text"
-                           ng-model="header.value"/>
-                </div>
-                <br/>
 
-                <a id="header-update" class="btn btn-default" ng-click="updateHeaders()"><i class="icon-plus-sign"></i>
-                    Add Header
-                </a>
+                    <th class="no-border">
+                        <div class="btn-group pull-left">
+                            <button class="btn btn-default btn-sm" data-ng-click="addHeader()">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr data-ng-repeat="header in service.headers">
+                    <td>
+                        <input class="form-control" data-ng-model="header.name" type="text" />
+                    </td>
+                    <td>
+                        <input class="form-control" data-ng-model="header.value" type="text" />
+                    </td>
+
+                    <td class="no-border">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn btn-sm btn-default" data-ng-click="deleteHeader()">
+                                <i class="fa fa-trash-o fa-fw"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Editor for Remote Web Services-->
+
+<div class="panel panel-default" >
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#services-editor-body">
+            <h4 class="panel-title">Service Definition</h4>
+        </a>
+    </div>
+
+    <div id="services-editor-body" class="panel-collapse collapse">
+        <div class="panel-body">
+
+            <div data-ng-if="service.type != 'Remote Web Service'" class="alert alert-danger">
+                <i class="fa fa-fw fa-warning"></i>
+                This service definition is not editable.
             </div>
 
+            <div  class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default" data-ng-click="createNewServiceDef(service)"
+                        data-ng-disabled="service.type != 'Remote Web Service'">Create New</button>
+                <button type="button" class="btn btn-default" data-ng-click="resetServiceDef(service)"
+                        data-ng-disabled="((!service.docs) || service.docs.length === 0) || (service.type != 'Remote Web Service')"
+                        >Reset</button>
+            </div>
+        </div>
+        <df-ace-editor data-direct-data="service.docs[0].content" data-is-editable="isEditable" data-is-clean="isEditorClean" data-current-editor="currentEditor"></df-ace-editor>
+    </div>
+</div>
 
+
+<!-- Small devices -->
+<div class="visible-xs visible-sm" data-ng-class="xsWidth ? 'df-col-padding-override' : ''">
+    <div class="well well-sm">
+        <div class="btn-toolbar">
+            <div class="btn-group pull-right" style="margin: 4px auto">
+                <!--<button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New-->
+                <!--</button>-->
+                <button data-ng-show="activeView === 'form'" type="button"
+                        class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+                </button>
+                <button data-ng-show="activeView === 'form'" type="button"
+                        class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+                </button>
+                <button data-ng-show="xsWidth && activeView === 'form'" type="button" class="btn btn-default btn-sm"
+                        data-ng-click="close()">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Everything larger than 'sm' -->
+<div class="well well-sm hidden-xs hidden-sm">
+    <div class="btn-toolbar">
+        <div class="btn-group pull-right">
+            <!--<button type="button" class="btn btn-default btn-sm" data-ng-click="promptForNew()">Create New-->
+            <!--</button>-->
+            <button type="button" class="btn btn-default btn-sm save_button" data-ng-click="create()">Save
+            </button>
+            <button type="button" class="btn btn-default btn-sm update_button" data-ng-click="save()">Update
+            </button>
+            <button data-ng-show="xsWidth" type="button" class="btn btn-default btn-sm" data-ng-click="close()">
+                Close
+            </button>
         </div>
     </div>
 </div>
 </form>
 </div>
 </div>
-
-
-
 
 
 

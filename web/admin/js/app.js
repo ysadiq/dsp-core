@@ -25,608 +25,574 @@ var container = $("#container");
  * Angular module declaration
  */
 angular.module(
-        "AdminApp", [
-            "ngRoute",
-            "ngResource",
-            "ui.bootstrap.accordion",
-            "ngGrid",
-            "AdminApp.controllers",
-            "AdminApp.apisdk",
-            "dfTable",
-            "dfUtility",
-            "dfSystemConfig",
-            "dfUsers",
-            "dfNavBar"
-        ]
-    )
+	"AdminApp", [
+		"ngRoute", "ngResource", "ui.bootstrap.accordion", "AdminApp.controllers", "AdminApp.apisdk", "dfTable", "dfUtility", "dfSystemConfig", "dfUsers", "dfNavBar", "dfScripting", "dfImportApp"
+	])
+
     .constant("DSP_URL", CurrentServer)
     .constant("API_KEY", "admin")
     .config(
-    function ($httpProvider, API_KEY) {
-        $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
-    }
-)
-    .config(['$provide', function ($provide) {
-        $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
-            function ($delegate, $injector) {
-                return function (exception) {
-
-                    // Was this error thrown explicitly by a module
-                    if (exception.provider && (exception.provider === 'dreamfactory')) {
-                        $injector.invoke([function () {
-
-
-                            // Custom function to pull the DreamFactory Error out of a
-                            // DreamFactory error object
-                            var parseDreamFactoryError = function (errorDataObj) {
-
-                                //console.log(errorDataObj);
-
-                                // create a place to store the error
-                                var error = null;
-
-                                // If the exception type is a string we don't need to go any further
-                                // This was thrown explicitly by the module due to a module error
-                                // unrelated to the server
-                                if (typeof errorDataObj.exception === 'string') {
-
-                                    // store the error
-                                    // and we're done
-                                    error = errorDataObj.exception;
-
-                                    // the exception is not a string
-                                    // let's assume it came from the server
-                                } else {
-
-                                    // is there more than one error contained in the object
-                                    if (errorDataObj.exception.data.error.length > 1) {
-
-                                        // yes. Let's loop through and concat these to display to the user
-                                        angular.forEach(errorDataObj.exception.data.error, function (obj) {
-
-                                            // add the message from each error obj to the error store
-                                            error += obj.message + '\n';
-                                        });
-
-                                        // We only have on error
-                                    } else {
-
-                                        // store that error message
-                                        error = errorDataObj.exception.data.error[0].message;
-                                    }
-                                }
-
-                                // return the built message to display to the user
-                                return errorDataObj.module + ': ' + error
-
-                            };
-
-                            $(function () {
-                                new PNotify({
-                                    title: exception.module,
-                                    type: exception.type,
-                                    text: parseDreamFactoryError(exception)
-                                });
-                            });
-                        }]);
-
-                        $injector.invoke(['$rootScope', function ($rootScope) {
-                            $rootScope.$broadcast('dfclient:error');
-                        }])
-                    }
-
-                    else {
-                        // Continue on to normal error handling
-                        return $delegate(exception);
-                    }
-                }
-            }]);
-    }])
-
+        function($httpProvider, API_KEY) {
+            $httpProvider.defaults.headers.common["X-DREAMFACTORY-APPLICATION-NAME"] = API_KEY;
+        })
     .config(
-        [
-            '$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+	[
+		'$provide', function($provide) {
+		$provide.decorator(
+			'$exceptionHandler', [
+				'$delegate', '$injector', function($delegate, $injector) {
+					return function(exception) {
 
-            $routeProvider.when(
-                '/', {
-                    controller: QuickStartCtrl,
-                    templateUrl: 'quick-start.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+						// Was this error thrown explicitly by a module
+						if (exception.provider && (
+							exception.provider === 'dreamfactory'
+							)) {
+							$injector.invoke(
+								[
+									function() {
 
-                            // start the loading screen
-                            //dfLoadingScreen.start()
-                        }]
-                    }
-                }
-            );
-            $routeProvider.when(
-                '/app', {
-                    controller: AppCtrl,
-                    templateUrl: 'applications.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
 
-                            // start the loading screen
-                            dfLoadingScreen.start()
-                        }]
-                    }
-                }
-            );
-            /*            $routeProvider.when(
-             '/user', {
-             controller: UserCtrl,
-             templateUrl: 'users.html'
-             }
-             );*/
-            $routeProvider.when(
-                '/role', {
-                    controller: RoleCtrl,
-                    templateUrl: 'roles.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+										// Custom function to pull the DreamFactory Error out of a
+										// DreamFactory error object
+										var parseDreamFactoryError = function(errorDataObj) {
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }]
-                    }
-                }
-            );
-            $routeProvider.when(
-                '/group', {
-                    controller: GroupCtrl,
-                    templateUrl: 'groups.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+											//console.log(errorDataObj);
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }]
-                    }
-                }
-            );
-            $routeProvider.when(
-                '/schema', {
-                    controller: SchemaCtrl,
-                    templateUrl: 'schema.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+											// create a place to store the error
+											var error = null;
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }],
+											// If the exception type is a string we don't need to go any further
+											// This was thrown explicitly by the module due to a module error
+											// unrelated to the server
+											if (typeof errorDataObj.exception === 'string') {
 
-                        getSchemaServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+												// store the error
+												// and we're done
+												error = errorDataObj.exception;
 
-                            var requestDataObj = {
-                                filter: 'type_id in (8,4104)'
-                            };
+												// the exception is not a string
+												// let's assume it came from the server
+											} else {
 
-                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
-                        }]
-                    }
-                }
-            );
-            $routeProvider.when(
-                '/service', {
-                    controller: ServiceCtrl,
-                    templateUrl: 'services.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+												// is there more than one error contained in the object
+												if (errorDataObj.exception.data.error.length > 1) {
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }]
-                    }
-                }
-            );
-            $routeProvider.when(
-                '/import', {
-                    controller: FileCtrl,
-                    templateUrl: 'import.html'
-                }
-            );
-            $routeProvider.when(
-                '/file', {
-                    controller: FileCtrl,
-                    templateUrl: 'files.html'
-                }
-            );
-            $routeProvider.when(
-                '/package', {
-                    controller: PackageCtrl,
-                    templateUrl: 'package.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+													// yes. Let's loop through and concat these to display to the user
+													angular.forEach(
+														errorDataObj.exception.data.error, function(obj) {
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }]
-                    }
-                }
-            );
+															// add the message from each error obj to the error store
+															error += obj.message + '\n';
+														}
+													);
 
-            /*=
-             $routeProvider.when(
-             '/config', {
-             controller: ConfigCtrl,
-             templateUrl: 'config.html'
-             }
-             );*/
+													// We only have one error
+												} else {
 
-            $routeProvider.when(
-                '/data', {
-                    controller: DataCtrl,
-                    templateUrl: 'data.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+													// store that error message
+													error = errorDataObj.exception.data.error[0].message;
+												}
+											}
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }],
+											// return the built message to display to the user
+											return errorDataObj.module + ': ' + error
 
-                        getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
+										};
 
-                            var requestDataObj = {
-                                include_schema: true,
-                                filter: 'type_id in (4,4100)'
-                            };
+										_showMessage(exception.module, parseDreamFactoryError(exception), exception.type);
+									}
+								]
+							);
 
-                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
-                        }]
-                    }
-                }
-            );
-            $routeProvider.when(
-                '/scripts', {
-                    controller: ScriptCtrl,
-                    templateUrl: 'scripts.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
+							$injector.invoke(
+								[
+									'$rootScope', function($rootScope) {
+									$rootScope.$broadcast('dfclient:error');
+								}
+								]
+							)
+						}
 
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }],
-                        getDataServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
-
-                            var requestDataObj = {
-                                filter: 'type_id in (4,16,4100)'
-                            };
-
-                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
-                        }],
-                        getFileServices: ['DSP_URL', '$http', function (DSP_URL, $http) {
-
-                            var requestDataObj = {
-                                filter: 'type_id in (2,4098)'
-                            };
-
-                            return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
-                        }]
-                    }
-                }
-
-            );
-            $routeProvider.when(
-                '/api', {
-                    controller: 'ApiSDKCtrl',
-                    templateUrl: 'apisdk.html',
-                    resolve: {
-                        startLoadingScreen: ['dfLoadingScreen', function (dfLoadingScreen) {
-
-                            // start the loading screen
-                            dfLoadingScreen.start();
-                        }]
-                    }
-                }
-            );
-
-            var interceptor = [
-                '$location', '$q', '$rootScope', function ($location, $q, $rootScope) {
-                    function success(response) {
-
-                        return response;
-                    }
-
-                    function error(response) {
-
-                        if (response.status === 401 || response.status === 403) {
-                            if (response.config.method === "GET") {
-                                $rootScope.$broadcast(
-                                    "error:401", function () {
-                                        window.location.reload(true);
-                                    }
-                                );
-                            }
-                            else {
-                                $rootScope.$broadcast("error:401", null);
-                            }
-
-                            return $q.reject(response);
-                        }
-                        else if (response.status === 404) {
-                            return $q.reject(response);
-                        }
-                        else {
-                            $(function () {
-                                new PNotify({
-                                    title: 'API Error',
-                                    text: getErrorString(response),
-                                    type: 'error'
-                                });
-                            });
-
-                            return $q.reject(response);
-                        }
-                    }
-
-                    return function (promise) {
-                        return promise.then(success, error);
-                    }
-                }
-            ];
-
-            $httpProvider.responseInterceptors.push(interceptor);
-        }
-        ]
-    ).factory(
-    'AppsRelated',function ($resource) {
-        return $resource(
-            '/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'AppsRelatedToService',function ($resource) {
-        return $resource(
-            '/rest/system/app/:id/?app_name=admin&fields=*&related=app_service_relations', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'App',function ($resource) {
-        return $resource(
-            '/rest/system/app/:id/?app_name=admin&fields=*', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'User',function ($resource) {
-        return $resource(
-            '/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {
-                send_invite: false
-            }, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Role',function ($resource) {
-        return $resource(
-            '/rest/system/role/:id/?app_name=admin&fields=*', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        )
-    }
-).factory(
-    'RolesRelated',function ($resource) {
-        return $resource(
-            '/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Service',function ($resource) {
-        return $resource(
-            "/rest/system/service/:id/?app_name=admin&fields=*&filter=type!='Local Portal Service'", {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Schema',function ($resource) {
-        return $resource(
-            '/rest/schema/:name/?app_name=admin&fields=*', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'DB',function ($resource) {
-        return $resource(
-            '/rest/db/:name/?app_name=admin&fields=*&include_schema=true', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Group',function ($resource) {
-        return $resource(
-            '/rest/system/app_group/:id/?app_name=admin&fields=*&related=apps', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Config',function ($resource) {
-        return $resource(
-            '/rest/system/config/?app_name=admin', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Event',function ($resource) {
-        return $resource(
-            '/rest/system/event/?app_name=admin', {}, {
-                update: {
-                    method: 'PUT'
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false
-                }
-            }
-        );
-    }
-).factory(
-    'Script',function ($resource) {
-        return $resource(
-            '/rest/system/script/:script_id/?app_name=admin', {}, {
-                update: {
-                    method: 'PUT',
-                    headers: {'Content-Type': 'text/plain'}
-                },
-                query: {
-                    method: 'GET',
-                    isArray: false,
-                    headers: {'Content-Type': 'text/plain'}
-                }
-            }
-        );
-    }
-).factory(
-    'EmailTemplates',function ($resource) {
-        return $resource(
-            '/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
-                update: {
-                    method: 'PUT'
-                }
-            }
-        );
-    }
-).run(
-    function ($rootScope) {
-        $rootScope.$on(
-            "error:401", function (message, data) {
-                $rootScope.showLogin();
-                $rootScope.onReturn = function () {
-
-                    if (data) {
-                        data();
-                    }
-                };
-
-            }
-        );
-        $rootScope.showLogin = function () {
-            container.hide();
-            loginFrame.attr("src", "");
-            loginFrame.attr("src", "../web/login");
-            loginFrame.load(
-                function () {
-                    $rootScope.checkLogin();
-                }
-            );
-            loginPage.show();
-        };
-        $rootScope.hideLogin = function () {
-            container.show();
-            loginPage.hide();
-            $rootScope.onReturn();
-
-        };
-        $rootScope.checkLogin = function () {
-            var loginLocation = document.getElementById("login-frame").contentWindow.location;
-            loginLocation = loginLocation.toString();
-            if (loginLocation.indexOf("launchpad") != -1) {
-                $rootScope.hideLogin();
-            }
-        };
-
-    }
+						else {
+							// Continue on to normal error handling
+							return $delegate(exception);
+						}
+					}
+				}
+			]
+		);
+	}
+	]
 )
-    .run(['SystemConfigDataService', function (SystemConfigDataService) {
-       var SystemConfig = SystemConfigDataService.getSystemConfigFromServerSync();
-        SystemConfigDataService.setSystemConfig(SystemConfig);
-    }
 
+	.config(
+	[
+		'$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 
-]);
+		$routeProvider.when(
+			'/', {
+				controller: QuickStartCtrl, templateUrl: 'quick-start.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
 
-var setCurrentApp = function (currentApp) {
-    //$('.active').removeClass('active');
-    $("#nav_" + currentApp).addClass("active");
+							// start the loading screen
+							//dfLoadingScreen.start()
+						}
+					]
+				}
+			}
+		);
+		$routeProvider.when(
+			'/app', {
+				controller: AppCtrl, templateUrl: 'applications.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start()
+						}
+					]
+				}
+			}
+		);
+		$routeProvider.when(
+			'/role', {
+				controller: RoleCtrl, templateUrl: 'roles.html', resolve: {
+					startLoadingScreen:          [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					], getServicesAndComponents: [
+						'DSP_URL', '$http', function(DSP_URL, $http) {
+
+							var requestDataObj = {
+								include_components: true
+							};
+
+							return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+						}
+					]
+				}
+
+			}
+		);
+		$routeProvider.when(
+			'/group', {
+				controller: GroupCtrl, templateUrl: 'groups.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					]
+				}
+			}
+		);
+		$routeProvider.when(
+			'/schema', {
+				controller: SchemaCtrl, templateUrl: 'schema.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					],
+
+					getSchemaServices: [
+						'DSP_URL', '$http', function(DSP_URL, $http) {
+
+							var requestDataObj = {
+								filter: 'type_id in (4, 4100)'
+							};
+
+							return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+						}
+					]
+				}
+			}
+		);
+		$routeProvider.when(
+			'/service', {
+				controller: ServiceCtrl, templateUrl: 'services.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					]
+				}
+			}
+		);
+		/*$routeProvider.when(
+			'/import-app', {
+				controller: FileCtrl, templateUrl: 'import.html'
+			}
+		);*/
+		$routeProvider.when(
+			'/file', {
+				controller: FileCtrl, templateUrl: 'files.html'
+			}
+		);
+		$routeProvider.when(
+			'/package', {
+				controller: PackageCtrl, templateUrl: 'package.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					]
+				}
+			}
+		);
+		$routeProvider.when(
+			'/data', {
+				controller: DataCtrl, templateUrl: 'data.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					],
+
+					getDataServices: [
+						'DSP_URL', '$http', function(DSP_URL, $http) {
+
+							var requestDataObj = {
+								include_schema: true, filter: 'type_id in (4,4100)'
+							};
+
+							return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
+						}
+					]
+				}
+			}
+		);
+		$routeProvider.when(
+			'/api', {
+				controller: 'ApiSDKCtrl', templateUrl: 'apisdk.html', resolve: {
+					startLoadingScreen: [
+						'dfLoadingScreen', function(dfLoadingScreen) {
+
+							// start the loading screen
+							dfLoadingScreen.start();
+						}
+					]
+				}
+			}
+		);
+
+		var interceptor = [
+			'$location', '$q', '$rootScope', function($location, $q, $rootScope) {
+				function success(response) {
+
+					return response;
+				}
+
+				function error(response) {
+
+					if (response.status === 401 || response.status === 403) {
+						if (response.config.method === "GET") {
+							$rootScope.$broadcast(
+								"error:401", function() {
+									window.location.reload(true);
+								}
+							);
+						} else {
+							$rootScope.$broadcast("error:401", null);
+						}
+
+						return $q.reject(response);
+					} else if (response.status === 404) {
+						return $q.reject(response);
+					} else {
+
+						_showMessage('API Error',response.data.error[0].message, 'error');
+						return $q.reject(response);
+					}
+				}
+
+				return function(promise) {
+					return promise.then(success, error);
+				}
+			}
+		];
+
+		$httpProvider.responseInterceptors.push(interceptor);
+	}
+	]
+).factory(
+	'AppsRelated', function($resource) {
+		return $resource(
+			'/rest/system/app/:id/?app_name=admin&fields=*&related=roles', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'AppsRelatedToService', function($resource) {
+		return $resource(
+			'/rest/system/app/:id/?app_name=admin&fields=*&related=app_service_relations', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'App', function($resource) {
+		return $resource(
+			'/rest/system/app/:id/?app_name=admin&fields=*', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'User', function($resource) {
+		return $resource(
+			'/rest/system/user/:id/?app_name=admin&fields=*&related=lookup_keys&order=display_name%20ASC', {
+				send_invite: false
+			}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'Role', function($resource) {
+		return $resource(
+			'/rest/system/role/:id/?app_name=admin&fields=*', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		)
+	}
+).factory(
+	'RolesRelated', function($resource) {
+		return $resource(
+			'/rest/system/role/:id/?app_name=admin&fields=*&related=users,apps,role_service_accesses,role_system_accesses,lookup_keys', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'Service', function($resource) {
+		return $resource(
+			"/rest/system/service/:id/?app_name=admin&fields=*&filter=type!='Local Portal Service'", {}, {
+				update:   {
+					method: 'PUT', params: {
+						related: 'docs'
+					}
+				}, query: {
+					method: 'GET', isArray: false
+				}, get:   {
+					method: 'GET', isArray: false, params: {
+						related: 'docs'
+					}
+				}
+			}
+		);
+	}
+).factory(
+	'Schema', function($resource) {
+		return $resource(
+			'/rest/schema/:name/?app_name=admin&fields=*', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'DB', function($resource) {
+		return $resource(
+			'/rest/db/:name/?app_name=admin&fields=*&include_schema=true', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'Group', function($resource) {
+		return $resource(
+			'/rest/system/app_group/:id/?app_name=admin&fields=*&related=apps', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'Config', function($resource) {
+		return $resource(
+			'/rest/system/config/?app_name=admin', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'Event', function($resource) {
+		return $resource(
+			'/rest/system/event/?app_name=admin', {}, {
+				update:   {
+					method: 'PUT'
+				}, query: {
+					method: 'GET', isArray: false
+				}
+			}
+		);
+	}
+).factory(
+	'Script', function($resource) {
+		return $resource(
+			'/rest/system/script/:script_id/?app_name=admin', {}, {
+				update:   {
+					method: 'PUT', headers: {'Content-Type': 'text/plain'}
+				}, query: {
+					method: 'GET', isArray: false, headers: {'Content-Type': 'text/plain'}
+				}
+			}
+		);
+	}
+).factory(
+	'EmailTemplates', function($resource) {
+		return $resource(
+			'/rest/system/email_template/:id/?app_name=admin&fields=*', {}, {
+				update: {
+					method: 'PUT'
+				}
+			}
+		);
+	}
+).run(
+	function($rootScope) {
+		$rootScope.$on(
+			"error:401", function(message, data) {
+				$rootScope.showLogin();
+				$rootScope.onReturn = function() {
+
+					if (data) {
+						data();
+					}
+				};
+
+			}
+		);
+		$rootScope.showLogin = function() {
+			container.hide();
+			loginFrame.attr("src", "");
+			loginFrame.attr("src", "../web/login");
+			loginFrame.load(
+				function() {
+					$rootScope.checkLogin();
+				}
+			);
+			loginPage.show();
+		};
+		$rootScope.hideLogin = function() {
+			container.show();
+			loginPage.hide();
+			$rootScope.onReturn();
+
+		};
+		$rootScope.checkLogin = function() {
+			var loginLocation = document.getElementById("login-frame").contentWindow.location;
+			loginLocation = loginLocation.toString();
+			if (loginLocation.indexOf("launchpad") != -1) {
+				$rootScope.hideLogin();
+			}
+		};
+
+	}
+).run(
+	[
+		'SystemConfigDataService', function(SystemConfigDataService) {
+		var SystemConfig = SystemConfigDataService.getSystemConfigFromServerSync();
+		SystemConfigDataService.setSystemConfig(SystemConfig);
+	}
+
+	]
+);
+
+var setCurrentApp = function(currentApp) {
+	//$('.active').removeClass('active');
+	$("#nav_" + currentApp).addClass("active");
 };
 
-var showFileManager = function () {
-    $("#root-file-manager").find("iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/').show();
+var showFileManager = function() {
+	$("#root-file-manager").find("iframe").css('height', $(window).height() - 200).attr("src", CurrentServer + '/filemanager/').show();
 
 };
 
-//window.onresize = resize;
-//window.onload = resize;
-//
-//function resize() {
-//    $("#grid-table").css('height', $(window).height() - 60);
-//}
+/**
+ * Shows a pnotify message
+ * @param {string} title
+ * @param {string} text
+ * @param {string} [type] Defaults to "success"
+ * @param {*} [options] An object of options to override on the PNotify message
+ * @returns {PNotify}
+ */
+var _showMessage = function(title, text, type, options) {
+	return new PNotify($.extend({title: title, type: type || 'success', text: text}, options || {}));
+};
+
+/**
+ * Document Ready
+ */
+jQuery(
+	function($) {
+		//	Turn on font-awesome for PNotify
+		$.extend(
+			PNotify.prototype.options,
+			{
+				styling:                'fontawesome',
+				effect_in:              'show',
+				effect_out:             'slide',
+				cornerclass:            'ui-pnotify-sharp',
+				delay:                  2000,
+				mouse_reset:            false,
+				animate_speed:          250,
+				position_animate_speed: 250
+			}
+		);
+	}
+);
+

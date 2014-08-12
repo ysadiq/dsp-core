@@ -48,20 +48,16 @@
 	],
 	"require":           {
 		"php":                                  ">=5.3.18",
-		"kisma/kisma":                          "~0.2.46@stable",
+		"kisma/kisma":                          "~0.2.51@stable",
 		"jeremeamia/superclosure":              "~1.0",
-		"pear-pear.php.net/HTTP_Request2":      "*",
-		"pear-pear.php.net/Net_URL2":           "*",
-		"pear-pear.php.net/Mail_Mime":          "*",
-		"pear-pear.php.net/Mail_mimeDecode":    "*",
-		"dreamfactory/lib-php-common-platform": "~1.6.0@stable"
+		"dreamfactory/lib-php-common-platform": "~1.7.0@stable"
 	},
 	"require-dev":       {
 	},
 	"minimum-stability": "dev",
 	"extra":             {
 		"branch-alias": {
-			"dev-develop": "1.6.x-dev"
+			"dev-develop": "1.7.x-dev"
 		}
 	}
 }

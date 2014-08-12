@@ -21,6 +21,12 @@
 #
 # CHANGELOG:
 #
+# v1.3.8
+#   Updated for IBM bluemix installation
+#
+# v1.3.7
+#   Changed local store location during cleanup
+#
 # v1.3.6
 #   More bitnami-aware. Use proper user for web user when running on a full stack
 #
@@ -120,13 +126,14 @@
 ##
 ##	Initial settings
 ##
-VERSION=1.3.6
+VERSION=1.3.8
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
 DARWIN_WEB_USER=_www
+BLUEMIX_WEB_USER=vcap
 BITNAMI_WEB_USER=www-data
 BITNAMI_FULL_STACK=`[ -d "../../../properties.ini" ] && grep -c 'base_stack_name=Bitnami DreamFactory Stack' ../../../properties.ini`
 BASE=`pwd`
@@ -145,6 +152,7 @@ EXIT_CMD=()
 NO_COMPOSER=0
 ONLY_VALIDATE=0
 BITNAMI=0
+BLUEMIX=0
 
 ## Who am I?
 if [ $UID -eq 0 ] ; then
@@ -163,8 +171,19 @@ if [ "x" = "${TERM}x" ] ; then
 	B2=
 fi
 
+# Check for Bluemix install
+if [ "" != "${VCAP_SERVICES}" ] ; then
+    # Find PHP bin
+    PHP=php
+#	[ -f "../php/bin/php" ] && PHP=../php/bin/php
+#	[ -f "../../php/bin/php" ] && PHP=../../php/bin/php
+#	[ -f "../../../php/bin/php" ] && PHP=../../../php/bin/php
+
+	TAG="Mode: ${B1}Bluemix${B2}"
+	BLUEMIX=1
+
 # Check for Bitnami install
-if [ `basename ${BASE}` = "htdocs" ] ; then
+elif [ `basename ${BASE}` = "htdocs" ] ; then
 	[ -d "../../../php/bin" ] && PHP=../../../php/bin/php
 
 	TAG="Mode: ${B1}Bitnami${B2}"
@@ -214,6 +233,9 @@ if [ -f "${FABRIC_MARKER}" ] ; then
 	TAG="Mode: ${B1}Fabric${B2}"
 fi
 
+## Set the bluemix web dir to htdocs vs. web
+[ ${BLUEMIX} -eq 1 ] && WEB_DIR=${BASE_PATH}/htdocs
+
 ## Make sure we have a log directory
 if [ ! -d "${LOG_DIR}" ] ; then
 	mkdir -p "${LOG_DIR}" && _info "Created ${LOG_DIR}" || _error "Error creating ${LOG_DIR}"
@@ -262,6 +284,10 @@ _parse_arguments() {
 		PARSED_OPTIONS=$(getopt -n "${_ME}"  -o ${SHORT_OPTIONS} -l "${LONG_OPTIONS}"  -- "$1")
 	fi
 
+	if [ ${BLUEMIX} -eq 1 ] ; then
+		WEB_USER=${BLUEMIX_WEB_USER}
+	fi
+
 	if [ ${BITNAMI} -eq 1 ] ; then
 		WEB_USER=${BITNAMI_WEB_USER}
 	fi
@@ -272,6 +298,8 @@ _parse_arguments() {
 ##
 _check_structure() {
 	[ "${BITNAMI_FULL_STACK}" = "1" ] && _dbg "Bitnami full stack install (hosted VM). Web user set to \"${BITNAMI_WEB_USER}\""
+
+	[ "${BLUEMIX}" = "1" ] && _dbg "Bluemix install. Web user set to \"${BLUEMIX_WEB_USER}\""
 
 	if [ ! -d "${STORAGE_DIR}" ] ; then
 		mkdir -p "${STORAGE_DIR}" >>${MY_LOG} 2>&1 && _info "Created ${STORAGE_DIR}" || _error "Error creating ${STORAGE_DIR}"
@@ -442,12 +470,10 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 
 	# Git submodules (not currently used, but could be in the future)
 	_dbg "Updating git submodules"
-	/usr/bin/git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
-	
+	git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
+
 	_dbg "Cleaning up prior cached data"
-	[ -d "${STORAGE_DIR}/.private/store.cache" ] && rm -rf "${STORAGE_DIR}/.private/store.cache" 
-	[ -d "/tmp/dreamfactory" ] && rm -rf "/tmp/dreamfactory/*" 
-	rm -rf "/tmp/.dsp*" "/tmp/*.dfcc" 
+	rm -rf "${STORAGE_DIR}/.private/*.store" "/tmp/dreamfactory/*" "/tmp/.dsp*" "/tmp/*.dfcc" "/tmp/.kc" >/dev/null 2>&1
 fi
 
 ##
@@ -472,8 +498,7 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
 		fi
 
-		[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate
-		 properly."
+		[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
 	fi
 
 	if [ -d "${VENDOR_DIR}" ] ; then

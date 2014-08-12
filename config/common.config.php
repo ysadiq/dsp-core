@@ -17,13 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
-use DreamFactory\Platform\Utility\Fabric;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
- * common.config.php
  * This file contains any application-level parameters that are to be shared between the background and web services
+ *
+ * NOTE:   If you make changes to this file they will probably be lost
+ *         during the next system update/upgrade.
  */
 if ( !defined( 'DSP_VERSION' ) )
 {
@@ -34,10 +36,14 @@ if ( !defined( 'DSP_VERSION' ) )
 //* Global Configuration Settings
 //*************************************************************************
 
+//  The installation type
+$_installType = InstallationTypes::determineType( false, $_installName );
+//  Special fabric-hosted indicator
+$_fabricHosted = ( InstallationTypes::FABRIC_HOSTED == $_installType );
 //	The base path of the project, where it's checked out basically
 $_basePath = dirname( __DIR__ );
 //	The document root
-$_docRoot = $_basePath . '/web';
+$_docRoot = $_basePath . ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? '/htdocs' : '/web' );
 //	The vendor path
 $_vendorPath = $_basePath . '/vendor';
 //	Set to false to disable database caching
@@ -46,9 +52,9 @@ $_dbCacheEnabled = true;
 $_defaultController = 'web';
 //	Where the log files go and the name...
 $_logFilePath = $_basePath . '/log';
-$_logFileName = basename( \Kisma::get( 'app.log_file' ) );
+$_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
+//  Finally the name of our app
 $_appName = 'DreamFactory Services Platform';
-$_fabricHosted = Fabric::fabricHosted();
 
 /**
  * Keys and salts
@@ -71,7 +77,7 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
         {
             if ( $_salt )
             {
-                $_dspSalts[ 'dsp.salts.' . $_key ] = $_salt;
+                $_dspSalts['dsp.salts.' . $_key] = $_salt;
             }
         }
     }
@@ -85,11 +91,13 @@ if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . S
 \Kisma::set(
     array(
         'app.app_name'      => $_appName,
-        'app.doc_root'      => $_docRoot,
-        'app.log_path'      => $_logFilePath,
-        'app.vendor_path'   => $_vendorPath,
-        'app.log_file_name' => $_logFileName,
         'app.project_root'  => $_basePath,
+        'app.vendor_path'   => $_vendorPath,
+        'app.log_path'      => $_logFilePath,
+        'app.log_file_name' => $_logFileName,
+        'app.install_type'  => array($_installType => $_installName),
+        'app.fabric_hosted' => $_fabricHosted,
+        'app.doc_root'      => $_docRoot,
     )
 );
 
@@ -164,6 +172,7 @@ return array_merge(
         'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
         'dsp.fabric_hosted'             => $_fabricHosted,
+        'dsp.no_persistent_storage'     => false,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
@@ -180,10 +189,12 @@ return array_merge(
         'dsp.service_location_map'      => array(),
         /** Default services provided by all DSPs */
         'dsp.default_services'          => array(
-            array( 'api_name' => 'user', 'name' => 'User Login' ),
-            array( 'api_name' => 'system', 'name' => 'System Configuration' ),
-            array( 'api_name' => 'api_docs', 'name' => 'API Documentation' ),
+            array('api_name' => 'user', 'name' => 'User Login'),
+            array('api_name' => 'system', 'name' => 'System Configuration'),
+            array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
+        /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
+        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array('PATCH') : array() ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
@@ -192,16 +203,13 @@ return array_merge(
         'dsp.confirm_reset_url'         => '/web/confirmPassword',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
-        /** The default admin resource schema */
-        'admin.resource_schema'         => require( __DIR__ . DEFAULT_ADMIN_RESOURCE_SCHEMA ),
-        'admin.default_theme'           => 'united',
         //-------------------------------------------------------------------------
         //	Logging/Debug Options
         //-------------------------------------------------------------------------
         /** Enable the internal profiler */
         'dsp.enable_profiler'           => false,
         //  I do not believe this is being utilized
-        'dsp.debug_level'               => LoggingLevels::DEBUG,
+        'dsp.debug_level'               => LoggingLevels::WARNING,
         //-------------------------------------------------------------------------
         //	Event and Scripting System Options
         //-------------------------------------------------------------------------
@@ -221,6 +229,13 @@ return array_merge(
         'dsp.log_all_events'            => false,
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
+        //-------------------------------------------------------------------------
+        //	Cache stats logging
+        //-------------------------------------------------------------------------
+        //  If true, cache stats will be logged when "dsp.cache_stats_event" is fired
+        'dsp.log_cache_stats'           => false,
+        //  The event on which to dump cache stats
+        'dsp.cache_stats_event'         => 'system.config.read',
         //-------------------------------------------------------------------------
         //	Login Form Settings
         //-------------------------------------------------------------------------

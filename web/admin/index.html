@@ -1,32 +1,25 @@
 <!DOCTYPE html>
-<html ng-app="AdminApp" xmlns="http://www.w3.org/1999/html">
+<html data-ng-app="AdminApp" xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-	<link href="/css/font-mfizz-1.2/font-mfizz.css" rel="stylesheet">
-
+	<link href="/vendor/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/vendor/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/vendor/font-mfizz/1.2/font-mfizz.css" rel="stylesheet">
+	<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">-->
 	<link rel="stylesheet" href="/admin/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="/css/df.callouts.css" type="text/css" />
+	<link rel="stylesheet" href="/admin/admin_components/dreamfactory_components/adf-table/style/style.css" type="text/css" />
+    <link rel="stylesheet" href="/admin/admin_components/dreamfactory_components/adf-scripting/style/style.css" type="text/css" />
+	<link rel="stylesheet" href="/vendor/pnotify/2.0.1/css/pnotify.custom.min.css" type="text/css" />
 
-	<link rel="stylesheet"
-		href="/admin/admin_components/dreamfactory_components/adf-table/style/style.css"
-		type="text/css" />
-	<link rel="stylesheet" href="/admin/js/ng-grid/ng-grid.css" type="text/css" />
-	<link rel="stylesheet" href="/js/pnotify/pnotify.custom.min.css" type="text/css" />
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="/vendor/jquery/2.1.1/jquery.min.js"></script>
 </head>
-<body id="admin-console" class="nano-content">
-<div style="display: none" id="login-page">
-	<iframe seamless="seamless" id="login-frame"></iframe>
-</div>
-
+<body id="admin-console">
 <div class="container-fluid app-wrapper">
-	<div class="row nao">
+	<div class="row">
 		<div data-ng-controller="NavBarCtrl">
-			<div class="col-md-2 hidden-xs hidden-sm">
+			<div class="col-md-2 hidden-xs hidden-sm no-right-padding">
 				<sidebar-nav-one></sidebar-nav-one>
 			</div>
 
@@ -35,21 +28,30 @@
 					<topbar-nav-one></topbar-nav-one>
 				</div>
 
-				<div id="main-content" class="content-body">
+				<div id="main-content">
 					<div id="angular-content" data-ng-view></div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<div id="loading-screen"></div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
-<script src="/admin/js/angular-ui.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-resource.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-route.min.js"></script>
-<script src="/admin/js/ng-grid/ng-grid-2.0.7.min.js"></script>
+<div class="loading-screen" style="display: none;">
+	<div class="loading-screen-body">
+		<h2><i class="fa fa-cog fa-spin"></i> <span class="hidden-xs">Loading...</span>
+		</h2>
+	</div>
+</div>
+
+<div id="login-page" style="display: none;">
+	<iframe seamless="seamless" id="login-frame"></iframe>
+</div>
+
+<script src="/vendor/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/vendor/angular/1.2.20/angular.min.js"></script>
+<script src="/vendor/angular/1.2.20/angular-ui.min.js"></script>
+<script src="/vendor/angular/1.2.20/angular-resource.min.js"></script>
+<script src="/vendor/angular/1.2.20/angular-route.min.js"></script>
 
 <!-- DreamFactory Modules -->
 <script src="/admin/admin_components/dreamfactory_components/adf-utility/dreamfactory-utility.js"></script>
@@ -57,6 +59,9 @@
 <script src="/admin/admin_components/dreamfactory_components/adf-system-config/dreamfactory-system-config.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-users/dreamfactory-users.js"></script>
 <script src="/admin/admin_components/dreamfactory_components/adf-navbar/dreamfactory-navbar.js"></script>
+<script src="/admin/admin_components/dreamfactory_components/adf-scripting/dreamfactory-scripting.js"></script>
+<script src="/admin/admin_components/dreamfactory_components/adf-import-app/dreamfactory-import-app.js"></script>
+
 
 <script src="/js/json2.js"></script>
 <script src="/js/utils.js"></script>
@@ -76,14 +81,12 @@
 <script src="/admin/js/controllers/controllers.js"></script>
 
 <script src="/admin/js/directives/AdminApp.apisdk.js"></script>
-
 <script src="/admin/js/app.js"></script>
 
-<script src="/js/pnotify/pnotify.custom.min.js"></script>
-
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" defer="defer"></script>
-<script src="/admin/js/jsonlint.js"></script>
-<script src="/filemanager/js/ace/ace.js"></script>
-<script src="/filemanager/js/ace/mode-javascript.js"></script>
+<!-- Deferred Loads -->
+<script src="/vendor/pnotify/2.0.1/js/pnotify.custom.min.js" defer="defer"></script>
+<script src="/admin/js/jsonlint.js" defer="defer"></script>
+<script src="/filemanager/js/ace/ace.js" defer="defer"></script>
+<script src="/filemanager/js/ace/mode-javascript.js" defer="defer"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 label: 'App Groups',
                 active: true,
                 url: '/group',
-                icon: 'fa fa-sitemap'
+                icon: 'fa fa-list'
             },
             {
                 name: 'user',
@@ -67,18 +67,18 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 icon: 'fa fa-group'
             },
             {
-                name: 'data',
-                label: 'Data',
-                active: true,
-                url: '/data',
-                icon: 'fa fa-database'
-            },
-            {
                 name: 'services',
                 label: 'Services',
                 active: true,
                 url: '/service',
                 icon: 'fa fa-exchange'
+            },
+            {
+                name: 'data',
+                label: 'Data',
+                active: true,
+                url: '/data',
+                icon: 'fa fa-database'
             },
             {
                 name: 'schema',

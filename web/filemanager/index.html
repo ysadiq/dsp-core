@@ -5,27 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 
     <!-- Standard CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" type="text/css"/>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-	<!--[if IE 7]>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css" rel="stylesheet">
-	<![endif]-->
 
+    <link rel="stylesheet" href="/vendor/bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" type="text/css"/>
+	<link href="/vendor/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="/themes/df-default/jquery-ui-1.9.1.custom.css" type="text/css" />
 	<link rel="stylesheet" href="/admin/css/layout.css" type="text/css"/>
     <link rel="stylesheet" href="css/base.css" type="text/css"/>
-
-    <script src="/js/jquery.js"></script>
-    <script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-
-    <!-- DF Imports -->
-    <script src="/js/df.js"></script>
-    <script src="/js/utils.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-
-    <!-- DF FileManager -->
-    <script src="js/filemanagement.js"></script>
-
 </head>
 <body>
 <div id="fileModal" class="modal hide fade in" style="display: none; ">
@@ -85,20 +70,20 @@
                                    <div class="btn-toolbar">
                                        <div class="btn-group">
                                            <a id="mkdir" class="btn btn-small fmActionButton"><i
-                                                   class="icon-folder-close"></i>&nbsp;Create Folder</a>&nbsp;
+                                                   class="fa fa-folder"></i>&nbsp;Create Folder</a>&nbsp;
                                            <a id="importfile"  class="btn btn-small fmActionButton"><i
-                                                   class="icon-cloud-upload"></i>&nbsp;Upload File</a>&nbsp;
+                                                   class="fa fa-cloud-upload"></i>&nbsp;Upload File</a>&nbsp;
                                            <a id="exportzip"  class="btn btn-small fmActionButton"><i
-                                                   class="icon-cloud-download"></i>&nbsp;Download Zip</a>&nbsp;
+                                                   class="fa fa-download"></i>&nbsp;Download Zip</a>&nbsp;
                                            <a id="rm" class="btn btn-small fmActionButton"><i
-                                                   class="icon-trash"></i>&nbsp;Delete Item(s)</a>
+                                                   class="fa fa-trash-o"></i>&nbsp;Delete Item(s)</a>
                                        </div>
                                    </div>
 								</span>
                     </div>
                     <div class="cLeft cLM1 fmToolbarPlus3">
                         <a id="home" class="btn btn-small fmActionButton"><i
-                                class="icon-home"></i>&nbsp;Home</a>&nbsp;
+                                class="fa fa-home"></i>&nbsp;Home</a>&nbsp;
                         PATH:&nbsp;<span id="breadcrumbs">/</span>
                     </div>
                     <div class="cClear"><!--  --></div>
@@ -126,5 +111,16 @@
         <div class="cClear"></div>
     </div>
 </div>
+<script src="/js/jquery.js"></script>
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+
+<!-- DF Imports -->
+<script src="/js/df.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/vendor/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+<!-- DF FileManager -->
+<script src="js/filemanagement.js"></script>
+
 </body>
 </html>

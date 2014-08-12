@@ -7,108 +7,8 @@
  *
  * This is the CSS file for UI components and is automatically imported by /css/dsp.main.css
  */
-/**************************************************************************
-** Body Styles
-**************************************************************************/
-
-body,
-body.body-transparent,
-body.bg-transparent {
-	background: rgba(68, 68, 68, .5);
-	transition: background-color 0.2s;
-}
-
-body.body-white {
-	background-color: #ffffff;
-}
-
-body.body-white > a {
-	color: #666;
-}
-
-body.body-white > a:hover, body.body-white > a:focus, body.body-white > a:active {
-	color: #000;
-}
-
-body.body-light {
-	background-color: #ccc;
-}
-
-body.body-white > a {
-	color: #999;
-}
-
-body.body-light > a:hover, body.body-light > a:focus, body.body-light > a:active {
-	color: #333;
-}
-
-body.body-dark {
-	background-color: #444;
-}
-
-body.body-dark > a {
-	color: #ccc;
-}
-
-body.body-dark > a:hover, body.body-dark > a:focus, body.body-dark > a:active {
-	color: #fff;
-}
-
-body[class^="body-starburst-"] {
-	background-size:     cover;
-	background-position: center;
-	background-origin:   border-box;
-}
-
-body.bg-starburst, body.body-starburst-default {
-	background:      url(/img/bg-starburst-default.svg) top left;
-	background-size: cover;
-}
-
-body.body-starburst-orange {
-	background-image: url(/img/bg-starburst-orange.svg);
-}
-
-body.body-starburst-purple {
-	background-image: url(/img/bg-starburst-purple.svg);
-}
-
-body.body-starburst-blue {
-	background-image: url(/img/bg-starburst-blue.svg);
-}
-
-body.body-starburst-red {
-	background-image: url(/img/bg-starburst-red.svg);
-}
-
-body.body-starburst-yellow {
-	background-image: url(/img/bg-starburst-yellow.svg);
-}
-
-body.body-starburst-error {
-	background:      url(/img/bg-starburst-error.svg) top;
-	background-size: cover;
-}
-
-body.body-starburst-error #page-content {
-	padding-top: 84px;
-}
-
-body[class^="body-starburst-"] #page-content > a {
-	color:      #ccc;
-	transition: color 2s;
-}
-
-body[class^="body-starburst-"] #page-content > div > div > p > a {
-	color:      #ccc;
-	transition: color 2s;
-}
-
-body[class^="body-starburst-"] #page-content > div > div > p > a:hover,
-body[class^="body-starburst-"] #page-content > div > div > p > a:active,
-body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
-	color:      #eee;
-	transition: color 2s;
+.container-fluid.df-navbar {
+	padding-left: 0;
 }
 
 #page-content {
@@ -146,15 +46,15 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	left:             0;
 	/* Set the fixed height of the footer here */
 	height:           44px;
-	background-color: #000;
-	/*transition:       background-color 1500ms, color 1500ms;*/
+	background-color: rgba(0, 0, 0, .75);
+	transition:       background-color .3s, color .3s;
 	color:            rgba(242, 242, 242, .8);
 	z-index:          10000;
 }
 
 #footer:hover {
-	background-color: rgba(0, 0, 0, 0.8);
-	transition:       background-color 1500ms, color 1500ms;
+	background-color: rgba(0, 0, 0, 1);
+	transition:       background-color .25s, color .25s;
 	color:            rgba(255, 255, 255, 1);
 }
 
@@ -185,11 +85,10 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	margin-bottom:  0;
 	height:         44px;
 	left:           0;
-	padding-left:   20px;
+	padding-left:   10px;
 	padding-right:  20px;
 	position:       fixed;
 	right:          0;
-	/*box-shadow:     0 2px 6px rgba(0, 0, 0, 0.5);*/
 }
 
 .navbar-toggle {
@@ -198,17 +97,15 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 }
 
 .navbar-inverse {
-	background-color: rgba(0, 0, 0, .80);
-	border-bottom:    1px inset rgba(0, 0, 0, 0.9);
-
-	/*transition:       background-color 1000ms, color 1000ms, border-bottom-color 1000ms;*/
+	background-color: rgba(0, 0, 0, .75);
+	transition:       background-color .3s, color .3s;
+	color:            rgba(242, 242, 242, .8);
 }
 
 .navbar-inverse:hover {
-	/*background-color: rgba(0, 0, 0, 0.8);*/
-	/*color:            rgba(255, 255, 255, 1);*/
-	/*border-bottom:    1px solid rgba(0, 0, 0, 0.6);*/
-	/*transition:       background-color 1000ms, color 1000ms, border-bottom-color 1000ms;*/
+	background-color: rgba(0, 0, 0, 1);
+	transition:       background-color .3s, color .3s;
+	color:            rgba(242, 242, 242, 1);
 }
 
 .container-fluid > .navbar-header {
@@ -271,30 +168,6 @@ body[class^="body-starburst-"] #page-content > div > div > p > a:focus {
 	width: 64px;
 }
 
-/*.df-logo {*/
-/*margin:         auto 8px;*/
-/*opacity:        0.5;*/
-/*transition:     opacity 1.5s;*/
-/*display:        inline-block;*/
-/*position:       relative;*/
-/*line-height:    44px;*/
-/*vertical-align: middle;*/
-/*}*/
-
-/*.df-logo:hover {*/
-/*opacity:    0.8;*/
-/*transition: opacity 1500ms;*/
-/*}*/
-
-/*.df-logo img {*/
-/*width: 32px;*/
-/*}*/
-
-/*.navbar-inverse:hover .df-logo {*/
-/*opacity:    0.8;*/
-/*transition: opacity 1500ms;*/
-/*}*/
-
 .df-logo {
 	margin-right: 20px;
 	margin-top:   3px;
@@ -324,70 +197,6 @@ body[class^="body-starburst-"] .form-light h2:first-child {
 body[class^="body-starburst-"] #formbox.form-light form p.lead {
 	color: #333;
 }
-
-/** Box and shadows **/
-.boxed {
-}
-
-/*.form-light {*/
-/*color:      #333;*/
-/*background: #fff;*/
-/*}*/
-
-/*.drop-shadow {*/
-/*position:           relative;*/
-/*float:              left;*/
-/*width:              40%;*/
-/*padding:            1.2em;*/
-/*background:         #fff;*/
-/*-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;*/
-/*-moz-box-shadow:    0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;*/
-/*box-shadow:         0 1px 5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;*/
-/*}*/
-
-/*.drop-shadow:before,*/
-/*.drop-shadow:after {*/
-/*content:  "";*/
-/*position: absolute;*/
-/*z-index:  -2;*/
-/*}*/
-
-/*.drop-shadow p {*/
-/*font-size:   16px;*/
-/*font-weight: bold;*/
-/*}*/
-
-/*.lifted {*/
-/*-moz-border-radius: 3px;*/
-/*border-radius:      3px;*/
-/*}*/
-
-/*.lifted:before,*/
-/*.lifted:after {*/
-/*bottom:             15px;*/
-/*left:               10px;*/
-/*width:              50%;*/
-/*height:             20%;*/
-/*max-width:          300px;*/
-/*-webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);*/
-/*-moz-box-shadow:    0 15px 10px rgba(0, 0, 0, 0.7);*/
-/*box-shadow:         0 15px 10px rgba(0, 0, 0, 0.7);*/
-/*-webkit-transform:  rotate(-3deg);*/
-/*-moz-transform:     rotate(-3deg);*/
-/*-ms-transform:      rotate(-3deg);*/
-/*-o-transform:       rotate(-3deg);*/
-/*transform:          rotate(-3deg);*/
-/*}*/
-
-/*.lifted:after {*/
-/*right:             10px;*/
-/*left:              auto;*/
-/*-webkit-transform: rotate(3deg);*/
-/*-moz-transform:    rotate(3deg);*/
-/*-ms-transform:     rotate(3deg);*/
-/*-o-transform:      rotate(3deg);*/
-/*transform:         rotate(3deg);*/
-/*}*/
 
 .inset {
 	/* Shadows are visible under slightly transparent text color */
@@ -655,27 +464,10 @@ form, .form-buttons {
 	color: #fff;
 }
 
-.body-starburst .container-error {
-	color: #333;
-}
-
 .container-error h1, .container-error h3 {
 	font-family: "Droid Sans", "Open Sans", "Lato", Arial, sans-serif;
 	font-weight: normal;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.30);
-}
-
-/** Starburst colors are all the same **/
-body[class^="body-starburst-"] > div.container-fluid.container-inner > div > p > a {
-	color:      #FFC89D;
-	transition: color 350ms ease;
-}
-
-body[class^="body-starburst-"] > div.container-fluid.container-inner > div > p > a:hover,
-body[class^="body-starburst-"] > div.container-fluid.container-inner > div > p > a:focus,
-body[class^="body-starburst-"] > div.container-fluid.container-inner > div > p > a:active {
-	color:      #ffffff;
-	transition: color 350ms ease;
 }
 
 body > div.container-fluid.container-inner {

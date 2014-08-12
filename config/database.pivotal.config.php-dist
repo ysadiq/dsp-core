@@ -1,0 +1,67 @@
+<?php
+/**
+ * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ *
+ * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * database.pivotal.config.php-dist
+ *
+ * Connects to a vcap mysql service specified in the runtime environment
+ */
+
+//*************************************************************************
+//	Constants
+//*************************************************************************
+
+/**
+ * @type string The name of the key containing the credentials
+ */
+const MYSQL_KEY = 'cleardb-n/a';
+/**
+ * @type int The index into the array of services containing the mysql service
+ */
+const MYSQL_INDEX = 0;
+
+//  Get credentials from bm store
+if ( isset( $_ENV, $_ENV['VCAP_SERVICES'] ) )
+{
+    $_bmServices = json_decode( $_ENV['VCAP_SERVICES'], true );
+
+    if ( false !== $_bmServices && JSON_ERROR_NONE === json_last_error() && !empty( $_bmServices ) )
+    {
+        if ( !isset( $_bmServices[MYSQL_KEY], $_bmServices[MYSQL_KEY][MYSQL_INDEX] ) )
+        {
+            throw new RuntimeException(
+                'MySQL service not found in services env: ' . print_r( $_bmServices, true )
+            );
+        }
+
+        $_db = $_bmServices[MYSQL_KEY][MYSQL_INDEX]['credentials'];
+        unset( $_bmServices );
+
+        return array(
+            'connectionString'      => 'mysql:host=' . $_db['host'] . ';port=' . $_db['port'] . ';dbname=' . $_db['name'],
+            'username'              => $_db['username'],
+            'password'              => $_db['password'],
+            'emulatePrepare'        => true,
+            'charset'               => 'utf8',
+            'enableProfiling'       => defined( 'YII_DEBUG' ),
+            'enableParamLogging'    => defined( 'YII_DEBUG' ),
+            'schemaCachingDuration' => 3600,
+        );
+    }
+}

@@ -89,7 +89,7 @@ var Templates = {
         '</div>' +
         '</div></td></tr>' +
         '{{/Applications.no_group_apps}}</table>',
-    navBarTemplate : ' <div class="pull-right" id="dfControl1">' +
+    navBarTemplate : ' <div class="pull-right" id="dfControl1" data-ng-if="true !== user.activeSession">' +
         ' <a class="btn btn-primary" onclick="Actions.doSignInDialog()"><li class="icon-signin"></li>&nbsp;Sign In</a>' +
         ' {{#allow_open_registration}}<a class="btn btn-primary" onclick="Actions.createAccount()"><li class="icon-key"></li>&nbsp;Create Account</a>{{/allow_open_registration}}' +
         '</div>',

@@ -11,7 +11,7 @@
  * ** All other classes and mods should go in dsp.ui.css **
  *
  */
-@import url(//fonts.googleapis.com/css?family=Open+Sans|Roboto|Droid+Sans);
+@import url(//fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto|Droid+Sans);
 @import url(/css/dsp.ui.css);
 @import url(/css/dsp.login.css);
 @import url(/css/dsp.tree.css);
@@ -23,7 +23,7 @@ html, body {
 body {
 	min-height:       100%;
 	height:           auto;
-	font-family:      'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
+	font-family:      'Lato', 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
 	font-weight:      300;
 	color:            #F2F2F2;
 	padding:          0;
@@ -49,7 +49,5 @@ legend {
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: 'Open Sans', 'Helvetica Neue Light', 'Arial', sans-serif;
-	line-height: 1.1;
-	color:       inherit;
+	font-family: 'Lato', 'Open Sans', sans-serif;
 }

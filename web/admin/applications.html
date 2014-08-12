@@ -1,25 +1,21 @@
-<div class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default bg-info" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<button type="button"
-				class="navbar-toggle"
-				data-toggle="collapse"
-				data-target="#admin-app-apps">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin-app-apps">
 				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Application Manager</a>
+			<span class="navbar-brand">Application Manager</span>
 		</div>
 
 		<div class="collapse navbar-collapse" id="admin-app-apps">
 			<div class="nav navbar-nav navbar-right">
 				<div class="btn-group btn-group-nav">
-					<div ng-include="'_downloads.html'"></div>
+					<div data-ng-include="'_downloads.html'"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- /.navbar-collapse -->
-</div>
+</nav>
 
 <!-- Default panel contents -->
 <table id="resource-container">
@@ -58,8 +54,12 @@
 				<div class="btn-group btn-group-sm btn-group-nav">
 					<button type="button" class="btn btn-default" data-ng-click="goToImport()"><i class="fa fa-upload"></i>Import</button>
 					<button type="button" class="btn btn-default" data-ng-click="promptForNew()"><i class="fa fa-plus-circle"></i>New</button>
-					<button type="button" class="btn btn-default update_button" data-ng-click="save()" style="display: none;"><i class="fa fa-save"></i>Update</button>
-					<button type="button" class="btn btn-default save_button" data-ng-click="create()"><i class="fa fa-save"></i>Save</button>
+					<button type="button" class="btn btn-default update_button" data-ng-show="action=='Update'" data-ng-click="save()">
+                        <i class="fa fa-save"></i>Update
+					</button>
+					<button type="button" class="btn btn-default save_button" data-ng-show="action=='Create'" data-ng-click="create()">
+                        <i class="fa fa-save"></i>Save
+                    </button>
 				</div>
 			</div>
 		</div>
@@ -151,7 +151,7 @@
 				<br />
 
 				<div ng-show="app.is_url_external==0">
-					<p><b>Default Path<span class="text-info"> This is the default file to load when your app is loaded.</span></b>
+					<p><b>Default Path <span class="text-info"> This is the default file to load when your app is loaded.</span> </b>
 					</p>
 
 					<input class="form-control" class="local" placeholder="index.html" name="app_path"
@@ -161,12 +161,13 @@
 
 					<div ng-show="app.is_url_external==0" class="alert alert-success local">
 						<li class="fa fa-cloud"></li>
-						&nbsp;Your URL will be: {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}<span>{{app.url}}</span>
+						&nbsp;Your URL will be: {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}
+						<span>{{app.url}}</span>
 					</div>
 
 				</div>
 				<div ng-hide="app.is_url_external != 0">
-					<span class="glyphicon glyphicon-fullscreen"></span> <b>Full Screen Options</b><br /><br />
+					<i class="fa fa-expand"></i> <b>Full Screen Options</b><br /><br />
 
 					<ul class="list-group">
 						<li class="list-group-item">
@@ -224,11 +225,14 @@
 				&nbsp;Create Another&nbsp; <a ng-click="create()"
 				class="btn btn-primary">
 				<li class="fa fa-arrow-circle-right"></li>
-				&nbsp;Create Application</a></div>
-			<div id="update_button" data-ng-show="action=='Update'"><a ng-click="save()"
-				class="btn btn-primary">
-				<li class="fa fa-save"></li>
-				&nbsp;Update Application</a></div>
+				&nbsp;Create Application </a>
+			</div>
+			<div id="update_button" data-ng-show="action=='Update'">
+				<a ng-click="save()"
+					class="btn btn-primary">
+					<li class="fa fa-save"></li>
+					&nbsp;Update Application </a>
+			</div>
 
 		</div>
 	</div>
