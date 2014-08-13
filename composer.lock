@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "23fe7b328211dbed1b7250a50fef0405",
+    "hash": "c6b4fdafbafd737fc59fc06f5ab5fcd3",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -274,9 +274,9 @@
             ],
             "authors": [
                 {
-                    "name": "Sykes, Jason",
+                    "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
+                    "role": "Lead Developer, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Javascript SDK",
@@ -332,12 +332,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer, server-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer, server-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.7.2",
+            "version": "1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1fb3a6b141bf173af27c6832d9912f9e163733da"
+                "reference": "2442cd3b676ef8584b3db36605a4497774a80a16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1fb3a6b141bf173af27c6832d9912f9e163733da",
-                "reference": "1fb3a6b141bf173af27c6832d9912f9e163733da",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/2442cd3b676ef8584b3db36605a4497774a80a16",
+                "reference": "2442cd3b676ef8584b3db36605a4497774a80a16",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-13 05:49:50"
+            "time": "2014-08-13 23:03:02"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "dcc89d7f1dad598d79356b10b815603b26f0f8e5"
+                "reference": "92ded537a8869b45624bc1f68c8f3cc15a901c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/dcc89d7f1dad598d79356b10b815603b26f0f8e5",
-                "reference": "dcc89d7f1dad598d79356b10b815603b26f0f8e5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/92ded537a8869b45624bc1f68c8f3cc15a901c40",
+                "reference": "92ded537a8869b45624bc1f68c8f3cc15a901c40",
                 "shasum": ""
             },
             "require": {
@@ -469,23 +469,19 @@
             "authors": [
                 {
                     "name": "Jerry Ablan",
-                    "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
-                },
-                {
-                    "name": "Jason Sykes",
-                    "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
-                },
-                {
-                    "name": "Lee Hicks",
-                    "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "email": "jerryablan@dreamfactory.com"
                 },
                 {
                     "name": "Todd Appleton",
-                    "email": "toddappleton@dreamfactory.com",
-                    "role": "Lead Developer and QA, client-side"
+                    "email": "toddappleton@dreamfactory.com"
+                },
+                {
+                    "name": "Lee Hicks",
+                    "email": "leehicks@dreamfactory.com"
+                },
+                {
+                    "name": "Jason Sykes",
+                    "email": "jasonsykes@dreamfactory.com"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Yii Components Library",
@@ -494,7 +490,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-07-11 13:56:29"
+            "time": "2014-08-13 23:01:34"
         },
         {
             "name": "dreamfactory/oasys",
@@ -532,7 +528,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer"
+                    "role": "Lead Developer, server-side"
                 }
             ],
             "description": "DreamFactory Oasys(tm) Open Authentication System",
@@ -1538,8 +1534,12 @@
             "time": "2014-05-26 19:02:51"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
@@ -1549,5 +1549,7 @@
     "platform": {
         "php": ">=5.3.18"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }
