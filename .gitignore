@@ -9,6 +9,7 @@ manifest.yml
 /web/assets/*
 /web/apps/
 !/web/static/
+/config/database.config.php
 /config/memcached.config.php
 /config/keys.config.php
 /config/salt.config.php
