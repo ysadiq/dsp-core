@@ -56,6 +56,14 @@ $_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
 //  Finally the name of our app
 $_appName = 'DreamFactory Services Platform';
 
+//  Ensure the assets path exists so Yii doesn't puke.
+$_assetsPath = $_docRoot . '/assets';
+
+if ( !is_dir( $_assetsPath ) )
+{
+    @mkdir( $_assetsPath, 0777, true );
+}
+
 /**
  * Keys and salts
  */

@@ -1,9 +1,7 @@
 /log/*
-#/vendor
-#!/htdocs/vendor/
-#!/web/vendor/
-/htdocs/assets/*
-/manifest.yml
+vendor
+web/assets/*
+manifest.yml
 .git/
 docs/
 .idea/
