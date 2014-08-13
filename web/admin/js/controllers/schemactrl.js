@@ -155,7 +155,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     }
     $scope.updateJSONSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , {table:editor.getValue()}).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , editor.getValue()).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
