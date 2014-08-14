@@ -129,6 +129,7 @@
 VERSION=1.3.8
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
+COMPOSER_OPTIONS="--no-dev --optimize-autoloader"
 NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
@@ -492,10 +493,10 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 	if [ ${NO_COMPOSER} -eq 0 ] ; then
 		if [ ! -d "${VENDOR_DIR}" ] ; then
 			_info "Installing dependencies"
-			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} install ; _code=$?
+			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} ${COMPOSER_OPTIONS} install ; _code=$?
 		else
 			_info "Updating dependencies"
-			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} update; _code=$?
+			${PHP} ${COMPOSER_DIR}/${COMPOSER} ${QUIET} ${VERBOSE} ${NO_INTERACTION} ${COMPOSER_OPTIONS} update; _code=$?
 		fi
 
 		[ ${_code} -ne 0 ] && _error "Composer did not complete successfully (${_code}). Some features may not operate properly."
