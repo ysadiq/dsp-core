@@ -909,9 +909,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     }
     function swaggerTemplate() {
         return {
-            "swaggerVersion": "1.2",
-            "apiVersion":     "1.0",
-            "basePath":       "http://localhost/rest",
             "resourcePath":   "/{api_name}",
             "produces":       [
                 "application/json", "application/xml"
