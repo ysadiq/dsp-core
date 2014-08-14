@@ -36,6 +36,20 @@ const DSP_DEBUG_PHP_ERROR = false;
 
 $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
+/**
+ * Debug-level output based on constant value above
+ * For production mode, you'll want to set the above constants to FALSE
+ * Get this turned on before anything is loaded
+ */
+if ( DSP_DEBUG )
+{
+    ini_set( 'display_errors', true );
+    ini_set( 'error_reporting', -1 );
+
+    defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
+    defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
+}
+
 //	Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
@@ -45,20 +59,10 @@ if ( !class_exists( '\\Yii', false ) )
     require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
 }
 
-/**
- * Debug-level output is enabled by default below.
- * For production mode, you'll want to set the above constants to FALSE
- */
-if ( DSP_DEBUG )
+//  php-error utility
+if ( DSP_DEBUG_PHP_ERROR )
 {
-    ini_set( 'display_errors', true );
-//    ini_set( 'error_reporting', -1 );
-
-    defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
-    defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
-
-    //  "php_error" support (uncomment to enable)
-    if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
+    if ( function_exists( 'reportErrors' ) )
     {
         reportErrors();
     }
