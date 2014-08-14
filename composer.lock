@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "67c638a46306a141c6786f090f5f6a84",
+    "hash": "258e2379bdb8d98dc90892b12face75a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -761,16 +761,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.53",
+            "version": "0.2.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "20655e5badf3a89f5f2d33fb461cc1edab0457cf"
+                "reference": "7c0a7a05c170edbfc8b8aa933a5dda7ed4b87498"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/20655e5badf3a89f5f2d33fb461cc1edab0457cf",
-                "reference": "20655e5badf3a89f5f2d33fb461cc1edab0457cf",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/7c0a7a05c170edbfc8b8aa933a5dda7ed4b87498",
+                "reference": "7c0a7a05c170edbfc8b8aa933a5dda7ed4b87498",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-08-05 20:03:20"
+            "time": "2014-08-14 08:19:10"
         },
         {
             "name": "monolog/monolog",
