@@ -84,7 +84,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         // Create a service def obj
         function createServiceDefObj() {
             return {
-                content: serviceDefDisclaimer() + '\n' + angular.toJson(swaggerTemplate(), true)
+                content: angular.toJson(swaggerTemplate(), true)
             }
         }
 
