@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.9
+#	Added a few more cache locations to clean on a "-c"
+#
 # v1.3.8
 #   Updated for IBM bluemix installation
 #
@@ -126,7 +129,7 @@
 ##
 ##	Initial settings
 ##
-VERSION=1.3.8
+VERSION=1.3.9
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 COMPOSER_OPTIONS="--no-dev --optimize-autoloader"
@@ -474,7 +477,7 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 	git submodule update --init -q >>${MY_LOG} 2>&1 && _info "External modules updated"
 
 	_dbg "Cleaning up prior cached data"
-	rm -rf "${STORAGE_DIR}/.private/*.store" "/tmp/dreamfactory/*" "/tmp/.dsp*" "/tmp/*.dfcc" "/tmp/.kc" >/dev/null 2>&1
+	rm -rf "${STORAGE_DIR}/.private/*.store" "/tmp/dreamfactory" "/tmp/.dsp" "/tmp/*.dfcc" "/tmp/.kc" "/tmp/.dsp-*" >/dev/null 2>&1
 fi
 
 ##
