@@ -5,7 +5,6 @@
 composer.phar
 manifest.yml
 /build/
-# /web (if used)
 /web/assets/*
 /web/apps/
 !/web/static/
