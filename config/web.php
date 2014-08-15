@@ -18,11 +18,35 @@
  * limitations under the License.
  */
 use DreamFactory\Platform\Utility\Fabric;
+use Kisma\Core\Utility\Log;
 
 /**
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
  */
+
+/**
+ * Load any environment variables first thing as they may be used by the database config
+ */
+if ( file_exists( __DIR__ . '/env.config.php' ) )
+{
+    /** @noinspection PhpIncludeInspection */
+    if ( false !== ( $_envConfig = @require( __DIR__ . '/env.config.php' ) ) && !empty( $_envConfig ) && is_array( $_envConfig ) )
+    {
+        foreach ( $_envConfig as $_key => $_value )
+        {
+            if ( !is_string( $_value ) )
+            {
+                $_value = json_encode( $_value );
+            }
+
+            if ( false === putenv( $_key . '=' . $_value ) )
+            {
+                Log::error( 'Error setting environment variable: ' . $_key . ' = ' . $_value );
+            }
+        }
+    }
+}
 
 /**
  * Load up the database configuration, free edition, private hosted, or others.
