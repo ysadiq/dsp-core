@@ -168,7 +168,8 @@ angular.module(
 						'DSP_URL', '$http', function(DSP_URL, $http) {
 
 							var requestDataObj = {
-								include_components: true
+								include_components: true,
+                                filter : "type!='Local Portal Service'"
 							};
 
 							return $http.get(DSP_URL + '/rest/system/service', {params: requestDataObj});
