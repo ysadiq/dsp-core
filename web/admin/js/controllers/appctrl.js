@@ -177,9 +177,9 @@ var AppCtrl = function(DSP_URL, dfLoadingScreen, $scope, AppsRelated, Role, $htt
 			function(data) {
 				updateByAttr(Scope.Apps.record, 'id', id, data);
 
-				if (window.top.Actions) {
+				/*if (window.top.Actions) {
 					window.top.Actions.updateSession("update");
-				}
+				}*/
 				$(
 					function() {
 						new PNotify(
@@ -220,9 +220,9 @@ var AppCtrl = function(DSP_URL, dfLoadingScreen, $scope, AppsRelated, Role, $htt
 			function(data) {
 				$scope.Apps.record.unshift(data);
 
-				if (window.top.Actions) {
+				/*if (window.top.Actions) {
 					window.top.Actions.updateSession("update");
-				}
+				}*/
 				$(
 					function() {
 						new PNotify(
@@ -271,9 +271,9 @@ var AppCtrl = function(DSP_URL, dfLoadingScreen, $scope, AppsRelated, Role, $htt
 				id: id, delete_storage: delete_files
 			}, function() {
 				$("#row_" + id).fadeOut();
-				if (window.top && window.top.Actions) {
+				/*if (window.top && window.top.Actions) {
 					window.top.Actions.updateSession();
-				}
+				}*/
 
 				$(
 					function() {

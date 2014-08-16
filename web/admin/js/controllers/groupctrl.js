@@ -93,7 +93,7 @@ var GroupCtrl = function(dfLoadingScreen, $scope, Group, App, $timeout ) {
 		Group.update(
 			{id: id}, $scope.group, function() {
 				$scope.promptForNew();
-				window.top.Actions.updateSession( "update" );
+				//window.top.Actions.updateSession( "update" );
 
                 // Added for responsive
                 $scope.close();
@@ -118,7 +118,7 @@ var GroupCtrl = function(dfLoadingScreen, $scope, Group, App, $timeout ) {
 			$scope.group, function( data ) {
 				$scope.Groups.record.push( data );
 				$scope.promptForNew();
-				window.top.Actions.updateSession( "update" );
+				//window.top.Actions.updateSession( "update" );
                 $(function(){
                     new PNotify({
                         title: 'App Groups',
