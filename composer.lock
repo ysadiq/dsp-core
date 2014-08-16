@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "508ac60f2eb4604569c4bc2336ff413e",
+    "hash": "c39aa288aee78852b30a35f642f2f10a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-develop",
+            "version": "1.7.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "12b39d68060686ba7c18e294fe467cf63af05aff"
+                "reference": "3f9f5e341a03cbe5601db30a9d95ffb790c2ff3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/12b39d68060686ba7c18e294fe467cf63af05aff",
-                "reference": "12b39d68060686ba7c18e294fe467cf63af05aff",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3f9f5e341a03cbe5601db30a9d95ffb790c2ff3a",
+                "reference": "3f9f5e341a03cbe5601db30a9d95ffb790c2ff3a",
                 "shasum": ""
             },
             "require": {
@@ -370,7 +370,7 @@
                 "dreamfactory/lib-php-common": "~1.5@stable",
                 "dreamfactory/lib-php-common-yii": "~1.5@stable",
                 "dreamfactory/oasys": "~0.4@stable",
-                "dreamfactory/yii": "~1.1.13.1",
+                "dreamfactory/yii": "~1.1.13.3",
                 "jeremeamia/superclosure": "*",
                 "kisma/kisma": "~0.2.53@stable",
                 "pear-pear.php.net/http_request2": "*",
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-14 22:29:21"
+            "time": "2014-08-15 18:58:03"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1538,7 +1538,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
-        "dreamfactory/lib-php-common-platform": 20
+        "dreamfactory/lib-php-common-platform": 0
     },
     "prefer-stable": false,
     "platform": {
