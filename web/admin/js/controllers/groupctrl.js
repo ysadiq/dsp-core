@@ -172,6 +172,7 @@ var GroupCtrl = function(dfLoadingScreen, $scope, Group, App, $timeout ) {
 		Group.delete(
 			{ id: id }, function() {
 				$scope.promptForNew();
+                window.top.Actions.updateSession( "update" );
                 $(function(){
                     new PNotify({
                         title: 'App Groups',
