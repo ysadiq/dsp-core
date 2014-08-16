@@ -21,6 +21,9 @@
 #
 # CHANGELOG:
 #
+# v1.3.10
+#	Added support for user-defined web and install users
+#
 # v1.3.9
 #	Added a few more cache locations to clean on a "-c"
 #
@@ -129,7 +132,7 @@
 ##
 ##	Initial settings
 ##
-VERSION=1.3.9
+VERSION=1.3.10
 SYSTEM_TYPE=`uname -s`
 COMPOSER=composer.phar
 COMPOSER_OPTIONS="--no-dev --optimize-autoloader"
@@ -157,6 +160,9 @@ NO_COMPOSER=0
 ONLY_VALIDATE=0
 BITNAMI=0
 BLUEMIX=0
+INSTALL_GROUP=
+INSTALL_USER=
+
 
 ## Who am I?
 if [ $UID -eq 0 ] ; then
@@ -228,8 +234,8 @@ COMPOSER_CACHE="$COMPOSER_DIR/.composer"
 PARSED_OPTIONS=
 MY_LOG="${LOG_DIR}installer.log"
 DIRS_TO_CHOWN='* .git* .dreamfactory*'
-SHORT_OPTIONS="hvcDfniV"
-LONG_OPTIONS="help,verbose,clean,debug,force,no-composer,interactive,validate"
+SHORT_OPTIONS="hvcDfniVu:g:"
+LONG_OPTIONS="help,verbose,clean,debug,force,no-composer,interactive,validate,user:,group:"
 
 # Hosted or standalone?
 if [ -f "${FABRIC_MARKER}" ] ; then
@@ -253,10 +259,10 @@ sectionHeader " ${B1}DreamFactory Services Platform(tm)${B2} ${SYSTEM_TYPE} Inst
 # Basic usage statement
 #
 usage() {
-	_msg "usage" ${_YELLOW} "${_ME} [-c|--clean] [-v|--verbose] [-D|--debug] [-f|--force] [-h|--help] [-n|--no-composer] [-i|--interactive] [-V|--validate]"
+	_msg "usage" ${_YELLOW} "${_ME} [options]"
 
+	echo "Where [options] are as follows:"
 	echo
-
 	echo " -c,--clean         Removes the transient data and performs a clean install."
 	echo " -D,--debug         Like --verbose plus even more information."
 	echo " -f,--force         Forces installation when not running as ${B1}root${B2}."
@@ -264,6 +270,8 @@ usage() {
 	echo " -n,--no-composer   Skip the Composer install/update process."
 	echo " -v,--verbose       Outputs more information about the job run."
 	echo " -V,--validate      Validates the installation structure."
+	echo " -u,--user          (Optional) The user for this installation. Overrides any script-discovered user."
+	echo " -g,--group         (Optional) The group for this installation. Overrides any script-discovered group."
 	echo " -h,--help          This information."
 	echo
 
@@ -353,10 +361,24 @@ fi
 for _i
 do
 	case "$_i" in
+		-u|--user)
+			shift
+			[ -n "$1" ] && INSTALL_USER=$1
+			shift
+			_info "Installation will use user \"${INSTALL_USER}\""
+			;;
+
+		-g|--group)
+			shift
+			[ -n "$1" ] && INSTALL_GROUP=$1
+			shift
+			_info "Installation will use group \"${INSTALL_GROUP}\""
+			;;
+
 		-i|--interactive)
 			_info "Interactive mode enabled"
 			NO_INTERACTION=
-			shift;
+			shift
 			;;
 
 		-V|--validate)
@@ -368,7 +390,7 @@ do
 		-n|--no-composer)
 			_info "Composer install/update will not be performed."
 			NO_COMPOSER=1
-			shift;
+			shift
 			;;
 
 		-h|--help)
@@ -410,7 +432,8 @@ do
 
 		--)
 			shift
-			break;;
+			break
+			;;
 	esac
 done
 

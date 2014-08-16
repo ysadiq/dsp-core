@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 use DreamFactory\Platform\Utility\Fabric;
+use Kisma\Core\Utility\Log;
 
 /**
  * console.php
@@ -28,6 +29,24 @@ $_configFileList = array(
     'dbConfig'     => array(true, 'database'),
     'commonConfig' => array(true, 'common'),
 );
+
+/**
+ * Load any environment variables first thing as they may be used by the database config
+ */
+if ( file_exists( __DIR__ . '/env.config.php' ) )
+{
+    /** @noinspection PhpIncludeInspection */
+    if ( false !== ( $_envConfig = @require( __DIR__ . '/env.config.php' ) ) && !empty( $_envConfig ) && is_array( $_envConfig ) )
+    {
+        foreach ( $_envConfig as $_envVar )
+        {
+            if ( false === putenv( $_envVar ) )
+            {
+                Log::error( 'Error setting environment variable: ' . $_envVar );
+            }
+        }
+    }
+}
 
 /**
  * Load up the common configurations between the web and background apps,

@@ -330,6 +330,7 @@ Actions = {
 	 * Show the admin app
 	 */
 	showAdmin: function () {
+
 		var name = 'admin', url = '/admin/#/', type = 0, fullscreen = false, allowToggle = false;
 
 		this.showApp(name, url, type, fullscreen, allowToggle);
@@ -495,6 +496,7 @@ Actions = {
 
                             // Yes!  Admin app will load and we should never lock out app list button
                             $('#apps-list-btn').addClass('app-list-hidden');
+
                         }
 
                         // Do we have any apps
@@ -548,11 +550,17 @@ Actions = {
 					}
 				);
 
-				if (sessionInfo.is_sys_admin) {
+
+                
+				if (sessionInfo.is_sys_admin && (action !== 'update')) {
+
 					// _this.toggleAdminLink(false);
 					_this.toggleFullScreenLink(true);
 					_this.toggleAppsListLink(true);
 				}
+
+
+
 
 				if ('init' == action) {
 					_this.getApps(sessionInfo, action);
