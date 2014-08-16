@@ -120,9 +120,9 @@ Scope = $scope;
 				//$scope.Apps.record.push(data);
 				$scope.app.id = data.id;
 				//$scope.app = data;
-				if ( window.top.Actions ) {
+			/*	if ( window.top.Actions ) {
 					window.top.Actions.updateSession( "update" );
-				}
+				}*/
                 $(function(){
                     new PNotify({
                         title: $scope.app.api_name,
