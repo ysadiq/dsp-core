@@ -550,12 +550,17 @@ Actions = {
 					}
 				);
 
-				if (sessionInfo.is_sys_admin) {
+
+                
+				if (sessionInfo.is_sys_admin && (action !== 'update')) {
 
 					// _this.toggleAdminLink(false);
 					_this.toggleFullScreenLink(true);
 					_this.toggleAppsListLink(true);
 				}
+
+
+
 
 				if ('init' == action) {
 					_this.getApps(sessionInfo, action);
