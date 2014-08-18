@@ -332,7 +332,7 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Sr. Software Engineer"
                 },
                 {
                     "name": "Lee Hicks",
@@ -761,16 +761,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.55",
+            "version": "0.2.56",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "bb1842ca84b64610cab73354f9a2e01002081192"
+                "reference": "4252883cb15f76644874fa89e2b572a387b5a15d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/bb1842ca84b64610cab73354f9a2e01002081192",
-                "reference": "bb1842ca84b64610cab73354f9a2e01002081192",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/4252883cb15f76644874fa89e2b572a387b5a15d",
+                "reference": "4252883cb15f76644874fa89e2b572a387b5a15d",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-08-14 08:41:29"
+            "time": "2014-08-17 23:25:17"
         },
         {
             "name": "monolog/monolog",
