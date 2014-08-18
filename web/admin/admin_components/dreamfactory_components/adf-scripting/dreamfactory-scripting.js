@@ -34,32 +34,47 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             dfLoadingScreen.start();
                         }],
 
-                        getEventList: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getEventList: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
-                            return $http({
-                                method: 'GET',
-                                url: DSP_URL + '/rest/system/event',
-                                params: {
-                                    all_events: true
-                                }
-                            });
+                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
+                                return $http({
+                                    method: 'GET',
+                                    url: DSP_URL + '/rest/system/event',
+                                    params: {
+                                        all_events: true
+                                    }
+                                });
+                            }
+                            else {
+                                return false;
+                            }
                         }],
 
-                        getAllScripts: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getAllScripts: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
-                            return $http({
-                                method: 'GET',
-                                url: DSP_URL + '/rest/system/script'
-                            });
+                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
+                                return $http({
+                                    method: 'GET',
+                                    url: DSP_URL + '/rest/system/script'
+                                });
+                            }else {
+                                return false;
+                            }
+
                         }],
 
-                        getSampleScripts: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getSampleScripts: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
-                            return $http({
-                                method: 'GET',
-                                url: 'js/example.scripts.js',
-                                dataType: "text"
-                            });
+                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
+                                return $http({
+                                    method: 'GET',
+                                    url: 'js/example.scripts.js',
+                                    dataType: "text"
+                                });
+                            }
+                            else {
+                                return false;
+                            }
                         }]
                     }
                 });
@@ -73,6 +88,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         $scope.isHostedSystem = SystemConfigDataService.getSystemConfig().is_hosted;
 
         $scope.__getDataFromHttpResponse = function (httpResponseObj) {
+
+            if (!httpResponseObj) return [];
 
             if (httpResponseObj.hasOwnProperty('data')) {
 
