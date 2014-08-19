@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -213,9 +213,9 @@ return array_merge(
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
-        'dsp.confirm_invite_url'        => '/web/confirmInvite',
-        'dsp.confirm_register_url'      => '/web/confirmRegister',
-        'dsp.confirm_reset_url'         => '/web/confirmPassword',
+        'dsp.confirm_invite_url'        => $_defaultController . '/confirmInvite',
+        'dsp.confirm_register_url'      => $_defaultController . '/confirmRegister',
+        'dsp.confirm_reset_url'         => $_defaultController . '/confirmPassword',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
         //-------------------------------------------------------------------------
