@@ -20,6 +20,8 @@
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use Kisma\Core\Enums\LoggingLevels;
+use Kisma\Core\Interfaces\HttpMethod;
+use Kisma\Core\Utility\Log;
 
 /**
  * This file contains any application-level parameters that are to be shared between the background and web services
@@ -38,12 +40,14 @@ if ( !defined( 'DSP_VERSION' ) )
 
 //  The installation type
 $_installType = InstallationTypes::determineType( false, $_installName );
+Log::debug( 'Install type determined to be: ' . $_installName );
+
 //  Special fabric-hosted indicator
 $_fabricHosted = ( InstallationTypes::FABRIC_HOSTED == $_installType );
 //	The base path of the project, where it's checked out basically
 $_basePath = dirname( __DIR__ );
 //	The document root
-$_docRoot = $_basePath . ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? '/htdocs' : '/web' );
+$_docRoot = $_basePath . '/web';
 //	The vendor path
 $_vendorPath = $_basePath . '/vendor';
 //	Set to false to disable database caching
@@ -202,7 +206,10 @@ return array_merge(
             array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
         /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
-        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array('PATCH') : array() ),
+        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array(
+            \Kisma\Core\Enums\HttpMethod::PATCH,
+            HttpMethod::MERGE
+        ) : array() ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
