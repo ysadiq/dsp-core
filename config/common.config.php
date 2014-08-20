@@ -19,9 +19,7 @@
  */
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
-use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Yii\Utility\Pii;
-use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -59,13 +57,6 @@ $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
 //  Finally the name of our app
 $_appName = 'DreamFactory Services Platform';
-
-//  Remove prior deployment paas marker if not paas
-if ( $_installType < InstallationTypes::PAAS_DEPLOYMENT )
-{
-    @unlink( Platform::getPrivatePath( '/.bluemix', false, true ) );
-    @unlink( Platform::getPrivatePath( '/.pivotal', false, true ) );
-}
 
 //  Ensure the assets path exists so Yii doesn't puke.
 $_assetsPath = $_docRoot . '/assets';
@@ -208,11 +199,11 @@ return array_merge(
             array('api_name' => 'system', 'name' => 'System Configuration'),
             array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
+        /** The type of installation */
+        'dsp.install_type'              => $_installType,
+        'dsp.install_name'              => $_installName,
         /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
-        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array(
-            HttpMethod::PATCH,
-            HttpMethod::MERGE
-        ) : array() ),
+        'dsp.restricted_verbs'          => InstallationTypes::getRestrictedVerbs( $_installType ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */

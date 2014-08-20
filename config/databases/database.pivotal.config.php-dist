@@ -17,7 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Utility\Platform;
+use Kisma\Core\Utility\Log;
 use Kisma\Core\Utility\Option;
 
 /**
@@ -30,6 +32,10 @@ use Kisma\Core\Utility\Option;
 //	Constants
 //*************************************************************************
 
+/**
+ * @type string The name of the target PaaS
+ */
+const PAAS_NAME = 'pivotal';
 /**
  * @type string The environment variable that holds the credentials for the database
  */
@@ -56,10 +62,23 @@ $_envData = getenv( ENV_KEY );
 
 if ( false === ( $_services = json_decode( $_envData, true ) ) || JSON_ERROR_NONE != json_last_error() || empty( $_services ) )
 {
-    throw new \RuntimeException( 'The ENV_KEY "' . ENV_KEY . '" value is empty or invalid.' );
+    Log::notice(
+        'Database configuration found for PaaS "' .
+        PAAS_NAME .
+        '", but required environment variable is invalid or null.' .
+        PHP_EOL .
+        'Environment Dump' .
+        PHP_EOL .
+        '------------------------------------------------------------' .
+        PHP_EOL .
+        print_r( $_ENV, true )
+    );
+
+    //  Returning false equates to not having a "config/database.config.php"
+    return false;
 }
 
-error_log( 'ENV=' . print_r( $_services, true ) );
+//error_log( 'ENV=' . print_r( $_services, true ) );
 
 //  Get credentials environment data
 if ( !isset( $_services[DB_KEY], $_services[DB_KEY][DB_INDEX] ) )
@@ -89,7 +108,9 @@ $_db = array(
     'schemaCachingDuration' => 3600,
 );
 
-@touch( Platform::getPrivatePath() . '/.pivotal' );
 unset( $_services, $_envData, $_dbConfig );
+
+//  Set a key about where we live...
+Platform::storeSet( INSTALL_TYPE_KEY, InstallationTypes::PIVOTAL_PACKAGE );
 
 return $_db;

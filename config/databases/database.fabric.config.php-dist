@@ -17,7 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Platform\Utility\Platform;
 
 /**
  * database.fabric.config.php
@@ -49,6 +51,8 @@ else
 
 $_dbUser = 'dsp_user';
 $_dbPassword = 'dsp_user';
+
+Platform::storeSet( INSTALL_TYPE_KEY, InstallationTypes::FABRIC_HOSTED );
 
 return array(
     'connectionString'      => 'mysql:host=localhost;port=3306;dbname=' . $_dbName,

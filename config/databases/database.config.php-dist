@@ -17,6 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\InstallationTypes;
+use DreamFactory\Platform\Utility\Platform;
 
 /**
  * database.config.php-dist
@@ -26,13 +28,17 @@
  *
  * Below are the actual default MySQL instance settings
  */
+
+//  Set a key about where we live...
+Platform::storeSet( INSTALL_TYPE_KEY, InstallationTypes::STANDALONE_PACKAGE );
+
 return array(
-	'connectionString'      => 'mysql:host=localhost;port=3306;dbname=dreamfactory',
-	'username'              => 'dsp_user',
-	'password'              => 'dsp_user',
-	'emulatePrepare'        => true,
-	'charset'               => 'utf8',
-	'enableProfiling'       => defined( 'YII_DEBUG' ),
-	'enableParamLogging'    => defined( 'YII_DEBUG' ),
-	'schemaCachingDuration' => 3600,
+    'connectionString'      => 'mysql:host=localhost;port=3306;dbname=dreamfactory',
+    'username'              => 'dsp_user',
+    'password'              => 'dsp_user',
+    'emulatePrepare'        => true,
+    'charset'               => 'utf8',
+    'enableProfiling'       => defined( 'YII_DEBUG' ),
+    'enableParamLogging'    => defined( 'YII_DEBUG' ),
+    'schemaCachingDuration' => 3600,
 );

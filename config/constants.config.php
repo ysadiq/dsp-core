@@ -30,7 +30,7 @@ if ( defined( 'DSP_VERSION' ) )
 /**
  * @var string
  */
-const DSP_VERSION = '1.7.6';
+const DSP_VERSION = '1.7.x-dev';
 /**
  * @var string
  */
@@ -83,3 +83,7 @@ const DEFAULT_SUPPORT_EMAIL = 'support@dreamfactory.com';
  * @var string
  */
 const DEFAULT_ADMIN_RESOURCE_SCHEMA = '/admin.resource_schema.config.php';
+/**
+ * @var string
+ */
+const INSTALL_TYPE_KEY = 'dsp.install_type';
