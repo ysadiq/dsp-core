@@ -19,8 +19,8 @@
  */
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
+use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Enums\LoggingLevels;
-use Kisma\Core\Interfaces\HttpMethod;
 use Kisma\Core\Utility\Log;
 
 /**
@@ -207,7 +207,7 @@ return array_merge(
         ),
         /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
         'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array(
-            \Kisma\Core\Enums\HttpMethod::PATCH,
+            HttpMethod::PATCH,
             HttpMethod::MERGE
         ) : array() ),
         /** The default application to start */
