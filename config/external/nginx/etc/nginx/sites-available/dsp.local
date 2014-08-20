@@ -25,11 +25,10 @@ server {
 
 	server_name  		dsp.local;
 	root 				/var/www/launchpad/web;
-	keepalive_timeout   70;
 
 	# Change locations/names as you please
 	error_log  		/var/www/launchpad/log/error.log;
-	access_log 		/var/www/launchpad/log/access.log extended buffer=32k;
+	access_log 		/var/www/launchpad/log/access.log;
 
 	# Our DSP locations
 	include dsp-locations.conf;
@@ -42,17 +41,17 @@ server {
 	# Change these values accordingly
 	server_name  		dsp.local;
 	root 				/var/www/launchpad/web;
-	keepalive_timeout   70;
 
 	# Change locations/names as you please
 	error_log  		/var/www/launchpad/log/ssl.error.log;
-	access_log 		/var/www/launchpad/log/ssl.access.log extended buffer=32k;
+	access_log 		/var/www/launchpad/log/ssl.access.log;
 
 	#	SSL config
 	ssl_certificate     /path/to/your/cert/file.pem;
 	ssl_certificate_key /path/to/your/key/file.key;
 
-	ssl_session_timeout 5m;
+	ssl_session_cache   		shared:SSL:10m;
+	ssl_session_timeout 		10m;
 
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
 	ssl_ciphers HIGH:!aNULL:!MD5;
