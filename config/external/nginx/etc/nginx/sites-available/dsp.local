@@ -1,0 +1,44 @@
+# dsp.local:80
+server {
+	listen 80;
+    set $x_forwarded_port 80;
+ 
+    # Change these values accordingly
+    server_name  	dsp.local;
+	root 			/var/www/launchpad/web;
+    error_log  		/var/www/launchpad/log/error.log;
+    access_log 		/var/www/launchpad/log/access.log;
+
+    index index.html index.php;
+
+    # Our DSP locations
+    include dsp-locations.conf; 
+}
+
+# dsp.local:443
+server {
+	listen 443;
+    set $x_forwarded_port 443;
+ 
+    # Change these values accordingly
+    server_name  	dsp.local;
+	root 			/var/www/launchpad/web;
+    error_log  		/var/www/launchpad/log/ssl.error.log;
+    access_log 		/var/www/launchpad/log/ssl.access.log;
+
+    index index.html index.php;
+
+	#	SSL config
+    ssl on;
+	ssl_certificate     /path/to/your/cert/file.pem
+	ssl_certificate_key /path/to/your/key/file.key
+
+    ssl_session_timeout 5m;
+
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+    ssl_prefer_server_ciphers on;
+    
+	# Our DSP locations
+    include dsp-locations.conf; 
+}
