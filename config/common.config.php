@@ -19,9 +19,9 @@
  */
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Enums\LoggingLevels;
-use Kisma\Core\Utility\Log;
 
 /**
  * This file contains any application-level parameters that are to be shared between the background and web services
@@ -31,7 +31,8 @@ use Kisma\Core\Utility\Log;
  */
 if ( !defined( 'DSP_VERSION' ) )
 {
-    require __DIR__ . '/constants.config.php';
+    /** @noinspection PhpIncludeInspection */
+    require __DIR__ . CONSTANTS_CONFIG_PATH;
 }
 
 //*************************************************************************
@@ -40,8 +41,6 @@ if ( !defined( 'DSP_VERSION' ) )
 
 //  The installation type
 $_installType = InstallationTypes::determineType( false, $_installName );
-Log::debug( 'Install type determined to be: ' . $_installName );
-
 //  Special fabric-hosted indicator
 $_fabricHosted = ( InstallationTypes::FABRIC_HOSTED == $_installType );
 //	The base path of the project, where it's checked out basically
@@ -71,17 +70,13 @@ if ( !is_dir( $_assetsPath ) )
 /**
  * Keys and salts
  */
-$_keys = $_dspSalts = array();
+$_dspSalts = array();
 
 //  Load some keys
-if ( file_exists( __DIR__ . '/keys.config.php' ) )
-{
-    /** @noinspection PhpIncludeInspection */
-    $_keys = @require( __DIR__ . '/keys.config.php' );
-}
+$_keys = Pii::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
 /** @noinspection PhpIncludeInspection */
-if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . SALT_CONFIG_PATH ) )
+if ( false !== ( $_salts = Pii::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_salts ) )
     {

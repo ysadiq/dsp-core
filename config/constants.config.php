@@ -46,6 +46,26 @@ const SALT_CONFIG_PATH = '/salt.config.php';
 /**
  * @var string
  */
+const KEYS_CONFIG_PATH = '/keys.config.php';
+/**
+ * @var string
+ */
+const DATABASE_CONFIG_PATH = '/database.config.php';
+/**
+ * @var string
+ */
+const ENV_CONFIG_PATH = '/env.config.php';
+/**
+ * @var string
+ */
+const CONSTANTS_CONFIG_PATH = '/constants.config.php';
+/**
+ * @var string
+ */
+const COMMON_CONFIG_PATH = '/common.config.php';
+/**
+ * @var string
+ */
 const SERVICES_CONFIG_PATH = '/services.config.php';
 /**
  * @var string

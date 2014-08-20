@@ -27,7 +27,7 @@ use DreamFactory\Yii\Utility\Pii;
 //	Already loaded? we done...
 if ( false !== Yii::getPathOfAlias( 'DreamFactory.Yii.*' ) )
 {
-	return true;
+    return true;
 }
 
 $_aliasBasePath = dirname( __DIR__ );
@@ -37,9 +37,9 @@ Pii::setPathOfAlias( 'vendor', $_aliasVendorPath );
 
 //	lib-php-common-yii (psr-0 && psr-4 compatible)
 $_aliasLibPath =
-	$_aliasVendorPath .
-	'/dreamfactory/lib-php-common-yii' .
-	( is_dir( $_aliasVendorPath . '/dreamfactory/lib-php-common-yii/src' ) ? '/src' : '/DreamFactory/Yii' );
+    $_aliasVendorPath .
+    '/dreamfactory/lib-php-common-yii' .
+    ( is_dir( $_aliasVendorPath . '/dreamfactory/lib-php-common-yii/src' ) ? '/src' : '/DreamFactory/Yii' );
 
 Pii::alias( 'DreamFactory.Yii', $_aliasLibPath );
 Pii::alias( 'DreamFactory.Yii.Components', $_aliasLibPath . '/Components' );
@@ -50,9 +50,9 @@ Pii::alias( 'DreamFactory.Yii.Logging.LiveLogRoute', $_aliasLibPath . '/Logging/
 
 //	lib-php-common-platform (psr-0 && psr-4 compatible)
 $_aliasLibPath =
-	$_aliasVendorPath .
-	'/dreamfactory/lib-php-common-platform' .
-	( is_dir( $_aliasVendorPath . '/dreamfactory/lib-php-common-platform/src' ) ? '/src' : '/DreamFactory/Platform' );
+    $_aliasVendorPath .
+    '/dreamfactory/lib-php-common-platform' .
+    ( is_dir( $_aliasVendorPath . '/dreamfactory/lib-php-common-platform/src' ) ? '/src' : '/DreamFactory/Platform' );
 
 Pii::alias( 'DreamFactory.Platform', $_aliasLibPath );
 Pii::alias( 'DreamFactory.Platform.Services', $_aliasLibPath . '/Services' );
