@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Utility\Platform;
 use Kisma\Core\Utility\Option;
 
 /**
@@ -88,6 +89,7 @@ $_db = array(
     'schemaCachingDuration' => 3600,
 );
 
+@touch( Platform::getPrivatePath() . '/.pivotal' );
 unset( $_services, $_envData, $_dbConfig );
 
 return $_db;

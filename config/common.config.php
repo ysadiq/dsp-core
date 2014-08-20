@@ -19,6 +19,7 @@
  */
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
+use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\HttpMethod;
 use Kisma\Core\Enums\LoggingLevels;
@@ -58,6 +59,13 @@ $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
 //  Finally the name of our app
 $_appName = 'DreamFactory Services Platform';
+
+//  Remove prior deployment paas marker if not paas
+if ( $_installType < InstallationTypes::PAAS_DEPLOYMENT )
+{
+    @unlink( Platform::getPrivatePath( '/.bluemix', false, true ) );
+    @unlink( Platform::getPrivatePath( '/.pivotal', false, true ) );
+}
 
 //  Ensure the assets path exists so Yii doesn't puke.
 $_assetsPath = $_docRoot . '/assets';
