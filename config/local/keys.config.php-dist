@@ -17,28 +17,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
- * memcached.config.php-dist
+ * keys.config.php-dist
  *
- * If you would like to use memcached for caching, copy this file to
- * memcached.config.php and change the defaults in the array below.
- * 
- * memcache.config.php can also live in /storage/.private/config
+ * Copy this file to "config/keys.config.php" and place your free-form keys pairs. 
+ * You may assign arrays to keys as well.
  *
- * For single servers, omit "weight" or set to "0".
+ * Some basic examples are shown below. Be sure to remove them from your copy.
  */
 return array(
-    'servers' => array(
-        array(
-            'host'   => 'memcache-host1',
-            'port'   => 11211,
-            'weight' => 60,
+    /** Examples **/
+    'twitter.user_name'    => '@CoolTwitterName',
+    'twitter.timeline_url' => '/#CoolTwitterName',
+    /** Nesting Examples **/
+    'my_service'           => array(
+        'settings'       => array(
+            'deep_clean_arrays' => true,
         ),
-        array(
-            'host'   => 'memcache-host2',
-            'port'   => 11211,
-            'weight' => 40,
-        )
+        'auto_start'     => true,
+        'update_url'     => 'https://example.com/latest/',
+        'enable_logging' => true,
     ),
 );

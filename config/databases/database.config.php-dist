@@ -21,9 +21,10 @@
 /**
  * database.config.php-dist
  *
- * This file should contain any non-default database configuration used by your DSP.
+ * If you do not want to use the default MySQL instance, you can override the settings with this template.
+ * Copy this file to "config/database.config.php" and change the settings to your liking.
  *
- * To use, copy this file to database.config.php and change the defaults in the array below.
+ * Below are the actual default MySQL instance settings
  */
 return array(
 	'connectionString'      => 'mysql:host=localhost;port=3306;dbname=dreamfactory',

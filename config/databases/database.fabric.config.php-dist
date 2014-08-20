@@ -20,8 +20,10 @@
 use DreamFactory\Platform\Utility\Fabric;
 
 /**
- * database.config.php
+ * database.fabric.config.php
  * The database configuration file for the DSP
+ *
+ * @deprecated in v1.7.6, to be removed in v2.0.0. The logic in this file has been incorporated into the core
  */
 if ( Fabric::fabricHosted() )
 {
