@@ -60,55 +60,60 @@ const DB_CREDENTIALS_KEY = 'credentials';
 /** @type string $_envData */
 $_envData = getenv( ENV_KEY );
 
-if ( false === ( $_services = json_decode( $_envData, true ) ) || JSON_ERROR_NONE != json_last_error() || empty( $_services ) )
+//  Decode and examine
+$_services = json_decode( $_envData, true );
+
+if ( false !== $_services && JSON_ERROR_NONE == json_last_error() && !empty( $_services ) )
 {
-    Log::notice(
-        'Database configuration found for PaaS "' .
-        PAAS_NAME .
-        '", but required environment variable is invalid or null.' .
-        PHP_EOL .
-        'Environment Dump' .
-        PHP_EOL .
-        '------------------------------------------------------------' .
-        PHP_EOL .
-        print_r( $_ENV, true )
+    //  Get credentials environment data
+    $_dbConfig = Option::get( Option::getDeep( $_services, DB_KEY, DB_INDEX, array() ), DB_CREDENTIALS_KEY );
+
+    if ( empty( $_dbConfig ) )
+    {
+        throw new \RuntimeException(
+            'ClearDb service not found in services env: ' . print_r( $_services, true )
+        );
+    }
+
+    $__dfc_db__ = array(
+        'connectionString'      =>
+            'mysql:host=' .
+            //  Check for 'host', then 'hostname', default to 'localhost'
+            Option::get( $_dbConfig, 'host', Option::get( $_dbConfig, 'hostname', 'localhost' ) ) .
+            ';port=' .
+            $_dbConfig['port'] .
+            ';dbname=' .
+            $_dbConfig['name'],
+        'username'              => $_dbConfig['username'],
+        'password'              => $_dbConfig['password'],
+        'emulatePrepare'        => true,
+        'charset'               => 'utf8',
+        'enableProfiling'       => defined( 'YII_DEBUG' ),
+        'enableParamLogging'    => defined( 'YII_DEBUG' ),
+        'schemaCachingDuration' => 3600,
     );
 
-    //  Returning false equates to not having a "config/database.config.php"
-    return false;
+    unset( $_envData, $_dbConfig, $_services );
+
+    //  Set a key about where we live...
+    Platform::storeSet( INSTALL_TYPE_KEY, InstallationTypes::PIVOTAL_PACKAGE );
+
+    return $__dfc_db__;
 }
 
-//  Get credentials environment data
-if ( !isset( $_services[DB_KEY], $_services[DB_KEY][DB_INDEX] ) )
-{
-    throw new \RuntimeException(
-        'ClearDb service not found in services env: ' . print_r( $_services, true )
-    );
-}
-
-$_dbConfig = $_services[DB_KEY][DB_INDEX][DB_CREDENTIALS_KEY];
-
-$_db = array(
-    'connectionString'      =>
-        'mysql:host=' .
-        //  Check for 'host', then 'hostname', default to 'localhost'
-        Option::get( $_dbConfig, 'host', Option::get( $_dbConfig, 'hostname', 'localhost' ) ) .
-        ';port=' .
-        $_dbConfig['port'] .
-        ';dbname=' .
-        $_dbConfig['name'],
-    'username'              => $_dbConfig['username'],
-    'password'              => $_dbConfig['password'],
-    'emulatePrepare'        => true,
-    'charset'               => 'utf8',
-    'enableProfiling'       => defined( 'YII_DEBUG' ),
-    'enableParamLogging'    => defined( 'YII_DEBUG' ),
-    'schemaCachingDuration' => 3600,
+Log::notice(
+    'Database configuration found for PaaS "' .
+    PAAS_NAME .
+    '", but required environment variable is invalid or null.' .
+    PHP_EOL .
+    'Environment Dump' .
+    PHP_EOL .
+    '------------------------------------------------------------' .
+    PHP_EOL .
+    print_r( $_ENV, true )
 );
 
-unset( $_services, $_envData, $_dbConfig );
+//  Returning false equates to not having a "config/database.config.php"
+return false;
 
-//  Set a key about where we live...
-Platform::storeSet( INSTALL_TYPE_KEY, InstallationTypes::PIVOTAL_PACKAGE );
 
-return $_db;

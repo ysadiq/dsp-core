@@ -14,8 +14,8 @@ In this directory there are sub-directories that contain **template** files for 
  Instructions are included with each, but they are all the same:
 
  1. Copy the distribution file to the config directory
- 1. Make your changes to the defaults or whatever
- 1. Remove the **-dist** from the end of the file name (database configs are a bit different in this aspect).
- 1. Restart your web server.
+ 2. Make your changes to the defaults or whatever
+ 3. Remove the **-dist** from the end of the file name (database configs are a bit different in this aspect).
+ 4. Restart your web server.
 
 If you want to use the default database that comes with the DSP, nothing needs to be done.
