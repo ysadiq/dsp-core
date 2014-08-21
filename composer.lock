@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "bfb5f7b14ad98c47200bb5771bfca196b3b0f26f"
+                "reference": "1669dbf5de369fc9caf76198e1e096e7c072e320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/bfb5f7b14ad98c47200bb5771bfca196b3b0f26f",
-                "reference": "bfb5f7b14ad98c47200bb5771bfca196b3b0f26f",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1669dbf5de369fc9caf76198e1e096e7c072e320",
+                "reference": "1669dbf5de369fc9caf76198e1e096e7c072e320",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-21 05:17:34"
+            "time": "2014-08-21 05:55:24"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
