@@ -409,6 +409,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                         // Do we want post-process events
                         if ($scope.postprocessEventsOn) {
+
                             // Yep.  Build Verb Object and store in our Path Object verbs array
                             npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.postprocessEventName, true))
                         }
@@ -436,6 +437,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             else {
                 angular.forEach(event.paths, function (pathRef) {
 
+                    var pathName = pathRef.path.split('/')[2];
+
                     angular.forEach(pathRef.verbs, function (verb) {
 
                         if ($scope.uppercaseVerbs) {
@@ -446,13 +449,13 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                         if ($scope.preprocessEventsOn) {
 
                             // Yep.  Build Verb Object and store in our Path Object verbs array
-                            pathRef.verbs.push(buildVerbObj(event.name, null, verb.type, $scope.preprocessEventName, true))
+                            pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.preprocessEventName, true))
                         }
 
                         // Do we want post-process events
                         if ($scope.postprocessEventsOn) {
                             // Yep.  Build Verb Object and store in our Path Object verbs array
-                            pathRef.verbs.push(buildVerbObj(event.name, null, verb.type, $scope.postprocessEventName, true))
+                            pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.postprocessEventName, true))
                         }
                     });
                 });
