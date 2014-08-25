@@ -1,7 +1,6 @@
 // swagger-ui.js
 // version 2.0.17
 $(function() {
-
     // Helper function for vertically aligning DOM elements
     // http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
     $.fn.vAlign = function() {
@@ -65,11 +64,13 @@ function clippyCopiedCallback(a) {
 
 // Logging function that accounts for browsers that don't have window.console
 log = function(){
-    log.history = log.history || [];
-    log.history.push(arguments);
-    if(this.console){
-        console.log( Array.prototype.slice.call(arguments) );
-    }
+	if (SwaggerUi.debug) {
+		log.history = log.history || [];
+		log.history.push(arguments);
+		if (this.console && SwaggerUi.debug) {
+			console.log(Array.prototype.slice.call(arguments));
+		}
+	}
 };
 
 // Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
@@ -327,7 +328,7 @@ var Docs = {
             else { stack1 = depth0.notes; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
             if(stack1 || stack1 === 0) { buffer += stack1; }
             buffer += "</p>\n        ";
-            console.log(helpers);
+            log(helpers);
             if (helpers.event_name || depth0.event_name) {
                 if ($.isArray(helpers.event_name)) {
                     var _tempName;
@@ -1254,11 +1255,13 @@ var Docs = {
 
         SwaggerUi.prototype.api = null;
 
-        SwaggerUi.prototype.headerView = null;
+		SwaggerUi.prototype.headerView = null;
 
         SwaggerUi.prototype.mainView = null;
 
-        SwaggerUi.prototype.initialize = function(options) {
+		SwaggerUi.prototype.debug = false;
+
+		SwaggerUi.prototype.initialize = function(options) {
             var _this = this;
             if (options == null) {
                 options = {};

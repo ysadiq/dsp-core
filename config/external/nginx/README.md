@@ -3,9 +3,8 @@ On Ubuntu systems, do the following:
 
  1. copy the files from `config/external/nginx/etc/nginx/sites-available` into your `/etc/nginx/sites-available/` directory.
  2. Copy the files from `config/external/nginx/etc/nginx/conf.d` to your `/etc/nginx/conf.d` directory.
- 3. Edit your nginx.conf file to remove the `access_log` and `error_log` entries. They're in `conf.d/defaults.logging.conf`
- 4. Create an `/etc/nginx/sites-enabled` directory on your box if you do not have one.
- 5. Create a symlink for the DSP: `$ sudo ln -s /etc/nginx/sites-available/dsp.local /etc/nginx/sites-enabled/dsp.local`
+ 3. Create an `/etc/nginx/sites-enabled` directory on your box if you do not have one.
+ 4. Create a symlink for the DSP: `$ sudo ln -s /etc/nginx/sites-available/dsp.single.local /etc/nginx/sites-enabled/dsp.local`
 
 Edit the newly files accordingly to match your system configuration (i.e. log location, server name, etc.).
 
