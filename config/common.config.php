@@ -44,6 +44,11 @@ $_installType = InstallationTypes::determineType( false, $_installName );
 $_fabricHosted = ( InstallationTypes::FABRIC_HOSTED == $_installType );
 //	The base path of the project, where it's checked out basically
 $_basePath = dirname( __DIR__ );
+//  Convert back slashes to forward
+if ( '\\' == DIRECTORY_SEPARATOR )
+{
+    $_basePath = str_replace( DIRECTORY_SEPARATOR, '/', $_basePath );
+}
 //	The document root
 $_docRoot = $_basePath . '/web';
 //	The vendor path
