@@ -28,11 +28,11 @@ use DreamFactory\Yii\Utility\Pii;
 /**
  * @type bool Global debug flag: If true, your logs will grow large and your performance will suffer, but fruitful information will be gathered.
  */
-const DSP_DEBUG = false;
+const DSP_DEBUG = true;
 /**
  * @type bool Global PHP-ERROR flag: If true, PHP-ERROR will be utilized if available. See https://github.com/JosephLenton/PHP-Error for more info.
  */
-const DSP_DEBUG_PHP_ERROR = false;
+const DSP_DEBUG_PHP_ERROR = true;
 
 $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
@@ -60,12 +60,9 @@ if ( !class_exists( '\\Yii', false ) )
 }
 
 //  php-error utility
-if ( DSP_DEBUG_PHP_ERROR )
+if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
 {
-    if ( function_exists( 'reportErrors' ) )
-    {
-        reportErrors();
-    }
+    reportErrors();
 }
 
 //	Create the application and run. This doe not return until the request is complete.
