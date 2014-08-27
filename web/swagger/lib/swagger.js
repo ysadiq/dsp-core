@@ -8,11 +8,13 @@ var __bind = function(fn, me){
 };
 
 log = function(){
-    log.history = log.history || [];
-    log.history.push(arguments);
-    if(this.console){
-        console.log( Array.prototype.slice.call(arguments) );
-    }
+	if (SwaggerUi.debug) {
+		log.history = log.history || [];
+		log.history.push(arguments);
+		if (this.console) {
+			console.log(Array.prototype.slice.call(arguments));
+		}
+	}
 };
 
 if (!Array.prototype.indexOf) {
@@ -478,7 +480,7 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
 
 SwaggerResource.prototype.sanitize = function(nickname) {
     var op;
-    op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|./?,\\'""-]/g, '_');
+    op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|.\/?,'""-]/g, '_');
     //'
     op = op.replace(/((_){2,})/g, '_');
     op = op.replace(/^(_)*/g, '');
@@ -936,6 +938,7 @@ SwaggerOperation.prototype.urlify = function(args) {
     }
 
     var queryParams = "";
+
     for(var i = 0; i < params.length; i ++){
         var param = params[i];
         if(param.paramType === 'query') {

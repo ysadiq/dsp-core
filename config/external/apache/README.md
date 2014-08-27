@@ -1,18 +1,16 @@
 ## Usage with Apache
-On Ubuntu systems, copy the two files below into your `/etc/apache2/sites-available/` directory.
+On Ubuntu systems, copy the files from `config/external/apache/etc/apache2/sites-available` into your `/etc/apache2/sites-available/` directory.
 
 Once there you can enable them and enable as follows:
 
 ### Enable
 ```
-$ sudo a2ensite dsp.local
-$ sudo a2ensite ssl-dsp.local
+$ sudo a2ensite dsp.local ssl-dsp.local && sudo service apache2 restart
 ```
 
 ### Disable
 ```
-$ sudo a2dissite dsp.local
-$ sudo a2dissite ssl-dsp.local
+$ sudo a2dissite dsp.local ssl-dsp.local && sudo service apache2 restart
 ```
 
 ## Other OSes

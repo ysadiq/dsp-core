@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- * keys.config.php-dist
+ * salt.config.php-dist
+ * This file should contain any private keys used by your DSP.
  *
- * Copy this file to keys.config.php and place your free-form keys pairs. Nesting is allowed.
+ * To use, copy this file to "config/salt.config.php" and add your keys to the array below.
+ * They will then be available via the Pii::getParam('dsp.salts.<key>') call.
  *
- * Some basic examples are shown below. Be sure to remove them from your copy.
+ * The only predefined key is "secure_json". This salt will be used to encrypt
+ * and data stored securely in a database. If not supplied, or you're on a free
+ * DSP, your database password will be used.
  */
 return array(
-    /** Examples **/
-    'twitter.user_name'    => '@CoolTwitterName',
-    'twitter.timeline_url' => '/#CoolTwitterName',
-    /** Nesting Examples **/
-    'my_service'           => array(
-        'settings'       => array(
-            'deep_clean_arrays' => true,
-        ),
-        'auto_start'     => true,
-        'update_url'     => 'https://example.com/latest/',
-        'enable_logging' => true,
-    ),
+	'secure_json' => null,
 );

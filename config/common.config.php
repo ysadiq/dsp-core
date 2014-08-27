@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
  */
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -29,7 +30,8 @@ use Kisma\Core\Enums\LoggingLevels;
  */
 if ( !defined( 'DSP_VERSION' ) )
 {
-    require __DIR__ . '/constants.config.php';
+    /** @noinspection PhpIncludeInspection */
+    require __DIR__ . CONSTANTS_CONFIG_PATH;
 }
 
 //*************************************************************************
@@ -43,7 +45,7 @@ $_fabricHosted = ( InstallationTypes::FABRIC_HOSTED == $_installType );
 //	The base path of the project, where it's checked out basically
 $_basePath = dirname( __DIR__ );
 //	The document root
-$_docRoot = $_basePath . ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? '/htdocs' : '/web' );
+$_docRoot = $_basePath . '/web';
 //	The vendor path
 $_vendorPath = $_basePath . '/vendor';
 //	Set to false to disable database caching
@@ -67,17 +69,13 @@ if ( !is_dir( $_assetsPath ) )
 /**
  * Keys and salts
  */
-$_keys = $_dspSalts = array();
+$_dspSalts = array();
 
 //  Load some keys
-if ( file_exists( __DIR__ . '/keys.config.php' ) )
-{
-    /** @noinspection PhpIncludeInspection */
-    $_keys = @require( __DIR__ . '/keys.config.php' );
-}
+$_keys = Pii::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
 /** @noinspection PhpIncludeInspection */
-if ( file_exists( __DIR__ . SALT_CONFIG_PATH ) && $_salts = require( __DIR__ . SALT_CONFIG_PATH ) )
+if ( false !== ( $_salts = Pii::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_salts ) )
     {
@@ -201,14 +199,17 @@ return array_merge(
             array('api_name' => 'system', 'name' => 'System Configuration'),
             array('api_name' => 'api_docs', 'name' => 'API Documentation'),
         ),
+        /** The type of installation */
+        'dsp.install_type'              => $_installType,
+        'dsp.install_name'              => $_installName,
         /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
-        'dsp.restricted_verbs'          => ( InstallationTypes::BLUEMIX_PACKAGE == $_installType ? array('PATCH') : array() ),
+        'dsp.restricted_verbs'          => InstallationTypes::getRestrictedVerbs( $_installType ),
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
-        'dsp.confirm_invite_url'        => '/web/confirmInvite',
-        'dsp.confirm_register_url'      => '/web/confirmRegister',
-        'dsp.confirm_reset_url'         => '/web/confirmPassword',
+        'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
+        'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
+        'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
         //-------------------------------------------------------------------------
@@ -230,7 +231,7 @@ return array_merge(
         //  If true, event scripts will be ran
         'dsp.enable_event_scripts'      => true,
         //  If true, scripts not distributed by DreamFactory will be allowed
-        'dsp.enable_user_scripts'       => false,
+        'dsp.enable_user_scripts'       => true,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
         //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.

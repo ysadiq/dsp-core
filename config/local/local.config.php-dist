@@ -19,6 +19,8 @@
  */
 
 /**
+ * local/local.config.php-dist
+ *
  * This is a local configuration file. Use it to override any configuration
  * setting of your DSP (options in config/common.config.php for instance).
  *

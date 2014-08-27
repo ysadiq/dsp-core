@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c39aa288aee78852b30a35f642f2f10a",
+    "hash": "0b8f40ba30d4a324774564132c4d48ab",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -274,9 +274,9 @@
             ],
             "authors": [
                 {
-                    "name": "Sykes, Jason",
+                    "name": "Jason Sykes",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Engineer, client-side"
+                    "role": "Lead Developer, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Javascript SDK",
@@ -332,12 +332,12 @@
                 {
                     "name": "Jerry Ablan",
                     "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer, server-side"
                 },
                 {
                     "name": "Lee Hicks",
                     "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side/client-side"
+                    "role": "Lead Developer, server-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.7.9",
+            "version": "1.7.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "3f9f5e341a03cbe5601db30a9d95ffb790c2ff3a"
+                "reference": "ff8645014ed10b441a5780e7ca115ac6094a1aaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3f9f5e341a03cbe5601db30a9d95ffb790c2ff3a",
-                "reference": "3f9f5e341a03cbe5601db30a9d95ffb790c2ff3a",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/ff8645014ed10b441a5780e7ca115ac6094a1aaa",
+                "reference": "ff8645014ed10b441a5780e7ca115ac6094a1aaa",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-15 18:58:03"
+            "time": "2014-08-27 02:21:34"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -761,16 +761,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.55",
+            "version": "0.2.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "bb1842ca84b64610cab73354f9a2e01002081192"
+                "reference": "3f832cb3874f6baaddc6f25ab1d9a9976fef1f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/bb1842ca84b64610cab73354f9a2e01002081192",
-                "reference": "bb1842ca84b64610cab73354f9a2e01002081192",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/3f832cb3874f6baaddc6f25ab1d9a9976fef1f8d",
+                "reference": "3f832cb3874f6baaddc6f25ab1d9a9976fef1f8d",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-08-14 08:41:29"
+            "time": "2014-08-26 18:37:18"
         },
         {
             "name": "monolog/monolog",
@@ -1533,8 +1533,12 @@
             "time": "2014-05-26 19:02:51"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
@@ -1544,5 +1548,7 @@
     "platform": {
         "php": ">=5.3.18"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

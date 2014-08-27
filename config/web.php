@@ -18,20 +18,22 @@
  * limitations under the License.
  */
 use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Utility\Log;
 
 /**
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
  */
+$_fabricHosted = false;
 
 /**
  * Load any environment variables first thing as they may be used by the database config
  */
-if ( file_exists( __DIR__ . '/env.config.php' ) )
+/** @noinspection PhpIncludeInspection */
+if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
 {
-    /** @noinspection PhpIncludeInspection */
-    if ( false !== ( $_envConfig = @require( __DIR__ . '/env.config.php' ) ) && !empty( $_envConfig ) && is_array( $_envConfig ) )
+    if ( !empty( $_envConfig ) && is_array( $_envConfig ) )
     {
         foreach ( $_envConfig as $_key => $_value )
         {
@@ -52,15 +54,7 @@ if ( file_exists( __DIR__ . '/env.config.php' ) )
  * Load up the database configuration, free edition, private hosted, or others.
  * Look for non-default database config to override.
  */
-$_dbConfig = array();
-$_fabricHosted = false;
-
-if ( file_exists( __DIR__ . '/database.config.php' ) )
-{
-    /** @noinspection PhpIncludeInspection */
-    $_dbConfig = @require( __DIR__ . '/database.config.php' );
-}
-else
+if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
 {
     if ( Fabric::fabricHosted() )
     {
@@ -101,9 +95,10 @@ else
 }
 /**
  * Load up the common configurations between the web and background apps,
- * setting globals whilst at it.
+ * setting globals whilst at it. REQUIRED file!
  */
-$_commonConfig = require( __DIR__ . '/common.config.php' );
+/** @noinspection PhpIncludeInspection */
+$_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
 
 //.........................................................................
 //. The configuration

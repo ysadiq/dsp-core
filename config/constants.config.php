@@ -30,7 +30,7 @@ if ( defined( 'DSP_VERSION' ) )
 /**
  * @var string
  */
-const DSP_VERSION = '1.7.6';
+const DSP_VERSION = '1.7.7';
 /**
  * @var string
  */
@@ -43,6 +43,26 @@ const ALIASES_CONFIG_PATH = '/aliases.config.php';
  * @var string
  */
 const SALT_CONFIG_PATH = '/salt.config.php';
+/**
+ * @var string
+ */
+const KEYS_CONFIG_PATH = '/keys.config.php';
+/**
+ * @var string
+ */
+const DATABASE_CONFIG_PATH = '/database.config.php';
+/**
+ * @var string
+ */
+const ENV_CONFIG_PATH = '/env.config.php';
+/**
+ * @var string
+ */
+const CONSTANTS_CONFIG_PATH = '/constants.config.php';
+/**
+ * @var string
+ */
+const COMMON_CONFIG_PATH = '/common.config.php';
 /**
  * @var string
  */
@@ -63,3 +83,7 @@ const DEFAULT_SUPPORT_EMAIL = 'support@dreamfactory.com';
  * @var string
  */
 const DEFAULT_ADMIN_RESOURCE_SCHEMA = '/admin.resource_schema.config.php';
+/**
+ * @var string
+ */
+const INSTALL_TYPE_KEY = 'dsp.install_type';

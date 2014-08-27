@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,24 @@
  */
 
 /**
- * salt.config.php-dist
- * This file should contain any private keys used by your DSP.
+ * memcached.config.php-dist
  *
- * To use, copy this file to salt.config.php and add your keys to the array below.
- * They will then be available via the Pii::getParam('dsp.salts.<key>') call.
+ * If you would like to use memcached for caching, copy this file to
+ * "config/memcached.config.php" and change the defaults in the array below.
  *
- * The only predefined key is "secure_json". This salt will be used to encrypt
- * and data stored securely in a database. If not supplied, or you're on a free
- * DSP, your database password will be used.
+ * For single servers, omit "weight" or set to "0".
  */
 return array(
-	'secure_json' => null,
+    'servers' => array(
+        array(
+            'host'   => 'memcache-host1',
+            'port'   => 11211,
+            'weight' => 60,
+        ),
+        array(
+            'host'   => 'memcache-host2',
+            'port'   => 11211,
+            'weight' => 40,
+        )
+    ),
 );

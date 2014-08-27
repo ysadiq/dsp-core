@@ -17,11 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Platform\Utility\Platform;
 
 /**
- * database.config.php
+ * database.fabric.config.php
  * The database configuration file for the DSP
+ *
+ * @deprecated in v1.7.6, to be removed in v2.0.0. The logic in this file has been incorporated into the core
  */
 if ( Fabric::fabricHosted() )
 {
@@ -47,6 +51,8 @@ else
 
 $_dbUser = 'dsp_user';
 $_dbPassword = 'dsp_user';
+
+Platform::storeSet( INSTALL_TYPE_KEY, InstallationTypes::FABRIC_HOSTED );
 
 return array(
     'connectionString'      => 'mysql:host=localhost;port=3306;dbname=' . $_dbName,

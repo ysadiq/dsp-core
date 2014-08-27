@@ -34,32 +34,47 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             dfLoadingScreen.start();
                         }],
 
-                        getEventList: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getEventList: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
-                            return $http({
-                                method: 'GET',
-                                url: DSP_URL + '/rest/system/event',
-                                params: {
-                                    all_events: true
-                                }
-                            });
+                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
+                                return $http({
+                                    method: 'GET',
+                                    url: DSP_URL + '/rest/system/event',
+                                    params: {
+                                        all_events: true
+                                    }
+                                });
+                            }
+                            else {
+                                return false;
+                            }
                         }],
 
-                        getAllScripts: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getAllScripts: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
-                            return $http({
-                                method: 'GET',
-                                url: DSP_URL + '/rest/system/script'
-                            });
+                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
+                                return $http({
+                                    method: 'GET',
+                                    url: DSP_URL + '/rest/system/script'
+                                });
+                            }else {
+                                return false;
+                            }
+
                         }],
 
-                        getSampleScripts: ['DSP_URL', '$http', function(DSP_URL, $http) {
+                        getSampleScripts: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
-                            return $http({
-                                method: 'GET',
-                                url: 'js/example.scripts.js',
-                                dataType: "text"
-                            });
+                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
+                                return $http({
+                                    method: 'GET',
+                                    url: 'js/example.scripts.js',
+                                    dataType: "text"
+                                });
+                            }
+                            else {
+                                return false;
+                            }
                         }]
                     }
                 });
@@ -73,6 +88,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
         $scope.isHostedSystem = SystemConfigDataService.getSystemConfig().is_hosted;
 
         $scope.__getDataFromHttpResponse = function (httpResponseObj) {
+
+            if (!httpResponseObj) return [];
 
             if (httpResponseObj.hasOwnProperty('data')) {
 
@@ -392,6 +409,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                         // Do we want post-process events
                         if ($scope.postprocessEventsOn) {
+
                             // Yep.  Build Verb Object and store in our Path Object verbs array
                             npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.postprocessEventName, true))
                         }
@@ -419,6 +437,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
             else {
                 angular.forEach(event.paths, function (pathRef) {
 
+                    var pathName = pathRef.path.split('/')[2];
+
                     angular.forEach(pathRef.verbs, function (verb) {
 
                         if ($scope.uppercaseVerbs) {
@@ -429,13 +449,13 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                         if ($scope.preprocessEventsOn) {
 
                             // Yep.  Build Verb Object and store in our Path Object verbs array
-                            pathRef.verbs.push(buildVerbObj(event.name, null, verb.type, $scope.preprocessEventName, true))
+                            pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.preprocessEventName, true))
                         }
 
                         // Do we want post-process events
                         if ($scope.postprocessEventsOn) {
                             // Yep.  Build Verb Object and store in our Path Object verbs array
-                            pathRef.verbs.push(buildVerbObj(event.name, null, verb.type, $scope.postprocessEventName, true))
+                            pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.postprocessEventName, true))
                         }
                     });
                 });
