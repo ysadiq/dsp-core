@@ -60,12 +60,9 @@ if ( !class_exists( '\\Yii', false ) )
 }
 
 //  php-error utility
-if ( DSP_DEBUG_PHP_ERROR )
+if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
 {
-    if ( function_exists( 'reportErrors' ) )
-    {
-        reportErrors();
-    }
+    reportErrors();
 }
 
 //	Create the application and run. This doe not return until the request is complete.

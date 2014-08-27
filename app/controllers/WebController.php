@@ -1166,7 +1166,7 @@ class WebController extends BaseWebController
             //	Try local launchpad
             if ( is_file( \Kisma::get( 'app.app_path' ) . $_defaultApp ) )
             {
-                $_defaultApp = $_defaultApp . Curl::urlSeparator( $_defaultApp ) . $_error;
+                $_defaultApp = rtrim( $_defaultApp . Curl::urlSeparator( $_defaultApp ) . $_error, '?' );
                 $this->redirect( $_defaultApp );
             }
 

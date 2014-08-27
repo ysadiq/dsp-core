@@ -207,9 +207,9 @@ return array_merge(
         /** The default application to start */
         'dsp.default_app'               => '/launchpad/index.html',
         /** The default landing pages for email confirmations */
-        'dsp.confirm_invite_url'        => $_defaultController . '/confirmInvite',
-        'dsp.confirm_register_url'      => $_defaultController . '/confirmRegister',
-        'dsp.confirm_reset_url'         => $_defaultController . '/confirmPassword',
+        'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
+        'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
+        'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
         //-------------------------------------------------------------------------

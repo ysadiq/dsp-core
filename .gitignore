@@ -11,8 +11,10 @@ web/apps/
 config/database.config.php
 config/env.config.php
 config/memcached.config.php
+config/memcached.config.php.off
 config/keys.config.php
 config/salt.config.php
+config/databases/dreamfactory.sql.gz
 tests/config/memcached.config.php
 tests/config/database.config.php
 tests/config/env.config.php
