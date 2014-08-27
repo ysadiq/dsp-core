@@ -1,0 +1,7 @@
+{
+    "name": "DreamFactory Services Platform",
+    "description": "The open source REST API platform.",
+    "website": "https://www.dreamfactory.com",
+    "success_url": "/",
+    "addons": ["cleardb"]
+}
