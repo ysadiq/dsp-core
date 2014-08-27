@@ -15,3 +15,5 @@ Complete documentation is available on our [documentation site](https://github.c
 * Contributions should generally follow the strategy outlined in ["Contributing
   to a project"](https://help.github.com/articles/fork-a-repo#contributing-to-a-project)
 * All pull requests must be in a ["git flow"](https://github.com/nvie/gitflow) feature branch to be considered.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
