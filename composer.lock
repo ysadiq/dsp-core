@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b8f40ba30d4a324774564132c4d48ab",
+    "hash": "4a2a437c1e7d3807be6ac987b833b2ca",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -274,9 +274,9 @@
             ],
             "authors": [
                 {
-                    "name": "Jason Sykes",
+                    "name": "Sykes, Jason",
                     "email": "jasonsykes@dreamfactory.com",
-                    "role": "Lead Developer, client-side"
+                    "role": "Lead Engineer, client-side"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Javascript SDK",
@@ -1546,7 +1546,7 @@
     },
     "prefer-stable": false,
     "platform": {
-        "php": ">=5.3.18"
+        "php": ">=5.3.18,<5.6"
     },
     "platform-dev": [
 
