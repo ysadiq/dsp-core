@@ -160,8 +160,6 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
             }
 
 
-
-
         })
 
     }])
