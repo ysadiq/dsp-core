@@ -457,6 +457,8 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                 return path.path.indexOf("}") != "-1";
             };
 
+            // Resets everything.  Stepping backwards through menuBack() to get all
+            // the checks.
             $scope._resetAll = function () {
 
                 if ($scope.menuPathArr.length === 0) return false;
@@ -464,6 +466,16 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                 while($scope.menuPathArr.length !== 0) {
                     $scope.menuBack();
                 }
+            };
+
+            // check for extension.  Just JS right now
+            $scope._checkExtension = function (idStr) {
+
+                if (idStr.substr(idStr.length -3, 3) === '.js') {
+                    return idStr.substr(0, idStr.length -3);
+                }
+
+                return idStr;
             };
 
 
@@ -614,7 +626,7 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                 var requestDataObj = {
 
-                    script_id: $scope.currentScriptObj.script_id,
+                    script_id: $scope._checkExtension($scope.currentScriptObj.script_id),
                     params: {
                         is_user_script: $scope.isCustomScript
                     },
@@ -635,6 +647,14 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             $scope.customScripts.push($scope.__getDataFromHttpResponse(result));
                         }
 
+                        // Needs to be replaced with angular messaging
+                        $(function(){
+                            new PNotify({
+                                title: 'Scripts',
+                                type:  'success',
+                                text:  'Script "' + $scope.currentScriptObj.script_id + '" saved successfully.'
+                            });
+                        });
                     },
 
                     function(reject) {
@@ -666,6 +686,16 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
                 $scope._deleteScriptFromServer(requestDataObj).then(
                     function(result) {
+
+                        // Needs to be replaced with angular messaging
+                        $(function(){
+                            new PNotify({
+                                title: 'Scripts',
+                                type:  'success',
+                                text:  'Script "' + $scope.currentScriptObj.script_id + '" deleted successfully.'
+                            });
+                        });
+
 
                         $scope.menuPathArr.pop();
                         $scope.currentScriptObj = null;
