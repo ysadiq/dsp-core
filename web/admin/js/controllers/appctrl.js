@@ -272,7 +272,7 @@ var AppCtrl = function(DSP_URL, dfLoadingScreen, $scope, AppsRelated, Role, $htt
 			}, function() {
 				$("#row_" + id).fadeOut();
 				if (window.top && window.top.Actions) {
-					window.top.Actions.updateSession();
+					window.top.Actions.updateSession("update");
 				}
 
 				$(
