@@ -678,8 +678,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         return defer.promise;
                     }
 
-
-
                     var requestDataObj = {
                         record: recordsDataArr
                     };
@@ -2536,7 +2534,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             scope._removeRevertCopy(scope.currentEditRecord);
                             scope._setUnsavedState(scope.currentEditRecord, false);
 
-                            dfTableCallbacksService.run('onUpdate', 'pre', result);
+                            dfTableCallbacksService.run('onUpdate', 'post', result);
                             scope.$emit(scope.es.alertSuccess, {message: 'Record saved.'})
 
 
@@ -2624,6 +2622,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                    scope._setInProgress(true);
                     dfTableCallbacksService.run('onCreate', 'pre', scope.newRecord);
+
                     scope._saveNewRecordToServer().then(
                         function (result) {
                             dfTableCallbacksService.run('onCreate', 'post', result);
@@ -2632,13 +2631,11 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             if (scope.record.length === 0) {
 
                                 scope._refreshResults();
-
                             }
                             else if (scope.record.length < scope.options.params.limit) {
 
                                 scope._addStateProps(result.data)
                                 scope.record.push(result.data);
-
                             }
                             // check if we need to update our pagination due to record creation
                             else if (scope.record.length * scope.pagesArr.length < scope.count + 1) {

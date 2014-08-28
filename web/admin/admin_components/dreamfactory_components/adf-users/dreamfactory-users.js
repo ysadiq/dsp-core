@@ -34,7 +34,6 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                             // start the loading screen
                             dfLoadingScreen.start();
                         }],
-
                         getSystemConfigData: ['DSP_URL', '$http', function (DSP_URL, $http) {
 
                             return $http({
@@ -620,7 +619,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
 
         }
     }])
-    .directive('dfSetUserPassword', ['MODUSER_ASSET_PATH', '$compile', 'dfStringService', 'dfUserManagementEventService', function(MODUSER_ASSET_PATH, $compile,dfStringService, dfUserManagementEventService) {
+    .directive('dfSetUserPassword', ['MODUSER_ASSET_PATH', '$compile', 'dfStringService', 'dfUserManagementEventService', 'dfTableCallbacksService', function(MODUSER_ASSET_PATH, $compile,dfStringService, dfUserManagementEventService, dfTableCallbacksService) {
 
         return {
             restrict: 'E',
@@ -670,6 +669,7 @@ angular.module('dfUsers', ['ngRoute', 'dfUtility'])
                 scope.$on('$destroy', function (e) {
 
                     watchSetPassword();
+                    scope.currentEditRecord.password = null;
                 });
             }
         }
