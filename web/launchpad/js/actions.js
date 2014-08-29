@@ -224,10 +224,11 @@ Actions = {
         // Convert false to bool here
         allowFullScreenToggle = allowFullScreenToggle !== 'false' && allowFullScreenToggle != false;
 
+
 		$('iframe').hide();
 
 		//	Show the admin if your an admin
-		if ('admin' == name) {
+		if ('admin' === name) {
 			var $_admin = $('#admin');
 
 			if ($_admin.length) {
@@ -240,8 +241,9 @@ Actions = {
 				}
 			}
 
-			this.toggleLinksForApp('admin');
-            this.toggleFullScreen(!allowFullScreenToggle);
+            // console.log('ShowApp fn: admin')
+			// this.toggleLinksForApp('admin');
+            // this.toggleFullScreen(false);
 			return;
 		}
 
@@ -335,8 +337,9 @@ Actions = {
 
 		this.showApp(name, url, type, fullscreen, allowToggle);
 
+        // console.log('ShowAdmin func')
 		// this.toggleAdminLink(false);
-		this.toggleFullScreenLink(true);
+		// this.toggleFullScreenLink(true);
 
 		return this;
 	},
@@ -554,8 +557,8 @@ Actions = {
 				if (sessionInfo.is_sys_admin && (action !== 'update')) {
 
 					// _this.toggleAdminLink(false);
-					_this.toggleFullScreenLink(true);
-					_this.toggleAppsListLink(true);
+					//_this.toggleFullScreenLink(true);
+					//_this.toggleAppsListLink(true);
 				}
 
 
