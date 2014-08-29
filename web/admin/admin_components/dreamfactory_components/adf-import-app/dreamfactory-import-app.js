@@ -145,7 +145,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                 return $http({
                     method: 'GET',
-                    url: DSP_URL + '/rest/' + requestDataObj.serviceApiName,
+                    url: DSP_URL + '/rest/' + requestDataObj.serviceApiName
                 })
             };
 
