@@ -189,7 +189,9 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                     function(result) {
 
+
                         $scope.$broadcast('success:request', 'App imported successfully.');
+                        window.top.Actions.updateSession("update");
 
                     },
                     function(reject) {
