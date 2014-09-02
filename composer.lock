@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3c34887775b37f3304dc816165babf36",
+    "hash": "e2b97e24cbf8720c7c5fa0a5ecdc06e6",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "dev-develop",
+            "version": "1.7.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "560de494daec257cf5127da7550cce25a2c20d22"
+                "reference": "3da0d0b3f6f0d7063e27716a506e9eea1aac82e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/560de494daec257cf5127da7550cce25a2c20d22",
-                "reference": "560de494daec257cf5127da7550cce25a2c20d22",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3da0d0b3f6f0d7063e27716a506e9eea1aac82e1",
+                "reference": "3da0d0b3f6f0d7063e27716a506e9eea1aac82e1",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-28 16:15:24"
+            "time": "2014-09-02 13:59:08"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -543,16 +543,16 @@
         },
         {
             "name": "dreamfactory/yii",
-            "version": "1.1.13.3",
+            "version": "1.1.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "dbf877d565ff08dc1d4d22cc6e4235a63e939080"
+                "reference": "649563fbb1e0a361c525bfab023c3ac2744c0611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/dbf877d565ff08dc1d4d22cc6e4235a63e939080",
-                "reference": "dbf877d565ff08dc1d4d22cc6e4235a63e939080",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/649563fbb1e0a361c525bfab023c3ac2744c0611",
+                "reference": "649563fbb1e0a361c525bfab023c3ac2744c0611",
                 "shasum": ""
             },
             "require": {
@@ -617,7 +617,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-08-11 00:12:50"
+            "time": "2014-08-29 15:57:29"
         },
         {
             "name": "guzzle/guzzle",
@@ -761,16 +761,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "dev-develop",
+            "version": "0.2.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "a6fcdadbb34eb7411d74a5cd4dd7ea93acc29856"
+                "reference": "3f832cb3874f6baaddc6f25ab1d9a9976fef1f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/a6fcdadbb34eb7411d74a5cd4dd7ea93acc29856",
-                "reference": "a6fcdadbb34eb7411d74a5cd4dd7ea93acc29856",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/3f832cb3874f6baaddc6f25ab1d9a9976fef1f8d",
+                "reference": "3f832cb3874f6baaddc6f25ab1d9a9976fef1f8d",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-08-26 18:37:24"
+            "time": "2014-08-26 18:37:18"
         },
         {
             "name": "monolog/monolog",
@@ -1541,8 +1541,8 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kisma/kisma": 20,
-        "dreamfactory/lib-php-common-platform": 20
+        "kisma/kisma": 0,
+        "dreamfactory/lib-php-common-platform": 0
     },
     "prefer-stable": false,
     "platform": {
