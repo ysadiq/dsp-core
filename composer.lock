@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e2b97e24cbf8720c7c5fa0a5ecdc06e6",
+    "hash": "8fcb6e81e6dcb9cbd6c275bd1b80f211",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.7.11",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "3da0d0b3f6f0d7063e27716a506e9eea1aac82e1"
+                "reference": "016f764e56fe7f8526c8037926fbca33a5ee357b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3da0d0b3f6f0d7063e27716a506e9eea1aac82e1",
-                "reference": "3da0d0b3f6f0d7063e27716a506e9eea1aac82e1",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/016f764e56fe7f8526c8037926fbca33a5ee357b",
+                "reference": "016f764e56fe7f8526c8037926fbca33a5ee357b",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-09-02 13:59:08"
+            "time": "2014-09-02 18:23:33"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1542,7 +1542,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
-        "dreamfactory/lib-php-common-platform": 0
+        "dreamfactory/lib-php-common-platform": 20
     },
     "prefer-stable": false,
     "platform": {
