@@ -50,19 +50,6 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
                             }
                         }],
 
-                        getAllScripts: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
-
-                            if (!SystemConfigDataService.getSystemConfig().is_hosted) {
-                                return $http({
-                                    method: 'GET',
-                                    url: DSP_URL + '/rest/system/script'
-                                });
-                            }else {
-                                return false;
-                            }
-
-                        }],
-
                         getSampleScripts: ['DSP_URL', '$http', 'SystemConfigDataService', function(DSP_URL, $http, SystemConfigDataService) {
 
                             if (!SystemConfigDataService.getSystemConfig().is_hosted) {
@@ -82,941 +69,928 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
     .run(['DSP_URL', '$http', function (DSP_URL, $http) {
 
     }])
-    .controller('ScriptingCtrl', ['DSP_URL', '$scope', '$http', 'getEventList', 'getAllScripts', 'getSampleScripts', 'dfLoadingScreen', 'SystemConfigDataService', function (DSP_URL, $scope, $http, getEventList, getAllScripts, getSampleScripts, dfLoadingScreen, SystemConfigDataService) {
-
-
-        $scope.isHostedSystem = SystemConfigDataService.getSystemConfig().is_hosted;
-
-        $scope.__getDataFromHttpResponse = function (httpResponseObj) {
-
-            if (!httpResponseObj) return [];
-
-            if (httpResponseObj.hasOwnProperty('data')) {
-
-                if (httpResponseObj.data.hasOwnProperty('record')) {
-
-                    return httpResponseObj.data.record;
-
-                }else if (httpResponseObj.data.hasOwnProperty('resource')) {
-
-                    return httpResponseObj.data.resource;
-
-                }else {
-
-                    //console.log("Take a look at the response.  Can't parse.")
-                    //console.log(httpResponseObj);
-                }
-            }else {
-
-                //console.log("No data prop in response");
-            }
-        };
-
-        dfLoadingScreen.stop();
-
-        // @TODO: Problem with parsing email.  Nothing returned at the momment.  Need to fix httpresp func to deal with that scenario.
-
-
-        // PUBLIC VARS
-        $scope.events = $scope.__getDataFromHttpResponse(getEventList);
-
-        $scope.allScripts = $scope.__getDataFromHttpResponse(getAllScripts);
-
-        $scope.sampleScripts = getSampleScripts.data;
-
-        $scope.serviceName = '/system/script';
-
-        $scope.currentEvent = '';
-
-        $scope.currentScript = '';
-        $scope.currentScriptPath = '';
-
-        $scope.eventList = [];
-
-        $scope.staticEventName = 'static';
-        $scope.preprocessEventName = "pre_process";
-        $scope.postprocessEventName = "post_process";
-
-        $scope.menuOpen = true;
-        $scope.menuEventPath = '';
-        $scope.menuLevel = 0;
-
-        $scope.breadcrumbs = [];
-
-        $scope.isClean = true;
-
-        $scope.pathFilter = '';
-
-        $scope.staticEventsOn = true;
-        $scope.preprocessEventsOn = true;
-        $scope.postprocessEventsOn = true;
-        $scope.uppercaseVerbs = false;
-        $scope.uppercaseVerbLabels = true;
-
-        // PUBLIC API
-        $scope.toggleMenu = function () {
-
-            $scope._toggleMenu();
-        };
-
-        $scope.setEvent = function (event) {
-
-            $scope._setEvent(event);
-        };
-
-        $scope.setEventPath = function (eventPath) {
-
-            $scope._setEventPath(eventPath);
-        };
-
-        $scope.setScript = function (path, event) {
-
-            $scope._setScript(path, event);
-        };
-
-        $scope.openRecent = function (scriptNameStr) {
-
-            $scope._openRecent(scriptNameStr);
-        }
-
-        $scope.menuBack = function () {
-
-            $scope._menuBack();
-        };
-
-        $scope.save = function () {
-
-            $scope._save();
-        };
-
-        $scope.delete = function () {
-
-            if ($scope._confirmDeleteScript()) {
-                $scope._delete();
-            }
-        };
-
-        $scope.loadSamples = function () {
-
-            $scope._loadSamples();
-        };
-
-
-        // PRIVATE API
-
-        $scope._setCurrentScriptPath = function(currentEventPathStr) {
-
-            $scope.currentScriptPath = currentEventPathStr;
-        };
-
-        $scope._setCurrentScript = function (scriptNameStr) {
-
-            $scope.currentScript = scriptNameStr;
-        };
-
-        $scope._getEventPathByName = function (eventPathNameStr) {
-
-
-            //console.log(eventPathNameStr);
-
-            var found = false,
-                i = 0;
-
-
-            while (!found && i < $scope.eventList.paths.length) {
-
-                if ($scope.eventList.paths[i].path === eventPathNameStr) {
-
-
-                    found = true;
-                    return $scope.eventList.paths[i];
-                }
-
-                i++;
-            }
-
-            return false;
-        }
-
-        $scope._getServiceFromServer = function (requestDataObj) {
-
-            return $http({
-                method: 'GET',
-                url: DSP_URL + '/rest/' + requestDataObj.event.name
-            })
-        };
-
-        $scope._stripLeadingSlash = function (path) {
-
-            if (path.path.substring(0,1) === '/') {
-                path.path = path.path.slice(1, path.path.length);
-
-            }
-        };
-
-        $scope._createEvents = function(event, associatedData) {
-
-            // returns an empty Path Object
-            function PathObj() {
+    .controller('ScriptingCtrl', ['DSP_URL', 'dfLoadingScreen', 'SystemConfigDataService', '$scope', '$http', 'getEventList', 'getSampleScripts',
+        function(DSP_URL, dfLoadingScreen, SystemConfigDataService, $scope, $http, getEventList, getSampleScripts) {
+
+            // Loosely defined script object for when a script is non-existent.
+            var ScriptObj = function (scriptId, isCustomScript, scriptLanguage, scriptData) {
 
                 return {
-                    path: null,
-                    verbs: []
+                    script_id: scriptId,
+                    is_user_script: isCustomScript || false,
+                    language: scriptLanguage || 'js',
+                    script_body: scriptData || '',
+                    __newScript: true
                 }
-            }
+            };
 
-            // returns an empty Verb Object
-            function VerbObj() {
+            // Stop main loading screen execution
+            dfLoadingScreen.stop();
 
-                return {
-                    event: [],
-                    type: null
-                };
-            }
+            $scope.__getDataFromHttpResponse = function (httpResponseObj) {
 
-            // builds a Verb Object
-            function buildVerbObj(eventName, pathRefName, verb, operation, includeVerbInFileName) {
+                if (!httpResponseObj) return [];
 
-                includeVerbInFileName = includeVerbInFileName || false;
+                if (httpResponseObj.hasOwnProperty('data')) {
 
+                    if (httpResponseObj.data.hasOwnProperty('record')) {
 
-                var nvo = new VerbObj(),
-                    eventString;
+                        return httpResponseObj.data.record;
 
-                eventString = eventName ? eventName + '.' : '';
-                eventString += pathRefName ? pathRefName + '.' : '';
-                eventString += includeVerbInFileName ? verb + '.' : '';
-                eventString += operation ? operation : '';
+                    }else if (httpResponseObj.data.hasOwnProperty('resource')) {
 
-                nvo.event.push(eventString);
-
-                nvo.type = verb;
-
-                return nvo;
-            }
-
-            // Are we dealing with a table
-            function isTable() {
-
-                return event.paths[1].path.indexOf("table_name") != '-1';
-            }
-
-            // Are we dealing with a container
-            function isContainer() {
-
-                return event.paths[1].path.indexOf("container") != '-1';
-            }
-
-            // change verbs to uppercase
-
-            if ($scope.uppercaseVerbs) {
-                angular.forEach(event.paths[0].verbs, function(verb) {
-                    verb.type = verb.type.toUpperCase();
-                });
-            }
-
-
-            // Is this a database service
-            if (isTable() || isContainer()) {
-
-                // place to store static events
-                var staticEvents;
-
-                // Loop through the associated data (tables returned from 'GET' on the service name)
-                angular.forEach(associatedData, function(pathRef) {
-
-                    // Set our staticEvents empty
-                    staticEvents = [];
-
-                    // Create a new empty Path Object
-                    var npo = new PathObj();
-
-                    // Set the path in the Path Obj
-                    npo.path = '/' + event.name + '/' + pathRef.name;
-
-                    // Store the verbs from the associated data. if !associatedData assign array.
-                    var verbs;
-                    if ($scope.uppercaseVerbs) {
-
-                        verbs = pathRef.access || ['GET', 'POST', 'PATCH', 'DELETE'];
+                        return httpResponseObj.data.resource;
 
                     }else {
 
-                        angular.forEach(pathRef.access, function (verb, index) {
-                            pathRef.access[index] = verb.toLowerCase();
-                        });
-
-                        verbs = pathRef.access || ['get', 'post', 'patch', 'delete'];
+                        return httpResponseObj.data;
                     }
+                }else {
+
+                }
+            };
+
+            $scope.isHostedSystem = SystemConfigDataService.getSystemConfig().is_hosted;
+
+            // Array containing data that describes the scripting types.
+            $scope.scriptTypes = [
+
+                {
+                    name: 'event-scripts',
+                    label: 'Event Scripts'
+                },
+                {
+                    name: 'custom-scripts',
+                    label: "Custom Scripts"
+                }
+            ];
+
+            // Sample Scripts
+            $scope.sampleScripts = new ScriptObj('sample-scripts', false, null, getSampleScripts.data);
+
+            // All these vars pertain to building of events dynamically on the client
+            $scope.events = $scope.__getDataFromHttpResponse(getEventList);
+            $scope.builtEventsList = {};
+            $scope.staticEventName = 'static';
+            $scope.preprocessEventName = "pre_process";
+            $scope.postprocessEventName = "post_process";
+            $scope.staticEventsOn = true;
+            $scope.preprocessEventsOn = true;
+            $scope.postprocessEventsOn = true;
+            $scope.uppercaseVerbs = false;
+            $scope.uppercaseVerbLabels = true;
+
+            // Keep track of what's going on in the module
+            $scope.currentScriptTypeObj = null;
+            $scope.currentEventObj = null;
+            $scope.currentPathObj = null;
+            $scope.currentScriptObj = null;
+
+            // Keep track of custom scripts
+            $scope.isCustomScript = false;
+            $scope.customScripts = [];
+
+            // Stuff for the editor
+            $scope.editor = null;
+            $scope.isEditorClean = true;
 
 
-                    // Loop through the verbs and create Verb Objects
-                    angular.forEach(verbs, function (verb, index) {
+            // PUBLIC API
+            $scope.setScriptType = function (typeObj) {
+
+                $scope._setScriptType(typeObj);
+            };
+
+            $scope.setEvent = function (eventObj) {
+
+                $scope._setEvent(eventObj);
+            };
+
+            $scope.setPathObj = function (pathObj) {
+
+                $scope._setPathObj(pathObj);
+            };
+
+            $scope.setScript = function (scriptIdStr) {
+
+                $scope._setScript(scriptIdStr);
+            };
+
+            $scope.saveScript = function () {
+
+                $scope._saveScript();
+            };
+
+            $scope.deleteScript = function () {
+
+                $scope._deleteScript();
+            };
+
+            $scope.loadSamples = function () {
+
+                $scope._loadSamples();
+            };
+
+
+
+            // PRIVATE API
+
+            // Dynamically create event names on the client because no one thought it
+            // would be a good idea to build that list on the server and send it on a GET /rest/script
+            $scope._createEvents = function(event, associatedData) {
+
+                // returns an empty Path Object
+                function PathObj() {
+
+                    return {
+                        path: null,
+                        verbs: []
+                    }
+                }
+
+                // returns an empty Verb Object
+                function VerbObj() {
+
+                    return {
+                        event: [],
+                        type: null
+                    };
+                }
+
+                // builds a Verb Object
+                function buildVerbObj(eventName, pathRefName, verb, operation, includeVerbInFileName) {
+
+                    includeVerbInFileName = includeVerbInFileName || false;
+
+
+                    var nvo = new VerbObj(),
+                        eventString;
+
+                    eventString = eventName ? eventName + '.' : '';
+                    eventString += pathRefName ? pathRefName + '.' : '';
+                    eventString += includeVerbInFileName ? verb + '.' : '';
+                    eventString += operation ? operation : '';
+
+                    nvo.event.push(eventString);
+
+                    nvo.type = verb;
+
+                    return nvo;
+                }
+
+                // Are we dealing with a table
+                function isTable() {
+
+                    return event.paths[1].path.indexOf("table_name") != '-1';
+                }
+
+                // Are we dealing with a container
+                function isContainer() {
+
+                    return event.paths[1].path.indexOf("container") != '-1';
+                }
+
+                // change verbs to uppercase
+
+                if ($scope.uppercaseVerbs) {
+                    angular.forEach(event.paths[0].verbs, function(verb) {
+                        verb.type = verb.type.toUpperCase();
+                    });
+                }
+
+
+                // Is this a database service
+                if (isTable() || isContainer()) {
+
+                    // place to store static events
+                    var staticEvents;
+
+                    // Loop through the associated data (tables returned from 'GET' on the service name)
+                    angular.forEach(associatedData, function(pathRef) {
+
+                        // Set our staticEvents empty
+                        staticEvents = [];
+
+                        // Create a new empty Path Object
+                        var npo = new PathObj();
+
+                        // Set the path in the Path Obj
+                        npo.path = '/' + event.name + '/' + pathRef.name;
+
+                        // Store the verbs from the associated data. if !associatedData assign array.
+                        var verbs;
+                        if ($scope.uppercaseVerbs) {
+
+                            verbs = pathRef.access || ['GET', 'POST', 'PATCH', 'DELETE'];
+
+                        }else {
+
+                            angular.forEach(pathRef.access, function (verb, index) {
+                                pathRef.access[index] = verb.toLowerCase();
+                            });
+
+                            verbs = pathRef.access || ['get', 'post', 'patch', 'delete'];
+                        }
+
+
+                        // Loop through the verbs and create Verb Objects
+                        angular.forEach(verbs, function (verb, index) {
+
+                            // Do we want static events
+                            if ($scope.staticEventsOn) {
+
+                                // What everb are we dealing with
+                                switch (verb) {
+
+                                    case "GET":
+                                    case "get":
+
+                                        // build Verb Object and store in static events
+                                        staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'select'));
+                                        break;
+
+                                    case "POST":
+                                    case "post":
+
+                                        // SAO
+                                        staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'insert'));
+                                        break;
+
+                                    case "PUT":
+                                    case "put":
+
+                                        // SAO
+                                        staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
+                                        break;
+
+                                    case "PATCH":
+                                    case "patch":
+                                        // SAO
+                                        staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
+                                        break;
+
+                                    case "MERGE":
+                                    case "merge":
+
+                                        // No support for a static merge event at this time
+                                        break;
+
+                                    case "DELETE":
+                                    case "delete":
+                                        // SAO
+                                        staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'delete'));
+                                        break;
+                                }
+                            }
+
+                            // Do we want pre-process events
+                            if ($scope.preprocessEventsOn) {
+
+                                // Yep.  Build Verb Object and store in our Path Object verbs array
+                                npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.preprocessEventName, true))
+                            }
+
+                            // Do we want post-process events
+                            if ($scope.postprocessEventsOn) {
+
+                                // Yep.  Build Verb Object and store in our Path Object verbs array
+                                npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.postprocessEventName, true))
+                            }
+
+                        });
 
                         // Do we want static events
                         if ($scope.staticEventsOn) {
 
-                            // What everb are we dealing with
-                            switch (verb) {
+                            // Yes.  Loop through the array
+                            // array reverse to get events in proper order
+                            angular.forEach(staticEvents.reverse(), function(event) {
 
-                                case "GET":
-                                case "get":
+                                // put events at the front of the verbs array in the Path Object
+                                npo.verbs.unshift(event);
+                            })
+                        }
 
-                                    // build Verb Object and store in static events
-                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'select'));
-                                    break;
+                        // push our Path Object back to our event
+                        event.paths.push(npo);
+                    });
 
-                                case "POST":
-                                case "post":
+                }
 
-                                    // SAO
-                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'insert'));
-                                    break;
+                else {
+                    angular.forEach(event.paths, function (pathRef) {
 
-                                case "PUT":
-                                case "put":
+                        var pathName = pathRef.path.split('/')[2];
 
-                                    // SAO
-                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
-                                    break;
+                        angular.forEach(pathRef.verbs, function (verb) {
 
-                                case "PATCH":
-                                case "patch":
-                                    // SAO
-                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'update'));
-                                    break;
+                            if ($scope.uppercaseVerbs) {
+                                verb.type = verb.type.toUpperCase();
+                            }
 
-                                case "MERGE":
-                                case "merge":
+                            // Do we want pre-process events
+                            if ($scope.preprocessEventsOn) {
 
-                                    // No support for a static merge event at this time
-                                    break;
+                                // Yep.  Build Verb Object and store in our Path Object verbs array
+                                pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.preprocessEventName, true))
+                            }
 
-                                case "DELETE":
-                                case "delete":
-                                    // SAO
-                                    staticEvents.push(buildVerbObj(event.name, pathRef.name, verb, 'delete'));
-                                    break;
+                            // Do we want post-process events
+                            if ($scope.postprocessEventsOn) {
+                                // Yep.  Build Verb Object and store in our Path Object verbs array
+                                pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.postprocessEventName, true))
+                            }
+                        });
+                    });
+                }
+            };
+
+            // Retrieves associated path(s) data for an event
+            $scope._getEventFromServer = function(requestDataObj) {
+
+
+                return $http({
+                    method: 'GET',
+                    url: DSP_URL + '/rest/' + requestDataObj.eventName,
+                    params: requestDataObj.params
+                })
+
+            };
+
+            // Retrieves script object from server
+            $scope._getScriptFromServer = function(requestDataObj) {
+
+                return $http({
+                    method: 'GET',
+                    url: DSP_URL + '/rest/system/script/' + requestDataObj.script_id,
+                    params: requestDataObj.params
+                })
+            };
+
+            // Save script object to server
+            $scope._saveScriptToServer = function(requestDataObj) {
+
+                return $http({
+                    method: 'PUT',
+                    url: DSP_URL + '/rest/system/script/' + requestDataObj.script_id,
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    params: requestDataObj.params,
+                    data: requestDataObj.data
+                })
+            };
+
+            // Delete a script from the server
+            $scope._deleteScriptFromServer = function(requestDataObj) {
+
+                return $http({
+                    method: 'DELETE',
+                    url: DSP_URL + '/rest/system/script/' + requestDataObj.script_id,
+                    params: requestDataObj.params
+                })
+            };
+
+            // Check for event paths with {variable} in their path property
+            $scope._isVariablePath = function (path) {
+
+                return path.path.indexOf("}") != "-1";
+            };
+
+            // Resets everything.  Stepping backwards through menuBack() to get all
+            // the checks.
+            $scope._resetAll = function () {
+
+                if ($scope.menuPathArr.length === 0) return false;
+
+                while($scope.menuPathArr.length !== 0) {
+                    $scope.menuBack();
+                }
+            };
+
+            // check for extension.  Just JS right now
+            $scope._checkExtension = function (idStr) {
+
+                if (idStr.substr(idStr.length -3, 3) === '.js') {
+                    return idStr.substr(0, idStr.length -3);
+                }
+
+                return idStr;
+            };
+
+
+
+
+            // COMPLEX IMPLEMENTATION
+
+            $scope._setScriptType = function (typeObj) {
+
+                $scope._resetAll();
+
+                if (typeObj.name === 'custom-scripts') {
+
+                    var requestDataObj = {
+                        script_id: '',
+                        params: {
+                            include_user_scripts: true,
+                            include_only_user_scripts: true
+                        }
+                    };
+
+                    $scope._getScriptFromServer(requestDataObj).then(
+
+                        function(result) {
+
+                            $scope.customScripts = $scope.__getDataFromHttpResponse(result);
+                            $scope.menuPathArr.push(typeObj.label);
+                            $scope.currentScriptTypeObj = typeObj;
+                            $scope.isCustomScript = true;
+                            $scope.pathFilter = '';
+
+                        },
+
+                        function(reject) {
+
+                            console.log(reject);
+                        }
+
+                    ).finally(
+                            function() {
+
+                                console.log('Get Scripts Custom finally')
+                            }
+                        )
+                }
+                else {
+
+                    $scope.menuPathArr.push(typeObj.label);
+                    $scope.currentScriptTypeObj = typeObj;
+                    $scope.pathFilter = '';
+
+                }
+            };
+
+            $scope._setEvent = function (eventObj) {
+
+
+                var requestDataObj = {
+                    eventName: eventObj.name
+                };
+
+                // Check if we have already retrieved and built this events list
+                if ($scope.builtEventsList.hasOwnProperty(eventObj.name) &&
+                    $scope.builtEventsList[eventObj.name] == true) {
+
+                    $scope.menuPathArr.push(eventObj.name);
+                    $scope.currentEventObj = eventObj;
+                    $scope.pathFilter = '';
+
+                    return false;
+                }
+
+
+                // Get the event from the server
+                $scope._getEventFromServer(requestDataObj).then(
+                    function(result) {
+
+                        $scope._createEvents(eventObj, $scope.__getDataFromHttpResponse(result));
+                        $scope.menuPathArr.push(eventObj.name);
+                        $scope.currentEventObj = eventObj;
+                        $scope.pathFilter = '';
+
+                        $scope.builtEventsList[eventObj.name] = true;
+
+                    },
+                    function(reject) {
+
+                        throw {
+                            module: 'DreamFactory Script Module',
+                            type: 'error',
+                            provider: 'dreamfactory',
+                            exception: reject
+                        }
+                    }
+                ).finally(
+                        function() {
+
+                            console.log('Get Event finally.')
+                        }
+                    )
+            };
+
+            $scope._setPathObj = function (pathObj) {
+
+                $scope.menuPathArr.push(pathObj.path);
+                $scope.currentPathObj = pathObj;
+                $scope.pathFilter = '';
+
+            };
+
+            $scope._setScript = function (scriptIdStr) {
+
+
+                var requestDataObj = {
+
+                    script_id: scriptIdStr,
+                    params: {
+                        is_user_script: $scope.isCustomScript,
+                        include_script_body: true
+                    }
+                };
+
+                $scope._getScriptFromServer(requestDataObj).then(
+                    function(result) {
+
+                        $scope.currentScriptObj = $scope.__getDataFromHttpResponse(result);
+                        $scope.menuPathArr.push(scriptIdStr);
+                    },
+
+                    function(reject) {
+
+                        $scope.currentScriptObj = new ScriptObj(scriptIdStr, $scope.isCustomScript, null, null);
+                        $scope.menuPathArr.push(scriptIdStr);
+                    }
+                ).finally(
+                        function() {
+                            console.log('get Script finally')
+                        }
+                    )
+            };
+
+            $scope._saveScript = function () {
+
+                if (!$scope.currentScriptObj.script_id) {
+                    alert('Please enter a script name.');
+                    return false;
+                }
+
+                var requestDataObj = {
+
+                    script_id: $scope._checkExtension($scope.currentScriptObj.script_id),
+                    params: {
+                        is_user_script: $scope.isCustomScript
+                    },
+                    data: {
+                        post_body: $scope.editor.getValue() || ' '
+                    }
+                };
+
+                $scope._saveScriptToServer(requestDataObj).then(
+                    function(result) {
+
+                        $scope.editor.session.getUndoManager().reset();
+                        $scope.editor.session.getUndoManager().markClean();
+                        $scope.isEditorClean = true;
+
+                        // Is this a new custom script
+                        if ($scope.currentScriptObj.__newScript) {
+                            $scope.customScripts.push($scope.__getDataFromHttpResponse(result));
+                        }
+
+                        // Needs to be replaced with angular messaging
+                        $(function(){
+                            new PNotify({
+                                title: 'Scripts',
+                                type:  'success',
+                                text:  'Script "' + $scope.currentScriptObj.script_id + '" saved successfully.'
+                            });
+                        });
+                    },
+
+                    function(reject) {
+
+                        throw {
+                            module: 'DreamFactory Script Module',
+                            type: 'error',
+                            provider: 'dreamfactory',
+                            exception: reject
+                        }
+                    }
+                ).finally(
+                        function() {
+
+                            console.log('Script Save finally function.')
+                        }
+                    )
+            };
+
+            $scope._deleteScript = function () {
+
+                var requestDataObj = {
+
+                    script_id: $scope.currentScriptObj.script_id,
+                    params: {
+                        is_user_script: $scope.isCustomScript
+                    }
+                };
+
+                $scope._deleteScriptFromServer(requestDataObj).then(
+                    function(result) {
+
+                        // Needs to be replaced with angular messaging
+                        $(function(){
+                            new PNotify({
+                                title: 'Scripts',
+                                type:  'success',
+                                text:  'Script "' + $scope.currentScriptObj.script_id + '" deleted successfully.'
+                            });
+                        });
+
+
+                        $scope.menuPathArr.pop();
+                        $scope.currentScriptObj = null;
+                        $scope.editor.session.getUndoManager().reset();
+                        $scope.editor.session.getUndoManager().markClean();
+
+                        if ($scope.isCustomScript) {
+
+                            var _result = $scope.__getDataFromHttpResponse(result);
+
+                            var found = false,
+                                i = 0;
+
+                            while(!found && i <= $scope.customScripts.length -1) {
+
+                                if ($scope.customScripts[i].script_id === _result.script_id) {
+                                    $scope.customScripts.splice(i, 1);
+                                    found = true;
+                                }
+
+                                i++;
                             }
                         }
+                    },
 
-                        // Do we want pre-process events
-                        if ($scope.preprocessEventsOn) {
+                    function(reject) {
 
-                            // Yep.  Build Verb Object and store in our Path Object verbs array
-                            npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.preprocessEventName, true))
+                        throw {
+                            module: 'DreamFactory Script Module',
+                            type: 'error',
+                            provider: 'dreamfactory',
+                            exception: reject
                         }
 
-                        // Do we want post-process events
-                        if ($scope.postprocessEventsOn) {
-
-                            // Yep.  Build Verb Object and store in our Path Object verbs array
-                            npo.verbs.push(buildVerbObj(event.name, pathRef.name, verb, $scope.postprocessEventName, true))
-                        }
-
-                    });
-
-                    // Do we want static events
-                    if ($scope.staticEventsOn) {
-
-                        // Yes.  Loop through the array
-                        // array reverse to get events in proper order
-                        angular.forEach(staticEvents.reverse(), function(event) {
-
-                            // put events at the front of the verbs array in the Path Object
-                            npo.verbs.unshift(event);
-                        })
                     }
+                ).finally(
+                        function() {
 
-                    // push our Path Object back to our event
-                    event.paths.push(npo);
-                });
-
-            }
-
-            else {
-                angular.forEach(event.paths, function (pathRef) {
-
-                    var pathName = pathRef.path.split('/')[2];
-
-                    angular.forEach(pathRef.verbs, function (verb) {
-
-                        if ($scope.uppercaseVerbs) {
-                            verb.type = verb.type.toUpperCase();
                         }
+                    )
 
-                        // Do we want pre-process events
-                        if ($scope.preprocessEventsOn) {
+            };
 
-                            // Yep.  Build Verb Object and store in our Path Object verbs array
-                            pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.preprocessEventName, true))
-                        }
+            $scope._loadSamples = function () {
 
-                        // Do we want post-process events
-                        if ($scope.postprocessEventsOn) {
-                            // Yep.  Build Verb Object and store in our Path Object verbs array
-                            pathRef.verbs.push(buildVerbObj(event.name, pathName, verb.type, $scope.postprocessEventName, true))
-                        }
-                    });
-                });
-            }
-        };
-
-        $scope._confirmCloseScript = function () {
-
-            return confirm('Save script before closing?');
-        };
-
-        $scope._confirmDeleteScript = function () {
-
-            return confirm("Delete script?");
-        }
-
-        $scope._closeScript = function () {
-
-            if (!$scope.isClean) {
-                if ($scope._confirmCloseScript()) {
-                    $scope.save();
-                }
-            }
-        };
-
-        $scope._getEventByName = function (event) {
-
-            var eventFound = false,
-                i = 0;
-
-            while(!eventFound && i < $scope.events.length) {
-
-                // $scope.events[i] becomes undefined inside of our .then()
-                // So we'll store it here
-
-                if ($scope.events[i].name === event ) {
-
-                    eventFound = true;
-
-
-                    return $scope.events[i];
-
-                }
-                i++
-            }
-
-            return false;
-        };
-
-
-        // Menu Control
-        $scope._setMenuToggle = function (stateBool) {
-
-            $scope.menuOpen = stateBool;
-        };
-
-        $scope._toggleMenuState = function () {
-
-            $scope.menuOpen = !$scope.menuOpen;
-        };
-
-        $scope._setCurrentEvent = function (event) {
-
-            $scope.currentEvent = event;
-        };
-
-        $scope._setCurrentEventPath = function (eventPath) {
-
-            $scope.menuEventPath = eventPath;
-        };
-
-        $scope._incrementMenuLevel = function () {
-
-            $scope.menuLevel++;
-        };
-
-        $scope._decrementMenuLevel = function () {
-
-            $scope.menuLevel--;
-        };
-
-        $scope._setMenuLevel = function (levelInt) {
-
-            $scope.menuLevel = levelInt;
-        };
-
-        $scope._jumpToMenu = function (index) {
-
-
-            index = index || null;
-
-            switch($scope.menuLevel) {
-
-                case 0:
-                    $scope._setCurrentEventPath('');
-                    $scope._setCurrentScript('');
-
-                    if (index) {
-                        $scope._bcRemovePaths(index);
-                    }else {
-                        $scope._bcRemovePath();
-                    }
-
-                    $scope._clearFilter();
-                    break;
-
-                case 1:
-                    $scope._setCurrentEventPath('');
-                    $scope._setCurrentScript('');
-
-                    if (index) {
-                        $scope._bcRemovePaths(index);
-                    }else {
-                        $scope._bcRemovePath();
-                    }
-
-                    $scope._clearFilter();
-                    break;
-
-                case 2:
-                    $scope._closeScript();
-                    $scope._setCurrentScript('');
-                    $scope._bcRemovePath();
-                    $scope._clearFilter();
-                    break;
-
-                default:
-            }
-        };
-
-        /*$scope._parseScriptPathFromName = function (_nameStr) {
-
-             var pathObj = {
-             event: null,
-             eventType: null,
-             eventPath: null,
-             scriptName: null
-             };
-
-
-             var path;
-
-             path = _nameStr.split('.'); // Make array from string
-             path.pop(); // Remove script suffix
-
-             // build path obj
-             switch (path.length) {
-
-
-             case 0:
-             case 1:
-             break;
-             case 2:
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-             pathObj.eventPath = path[0];
-
-             break;
-
-             case 3:
-
-             switch(path[0]) {
-
-             case 'user':
-
-             switch(path[1]) {
-
-
-             case 'settings':
-
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-             pathObj.eventPath = path[0] + '/custom';
-             break;
-
-             case 'devices':
-
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-
-             // REMOVE 'S' at end.
-             var pathSansS = path[1].slice(0, -1);
-             pathObj.eventPath = path[0] + '/' + pathSansS;
-
-             break;
-
-
-             default:
-             console.log('default user case')
-
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-             pathObj.eventPath = path[0] + '/' + path[1];
-
-             }
-             break;
-
-
-             case 'system':
-
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-
-             // REMOVE 'S' at end.
-             var pathSansS = path[1].slice(0, -1);
-
-             pathObj.eventPath = path[0] + '/' + pathSansS;
-
-             break;
-
-
-             case 'files':
-
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-             pathObj.eventPath = path[0]
-             break;
-
-             default:
-             pathObj.event = path[0];
-             pathObj.eventType = $scope.staticEventName;
-             pathObj.eventPath = path[0] + '/' + path[1];
-             }
-
-             break;
-
-             case 4:
-
-             pathObj.event = path[0];
-             pathObj.eventType = path[3];
-             pathObj.eventPath = path[1];
-             break;
-
-             }
-
-
-             // Add script name
-             pathObj.scriptName = path.join('.');
-
-             console.log(pathObj);
-
-             return pathObj;
-        };*/
-
-
-        // Breadcrumbs
-        $scope._bcAddPath = function (bcPathStr) {
-
-            $scope.breadcrumbs.push(bcPathStr);
-        };
-
-        $scope._bcRemovePath = function () {
-
-            $scope.breadcrumbs.pop();
-        };
-
-        $scope._bcRemovePaths = function (index) {
-
-            $scope.breadcrumbs.splice(index, $scope.breadcrumbs.length - index);
-        };
-
-        $scope._bcReplaceLastPath = function(newPathStr) {
-
-            $scope.breadcrumbs[$scope.breadcrumbs.length - 1] = newPathStr;
-        };
-
-        $scope._bcJumpTo = function (index) {
-
-            $scope._closeScript();
-            $scope._setMenuToggle(true);
-            $scope._setMenuLevel(index + 1);
-            $scope._jumpToMenu(index + 1);
-        };
-
-
-        // Event Sorting
-        $scope._isStaticEvent = function (verb) {
-
-            if(verb.event[0].substr(verb.event[0].length - $scope.preprocessEventName.length, $scope.preprocessEventName.length) === $scope.preprocessEventName
-                || verb.event[0].substr(verb.event[0].length - $scope.postprocessEventName.length, $scope.postprocessEventName.length) === $scope.postprocessEventName){
+                $scope._resetAll();
+                $scope.currentScriptTypeObj = {name: 'sample-scripts', label: 'Sample Scripts'};
+                $scope.currentScriptObj = $scope.sampleScripts;
+                $scope.menuPathArr.push('Sample Scripts');
 
                 return false;
-            }
+            };
 
-            return true;
-        };
+    }])
+    .directive('scriptSidebarMenu', ['MODSCRIPTING_ASSET_PATH', function(MODSCRIPTING_ASSET_PATH) {
 
-        $scope._isPreprocessEvent = function (verb) {
+        return {
 
-            if(verb.event[0].substr(verb.event[0].length - $scope.preprocessEventName.length, $scope.preprocessEventName.length) === $scope.preprocessEventName) {
-                return true;
-            }
-
-            return false;
-        };
-
-        $scope._isPostprocessEvent = function (verb) {
-
-            if (verb.event[0].substr(verb.event[0].length - $scope.postprocessEventName.length, $scope.postprocessEventName.length) === $scope.postprocessEventName) {
-
-                return true;
-            }
-
-            return false;
-        };
-
-        $scope._isVariablePath = function (path) {
-
-            if (path.path.indexOf("}") != "-1") {
-
-                return true;
-            }
-
-            return false;
-        }
-
-        $scope._hasStaticEvent = function (path) {
-
-            var hasStaticEvent = false,
-                i = 0;
-
-            while (!hasStaticEvent && i < path.verbs.length ) {
-
-                if ($scope._isStaticEvent(path.verbs[i])) {
-
-                    hasStaticEvent = true;
-                }
-
-                i++;
-            }
-
-            return hasStaticEvent;
-        };
-
-        $scope._hasPreprocessEvent = function (path) {
-
-            var hasPreprocessEvent = false,
-                i = path.verbs.length - 1;
-
-            while (!hasPreprocessEvent && i >= 0) {
-
-                if ($scope._isPreprocessEvent(path.verbs[i])) {
-
-                    hasPreprocessEvent = true;
-                }
-
-                i--
-            }
-
-            return hasPreprocessEvent;
-        };
-
-        $scope._hasPostprocessEvent = function (path) {
-
-            var hasPostprocessEvent = false,
-                i = path.verbs.length - 1;
+            restrict: 'E',
+            scope: false,
+            templateUrl: MODSCRIPTING_ASSET_PATH + 'views/script-sidebar-menu.html',
+            link: function(scope, elem, attrs) {
 
 
-            while (!hasPostprocessEvent && i >= 0) {
+                scope.menuOpen = true;
+                scope.menuPathArr = [];
 
-                if ($scope._isPostprocessEvent(path.verbs[i])) {
-
-                    hasPostprocessEvent = true;
-
-                }
-
-                i--
-            }
-
-            return hasPostprocessEvent;
-        };
+                scope.pathFilter = '';
 
 
-        // Filtering
-        $scope._clearFilter = function () {
+                // PUBLIC API
+                scope.toggleMenu = function () {
 
-            $scope.pathFilter = '';
-        };
-
-        // Reset all
-        $scope._resetAll = function () {
-
-            $scope._closeScript();
-            $scope.menuLevel = 0;
-            $scope.breadcrumbs = [];
-            $scope.eventList = [];
-            $scope._setCurrentEventPath('');
-            $scope._setCurrentScript('');
-        };
-
-
-
-        // COMPLEX IMPLEMENTATION
-        $scope._toggleMenu = function() {
-
-            $scope._toggleMenuState();
-        };
-
-        $scope._setEvent = function (event) {
-
-            if ($scope.currentScript === 'samples') {
-                $scope._resetAll();
-            }
-
-            if ($scope.currentEvent.name !== event.name) {
-
-                var requestDataObj = {
-
-                    event: event
+                    scope._toggleMenu();
                 };
 
-                $scope._getServiceFromServer(requestDataObj).then(
-                    function (result) {
+                scope.menuBack = function() {
 
-                        var records = $scope.__getDataFromHttpResponse(result);
+                    // Check if we have chnaged the script
+                    if (!scope.isEditorClean) {
 
-                        if (records) {
-                            $scope._createEvents(event, records);
-                            $scope._setCurrentEvent(event);
-                            $scope.eventList = event;
-                            $scope._bcAddPath(event.name);
-                            $scope._clearFilter();
-                            $scope._incrementMenuLevel();
-                        }
-                    },
-                    function (reject) {
+                        // Script has been changed.  Confirm close.
+                        if (!scope._confirmCloseScript()) {
 
-                        throw {
-                            module: 'DreamFactory Scripting Module',
-                            type: 'error',
-                            provider: 'dreamfactory',
-                            exception: reject
+                            return false;
+                        }else {
+                            scope.editor.session.getUndoManager().reset();
+                            scope.editor.session.getUndoManager().markClean();
+                            scope.isEditorClean = true;
                         }
                     }
-                );
-            }else {
 
-                $scope._setCurrentEvent(event);
-                $scope.eventList = event;
-                $scope._bcAddPath(event.name);
-                $scope._clearFilter();
-                $scope._incrementMenuLevel();
-
-            }
-
-        };
-
-        $scope._setEventPath = function (eventPath) {
-
-            $scope._setCurrentEventPath(eventPath);
-            $scope._bcAddPath(eventPath.path);
-            $scope._clearFilter();
-            $scope._incrementMenuLevel();
-
-        };
-
-        $scope._setScript = function (currentEventPathStr, currentScriptStr) {
-
-            if (!$scope.currentScript || $scope.currentScript === 'samples') {
-
-                $scope._bcAddPath(currentScriptStr);
-                $scope._incrementMenuLevel();
-            }else {
-
-                if ($scope.isClean) {
-
-                    $scope._bcReplaceLastPath(currentScriptStr);
-
-                }else {
-                    $scope._closeScript()
-                    $scope._bcReplaceLastPath(currentScriptStr);
-                }
-            }
-
-            $scope._setCurrentScript(currentScriptStr);
-            $scope._setCurrentScriptPath(currentEventPathStr);
-
-        };
-
-        $scope._menuBack = function () {
-
-            if ($scope.menuLevel === 0) return false;
-
-            $scope._decrementMenuLevel();
-            $scope._jumpToMenu();
-        };
-
-        $scope._save = function () {
-
-            $scope.$broadcast('save:script');
-        };
-
-        $scope._delete = function () {
-
-            $scope.$broadcast('delete:script');
-        };
-
-        $scope._loadSamples = function () {
-
-            $scope._resetAll();
-            $scope._setCurrentScript('samples');
-            $scope._bcAddPath('Sample Scripts');
-            $scope.$broadcast('load:direct', $scope.sampleScripts);
-        }
-
-       /* $scope._openRecent = function (scriptNameStr) {
-
-            var pathObj = $scope._parseScriptPathFromName(scriptNameStr);
-            var event =  $scope._getEventByName(pathObj.event)
-
-            if ($scope.currentEvent.name !== event.name) {
-
-                var requestDataObj = {
-
-                    event: event
+                    scope._menuBack();
                 };
 
-                $scope._getServiceFromServer(requestDataObj).then(
-                    function (result) {
+                scope.jumpTo = function(index) {
 
-                        var records = $scope.__getDataFromHttpResponse(result);
+                    scope._jumpTo(index);
+                };
 
-                        if (records) {
-                            $scope._createEvents(event, records);
-                            $scope._setCurrentEvent(event);
-                            $scope.eventList = event;
-                            $scope._bcAddPath(event.name);
-                            $scope._clearFilter();
-                            $scope._incrementMenuLevel();
-                            $scope._setEventPath($scope._getEventPathByName(pathObj.eventPath));
-                            $scope._setScript('', pathObj.scriptName);
-                        }
-                    },
-                    function (reject) {
 
-                        throw {
-                            module: 'DreamFactory System Config Module',
-                            type: 'error',
-                            provider: 'dreamfactory',
-                            exception: reject
-                        }
+                // PRIVATE API
+
+                // Confirm close with unsaved changes.
+                scope._confirmCloseScript = function () {
+
+                    return confirm('You have unsaved changes.  Close anyway?');
+                };
+
+
+                // COMPLEX IMPLEMENTATION
+                scope._menuBack = function () {
+
+                    // Do we have a script type.  If not stop.
+                    if (!scope.currentScriptTypeObj) return false;
+
+
+                    switch(scope.currentScriptTypeObj.name) {
+
+                        case 'event-scripts':
+
+                            switch(scope.menuPathArr.length) {
+
+                                case 0:
+                                    break;
+
+                                case 1:
+
+                                    scope.menuPathArr.pop();
+                                    scope.currentScriptTypeObj = null;
+                                    scope.pathFilter = '';
+
+                                    break;
+
+                                case 2:
+
+                                    scope.menuPathArr.pop();
+                                    scope.currentEventObj = null;
+                                    scope.pathFilter = '';
+
+                                    break
+
+                                case 3:
+
+                                    scope.menuPathArr.pop();
+                                    scope.currentPathObj = null;
+                                    scope.pathFilter = '';
+
+                                    break;
+
+                                case 4:
+
+                                    scope.menuPathArr.pop();
+                                    scope.currentScriptObj = null;
+                            }
+                            break;
+
+
+                        case 'custom-scripts':
+
+
+                            switch(scope.menuPathArr.length) {
+
+                                case 0:
+                                    break;
+
+                                case 1:
+
+                                    scope.menuPathArr.pop();
+                                    scope.currentScriptTypeObj = null;
+                                    scope.isCustomScript = false;
+                                    scope.pathFilter = '';
+
+                                    break;
+
+                                case 2:
+
+                                    scope.menuPathArr.pop();
+                                    scope.currentScriptObj = null;
+                                    break;
+                            }
+                            break;
+
+                        case 'sample-scripts':
+
+                            scope.menuPathArr.pop();
+                            scope.currentScriptObj = null;
+                            scope.currentPathObj = null;
+                            scope.currentEventObj = null;
+                            scope.currentScriptTypeObj = null;
+                            scope.isCustomScript = false;
+
+                            break;
+
+                        default:
 
                     }
-                );
-            }else {
+                };
 
-                $scope._setCurrentEvent(event);
-                $scope.eventList = event;
-                $scope._bcAddPath(event.name);
-                $scope._clearFilter();
-                $scope._incrementMenuLevel();
-                $scope._setEventPath($scope._getEventPathByName(pathObj.eventPath));
-                $scope._setScript('', pathObj.scriptName);
+                scope._jumpTo = function (index) {
+
+                    while(scope.menuPathArr.length - 1 !== index) {
+                        scope.menuBack();
+                    }
+                };
+
+                scope._toggleMenu = function () {
+
+                    scope.menuOpen = !scope.menuOpen;
+                }
             }
-        };*/
+        }
+    }])
+    .directive('dfAceEditorScripting', ['DSP_URL', 'DF_UTILITY_ASSET_PATH', '$http', function (DSP_URL, DF_UTILITY_ASSET_PATH, $http) {
 
+        return {
+            restrict: 'E',
+            scope: {
+                currentEditObj: '=?',
+                isClean: '=?',
+                editor: '=?'
+            },
+            templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-ace-editor.html',
+            link: function (scope, elem, attrs) {
 
-        // WATCHERS AND INIT
+                scope.backupDoc = '';
 
+                // PRIVATE API
+                scope._setEditorInactive = function (stateBool) {
 
-        // MESSAGES
-        $scope.$on('$destroy', function (e) {});
+                    if (stateBool) {
 
+                        scope.editor.setOptions({
+                            readOnly: true,
+                            highlightActiveLine: false,
+                            highlightGutterLine: false
+                        })
+                        scope.editor.renderer.$cursorLayer.element.style.opacity=0;
+                    }else {
+                        scope.editor.setOptions({
+                            readOnly: false,
+                            highlightActiveLine: true,
+                            highlightGutterLine: true
+                        })
+                        scope.editor.renderer.$cursorLayer.element.style.opacity=100;
+                    }
+                };
+
+                scope._loadEditor = function (contents, mode, inactive) {
+
+                    inactive = inactive || false;
+
+                    scope.editor = ace.edit('ide');
+
+                    //scope.editor.setTheme("ace/theme/twilight");
+
+                    if(mode){
+                        scope.editor.session.setMode("ace/mode/json");
+                    }else{
+                        scope.editor.session.setMode("ace/mode/javascript");
+                    }
+
+                    scope.backupDoc = angular.copy(contents);
+
+                    scope._setEditorInactive(inactive);
+
+                    scope.editor.session.setValue(contents);
+
+                    scope.editor.focus();
+
+                    scope.editor.on('input', function() {
+                        scope.$apply(function() {
+                            scope.isClean = scope.editor.session.getUndoManager().isClean();
+                        });
+                    });
+                };
+
+                // WATCHERS AND INIT
+                var watchCurrentEditObj = scope.$watch('currentEditObj', function (newValue, oldValue) {
+
+                    if (newValue === 'samples') return false;
+
+                    if (!newValue === null || newValue === undefined) {
+                        scope._loadEditor('', false, true);
+                        return false;
+                    }
+
+                    scope._loadEditor (newValue, false, false);
+                });
+
+                scope.$on('$destroy', function(e) {
+
+                    watchCurrentEditObj();
+                });
+
+            }
+        }
     }]);

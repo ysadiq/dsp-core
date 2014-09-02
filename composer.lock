@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b8f40ba30d4a324774564132c4d48ab",
+    "hash": "e2b97e24cbf8720c7c5fa0a5ecdc06e6",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -350,16 +350,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.7.10",
+            "version": "1.7.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "ff8645014ed10b441a5780e7ca115ac6094a1aaa"
+                "reference": "3da0d0b3f6f0d7063e27716a506e9eea1aac82e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/ff8645014ed10b441a5780e7ca115ac6094a1aaa",
-                "reference": "ff8645014ed10b441a5780e7ca115ac6094a1aaa",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3da0d0b3f6f0d7063e27716a506e9eea1aac82e1",
+                "reference": "3da0d0b3f6f0d7063e27716a506e9eea1aac82e1",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-08-27 02:21:34"
+            "time": "2014-09-02 13:59:08"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "cc811df90038bf15925db64e20c2f28ec6c027dd"
+                "reference": "2efb82d890ff9f2047c806c9a265f112bd0f8eb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/cc811df90038bf15925db64e20c2f28ec6c027dd",
-                "reference": "cc811df90038bf15925db64e20c2f28ec6c027dd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/2efb82d890ff9f2047c806c9a265f112bd0f8eb3",
+                "reference": "2efb82d890ff9f2047c806c9a265f112bd0f8eb3",
                 "shasum": ""
             },
             "require": {
@@ -490,7 +490,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-08-14 16:46:18"
+            "time": "2014-08-28 18:39:47"
         },
         {
             "name": "dreamfactory/oasys",
@@ -543,16 +543,16 @@
         },
         {
             "name": "dreamfactory/yii",
-            "version": "1.1.13.3",
+            "version": "1.1.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "dbf877d565ff08dc1d4d22cc6e4235a63e939080"
+                "reference": "649563fbb1e0a361c525bfab023c3ac2744c0611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/dbf877d565ff08dc1d4d22cc6e4235a63e939080",
-                "reference": "dbf877d565ff08dc1d4d22cc6e4235a63e939080",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/649563fbb1e0a361c525bfab023c3ac2744c0611",
+                "reference": "649563fbb1e0a361c525bfab023c3ac2744c0611",
                 "shasum": ""
             },
             "require": {
@@ -617,7 +617,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-08-11 00:12:50"
+            "time": "2014-08-29 15:57:29"
         },
         {
             "name": "guzzle/guzzle",
@@ -1546,7 +1546,7 @@
     },
     "prefer-stable": false,
     "platform": {
-        "php": ">=5.3.18"
+        "php": ">=5.3.18,<5.6"
     },
     "platform-dev": [
 

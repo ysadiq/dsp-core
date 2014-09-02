@@ -145,7 +145,7 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                 return $http({
                     method: 'GET',
-                    url: DSP_URL + '/rest/' + requestDataObj.serviceApiName,
+                    url: DSP_URL + '/rest/' + requestDataObj.serviceApiName
                 })
             };
 
@@ -189,7 +189,9 @@ angular.module('dfImportApp', ['ngRoute', 'dfUtility'])
 
                     function(result) {
 
+
                         $scope.$broadcast('success:request', 'App imported successfully.');
+                        window.top.Actions.updateSession("update");
 
                     },
                     function(reject) {

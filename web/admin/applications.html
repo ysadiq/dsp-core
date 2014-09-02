@@ -161,10 +161,8 @@
 
 					<div ng-show="app.is_url_external==0" class="alert alert-success local">
 						<li class="fa fa-cloud"></li>
-						&nbsp;Your URL will be: {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}
-						<span>{{app.url}}</span>
+						&nbsp;Your URL will be: {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}<span>{{app.url}}</span>
 					</div>
-
 				</div>
 				<div ng-hide="app.is_url_external != 0">
 					<i class="fa fa-expand"></i> <b>Full Screen Options</b><br /><br />

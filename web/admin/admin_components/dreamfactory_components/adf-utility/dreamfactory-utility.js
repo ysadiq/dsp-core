@@ -310,14 +310,16 @@ angular.module('dfUtility', [])
                 serviceName: '=?',
                 fileName: '=?',
                 filePath: '=?',
+                isUserCustom: '=?',
                 isClean: '=?',
-                isEditable: '=?'
+                isEditable: '=?',
+                currentScriptObj: '=?'
             },
             templateUrl: DF_UTILITY_ASSET_PATH + 'views/df-ace-editor.html',
             link: function (scope, elem, attrs) {
 
                 scope.editor = null;
-                scope.currentScriptObj = '';
+                // scope.currentScriptObj = '';
                 scope.backupDoc = '';
 
                 // PRIVATE API
@@ -326,7 +328,8 @@ angular.module('dfUtility', [])
                     return $http({
                         method: 'GET',
                         url: DSP_URL + '/rest' + requestDataObj.serviceName + '/' + requestDataObj.fileName,
-                        cache: false
+                        cache: false,
+                        params: requestDataObj.params
                     })
                 };
 
@@ -340,7 +343,8 @@ angular.module('dfUtility', [])
                         },
                         data: {
                             post_body: requestDataObj.body
-                        }
+                        },
+                        params: requestDataObj.params
                     })
                 };
 
@@ -350,9 +354,7 @@ angular.module('dfUtility', [])
 
                         method: 'DELETE',
                         url: DSP_URL + '/rest' + requestDataObj.serviceName + '/' + requestDataObj.fileName,
-                        params: {
-                            script_id:requestDataObj.scriptId
-                        }
+                        params: requestDataObj.params
                     })
                 };
 
@@ -422,13 +424,25 @@ angular.module('dfUtility', [])
 
                     var requestDataObj = {
                         serviceName: scope.serviceName,
-                        fileName: newValue
+                        fileName: newValue,
+                        params: {
+                            // is_user_script: scope.isUserCustom,
+                            include_script_body: true
+                        }
                     };
+
+                    // Fix because GET api is busted
+                    if (scope.isUserCustom) {
+
+                        requestDataObj.params['is_user_script'] = true;
+                    }
+
 
                     scope._getFileFromServer(requestDataObj).then(
                         function(result) {
 
-                            scope.currentScript = result.data;
+                            // scope.currentScript = result.data;
+                            scope.currentScriptObj = result.data;
                             scope._loadEditor(result.data.script_body, false);
                         },
                         function(reject) {
@@ -463,12 +477,15 @@ angular.module('dfUtility', [])
                     watchDirectData();
                 });
 
-                scope.$on('save:script', function(e) {
+                scope.$on('save:script', function(e, fileName) {
 
                     var requestDataObj = {
                         serviceName: scope.serviceName,
-                        fileName: scope.fileName,
-                        body:  scope.editor.getValue() || " "
+                        fileName: fileName || scope.fileName,
+                        body:  scope.editor.getValue() || " ",
+                        params: {
+                            is_user_script: scope.isUserCustom
+                        }
                     };
 
                     scope._saveFileOnServer(requestDataObj).then(
@@ -502,7 +519,10 @@ angular.module('dfUtility', [])
                     var requestDataObj = {
                         serviceName: scope.serviceName,
                         fileName: scope.fileName,
-                        scriptId:  scope.currentScriptObj.script_id
+                        scriptId:  scope.currentScriptObj.script_id,
+                        params: {
+                            is_user_script: scope.isUserCustom
+                        }
                     };
 
                     scope._deleteFileOnServer(requestDataObj).then(
