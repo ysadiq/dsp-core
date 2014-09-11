@@ -167,10 +167,13 @@ unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey
 return array_merge(
     $_instanceSettings,
     array(
-        //-------------------------------------------------------------------------
-        // General Application Settings
-        //-------------------------------------------------------------------------
-
+        //******************************************************************************
+        //* Platform-wide Settings
+        //******************************************************************************
+        'platform.timestamp_format'     => 'Y-m-d H:i:s',
+        //******************************************************************************
+        //* DSP and Application General Settings
+        //******************************************************************************
         /** App Information */
         'base_path'                     => $_basePath,
         /** DSP Information */
