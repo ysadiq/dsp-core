@@ -156,7 +156,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     }
     $scope.updateJSONSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , editor.getValue()).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema?return_schema=true" , editor.getValue()).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -167,7 +167,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         })
     }
     $scope.updateSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , {table:$scope.table.schema.data}).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema?return_schema=true" , {table:$scope.table.schema.data}).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -178,7 +178,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         })
     }
     $scope.postJSONSchema = function(){
-        $http.post(CurrentServer + "/rest/" + $scope.service + "/_schema", editor.getValue()).then(function(response){
+        $http.post(CurrentServer + "/rest/" + $scope.service + "/_schema?return_schema=true", editor.getValue()).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -201,7 +201,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                 }
             ]
         };
-        $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema" , {table:requestObject}).then(function(response){
+        $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema?return_schema=true" , {table:requestObject}).then(function(response){
             //$scope.loadServices();
             $scope.currentTable = name;
             $scope.currentTables.unshift(name);
