@@ -1,0 +1,19 @@
+<?php
+
+$url      = parse_url(getenv('CLEARDB_DATABASE_URL'));
+$server   = $url['host'];
+$username = $url['user'];
+$password = $url['pass'];
+$port     = $url['port'];
+$db       = substr($url["path"],1);
+
+return array(
+	'connectionString'      => "mysql:host=$server;port=$port;dbname=$db",
+	'username'              => $username,
+	'password'              => $password,
+	'emulatePrepare'        => true,
+	'charset'               => 'utf8',
+	'enableProfiling'       => defined( 'YII_DEBUG' ),
+	'enableParamLogging'    => defined( 'YII_DEBUG' ),
+	'schemaCachingDuration' => 3600,
+);
