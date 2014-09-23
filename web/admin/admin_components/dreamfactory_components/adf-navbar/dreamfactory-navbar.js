@@ -88,6 +88,13 @@ angular.module('dfNavBar', ['ngRoute', 'dfUtility'])
                 icon: 'fa fa-table'
             },
             {
+                name: 'files',
+                label: 'Files',
+                active: true,
+                url: '/file',
+                icon: 'fa fa-folder'
+            },
+            {
                 name: 'api-sdk',
                 label: 'API Docs',
                 active: true,
