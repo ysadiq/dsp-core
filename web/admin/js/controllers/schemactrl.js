@@ -186,7 +186,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                     type: 'success'
                 });
             });
-            $scope.loadServices();
+            $scope.loadServices(true);
 
         })
     }
