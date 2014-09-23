@@ -57,7 +57,6 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                 //console.log( $scope.dbServices[$scope.service]);
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
-
                     $scope.dbServices[$scope.service_index].tables.push(table);
                     $scope.currentTables.push(table.name);
                 })
@@ -213,14 +212,13 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     }
 
     $scope.dropTable = function(){
-        var table = this;
+        var table_index = this.$index;
         if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
             return;
         }
         $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/_schema/" + this.table.name)
             .then(function(response){
-                $scope.service_index = table.service_index;
-                $scope.loadServices(true);
+                $scope.dbServices[$scope.service_index].tables.splice(table_index , 1);
                 $scope.table = {};
             })
     }
