@@ -213,12 +213,14 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     $scope.dropTable = function(){
         var table_index = this.$index;
+        var service_index = this.service.service_index;
+
         if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
             return;
         }
         $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/_schema/" + this.table.name)
-            .then(function(response){
-                $scope.dbServices[$scope.service_index].tables.splice(table_index , 1);
+            .then(function(){
+                $scope.dbServices[service_index].tables.splice(table_index , 1);
                 $scope.table = {};
             })
     }
