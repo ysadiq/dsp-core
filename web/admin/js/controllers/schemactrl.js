@@ -57,7 +57,6 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                 //console.log( $scope.dbServices[$scope.service]);
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
-
                     $scope.dbServices[$scope.service_index].tables.push(table);
                     $scope.currentTables.push(table.name);
                 })
@@ -156,7 +155,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     }
     $scope.updateJSONSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , editor.getValue()).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema?return_schema=true" , editor.getValue()).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -167,7 +166,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         })
     }
     $scope.updateSchema = function(){
-        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema" , {table:$scope.table.schema.data}).then(function(response){
+        $http.put(CurrentServer + "/rest/" + $scope.service + "/_schema?return_schema=true" , {table:$scope.table.schema.data}).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -178,7 +177,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         })
     }
     $scope.postJSONSchema = function(){
-        $http.post(CurrentServer + "/rest/" + $scope.service + "/_schema", editor.getValue()).then(function(response){
+        $http.post(CurrentServer + "/rest/" + $scope.service + "/_schema?return_schema=true", editor.getValue()).then(function(response){
             $(function(){
                 new PNotify({
                     title: 'Schema',
@@ -186,7 +185,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                     type: 'success'
                 });
             });
-            $scope.loadServices();
+            $scope.loadServices(true);
 
         })
     }
@@ -201,7 +200,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                 }
             ]
         };
-        $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema" , {table:requestObject}).then(function(response){
+        $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema?return_schema=true" , {table:requestObject}).then(function(response){
             //$scope.loadServices();
             $scope.currentTable = name;
             $scope.currentTables.unshift(name);
@@ -213,14 +212,15 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     }
 
     $scope.dropTable = function(){
-        var table = this;
+        var table_index = this.$index;
+        var service_index = this.service.service_index;
+
         if ( !confirm( "Are you sure you want to delete " + this.table.name) ) {
             return;
         }
         $http.delete(CurrentServer + "/rest/" + this.service.api_name + "/_schema/" + this.table.name)
-            .then(function(response){
-                $scope.service_index = table.service_index;
-                $scope.loadServices(true);
+            .then(function(){
+                $scope.dbServices[service_index].tables.splice(table_index , 1);
                 $scope.table = {};
             })
     }

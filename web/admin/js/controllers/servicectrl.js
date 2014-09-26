@@ -176,7 +176,13 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         {
             name:"PostgreSQL",
             prefix:"pgsql:"
-        }];
+        },
+        {
+            name:"Oracle",
+            prefix:"oci:"
+        }
+
+    ];
     Scope.promptForNew = function() {
 
         // Added for small devices
@@ -199,17 +205,24 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                 if(newValue === "sqlsrv:"){
                  Scope.sql_server_host_identifier = "Server";
                  Scope.sql_server_db_identifier = "Database";
-                }else{
+                }else if(newValue === "oci:"){
                 Scope.sql_server_host_identifier = "host";
-                Scope.sql_server_db_identifier = "dbname";
-
+                Scope.sql_server_db_identifier = "sid";
+                }else{
+                    Scope.sql_server_host_identifier = "host";
+                    Scope.sql_server_db_identifier = "dbname";
                 }
+
                 $scope.service.dsn = newValue;
                 if($scope.sqlServerHost){
                     $scope.service.dsn = $scope.service.dsn + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost;
                 }
                 if($scope.sqlServerDb){
                     $scope.service.dsn = $scope.service.dsn + ";" + $scope.sql_server_db_identifier + "=" + $scope.sqlServerDb;
+                }
+                if($scope.sqlServerDb && $scope.sqlServerPrefix === "oci:"){
+                    $scope.service.dsn = $scope.sqlServerPrefix + "dbname=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ")(PORT = 1521))) (CONNECT_DATA = (" + $scope.sql_server_db_identifier + "=" + newValue;
+                    $scope.service.dsn += ")))";
                 }
 
             });
@@ -225,6 +238,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                 if($scope.sqlServerDb){
                     $scope.service.dsn = $scope.service.dsn + ";" + $scope.sql_server_db_identifier + "=" + $scope.sqlServerDb;
                 }
+                if($scope.sqlServerDb && $scope.sqlServerPrefix === "oci:"){
+                    $scope.service.dsn = $scope.sqlServerPrefix + "dbname=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ")(PORT = 1521))) (CONNECT_DATA = (" + $scope.sql_server_db_identifier + "=" + newValue;
+                    $scope.service.dsn += ")))";
+                }
 
 
             });
@@ -237,7 +254,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
                 }
                 $scope.service.dsn = $scope.sqlServerPrefix + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ";" + $scope.sql_server_db_identifier + "=" + newValue;
-
+                if($scope.sqlServerPrefix ==="oci:"){
+                    $scope.service.dsn = $scope.sqlServerPrefix + "dbname=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ")(PORT = 1521))) (CONNECT_DATA = (" + $scope.sql_server_db_identifier + "=" + newValue;
+                    $scope.service.dsn += ")))";
+                }
 
             });
         Scope.tableData = [];
@@ -262,29 +282,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		$( window ).scrollTop( 0 );
 	};
 
-	var inputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableSave()" />';
-	var emailInputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="updateEmailScope()" />';
-	//var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
-	var buttonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteRow()"><li class="icon-remove"></li></button></div>';
-	var headerInputTemplate = '<input class="ngCellText" ng-class="col.colIndex()" ng-model="row.entity[col.field]" ng-change="enableHeaderSave()" />';
-	//var customHeaderTemplate = '<div class="ngHeaderCell">&nbsp;</div><div ng-style="{\'z-index\': col.zIndex()}" ng-repeat="col in visibleColumns()" class="ngHeaderCell col{{$index}}" ng-header-cell></div>';
-	var headerButtonTemplate = '<div><button id="header_save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveHeaderRow()"><li class="icon-save"></li></button><button class="btn btn-small btn-danger" ng-click="deleteHeaderRow()"><li class="icon-remove"></li></button></div>';
-	var emailButtonTemplate = '<div><button id="save_{{row.rowIndex}}" class="btn btn-small btn-inverse" disabled=true ng-click="saveRow()"><li class="icon-save"></li></button></div>';
-	Scope.columnDefs = [
-		{field: 'name', width: 100, enableCellEdit: false},
-		{field: 'value', width: 200, enableCellSelection: true, editableCellTemplate: inputTemplate, enableCellEdit: true },
-		{field: 'Update', cellTemplate: buttonTemplate, width: 80, enableCellEdit: false}
-	];
-
-	Scope.browseOptions =
-	{data: 'tableData', width: 500, columnDefs: 'columnDefs', enableCellEditOnFocus: true, enableRowSelection: false, canSelectRows: false, displaySelectionCheckbox: false};
-	Scope.headerColumnDefs = [
-		{field: 'name', width: 100, enableCellEdit: false},
-		{field: 'value', width: 200, enableCellSelection: true, editableCellTemplate: headerInputTemplate, enableCellEdit: true},
-		{field: 'Update', cellTemplate: headerButtonTemplate, width: 80, enableCellEdit: false}
-	];
-	Scope.headerOptions =
-	{data: 'headerData', width: 500, columnDefs: 'headerColumnDefs', canSelectRows: false, enableCellEditOnFocus: true, enableRowSelection: false, displaySelectionCheckbox: false};
 
 	Scope.service = {};
 	Scope.Services = Service.get({},function(response) {
