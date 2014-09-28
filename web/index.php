@@ -44,7 +44,7 @@ $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_S
 if ( DSP_DEBUG )
 {
     ini_set( 'display_errors', true );
-    ini_set( 'error_reporting', -1 );
+//    ini_set( 'error_reporting', -1 );
 
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );

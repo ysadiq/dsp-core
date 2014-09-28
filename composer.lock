@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a5fe9ea832eef828e8241b0944616437",
+    "hash": "d9b9c6ea83d0a07d2929b0dfaa6710bb",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -349,12 +349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "6df7d6a7299be51498ed358462a84b9641ae78db"
+                "reference": "2895a4a9d936a827bfa21c61b22a82ea118e5f82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/6df7d6a7299be51498ed358462a84b9641ae78db",
-                "reference": "6df7d6a7299be51498ed358462a84b9641ae78db",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/2895a4a9d936a827bfa21c61b22a82ea118e5f82",
+                "reference": "2895a4a9d936a827bfa21c61b22a82ea118e5f82",
                 "shasum": ""
             },
             "require": {
@@ -418,7 +418,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-09-26 17:59:18"
+            "time": "2014-09-28 01:54:37"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1422,12 +1422,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "bf53697836343c9bc5663649f5f094ede73c2d5c"
+                "reference": "ea86d91a10c5737a1e043aa29fe05837f942d163"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/bf53697836343c9bc5663649f5f094ede73c2d5c",
-                "reference": "bf53697836343c9bc5663649f5f094ede73c2d5c",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/ea86d91a10c5737a1e043aa29fe05837f942d163",
+                "reference": "ea86d91a10c5737a1e043aa29fe05837f942d163",
                 "shasum": ""
             },
             "require": {
@@ -1436,7 +1436,8 @@
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~2.0",
-                "symfony/dependency-injection": "~2.0",
+                "symfony/dependency-injection": "~2.6",
+                "symfony/expression-language": "~2.6",
                 "symfony/stopwatch": "~2.2"
             },
             "suggest": {
@@ -1470,7 +1471,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-22 11:59:59"
+            "time": "2014-09-28 16:15:31"
         },
         {
             "name": "symfony/http-foundation",
@@ -1533,10 +1534,9 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "kisma/kisma": 0,
-        "dreamfactory/lib-php-common-platform": 20
-    },
+    "stability-flags": [
+
+    ],
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.18,<5.6"
