@@ -19,6 +19,7 @@
  */
 use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
+use DreamFactory\Platform\Enums\FabricPlatformStates;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\NotFoundException;
@@ -317,6 +318,8 @@ class WebController extends BaseWebController
             {
                 try
                 {
+                    Fabric::setInstanceState( 'platform', FabricPlatformStates::ACTIVATED );
+
                     SystemManager::initAdmin();
                     $this->redirect( $this->_getRedirectUrl() );
 
@@ -1207,6 +1210,8 @@ class WebController extends BaseWebController
      */
     protected function _handleAction( $state )
     {
+        Fabric::setInstanceState( 'ready', $state );
+
         switch ( $state )
         {
             case PlatformStates::INIT_REQUIRED:
