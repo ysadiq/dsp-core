@@ -57,7 +57,7 @@
     ],
     "require": {
         "php": ">=5.3.18,<5.6",
-        "kisma/kisma": "~0.2",
+        "kisma/kisma": "~0.2.65",
         "jeremeamia/superclosure": "~1.0",
         "dreamfactory/lib-php-common-platform": "~1.7"
     },
