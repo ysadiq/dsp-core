@@ -44,7 +44,7 @@ $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_S
 if ( DSP_DEBUG )
 {
     ini_set( 'display_errors', true );
-    ini_set( 'error_reporting', -1 );
+//    ini_set( 'error_reporting', -1 );
 
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
@@ -56,7 +56,7 @@ $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 //	Load up Yii if it's not been already
 if ( !class_exists( '\\Yii', false ) )
 {
-    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
+    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
 }
 
 //  php-error utility

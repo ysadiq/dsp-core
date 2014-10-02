@@ -70,7 +70,6 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
          *        2. Hosted Private:        hpp_<DSP Name>
          *        3. All others:            dreamfactory or whatever is in non-default config.
          */
-
         if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
         {
             $_dbName = 'hpp_' . str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );

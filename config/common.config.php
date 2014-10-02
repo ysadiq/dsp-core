@@ -241,6 +241,8 @@ return array_merge(
         'dsp.log_all_events'            => false,
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
+        //  An array of libraries/scripts to make available to event and user scripts
+        'dsp.scripting.user_libraries'  => array(/* 'id' => 'relative/path', */),
         //-------------------------------------------------------------------------
         //	Cache stats logging
         //-------------------------------------------------------------------------
