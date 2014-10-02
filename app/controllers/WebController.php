@@ -318,7 +318,7 @@ class WebController extends BaseWebController
             {
                 try
                 {
-                    Fabric::setInstanceState( 'platform', FabricPlatformStates::ACTIVATED );
+                    Platform::setPlatformState( 'platform', FabricPlatformStates::ACTIVATED );
 
                     SystemManager::initAdmin();
                     $this->redirect( $this->_getRedirectUrl() );
@@ -1210,7 +1210,7 @@ class WebController extends BaseWebController
      */
     protected function _handleAction( $state )
     {
-        Fabric::setInstanceState( 'ready', $state );
+        Platform::setPlatformState( 'ready', $state );
 
         switch ( $state )
         {
