@@ -2,6 +2,7 @@
 /vendor
 /log
 /storage/
+!/storage/.private
 composer.phar
 manifest.yml
 build/
