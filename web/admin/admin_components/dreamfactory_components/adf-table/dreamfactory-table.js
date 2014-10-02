@@ -2720,6 +2720,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         type: 'text',
                         editable: true
                     },
+					text: {
+						template: 'df-input-text.html',
+						placeholder: 'Enter String Value',
+						type: 'text',
+						editable: true
+					},
                     integer: {
                         template: 'df-input-int.html',
                         placeholder: 'Enter Integer Value',
@@ -2744,6 +2750,12 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         type: 'number',
                         editable: true
                     },
+					double: {
+						template: 'df-input-number.html',
+						placeholder: 'Enter Double Value',
+						type: 'number',
+						editable: true
+					},
                     decimal: {
                         template: 'df-input-number.html',
                         placeholder: 'Enter Decimal Value',
