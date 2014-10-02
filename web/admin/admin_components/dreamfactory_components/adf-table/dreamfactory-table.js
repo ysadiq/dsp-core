@@ -28,6 +28,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
     .run(['$templateCache', function ($templateCache) {
 
         $templateCache.put('df-input-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
+        $templateCache.put('df-input-number.html', '<input type="{{templateData.type}}" step="any" class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
+        $templateCache.put('df-input-int.html', '<input type="{{templateData.type}}" step="1" class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
+
         $templateCache.put('df-input-ref-text.html', '<input type="{{templateData.type}}"  class="form-control" placeholder="{{templateData.placeholder}}" data-ng-model="currentEditRecord[field.name]" data-ng-disabled="!templateData.editable" data-ng-required="field.required">');
         $templateCache.put('df-input-binary.html', '<p>BINARY DATA</p>');
         $templateCache.put('df-input-datetime.html', '<p>DATETIME</p>');
@@ -2718,7 +2721,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         editable: true
                     },
                     integer: {
-                        template: 'df-input-text.html',
+                        template: 'df-input-int.html',
                         placeholder: 'Enter Integer Value',
                         type: 'number',
                         editable: true
@@ -2736,13 +2739,13 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                         editable: false
                     },
                     float: {
-                        template: 'df-input-text.html',
+                        template: 'df-input-number.html',
                         placeholder: 'Enter Float Value',
                         type: 'number',
                         editable: true
                     },
                     decimal: {
-                        template: 'df-input-text.html',
+                        template: 'df-input-number.html',
                         placeholder: 'Enter Decimal Value',
                         type: 'number',
                         editable: true
