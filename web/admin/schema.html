@@ -110,7 +110,7 @@
 				<br />
 
 				<label>Length</label>
-				<input class="form-control" data-ng-disabled = "column.type === 'I will manually enter a type'" type="text" data-ng-model="column.length" />
+				<input class="form-control" data-ng-disabled = "column.type === 'I will manually enter a type' || (column.type != 'string' && column.type != 'integer')" type="text" data-ng-model="column.length" />
 				<br />
 
                 <label>Precision</label>
@@ -122,18 +122,16 @@
                 <label>Fixed Length</label>
                 <input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === 'I will manually enter a type'" data-ng-model="column.fixed_length" />
                 <br />
+
+                <label>Supports Multibyte</label>
+                <input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === 'I will manually enter a type'" data-ng-model="column.supports_multibyte" />
+                <br />
                 <label>Primary Key</label>
 				<input type="checkbox" data-ng-model="column.is_primary_key" />
 				<br />
 
 				<label>Foreign Key</label>
 				<input type="checkbox" data-ng-model="column.is_foreign_key" />
-				<br />
-
-
-
-				<label>Supports Multibyte</label>
-				<input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === 'I will manually enter a type'" data-ng-model="column.supports_multibyte" />
 				<br />
 
 				<label>Allow Null</label>
