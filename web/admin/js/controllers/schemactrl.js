@@ -61,7 +61,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
                     $scope.dbServices[$scope.service_index].tables.push(table);
-                    $scope.currentTables.push(table.name);
+                    //$scope.currentTables.push(table.name);
                 })
             });
         }else{
@@ -95,6 +95,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     $scope.loadSchema = function(advanced){
         $scope.import = false;
         $scope.table = this.table;
+        $scope.currentTables = $scope.dbServices[this.service.service_index].tables;
         $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
         $scope.service_index = this.service.service_index;
@@ -207,7 +208,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema?return_schema=true" , {table:requestObject}).then(function(response){
             //$scope.loadServices();
             $scope.currentTable = name;
-            $scope.currentTables.unshift(name);
+            //$scope.currentTables.unshift(name);
             $scope.dbServices[$scope.service_index].tables.unshift(requestObject);
             $scope.loadNewSchema(requestObject);
 

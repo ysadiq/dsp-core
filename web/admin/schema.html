@@ -154,7 +154,7 @@
 					class="form-control"
 					data-ng-change="loadReferenceFields()"
 					data-ng-model="column.ref_table"
-					data-ng-options="o for o in currentTables"> </select> <br />
+					data-ng-options="o.name as o.name for o in currentTables"> </select> <br />
 
 				<label>Reference Field</label>
 				<select data-ng-it="loadReferenceFields()"
