@@ -39,7 +39,8 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         {value: "user_id_on_update"},
         {value: "timestamp"},
         {value: "timestamp_on_create"},
-        {value: "timestamp_on_update"}
+        {value: "timestamp_on_update"},
+        {value: "I will manually enter a type"}
     ];
     var editor;
     $scope.table = {};

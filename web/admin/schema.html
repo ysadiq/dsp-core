@@ -106,14 +106,23 @@
 				<select data-ng-options="type.value as type.value for type in typeOptions " class="form-control" data-ng-model="column.type"></select> <br />
 
 				<label>Database Type</label>
-				<input class="form-control" type="text" data-ng-model="column.db_type" />
+				<input class="form-control" data-ng-disabled = "column.type != 'I will manually enter a type'" type="text" data-ng-model="column.db_type" />
 				<br />
 
 				<label>Length</label>
-				<input class="form-control" type="text" data-ng-model="column.length" />
+				<input class="form-control" data-ng-disabled = "column.type === 'I will manually enter a type'" type="text" data-ng-model="column.length" />
 				<br />
 
-				<label>Primary Key</label>
+                <label>Precision</label>
+                <input class="form-control" data-ng-disabled = "column.type != 'decimal' || column.type != 'float' || column.type != 'double' || column.type === 'I will manually enter a type'" type="text" data-ng-model="column.precision" />
+                <br />
+                <label>Scale</label>
+                <input class="form-control" data-ng-disabled = "column.type != 'decimal' || column.type != 'float' || column.type != 'double' || column.type === 'I will manually enter a type'" type="text" data-ng-model="column.scale" />
+                <br />
+                <label>Fixed Length</label>
+                <input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === 'I will manually enter a type'" data-ng-model="column.fixed_length" />
+                <br />
+                <label>Primary Key</label>
 				<input type="checkbox" data-ng-model="column.is_primary_key" />
 				<br />
 
@@ -121,12 +130,10 @@
 				<input type="checkbox" data-ng-model="column.is_foreign_key" />
 				<br />
 
-				<label>Fixed Length</label>
-				<input type="checkbox" data-ng-disabled="column.type !== 'string'" data-ng-model="column.fixed_length" />
-				<br />
+
 
 				<label>Supports Multibyte</label>
-				<input type="checkbox" data-ng-disabled="column.type !== 'string'" data-ng-model="column.supports_multibyte" />
+				<input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === 'I will manually enter a type'" data-ng-model="column.supports_multibyte" />
 				<br />
 
 				<label>Allow Null</label>
@@ -143,13 +150,6 @@
 				<input class="form-control" type="text" data-ng-model="column.default" />
 				<br />
 
-				<label>Precision</label>
-				<input class="form-control" type="text" data-ng-model="column.precision" />
-				<br />
-
-				<label>Scale</label>
-				<input class="form-control" type="text" data-ng-model="column.scale" />
-				<br />
 
 				<label>Reference Table</label>
 				<select data-ng-disabled="column.type !== 'reference' && !column.is_foreign_key "
@@ -170,7 +170,9 @@
 				<br />
 
 				<label>Validation</label>
-				<input class="form-control" type="text" data-ng-model="column.validation" />
+                <textarea  data-ng-model="column.validation" class="form-control" rows="5" cols="10" >
+
+                </textarea>
 				<br />
 
 				<div data-ng-show="column.type === 'string' || column.type === 'integer'">
