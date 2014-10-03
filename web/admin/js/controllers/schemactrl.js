@@ -22,6 +22,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     Scope = $scope;
     $scope.typeOptions = [
+        {value: "I will manually enter a type"},
         {value: "id"},
         {value: "string"},
         {value: "integer"},
@@ -39,8 +40,8 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         {value: "user_id_on_update"},
         {value: "timestamp"},
         {value: "timestamp_on_create"},
-        {value: "timestamp_on_update"},
-        {value: "I will manually enter a type"}
+        {value: "timestamp_on_update"}
+
     ];
     var editor;
     $scope.table = {};
@@ -135,7 +136,8 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     $scope.addColumn = function(){
         $scope.newColumn = {
             name : "New_Column",
-            is_new : true
+            is_new : true,
+            type : "string"
         };
         //$scope.currentField = "New_Column";
         $scope.table.schema.data.field.unshift($scope.newColumn)
