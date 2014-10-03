@@ -114,10 +114,10 @@
 				<br />
 
                 <label>Precision</label>
-                <input class="form-control" data-ng-disabled = "column.type != 'decimal' || column.type != 'float' || column.type != 'double' || column.type === 'I will manually enter a type'" type="text" data-ng-model="column.precision" />
+                <input class="form-control" data-ng-disabled = "(column.type != 'decimal' && column.type != 'float' && column.type != 'double') || column.type === ''" type="text" data-ng-model="column.precision" />
                 <br />
                 <label>Scale</label>
-                <input class="form-control" data-ng-disabled = "column.type != 'decimal' || column.type != 'float' || column.type != 'double' || column.type === 'I will manually enter a type'" type="text" data-ng-model="column.scale" />
+                <input class="form-control" data-ng-disabled = "(column.type != 'decimal' && column.type != 'float' && column.type != 'double') || column.type === ''" type="text" data-ng-model="column.scale" />
                 <br />
                 <label>Fixed Length</label>
                 <input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === ''" data-ng-model="column.fixed_length" />

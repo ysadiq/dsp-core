@@ -30,6 +30,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         {name: "boolean", value: "boolean"},
         {name: "binary", value: "binary"},
         {name: "float", value: "float"},
+        {name: "double", value: "double"},
         {name: "decimal", value: "decimal"},
         {name: "datetime", value: "datetime"},
         {name: "date", value: "date"},
