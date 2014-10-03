@@ -22,25 +22,25 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     Scope = $scope;
     $scope.typeOptions = [
-        {value: "I will manually enter a type"},
-        {value: "id"},
-        {value: "string"},
-        {value: "integer"},
-        {value: "text"},
-        {value: "boolean"},
-        {value: "binary"},
-        {value: "float"},
-        {value: "decimal"},
-        {value: "datetime"},
-        {value: "date"},
-        {value: "time"},
-        {value: "reference"},
-        {value: "user_id"},
-        {value: "user_id_on_create"},
-        {value: "user_id_on_update"},
-        {value: "timestamp"},
-        {value: "timestamp_on_create"},
-        {value: "timestamp_on_update"}
+        {name : "I will manually enter a type" , value: ""},
+        {name : "id",value: "id"},
+        {name : "string", value: "string"},
+        {name: "integer",value: "integer"},
+        {name: "text", value: "text"},
+        {name: "boolean", value: "boolean"},
+        {name: "binary", value: "binary"},
+        {name: "float", value: "float"},
+        {name: "decimal", value: "decimal"},
+        {name: "datetime", value: "datetime"},
+        {name: "date", value: "date"},
+        {name: "time", value: "time"},
+        {name: "reference", value: "reference"},
+        {name: "user_id", value: "user_id"},
+        {name: "user_id_on_create",value: "user_id_on_create"},
+        {name: "user_id_on_update",value: "user_id_on_update"},
+        {name: "timestamp",value: "timestamp"},
+        {name: "timestamp_on_create",value: "timestamp_on_create"},
+        {name: "timestamp_on_update",value: "timestamp_on_update"}
 
     ];
     var editor;
