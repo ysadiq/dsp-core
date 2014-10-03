@@ -22,23 +22,20 @@
  *
  * @return array
  */
-return function ()
-{
-    $_url = parse_url( getenv( 'CLEARDB_DATABASE_URL' ) );
-    $_server = $_url['host'];
-    $_username = $_url['user'];
-    $_password = $_url['pass'];
-    $_port = $_url['port'];
-    $_db = substr( $_url["path"], 1 );
+$_url = parse_url( getenv( 'CLEARDB_DATABASE_URL' ) );
+$_server = $_url['host'];
+$_username = $_url['user'];
+$_password = $_url['pass'];
+$_port = $_url['port'];
+$_db = substr( $_url["path"], 1 );
 
-    return array(
-        'connectionString'      => 'mysql:host=' . $_server . ';port=' . $_port . ';dbname=' . $_db,
-        'username'              => $_username,
-        'password'              => $_password,
-        'emulatePrepare'        => true,
-        'charset'               => 'utf8',
-        'enableProfiling'       => defined( 'YII_DEBUG' ),
-        'enableParamLogging'    => defined( 'YII_DEBUG' ),
-        'schemaCachingDuration' => 3600,
-    );
-};
+return array(
+    'connectionString'      => 'mysql:host=' . $_server . ';port=' . $_port . ';dbname=' . $_db,
+    'username'              => $_username,
+    'password'              => $_password,
+    'emulatePrepare'        => true,
+    'charset'               => 'utf8',
+    'enableProfiling'       => defined( 'YII_DEBUG' ),
+    'enableParamLogging'    => defined( 'YII_DEBUG' ),
+    'schemaCachingDuration' => 3600,
+);
