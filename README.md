@@ -1,11 +1,11 @@
 # dsp-core
 
-## DreamFactory Services Platform(tm) Core Server v1.7.8
+## DreamFactory Services Platform(tm) Core Server v1.7-x-dev
 [![Latest Stable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/stable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Total Downloads](https://poser.pugx.org/dreamfactory/dsp-core/downloads.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Latest Unstable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/unstable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![License](https://poser.pugx.org/dreamfactory/dsp-core/license.svg)](https://packagist.org/packages/dreamfactory/dsp-core)
 
 This is the DreamFactory Services Platform&trade; Core Server repository. It contains the core web components necessary to run the system.
 
-Complete documentation is available on our [documentation site](https://github.com/dreamfactorysoftware/dsp-core/wiki)
+Please visit our [wiki](https://github.com/dreamfactorysoftware/dsp-core/wiki) for platform and API documentation.
 
 ## Feedback and Contributions
 
