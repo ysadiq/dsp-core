@@ -22,24 +22,27 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
 
     Scope = $scope;
     $scope.typeOptions = [
-        {value: "id"},
-        {value: "string"},
-        {value: "integer"},
-        {value: "text"},
-        {value: "boolean"},
-        {value: "binary"},
-        {value: "float"},
-        {value: "decimal"},
-        {value: "datetime"},
-        {value: "date"},
-        {value: "time"},
-        {value: "reference"},
-        {value: "user_id"},
-        {value: "user_id_on_create"},
-        {value: "user_id_on_update"},
-        {value: "timestamp"},
-        {value: "timestamp_on_create"},
-        {value: "timestamp_on_update"}
+        {name : "I will manually enter a type" , value: ""},
+        {name : "id",value: "id"},
+        {name : "string", value: "string"},
+        {name: "integer",value: "integer"},
+        {name: "text", value: "text"},
+        {name: "boolean", value: "boolean"},
+        {name: "binary", value: "binary"},
+        {name: "float", value: "float"},
+        {name: "double", value: "double"},
+        {name: "decimal", value: "decimal"},
+        {name: "datetime", value: "datetime"},
+        {name: "date", value: "date"},
+        {name: "time", value: "time"},
+        {name: "reference", value: "reference"},
+        {name: "user_id", value: "user_id"},
+        {name: "user_id_on_create",value: "user_id_on_create"},
+        {name: "user_id_on_update",value: "user_id_on_update"},
+        {name: "timestamp",value: "timestamp"},
+        {name: "timestamp_on_create",value: "timestamp_on_create"},
+        {name: "timestamp_on_update",value: "timestamp_on_update"}
+
     ];
     var editor;
     $scope.table = {};
@@ -58,7 +61,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                 $scope.dbServices[$scope.service_index].tables = [];
                 response.data.resource.forEach(function(table){
                     $scope.dbServices[$scope.service_index].tables.push(table);
-                    $scope.currentTables.push(table.name);
+                    //$scope.currentTables.push(table.name);
                 })
             });
         }else{
@@ -92,6 +95,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     $scope.loadSchema = function(advanced){
         $scope.import = false;
         $scope.table = this.table;
+        $scope.currentTables = $scope.dbServices[this.service.service_index].tables;
         $scope.currentTable = $scope.table.name;
         $scope.service = this.service.api_name;
         $scope.service_index = this.service.service_index;
@@ -134,7 +138,8 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     $scope.addColumn = function(){
         $scope.newColumn = {
             name : "New_Column",
-            is_new : true
+            is_new : true,
+            type : "string"
         };
         //$scope.currentField = "New_Column";
         $scope.table.schema.data.field.unshift($scope.newColumn)
@@ -203,7 +208,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         $http.post(CurrentServer + "/rest/" + this.service.api_name + "/_schema?return_schema=true" , {table:requestObject}).then(function(response){
             //$scope.loadServices();
             $scope.currentTable = name;
-            $scope.currentTables.unshift(name);
+            //$scope.currentTables.unshift(name);
             $scope.dbServices[$scope.service_index].tables.unshift(requestObject);
             $scope.loadNewSchema(requestObject);
 
