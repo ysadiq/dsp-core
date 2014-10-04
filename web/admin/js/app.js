@@ -229,11 +229,6 @@ angular.module(
 				}
 			}
 		);
-		/*$routeProvider.when(
-			'/import-app', {
-				controller: FileCtrl, templateUrl: 'import.html'
-			}
-		);*/
 		$routeProvider.when(
 			'/file', {
 				controller: FileCtrl, templateUrl: 'files.html'
