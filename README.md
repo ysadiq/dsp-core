@@ -1,5 +1,3 @@
-# dsp-core
-
 ## DreamFactory Services Platform(tm) Core Server v1.7-x-dev
 [![Latest Stable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/stable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Total Downloads](https://poser.pugx.org/dreamfactory/dsp-core/downloads.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Latest Unstable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/unstable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![License](https://poser.pugx.org/dreamfactory/dsp-core/license.svg)](https://packagist.org/packages/dreamfactory/dsp-core)
 
