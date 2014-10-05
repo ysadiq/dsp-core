@@ -29,15 +29,16 @@ $this->breadcrumbs = array(
 
 <div class="box-wrapper">
     <div id="formbox" class="form-light boxed drop-shadow lifted">
-        <h2 class="inset">Upgrade Available</h2>
 
         <?php if ( Yii::app()->user->hasFlash( 'upgrade-dsp' ) ): ?>
+            <h2 class="inset">Upgrade DSP</h2>
 
             <div class="flash-success">
                 <?php echo Yii::app()->user->getFlash( 'upgrade-dsp' ); ?>
             </div>
 
         <?php elseif ( empty( $model->versions ) ): ?>
+            <h2 class="inset">No Upgrade Available</h2>
 
             <p>This DSP is currently running the latest available version. <br />
                 If you have just successfully upgraded, please clear your browser cache to ensure you have the latest interface.
@@ -49,8 +50,9 @@ $this->breadcrumbs = array(
 
         <?php
         else: ?>
+            <h2 class="inset">Upgrade Available</h2>
 
-            <p>There is a software update available for this DSP. <br /> When you are ready, select the desired version and click the 'Upgrade' button below.
+            <p>There is a newer software version available for this DSP. <br /> Peruse the available versions and select 'How To Upgrade' button below for instructions on upgrading your DSP.
             </p>
 
             <?php $form = $this->beginWidget(
@@ -75,7 +77,7 @@ $this->breadcrumbs = array(
 
             <div class="form-buttons">
                 <button type="button" id="btn-home" class="btn btn-default pull-left">Home</button>
-                <button type="submit" class="btn btn-success pull-right">Upgrade</button>
+                <a href="https://github.com/dreamfactorysoftware/dsp-core/wiki/Product-Upgrades" target="_blank" class="btn btn-success pull-right">How To Upgrade</a>
             </div>
 
             <?php $this->endWidget(); ?>

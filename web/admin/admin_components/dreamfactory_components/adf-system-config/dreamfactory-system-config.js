@@ -215,13 +215,6 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
             templateUrl: MODSYSCONFIG_ASSET_PATH + 'views/system-info.html',
             link: function(scope, elem, attrs) {
 
-                // WOW
-                scope.upgrade = function() {
-
-                    window.top.location = DSP_URL + '/web/upgrade';
-                };
-
-
             }
         }
 
