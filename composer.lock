@@ -349,12 +349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "27261a1fa3e697a74db50151c924c79b41c6e982"
+                "reference": "1fe99ce87f25b0c7696d06a812de8875f9b47ab7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/27261a1fa3e697a74db50151c924c79b41c6e982",
-                "reference": "27261a1fa3e697a74db50151c924c79b41c6e982",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1fe99ce87f25b0c7696d06a812de8875f9b47ab7",
+                "reference": "1fe99ce87f25b0c7696d06a812de8875f9b47ab7",
                 "shasum": ""
             },
             "require": {
@@ -418,7 +418,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-10-03 17:40:29"
+            "time": "2014-10-05 02:51:30"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -765,12 +765,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "ce4c753e688725ec19238bb8620b79434cd838a8"
+                "reference": "c852de202d38a4f09de6d149d334969e20463537"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/ce4c753e688725ec19238bb8620b79434cd838a8",
-                "reference": "ce4c753e688725ec19238bb8620b79434cd838a8",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/c852de202d38a4f09de6d149d334969e20463537",
+                "reference": "c852de202d38a4f09de6d149d334969e20463537",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-09-29 15:26:31"
+            "time": "2014-10-05 18:34:14"
         },
         {
             "name": "monolog/monolog",
@@ -823,12 +823,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa"
+                "reference": "940cbe15abe36924e5693abb585215bb322686a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
-                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/940cbe15abe36924e5693abb585215bb322686a7",
+                "reference": "940cbe15abe36924e5693abb585215bb322686a7",
                 "shasum": ""
             },
             "require": {
@@ -887,7 +887,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-09-30 13:30:58"
+            "time": "2014-10-04 15:43:06"
         },
         {
             "name": "nikic/php-parser",
@@ -1427,12 +1427,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "93d237c3da7565a9ad2b4b6a74af73f4e3c0c305"
+                "reference": "e133748fd9165e24f8e9498ef5862f8bd37004e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/93d237c3da7565a9ad2b4b6a74af73f4e3c0c305",
-                "reference": "93d237c3da7565a9ad2b4b6a74af73f4e3c0c305",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/e133748fd9165e24f8e9498ef5862f8bd37004e5",
+                "reference": "e133748fd9165e24f8e9498ef5862f8bd37004e5",
                 "shasum": ""
             },
             "require": {
@@ -1476,7 +1476,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-01 05:53:11"
+            "time": "2014-10-04 06:08:58"
         },
         {
             "name": "symfony/http-foundation",
@@ -1532,9 +1532,7 @@
             "time": "2014-10-03 05:26:43"
         }
     ],
-    "packages-dev": [
-
-    ],
+    "packages-dev": [],
     "aliases": [
         {
             "alias": "dev-master",
@@ -1551,7 +1549,5 @@
     "platform": {
         "php": "~5.3,<5.6"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
