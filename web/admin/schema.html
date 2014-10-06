@@ -158,7 +158,7 @@
 
 				<label>Reference Field</label>
 				<select data-ng-it="loadReferenceFields()"
-					data-ng-disabled="!column.ref_table"
+					data-ng-disabled="!column.ref_table || (column.type === 'user_id' || column.type === 'user_id_on_create' || column.type === 'user_id_on_update') "
 					class="form-control"
 					data-ng-model="column.ref_fields"
 					data-ng-options="o.name as o.name for o in referenceFields"></select> <br />
