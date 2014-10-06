@@ -59,7 +59,7 @@
         "php": "~5.3,<5.6",
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
-        "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
+        "dreamfactory/lib-php-common-platform": "~1.7"
     },
     "minimum-stability": "dev",
     "extra": {
