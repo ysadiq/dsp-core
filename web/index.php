@@ -50,10 +50,10 @@ if ( DSP_DEBUG )
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
 }
 
-//	Load up composer...
+//  Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
-//	Load up Yii if it's not been already
+//  Load up Yii if it's not been already
 if ( !class_exists( '\\Yii', false ) )
 {
     require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
@@ -65,5 +65,5 @@ if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
     reportErrors();
 }
 
-//	Create the application and run. This doe not return until the request is complete.
+//  Create the application and run. This does not return until the request is complete.
 Pii::run( __DIR__, $_autoloader, $_class );

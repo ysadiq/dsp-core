@@ -113,7 +113,7 @@
 					<br />
 
 					<div data-ng-if="app.is_url_external == 1" class="alert alert-success">
-						<li class="fa fa-cloud"></li>
+						<i class="fa fa-cloud"></i>
 						&nbsp;Your URL will be: {{app.url}}
 					</div>
 					<div data-ng-hide="app.is_url_external!=0"
@@ -160,7 +160,7 @@
 					<br />
 
 					<div ng-show="app.is_url_external==0" class="alert alert-success local">
-						<li class="fa fa-cloud"></li>
+						<i class="fa fa-cloud"></i>
 						&nbsp;Your URL will be: {{currentServer}}/{{storageContainers[app.storage_service_id].name}}/{{app.storage_container}}/{{app.api_name}}<span>{{app.url}}</span>
 					</div>
 				</div>
@@ -222,13 +222,13 @@
 				<input type="checkbox" data-ng-model="create_another" />
 				&nbsp;Create Another&nbsp; <a ng-click="create()"
 				class="btn btn-primary">
-				<li class="fa fa-arrow-circle-right"></li>
+				<i class="fa fa-arrow-circle-right"></i>
 				&nbsp;Create Application </a>
 			</div>
 			<div id="update_button" data-ng-show="action=='Update'">
 				<a ng-click="save()"
 					class="btn btn-primary">
-					<li class="fa fa-save"></li>
+					<i class="fa fa-save"></i>
 					&nbsp;Update Application </a>
 			</div>
 

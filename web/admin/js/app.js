@@ -229,11 +229,6 @@ angular.module(
 				}
 			}
 		);
-		/*$routeProvider.when(
-			'/import-app', {
-				controller: FileCtrl, templateUrl: 'import.html'
-			}
-		);*/
 		$routeProvider.when(
 			'/file', {
 				controller: FileCtrl, templateUrl: 'files.html'
@@ -604,7 +599,7 @@ var showFileManager = function() {
  * @returns {PNotify}
  */
 var _showMessage = function(title, text, type, options) {
-	return new PNotify($.extend({title: title, type: type || 'success', text: text}, options || {}));
+	return new PNotify($.extend({title: title, type: type || 'success', text: text, hide: false}, options || {}));
 };
 
 /**

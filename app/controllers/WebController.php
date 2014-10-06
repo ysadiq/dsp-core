@@ -19,6 +19,7 @@
  */
 use DreamFactory\Oasys\Enums\Flows;
 use DreamFactory\Oasys\Oasys;
+use DreamFactory\Platform\Enums\FabricPlatformStates;
 use DreamFactory\Platform\Exceptions\BadRequestException;
 use DreamFactory\Platform\Exceptions\ForbiddenException;
 use DreamFactory\Platform\Exceptions\NotFoundException;
@@ -317,6 +318,8 @@ class WebController extends BaseWebController
             {
                 try
                 {
+                    Platform::setPlatformState( 'platform', FabricPlatformStates::ACTIVATED );
+
                     SystemManager::initAdmin();
                     $this->redirect( $this->_getRedirectUrl() );
 
@@ -804,7 +807,7 @@ class WebController extends BaseWebController
     {
         if ( Fabric::fabricHosted() )
         {
-            throw new \Exception( 'Fabric hosted DSPs can not be upgraded . ' );
+            throw new \Exception( 'Fabric hosted DSPs can not be upgraded.' );
         }
 
         /** @var \CWebUser $_user */
@@ -832,26 +835,6 @@ class WebController extends BaseWebController
 
         $_model = new UpgradeDspForm();
         $_model->versions = $_versions;
-
-        if ( isset( $_POST, $_POST['UpgradeDspForm'] ) )
-        {
-            $_model->setAttributes( $_POST['UpgradeDspForm'], false );
-
-            if ( $_model->validate() )
-            {
-                $_version = Option::get( $_versions, $_model->selected, '' );
-                try
-                {
-                    SystemManager::upgradeDsp( $_version );
-
-                    $this->redirect( '/' );
-                }
-                catch ( \Exception $_ex )
-                {
-                    $_model->addError( 'versions', $_ex->getMessage() );
-                }
-            }
-        }
 
         $this->render(
             'upgradeDsp',
@@ -1207,6 +1190,8 @@ class WebController extends BaseWebController
      */
     protected function _handleAction( $state )
     {
+        Platform::setPlatformState( 'ready', $state );
+
         switch ( $state )
         {
             case PlatformStates::INIT_REQUIRED:
