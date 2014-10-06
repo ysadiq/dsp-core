@@ -599,7 +599,7 @@ var showFileManager = function() {
  * @returns {PNotify}
  */
 var _showMessage = function(title, text, type, options) {
-	return new PNotify($.extend({title: title, type: type || 'success', text: text}, hide: false, options || {}));
+	return new PNotify($.extend({title: title, type: type || 'success', text: text, hide: false}, options || {}));
 };
 
 /**
