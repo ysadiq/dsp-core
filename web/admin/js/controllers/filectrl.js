@@ -19,54 +19,12 @@
 var FileCtrl = function( $scope, $location, $timeout ) {
 	Scope = $scope;
 
-
-
-	Scope.importPackageFile = function() {
-        $('form#import-file-form').attr('action', "/rest/system/app/?app_name=admin");
-		document.forms["import-file-form"].submit();
-	};
-
-
-
-
-	Scope.importPackageUrl = function() {
-        var _url = $('#urlInput').val();
-        $('form#import-url-form').attr('action', "/rest/system/app/?app_name=admin&url=" + _url);
-        document.forms["import-url-form"].submit();
-	};
 //    $("#root-file-manager").css('height', $(window).height()).css('width', '100%').show();
 //    $("#root-file-manager iframe").css('height', $(window).height()).css('width', '100%').attr("src", CurrentServer + '/filemanager/?path=/&allowroot=true').show();
 //    $(window).resize(function () {
 //        $('#root-file-manager').css('height', $(window).height()).css('width', '100%').css('width', '100%');
 //        $("#root-file-manager iframe").css('height', $(window).height()).css('width', '100%');
 //    });
+
 	$( "#root-file-manager iframe" ).attr( "src", CurrentServer + '/filemanager/?path=/&allowroot=true' ).show();
-
 };
-
-function checkResults( iframe ) {
-
-	var str = $( iframe ).contents().text();
-	if ( str && str.length > 0 ) {
-		if ( isErrorString( str ) ) {
-			var response = {};
-			response.responseText = str;
-            $(function(){
-                new PNotify({
-                    title: 'App Import',
-                    text: getErrorString(response),
-                    type: 'error'
-                });
-            });
-		}
-		else {
-            $(function(){
-                new PNotify({
-                    title: 'App Import',
-                    text: 'Imported Successfully',
-                    type: 'success'
-                });
-            });
-		}
-	}
-}

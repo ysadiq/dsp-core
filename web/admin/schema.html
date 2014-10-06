@@ -103,30 +103,35 @@
 
 				<label>Type&nbsp;&nbsp;</label>
 				<span class="text-muted">This is a simplified DreamFactory Type</span>
-				<select data-ng-options="type.value as type.value for type in typeOptions " class="form-control" data-ng-model="column.type"></select> <br />
+				<select data-ng-options="type.value as type.name for type in typeOptions" class="form-control" data-ng-model="column.type"></select> <br />
 
 				<label>Database Type</label>
-				<input class="form-control" type="text" data-ng-model="column.db_type" />
+				<input class="form-control" data-ng-disabled = "column.type != ''" type="text" data-ng-model="column.db_type" />
 				<br />
 
 				<label>Length</label>
-				<input class="form-control" type="text" data-ng-model="column.length" />
+				<input class="form-control" data-ng-disabled = "column.type === '' || (column.type != 'string' && column.type != 'integer')" type="text" data-ng-model="column.length" />
 				<br />
 
-				<label>Primary Key</label>
+                <label>Precision</label>
+                <input class="form-control" data-ng-disabled = "(column.type != 'decimal' && column.type != 'float' && column.type != 'double') || column.type === ''" type="text" data-ng-model="column.precision" />
+                <br />
+                <label>Scale</label>
+                <input class="form-control" data-ng-disabled = "(column.type != 'decimal' && column.type != 'float' && column.type != 'double') || column.type === ''" type="text" data-ng-model="column.scale" />
+                <br />
+                <label>Fixed Length</label>
+                <input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === ''" data-ng-model="column.fixed_length" />
+                <br />
+
+                <label>Supports Multibyte</label>
+                <input type="checkbox" data-ng-disabled="column.type !== 'string' || column.type === ''" data-ng-model="column.supports_multibyte" />
+                <br />
+                <label>Primary Key</label>
 				<input type="checkbox" data-ng-model="column.is_primary_key" />
 				<br />
 
 				<label>Foreign Key</label>
 				<input type="checkbox" data-ng-model="column.is_foreign_key" />
-				<br />
-
-				<label>Fixed Length</label>
-				<input type="checkbox" data-ng-disabled="column.type !== 'string'" data-ng-model="column.fixed_length" />
-				<br />
-
-				<label>Supports Multibyte</label>
-				<input type="checkbox" data-ng-disabled="column.type !== 'string'" data-ng-model="column.supports_multibyte" />
 				<br />
 
 				<label>Allow Null</label>
@@ -143,24 +148,17 @@
 				<input class="form-control" type="text" data-ng-model="column.default" />
 				<br />
 
-				<label>Precision</label>
-				<input class="form-control" type="text" data-ng-model="column.precision" />
-				<br />
-
-				<label>Scale</label>
-				<input class="form-control" type="text" data-ng-model="column.scale" />
-				<br />
 
 				<label>Reference Table</label>
-				<select data-ng-disabled="column.type !== 'reference' && !column.is_foreign_key "
+				<select data-ng-disabled="column.type !== 'reference' && !column.is_foreign_key || (column.type === 'user_id' || column.type === 'user_id_on_create' || column.type === 'user_id_on_update')  "
 					class="form-control"
 					data-ng-change="loadReferenceFields()"
 					data-ng-model="column.ref_table"
-					data-ng-options="o for o in currentTables"> </select> <br />
+					data-ng-options="o.name as o.name for o in currentTables"> </select> <br />
 
 				<label>Reference Field</label>
 				<select data-ng-it="loadReferenceFields()"
-					data-ng-disabled="!column.ref_table"
+					data-ng-disabled="!column.ref_table || (column.type === 'user_id' || column.type === 'user_id_on_create' || column.type === 'user_id_on_update') "
 					class="form-control"
 					data-ng-model="column.ref_fields"
 					data-ng-options="o.name as o.name for o in referenceFields"></select> <br />
@@ -169,9 +167,11 @@
 				<input class="form-control" type="text" data-ng-disabled=true data-ng-model="column.required" />
 				<br />
 
-				<label>Validation</label>
-				<input class="form-control" type="text" data-ng-model="column.validation" />
-				<br />
+				<!--<label>Validation</label>-->
+                <!--<textarea  data-ng-model="column.validation"  class="form-control" rows="5" cols="10" >-->
+
+                <!--</textarea>-->
+				<!--<br />-->
 
 				<div data-ng-show="column.type === 'string' || column.type === 'integer'">
 					<label>Value</label>
