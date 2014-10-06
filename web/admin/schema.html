@@ -150,7 +150,7 @@
 
 
 				<label>Reference Table</label>
-				<select data-ng-disabled="column.type !== 'reference' && !column.is_foreign_key "
+				<select data-ng-disabled="column.type !== 'reference' && !column.is_foreign_key || (column.type === 'user_id' || column.type === 'user_id_on_create' || column.type === 'user_id_on_update')  "
 					class="form-control"
 					data-ng-change="loadReferenceFields()"
 					data-ng-model="column.ref_table"
