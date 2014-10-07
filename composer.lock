@@ -293,20 +293,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "8da8fb68cf6ee39d63f7bd93ae15cbba6748d958"
+                "reference": "30e01f690387cac81efa28041d159db67995aedc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/8da8fb68cf6ee39d63f7bd93ae15cbba6748d958",
-                "reference": "8da8fb68cf6ee39d63f7bd93ae15cbba6748d958",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/30e01f690387cac81efa28041d159db67995aedc",
+                "reference": "30e01f690387cac81efa28041d159db67995aedc",
                 "shasum": ""
             },
             "require": {
-                "kisma/kisma": "~0.2.44@stable",
-                "php": ">=5.3.18"
+                "kisma/kisma": "~0.2",
+                "php": "~5.3,<5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7@stable"
+                "phpunit/phpunit": "~3.7"
             },
             "type": "library",
             "extra": {
@@ -326,13 +326,11 @@
             "authors": [
                 {
                     "name": "Jerry Ablan",
-                    "email": "jerryablan@dreamfactory.com",
-                    "role": "Lead Developer, server-side"
+                    "email": "jerryablan@dreamfactory.com"
                 },
                 {
                     "name": "Lee Hicks",
-                    "email": "leehicks@dreamfactory.com",
-                    "role": "Lead Developer, server-side"
+                    "email": "leehicks@dreamfactory.com"
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
@@ -341,7 +339,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-07-09 23:04:36"
+            "time": "2014-10-06 15:17:14"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -349,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "b9cc6195372473ce5ffc05ab5f003ad7893ea06f"
+                "reference": "bf4a893534fdf9fa7a9c52d898bbbf48078fc72f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/b9cc6195372473ce5ffc05ab5f003ad7893ea06f",
-                "reference": "b9cc6195372473ce5ffc05ab5f003ad7893ea06f",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/bf4a893534fdf9fa7a9c52d898bbbf48078fc72f",
+                "reference": "bf4a893534fdf9fa7a9c52d898bbbf48078fc72f",
                 "shasum": ""
             },
             "require": {
@@ -365,9 +363,9 @@
                 "dreamfactory/lib-php-common": "~1.5@stable",
                 "dreamfactory/lib-php-common-yii": "~1.5@stable",
                 "dreamfactory/oasys": "~0.4@stable",
-                "dreamfactory/yii": "~1.1.13.3@stable",
+                "dreamfactory/yii": "~1.1.13.6@stable",
                 "jeremeamia/superclosure": "*",
-                "kisma/kisma": "~0.2",
+                "kisma/kisma": "~0.2@stable",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
@@ -380,14 +378,14 @@
             "require-dev": {
                 "phpunit/dbunit": "@stable",
                 "phpunit/php-invoker": "@stable",
-                "phpunit/phpunit": "~3.7@stable",
+                "phpunit/phpunit": "~3.7",
                 "phpunit/phpunit-selenium": "@stable",
                 "phpunit/phpunit-story": "@stable"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.7.x-dev"
+                    "dev-develop": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -418,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-10-05 22:14:53"
+            "time": "2014-10-07 04:12:41"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -426,23 +424,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "b4266fcd2027650342453df20f1268ee3fa63c3d"
+                "reference": "e3526cd47d6d4e221d319e10efc7f5af0e2bab72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/b4266fcd2027650342453df20f1268ee3fa63c3d",
-                "reference": "b4266fcd2027650342453df20f1268ee3fa63c3d",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/e3526cd47d6d4e221d319e10efc7f5af0e2bab72",
+                "reference": "e3526cd47d6d4e221d319e10efc7f5af0e2bab72",
                 "shasum": ""
             },
             "require": {
-                "dreamfactory/lib-php-common": "~1.5.0@stable",
-                "dreamfactory/yii": "~1.1.13.3@dev",
-                "kisma/kisma": "~0.2.53@stable",
-                "php": ">=5.3.18"
+                "dreamfactory/lib-php-common": "~1.5",
+                "dreamfactory/yii": "~1.1.13.3",
+                "kisma/kisma": "~0.2",
+                "php": "~5.3"
             },
             "require-dev": {
                 "phpunit/dbunit": "@stable",
-                "phpunit/phpunit": "~3.7@stable",
+                "phpunit/phpunit": "~3.7",
                 "phpunit/phpunit-selenium": "@stable",
                 "phpunit/phpunit-story": "@stable"
             },
@@ -485,7 +483,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-10-05 22:15:57"
+            "time": "2014-10-06 15:20:07"
         },
         {
             "name": "dreamfactory/oasys",
@@ -493,12 +491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "8643c117b94e91287878aad3a728f1e41c07cccf"
+                "reference": "5988ccfab42b26d644ef8d5ef48047d4004f11d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/8643c117b94e91287878aad3a728f1e41c07cccf",
-                "reference": "8643c117b94e91287878aad3a728f1e41c07cccf",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/5988ccfab42b26d644ef8d5ef48047d4004f11d2",
+                "reference": "5988ccfab42b26d644ef8d5ef48047d4004f11d2",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +537,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-10-03 15:08:35"
+            "time": "2014-10-06 15:06:29"
         },
         {
             "name": "dreamfactory/yii",
