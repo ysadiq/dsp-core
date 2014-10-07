@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "849dc4ef6f443cc6c0e00508f3d35676",
+    "hash": "9d3759da30a1573a3491d07a2cd6367a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -293,12 +293,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "30e01f690387cac81efa28041d159db67995aedc"
+                "reference": "43feb90e2a84144ff3986b23a39f31d23f0a00bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/30e01f690387cac81efa28041d159db67995aedc",
-                "reference": "30e01f690387cac81efa28041d159db67995aedc",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/43feb90e2a84144ff3986b23a39f31d23f0a00bd",
+                "reference": "43feb90e2a84144ff3986b23a39f31d23f0a00bd",
                 "shasum": ""
             },
             "require": {
@@ -306,7 +306,7 @@
                 "php": "~5.3,<5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7"
+                "phpunit/phpunit": "~3.7@stable"
             },
             "type": "library",
             "extra": {
@@ -334,12 +334,12 @@
                 }
             ],
             "description": "DreamFactory Services Platform(tm) Common Components for PHP",
-            "homepage": "http://dreamfactorysoftware.github.io/",
+            "homepage": "https://www.dreamfactory.com/",
             "keywords": [
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-10-06 15:17:14"
+            "time": "2014-10-07 06:19:17"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "f45d658e02a65d89c26906412b4fc8b91ca2d970"
+                "reference": "1ed16f88cc216ddf866e4f2cdc09793c0b2819f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/f45d658e02a65d89c26906412b4fc8b91ca2d970",
-                "reference": "f45d658e02a65d89c26906412b4fc8b91ca2d970",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1ed16f88cc216ddf866e4f2cdc09793c0b2819f6",
+                "reference": "1ed16f88cc216ddf866e4f2cdc09793c0b2819f6",
                 "shasum": ""
             },
             "require": {
@@ -365,7 +365,7 @@
                 "dreamfactory/oasys": "~0.4@stable",
                 "dreamfactory/yii": "~1.1.13.6@stable",
                 "jeremeamia/superclosure": "*",
-                "kisma/kisma": "~0.2",
+                "kisma/kisma": "~0.2@stable",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
@@ -378,14 +378,14 @@
             "require-dev": {
                 "phpunit/dbunit": "@stable",
                 "phpunit/php-invoker": "@stable",
-                "phpunit/phpunit": "~3.7@stable",
+                "phpunit/phpunit": "~3.7",
                 "phpunit/phpunit-selenium": "@stable",
                 "phpunit/phpunit-story": "@stable"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.7.x-dev"
+                    "dev-develop": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-10-06 15:23:39"
+            "time": "2014-10-07 06:33:05"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -424,12 +424,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "e3526cd47d6d4e221d319e10efc7f5af0e2bab72"
+                "reference": "3342465721060254757e99fafd026898ab865e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/e3526cd47d6d4e221d319e10efc7f5af0e2bab72",
-                "reference": "e3526cd47d6d4e221d319e10efc7f5af0e2bab72",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/3342465721060254757e99fafd026898ab865e0b",
+                "reference": "3342465721060254757e99fafd026898ab865e0b",
                 "shasum": ""
             },
             "require": {
@@ -483,7 +483,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-10-06 15:20:07"
+            "time": "2014-10-07 06:30:13"
         },
         {
             "name": "dreamfactory/oasys",
@@ -1483,12 +1483,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "8f39f4c3a2903883898d1026f781f0f42672f9bc"
+                "reference": "c24942a7ec2d8409d1f60d02c4460ca8317e885a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/8f39f4c3a2903883898d1026f781f0f42672f9bc",
-                "reference": "8f39f4c3a2903883898d1026f781f0f42672f9bc",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/c24942a7ec2d8409d1f60d02c4460ca8317e885a",
+                "reference": "c24942a7ec2d8409d1f60d02c4460ca8317e885a",
                 "shasum": ""
             },
             "require": {
@@ -1527,7 +1527,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-03 05:26:43"
+            "time": "2014-10-07 14:06:18"
         }
     ],
     "packages-dev": [
