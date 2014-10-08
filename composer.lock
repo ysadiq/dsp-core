@@ -293,12 +293,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "43feb90e2a84144ff3986b23a39f31d23f0a00bd"
+                "reference": "258fb7a4b741b28bb3d2a955ef4ccbef4396495e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/43feb90e2a84144ff3986b23a39f31d23f0a00bd",
-                "reference": "43feb90e2a84144ff3986b23a39f31d23f0a00bd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/258fb7a4b741b28bb3d2a955ef4ccbef4396495e",
+                "reference": "258fb7a4b741b28bb3d2a955ef4ccbef4396495e",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-10-07 06:19:17"
+            "time": "2014-10-07 23:59:45"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1ed16f88cc216ddf866e4f2cdc09793c0b2819f6"
+                "reference": "e9e8baec2a3c963a5c3fd0e2cef154ce2565d3e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1ed16f88cc216ddf866e4f2cdc09793c0b2819f6",
-                "reference": "1ed16f88cc216ddf866e4f2cdc09793c0b2819f6",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e9e8baec2a3c963a5c3fd0e2cef154ce2565d3e9",
+                "reference": "e9e8baec2a3c963a5c3fd0e2cef154ce2565d3e9",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-10-07 06:33:05"
+            "time": "2014-10-07 16:42:30"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -1067,10 +1067,10 @@
         },
         {
             "name": "pear-pear.php.net/Net_URL2",
-            "version": "2.0.7",
+            "version": "2.0.8",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/Net_URL2-2.0.7.tgz",
+                "url": "http://pear.php.net/get/Net_URL2-2.0.8.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -1078,7 +1078,7 @@
                 "php": ">=5.1.4.0"
             },
             "replace": {
-                "pear-pear/net_url2": "== 2.0.7.0"
+                "pear-pear/net_url2": "== 2.0.8.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -1530,21 +1530,13 @@
             "time": "2014-10-07 14:06:18"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "php": "~5.3,<5.6"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
