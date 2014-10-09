@@ -7,7 +7,7 @@ Please visit our [wiki](https://github.com/dreamfactorysoftware/dsp-core/wiki) f
 
 [Instructions] (https://github.com/dreamfactorysoftware/dsp-core/wiki/Usage-Options) for installing DreamFactory in various environments
 
-[Change log] (https://github.com/dreamfactorysoftware/dsp-core/wiki/CHANGELOG)
+[Change logs] (https://github.com/dreamfactorysoftware/dsp-core/wiki/CHANGELOG) for current and past releases
 
 DreamFactory is an open source software package that provides a REST API for mobile enterprise application development. You can think of DreamFactory as server middleware that connects mobile devices, such as phones and tablets, to backend data (SQL, NoSQL, and file storage) with a Representational State Transfer (REST) API.
 
