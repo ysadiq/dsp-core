@@ -28,7 +28,7 @@ use DreamFactory\Yii\Utility\Pii;
 /**
  * @type bool Global debug flag: If true, your logs will grow large and your performance will suffer, but fruitful information will be gathered.
  */
-const DSP_DEBUG = false;
+const DSP_DEBUG = true;
 /**
  * @type bool Global PHP-ERROR flag: If true, PHP-ERROR will be utilized if available. See https://github.com/JosephLenton/PHP-Error for more info.
  */
@@ -44,7 +44,7 @@ $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_S
 if ( DSP_DEBUG )
 {
     ini_set( 'display_errors', true );
-    ini_set( 'error_reporting', -1 );
+//    ini_set( 'error_reporting', -1 );
 
     defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
     defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
