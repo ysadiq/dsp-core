@@ -541,16 +541,16 @@
         },
         {
             "name": "dreamfactory/yii",
-            "version": "1.1.13.6",
+            "version": "1.1.13.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "7b85525ace4032336f05404c1ec9f19d27e26658"
+                "reference": "2bf9f99274e132908a7e22b0d6cad8b33d1a0d32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/7b85525ace4032336f05404c1ec9f19d27e26658",
-                "reference": "7b85525ace4032336f05404c1ec9f19d27e26658",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/2bf9f99274e132908a7e22b0d6cad8b33d1a0d32",
+                "reference": "2bf9f99274e132908a7e22b0d6cad8b33d1a0d32",
                 "shasum": ""
             },
             "require": {
@@ -615,7 +615,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-10-03 16:45:47"
+            "time": "2014-10-09 21:32:11"
         },
         {
             "name": "guzzle/guzzle",
@@ -1067,10 +1067,10 @@
         },
         {
             "name": "pear-pear.php.net/Net_URL2",
-            "version": "2.0.8",
+            "version": "2.0.10",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/Net_URL2-2.0.8.tgz",
+                "url": "http://pear.php.net/get/Net_URL2-2.0.10.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -1078,7 +1078,7 @@
                 "php": ">=5.1.4.0"
             },
             "replace": {
-                "pear-pear/net_url2": "== 2.0.8.0"
+                "pear-pear/net_url2": "== 2.0.10.0"
             },
             "type": "pear-library",
             "autoload": {
