@@ -60,8 +60,8 @@
 		"php":                                  "~5.3,<5.6",
 		"kisma/kisma":                          "~0.2",
 		"jeremeamia/superclosure":              "~1.0",
-        "dreamfactory/yii": "dev-feature/schema-refactor as dev-master",
-		"dreamfactory/lib-php-common-platform": "~1.8"
+        "dreamfactory/yii": "dev-develop as dev-master",
+		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
 	},
 	"extra":             {
 		"branch-alias": {
