@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "afc37e55cb8105dbea52ceafb34768eb2a0afac2"
+                "reference": "26c59994cbb41141d179d38736a3ba040ad34297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/afc37e55cb8105dbea52ceafb34768eb2a0afac2",
-                "reference": "afc37e55cb8105dbea52ceafb34768eb2a0afac2",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/26c59994cbb41141d179d38736a3ba040ad34297",
+                "reference": "26c59994cbb41141d179d38736a3ba040ad34297",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-10-11 03:37:49"
+            "time": "2014-10-15 14:25:26"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -545,16 +545,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/yii.git",
-                "reference": "8fe8f149c9e33d38b6c453a1494963f101f6de40"
+                "reference": "d02a4ba54664d21dce401c0ef61aeee083b558de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/8fe8f149c9e33d38b6c453a1494963f101f6de40",
-                "reference": "8fe8f149c9e33d38b6c453a1494963f101f6de40",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/yii/zipball/d02a4ba54664d21dce401c0ef61aeee083b558de",
+                "reference": "d02a4ba54664d21dce401c0ef61aeee083b558de",
                 "shasum": ""
             },
             "require": {
-                "kisma/kisma": "~0.2",
                 "php": ">=5.1.0"
             },
             "type": "library",
@@ -616,7 +615,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2014-10-11 17:07:02"
+            "time": "2014-10-15 01:00:37"
         },
         {
             "name": "guzzle/guzzle",
