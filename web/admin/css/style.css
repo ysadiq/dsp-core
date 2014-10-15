@@ -643,3 +643,15 @@ label.error {
 	display:      inline;
 	margin-right: 10px;
 }
+.column-listing .panel-heading {
+   padding:0px;
+}
+.column-listing .column-name{
+    display:inline-block;
+    padding:10px 15px;
+    width:95%;
+}
+.delete-column{
+    float:right;
+    margin:7px;
+}

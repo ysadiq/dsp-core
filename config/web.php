@@ -220,7 +220,7 @@ return array(
                     // Normal debug mode
                     //'levels'      => 'error, warning, info, debug, notice',
                     // Production
-                    'levels'      => 'error, warning, info, notice',
+                    'levels'      => 'error, warning, info, notice, debug, trace',
                 ),
             ),
         ),
