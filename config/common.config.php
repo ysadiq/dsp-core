@@ -131,6 +131,7 @@ if ( $_fabricHosted )
     $_identity = array(
         'dsp.storage_id'         => $_storageKey,
         'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
+        'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
     );
 }
 else
@@ -141,6 +142,7 @@ else
     $_identity = array(
         'dsp.storage_id'         => null,
         'dsp.private_storage_id' => null,
+        'dsp_name'               => \Kisma::get( 'platform.host_name' ),
     );
 }
 
@@ -178,7 +180,6 @@ return array_merge(
         'base_path'                     => $_basePath,
         /** DSP Information */
         'dsp.version'                   => DSP_VERSION,
-        'dsp_name'                      => \Kisma::get( 'platform.dsp_name' ),
         'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
         'dsp.fabric_hosted'             => $_fabricHosted,
         'dsp.no_persistent_storage'     => false,
