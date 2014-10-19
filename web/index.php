@@ -32,7 +32,7 @@ const DSP_DEBUG = true;
 /**
  * @type bool Global PHP-ERROR flag: If true, PHP-ERROR will be utilized if available. See https://github.com/JosephLenton/PHP-Error for more info.
  */
-const DSP_DEBUG_PHP_ERROR = false;
+const DSP_DEBUG_PHP_ERROR = true;
 
 $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
