@@ -27,6 +27,11 @@ use Kisma\Core\Utility\Log;
  */
 $_fabricHosted = false;
 
+if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php' ) )
+{
+    require __DIR__ . '/constants.config.php';
+}
+
 /**
  * Load any environment variables first thing as they may be used by the database config
  */
@@ -72,7 +77,9 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
          */
         if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
         {
-            $_dbName = 'hpp_' . str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
+            $_dbName =
+                'hpp_' .
+                str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
         }
         else
         {
@@ -190,7 +197,11 @@ return array(
                 //  Console controller's cache action has sub-commands
                 array('console/cache/<command>', 'pattern' => 'console/cache/<command:[_0-9a-zA-Z-]+>'),
                 // fall through to storage services for direct access
-                array('storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
+                array(
+                    'storage/get',
+                    'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>',
+                    'verb'    => 'GET'
+                ),
                 //  admin
                 //array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
             ),
@@ -220,7 +231,7 @@ return array(
                     // Normal debug mode
                     //'levels'      => 'error, warning, info, debug, notice',
                     // Production
-                    'levels'      => 'error, warning, info, notice, debug, trace',
+                    'levels'      => 'error, warning, info, notice, debug',
                 ),
             ),
         ),

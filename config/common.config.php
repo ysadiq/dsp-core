@@ -28,11 +28,7 @@ use Kisma\Core\Enums\LoggingLevels;
  * NOTE:   If you make changes to this file they will probably be lost
  *         during the next system update/upgrade.
  */
-if ( !defined( 'DSP_VERSION' ) )
-{
-    /** @noinspection PhpIncludeInspection */
-    require __DIR__ . CONSTANTS_CONFIG_PATH;
-}
+require __DIR__ . CONSTANTS_CONFIG_PATH;
 
 //*************************************************************************
 //* Global Configuration Settings
@@ -174,6 +170,19 @@ return array_merge(
         //******************************************************************************
         'platform.timestamp_format'     => 'Y-m-d H:i:s',
         //******************************************************************************
+        //* Application-wide Settings
+        //******************************************************************************
+        /** The base path */
+        'app.base_path'                 => $_basePath,
+        /** The private path */
+        'app.private_path'              => $_basePath . $_instanceSettings[LocalStorageTypes::PRIVATE_PATH],
+        /** The plugins path */
+        'app.plugins_path'              => $_basePath . $_instanceSettings[LocalStorageTypes::PLUGINS_PATH],
+        /** Enable/disable the internal profiler */
+        'app.enable_profiler'           => false,
+        //  I do not believe this is being utilized
+        'app.debug_level'               => LoggingLevels::WARNING,
+        //******************************************************************************
         //* DSP and Application General Settings
         //******************************************************************************
         /** App Information */
@@ -216,13 +225,6 @@ return array_merge(
         'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
-        //-------------------------------------------------------------------------
-        //	Logging/Debug Options
-        //-------------------------------------------------------------------------
-        /** Enable the internal profiler */
-        'dsp.enable_profiler'           => false,
-        //  I do not believe this is being utilized
-        'dsp.debug_level'               => LoggingLevels::WARNING,
         //-------------------------------------------------------------------------
         //	Event and Scripting System Options
         //-------------------------------------------------------------------------
