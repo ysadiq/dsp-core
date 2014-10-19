@@ -420,27 +420,28 @@
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
-            "version": "1.5.9",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "83a9c223b840b32235569c76dbef0411664ab03e"
+                "reference": "9c1eee82794c6c9aa02fbfcbbc0f53d6a4ee6877"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/83a9c223b840b32235569c76dbef0411664ab03e",
-                "reference": "83a9c223b840b32235569c76dbef0411664ab03e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/9c1eee82794c6c9aa02fbfcbbc0f53d6a4ee6877",
+                "reference": "9c1eee82794c6c9aa02fbfcbbc0f53d6a4ee6877",
                 "shasum": ""
             },
             "require": {
-                "dreamfactory/lib-php-common": "~1.5.0@stable",
-                "dreamfactory/yii": "~1.1.13.3",
-                "kisma/kisma": "~0.2.53@stable",
-                "php": ">=5.3.18"
+                "dreamfactory/lib-php-common": "*",
+                "dreamfactory/php-utils": "*",
+                "dreamfactory/yii": "~1.1.13.10",
+                "kisma/kisma": "~0.2",
+                "php": "~5.3"
             },
             "require-dev": {
                 "phpunit/dbunit": "@stable",
-                "phpunit/phpunit": "~3.7@stable",
+                "phpunit/phpunit": "@stable",
                 "phpunit/phpunit-selenium": "@stable",
                 "phpunit/phpunit-story": "@stable"
             },
@@ -483,7 +484,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-08-14 16:46:14"
+            "time": "2014-10-19 17:13:56"
         },
         {
             "name": "dreamfactory/oasys",
@@ -545,12 +546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/package-installer.git",
-                "reference": "1c400f58691453e9fa2da4945790499aa34b51d8"
+                "reference": "e4034f8e007048621f1ca97076677e8ca1e1a04f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/1c400f58691453e9fa2da4945790499aa34b51d8",
-                "reference": "1c400f58691453e9fa2da4945790499aa34b51d8",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/e4034f8e007048621f1ca97076677e8ca1e1a04f",
+                "reference": "e4034f8e007048621f1ca97076677e8ca1e1a04f",
                 "shasum": ""
             },
             "require": {
@@ -596,7 +597,7 @@
                 "jetpack",
                 "plugin"
             ],
-            "time": "2014-10-19 04:26:05"
+            "time": "2014-10-19 18:33:40"
         },
         {
             "name": "dreamfactory/php-utils",
@@ -655,12 +656,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/portal-sandbox.git",
-                "reference": "8b786685ef95f78d5f5afda5a44079db0a1e1483"
+                "reference": "eefaf3ace0a133cdea0be41e3403c838670a559b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/portal-sandbox/zipball/8b786685ef95f78d5f5afda5a44079db0a1e1483",
-                "reference": "8b786685ef95f78d5f5afda5a44079db0a1e1483",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/portal-sandbox/zipball/eefaf3ace0a133cdea0be41e3403c838670a559b",
+                "reference": "eefaf3ace0a133cdea0be41e3403c838670a559b",
                 "shasum": ""
             },
             "require": {
@@ -716,7 +717,7 @@
                 "oasys",
                 "oauth"
             ],
-            "time": "2014-10-19 18:14:01"
+            "time": "2014-10-19 18:21:39"
         },
         {
             "name": "dreamfactory/yii",
