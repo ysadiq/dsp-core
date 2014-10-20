@@ -8,6 +8,7 @@ manifest.yml
 build/
 web/assets/*
 web/apps/
+web/pbox
 !web/static/
 config/database.config.php
 config/env.config.php
