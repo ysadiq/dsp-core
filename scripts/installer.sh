@@ -485,15 +485,15 @@ if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 	##
 	## Shutdown non-essential services (if root)
 	##
-	if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
-		if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-			_dbg "Stopping Apache Web Server"
-			service apache2 stop >>${MY_LOG} 2>&1
-		fi
-
-		_dbg "Stopping MySQL Database Server"
-		service mysql stop >>${MY_LOG} 2>&1
-	fi
+#	if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
+#		if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
+#			_dbg "Stopping Apache Web Server"
+#			service apache2 stop >>${MY_LOG} 2>&1
+#		fi
+#
+#		_dbg "Stopping MySQL Database Server"
+#		service mysql stop >>${MY_LOG} 2>&1
+#	fi
 
 	# Git submodules (not currently used, but could be in the future)
 	_dbg "Updating git submodules"
@@ -566,10 +566,10 @@ fi
 ##
 if [ ${ONLY_VALIDATE} -eq 0 ] ; then
 	if [ $UID -eq 0 ] && [ ${FABRIC} -ne 1 ] ; then
-		service mysql start >>${MY_LOG} 2>&1
+#		service mysql start >>${MY_LOG} 2>&1
 
 		if [ "${WEB_USER}" != "${INSTALL_USER}" ] ; then
-			service apache2 start >>${MY_LOG} 2>&1
+			service apache2 restart >>${MY_LOG} 2>&1
 		else
 			service apache2 reload >>${MY_LOG} 2>&1
 		fi
