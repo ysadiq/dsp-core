@@ -183,13 +183,22 @@ class WebController extends BaseWebController
      */
     public function actionError()
     {
-        if ( null !== ( $_error = Pii::currentError() ) )
+        if ( null === ( $_error = Pii::currentError() ) )
+        {
+            parent::actionError();
+        }
+        else
         {
             if ( Pii::ajaxRequest() )
             {
                 echo $_error['message'];
 
                 return;
+            }
+
+            if ( $_error['code'] == 404 )
+            {
+                $this->layout = 'error';
             }
 
             $this->render( 'error', $_error );
@@ -587,7 +596,10 @@ class WebController extends BaseWebController
                     {
                         if ( Option::getBool( $_result, 'success' ) )
                         {
-                            Yii::app()->user->setFlash( 'register-user-form', 'A registration confirmation has been sent to this email.' );
+                            Yii::app()->user->setFlash(
+                                'register-user-form',
+                                'A registration confirmation has been sent to this email.'
+                            );
                         }
                     }
                     else
@@ -868,7 +880,11 @@ class WebController extends BaseWebController
 
         if ( !empty( $_path ) )
         {
-            $_objects = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $_path ), RecursiveIteratorIterator::SELF_FIRST );
+            $_objects =
+                new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator( $_path ),
+                    RecursiveIteratorIterator::SELF_FIRST
+                );
 
             /** @var $_node \SplFileInfo */
             foreach ( $_objects as $_name => $_node )
@@ -904,7 +920,8 @@ class WebController extends BaseWebController
         }
         else
         {
-            $_endpoint = Pii::getParam( 'cloud.endpoint' ) . '/metrics/dsp?dsp=' . urlencode( Pii::getParam( 'dsp.name' ) );
+            $_endpoint =
+                Pii::getParam( 'cloud.endpoint' ) . '/metrics/dsp?dsp=' . urlencode( Pii::getParam( 'dsp.name' ) );
 
             Curl::setDecodeToArray( true );
             $_stats = Curl::get( $_endpoint );
@@ -1040,7 +1057,8 @@ class WebController extends BaseWebController
         }
 
         $_redirectUri = Option::get( $_state, 'redirect_uri', $_state['origin'] );
-        $_redirectUrl = $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
+        $_redirectUrl =
+            $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
 
         Log::debug( 'Proxying request to: ' . $_redirectUrl );
 

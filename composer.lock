@@ -545,12 +545,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/package-installer.git",
-                "reference": "e4034f8e007048621f1ca97076677e8ca1e1a04f"
+                "reference": "8d0081d9e1eb1558d8b8d4783c0e4a8486f48497"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/e4034f8e007048621f1ca97076677e8ca1e1a04f",
-                "reference": "e4034f8e007048621f1ca97076677e8ca1e1a04f",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/8d0081d9e1eb1558d8b8d4783c0e4a8486f48497",
+                "reference": "8d0081d9e1eb1558d8b8d4783c0e4a8486f48497",
                 "shasum": ""
             },
             "require": {
@@ -596,7 +596,7 @@
                 "jetpack",
                 "plugin"
             ],
-            "time": "2014-10-19 18:33:40"
+            "time": "2014-10-20 00:07:53"
         },
         {
             "name": "dreamfactory/php-utils",

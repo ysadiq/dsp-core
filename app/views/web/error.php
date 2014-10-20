@@ -28,6 +28,14 @@ use Kisma\Core\Enums\HttpResponse;
 
 $_niceCode = HttpResponse::prettyNameOf( $code, true );
 
+switch ( $code )
+{
+    case 404:
+        echo $this->renderPartial( '_404' );
+
+        return;
+}
+
 ?>
 <div class="container-fluid container-error">
     <h1>Well, this is embarrassing...</h1>

@@ -61,7 +61,8 @@
 		"kisma/kisma":                          "~0.2",
 		"jeremeamia/superclosure":              "~1.0",
         "dreamfactory/yii": "~1.1.13.0",
-        "dreamfactory/portal-sandbox": "*",
+        "dreamfactory/package-installer": "dev-develop as dev-master",
+        "dreamfactory/portal-sandbox": "dev-develop as dev-master",
 		"dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
 	},
 	"extra":             {
