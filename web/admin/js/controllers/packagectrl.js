@@ -29,6 +29,9 @@ var PackageCtrl = function(dfLoadingScreen, $scope, AppsRelatedToService, Servic
         // Stop loading screen
         dfLoadingScreen.stop();
     });
+
+
+
 	Scope.schemaData = {};
 	Scope.Services = Service.get(
 		function( data ) {
@@ -131,6 +134,7 @@ var PackageCtrl = function(dfLoadingScreen, $scope, AppsRelatedToService, Servic
 		if ( $( '.include-service:checkbox:checked' ).length > 0 ) {
 			exportLink = exportLink + "&include_services=true";
 		}
+
 		AppsRelatedToService.update(
 			{id: id}, Scope.app, function() {
 				$( '#download_frame' ).attr( 'src', exportLink );
