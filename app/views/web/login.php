@@ -71,7 +71,7 @@ if ( !empty( $loginProviders ) )
             continue;
         }
 
-        $_icon = strtolower( $_provider->provider_name );
+        $_icon = $_providerType = strtolower( $_provider->provider_name );
 
         //	Google icon has a different name
         if ( 'google' == $_icon )
@@ -79,7 +79,7 @@ if ( !empty( $loginProviders ) )
             $_icon = 'google-plus';
         }
 
-        $_providerHtml .= '<i class="fa fa-' . $_icon . ' fa-3x" data-provider="' . $_provider->api_name . '"></i>';
+        $_providerHtml .= '<i class="fa fa-' . $_icon . ' fa-3x" data-provider="' . $_providerType . '"></i>';
     }
 
     $_providerHider = !empty( $_providerHtml ) ? null : ' hide ';
