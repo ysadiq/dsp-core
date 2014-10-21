@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cfce066813400cd64c23b4f70616c9bb",
+    "hash": "6488eca7f54c39139fc669fdc70290ff",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1a5974b4674ddcbcda480bc6478096d7362a18b5"
+                "reference": "645b25b04ba522bd8f764c57d5533c857cadc1a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1a5974b4674ddcbcda480bc6478096d7362a18b5",
-                "reference": "1a5974b4674ddcbcda480bc6478096d7362a18b5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/645b25b04ba522bd8f764c57d5533c857cadc1a6",
+                "reference": "645b25b04ba522bd8f764c57d5533c857cadc1a6",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-10-20 03:35:32"
+            "time": "2014-10-21 04:14:27"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -541,6 +541,65 @@
             "time": "2014-10-20 00:27:46"
         },
         {
+            "name": "dreamfactory/package-installer",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dreamfactorysoftware/package-installer.git",
+                "reference": "cc5ccb5c7c2ecd56de1b4f603232878e23546141"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/package-installer/zipball/cc5ccb5c7c2ecd56de1b4f603232878e23546141",
+                "reference": "cc5ccb5c7c2ecd56de1b4f603232878e23546141",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "1.0.0",
+                "dreamfactory/php-utils": "*",
+                "kisma/kisma": "*"
+            },
+            "require-dev": {
+                "composer/composer": "*"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "DreamFactory\\Tools\\Composer\\Package\\Plugin",
+                "_comment.supported-types": "provides a way to extend the types and locations of plug-ins which we can install",
+                "supported-types": {
+                    "dreamfactory-application": "/applications",
+                    "dreamfactory-jetpack": "/plugins",
+                    "dreamfactory-library": "/plugins",
+                    "dreamfactory-plugin": "/plugins"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DreamFactory\\Tools\\Composer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ablan, Jerry",
+                    "email": "jerryablan@dreamfactory.com"
+                }
+            ],
+            "description": "DreamFactory Services Platform(tm) Package Installer",
+            "homepage": "https://www.dreamfactory.com/",
+            "keywords": [
+                "cloud",
+                "dsp",
+                "installer",
+                "jetpack",
+                "plugin"
+            ],
+            "time": "2014-10-21 03:36:38"
+        },
+        {
             "name": "dreamfactory/php-utils",
             "version": "dev-master",
             "source": {
@@ -590,6 +649,77 @@
                 "utility"
             ],
             "time": "2014-10-19 04:22:35"
+        },
+        {
+            "name": "dreamfactory/portal-sandbox",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dreamfactorysoftware/portal-sandbox.git",
+                "reference": "4d34295ca2b8eedc966ae0cfa1fa45b14d835f4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/portal-sandbox/zipball/4d34295ca2b8eedc966ae0cfa1fa45b14d835f4d",
+                "reference": "4d34295ca2b8eedc966ae0cfa1fa45b14d835f4d",
+                "shasum": ""
+            },
+            "require": {
+                "dreamfactory/package-installer": "dev-develop as dev-master",
+                "kisma/kisma": "~0.2",
+                "php": "~5.3"
+            },
+            "require-dev": {
+                "dreamfactory/lib-php-common-platform": "@stable",
+                "dreamfactory/oasys": "@stable",
+                "phpunit/phpunit": "@stable"
+            },
+            "type": "dreamfactory-application",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.2.x-dev"
+                },
+                "data": {
+                    "application": {
+                        "name": "Portal Sandbox",
+                        "api-name": "pbox",
+                        "description": "A sample application that demonstrates the DSP's portal service.",
+                        "start-url": "/index.php",
+                        "url-is-external": false,
+                        "import-url": "https://github.com/dreamfactorysoftware/portal-sandbox/archive/master.zip",
+                        "active": true,
+                        "fullscreen": false,
+                        "fullscreen-toggle": true,
+                        "toggle-location": "top"
+                    }
+                },
+                "links": [
+                    {
+                        "target": "src/",
+                        "link": "pbox"
+                    }
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jerry Ablan",
+                    "email": "jerryablan@dreamfactory.com"
+                }
+            ],
+            "description": "DreamFactory Services Platform(tm) Portal Sandbox Application",
+            "homepage": "https://www.dreamfactory.com/",
+            "keywords": [
+                "Authentication",
+                "dsp",
+                "examples",
+                "oasys",
+                "oauth"
+            ],
+            "time": "2014-10-21 03:39:13"
         },
         {
             "name": "dreamfactory/yii",
@@ -873,12 +1003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "b738a6c04c5fcc9e304d72f287e25256439fd13e"
+                "reference": "f835cd21e472683a9d251131f8c89ba18ed506c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b738a6c04c5fcc9e304d72f287e25256439fd13e",
-                "reference": "b738a6c04c5fcc9e304d72f287e25256439fd13e",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f835cd21e472683a9d251131f8c89ba18ed506c7",
+                "reference": "f835cd21e472683a9d251131f8c89ba18ed506c7",
                 "shasum": ""
             },
             "require": {
@@ -937,7 +1067,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-10-17 18:12:45"
+            "time": "2014-10-21 09:22:09"
         },
         {
             "name": "nikic/php-parser",
