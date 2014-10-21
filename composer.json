@@ -60,8 +60,8 @@
         "php": "~5.3",
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
-        "dreamfactory/yii": "~1.1.13.0",
-        "dreamfactory/portal-sandbox": "*",
+        "dreamfactory/php-utils": "~1.0",
+        "dreamfactory/yii": "~1.1.13.0@dev",
         "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
     },
     "extra": {
