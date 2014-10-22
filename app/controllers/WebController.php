@@ -571,13 +571,13 @@ class WebController extends BaseWebController
             $this->redirect( '/' );
         }
 
-        $_model = new RegisterUserForm();
-
         /** @var $_config Config */
         if ( false === ( $_config = Config::getOpenRegistration() ) )
         {
             throw new BadRequestException( "Open registration for users is not currently enabled for this system." );
         }
+
+        $_model = new RegisterUserForm();
 
         $_viaEmail = ( null !== Option::get( $_config, 'open_reg_email_service_id' ) );
         $_model->setViaEmail( $_viaEmail );
@@ -590,7 +590,7 @@ class WebController extends BaseWebController
             {
                 try
                 {
-                    $_result = Register::userRegister( $_model->attributes, true, false );
+                    $_result = Register::userRegister( $_model->getAttributes(), true, false );
 
                     if ( $_viaEmail )
                     {
@@ -824,13 +824,11 @@ class WebController extends BaseWebController
 
         /** @var \CWebUser $_user */
         $_user = \Yii::app()->user;
+
         // Create and login first admin user
-        if ( !$_user->getState( 'df_authenticated' ) )
+        if ( !$_user->getState( 'df_authenticated' ) && !Session::isSystemAdmin() )
         {
-            if ( !Session::isSystemAdmin() )
-            {
-                throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials . ' );
-            }
+            throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials.' );
         }
 
         $_current = SystemManager::getCurrentVersion();
@@ -978,7 +976,7 @@ class WebController extends BaseWebController
             Pii::getState( $_providerId . '.user_config', array() ),
             array(
                 'flow_type'    => $_flow,
-                'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+                'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerModel->provider_name,
             )
         );
 
