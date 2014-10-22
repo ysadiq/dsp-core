@@ -267,6 +267,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		$( '.update_button' ).hide();
 		$( "tr.info" ).removeClass( 'info' );
 		Scope.service.type = "Remote Web Service";
+
 		Scope.showFields();
 		$( '#file-manager' ).hide();
 		$( "#button_holder" ).show();
@@ -831,7 +832,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		var item = this.$index;
 		$scope.service.credentials.client_exclusions.parameters.splice(item, 1);
 	}
-	$scope.addClientParameter = function(){
+	$scope.addClientParameter = function () {
+		if (!Scope.service.credentials.client_exclusions) {
+			Scope.service.credentials.client_exclusions = {
+				headers: [],
+				parameters: []
+			};
+
+		}
+
 		$scope.param = {};
 		$scope.service.credentials.client_exclusions.parameters.unshift($scope.param);
 	}
