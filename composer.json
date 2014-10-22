@@ -66,6 +66,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "@stable",
+        "phpunit/php-invoker": "@stable",
+        "phpunit/phpunit-selenium": "@stable",
+        "phpunit/phpunit-story": "@stable",
         "phpunit/dbunit": "@stable"
     },
     "extra": {
