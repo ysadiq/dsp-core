@@ -17,16 +17,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Yii\Models\Provider;
 use DreamFactory\Yii\Utility\Pii;
 use DreamFactory\Yii\Utility\Validate;
+use Kisma\Core\Utility\Log;
 
 /**
  * @var WebController $this
  * @var LoginForm     $model
  * @var bool          $redirected
  * @var CActiveForm   $form
- * @var Provider[]    $loginProviders
+ * @var array         $loginProviders
  * @var bool          $allowRegistration
  */
 $_html = null;
@@ -64,14 +64,16 @@ $_providerHider = 'hide';
 
 if ( !empty( $loginProviders ) )
 {
+//    Log::debug( 'login providers: ' . print_r( $loginProviders, true ) );
+
     foreach ( $loginProviders as $_provider )
     {
-        if ( !$_provider->is_active || !$_provider->is_login_provider )
+        if ( !$_provider['is_active'] || !$_provider['is_login_provider'] )
         {
             continue;
         }
 
-        $_icon = $_providerType = strtolower( $_provider->provider_name );
+        $_icon = $_providerType = strtolower( $_provider['provider_name'] );
 
         //	Google icon has a different name
         if ( 'google' == $_icon )
