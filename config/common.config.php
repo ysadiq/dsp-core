@@ -198,8 +198,8 @@ return array_merge(
         //  Any keys included from config/keys.config.php
         'keys'                          => $_keys,
         /** Remote Logins */
-        'dsp.allow_remote_logins'       => true,
-        'dsp.allow_admin_remote_logins' => true,
+        'dsp.allow_remote_logins'       => false,
+        'dsp.allow_admin_remote_logins' => false,
         /** User data */
         'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
         /** Default services */
