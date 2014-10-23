@@ -436,10 +436,7 @@ class WebController extends BaseWebController
                 'activated'         => $this->_activated,
                 'allowRegistration' => Config::getOpenRegistration(),
                 'redirected'        => $redirected,
-                'loginProviders'    => ResourceStore::model( 'provider' )->findAll(
-                    'is_login_provider = :is_login_provider AND is_active = :is_active',
-                    array(':is_login_provider' => 1, ':is_active' => 1)
-                ),
+                'loginProviders'    => Platform::storeGet( Config::PROVIDERS_CACHE_KEY ),
             )
         );
     }
@@ -959,13 +956,23 @@ class WebController extends BaseWebController
         //	Check local then global...
         if ( null === ( $_providerModel = Provider::model()->byPortal( $_providerId )->find() ) )
         {
-            /** @var Provider $_providerModel */
+            /** @var \stdClass $_providerModel */
             $_providerModel = Fabric::getProviderCredentials( $_providerId );
 
             if ( empty( $_providerModel ) )
             {
                 throw new BadRequestException( 'The provider "' . $_providerId . '" is not available.' );
             }
+
+            //  Translate from back-end to front-end
+            $_model = new stdClass();
+            $_model->id = $_providerModel->id;
+            $_model->provider_name = $_providerModel->provider_name_text;
+            $_model->config_text = $_providerModel->config_text;
+            $_model->api_name = $_providerModel->endpoint_text;
+            $_model->is_active = $_providerModel->enable_ind;
+            $_model->is_login_provider = $_providerModel->login_provider_ind;
+            $_providerModel = $_model;
         }
 
         //	Set our store...
@@ -980,8 +987,6 @@ class WebController extends BaseWebController
             )
         );
 
-        Log::debug( 'remote login config: ' . print_r( $_config, true ) );
-
         $_provider = Oasys::getProvider( $_providerId, $_config );
 
         if ( $_provider->handleRequest() )
@@ -990,6 +995,7 @@ class WebController extends BaseWebController
             try
             {
                 $_user = User::remoteLoginRequest( $_providerId, $_provider, $_providerModel );
+
                 Log::debug( 'Remote login success: ' . $_user->email . ' (id#' . $_user->id . ')' );
             }
             catch ( \Exception $_ex )
