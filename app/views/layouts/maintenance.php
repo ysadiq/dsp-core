@@ -47,7 +47,7 @@
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
     <![endif]-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body class="maintenance-page">
 <div id="wrap">
@@ -59,7 +59,8 @@
     <div class="container align-center">
         <p class="footer-text">&copy; <a href="http://dreamfactory.com">DreamFactory Software, Inc.</a> <?php echo date(
                 'Y'
-            ); ?>. All Rights Reserved.<span class="footer-logo pull-right"><img src="/images/df-apple-touch-icon.png" alt=""></span></p>
+            ); ?>. All Rights Reserved.<span class="footer-logo pull-right"><img src="/images/df-apple-touch-icon.png"
+                    alt=""></span></p>
     </div>
 </div>
 </body>

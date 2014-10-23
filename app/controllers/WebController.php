@@ -183,13 +183,22 @@ class WebController extends BaseWebController
      */
     public function actionError()
     {
-        if ( null !== ( $_error = Pii::currentError() ) )
+        if ( null === ( $_error = Pii::currentError() ) )
+        {
+            parent::actionError();
+        }
+        else
         {
             if ( Pii::ajaxRequest() )
             {
                 echo $_error['message'];
 
                 return;
+            }
+
+            if ( $_error['code'] == 404 )
+            {
+                $this->layout = 'error';
             }
 
             $this->render( 'error', $_error );
@@ -562,13 +571,13 @@ class WebController extends BaseWebController
             $this->redirect( '/' );
         }
 
-        $_model = new RegisterUserForm();
-
         /** @var $_config Config */
         if ( false === ( $_config = Config::getOpenRegistration() ) )
         {
             throw new BadRequestException( "Open registration for users is not currently enabled for this system." );
         }
+
+        $_model = new RegisterUserForm();
 
         $_viaEmail = ( null !== Option::get( $_config, 'open_reg_email_service_id' ) );
         $_model->setViaEmail( $_viaEmail );
@@ -581,13 +590,16 @@ class WebController extends BaseWebController
             {
                 try
                 {
-                    $_result = Register::userRegister( $_model->attributes, true, false );
+                    $_result = Register::userRegister( $_model->getAttributes(), true, false );
 
                     if ( $_viaEmail )
                     {
                         if ( Option::getBool( $_result, 'success' ) )
                         {
-                            Yii::app()->user->setFlash( 'register-user-form', 'A registration confirmation has been sent to this email.' );
+                            Yii::app()->user->setFlash(
+                                'register-user-form',
+                                'A registration confirmation has been sent to this email.'
+                            );
                         }
                     }
                     else
@@ -812,13 +824,11 @@ class WebController extends BaseWebController
 
         /** @var \CWebUser $_user */
         $_user = \Yii::app()->user;
+
         // Create and login first admin user
-        if ( !$_user->getState( 'df_authenticated' ) )
+        if ( !$_user->getState( 'df_authenticated' ) && !Session::isSystemAdmin() )
         {
-            if ( !Session::isSystemAdmin() )
-            {
-                throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials . ' );
-            }
+            throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials.' );
         }
 
         $_current = SystemManager::getCurrentVersion();
@@ -868,7 +878,11 @@ class WebController extends BaseWebController
 
         if ( !empty( $_path ) )
         {
-            $_objects = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $_path ), RecursiveIteratorIterator::SELF_FIRST );
+            $_objects =
+                new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator( $_path ),
+                    RecursiveIteratorIterator::SELF_FIRST
+                );
 
             /** @var $_node \SplFileInfo */
             foreach ( $_objects as $_name => $_node )
@@ -904,7 +918,8 @@ class WebController extends BaseWebController
         }
         else
         {
-            $_endpoint = Pii::getParam( 'cloud.endpoint' ) . '/metrics/dsp?dsp=' . urlencode( Pii::getParam( 'dsp.name' ) );
+            $_endpoint =
+                Pii::getParam( 'cloud.endpoint' ) . '/metrics/dsp?dsp=' . urlencode( Pii::getParam( 'dsp.name' ) );
 
             Curl::setDecodeToArray( true );
             $_stats = Curl::get( $_endpoint );
@@ -961,7 +976,7 @@ class WebController extends BaseWebController
             Pii::getState( $_providerId . '.user_config', array() ),
             array(
                 'flow_type'    => $_flow,
-                'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+                'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerModel->provider_name,
             )
         );
 
@@ -1040,7 +1055,8 @@ class WebController extends BaseWebController
         }
 
         $_redirectUri = Option::get( $_state, 'redirect_uri', $_state['origin'] );
-        $_redirectUrl = $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
+        $_redirectUrl =
+            $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
 
         Log::debug( 'Proxying request to: ' . $_redirectUrl );
 

@@ -71,7 +71,7 @@ if ( !empty( $loginProviders ) )
             continue;
         }
 
-        $_icon = strtolower( $_provider->api_name );
+        $_icon = $_providerType = strtolower( $_provider->provider_name );
 
         //	Google icon has a different name
         if ( 'google' == $_icon )
@@ -79,7 +79,7 @@ if ( !empty( $loginProviders ) )
             $_icon = 'google-plus';
         }
 
-        $_providerHtml .= '<i class="fa fa-' . $_icon . ' fa-3x" data-provider="' . $_provider->api_name . '"></i>';
+        $_providerHtml .= '<i class="fa fa-' . $_icon . ' fa-3x" data-provider="' . $_providerType . '"></i>';
     }
 
     $_providerHider = !empty( $_providerHtml ) ? null : ' hide ';
@@ -115,9 +115,9 @@ HTML;
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-envelope fa-2x"></i></span>
 
                     <input tabindex="1" required class="form-control" autofocus type="email" id="LoginForm_username"
-                           name="LoginForm[username]" placeholder="DSP User Email Address"
-                           spellcheck="false" autocapitalize="off" autocorrect="off"
-                           value="<?php echo $model->username; ?>" />
+                        name="LoginForm[username]" placeholder="DSP User Email Address"
+                        spellcheck="false" autocapitalize="off" autocorrect="off"
+                        value="<?php echo $model->username; ?>" />
                 </div>
             </div>
 
@@ -128,9 +128,9 @@ HTML;
                     <span class="input-group-addon bg-control"><i class="fa fa-fw fa-lock fa-2x"></i></span>
 
                     <input tabindex="2" class="form-control required" type="password" id="LoginForm_password"
-                           name="LoginForm[password]"
-                           autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false"
-                           placeholder="Password" value="" />
+                        name="LoginForm[password]"
+                        autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="false"
+                        placeholder="Password" value="" />
                 </div>
             </div>
 
@@ -138,10 +138,10 @@ HTML;
                 <div class="checkbox remember-me pull-right">
                     <label>
                         <input type="checkbox"
-                               tabindex="3"
+                            tabindex="3"
                             <?php echo $model->rememberMe ? ' checked="checked" ' : null; ?>
-                               id="LoginForm_rememberMe"
-                               name="LoginForm[rememberMe]">
+                            id="LoginForm_rememberMe"
+                            name="LoginForm[rememberMe]">
                         <?php echo $_rememberMeCopy; ?>
                     </label>
                 </div>

@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the DreamFactory Services Platform(tm) (DSP)
+ * This file is part of the DreamFactory Services Platform(tm) SDK For PHP
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+ * Copyright 2012-2014 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
- * This is the main template for the server-side views.
+ * Partial view for 404 errors
  *
  * @var string        $content
  * @var WebController $this
  */
-$_versions = array(
-    'bootstrap'       => '3.2.0',
-    'font-awesome'    => '4.2.0',
-    'bootswatch'      => '3.2.0',
-    'jquery'          => '2.1.1',
-    'jquery.validate' => '1.11.1',
-);
+?>
+<div class="body-error">
+    <img src="/img/bg-planet.png" />
 
-require __DIR__ . '/_main.outer.php';
+    <br /><br />
+
+    <h1>Error 404</h1>
+
+    <h2>P a g e&nbsp; n o t &nbsp; f o u n d</h2>
+
+    <p>Whatever you are looking for could not be found. At least not on this server. Please check your request and try again.</p>
+
+    <p><a href="/">Go Home</a></p>
+</div>
