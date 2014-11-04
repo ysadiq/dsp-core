@@ -108,15 +108,19 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
                     editor.setValue(angular.toJson($scope.table.schema.data, true), -1);
                 }else{
                     $scope.advanced = false;
+
                 }
 
             })
     }
     $scope.loadReferenceFields = function(){
+        console.log(this);
+        if(!this.column.ref_table){
+            return;
+        }
         var refTable = this.column.ref_table;
         $http.get(CurrentServer + "/rest/" + $scope.service + "/_schema/" + refTable)
             .then(function(response){
-                //console.log(response);
                 $scope.referenceFields = response.data.field;
 
             })

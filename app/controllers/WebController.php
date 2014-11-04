@@ -125,6 +125,7 @@ class WebController extends BaseWebController
                     'authorize',
                     'remoteLogin',
                     'maintenance',
+                    'unavailable',
                     'welcome',
                     'securityQuestion',
                     'register',
@@ -165,9 +166,15 @@ class WebController extends BaseWebController
      */
     public function actionMaintenance()
     {
-        $this->layout = 'maintenance';
-        $this->render( 'maintenance' );
-        die();
+        Pii::redirect( Fabric::MAINTENANCE_URI );
+    }
+
+    /**
+     * Maintenance screen
+     */
+    public function actionUnavailable()
+    {
+        Pii::redirect( Fabric::UNAVAILABLE_URI );
     }
 
     /**
@@ -183,13 +190,22 @@ class WebController extends BaseWebController
      */
     public function actionError()
     {
-        if ( null !== ( $_error = Pii::currentError() ) )
+        if ( null === ( $_error = Pii::currentError() ) )
+        {
+            parent::actionError();
+        }
+        else
         {
             if ( Pii::ajaxRequest() )
             {
                 echo $_error['message'];
 
                 return;
+            }
+
+            if ( $_error['code'] == 404 )
+            {
+                $this->layout = 'error';
             }
 
             $this->render( 'error', $_error );
@@ -427,10 +443,7 @@ class WebController extends BaseWebController
                 'activated'         => $this->_activated,
                 'allowRegistration' => Config::getOpenRegistration(),
                 'redirected'        => $redirected,
-                'loginProviders'    => ResourceStore::model( 'provider' )->findAll(
-                    'is_login_provider = :is_login_provider AND is_active = :is_active',
-                    array(':is_login_provider' => 1, ':is_active' => 1)
-                ),
+                'loginProviders'    => Platform::storeGet( Config::PROVIDERS_CACHE_KEY ),
             )
         );
     }
@@ -562,13 +575,13 @@ class WebController extends BaseWebController
             $this->redirect( '/' );
         }
 
-        $_model = new RegisterUserForm();
-
         /** @var $_config Config */
         if ( false === ( $_config = Config::getOpenRegistration() ) )
         {
             throw new BadRequestException( "Open registration for users is not currently enabled for this system." );
         }
+
+        $_model = new RegisterUserForm();
 
         $_viaEmail = ( null !== Option::get( $_config, 'open_reg_email_service_id' ) );
         $_model->setViaEmail( $_viaEmail );
@@ -581,13 +594,16 @@ class WebController extends BaseWebController
             {
                 try
                 {
-                    $_result = Register::userRegister( $_model->attributes, true, false );
+                    $_result = Register::userRegister( $_model->getAttributes(), true, false );
 
                     if ( $_viaEmail )
                     {
                         if ( Option::getBool( $_result, 'success' ) )
                         {
-                            Yii::app()->user->setFlash( 'register-user-form', 'A registration confirmation has been sent to this email.' );
+                            Yii::app()->user->setFlash(
+                                'register-user-form',
+                                'A registration confirmation has been sent to this email.'
+                            );
                         }
                     }
                     else
@@ -812,13 +828,11 @@ class WebController extends BaseWebController
 
         /** @var \CWebUser $_user */
         $_user = \Yii::app()->user;
+
         // Create and login first admin user
-        if ( !$_user->getState( 'df_authenticated' ) )
+        if ( !$_user->getState( 'df_authenticated' ) && !Session::isSystemAdmin() )
         {
-            if ( !Session::isSystemAdmin() )
-            {
-                throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials . ' );
-            }
+            throw new \Exception( 'Upgrade requires admin privileges, logout and login with admin credentials.' );
         }
 
         $_current = SystemManager::getCurrentVersion();
@@ -868,7 +882,11 @@ class WebController extends BaseWebController
 
         if ( !empty( $_path ) )
         {
-            $_objects = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $_path ), RecursiveIteratorIterator::SELF_FIRST );
+            $_objects =
+                new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator( $_path ),
+                    RecursiveIteratorIterator::SELF_FIRST
+                );
 
             /** @var $_node \SplFileInfo */
             foreach ( $_objects as $_name => $_node )
@@ -904,7 +922,8 @@ class WebController extends BaseWebController
         }
         else
         {
-            $_endpoint = Pii::getParam( 'cloud.endpoint' ) . '/metrics/dsp?dsp=' . urlencode( Pii::getParam( 'dsp.name' ) );
+            $_endpoint =
+                Pii::getParam( 'cloud.endpoint' ) . '/metrics/dsp?dsp=' . urlencode( Pii::getParam( 'dsp.name' ) );
 
             Curl::setDecodeToArray( true );
             $_stats = Curl::get( $_endpoint );
@@ -944,13 +963,23 @@ class WebController extends BaseWebController
         //	Check local then global...
         if ( null === ( $_providerModel = Provider::model()->byPortal( $_providerId )->find() ) )
         {
-            /** @var Provider $_providerModel */
+            /** @var \stdClass $_providerModel */
             $_providerModel = Fabric::getProviderCredentials( $_providerId );
 
             if ( empty( $_providerModel ) )
             {
                 throw new BadRequestException( 'The provider "' . $_providerId . '" is not available.' );
             }
+
+            //  Translate from back-end to front-end
+            $_model = new stdClass();
+            $_model->id = $_providerModel->id;
+            $_model->provider_name = $_providerModel->provider_name_text;
+            $_model->config_text = $_providerModel->config_text;
+            $_model->api_name = $_providerModel->endpoint_text;
+            $_model->is_active = $_providerModel->enable_ind;
+            $_model->is_login_provider = $_providerModel->login_provider_ind;
+            $_providerModel = $_model;
         }
 
         //	Set our store...
@@ -961,11 +990,9 @@ class WebController extends BaseWebController
             Pii::getState( $_providerId . '.user_config', array() ),
             array(
                 'flow_type'    => $_flow,
-                'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerId,
+                'redirect_uri' => Curl::currentUrl( false ) . '?pid=' . $_providerModel->provider_name,
             )
         );
-
-        Log::debug( 'remote login config: ' . print_r( $_config, true ) );
 
         $_provider = Oasys::getProvider( $_providerId, $_config );
 
@@ -975,6 +1002,7 @@ class WebController extends BaseWebController
             try
             {
                 $_user = User::remoteLoginRequest( $_providerId, $_provider, $_providerModel );
+
                 Log::debug( 'Remote login success: ' . $_user->email . ' (id#' . $_user->id . ')' );
             }
             catch ( \Exception $_ex )
@@ -1040,7 +1068,8 @@ class WebController extends BaseWebController
         }
 
         $_redirectUri = Option::get( $_state, 'redirect_uri', $_state['origin'] );
-        $_redirectUrl = $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
+        $_redirectUrl =
+            $_redirectUri . ( false === strpos( $_redirectUri, '?' ) ? '?' : '&' ) . \http_build_query( $_REQUEST );
 
         Log::debug( 'Proxying request to: ' . $_redirectUrl );
 

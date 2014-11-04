@@ -51,3 +51,39 @@ legend {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	font-family: 'Lato', 'Open Sans', sans-serif;
 }
+
+body.body-error {
+	background:  #000000 url('/img/bg-stars.png') center;
+	color:       #ffffff;
+	font-family: "Roboto", "Droid Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+	margin:      0;
+	text-align:  center;
+}
+
+body.body-error h1 {
+	font-size:     48px;
+	font-weight:   normal;
+	padding:       0 20px 5px;
+	border-bottom: 2px solid #222222;
+	display:       inline-block;
+	margin:        0 0 15px 0;
+}
+
+body.body-error h2 {
+	font-size:      14px;
+	font-weight:    normal;
+	margin:         0 0 30px 0;
+	text-transform: uppercase;
+}
+
+body.body-error p {
+	color: #444444;
+}
+
+.body-error a,
+.body-error a:active,
+.body-error a:visited,
+.body-error a:focus {
+	text-decoration: none;
+	color:           #3f6039;
+}

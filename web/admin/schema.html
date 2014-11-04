@@ -76,7 +76,7 @@
 	<div dreamfactory-auto-height auto-height-parent="window" auto-height-padding="0" auto-height-top="175px" id="schema-editor"></div>
 
 </div>
-<div data-ng-show="!advanced">
+<div data-ng-show="!advanced" class="column-listing">
 	<div class="btn-group">
 		<button class="btn btn-default" data-ng-show="table.schema" data-ng-click="toggleJSON()">JSON View</button>
 		<button class="btn btn-default" data-ng-show="table.schema" data-ng-click="addColumn()">Add Column</button>
@@ -84,13 +84,13 @@
 	<br /><br />
 	<accordion close-others=true>
 
-		<accordion-group ng-repeat="column in table.schema.data.field" is-open="column.is_new">
-			<accordion-heading>{{column.name}}
-
-				<button class="btn btn-xs btn-default pull-right" title="Delete Column"
-					ng-click="deleteColumn()"><i
-					class="fa fa-trash-o"></i>
-				</button>
+		<accordion-group  ng-repeat="column in table.schema.data.field" is-open="column.is_new">
+			<accordion-heading >
+                <div class="column-name" data-ng-click="loadReferenceFields()">{{column.name}}</div>
+                <button class="btn btn-xs btn-default delete-column" title="Delete Column"
+                        ng-click="deleteColumn();$event.stopPropagation();"><i
+                        class="fa fa-trash-o"></i>
+                </button>
 			</accordion-heading>
 			<div class="form-group">
 				<label>Name</label>
@@ -157,7 +157,7 @@
 					data-ng-options="o.name as o.name for o in currentTables"> </select> <br />
 
 				<label>Reference Field</label>
-				<select data-ng-it="loadReferenceFields()"
+				<select
 					data-ng-disabled="!column.ref_table || (column.type === 'user_id' || column.type === 'user_id_on_create' || column.type === 'user_id_on_update') "
 					class="form-control"
 					data-ng-model="column.ref_fields"

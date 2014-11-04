@@ -24,6 +24,10 @@ use Kisma\Core\Utility\Log;
  * console.php
  * This is the main configuration file for the DreamFactory Services Platform server console.
  */
+if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php' ) )
+{
+    require __DIR__ . '/constants.config.php';
+}
 
 $_configFileList = array(
     'dbConfig'     => array(true, 'database'),
@@ -36,7 +40,10 @@ $_configFileList = array(
 if ( file_exists( __DIR__ . '/env.config.php' ) )
 {
     /** @noinspection PhpIncludeInspection */
-    if ( false !== ( $_envConfig = @require( __DIR__ . '/env.config.php' ) ) && !empty( $_envConfig ) && is_array( $_envConfig ) )
+    if ( false !== ( $_envConfig = @require( __DIR__ . '/env.config.php' ) ) &&
+        !empty( $_envConfig ) &&
+        is_array( $_envConfig )
+    )
     {
         foreach ( $_envConfig as $_envVar )
         {
@@ -82,7 +89,9 @@ else
 
         if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
         {
-            $_dbName = 'hpp_' . str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
+            $_dbName =
+                'hpp_' .
+                str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
         }
         else
         {
@@ -193,8 +202,15 @@ return array(
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'          => '<controller>/<action>',
                 // fall through to storage services for direct access
-                array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
-                array('storage/get', 'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
+                array(
+                    'admin/<action>',
+                    'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'
+                ),
+                array(
+                    'storage/get',
+                    'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>',
+                    'verb'    => 'GET'
+                ),
             ),
         ),
         //	User configuration

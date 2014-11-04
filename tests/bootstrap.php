@@ -32,7 +32,7 @@ if ( !is_dir( $_vendorPath ) )
 $_autoloader = require( $_basePath . '/vendor/autoload.php' );
 
 //	Load up Yii
-require_once $_basePath . '/vendor/dreamfactory/yii/framework/yii.php';
+require_once $_basePath . '/vendor/dreamfactory/yii/framework/yiilite.php';
 
 //	Yii debug settings
 defined( YII_DEBUG ) or define( YII_DEBUG, true );

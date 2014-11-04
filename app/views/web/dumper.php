@@ -51,49 +51,60 @@ HTML;
     }
 }
 ?>
-<div class="container maintenance">
+<div class="container-fluid">
     <div class="jumbotron">
-        <h1>Platform Settings</h1>
+        <h2>Platform Settings</h2>
 
-        <table class="table table-condensed table-striped table-environment">
-            <tr>
-                <th>Name</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>Current Path</td>
-                <td><?php echo $_cwd; ?></td>
-            </tr>
-            <tr>
-                <td>Vendor Path</td>
-                <td><?php echo $_vendor; ?></td>
-            </tr>
-            <tr>
-                <td>Home Path</td>
-                <td><?php echo $_home; ?></td>
-            </tr>
-            <tr>
-                <td>App Path</td>
-                <td><?php echo $_app; ?></td>
-            </tr>
-            <tr>
-                <td>Autoloader available?</td>
-                <td><?php echo $_autoload ? 'Yes' : 'No'; ?></td>
-            </tr>
-            <tr>
-                <td>App path correct?</td>
-                <td><?php echo $_appRight ? 'Yes' : 'No'; ?></td>
-            </tr>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Current Path</td>
+                        <td><?php echo $_cwd; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Vendor Path</td>
+                        <td><?php echo $_vendor; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Home Path</td>
+                        <td><?php echo $_home; ?></td>
+                    </tr>
+                    <tr>
+                        <td>App Path</td>
+                        <td><?php echo $_app; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Autoloader available?</td>
+                        <td><?php echo $_autoload ? 'Yes' : 'No'; ?></td>
+                    </tr>
+                    <tr>
+                        <td>App path correct?</td>
+                        <td><?php echo $_appRight ? 'Yes' : 'No'; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <h2>Kisma Settings</h2>
 
-        <table class="table table-condensed table-striped table-environment">
-            <tr>
-                <th>Name</th>
-                <th>Value</th>
-            </tr>
-            <?php echo $_html; ?>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <?php echo $_html; ?>
+            </table>
+        </div>
     </div>
 </div>

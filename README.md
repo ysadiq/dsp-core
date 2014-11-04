@@ -1,4 +1,4 @@
-## DreamFactory Services Platform(tm) Core Server v1.8.0
+## DreamFactory Services Platform(tm) Core Server v1.8.1
 [![Latest Stable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/stable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Total Downloads](https://poser.pugx.org/dreamfactory/dsp-core/downloads.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Latest Unstable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/unstable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![License](https://poser.pugx.org/dreamfactory/dsp-core/license.svg)](https://packagist.org/packages/dreamfactory/dsp-core)
 
 This is the DreamFactory Services Platform&trade; Core Server repository. It contains the core web components necessary to run the system. The code is available for use under the Apache Version 2.0 license.
