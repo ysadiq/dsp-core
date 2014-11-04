@@ -447,7 +447,7 @@ We need to preload data but I'm not doing that today. MNM -->
 </div>
 <div class="panel panel-default" data-ng-if="service.type.indexOf('File Storage') != '-1'">
     <div class="panel-heading">
-        <a data-toggle="collapse" data-target="#services-parameters-body">
+        <a data-toggle="collapse" data-target="#services-paths-body">
             <h4 class="panel-title">Private Folders and Files</h4>
         </a>
     </div>
@@ -502,14 +502,14 @@ We need to preload data but I'm not doing that today. MNM -->
     </div>
 </div>
 
-<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service' || service.type === 'Email Service'">
+<div class="panel panel-default" data-ng-if="service.type === 'Email Service'">
     <div class="panel-heading">
-        <a data-toggle="collapse" data-target="#services-parameters-body">
+        <a data-toggle="collapse" data-target="#services-email-parameters-body">
             <h4 class="panel-title">Parameters</h4>
         </a>
     </div>
 
-    <div id="services-parameters-body" class="panel-collapse collapse">
+    <div id="services-email-parameters-body" class="panel-collapse collapse">
         <div class="panel-body">
 
 
@@ -518,9 +518,6 @@ We need to preload data but I'm not doing that today. MNM -->
                 <tr>
                     <th>Name</th>
                     <th>Value</th>
-                    <th>Add to Outbound</th>
-                    <th>Add to Caching Key</th>
-
 
                     <th class="no-border">
                         <div class="btn-group pull-left">
@@ -541,20 +538,6 @@ We need to preload data but I'm not doing that today. MNM -->
                     <td>
                         <input class="form-control" data-ng-model="param.value" type="text" />
                     </td>
-					<td style="vertical-align: middle; text-align: center;">
-						<!--<div class="checkbox">-->
-							<!--<label>-->
-								<input data-ng-model="param.outbound" type="checkbox" />
-							<!--</label>-->
-						<!--</div>-->
-					</td>
-					<td style="vertical-align: middle; text-align: center;">
-						<!--<div class="checkbox">-->
-							<!--<label>-->
-								<input data-ng-model="param.cache_key" type="checkbox" />
-							<!--</label>-->
-						<!--</div>-->
-					</td>
 
                     <td class="no-border">
                         <div class="btn-group pull-left">
@@ -572,8 +555,34 @@ We need to preload data but I'm not doing that today. MNM -->
 
 <div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service'">
 	<div class="panel-heading">
+		<a data-toggle="collapse" data-target="#services-caching-body">
+			<h4 class="panel-title">Caching</h4>
+		</a>
+	</div>
+
+	<div id="services-caching-body" class="panel-collapse collapse">
+		<div class="panel-body">
+
+			<div class="form-group">
+				<div class="checkbox">
+					<label>
+						<input data-ng-model="service.credentials.cache_config.enabled" type="checkbox"/>
+						Enabled
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Time To Live (seconds)</label>
+				<input class="form-control" ng-model="service.credentials.cache_config.ttl" type="text"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service'">
+	<div class="panel-heading">
 		<a data-toggle="collapse" data-target="#services-client-parameters-body">
-			<h4 class="panel-title">Client Parameter Exclusions</h4>
+			<h4 class="panel-title">Exclude Client Parameters</h4>
 		</a>
 	</div>
 
@@ -584,8 +593,8 @@ We need to preload data but I'm not doing that today. MNM -->
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Exclude From Outbound</th>
-						<th>Exclude From Caching Key</th>
+						<th>From Outbound</th>
+						<th>From Caching Key</th>
 
 
 						<th class="no-border">
@@ -622,6 +631,74 @@ We need to preload data but I'm not doing that today. MNM -->
 						<td class="no-border">
 							<div class="btn-group pull-left">
 								<button type="button" class="btn btn-sm btn-default" data-ng-click="deleteClientParameter()">
+									<i class="fa fa-trash-o fa-fw"></i>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service'">
+	<div class="panel-heading">
+		<a data-toggle="collapse" data-target="#services-parameters-body">
+			<h4 class="panel-title">Add More Parameters</h4>
+		</a>
+	</div>
+
+	<div id="services-parameters-body" class="panel-collapse collapse">
+		<div class="panel-body">
+
+
+			<table class="table table-hover table-striped field-list">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Value</th>
+						<th>To Outbound</th>
+						<th>To Caching Key</th>
+
+
+						<th class="no-border">
+							<div class="btn-group pull-left">
+								<button class="btn btn-default btn-sm" data-ng-click="addParameter()">
+									<i class="fa fa-plus fa-fw"></i>
+								</button>
+							</div>
+						</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+					<tr data-ng-repeat="param in service.parameters">
+						<td>
+							<input class="form-control" data-ng-model="param.name" type="text" />
+						</td>
+						<td>
+							<input class="form-control" data-ng-model="param.value" type="text" />
+						</td>
+						<td style="vertical-align: middle; text-align: center;">
+							<!--<div class="checkbox">-->
+							<!--<label>-->
+							<input data-ng-model="param.outbound" type="checkbox" />
+							<!--</label>-->
+							<!--</div>-->
+						</td>
+						<td style="vertical-align: middle; text-align: center;">
+							<!--<div class="checkbox">-->
+							<!--<label>-->
+							<input data-ng-model="param.cache_key" type="checkbox" />
+							<!--</label>-->
+							<!--</div>-->
+						</td>
+
+						<td class="no-border">
+							<div class="btn-group pull-left">
+								<button type="button" class="btn btn-sm btn-default" data-ng-click="deleteParameter()">
 									<i class="fa fa-trash-o fa-fw"></i>
 								</button>
 							</div>
@@ -683,32 +760,6 @@ We need to preload data but I'm not doing that today. MNM -->
             </table>
         </div>
     </div>
-</div>
-
-<div class="panel panel-default" data-ng-if="service.type === 'Remote Web Service'">
-	<div class="panel-heading">
-		<a data-toggle="collapse" data-target="#services-caching-body">
-			<h4 class="panel-title">Caching</h4>
-		</a>
-	</div>
-
-	<div id="services-caching-body" class="panel-collapse collapse">
-		<div class="panel-body">
-
-			<div class="form-group">
-				<div class="checkbox">
-				<label>
-					<input data-ng-model="service.credentials.cache_config.enabled" type="checkbox"/>
-					Enabled
-				</label>
-				</div>
-			</div>
-			<div class="form-group">
-				<label>Time To Live</label>
-				<input class="form-control" ng-model="service.credentials.cache_config.ttl" type="text"/>
-			</div>
-		</div>
-	</div>
 </div>
 
 <!-- Editor for Remote Web Services-->
