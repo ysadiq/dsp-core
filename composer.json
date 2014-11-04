@@ -60,8 +60,8 @@
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
         "dreamfactory/php-utils": "~1.0",
-        "dreamfactory/yii": "~1.1.13.0",
-        "dreamfactory/lib-php-common-platform": "~1.8@dev"
+        "dreamfactory/yii": "~1.1.13.11",
+        "dreamfactory/lib-php-common-platform": "~1.8.4"
     },
     "require-dev": {
         "phpunit/phpunit": "@stable",
