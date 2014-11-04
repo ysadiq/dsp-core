@@ -125,6 +125,7 @@ class WebController extends BaseWebController
                     'authorize',
                     'remoteLogin',
                     'maintenance',
+                    'unavailable',
                     'welcome',
                     'securityQuestion',
                     'register',
@@ -165,9 +166,15 @@ class WebController extends BaseWebController
      */
     public function actionMaintenance()
     {
-        $this->layout = 'maintenance';
-        $this->render( 'maintenance' );
-        die();
+        Pii::redirect( Fabric::MAINTENANCE_URI );
+    }
+
+    /**
+     * Maintenance screen
+     */
+    public function actionUnavailable()
+    {
+        Pii::redirect( Fabric::UNAVAILABLE_URI );
     }
 
     /**
