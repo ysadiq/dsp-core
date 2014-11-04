@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b0aa013e613fc14b422fe578788c61f7",
+    "hash": "81e29c9fede916ac2db20c5517207156",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -542,16 +542,16 @@
         },
         {
             "name": "dreamfactory/php-utils",
-            "version": "dev-develop",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "03d74730107b59e5ad58fe04af93b85e79610edd"
+                "reference": "25c75d6277465fad419ee7180cc5780956ca626a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/03d74730107b59e5ad58fe04af93b85e79610edd",
-                "reference": "03d74730107b59e5ad58fe04af93b85e79610edd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/25c75d6277465fad419ee7180cc5780956ca626a",
+                "reference": "25c75d6277465fad419ee7180cc5780956ca626a",
                 "shasum": ""
             },
             "require": {
@@ -589,7 +589,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-10-22 18:09:45"
+            "time": "2014-10-22 18:09:40"
         },
         {
             "name": "dreamfactory/yii",
@@ -2539,6 +2539,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kisma/kisma": 0,
+        "dreamfactory/php-utils": 0,
         "dreamfactory/yii": 0,
         "dreamfactory/lib-php-common-platform": 0,
         "phpunit/phpunit": 0,
