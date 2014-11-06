@@ -1174,9 +1174,10 @@ class WebController extends BaseWebController
         if ( PlatformStates::READY == $_state )
         {
             $_defaultApp = Pii::getParam( 'dsp.default_app', static::DEFAULT_STARTUP_APP );
+            $_appPath = Pii::appStoreGet( 'app.app_path' );
 
             //	Try local launchpad
-            if ( is_file( \Kisma::get( 'app.app_path' ) . $_defaultApp ) )
+            if ( is_file( $_appPath . $_defaultApp ) )
             {
                 $_defaultApp = rtrim( $_defaultApp . Curl::urlSeparator( $_defaultApp ) . $_error, '?' );
                 $this->redirect( $_defaultApp );
