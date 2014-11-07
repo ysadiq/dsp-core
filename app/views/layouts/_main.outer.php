@@ -41,11 +41,11 @@
 
     <!-- Bootstrap 3 CSS -->
     <link rel="stylesheet"
-        href="//netdna.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/css/bootstrap.min.css">
+          href="//maxcdn.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
-        href="//netdna.bootstrapcdn.com/font-awesome/<?php echo $_versions['font-awesome']; ?>/css/font-awesome.min.css">
+          href="//maxcdn.bootstrapcdn.com/font-awesome/<?php echo $_versions['font-awesome']; ?>/css/font-awesome.min.css">
 
     <!-- DSP UI Styles & Code -->
     <link rel="stylesheet" href="/css/dsp.main.css">
@@ -56,7 +56,7 @@
 
 <?php require __DIR__ . '/_main.inner.php'; ?>
 
-<script src="//netdna.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/<?php echo $_versions['bootstrap']; ?>/js/bootstrap.min.js"></script>
 <script src="/js/dsp.ui.js"></script>
 </body>
 </html>
