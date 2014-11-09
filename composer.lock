@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "be679059fa6c2f97fcc0035d68e36c971d3b3794"
+                "reference": "4b35b555752270474805438f9213dc73f0a3baca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/be679059fa6c2f97fcc0035d68e36c971d3b3794",
-                "reference": "be679059fa6c2f97fcc0035d68e36c971d3b3794",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/4b35b555752270474805438f9213dc73f0a3baca",
+                "reference": "4b35b555752270474805438f9213dc73f0a3baca",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-07 20:19:31"
+            "time": "2014-11-09 22:12:39"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -546,12 +546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "03d74730107b59e5ad58fe04af93b85e79610edd"
+                "reference": "fa79cc6313a8cd2e662817ab80d8c0119fde4595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/03d74730107b59e5ad58fe04af93b85e79610edd",
-                "reference": "03d74730107b59e5ad58fe04af93b85e79610edd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/fa79cc6313a8cd2e662817ab80d8c0119fde4595",
+                "reference": "fa79cc6313a8cd2e662817ab80d8c0119fde4595",
                 "shasum": ""
             },
             "require": {
@@ -589,7 +589,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-10-22 18:09:45"
+            "time": "2014-11-09 22:11:23"
         },
         {
             "name": "dreamfactory/yii",
