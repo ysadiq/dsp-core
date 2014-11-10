@@ -172,7 +172,7 @@ return array(
             'linkAssets' => true,
         ),
         //	Database configuration
-        'db'           => $_dbConfig,
+        'db'           => array_merge( $_dbConfig, array('schemaCachingDuration' => 3600) ),
         //	Error management
         'errorHandler' => array(
             'errorAction' => $_defaultController . '/error',
@@ -184,12 +184,12 @@ return array(
             'showScriptName' => false,
             'rules'          => array(
                 // REST patterns
-                array('rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'GET'),
-                array('rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'POST'),
-                array('rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PUT'),
-                array('rest/patch', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'PATCH'),
-                array('rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'MERGE'),
-                array('rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/. ]+>', 'verb' => 'DELETE'),
+                array('rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'GET'),
+                array('rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'POST'),
+                array('rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'PUT'),
+                array('rest/patch', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'PATCH'),
+                array('rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'MERGE'),
+                array('rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'DELETE'),
                 // Other controllers
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -199,7 +199,7 @@ return array(
                 // fall through to storage services for direct access
                 array(
                     'storage/get',
-                    'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/. ]+>',
+                    'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>',
                     'verb'    => 'GET'
                 ),
                 //  admin

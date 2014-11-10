@@ -7,21 +7,27 @@ body.maintenance-page {
 }
 
 body.maintenance-page .page-logo img {
-	width: 128px;
+	width:         128px;
 	margin-bottom: 40px;
 }
 
+.jumbotron {
+	margin-top:    80px;
+	box-shadow:    2px 2px 8px rgba(0, 0, 0, .75);
+	border-radius: 4px;
+}
+
 .maintenance .jumbotron h1, .maintenance .jumbotron p {
-	color: #333;
+	color:          #333;
 	letter-spacing: -1px;
-	font-family: "Open Sans", "Lato", Arial, sans-serif;
+	font-family:    "Open Sans", "Lato", Arial, sans-serif;
 }
 
 .maintenance .jumbotron p {
-	color: #666;
+	color:         #666;
 	margin-bottom: 32px;
-	line-height: 1.2;
-	font-size: 27px;
+	line-height:   1.2;
+	font-size:     27px;
 }
 
 .maintenance h1 {
