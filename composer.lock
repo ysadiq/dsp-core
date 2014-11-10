@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1d2dc1c3df8421e5f94a66da882b9ae56af892d5"
+                "reference": "3efaca10ff085bea0da18eddf9acd1561a77e292"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1d2dc1c3df8421e5f94a66da882b9ae56af892d5",
-                "reference": "1d2dc1c3df8421e5f94a66da882b9ae56af892d5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3efaca10ff085bea0da18eddf9acd1561a77e292",
+                "reference": "3efaca10ff085bea0da18eddf9acd1561a77e292",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-04 19:27:53"
+            "time": "2014-11-10 15:40:13"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -546,12 +546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "03d74730107b59e5ad58fe04af93b85e79610edd"
+                "reference": "fa79cc6313a8cd2e662817ab80d8c0119fde4595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/03d74730107b59e5ad58fe04af93b85e79610edd",
-                "reference": "03d74730107b59e5ad58fe04af93b85e79610edd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/fa79cc6313a8cd2e662817ab80d8c0119fde4595",
+                "reference": "fa79cc6313a8cd2e662817ab80d8c0119fde4595",
                 "shasum": ""
             },
             "require": {
@@ -589,7 +589,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-10-22 18:09:45"
+            "time": "2014-11-09 22:11:23"
         },
         {
             "name": "dreamfactory/yii",
@@ -815,12 +815,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "6f226fbbe7ad8f626ebec0fe95b1b87ba621113f"
+                "reference": "9c86b60428f5d0e582cad325a8a36e97461cb675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/6f226fbbe7ad8f626ebec0fe95b1b87ba621113f",
-                "reference": "6f226fbbe7ad8f626ebec0fe95b1b87ba621113f",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/9c86b60428f5d0e582cad325a8a36e97461cb675",
+                "reference": "9c86b60428f5d0e582cad325a8a36e97461cb675",
                 "shasum": ""
             },
             "require": {
@@ -865,7 +865,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-10-27 18:10:40"
+            "time": "2014-11-07 16:43:29"
         },
         {
             "name": "monolog/monolog",
@@ -1535,12 +1535,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "4cd6c807598e560db7b3da50c4330fdb4808cfa1"
+                "reference": "8d6ab2d294400bb03e33565a1fd284bba87e932c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/4cd6c807598e560db7b3da50c4330fdb4808cfa1",
-                "reference": "4cd6c807598e560db7b3da50c4330fdb4808cfa1",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/8d6ab2d294400bb03e33565a1fd284bba87e932c",
+                "reference": "8d6ab2d294400bb03e33565a1fd284bba87e932c",
                 "shasum": ""
             },
             "require": {
@@ -1579,7 +1579,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-11-03 03:55:50"
+            "time": "2014-11-04 14:29:39"
         }
     ],
     "packages-dev": [
