@@ -180,6 +180,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         {
             name:"Oracle",
             prefix:"oci:"
+		},
+		{
+			name:"IBM DB2",
+			prefix:"ibm:"
         }
 
     ];
@@ -203,11 +207,14 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
                 }
                 if(newValue === "sqlsrv:"){
-                 Scope.sql_server_host_identifier = "Server";
-                 Scope.sql_server_db_identifier = "Database";
+                    Scope.sql_server_host_identifier = "Server";
+                    Scope.sql_server_db_identifier = "Database";
                 }else if(newValue === "oci:"){
-                Scope.sql_server_host_identifier = "host";
-                Scope.sql_server_db_identifier = "sid";
+                    Scope.sql_server_host_identifier = "host";
+                    Scope.sql_server_db_identifier = "sid";
+				}else if(newValue === "ibm:"){
+					Scope.sql_server_host_identifier = "HOSTNAME";
+					Scope.sql_server_db_identifier = "DATABASE";
                 }else{
                     Scope.sql_server_host_identifier = "host";
                     Scope.sql_server_db_identifier = "dbname";
@@ -224,6 +231,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                     $scope.service.dsn = $scope.sqlServerPrefix + "dbname=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ")(PORT = 1521))) (CONNECT_DATA = (" + $scope.sql_server_db_identifier + "=" + newValue;
                     $scope.service.dsn += ")))";
                 }
+				if($scope.sqlServerDb && $scope.sqlServerPrefix === "ibm:"){
+					$scope.service.dsn = $scope.sqlServerPrefix + "DRIVER={IBM DB2 ODBC DRIVER};" + $scope.sql_server_db_identifier + "=" + newValue + ";" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost;
+					$scope.service.dsn += ";PORT=50000;PROTOCOL=TCPIP;";
+				}
 
             });
         $scope.$watch(
@@ -242,6 +253,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                     $scope.service.dsn = $scope.sqlServerPrefix + "dbname=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ")(PORT = 1521))) (CONNECT_DATA = (" + $scope.sql_server_db_identifier + "=" + newValue;
                     $scope.service.dsn += ")))";
                 }
+				if($scope.sqlServerDb && $scope.sqlServerPrefix === "ibm:"){
+					$scope.service.dsn = $scope.sqlServerPrefix + "DRIVER={IBM DB2 ODBC DRIVER};" + $scope.sql_server_db_identifier + "=" + newValue + ";" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost;
+					$scope.service.dsn += ";PORT=50000;PROTOCOL=TCPIP;";
+				}
 
 
             });
@@ -258,6 +273,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                     $scope.service.dsn = $scope.sqlServerPrefix + "dbname=(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost + ")(PORT = 1521))) (CONNECT_DATA = (" + $scope.sql_server_db_identifier + "=" + newValue;
                     $scope.service.dsn += ")))";
                 }
+				if($scope.sqlServerPrefix === "ibm:"){
+					$scope.service.dsn = $scope.sqlServerPrefix + "DRIVER={IBM DB2 ODBC DRIVER};" + $scope.sql_server_db_identifier + "=" + newValue + ";" + $scope.sql_server_host_identifier + "=" + $scope.sqlServerHost;
+					$scope.service.dsn += ";PORT=50000;PROTOCOL=TCPIP;";
+				}
 
             });
         Scope.tableData = [];
