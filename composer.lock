@@ -347,25 +347,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "3efaca10ff085bea0da18eddf9acd1561a77e292"
+                "reference": "aa337f8b41bf39060e9146eddbe1774419123e40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3efaca10ff085bea0da18eddf9acd1561a77e292",
-                "reference": "3efaca10ff085bea0da18eddf9acd1561a77e292",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/aa337f8b41bf39060e9146eddbe1774419123e40",
+                "reference": "aa337f8b41bf39060e9146eddbe1774419123e40",
                 "shasum": ""
             },
             "require": {
-                "aws/aws-sdk-php": "~2.4.0@stable",
+                "aws/aws-sdk-php": "~2.4.0",
                 "dready92/php-on-couch": "*",
                 "dreamfactory/azure-sdk-for-php": "dev-develop as dev-master",
-                "dreamfactory/javascript-sdk": "~1.0@stable",
-                "dreamfactory/lib-php-common": "~1.5.0@stable",
-                "dreamfactory/lib-php-common-yii": "~1.5.0@stable",
-                "dreamfactory/oasys": "~0.4@stable",
-                "dreamfactory/yii": "~1.1.13.11@stable",
+                "dreamfactory/javascript-sdk": "~1.0",
+                "dreamfactory/lib-php-common": "~1.5.0",
+                "dreamfactory/lib-php-common-yii": "~1.5.0",
+                "dreamfactory/oasys": "~0.4",
+                "dreamfactory/php-utils": "dev-develop as dev-master",
+                "dreamfactory/yii": "~1.1.13.11",
                 "jeremeamia/superclosure": "*",
-                "kisma/kisma": "~0.2@stable",
+                "kisma/kisma": "~0.2",
                 "pear-pear.php.net/http_request2": "*",
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
@@ -373,7 +374,7 @@
                 "php": "~5.3",
                 "phpforce/soap-client": "*",
                 "rackspace/php-opencloud": "~1.5.0@stable",
-                "swiftmailer/swiftmailer": "~4.3@stable"
+                "swiftmailer/swiftmailer": "~4.3"
             },
             "require-dev": {
                 "phpunit/dbunit": "@stable",
@@ -416,7 +417,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-10 15:40:13"
+            "time": "2014-11-11 17:24:07"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -815,12 +816,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "ea114e3e95d4a6c80dfba6c7f2b49c96114e3d1d"
+                "reference": "1a8560a0f9cad3738fb6445946437b46f746db7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/ea114e3e95d4a6c80dfba6c7f2b49c96114e3d1d",
-                "reference": "ea114e3e95d4a6c80dfba6c7f2b49c96114e3d1d",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/1a8560a0f9cad3738fb6445946437b46f746db7c",
+                "reference": "1a8560a0f9cad3738fb6445946437b46f746db7c",
                 "shasum": ""
             },
             "require": {
@@ -865,7 +866,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-11-10 22:13:16"
+            "time": "2014-11-11 17:02:27"
         },
         {
             "name": "monolog/monolog",
