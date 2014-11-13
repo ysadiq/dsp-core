@@ -17,8 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Utility\Fabric;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Utility\Log;
 
 /**
@@ -36,7 +36,7 @@ if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php'
  * Load any environment variables first thing as they may be used by the database config
  */
 /** @noinspection PhpIncludeInspection */
-if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
+if ( false !== ( $_envConfig = Includer::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_envConfig ) && is_array( $_envConfig ) )
     {
@@ -59,7 +59,7 @@ if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, 
  * Load up the database configuration, free edition, private hosted, or others.
  * Look for non-default database config to override.
  */
-if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
+if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
 {
     if ( Fabric::fabricHosted() )
     {
@@ -227,11 +227,11 @@ return array(
                     'logFile'     => $_logFileName,
                     'logPath'     => $_logFilePath,
                     //  Super Debug Mode
-                    //'levels' => 'error, warning, info, debug, trace, notice',
-                    // Normal debug mode
-                    //'levels'      => 'error, warning, info, debug, notice',
+                    //'levels' => 'error, notice, warning, info, debug, trace',
+                    // Development
+                    'levels'      => 'error, notice, warning, info, debug',
                     // Production
-                    'levels'      => 'error, warning, info, notice, debug',
+                    //'levels'      => 'error, notice, warning',
                 ),
             ),
         ),

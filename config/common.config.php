@@ -17,9 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -68,10 +68,10 @@ if ( !is_dir( $_assetsPath ) )
 $_dspSalts = array();
 
 //  Load some keys
-$_keys = Pii::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
+$_keys = Includer::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
 /** @noinspection PhpIncludeInspection */
-if ( false !== ( $_salts = Pii::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
+if ( false !== ( $_salts = Includer::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_salts ) )
     {

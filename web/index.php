@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Yii\Utility\Pii;
 
 /** index.php -- Main entry point/bootstrap for all processes **/
@@ -64,6 +65,8 @@ if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
 {
     reportErrors();
 }
+
+$FABRIC_HOSTED = Fabric::fabricHosted();
 
 //  Create the application and run. This does not return until the request is complete.
 Pii::run( __DIR__, $_autoloader, $_class );
