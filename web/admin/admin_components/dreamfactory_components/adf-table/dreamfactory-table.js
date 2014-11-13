@@ -1847,8 +1847,9 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     scope.tableFieldsAll = !scope.tableFieldsAll;
 
                     angular.forEach(scope.tableFields, function(_obj) {
-
-                        _obj.active = scope.tableFieldsAll;
+                        if ((Object.prototype.toString.call(_obj) === '[object Object]') && (_obj.hasOwnProperty('active'))) {
+                            _obj.active = scope.tableFieldsAll;
+                        }
                     });
                 };
 
@@ -2922,7 +2923,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                             ]
                         }
                         break;
-                    
+
                     case 'reference':
 
                         /*if (scope.field.ref_table === scope.table && scope.field.value) {

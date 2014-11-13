@@ -299,6 +299,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		Scope.salesforce = {};
 		Scope.script = {};
         Scope.service.is_active = true;
+        Scope.email_type = "default";
 		$( window ).scrollTop( 0 );
 	};
 
@@ -312,11 +313,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
         });
 	Scope.action = "Create";
 	Scope.emailOptions = [
-		{name: "Server Default", value: null},
+		{name: "Server Default", value: "default"},
 		{name: "Server Command", value: "command"},
 		{name: "SMTP", value:"smtp"}
 	];
-	Scope.email_type = "Server Default";
+	Scope.email_type = "default";
 	Scope.remoteOptions = [
 		{name: "Amazon S3", value: "aws s3"},
 		{name: "Windows Azure Storage", value: "azure blob"},
@@ -343,8 +344,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Amazon SimpleDB", value: "aws simpledb"},
 		{name: "Windows Azure Tables", value: "azure tables"},
 		{name: "CouchDB", value: "couchdb"},
-		{name: "MongoDB", value: "mongodb"},
-
+		{name: "MongoDB", value: "mongodb"}
 	];
 	Scope.service.storage_type = "aws s3";
 	Scope.serviceOptions = [
@@ -380,19 +380,17 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
 		if ( Scope.service.type == "Email Service" ) {
-			if ( Scope.email_type == "SMTP" ) {
+			if ( Scope.email_type == "smtp" ) {
 				Scope.service.credentials =
 				{transport_type : "smtp" ,host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
-				Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-			}else if(Scope.email_type==="Server Command"){
+			} else if ( Scope.email_type == "command" ) {
                 Scope.service.credentials =
                 {transport_type: "command", command : Scope.service.storage_type};
-                Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-            }else{
+            } else {
                 Scope.service.credentials = {transport_type:null};
             }
-
-		}
+            Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+        }
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
@@ -485,12 +483,18 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			{username: Scope.salesforce.username, password: Scope.salesforce.password, security_token: Scope.salesforce.security_token, version: Scope.salesforce.version};
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
-
-		if ( Scope.service.type == "Email Service" ) {
-
+        if ( Scope.service.type == "Email Service" ) {
+            if ( Scope.email_type == "smtp" ) {
+                Scope.service.credentials =
+                {transport_type : "smtp" ,host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
+            } else if ( Scope.email_type == "command" ) {
+                Scope.service.credentials =
+                {transport_type: "command", command : Scope.service.storage_type};
+            } else {
+                Scope.service.credentials = {transport_type:null};
+            }
             Scope.service.credentials = JSON.stringify( Scope.service.credentials );
-
-		}
+        }
 		if ( Scope.service.type == "Remote SQL DB" || Scope.service.type == "Remote SQL DB Schema" ) {
 			Scope.service.credentials = {dsn: Scope.service.dsn, user: Scope.service.user, pwd: Scope.service.pwd};
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -629,9 +633,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 	Scope.showEmailFields = function() {
         Scope.service.credentials = Scope.service.credentials || {transport_type: "smtp"};
-		switch ( Scope.service.credentials.transport_type ) {
+		switch ( Scope.email_type ) {
 
-			case null:
+			case "default":
 				$( ".user, .pwd,.host,.port,.command,  .security, .base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".parameters" ).show();
 				break;
@@ -700,29 +704,23 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type.indexOf( "Email Service" ) != -1 ) {
 			Scope.service.type = "Email Service";
 			if ( Scope.service.credentials.transport_type === "smtp" ) {
-
-					Scope.service.host = cString.host;
-					Scope.service.port = cString.port;
-					Scope.service.security = cString.security;
-					Scope.service.user = cString.user;
-					Scope.service.pwd = cString.pwd;
-
-
-				}
-				Scope.email_type = "SMTP";
+                Scope.email_type = "smtp";
+                Scope.service.host = cString.host;
+				Scope.service.port = cString.port;
+				Scope.service.security = cString.security;
+				Scope.service.user = cString.user;
+				Scope.service.pwd = cString.pwd;
 			}
 			else if ( Scope.service.credentials.transport_type === "command" ) {
-				Scope.email_type = "Server Command";
-
+				Scope.email_type = "command";
                 Scope.service.storage_type = cString.command;
 			}
 			else {
-				Scope.email_type = "Server Default";
+				Scope.email_type = "default";
                 Scope.service.credentials.transport_type=null;
 			}
-
 			Scope.showEmailFields();
-
+        }
 		if ( Scope.service.type == "Salesforce" ) {
 			var cString = Scope.service.credentials;
 			Scope.salesforce.username = cString.username;
