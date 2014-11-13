@@ -101,7 +101,6 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
                                         exception: error
                                     }
                                 })
-
                         }]
                     }
                 });
