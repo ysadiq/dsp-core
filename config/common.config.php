@@ -146,7 +146,6 @@ else
 $_instanceSettings = array_merge(
     $_identity,
     array(
-        LocalStorageTypes::STORAGE_BASE_PATH => $_storageBasePath,
         LocalStorageTypes::STORAGE_PATH      => $_storagePath,
         LocalStorageTypes::PRIVATE_PATH      => $_privatePath,
         LocalStorageTypes::LOCAL_CONFIG_PATH => $_privatePath . '/config',
