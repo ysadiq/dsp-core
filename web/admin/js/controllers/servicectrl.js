@@ -385,7 +385,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				{transport_type : "smtp" ,host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
 			} else if ( Scope.email_type == "command" ) {
                 Scope.service.credentials =
-                {transport_type: "command", command : Scope.service.storage_type};
+                {transport_type: "command", command : Scope.service.command};
             } else {
                 Scope.service.credentials = {transport_type:null};
             }
@@ -489,7 +489,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                 {transport_type : "smtp" ,host: Scope.service.host, port: Scope.service.port, security: Scope.service.security, user: Scope.service.user, pwd: Scope.service.pwd};
             } else if ( Scope.email_type == "command" ) {
                 Scope.service.credentials =
-                {transport_type: "command", command : Scope.service.storage_type};
+                {transport_type: "command", command : Scope.service.command};
             } else {
                 Scope.service.credentials = {transport_type:null};
             }
@@ -723,7 +723,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			}
 			else if ( Scope.service.credentials.transport_type === "command" ) {
 				Scope.email_type = "command";
-                Scope.service.storage_type = cString.command;
+                Scope.service.command = cString.command;
 			}
 			else {
 				Scope.email_type = "default";
