@@ -375,7 +375,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	$( '.update_button' ).hide();
 
 	Scope.save = function() {
-		if ( Scope.service.type == "Remote SQL DB" || Scope.service.type == "Remote SQL DB Schema" ) {
+        if ( Scope.service.type == "Remote SQL DB" || Scope.service.type == "Remote SQL DB Schema" ) {
 			Scope.service.credentials = {dsn: Scope.service.dsn, user: Scope.service.user, pwd: Scope.service.pwd};
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
@@ -698,6 +698,16 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 		//$("#swagger, #swagger iframe, #swagctrl").hide();
 		Scope.service = angular.copy( this.service );
+        // remote web services created before caching added need outbound = true
+        if ( Scope.service.type === "Remote Web Service" ) {
+            Scope.service.parameters.forEach(
+                function(param) {
+                    if ( !param.hasOwnProperty('outbound') ) {
+                        param['outbound'] = true;
+                    }
+                }
+            )
+        }
         Scope.currentServiceId = Scope.service.id;
         Scope.service.credentials = Scope.service.credentials || {};
         var cString = $scope.service.credentials;
@@ -843,6 +853,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 //            return false;
 //        }
         $scope.param = {};
+        if ( Scope.service.type === "Remote Web Service" ) {
+            $scope.param['outbound'] = true;
+            $scope.param['cache_key'] = true;
+        }
         $scope.service.parameters.unshift($scope.param);
     }
 	$scope.deleteClientParameter = function(){
@@ -857,8 +871,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			};
 
 		}
-
 		$scope.param = {};
+        if ( Scope.service.type === "Remote Web Service" ) {
+            $scope.param['outbound'] = true;
+            $scope.param['cache_key'] = true;
+        }
 		$scope.service.credentials.client_exclusions.parameters.unshift($scope.param);
 	}
     $scope.deleteHeader = function(){
