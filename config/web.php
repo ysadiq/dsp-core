@@ -172,7 +172,7 @@ return array(
             'linkAssets' => true,
         ),
         //	Database configuration
-        'db'           => $_dbConfig,
+        'db'           => array_merge( $_dbConfig, array('schemaCachingDuration' => 3600) ),
         //	Error management
         'errorHandler' => array(
             'errorAction' => $_defaultController . '/error',

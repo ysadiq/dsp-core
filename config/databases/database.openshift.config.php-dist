@@ -1,3 +1,4 @@
+<?php
 /**
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
@@ -16,15 +17,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var FileCtrl = function( $scope, $location, $timeout ) {
-	Scope = $scope;
+/**
+ * OpenShift database configuration
+ *
+ * @return array
+ */
+$_url = parse_url( getenv( 'CLEARDB_DATABASE_URL' ) );
+$_server = getenv('OPENSHIFT_MYSQL_DB_HOST');
+$_username = getenv('OPENSHIFT_MYSQL_DB_USER');
+$_password = getenv('OPENSHIFT_MYSQL_DB_PASS');
+$_port = getenv('OPENSHIFT_MYSQL_DB_PORT');
+$_db = getenv('OPENSHIFT_MYSQL_DB_NAME');
 
-//    $("#root-file-manager").css('height', $(window).height()).css('width', '100%').show();
-//    $("#root-file-manager iframe").css('height', $(window).height()).css('width', '100%').attr("src", CurrentServer + '/filemanager/?path=/&allowroot=true').show();
-//    $(window).resize(function () {
-//        $('#root-file-manager').css('height', $(window).height()).css('width', '100%').css('width', '100%');
-//        $("#root-file-manager iframe").css('height', $(window).height()).css('width', '100%');
-//    });
-
-	$( "#root-file-manager iframe" ).attr( "src", CurrentServer + '/filemanager/?path=/&allowroot=true' ).show();
-};
+return array(
+    'connectionString'      => 'mysql:host=' . $_server . ';port=' . $_port . ';dbname=' . $_db,
+    'username'              => $_username,
+    'password'              => $_password,
+    'emulatePrepare'        => true,
+    'charset'               => 'utf8',
+    'enableProfiling'       => defined( 'YII_DEBUG' ),
+    'enableParamLogging'    => defined( 'YII_DEBUG' ),
+    'schemaCachingDuration' => 3600,
+);
