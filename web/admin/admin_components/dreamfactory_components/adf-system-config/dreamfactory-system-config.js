@@ -257,7 +257,7 @@ angular.module('dfSystemConfig', ['ngRoute', 'dfUtility'])
 
                         return {
                             host: null,
-                            is_enabled: true,
+                            is_enabled: false,
                             verbs: []
                         }
                     };
