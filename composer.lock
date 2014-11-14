@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "5db60a607edad6405fe187afc393f4cf6a35b505"
+                "reference": "acac97e5a7af8e6107938ee1bca424e8a84191af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/5db60a607edad6405fe187afc393f4cf6a35b505",
-                "reference": "5db60a607edad6405fe187afc393f4cf6a35b505",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/acac97e5a7af8e6107938ee1bca424e8a84191af",
+                "reference": "acac97e5a7af8e6107938ee1bca424e8a84191af",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-11 20:31:02"
+            "time": "2014-11-14 03:27:08"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -425,19 +425,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "57fcb24ed2a9e9b1031ccff246eb4b5c223908ae"
+                "reference": "b0d7eb1c64c0ba43344388ef88f0bad2c999549f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/57fcb24ed2a9e9b1031ccff246eb4b5c223908ae",
-                "reference": "57fcb24ed2a9e9b1031ccff246eb4b5c223908ae",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/b0d7eb1c64c0ba43344388ef88f0bad2c999549f",
+                "reference": "b0d7eb1c64c0ba43344388ef88f0bad2c999549f",
                 "shasum": ""
             },
             "require": {
-                "dreamfactory/lib-php-common": "~1.5.0@stable",
+                "dreamfactory/lib-php-common": "~1.5.0",
                 "dreamfactory/php-utils": "*",
-                "dreamfactory/yii": "~1.1.13.10@stable",
-                "kisma/kisma": "~0.2@stable",
+                "dreamfactory/yii": "~1.1.13.10",
+                "kisma/kisma": "~0.2",
                 "php": "~5.3"
             },
             "require-dev": {
@@ -485,7 +485,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-11-04 18:49:42"
+            "time": "2014-11-13 22:01:53"
         },
         {
             "name": "dreamfactory/oasys",
@@ -547,12 +547,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "fad996a7b8ec5cef22e8751890a3d75219064b3e"
+                "reference": "1ee6e9a4b2251392b39d970aa26467d18af19159"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/fad996a7b8ec5cef22e8751890a3d75219064b3e",
-                "reference": "fad996a7b8ec5cef22e8751890a3d75219064b3e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/1ee6e9a4b2251392b39d970aa26467d18af19159",
+                "reference": "1ee6e9a4b2251392b39d970aa26467d18af19159",
                 "shasum": ""
             },
             "require": {
@@ -590,7 +590,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-11-13 16:20:31"
+            "time": "2014-11-13 18:24:22"
         },
         {
             "name": "dreamfactory/yii",
@@ -2490,17 +2490,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "0887d52700bf27f99ca400c5e7385275299c0928"
+                "reference": "6165f4b5224c22de2873deb6a3a4e622044f0705"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/0887d52700bf27f99ca400c5e7385275299c0928",
-                "reference": "0887d52700bf27f99ca400c5e7385275299c0928",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6165f4b5224c22de2873deb6a3a4e622044f0705",
+                "reference": "6165f4b5224c22de2873deb6a3a4e622044f0705",
                 "shasum": ""
             },
             "require": {
@@ -2509,7 +2509,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2533,7 +2533,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-11-11 08:37:22"
+            "time": "2014-11-10 18:00:54"
         }
     ],
     "aliases": [],

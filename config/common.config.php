@@ -224,7 +224,7 @@ return array_merge(
         'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
-        /** CORS debug logging */
+        /** Enable/disable detailed CORS logging */
         'dsp.log_cors_info'             => false,
         //-------------------------------------------------------------------------
         //	Event and Scripting System Options
