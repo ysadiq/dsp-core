@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "acac97e5a7af8e6107938ee1bca424e8a84191af"
+                "reference": "ff63b7bddf3589446c5038699cf3da8a8639f360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/acac97e5a7af8e6107938ee1bca424e8a84191af",
-                "reference": "acac97e5a7af8e6107938ee1bca424e8a84191af",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/ff63b7bddf3589446c5038699cf3da8a8639f360",
+                "reference": "ff63b7bddf3589446c5038699cf3da8a8639f360",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-14 03:27:08"
+            "time": "2014-11-14 15:54:28"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -425,12 +425,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "b0d7eb1c64c0ba43344388ef88f0bad2c999549f"
+                "reference": "e8d37362f0091e5d05c232ea9a63310228b1a0e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/b0d7eb1c64c0ba43344388ef88f0bad2c999549f",
-                "reference": "b0d7eb1c64c0ba43344388ef88f0bad2c999549f",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/e8d37362f0091e5d05c232ea9a63310228b1a0e3",
+                "reference": "e8d37362f0091e5d05c232ea9a63310228b1a0e3",
                 "shasum": ""
             },
             "require": {
@@ -485,7 +485,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-11-13 22:01:53"
+            "time": "2014-11-14 14:22:06"
         },
         {
             "name": "dreamfactory/oasys",
