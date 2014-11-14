@@ -40,7 +40,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testFabric()
     {
-        $this->assertTrue( is_string( Fabric::hostedPrivatePlatform( true ) ) );
+        $this->assertTrue( is_string( Fabric::isAllowedHost( true ) ) );
     }
 
 }

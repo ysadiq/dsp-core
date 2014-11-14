@@ -49,7 +49,7 @@ return call_user_func(
          *        2. Hosted Private:        hpp_<DSP Name>
          *        3. All others:            dreamfactory
          */
-        if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
+        if ( false !== ( $_host = Fabric::isAllowedHost( true ) ) )
         {
             $_dbName = 'hpp_' . str_ireplace( array('.dreamfactory.com', '-', '.cloud', '.'), array(null, '_', null, '_'), $_host );
         }

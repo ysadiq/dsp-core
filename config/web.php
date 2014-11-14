@@ -75,7 +75,7 @@ if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONF
          *        2. Hosted Private:        hpp_<DSP Name>
          *        3. All others:            dreamfactory or whatever is in non-default config.
          */
-        if ( false !== ( $_host = Fabric::hostedPrivatePlatform( true ) ) )
+        if ( false !== ( $_host = Fabric::isAllowedHost( true ) ) )
         {
             $_dbName =
                 'hpp_' .
