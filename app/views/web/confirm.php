@@ -71,7 +71,7 @@ switch ( $reason )
 ?>
 <div class="box-wrapper">
     <div id="formbox" class="form-light boxed drop-shadow lifted">
-        <h2 class="inset"><?php echo $_header; ?>></h2>
+        <h2 class="inset"><?php echo $_header; ?></h2>
 
         <p>All fields are required.</p>
 
