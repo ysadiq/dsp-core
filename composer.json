@@ -16,7 +16,6 @@
         "esb"
     ],
     "license": ["Apache-2.0"],
-    "prefer-stable": true,
     "authors": [
         {
             "name": "Jerry Ablan",
@@ -56,6 +55,7 @@
             "url": "http://pear.php.net"
         }
     ],
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
         "kisma/kisma": "~0.2",
