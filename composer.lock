@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "68817a837d425969b5da34622ac95daf",
+    "hash": "da8059677a18a5d89c34d470d581243e",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1514,6 +1514,63 @@
             "time": "2013-04-11 10:22:09"
         },
         {
+            "name": "symfony/dependency-injection",
+            "version": "v2.5.6",
+            "target-dir": "Symfony/Component/DependencyInjection",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/DependencyInjection.git",
+                "reference": "fb40e4ea115d331346fbbc4da8f42825e524c7a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/fb40e4ea115d331346fbbc4da8f42825e524c7a0",
+                "reference": "fb40e4ea115d331346fbbc4da8f42825e524c7a0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/config": "~2.2",
+                "symfony/expression-language": "~2.4",
+                "symfony/yaml": "~2.0"
+            },
+            "suggest": {
+                "symfony/config": "",
+                "symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
+                "symfony/yaml": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\DependencyInjection\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony DependencyInjection Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-10-01 05:50:18"
+        },
+        {
             "name": "symfony/event-dispatcher",
             "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/EventDispatcher",
@@ -2600,6 +2657,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "symfony/dependency-injection": 0,
         "dreamfactory/enterprise-storage": 20,
         "dreamfactory/php-utils": 20,
         "dreamfactory/lib-php-common-platform": 20,

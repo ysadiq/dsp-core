@@ -64,6 +64,7 @@
     "require": {
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
+        "symfony/dependency-injection": "@stable",
         "dreamfactory/enterprise-storage": "dev-develop as dev-master",
         "dreamfactory/php-utils": "dev-develop as dev-master",
         "dreamfactory/yii": "~1.1.13.12",

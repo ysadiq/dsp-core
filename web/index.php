@@ -17,6 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Application;
 use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Yii\Utility\Pii;
 
@@ -35,6 +36,8 @@ const DSP_DEBUG = true;
  */
 const DSP_DEBUG_PHP_ERROR = true;
 
+$_app = new Application();
+$_app->
 $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
 /**
