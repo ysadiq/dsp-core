@@ -140,7 +140,7 @@ We need to preload data but I'm not doing that today. MNM -->
 
                 <div class="form-group" ng-show="service.type == 'Email Service'">
                     <label>Provider</label> <select class="form-control" ng-change="showEmailFields()"
-                                                    ng-model="service.credentials.transport_type"
+                                                    ng-model="email_type"
                                                     ng-options="option.value as option.name for option in emailOptions"></select>
                 </div>
 
@@ -206,7 +206,7 @@ We need to preload data but I'm not doing that today. MNM -->
                     </div>
                     <label>Command</label>
 
-                    <input class="form-control" ng-value="" type="text" ng-model="service.storage_type"
+                    <input class="form-control" ng-value="" type="text" ng-model="service.command"
                            placeholder="e.g. /usr/sbin/sendmail -bs"/>
                 </div>
 
