@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8eef5a26d93a892a5a94f752765daebe",
+    "hash": "68817a837d425969b5da34622ac95daf",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -247,6 +247,49 @@
                 "sdk"
             ],
             "time": "2014-08-08 21:07:14"
+        },
+        {
+            "name": "dreamfactory/enterprise-storage",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
+                "reference": "2e28f23d020dbd59697431be2a6a5b84179315e6"
+            },
+            "require": {
+                "dreamfactory/php-utils": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DreamFactory\\Library\\Enterprise\\Storage\\": "src/"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jerry Ablan",
+                    "email": "jerryablan@dreamfactory.com"
+                }
+            ],
+            "description": "DreamFactory Enterprise(tm) Storage Provider",
+            "homepage": "https://www.dreamfactory.com/",
+            "keywords": [
+                "dreamfactory",
+                "enterprise",
+                "storage"
+            ],
+            "time": "2014-11-15 20:58:14"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -2535,9 +2578,31 @@
             "time": "2014-11-10 18:00:54"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/enterprise-storage"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/php-utils"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/lib-php-common-platform"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "dreamfactory/enterprise-storage": 20,
+        "dreamfactory/php-utils": 20,
+        "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/php-invoker": 0,
         "phpunit/phpunit-selenium": 0,
