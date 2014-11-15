@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7b74cc1aa32bcc6087e12b2acb09f866",
+    "hash": "9ecf3a8164fb0e40b8c711447b3ca812",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "7fb05fb66442ebbb670272db054bdb489f69c81e"
+                "reference": "bff46a26377b1b731b937935d89c6f3578c12cb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/7fb05fb66442ebbb670272db054bdb489f69c81e",
-                "reference": "7fb05fb66442ebbb670272db054bdb489f69c81e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/bff46a26377b1b731b937935d89c6f3578c12cb4",
+                "reference": "bff46a26377b1b731b937935d89c6f3578c12cb4",
                 "shasum": ""
             },
             "require": {
@@ -363,7 +363,7 @@
                 "dreamfactory/lib-php-common": "~1.5.0",
                 "dreamfactory/lib-php-common-yii": "~1.5.0",
                 "dreamfactory/oasys": "~0.4",
-                "dreamfactory/php-utils": "*",
+                "dreamfactory/php-utils": "~1.0",
                 "dreamfactory/yii": "~1.1.13.12",
                 "jeremeamia/superclosure": "*",
                 "kisma/kisma": "~0.2",
@@ -417,7 +417,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-15 03:11:38"
+            "time": "2014-11-15 15:56:59"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
