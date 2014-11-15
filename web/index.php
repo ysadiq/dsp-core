@@ -37,8 +37,9 @@ const DSP_DEBUG = true;
 const DSP_DEBUG_PHP_ERROR = true;
 
 $_app = new Application();
-$_app->
-$_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
+$_app->setParameter( 'app.class', 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application' );
+$_app->setParameter( 'app.debug', DSP_DEBUG );
+$_app->setParameter( 'app.hosted_instance', Fabric::hostedInstance() );
 
 /**
  * Debug-level output based on constant value above
@@ -57,6 +58,11 @@ if ( DSP_DEBUG )
 //  Load up composer...
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
+if ( !is_bool( $_autoloader ) )
+{
+    $_app->setParameter( 'app.auto_loader', $_autoloader );
+}
+
 //  Load up Yii if it's not been already
 if ( !class_exists( '\\Yii', false ) )
 {
@@ -69,7 +75,5 @@ if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
     reportErrors();
 }
 
-$FABRIC_HOSTED = Fabric::fabricHosted();
-
 //  Create the application and run. This does not return until the request is complete.
-Pii::run( __DIR__, $_autoloader, $_class );
+Pii::run( $_app, __DIR__, $_autoloader, $_class );
