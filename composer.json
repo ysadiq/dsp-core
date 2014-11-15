@@ -58,11 +58,11 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "kisma/kisma": "~0.2@stable",
+        "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
-        "dreamfactory/php-utils": "~1.0@stable",
-        "dreamfactory/yii": "~1.1.13.12@stable",
-        "dreamfactory/lib-php-common-platform": "~1.8.5@stable"
+        "dreamfactory/php-utils": "~1.0",
+        "dreamfactory/yii": "~1.1.13.12",
+        "dreamfactory/lib-php-common-platform": "~1.8.5"
     },
     "require-dev": {
         "phpunit/phpunit": "@stable",
