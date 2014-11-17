@@ -146,15 +146,16 @@ else
 $_instanceSettings = array_merge(
     $_identity,
     array(
-        LocalStorageTypes::STORAGE_BASE_PATH => $_storageBasePath,
-        LocalStorageTypes::STORAGE_PATH      => $_storagePath,
-        LocalStorageTypes::PRIVATE_PATH      => $_privatePath,
-        LocalStorageTypes::LOCAL_CONFIG_PATH => $_privatePath . '/config',
-        LocalStorageTypes::SNAPSHOT_PATH     => $_privatePath . '/snapshots',
-        LocalStorageTypes::APPLICATIONS_PATH => $_storagePath . '/applications',
-        LocalStorageTypes::LIBRARY_PATH      => $_storagePath . '/plugins',
-        LocalStorageTypes::PLUGINS_PATH      => $_storagePath . '/plugins',
-        LocalStorageTypes::SWAGGER_PATH      => $_storagePath . '/swagger',
+        LocalStorageTypes::STORAGE_BASE_PATH   => $_storageBasePath,
+        LocalStorageTypes::STORAGE_PATH        => $_storagePath,
+        LocalStorageTypes::PRIVATE_PATH        => $_privatePath,
+        LocalStorageTypes::LOCAL_CONFIG_PATH   => $_privatePath . '/config',
+        LocalStorageTypes::PRIVATE_CONFIG_PATH => $_privatePath . '/config',
+        LocalStorageTypes::SNAPSHOT_PATH       => $_privatePath . '/snapshots',
+        LocalStorageTypes::APPLICATIONS_PATH   => $_storagePath . '/applications',
+        LocalStorageTypes::LIBRARY_PATH        => $_storagePath . '/plugins',
+        LocalStorageTypes::PLUGINS_PATH        => $_storagePath . '/plugins',
+        LocalStorageTypes::SWAGGER_PATH        => $_storagePath . '/swagger',
     )
 );
 
