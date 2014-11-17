@@ -43,10 +43,11 @@ const DSP_DEBUG_PHP_ERROR = true;
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
 /** Initialize the instance container */
-$_bag = new ParameterBag(
+$_config =
     array(
         'app.class_name'          => 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application',
         'app.config'              => null,
+        'app.base_path'           => dirname( __DIR__ ),
         'app.document_root'       => __DIR__,
         'app.debug'               => DSP_DEBUG,
         'app.debug.use_php_error' => DSP_DEBUG_PHP_ERROR,
@@ -54,13 +55,10 @@ $_bag = new ParameterBag(
         'app.prepend_autoloader'  => true,
         'app.enable_config_cache' => true,
         'app.log_file'            => null,
-    )
-);
+        'app.auto_loader'         => $_autoloader,
+    );
 
-$_app = new AppInstance( $_bag );
-
-//  Load up composer...
-$_app->set( 'autoloader', $_autoloader );
+$_app = new AppInstance( new ParameterBag( $_config ) );
 
 //  Load up Yii if it's not been already
 if ( !class_exists( '\\Yii', false ) )
@@ -69,4 +67,4 @@ if ( !class_exists( '\\Yii', false ) )
 }
 
 //  Create the application and run. This does not return until the request is complete.
-$_app->run( __DIR__ );
+$_app->run( __DIR__, $_config );
