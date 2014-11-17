@@ -17,9 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Library\Utility\Application;
-use DreamFactory\Platform\Utility\Fabric;
-use DreamFactory\Yii\Utility\Pii;
+use DreamFactory\Library\Utility\AppInstance;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 /** index.php -- Main entry point/bootstrap for all processes **/
 
@@ -36,44 +35,38 @@ const DSP_DEBUG = true;
  */
 const DSP_DEBUG_PHP_ERROR = true;
 
-$_app = new Application();
-$_app->setParameter( 'app.class', 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application' );
-$_app->setParameter( 'app.debug', DSP_DEBUG );
-$_app->setParameter( 'app.hosted_instance', Fabric::hostedInstance() );
+//******************************************************************************
+//* Bootstrap
+//******************************************************************************
 
-/**
- * Debug-level output based on constant value above
- * For production mode, you'll want to set the above constants to FALSE
- * Get this turned on before anything is loaded
- */
-if ( DSP_DEBUG )
-{
-    ini_set( 'display_errors', true );
-//    ini_set( 'error_reporting', -1 );
-
-    defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );
-//    defined( 'YII_TRACE_LEVEL' ) or define( 'YII_TRACE_LEVEL', 3 );
-}
-
-//  Load up composer...
+/** Load the autoloader */
 $_autoloader = require_once( __DIR__ . '/../vendor/autoload.php' );
 
-if ( !is_bool( $_autoloader ) )
-{
-    $_app->setParameter( 'app.auto_loader', $_autoloader );
-}
+/** Initialize the instance container */
+$_bag = new ParameterBag(
+    array(
+        'app.class_name'          => 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application',
+        'app.config'              => null,
+        'app.document_root'       => __DIR__,
+        'app.debug'               => DSP_DEBUG,
+        'app.debug.use_php_error' => DSP_DEBUG_PHP_ERROR,
+        'app.auto_run'            => true,
+        'app.prepend_autoloader'  => true,
+        'app.enable_config_cache' => true,
+        'app.log_file'            => null,
+    )
+);
+
+$_app = new AppInstance( $_bag );
+
+//  Load up composer...
+$_app->set( 'autoloader', $_autoloader );
 
 //  Load up Yii if it's not been already
 if ( !class_exists( '\\Yii', false ) )
 {
-    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yiilite.php';
-}
-
-//  php-error utility
-if ( DSP_DEBUG_PHP_ERROR && function_exists( 'reportErrors' ) )
-{
-    reportErrors();
+    require_once __DIR__ . '/../vendor/dreamfactory/yii/framework/yii.php';
 }
 
 //  Create the application and run. This does not return until the request is complete.
-Pii::run( $_app, __DIR__, $_autoloader, $_class );
+$_app->run( __DIR__ );
