@@ -56,12 +56,13 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
         "dreamfactory/php-utils": "~1.0",
-        "dreamfactory/yii": "~1.1.13.11",
-        "dreamfactory/lib-php-common-platform": "~1.8.4"
+        "dreamfactory/yii": "~1.1.13.12",
+        "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "@stable",
