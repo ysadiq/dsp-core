@@ -357,7 +357,8 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Salesforce"},
 		{name: "Local File Storage"},
 		{name: "Remote File Storage"},
-		{name: "Email Service"}
+		{name: "Email Service"},
+		{name: "Push Service"}
 	];
 	Scope.serviceCreateOptions = [
 		{name: "Remote Web Service"},
@@ -366,11 +367,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Salesforce"},
 		{name: "Local File Storage"},
 		{name: "Remote File Storage"},
-		{name: "Email Service"}
+		{name: "Email Service"},
+		{name: "Push Service"}
 	];
 	Scope.securityOptions = [
 		{name: "SSL", value: "SSL"},
 		{name: "TLS", value: "TLS"}
+	];
+	Scope.pushOptions = [
+		{name: "Amazon SNS", value: "aws sns"}
 	];
 	$( '.update_button' ).hide();
 
@@ -435,6 +440,14 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "mongodb":
 					Scope.service.credentials =
 					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db};
+					break;
+			}
+			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+		}
+		if ( Scope.service.type == "Push Service" ) {
+			switch ( Scope.service.storage_type ) {
+				case "aws sns":
+					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -542,6 +555,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
+		if ( Scope.service.type == "Push Service" ) {
+			switch ( Scope.service.storage_type ) {
+				case "aws sns":
+					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
+					break;
+			}
+
+			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+		}
 		Service.save(
 			Scope.service, function( data ) {
 				Scope.promptForNew();
@@ -623,6 +645,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				break;
 			case "Salesforce":
 				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+				break;
+			case "Push Service":
+				$( ".user, .host, .security,.command,  .port, .pwd,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+				$( ".push_type" ).show();
 				break;
 		}
 	};
@@ -816,6 +842,18 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 						Scope.mongodb.service.user = fString.user;
 						Scope.mongodb.service.pwd = fString.pwd;
 						Scope.mongodb.service.db = fString.db;
+						break;
+				}
+			}
+		}
+		if ( Scope.service.type == "Push Service" ) {
+			Scope.aws = {};
+			if ( Scope.service.credentials ) {
+				var fString = Scope.service.credentials;
+				switch ( Scope.service.storage_type ) {
+					case "aws sns":
+						Scope.aws.access_key = fString.access_key;
+						Scope.aws.secret_key = fString.secret_key;
 						break;
 				}
 			}

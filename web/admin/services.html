@@ -425,6 +425,23 @@ We need to preload data but I'm not doing that today. MNM -->
                             </div>
                         </div>
                     </div>
+					<div class="section push_type">
+						<div class="form-group">
+							<label>Push Type</label>
+							<select class="form-control" ng-options="option.value as option.name for option in pushOptions"
+								ng-model="service.storage_type" type="text"></select>
+						</div>
+
+
+						<div class="sub-section " ng-show="service.storage_type=='aws sns'">
+							<div class="form-group">
+								<label>Access Key</label>
+								<input class="form-control" type="text" ng-model="aws.access_key"/>
+								<label>Secret Key</label>
+								<input class="form-control" type="text" ng-model="aws.secret_key"/>
+							</div>
+						</div>
+					</div>
                     <div class="section credentials">
                         <div class="form-group">
                             <label>Credentials</label>
