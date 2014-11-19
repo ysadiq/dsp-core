@@ -27,15 +27,10 @@ use Kisma\Core\Utility\Log;
  */
 $_fabricHosted = false;
 
-if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php' ) )
-{
-    require __DIR__ . '/constants.config.php';
-}
+//  Load platform constants
+!defined( 'DSP_VERSION' ) && Includer::includeIfExists( __DIR__ . '/constants.config.php', true );
 
-/**
- * Load any environment variables first thing as they may be used by the database config
- */
-/** @noinspection PhpIncludeInspection */
+/** Load any environment variables first thing as they may be used by the database config */
 if ( false !== ( $_envConfig = Includer::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_envConfig ) && is_array( $_envConfig ) )
