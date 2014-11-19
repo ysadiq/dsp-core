@@ -142,7 +142,6 @@ return array(
     'corsWhitelist'      => array('*'),
     'autoAddHeaders'     => true,
     'extendedHeaders'    => true,
-    'useResponseObject'  => false,
     /**
      * Preloads
      */
