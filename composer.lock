@@ -254,7 +254,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "b902eef8c98b20974fde818dfb9250f070a763fb"
+                "reference": "9ed8b58794fc20d01065144f0ebe2350bb1d863a"
             },
             "require": {
                 "doctrine/cache": "@stable",
@@ -290,7 +290,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-11-19 22:07:08"
+            "time": "2014-11-20 02:07:05"
         },
         {
             "name": "dreamfactory/javascript-sdk",
