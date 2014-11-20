@@ -21,9 +21,6 @@ use DreamFactory\Library\Enterprise\Storage\Enums\EnterprisePaths;
 use DreamFactory\Library\Enterprise\Storage\Resolver;
 use DreamFactory\Library\Utility\AppInstance;
 use DreamFactory\Library\Utility\Environment;
-use DreamFactory\Library\Utility\IfSet;
-use DreamFactory\Library\Utility\Includer;
-use DreamFactory\Platform\Utility\Fabric;
 use Kisma\Core\Enums\PhpFrameworks;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
@@ -44,7 +41,7 @@ const DSP_DEBUG_PHP_ERROR = true;
 /**
  * @type bool Enable/disable use of yiilite bootstrap
  */
-const USE_YII_LITE = true;
+const USE_YII_LITE = false;
 
 //******************************************************************************
 //* Bootstrap
@@ -55,12 +52,16 @@ $_basePath = dirname( __DIR__ );
 $_vendorPath = $_basePath . '/vendor';
 $_autoloader = require( $_vendorPath . '/autoload.php' );
 
-//  Create the application
-$_app = new AppInstance( _getAppParameters_() );
+//  Load up Yii if it's not been already
+if ( !class_exists( '\\Yii', false ) )
+{
+    /** @noinspection PhpIncludeInspection */
+    require $_vendorPath . '/dreamfactory/yii/framework/yii' . ( USE_YII_LITE ? 'lite' : null ) . '.php';
+}
 
-//  Register pre-flight services resolver
-$app->set( 'autoloader', $_autoloader );
-$app->set( 'resolver', $_app->getParameter( 'app.resolver' ) );
+//  Create the application
+$_app = new AppInstance( _getAppParameters_(), $_autoloader );
+$_app->set( 'autoloader', $_autoloader );
 
 //  Let 'er rip! This does not return until the request is complete.
 $_app->run( __DIR__ );
@@ -81,7 +82,7 @@ function _getAppParameters_()
     $_vendorPath = $_basePath . '/vendor';
     $_logPath = $_basePath . '/log';
     $_hostname = Environment::getHostname( true, true );
-    $_hostedInstance = Fabric::hostedInstance();
+    $_hostedInstance = EnterprisePaths::hostedInstance();
 
     //  Create a resolver
     $_resolver = new Resolver();
@@ -94,8 +95,8 @@ function _getAppParameters_()
             /** General Options & Services */
             'app.class'                  => 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ucwords( $_appMode ) . 'Application',
             'app.mode'                   => $_appMode,
-            'app.resolver'               => $_resolver,
             'app.config'                 => null,
+            'app.resolver'               => $_resolver,
             /** Paths */
             'app.base_path'              => $_basePath,
             'app.config_path'            => $_configPath,
@@ -108,7 +109,7 @@ function _getAppParameters_()
             'app.auto_run'               => true,
             'app.append_autoloader'      => false,
             'app.enable_config_cache'    => true,
-            'app.framework'              => null,
+            'app.framework'              => PhpFrameworks::Yii,
             'app.framework.use_yii_lite' => USE_YII_LITE,
             'app.hosted_instance'        => $_hostedInstance,
             'app.config_file'            => $_configPath . '/' . $_appMode . '.php',
@@ -117,19 +118,6 @@ function _getAppParameters_()
             'app.debug'                  => DSP_DEBUG,
             'app.debug.use_php_error'    => DSP_DEBUG_PHP_ERROR,
         );
-
-    //  Load up Yii if it's not been already
-    if ( !class_exists( '\\Yii', false ) )
-    {
-        /** @noinspection PhpIncludeInspection */
-        Includer::includeIfExists(
-            $_basePath .
-            '/vendor/dreamfactory/yii/framework/yii' .
-            ( IfSet::getBool( $_config, 'app.framework.use_yii_lite' ) ? 'lite' : null ) . '.php'
-        );
-
-        $_config['app.framework'] = PhpFrameworks::Yii;
-    }
 
     return new ParameterBag( $_config );
 }
