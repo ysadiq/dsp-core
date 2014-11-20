@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2d4a90091fe8147906586d3fd26eb2ba",
+    "hash": "9846bf02388000dc9798c325e5259ffb",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -254,7 +254,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "ae63c1ee0df9001721eb46b798c245d05e297b11"
+                "reference": "b902eef8c98b20974fde818dfb9250f070a763fb"
             },
             "require": {
                 "doctrine/cache": "@stable",
@@ -290,7 +290,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-11-19 05:20:29"
+            "time": "2014-11-19 22:07:08"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -391,12 +391,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "a7e9f0c838538dccda6f7f9447f549e9d0754bb5"
+                "reference": "e7bdcd055bb95aebde7b3e9c0224c64339efbdf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/a7e9f0c838538dccda6f7f9447f549e9d0754bb5",
-                "reference": "a7e9f0c838538dccda6f7f9447f549e9d0754bb5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e7bdcd055bb95aebde7b3e9c0224c64339efbdf7",
+                "reference": "e7bdcd055bb95aebde7b3e9c0224c64339efbdf7",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-19 03:40:48"
+            "time": "2014-11-19 22:07:03"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -592,12 +592,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "2c3a845de8b23f4316d423e5689173348e24278c"
+                "reference": "1d872976fe0c8de6dc1b592b686a13f78c9bb690"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/2c3a845de8b23f4316d423e5689173348e24278c",
-                "reference": "2c3a845de8b23f4316d423e5689173348e24278c",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/1d872976fe0c8de6dc1b592b686a13f78c9bb690",
+                "reference": "1d872976fe0c8de6dc1b592b686a13f78c9bb690",
                 "shasum": ""
             },
             "require": {
@@ -635,7 +635,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-11-18 17:05:13"
+            "time": "2014-11-19 22:07:20"
         },
         {
             "name": "dreamfactory/yii",

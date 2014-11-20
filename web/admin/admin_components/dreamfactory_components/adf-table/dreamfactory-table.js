@@ -564,10 +564,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                 scope._createRevertCopy = function (dataObj) {
 
-                    var temp = angular.copy(dataObj);
-
                     dataObj['__dfData'] = {};
-                    dataObj.__dfData['revert'] = temp;
+                    dataObj.__dfData['revert'] = angular.copy(dataObj);
 
                     if (!dataObj.__dfData.revert.hasOwnProperty('_exportValue')) {
                         dataObj.__dfData.revert['_exportValue'] = {};
@@ -2406,8 +2404,8 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     var recordCopy = scope._getRevertCopy(scope.currentEditRecord);
                     for (var _key in recordCopy) {
 
-                        if (scope.currentEditRecord.hasOwnProperty(_key)) {
-                            scope.currentEditRecord[_key] = recordCopy[_key];
+                        if (scope.currentEditRecord.hasOwnProperty(_key) && (_key !== '__dfData')) {
+                            scope.currentEditRecord[_key] = angular.copy(recordCopy[_key]);
                         }
                     }
                 };
@@ -2866,12 +2864,7 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
                     }
 
                 } else {
-
-
-                    console.log(scope.field.type);
-
                     scope.templateData = scope.fieldTypes[scope.field.type];
-
                     scope.templateData.editable = scope._parseEditable(scope.field);
                 }
 
@@ -2879,7 +2872,6 @@ angular.module('dfTable', ['dfUtility', 'ui.bootstrap', 'ui.bootstrap.tpls'])
 
                     case 'string':
 
-                        console.log('we\'re here');
                         if (scope.field.hasOwnProperty('validation')){
 
                             if (scope.field.validation != null && scope.field.validation.hasOwnProperty('picklist')) {

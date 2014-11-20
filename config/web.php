@@ -134,10 +134,9 @@ return array(
     /**
      * CORS Configuration
      */
-    'corsWhitelist'      => array('*'),
+    'corsWhitelist'      => array(),
     'autoAddHeaders'     => true,
     'extendedHeaders'    => true,
-    'useResponseObject'  => false,
     /**
      * Preloads
      */
