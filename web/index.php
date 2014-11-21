@@ -18,7 +18,8 @@
  * limitations under the License.
  */
 use DreamFactory\Library\Enterprise\Storage\Enums\EnterprisePaths;
-use DreamFactory\Library\Enterprise\Storage\Resolver;
+use DreamFactory\Library\Utility\AppBox;
+use DreamFactory\Library\Utility\AppBuilder;
 use DreamFactory\Library\Utility\AppInstance;
 use DreamFactory\Library\Utility\Environment;
 use Kisma\Core\Enums\PhpFrameworks;
@@ -60,11 +61,10 @@ if ( !class_exists( '\\Yii', false ) )
 }
 
 //  Create the application
-$_app = new AppInstance( _getAppParameters_(), $_autoloader );
-$_app->set( 'autoloader', $_autoloader );
+$_app = new AppBuilder( _getAppParameters_() );
 
 //  Let 'er rip! This does not return until the request is complete.
-$_app->run( __DIR__ );
+//$_app->run( __DIR__ );
 
 //******************************************************************************
 //* Configuration
@@ -84,40 +84,37 @@ function _getAppParameters_()
     $_hostname = Environment::getHostname( true, true );
     $_hostedInstance = EnterprisePaths::hostedInstance();
 
-    //  Create a resolver
-    $_resolver = new Resolver();
-    $_resolver->setPartitioned( $_hostedInstance );
-    $_resolver->initialize( $_hostname, EnterprisePaths::MOUNT_POINT, $_basePath );
-
     /** Initialize runtime settings */
-    $_config =
-        array(
-            /** General Options & Services */
-            'app.class'                  => 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ucwords( $_appMode ) . 'Application',
-            'app.mode'                   => $_appMode,
-            'app.config'                 => null,
-            'app.resolver'               => $_resolver,
-            /** Paths */
-            'app.base_path'              => $_basePath,
-            'app.config_path'            => $_configPath,
-            'app.vendor_path'            => $_vendorPath,
-            'app.log_path'               => $_logPath,
-            'app.document_root'          => __DIR__,
-            'app.app_path'               => $_basePath . '/web',
-            'app.template_path'          => $_configPath . '/templates',
-            /** Bootstrap Options */
-            'app.auto_run'               => true,
-            'app.append_autoloader'      => false,
-            'app.enable_config_cache'    => true,
-            'app.framework'              => PhpFrameworks::Yii,
-            'app.framework.use_yii_lite' => USE_YII_LITE,
-            'app.hosted_instance'        => $_hostedInstance,
-            'app.config_file'            => $_configPath . '/' . $_appMode . '.php',
-            'app.log_file'               => $_appMode . '.' . $_hostname . '.log',
-            /** Debug Options */
-            'app.debug'                  => DSP_DEBUG,
-            'app.debug.use_php_error'    => DSP_DEBUG_PHP_ERROR,
-        );
 
-    return new ParameterBag( $_config );
+    return array(
+        /** Resolver settings */
+        'resolver.hostname'          => $_hostname,
+        'resolver.mount_point'       => $_hostname ? EnterprisePaths::MOUNT_POINT : $_basePath . EnterprisePaths::STORAGE_PATH,
+        'resolver.install_root'      => $_basePath,
+        /** General Options & Services */
+        'app.class'                  => 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ucwords( $_appMode ) . 'Application',
+        'app.mode'                   => $_appMode,
+        'app.config'                 => null,
+        'app.hostname'               => $_hostname,
+        /** Paths */
+        'app.base_path'              => $_basePath,
+        'app.config_path'            => $_configPath,
+        'app.config_file'            => $_configPath . '/' . $_appMode . '.php',
+        'app.vendor_path'            => $_vendorPath,
+        'app.log_path'               => $_logPath,
+        'app.log_file'               => $_appMode . '.' . $_hostname . '.log',
+        'app.document_root'          => __DIR__,
+        'app.app_path'               => $_basePath . '/web',
+        'app.template_path'          => $_configPath . '/templates',
+        /** Bootstrap Options */
+        'app.auto_run'               => true,
+        'app.append_autoloader'      => false,
+        'app.enable_config_cache'    => true,
+        'app.framework'              => PhpFrameworks::Yii,
+        'app.framework.use_yii_lite' => USE_YII_LITE,
+        'app.hosted_instance'        => $_hostedInstance,
+        /** Debug Options */
+        'app.debug'                  => DSP_DEBUG,
+        'app.debug.use_php_error'    => DSP_DEBUG_PHP_ERROR,
+    );
 }
