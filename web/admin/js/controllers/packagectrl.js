@@ -32,22 +32,32 @@ var PackageCtrl = function(dfLoadingScreen, $scope, AppsRelatedToService, Servic
 
 
 
-	Scope.schemaData = {};
-	Scope.Services = Service.get(
-		function( data ) {
-			angular.forEach(
-				data.record, function( service ) {
-					if ( service.type.indexOf( "SQL DB Schema" ) != -1 ) {
-						$http.get( '/rest/' + service.api_name + '/?app_name=admin&fields=*' ).success(
-							function( data ) {
-								service.components = data.resource;
-							}
-						);
-					}
-				}
-			)
-		}
-	);
+    Scope.schemaData = {};
+    Scope.Services = Service.get(
+        function( data ) {
+            angular.forEach(
+                data.record, function( service ) {
+                    // OLD WAY
+                    if ( service.type.indexOf( "SQL DB Schema" ) != -1  ) {
+                        $http.get( '/rest/' + service.api_name + '/?app_name=admin&fields=*' ).success(
+                            function( data ) {
+                                service.components = data.resource;
+                            }
+                        );
+                    } else {
+                        // NEW WAY
+                        if ( service.type.indexOf( " SQL DB" ) != -1  ) {
+                            $http.get( '/rest/' + service.api_name + '/_schema?app_name=admin&fields=*' ).success(
+                                function( data ) {
+                                    service.components = data.resource;
+                                }
+                            );
+                        }
+                    }
+                }
+            )
+        }
+    );
 	$scope.showDetails = function() {
 		$( "#splash" ).hide();
 		this.app.app_service_relations = [];
