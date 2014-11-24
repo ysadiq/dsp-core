@@ -255,7 +255,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "ff1b8654b498d20840131bf919ed5084c0420421"
+                "reference": "db432ebbb58f3d3d9ef5d31ff1325ecd6b166dda"
             },
             "require": {
                 "doctrine/cache": "@stable",
@@ -291,7 +291,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-11-21 06:53:09"
+            "time": "2014-11-21 16:44:43"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -538,18 +538,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "4ed89160e70b2f8d68467eb5f92001c0abb94169"
+                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/4ed89160e70b2f8d68467eb5f92001c0abb94169",
-                "reference": "4ed89160e70b2f8d68467eb5f92001c0abb94169",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/a34819452a5b146682515b956f4ccc22f45bd68c",
+                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c",
                 "shasum": ""
             },
             "require": {
+                "dreamfactory/php-utils": "*",
                 "ext-curl": "*",
-                "kisma/kisma": "~0.2",
-                "php": "~5.3"
+                "kisma/kisma": "~0.2"
             },
             "require-dev": {
                 "phpunit/phpunit": "@stable"
@@ -584,7 +584,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-10-21 21:57:21"
+            "time": "2014-11-21 16:44:59"
         },
         {
             "name": "dreamfactory/php-utils",
@@ -2394,12 +2394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "3e22c89be2e1cddf7db89699cb23a9159df12e0c"
+                "reference": "f38057b48125c2b421361da224a8aa800d70aeca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/3e22c89be2e1cddf7db89699cb23a9159df12e0c",
-                "reference": "3e22c89be2e1cddf7db89699cb23a9159df12e0c",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/f38057b48125c2b421361da224a8aa800d70aeca",
+                "reference": "f38057b48125c2b421361da224a8aa800d70aeca",
                 "shasum": ""
             },
             "require": {
@@ -2438,7 +2438,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2014-11-05 15:28:21"
+            "time": "2014-11-22 06:25:40"
         },
         {
             "name": "sebastian/environment",
