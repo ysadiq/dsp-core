@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4cb6af130f6ab3e6108b737b6a7754f5",
+    "hash": "abc1268d0212cdb5bdd9564875fbf030",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -255,11 +255,11 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "db432ebbb58f3d3d9ef5d31ff1325ecd6b166dda"
+                "reference": "6a8f59d12870f36d06d604a84980226a9ec36b04"
             },
             "require": {
                 "doctrine/cache": "@stable",
-                "dreamfactory/php-utils": "~1.0"
+                "dreamfactory/php-utils": "dev-feature/es-refactor as dev-master"
             },
             "require-dev": {
                 "phpunit/phpunit": "@stable"
@@ -291,7 +291,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-11-21 16:44:43"
+            "time": "2014-11-24 04:00:28"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -392,12 +392,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "fa7e0341a319f7bd5e0c3c7123ac470eb45c5f28"
+                "reference": "bf7abec5066a83ae00b0bda3a025e45cb6400d85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/fa7e0341a319f7bd5e0c3c7123ac470eb45c5f28",
-                "reference": "fa7e0341a319f7bd5e0c3c7123ac470eb45c5f28",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/bf7abec5066a83ae00b0bda3a025e45cb6400d85",
+                "reference": "bf7abec5066a83ae00b0bda3a025e45cb6400d85",
                 "shasum": ""
             },
             "require": {
@@ -409,7 +409,7 @@
                 "dreamfactory/lib-php-common": "~1.5.0",
                 "dreamfactory/lib-php-common-yii": "~1.5.0",
                 "dreamfactory/oasys": "~0.4",
-                "dreamfactory/php-utils": "~1.0",
+                "dreamfactory/php-utils": "dev-feature/es-refactor as dev-master",
                 "dreamfactory/yii": "~1.1.13.12",
                 "jeremeamia/superclosure": "*",
                 "kisma/kisma": "~0.2",
@@ -463,7 +463,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-21 01:57:30"
+            "time": "2014-11-24 04:05:04"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -588,16 +588,16 @@
         },
         {
             "name": "dreamfactory/php-utils",
-            "version": "dev-develop",
+            "version": "dev-feature/es-refactor",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "c853e5ea933e640e874c463a171c8232a9d9d410"
+                "reference": "a815a81074e135863396f9b6b3d5d6058dbc11d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/c853e5ea933e640e874c463a171c8232a9d9d410",
-                "reference": "c853e5ea933e640e874c463a171c8232a9d9d410",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/a815a81074e135863396f9b6b3d5d6058dbc11d5",
+                "reference": "a815a81074e135863396f9b6b3d5d6058dbc11d5",
                 "shasum": ""
             },
             "require": {
@@ -635,7 +635,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-11-20 02:07:40"
+            "time": "2014-11-23 21:28:57"
         },
         {
             "name": "dreamfactory/yii",
@@ -2654,7 +2654,7 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-develop",
+            "version": "dev-feature/es-refactor",
             "package": "dreamfactory/php-utils"
         },
         {

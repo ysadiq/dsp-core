@@ -67,7 +67,7 @@
         "symfony/dependency-injection":         "~2.4@stable",
         "dreamfactory/oasys":                   "dev-develop as dev-master",
         "dreamfactory/enterprise-storage":      "dev-develop as dev-master",
-        "dreamfactory/php-utils":               "dev-develop as dev-master",
+        "dreamfactory/php-utils":               "dev-feature/es-refactor as dev-master",
         "dreamfactory/yii":                     "~1.1.13.12",
         "dreamfactory/lib-php-common-platform": "dev-feature/cache-work as dev-master"
     },
