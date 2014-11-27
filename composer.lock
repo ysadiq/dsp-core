@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "abc1268d0212cdb5bdd9564875fbf030",
+    "hash": "0b10bac344f2e84b87bd9bdb613675ed",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -80,12 +80,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "fd67b417bdc901dd13383bfd4148c04d58cbfebd"
+                "reference": "85ff6118558d7b2501cd85b31bdc1ffc0cab731a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/fd67b417bdc901dd13383bfd4148c04d58cbfebd",
-                "reference": "fd67b417bdc901dd13383bfd4148c04d58cbfebd",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/85ff6118558d7b2501cd85b31bdc1ffc0cab731a",
+                "reference": "85ff6118558d7b2501cd85b31bdc1ffc0cab731a",
                 "shasum": ""
             },
             "require": {
@@ -142,7 +142,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2014-11-21 11:16:32"
+            "time": "2014-11-27 00:22:12"
         },
         {
             "name": "dready92/php-on-couch",
@@ -255,7 +255,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "6a8f59d12870f36d06d604a84980226a9ec36b04"
+                "reference": "af7b5947017a757643330ec8d5d67e6f11597fa5"
             },
             "require": {
                 "doctrine/cache": "@stable",
@@ -291,7 +291,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-11-24 04:00:28"
+            "time": "2014-11-27 02:40:06"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -338,12 +338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common.git",
-                "reference": "337cab979e1b0857f38abe91ad93094c5871ccf0"
+                "reference": "7c8325e01e0a2ab8efee83f073296822a601bd58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/337cab979e1b0857f38abe91ad93094c5871ccf0",
-                "reference": "337cab979e1b0857f38abe91ad93094c5871ccf0",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common/zipball/7c8325e01e0a2ab8efee83f073296822a601bd58",
+                "reference": "7c8325e01e0a2ab8efee83f073296822a601bd58",
                 "shasum": ""
             },
             "require": {
@@ -384,7 +384,7 @@
                 "dsp",
                 "dsp-core"
             ],
-            "time": "2014-11-15 03:08:53"
+            "time": "2014-11-27 02:39:57"
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
@@ -592,12 +592,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "a815a81074e135863396f9b6b3d5d6058dbc11d5"
+                "reference": "08ad9f5d77ca0d8e787ffdd1529effa4d53c8e6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/a815a81074e135863396f9b6b3d5d6058dbc11d5",
-                "reference": "a815a81074e135863396f9b6b3d5d6058dbc11d5",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/08ad9f5d77ca0d8e787ffdd1529effa4d53c8e6d",
+                "reference": "08ad9f5d77ca0d8e787ffdd1529effa4d53c8e6d",
                 "shasum": ""
             },
             "require": {
@@ -635,7 +635,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-11-23 21:28:57"
+            "time": "2014-11-26 03:53:26"
         },
         {
             "name": "dreamfactory/yii",
@@ -1329,12 +1329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpforce/soap-client.git",
-                "reference": "9f014c8d5e48f5d983600f37098f22d67e9cb1e1"
+                "reference": "2d397ad34e80a9caf092e33c09d9f16978c6112d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpforce/soap-client/zipball/9f014c8d5e48f5d983600f37098f22d67e9cb1e1",
-                "reference": "9f014c8d5e48f5d983600f37098f22d67e9cb1e1",
+                "url": "https://api.github.com/repos/phpforce/soap-client/zipball/2d397ad34e80a9caf092e33c09d9f16978c6112d",
+                "reference": "2d397ad34e80a9caf092e33c09d9f16978c6112d",
                 "shasum": ""
             },
             "require": {
@@ -1374,7 +1374,7 @@
                 "soap",
                 "web services"
             ],
-            "time": "2014-06-13 12:06:55"
+            "time": "2014-11-24 19:28:03"
         },
         {
             "name": "psr/log",
@@ -1518,17 +1518,17 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.5.7",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "662d8f5e4a7542dca4194fb3f3bda0a57e65f0a4"
+                "reference": "01192422accda97473e979bb6269aebee8d6877f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/662d8f5e4a7542dca4194fb3f3bda0a57e65f0a4",
-                "reference": "662d8f5e4a7542dca4194fb3f3bda0a57e65f0a4",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/01192422accda97473e979bb6269aebee8d6877f",
+                "reference": "01192422accda97473e979bb6269aebee8d6877f",
                 "shasum": ""
             },
             "require": {
@@ -1547,7 +1547,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -1571,7 +1571,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-11-16 17:28:00"
+            "time": "2014-11-16 17:28:20"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2666,7 +2666,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "symfony/dependency-injection": 0,
         "dreamfactory/oasys": 20,
         "dreamfactory/enterprise-storage": 20,
         "dreamfactory/php-utils": 20,
