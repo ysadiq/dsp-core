@@ -183,7 +183,10 @@ angular.module('dfScripting', ['ngRoute', 'dfUtility'])
 
             $scope.deleteScript = function () {
 
-                $scope._deleteScript();
+                if (confirm('Delete ' + $scope.currentScriptObj.script_id + '?')) {
+
+                    $scope._deleteScript();
+                }
             };
 
             $scope.loadSamples = function () {
