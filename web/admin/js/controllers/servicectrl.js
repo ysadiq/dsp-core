@@ -399,7 +399,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
 					break;
 				case "azure blob":
 					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
@@ -425,11 +425,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			switch ( Scope.service.storage_type ) {
 				case "aws dynamodb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "aws simpledb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "azure tables":
 					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
@@ -447,7 +447,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Push Service" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws sns":
-					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
+					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -515,10 +515,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
@@ -536,11 +536,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			switch ( Scope.service.storage_type ) {
 				case "aws dynamodb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "aws simpledb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "azure tables":
 					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
@@ -558,7 +558,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Push Service" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws sns":
-					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
+					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 			}
 
@@ -777,7 +777,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					case "aws s3":
 						Scope.aws.access_key = fString.access_key;
 						Scope.aws.secret_key = fString.secret_key;
-						//Scope.aws.bucket_name = fString.bucket_name;
 						break;
 					case "azure blob":
 						Scope.azure.account_name = fString.account_name;
@@ -815,7 +814,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 						Scope.aws.access_key = fString.access_key;
 						Scope.aws.secret_key = fString.secret_key;
 						Scope.aws.region = fString.region;
-						//Scope.aws.bucket_name = fString.bucket_name;
 						break;
 					case "azure tables":
 						Scope.azure.account_name = fString.account_name;
@@ -844,6 +842,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					case "aws sns":
 						Scope.aws.access_key = fString.access_key;
 						Scope.aws.secret_key = fString.secret_key;
+						Scope.aws.region = fString.region;
 						break;
 				}
 			}
