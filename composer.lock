@@ -255,7 +255,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "af7b5947017a757643330ec8d5d67e6f11597fa5"
+                "reference": "fd826c60adf3e5105b5c903c31a446f830edf984"
             },
             "require": {
                 "doctrine/cache": "@stable",
@@ -291,7 +291,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-11-27 02:40:06"
+            "time": "2014-12-02 03:56:52"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -592,15 +592,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "08ad9f5d77ca0d8e787ffdd1529effa4d53c8e6d"
+                "reference": "0ba6a6e86955987004d3ca3d10436bf18914fd1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/08ad9f5d77ca0d8e787ffdd1529effa4d53c8e6d",
-                "reference": "08ad9f5d77ca0d8e787ffdd1529effa4d53c8e6d",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/0ba6a6e86955987004d3ca3d10436bf18914fd1e",
+                "reference": "0ba6a6e86955987004d3ca3d10436bf18914fd1e",
                 "shasum": ""
             },
             "require": {
+                "dreamfactory/enterprise-storage": "dev-develop as dev-master",
                 "kisma/kisma": "*",
                 "symfony/dependency-injection": "*"
             },
@@ -635,7 +636,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-11-26 03:53:26"
+            "time": "2014-12-02 03:59:04"
         },
         {
             "name": "dreamfactory/yii",
@@ -1805,12 +1806,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "991c4203ef3bdf8a1d197f2fe877028dc78dfda7"
+                "reference": "7ce9da20f96964bb7a4033f53834df13328dbeab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/991c4203ef3bdf8a1d197f2fe877028dc78dfda7",
-                "reference": "991c4203ef3bdf8a1d197f2fe877028dc78dfda7",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/7ce9da20f96964bb7a4033f53834df13328dbeab",
+                "reference": "7ce9da20f96964bb7a4033f53834df13328dbeab",
                 "shasum": ""
             },
             "require": {
@@ -1862,7 +1863,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-11-11 14:17:20"
+            "time": "2014-12-02 13:17:01"
         },
         {
             "name": "phpunit/php-file-iterator",
