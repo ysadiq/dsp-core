@@ -69,8 +69,7 @@
         "dreamfactory/oasys":                   "dev-develop as dev-master",
         "dreamfactory/enterprise-storage":      "dev-develop as dev-master",
         "dreamfactory/php-utils":               "dev-feature/es-refactor as dev-master",
-        "dreamfactory/lib-php-common-platform": "dev-feature/cache-work as dev-master",
-        "dreamfactory/portal-sandbox":          "~1.2"
+        "dreamfactory/lib-php-common-platform": "dev-feature/cache-work as dev-master"
     },
     "require-dev":       {
         "phpunit/phpunit":          "@stable",
