@@ -255,11 +255,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "fd826c60adf3e5105b5c903c31a446f830edf984"
+                "reference": "c78dfefbd68e3b2201f19f786adac75c586249a0"
             },
             "require": {
                 "doctrine/cache": "@stable",
-                "dreamfactory/php-utils": "dev-feature/es-refactor as dev-master"
+                "dreamfactory/php-utils": "dev-feature/es-refactor as dev-master",
+                "symfony/filesystem": "~2.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "@stable"
@@ -291,7 +292,7 @@
                 "enterprise",
                 "storage"
             ],
-            "time": "2014-12-02 03:56:52"
+            "time": "2014-12-03 22:29:33"
         },
         {
             "name": "dreamfactory/javascript-sdk",
@@ -1524,12 +1525,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "9d4d4774061c19cc2f5aa2f6f1becccc7474c53a"
+                "reference": "05770884c0ad80a8c14f4411be32dc24e23a57de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/9d4d4774061c19cc2f5aa2f6f1becccc7474c53a",
-                "reference": "9d4d4774061c19cc2f5aa2f6f1becccc7474c53a",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/05770884c0ad80a8c14f4411be32dc24e23a57de",
+                "reference": "05770884c0ad80a8c14f4411be32dc24e23a57de",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1573,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-02 21:48:45"
+            "time": "2014-12-03 09:37:21"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1629,6 +1630,53 @@
                 }
             ],
             "description": "Symfony EventDispatcher Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-12-02 20:19:50"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "2.7.x-dev",
+            "target-dir": "Symfony/Component/Filesystem",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Filesystem.git",
+                "reference": "c947f35fe28acea88ae6580d793ccfbc7b363f69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/c947f35fe28acea88ae6580d793ccfbc7b363f69",
+                "reference": "c947f35fe28acea88ae6580d793ccfbc7b363f69",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
             "time": "2014-12-02 20:19:50"
         },
@@ -1806,12 +1854,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "7ce9da20f96964bb7a4033f53834df13328dbeab"
+                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/7ce9da20f96964bb7a4033f53834df13328dbeab",
-                "reference": "7ce9da20f96964bb7a4033f53834df13328dbeab",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
+                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
                 "shasum": ""
             },
             "require": {
@@ -1863,7 +1911,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-12-02 13:17:01"
+            "time": "2014-12-03 06:41:44"
         },
         {
             "name": "phpunit/php-file-iterator",
