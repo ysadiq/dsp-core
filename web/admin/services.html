@@ -380,6 +380,8 @@ We need to preload data but I'm not doing that today. MNM -->
                             <div class="form-group">
                                 <label>Access Key</label>
                                 <input class="form-control" type="text" ng-model="aws.access_key"/>
+							</div>
+							<div class="form-group">
                                 <label>Secret Key</label>
                                 <input class="form-control" type="text" ng-model="aws.secret_key"/>
                             </div>
@@ -388,6 +390,8 @@ We need to preload data but I'm not doing that today. MNM -->
                             <div class="form-group">
                                 <label>Account Name</label>
                                 <input class="form-control" type="text" ng-model="azure.account_name"/>
+							</div>
+							<div class="form-group">
                                 <label>Account Key</label>
                                 <input class="form-control" type="text" ng-model="azure.account_key"/>
                             </div>
@@ -396,15 +400,22 @@ We need to preload data but I'm not doing that today. MNM -->
                             <div class="form-group">
                                 <label>Username</label>
                                 <input class="form-control" type="text" ng-model="rackspace.username"/>
+							</div>
+							<div class="form-group">
                                 <label>API Key</label>
                                 <input class="form-control" type="text" ng-model="rackspace.api_key"/>
+							</div>
+							<div class="form-group">
                                 <label>Tenant Name</label>
                                 <input class="form-control" type="text" ng-model="rackspace.tenant_name"/>
+							</div>
+							<div class="form-group">
                                 <label>Region</label>
                                 <select class="form-control" ng-change="changeUrl()"
                                         ng-options="option.value as option.name for option in rackspaceRegions"
                                         ng-model="rackspace.region"></select>
-
+							</div>
+							<div class="form-group">
                                 <label>URL/Endpoint</label>
                                 <input class="form-control" ng-disabled="!rackspace.region" type="text"
                                        ng-model="rackspace.url"/>
@@ -414,28 +425,58 @@ We need to preload data but I'm not doing that today. MNM -->
                             <div class="form-group">
                                 <label>Username</label>
                                 <input class="form-control" type="text" ng-model="openstack.username"/>
+							</div>
+							<div class="form-group">
                                 <label>API Key</label>
                                 <input class="form-control" type="text" ng-model="openstack.api_key"/>
+							</div>
+							<div class="form-group">
                                 <label>Tenant Name</label>
                                 <input class="form-control" type="text" ng-model="openstack.tenant_name"/>
+							</div>
+							<div class="form-group">
                                 <label>Region</label>
                                 <input class="form-control" type="text" ng-model="openstack.region"/>
+							</div>
+							<div class="form-group">
                                 <label>URL/Endpoint</label>
                                 <input class="form-control" type="text" ng-model="openstack.url"/>
                             </div>
                         </div>
                     </div>
+					<div class="section push_type">
+						<div class="form-group">
+							<label>Push Type</label>
+							<select class="form-control" ng-options="option.value as option.name for option in pushOptions"
+								ng-model="service.storage_type" type="text"></select>
+						</div>
+
+
+						<div class="sub-section " ng-show="service.storage_type=='aws sns'">
+							<div class="form-group">
+								<label>Access Key</label>
+								<input class="form-control" type="text" ng-model="aws.access_key"/>
+							</div>
+							<div class="form-group">
+								<label>Secret Key</label>
+								<input class="form-control" type="text" ng-model="aws.secret_key"/>
+							</div>
+							<div class="form-group">
+								<label>Region</label>
+								<select class="form-control" ng-options="region.value as region.name for region in awsRegions"
+										ng-model="aws.region"></select>
+							</div>
+						</div>
+					</div>
                     <div class="section credentials">
                         <div class="form-group">
                             <label>Credentials</label>
-
                             <input class="form-control" ng-model="service.credentials" type="text"/>
                         </div>
                     </div>
                     <div class="section native_format">
                         <div class="form-group">
                             <label>Native Format</label>
-
                             <input class="form-control" ng-model="service.native_format" type="text"/>
                         </div>
                     </div>
