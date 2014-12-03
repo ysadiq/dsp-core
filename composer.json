@@ -52,7 +52,7 @@
     "repositories":      [
         {
             "type": "pear",
-            "url":  "http://pear.php.net"
+            "url":  "http://pear2.php.net"
         },
         {
             "type": "git",
