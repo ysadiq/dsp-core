@@ -52,16 +52,17 @@
     "repositories": [
         {
             "type": "pear",
-            "url": "http://pear.php.net"
+            "url": "http://pear2.php.net"
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "require": {
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
         "dreamfactory/php-utils": "~1.0",
         "dreamfactory/yii": "~1.1.13.12",
+        "dreamfactory/oasys": "dev-feature/linkedin as dev-master",
         "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
     },
     "require-dev": {
