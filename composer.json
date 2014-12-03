@@ -52,11 +52,11 @@
     "repositories": [
         {
             "type": "pear",
-            "url": "http://pear.php.net"
+            "url": "http://pear2.php.net"
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "require": {
         "kisma/kisma": "~0.2",
         "jeremeamia/superclosure": "~1.0",
