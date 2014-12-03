@@ -62,7 +62,6 @@
         "jeremeamia/superclosure": "~1.0",
         "dreamfactory/php-utils": "~1.0",
         "dreamfactory/yii": "~1.1.13.12",
-        "dreamfactory/oasys": "dev-feature/linkedin as dev-master",
         "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
     },
     "require-dev": {

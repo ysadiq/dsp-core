@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "62b430707a8b0bb6a5787136f470b9d2",
+    "hash": "0b25bf2263c18e164d58fa1de0b63cfd",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -488,22 +488,22 @@
         },
         {
             "name": "dreamfactory/oasys",
-            "version": "dev-feature/linkedin",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c"
+                "reference": "c5d95d6db4bd2d58d78bde0677cd39996275b018"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/a34819452a5b146682515b956f4ccc22f45bd68c",
-                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/c5d95d6db4bd2d58d78bde0677cd39996275b018",
+                "reference": "c5d95d6db4bd2d58d78bde0677cd39996275b018",
                 "shasum": ""
             },
             "require": {
-                "dreamfactory/php-utils": "*",
                 "ext-curl": "*",
-                "kisma/kisma": "~0.2"
+                "kisma/kisma": "~0.2",
+                "php": "~5.3"
             },
             "require-dev": {
                 "phpunit/phpunit": "@stable"
@@ -538,7 +538,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-11-21 16:44:59"
+            "time": "2014-10-19 18:47:41"
         },
         {
             "name": "dreamfactory/php-utils",
@@ -2596,19 +2596,12 @@
         {
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
-            "version": "dev-feature/linkedin",
-            "package": "dreamfactory/oasys"
-        },
-        {
-            "alias": "dev-master",
-            "alias_normalized": "9999999-dev",
             "version": "dev-develop",
             "package": "dreamfactory/lib-php-common-platform"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "dreamfactory/oasys": 20,
         "dreamfactory/lib-php-common-platform": 20,
         "phpunit/phpunit": 0,
         "phpunit/php-invoker": 0,
