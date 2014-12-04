@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d3bc994f430af7928151df6132a81d52",
+    "hash": "6e8077144043dad20a5291a5e8f3fc57",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -250,52 +250,6 @@
             "time": "2014-08-08 21:07:14"
         },
         {
-            "name": "dreamfactory/enterprise-storage",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "fc60b582c461ca9276fc5f5c5403115cb6748dda"
-            },
-            "require": {
-                "doctrine/cache": "@stable",
-                "dreamfactory/php-utils": "dev-feature/es-refactor as dev-master",
-                "knplabs/gaufrette": "0.2.*@dev",
-                "symfony/filesystem": "~2.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "@stable"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DreamFactory\\Library\\Enterprise\\Storage\\": "src/"
-                }
-            },
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jerry Ablan",
-                    "email": "jerryablan@dreamfactory.com"
-                }
-            ],
-            "description": "DreamFactory Enterprise(tm) Storage Provider",
-            "homepage": "https://www.dreamfactory.com/",
-            "keywords": [
-                "dreamfactory",
-                "enterprise",
-                "storage"
-            ],
-            "time": "2014-12-04 00:00:03"
-        },
-        {
             "name": "dreamfactory/javascript-sdk",
             "version": "1.0.15",
             "source": {
@@ -394,24 +348,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "bf7abec5066a83ae00b0bda3a025e45cb6400d85"
+                "reference": "d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/bf7abec5066a83ae00b0bda3a025e45cb6400d85",
-                "reference": "bf7abec5066a83ae00b0bda3a025e45cb6400d85",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd",
+                "reference": "d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php": "~2.4.0",
                 "dready92/php-on-couch": "*",
                 "dreamfactory/azure-sdk-for-php": "dev-develop as dev-master",
-                "dreamfactory/enterprise-storage": "dev-develop as dev-master",
                 "dreamfactory/javascript-sdk": "~1.0",
                 "dreamfactory/lib-php-common": "~1.5.0",
                 "dreamfactory/lib-php-common-yii": "~1.5.0",
                 "dreamfactory/oasys": "~0.4",
-                "dreamfactory/php-utils": "dev-feature/es-refactor as dev-master",
+                "dreamfactory/php-utils": "dev-develop as dev-master",
                 "dreamfactory/yii": "~1.1.13.12",
                 "jeremeamia/superclosure": "*",
                 "kisma/kisma": "~0.2",
@@ -465,7 +418,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-11-24 04:05:04"
+            "time": "2014-12-04 19:43:21"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -473,12 +426,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "228cdfa5e8c540dbf5ec32c61693f8e584c6237c"
+                "reference": "4fb9d0ecf2ac365136703326df99f3e03cc52969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/228cdfa5e8c540dbf5ec32c61693f8e584c6237c",
-                "reference": "228cdfa5e8c540dbf5ec32c61693f8e584c6237c",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/4fb9d0ecf2ac365136703326df99f3e03cc52969",
+                "reference": "4fb9d0ecf2ac365136703326df99f3e03cc52969",
                 "shasum": ""
             },
             "require": {
@@ -532,7 +485,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2014-12-01 22:46:41"
+            "time": "2014-12-04 19:41:22"
         },
         {
             "name": "dreamfactory/oasys",
@@ -590,20 +543,19 @@
         },
         {
             "name": "dreamfactory/php-utils",
-            "version": "dev-feature/es-refactor",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "0ba6a6e86955987004d3ca3d10436bf18914fd1e"
+                "reference": "51c2fb974fb7551e246ea7b7b5493d9c01bd5e7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/0ba6a6e86955987004d3ca3d10436bf18914fd1e",
-                "reference": "0ba6a6e86955987004d3ca3d10436bf18914fd1e",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/51c2fb974fb7551e246ea7b7b5493d9c01bd5e7f",
+                "reference": "51c2fb974fb7551e246ea7b7b5493d9c01bd5e7f",
                 "shasum": ""
             },
             "require": {
-                "dreamfactory/enterprise-storage": "dev-develop as dev-master",
                 "kisma/kisma": "*",
                 "symfony/dependency-injection": "*"
             },
@@ -638,7 +590,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2014-12-02 03:59:04"
+            "time": "2014-12-04 05:41:41"
         },
         {
             "name": "dreamfactory/yii",
@@ -917,99 +869,17 @@
             "time": "2014-11-13 16:19:52"
         },
         {
-            "name": "knplabs/gaufrette",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/Gaufrette.git",
-                "reference": "12376684828a013acfdc20bc29a64155d07e0ddf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/Gaufrette/zipball/12376684828a013acfdc20bc29a64155d07e0ddf",
-                "reference": "12376684828a013acfdc20bc29a64155d07e0ddf",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "amazonwebservices/aws-sdk-for-php": "1.5.*",
-                "aws/aws-sdk-php": "~2",
-                "doctrine/dbal": ">=2.3",
-                "dropbox-php/dropbox-php": "*",
-                "herzult/php-ssh": "*",
-                "microsoft/windowsazure": "dev-master",
-                "mikey179/vfsstream": "~1.2.0",
-                "phpseclib/phpseclib": "dev-master",
-                "phpspec/phpspec": "2.0.*",
-                "phpunit/phpunit": "3.7.*",
-                "rackspace/php-opencloud": "1.9.*"
-            },
-            "suggest": {
-                "amazonwebservices/aws-sdk-for-php": "to use the legacy Amazon S3 adapters",
-                "aws/aws-sdk-php": "to use the Amazon S3 adapter",
-                "doctrine/dbal": "to use the Doctrine DBAL adapter",
-                "dropbox-php/dropbox-php": "to use the Dropbox adapter",
-                "ext-apc": "to use the APC adapter",
-                "ext-curl": "*",
-                "ext-fileinfo": "This extension is used to automatically detect the content-type of a file in the AwsS3, OpenCloud, and AzureBlogStorage adapters",
-                "ext-mbstring": "*",
-                "ext-mongo": "*",
-                "ext-zip": "to use the Zip adapter",
-                "herzult/php-ssh": "to use SFtp adapter",
-                "knplabs/knp-gaufrette-bundle": "to use with Symfony2",
-                "microsoft/windowsazure": "to use Microsoft Azure Blob Storage adapter",
-                "phpseclib/phpseclib": "to use PhpseclibSftp adapter",
-                "rackspace/php-opencloud": "to use Opencloud adapter"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Gaufrette": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "The contributors",
-                    "homepage": "http://github.com/knplabs/Gaufrette/contributors"
-                },
-                {
-                    "name": "KnpLabs Team",
-                    "homepage": "http://knplabs.com"
-                }
-            ],
-            "description": "PHP5 library that provides a filesystem abstraction layer",
-            "homepage": "http://knplabs.com",
-            "keywords": [
-                "abstraction",
-                "file",
-                "filesystem",
-                "media"
-            ],
-            "time": "2014-08-19 13:42:49"
-        },
-        {
             "name": "monolog/monolog",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "ab41ed9a94196ce2793f400b88313918b4fc64dc"
+                "reference": "673e275c00fe935f90d6996b5da2e41affe5df3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ab41ed9a94196ce2793f400b88313918b4fc64dc",
-                "reference": "ab41ed9a94196ce2793f400b88313918b4fc64dc",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/673e275c00fe935f90d6996b5da2e41affe5df3e",
+                "reference": "673e275c00fe935f90d6996b5da2e41affe5df3e",
                 "shasum": ""
             },
             "require": {
@@ -1068,7 +938,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-11-11 12:05:51"
+            "time": "2014-12-04 15:11:17"
         },
         {
             "name": "nikic/php-parser",
@@ -1717,53 +1587,6 @@
             "time": "2014-12-02 20:19:50"
         },
         {
-            "name": "symfony/filesystem",
-            "version": "2.7.x-dev",
-            "target-dir": "Symfony/Component/Filesystem",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "c947f35fe28acea88ae6580d793ccfbc7b363f69"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/c947f35fe28acea88ae6580d793ccfbc7b363f69",
-                "reference": "c947f35fe28acea88ae6580d793ccfbc7b363f69",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\Filesystem\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Symfony Filesystem Component",
-            "homepage": "http://symfony.com",
-            "time": "2014-12-02 20:19:50"
-        },
-        {
             "name": "symfony/http-foundation",
             "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/HttpFoundation",
@@ -1871,6 +1694,136 @@
                 "instantiate"
             ],
             "time": "2014-10-13 12:58:55"
+        },
+        {
+            "name": "dreamfactory/plugin-mounty",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
+                "reference": "45ae7891d4df054499603f8d7afe6c0a9b90c419"
+            },
+            "require": {
+                "dreamfactory/php-utils": "dev-develop as dev-master",
+                "knplabs/gaufrette": "0.2.*"
+            },
+            "require-dev": {
+                "knplabs/gaufrette": "0.2.*@dev",
+                "phpunit/phpunit": "@stable"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DreamFactory\\Platform\\Services\\Mounty\\": "src/"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jerry Ablan",
+                    "email": "jerryablan@dreamfactory.com"
+                }
+            ],
+            "description": "DreamFactory Services Platform(tm) Storage Mounter",
+            "homepage": "https://www.dreamfactory.com/",
+            "keywords": [
+                "dreamfactory",
+                "dropbox",
+                "enterprise",
+                "plugin",
+                "sftp",
+                "storage"
+            ],
+            "time": "2014-12-04 05:44:31"
+        },
+        {
+            "name": "knplabs/gaufrette",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/Gaufrette.git",
+                "reference": "12376684828a013acfdc20bc29a64155d07e0ddf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/Gaufrette/zipball/12376684828a013acfdc20bc29a64155d07e0ddf",
+                "reference": "12376684828a013acfdc20bc29a64155d07e0ddf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "amazonwebservices/aws-sdk-for-php": "1.5.*",
+                "aws/aws-sdk-php": "~2",
+                "doctrine/dbal": ">=2.3",
+                "dropbox-php/dropbox-php": "*",
+                "herzult/php-ssh": "*",
+                "microsoft/windowsazure": "dev-master",
+                "mikey179/vfsstream": "~1.2.0",
+                "phpseclib/phpseclib": "dev-master",
+                "phpspec/phpspec": "2.0.*",
+                "phpunit/phpunit": "3.7.*",
+                "rackspace/php-opencloud": "1.9.*"
+            },
+            "suggest": {
+                "amazonwebservices/aws-sdk-for-php": "to use the legacy Amazon S3 adapters",
+                "aws/aws-sdk-php": "to use the Amazon S3 adapter",
+                "doctrine/dbal": "to use the Doctrine DBAL adapter",
+                "dropbox-php/dropbox-php": "to use the Dropbox adapter",
+                "ext-apc": "to use the APC adapter",
+                "ext-curl": "*",
+                "ext-fileinfo": "This extension is used to automatically detect the content-type of a file in the AwsS3, OpenCloud, and AzureBlogStorage adapters",
+                "ext-mbstring": "*",
+                "ext-mongo": "*",
+                "ext-zip": "to use the Zip adapter",
+                "herzult/php-ssh": "to use SFtp adapter",
+                "knplabs/knp-gaufrette-bundle": "to use with Symfony2",
+                "microsoft/windowsazure": "to use Microsoft Azure Blob Storage adapter",
+                "phpseclib/phpseclib": "to use PhpseclibSftp adapter",
+                "rackspace/php-opencloud": "to use Opencloud adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Gaufrette": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The contributors",
+                    "homepage": "http://github.com/knplabs/Gaufrette/contributors"
+                },
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                }
+            ],
+            "description": "PHP5 library that provides a filesystem abstraction layer",
+            "homepage": "http://knplabs.com",
+            "keywords": [
+                "abstraction",
+                "file",
+                "filesystem",
+                "media"
+            ],
+            "time": "2014-08-19 13:42:49"
         },
         {
             "name": "phpunit/dbunit",
@@ -2462,12 +2415,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "c484a80f97573ab934e37826dba0135a3301b26a"
+                "reference": "4c7f82f0599413ed5521e464071ee8460c96ce89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/c484a80f97573ab934e37826dba0135a3301b26a",
-                "reference": "c484a80f97573ab934e37826dba0135a3301b26a",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/4c7f82f0599413ed5521e464071ee8460c96ce89",
+                "reference": "4c7f82f0599413ed5521e464071ee8460c96ce89",
                 "shasum": ""
             },
             "require": {
@@ -2518,7 +2471,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2014-11-16 21:32:38"
+            "time": "2014-12-04 15:00:21"
         },
         {
             "name": "sebastian/diff",
@@ -2781,12 +2734,6 @@
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
             "version": "dev-develop",
-            "package": "dreamfactory/enterprise-storage"
-        },
-        {
-            "alias": "dev-master",
-            "alias_normalized": "9999999-dev",
-            "version": "dev-feature/es-refactor",
             "package": "dreamfactory/php-utils"
         },
         {
@@ -2794,14 +2741,20 @@
             "alias_normalized": "9999999-dev",
             "version": "dev-feature/cache-work",
             "package": "dreamfactory/lib-php-common-platform"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/plugin-mounty"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "dreamfactory/oasys": 20,
-        "dreamfactory/enterprise-storage": 20,
         "dreamfactory/php-utils": 20,
         "dreamfactory/lib-php-common-platform": 20,
+        "dreamfactory/plugin-mounty": 20,
         "phpunit/phpunit": 0,
         "phpunit/php-invoker": 0,
         "phpunit/phpunit-selenium": 0,
