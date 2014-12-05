@@ -8,29 +8,28 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.4.12",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "61eaf675b7de9ce8b2c6b44317b01e6818ea16c3"
+                "reference": "5ee8ffe47ba95919e34dd4a2ecd7528db1101ef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/61eaf675b7de9ce8b2c6b44317b01e6818ea16c3",
-                "reference": "61eaf675b7de9ce8b2c6b44317b01e6818ea16c3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5ee8ffe47ba95919e34dd4a2ecd7528db1101ef5",
+                "reference": "5ee8ffe47ba95919e34dd4a2ecd7528db1101ef5",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": ">=3.7.0,<3.9.0",
+                "guzzle/guzzle": "~3.7",
                 "php": ">=5.3.3"
             },
             "require-dev": {
                 "doctrine/cache": "~1.0",
                 "ext-openssl": "*",
-                "monolog/monolog": "1.4.*",
-                "phpunit/phpunit": "3.7.*",
-                "symfony/class-loader": "2.*",
-                "symfony/yaml": "2.*"
+                "monolog/monolog": "~1.4",
+                "phpunit/phpunit": "~4.0",
+                "symfony/yaml": "~2.1"
             },
             "suggest": {
                 "doctrine/cache": "Adds support for caching of credentials and responses",
@@ -42,7 +41,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -72,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2013-12-12 19:35:51"
+            "time": "2014-12-05 00:19:32"
         },
         {
             "name": "doctrine/cache",
@@ -348,22 +347,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd"
+                "reference": "00dad0d914156af887648f7c80795861507ae23c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd",
-                "reference": "d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/00dad0d914156af887648f7c80795861507ae23c",
+                "reference": "00dad0d914156af887648f7c80795861507ae23c",
                 "shasum": ""
             },
             "require": {
-                "aws/aws-sdk-php": "~2.4.0",
+                "aws/aws-sdk-php": "~2.7.0",
                 "dready92/php-on-couch": "*",
                 "dreamfactory/azure-sdk-for-php": "dev-develop as dev-master",
                 "dreamfactory/javascript-sdk": "~1.0",
                 "dreamfactory/lib-php-common": "~1.5.0",
                 "dreamfactory/lib-php-common-yii": "~1.5.0",
-                "dreamfactory/oasys": "~0.4",
+                "dreamfactory/oasys": "*",
                 "dreamfactory/php-utils": "dev-develop as dev-master",
                 "dreamfactory/yii": "~1.1.13.12",
                 "jeremeamia/superclosure": "*",
@@ -372,7 +371,6 @@
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
                 "pear-pear.php.net/net_url2": "*",
-                "php": "~5.3",
                 "phpforce/soap-client": "*",
                 "rackspace/php-opencloud": "~1.5.0@stable",
                 "swiftmailer/swiftmailer": "~4.3"
@@ -418,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-12-04 19:43:21"
+            "time": "2014-12-05 16:29:50"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -493,12 +491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c"
+                "reference": "94e98a583bb9c2618bc3acd9038316436b9e3abe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/a34819452a5b146682515b956f4ccc22f45bd68c",
-                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/94e98a583bb9c2618bc3acd9038316436b9e3abe",
+                "reference": "94e98a583bb9c2618bc3acd9038316436b9e3abe",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +537,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-11-21 16:44:59"
+            "time": "2014-12-05 15:50:30"
         },
         {
             "name": "dreamfactory/php-utils",
@@ -672,22 +670,22 @@
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.8.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba"
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "5e6fb7097efac7180bd75006079144025255eb63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
-                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/5e6fb7097efac7180bd75006079144025255eb63",
+                "reference": "5e6fb7097efac7180bd75006079144025255eb63",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=5.3.3",
-                "symfony/event-dispatcher": ">=2.1"
+                "symfony/event-dispatcher": "~2.1"
             },
             "replace": {
                 "guzzle/batch": "self.version",
@@ -714,18 +712,18 @@
                 "guzzle/stream": "self.version"
             },
             "require-dev": {
-                "doctrine/cache": "*",
-                "monolog/monolog": "1.*",
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
                 "phpunit/phpunit": "3.7.*",
-                "psr/log": "1.0.*",
-                "symfony/class-loader": "*",
-                "zendframework/zend-cache": "<2.3",
-                "zendframework/zend-log": "<2.3"
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.8-dev"
+                    "dev-master": "3.9-dev"
                 }
             },
             "autoload": {
@@ -760,7 +758,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-01-28 22:29:15"
+            "time": "2014-10-29 23:08:23"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1701,10 +1699,10 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "dfbab23e1475ccbf4e7a3b6f8e9264a7e4d0d1fa"
+                "reference": "d0270c1d78fba76758b5d1a491ffc8e6ee5715c8"
             },
             "require": {
-                "dreamfactory/php-utils": "dev-develop as dev-master",
+                "dreamfactory/php-utils": "*",
                 "knplabs/gaufrette": "0.2.*"
             },
             "require-dev": {
@@ -1719,7 +1717,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "DreamFactory\\Platform\\Services\\Mounty\\": "src/"
+                    "DreamFactory\\Plugins\\Mounty\\": "src/"
                 }
             },
             "license": [
@@ -1741,7 +1739,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2014-12-05 15:36:20"
+            "time": "2014-12-05 16:21:09"
         },
         {
             "name": "knplabs/gaufrette",
