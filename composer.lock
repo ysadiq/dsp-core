@@ -8,29 +8,28 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.4.12",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "61eaf675b7de9ce8b2c6b44317b01e6818ea16c3"
+                "reference": "5ee8ffe47ba95919e34dd4a2ecd7528db1101ef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/61eaf675b7de9ce8b2c6b44317b01e6818ea16c3",
-                "reference": "61eaf675b7de9ce8b2c6b44317b01e6818ea16c3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5ee8ffe47ba95919e34dd4a2ecd7528db1101ef5",
+                "reference": "5ee8ffe47ba95919e34dd4a2ecd7528db1101ef5",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": ">=3.7.0,<3.9.0",
+                "guzzle/guzzle": "~3.7",
                 "php": ">=5.3.3"
             },
             "require-dev": {
                 "doctrine/cache": "~1.0",
                 "ext-openssl": "*",
-                "monolog/monolog": "1.4.*",
-                "phpunit/phpunit": "3.7.*",
-                "symfony/class-loader": "2.*",
-                "symfony/yaml": "2.*"
+                "monolog/monolog": "~1.4",
+                "phpunit/phpunit": "~4.0",
+                "symfony/yaml": "~2.1"
             },
             "suggest": {
                 "doctrine/cache": "Adds support for caching of credentials and responses",
@@ -42,7 +41,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -72,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2013-12-12 19:35:51"
+            "time": "2014-12-05 00:19:32"
         },
         {
             "name": "doctrine/cache",
@@ -348,22 +347,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd"
+                "reference": "1db68eb373ab65469c85d25a95bc849233395582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd",
-                "reference": "d2d6ea8d6e6e82f3dfaa6f7949dc1c3e498877fd",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1db68eb373ab65469c85d25a95bc849233395582",
+                "reference": "1db68eb373ab65469c85d25a95bc849233395582",
                 "shasum": ""
             },
             "require": {
-                "aws/aws-sdk-php": "~2.4.0",
+                "aws/aws-sdk-php": "~2.7.0",
                 "dready92/php-on-couch": "*",
                 "dreamfactory/azure-sdk-for-php": "dev-develop as dev-master",
                 "dreamfactory/javascript-sdk": "~1.0",
                 "dreamfactory/lib-php-common": "~1.5.0",
                 "dreamfactory/lib-php-common-yii": "~1.5.0",
-                "dreamfactory/oasys": "~0.4",
+                "dreamfactory/oasys": "*",
                 "dreamfactory/php-utils": "dev-develop as dev-master",
                 "dreamfactory/yii": "~1.1.13.12",
                 "jeremeamia/superclosure": "*",
@@ -372,7 +371,6 @@
                 "pear-pear.php.net/mail_mime": "*",
                 "pear-pear.php.net/mail_mimedecode": "*",
                 "pear-pear.php.net/net_url2": "*",
-                "php": "~5.3",
                 "phpforce/soap-client": "*",
                 "rackspace/php-opencloud": "~1.5.0@stable",
                 "swiftmailer/swiftmailer": "~4.3"
@@ -418,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-12-04 19:43:21"
+            "time": "2014-12-05 18:57:33"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -493,12 +491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/oasys.git",
-                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c"
+                "reference": "94e98a583bb9c2618bc3acd9038316436b9e3abe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/a34819452a5b146682515b956f4ccc22f45bd68c",
-                "reference": "a34819452a5b146682515b956f4ccc22f45bd68c",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/oasys/zipball/94e98a583bb9c2618bc3acd9038316436b9e3abe",
+                "reference": "94e98a583bb9c2618bc3acd9038316436b9e3abe",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +537,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2014-11-21 16:44:59"
+            "time": "2014-12-05 15:50:30"
         },
         {
             "name": "dreamfactory/php-utils",
@@ -672,22 +670,22 @@
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.8.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba"
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "5e6fb7097efac7180bd75006079144025255eb63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
-                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/5e6fb7097efac7180bd75006079144025255eb63",
+                "reference": "5e6fb7097efac7180bd75006079144025255eb63",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=5.3.3",
-                "symfony/event-dispatcher": ">=2.1"
+                "symfony/event-dispatcher": "~2.1"
             },
             "replace": {
                 "guzzle/batch": "self.version",
@@ -714,18 +712,18 @@
                 "guzzle/stream": "self.version"
             },
             "require-dev": {
-                "doctrine/cache": "*",
-                "monolog/monolog": "1.*",
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
                 "phpunit/phpunit": "3.7.*",
-                "psr/log": "1.0.*",
-                "symfony/class-loader": "*",
-                "zendframework/zend-cache": "<2.3",
-                "zendframework/zend-log": "<2.3"
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.8-dev"
+                    "dev-master": "3.9-dev"
                 }
             },
             "autoload": {
@@ -760,7 +758,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-01-28 22:29:15"
+            "time": "2014-10-29 23:08:23"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -874,12 +872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "673e275c00fe935f90d6996b5da2e41affe5df3e"
+                "reference": "3d2567a2f19566a93b6b4add76840266d5f6742d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/673e275c00fe935f90d6996b5da2e41affe5df3e",
-                "reference": "673e275c00fe935f90d6996b5da2e41affe5df3e",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3d2567a2f19566a93b6b4add76840266d5f6742d",
+                "reference": "3d2567a2f19566a93b6b4add76840266d5f6742d",
                 "shasum": ""
             },
             "require": {
@@ -938,7 +936,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-12-04 15:11:17"
+            "time": "2014-12-06 18:16:08"
         },
         {
             "name": "nikic/php-parser",
@@ -1701,10 +1699,10 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "45ae7891d4df054499603f8d7afe6c0a9b90c419"
+                "reference": "43688a56cd37609a86fe09ea8e10f8189f13dc53"
             },
             "require": {
-                "dreamfactory/php-utils": "dev-develop as dev-master",
+                "dreamfactory/php-utils": "*",
                 "knplabs/gaufrette": "0.2.*"
             },
             "require-dev": {
@@ -1719,7 +1717,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "DreamFactory\\Platform\\Services\\Mounty\\": "src/"
+                    "DreamFactory\\Plugins\\Mounty\\": "src/"
                 }
             },
             "license": [
@@ -1741,7 +1739,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2014-12-04 05:44:31"
+            "time": "2014-12-06 07:39:38"
         },
         {
             "name": "knplabs/gaufrette",
@@ -2179,16 +2177,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.3.5",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2dab9d593997db4abcf58d0daf798eb4e9cecfe1"
+                "reference": "bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2dab9d593997db4abcf58d0daf798eb4e9cecfe1",
-                "reference": "2dab9d593997db4abcf58d0daf798eb4e9cecfe1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0",
+                "reference": "bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0",
                 "shasum": ""
             },
             "require": {
@@ -2205,8 +2203,9 @@
                 "phpunit/phpunit-mock-objects": "~2.3",
                 "sebastian/comparator": "~1.0",
                 "sebastian/diff": "~1.1",
-                "sebastian/environment": "~1.0",
+                "sebastian/environment": "~1.1",
                 "sebastian/exporter": "~1.0",
+                "sebastian/global-state": "~1.0",
                 "sebastian/version": "~1.0",
                 "symfony/yaml": "~2.0"
             },
@@ -2219,7 +2218,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3.x-dev"
+                    "dev-master": "4.4.x-dev"
                 }
             },
             "autoload": {
@@ -2228,10 +2227,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "",
-                "../../symfony/yaml/"
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -2243,13 +2238,13 @@
                 }
             ],
             "description": "The PHP Unit Testing framework.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://phpunit.de/",
             "keywords": [
                 "phpunit",
                 "testing",
                 "xunit"
             ],
-            "time": "2014-11-11 10:11:09"
+            "time": "2014-12-05 06:49:03"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2639,6 +2634,57 @@
                 "exporter"
             ],
             "time": "2014-09-10 00:51:36"
+        },
+        {
+            "name": "sebastian/global-state",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/global-state.git",
+                "reference": "231d48620efde984fd077ee92916099a3ece9a59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/231d48620efde984fd077ee92916099a3ece9a59",
+                "reference": "231d48620efde984fd077ee92916099a3ece9a59",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.2"
+            },
+            "suggest": {
+                "ext-uopz": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Snapshotting of global state",
+            "homepage": "http://www.github.com/sebastianbergmann/global-state",
+            "keywords": [
+                "global state"
+            ],
+            "time": "2014-10-06 09:49:11"
         },
         {
             "name": "sebastian/version",
