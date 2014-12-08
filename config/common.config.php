@@ -241,6 +241,8 @@ return array_merge(
         'dsp.enable_event_scripts'      => true,
         //  If true, scripts not distributed by DreamFactory will be allowed
         'dsp.enable_user_scripts'       => true,
+        //  If true, scripts will be allowed to use the "run as admin" flag.
+        'dsp.enable_admin_scripts'      => false,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
         //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
