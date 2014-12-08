@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "1db68eb373ab65469c85d25a95bc849233395582"
+                "reference": "00dad0d914156af887648f7c80795861507ae23c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/1db68eb373ab65469c85d25a95bc849233395582",
-                "reference": "1db68eb373ab65469c85d25a95bc849233395582",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/00dad0d914156af887648f7c80795861507ae23c",
+                "reference": "00dad0d914156af887648f7c80795861507ae23c",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2014-12-05 18:57:33"
+            "time": "2014-12-05 16:29:50"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -872,12 +872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "3d2567a2f19566a93b6b4add76840266d5f6742d"
+                "reference": "4119844a435f33a6e5cf94af5471732eb4d52883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3d2567a2f19566a93b6b4add76840266d5f6742d",
-                "reference": "3d2567a2f19566a93b6b4add76840266d5f6742d",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4119844a435f33a6e5cf94af5471732eb4d52883",
+                "reference": "4119844a435f33a6e5cf94af5471732eb4d52883",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +936,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-12-06 18:16:08"
+            "time": "2014-12-05 12:46:13"
         },
         {
             "name": "nikic/php-parser",
@@ -1699,7 +1699,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dreamfactorysoftware/enterprise-storage.git",
-                "reference": "43688a56cd37609a86fe09ea8e10f8189f13dc53"
+                "reference": "d0270c1d78fba76758b5d1a491ffc8e6ee5715c8"
             },
             "require": {
                 "dreamfactory/php-utils": "*",
@@ -1739,7 +1739,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2014-12-06 07:39:38"
+            "time": "2014-12-05 16:21:09"
         },
         {
             "name": "knplabs/gaufrette",
