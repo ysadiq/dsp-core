@@ -17,9 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -68,10 +68,10 @@ if ( !is_dir( $_assetsPath ) )
 $_dspSalts = array();
 
 //  Load some keys
-$_keys = Pii::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
+$_keys = Includer::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
 /** @noinspection PhpIncludeInspection */
-if ( false !== ( $_salts = Pii::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
+if ( false !== ( $_salts = Includer::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_salts ) )
     {
@@ -241,6 +241,8 @@ return array_merge(
         'dsp.enable_event_scripts'      => true,
         //  If true, scripts not distributed by DreamFactory will be allowed
         'dsp.enable_user_scripts'       => true,
+        //  If true, scripts will be allowed to use the "run as admin" flag.
+        'dsp.enable_admin_scripts'      => false,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
         //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
