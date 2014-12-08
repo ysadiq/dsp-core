@@ -101,6 +101,8 @@ if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONF
 /** @noinspection PhpIncludeInspection */
 $_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
 
+$_restPathPattern = 'rest/<path:[0-9a-zA-Z-_@&#!=,:;\/\^\$\.\|\{\}\[\]\(\)\*\+\? ]+>';
+
 //.........................................................................
 //. The configuration
 //.........................................................................
@@ -178,12 +180,12 @@ return array(
             'showScriptName' => false,
             'rules'          => array(
                 // REST patterns
-                array('rest/get', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'GET'),
-                array('rest/post', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'POST'),
-                array('rest/put', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'PUT'),
-                array('rest/patch', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'PATCH'),
-                array('rest/merge', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'MERGE'),
-                array('rest/delete', 'pattern' => 'rest/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>', 'verb' => 'DELETE'),
+                array('rest/get', 'pattern' => $_restPathPattern, 'verb' => 'GET'),
+                array('rest/post', 'pattern' => $_restPathPattern, 'verb' => 'POST'),
+                array('rest/put', 'pattern' => $_restPathPattern, 'verb' => 'PUT'),
+                array('rest/patch', 'pattern' => $_restPathPattern, 'verb' => 'PATCH'),
+                array('rest/merge', 'pattern' => $_restPathPattern, 'verb' => 'MERGE'),
+                array('rest/delete', 'pattern' => $_restPathPattern, 'verb' => 'DELETE'),
                 // Other controllers
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -193,7 +195,7 @@ return array(
                 // fall through to storage services for direct access
                 array(
                     'storage/get',
-                    'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[_0-9a-zA-Z-\/.\,\(\) ]+>',
+                    'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[0-9a-zA-Z-_@&#!=,:;\/\^\$\.\|\{\}\[\]\(\)\*\+\? ]+>',
                     'verb'    => 'GET'
                 ),
                 //  admin
@@ -235,6 +237,5 @@ return array(
     //.........................................................................
     //. Global application parameters
     //.........................................................................
-
     'params'             => $_commonConfig,
 );

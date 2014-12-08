@@ -60,15 +60,13 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable":     false,
-    "require":           {
-        "kisma/kisma":                          "~0.2",
-        "jeremeamia/superclosure":              "~1.0",
-        "symfony/dependency-injection":         "~2.4",
-        "dreamfactory/yii":                     "~1.1.13.12",
-        "dreamfactory/oasys":                   "dev-develop as dev-master",
-        "dreamfactory/php-utils":               "dev-develop as dev-master",
-        "dreamfactory/lib-php-common-platform": "dev-feature/cache-work as dev-master"
+    "prefer-stable": false,
+    "require": {
+        "kisma/kisma": "~0.2",
+        "jeremeamia/superclosure": "~1.0",
+        "dreamfactory/php-utils": "~1.0",
+        "dreamfactory/yii": "~1.1.13.12",
+        "dreamfactory/lib-php-common-platform": "dev-develop as dev-master"
     },
     "require-dev":       {
         "dreamfactory/plugin-mounty": "dev-develop as dev-master",
