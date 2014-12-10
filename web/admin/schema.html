@@ -17,7 +17,7 @@
 
 		<accordion-group style="cursor:pointer" data-ng-click="setService()" ng-repeat="service in dbServices">
 			<accordion-heading>
-                <span class="pull-right"><button title="Clear cache & reload schema" data-ng-click="reloadService();$event.stopPropagation();" class="btn btn-default"><i class="fa fa-refresh"></i></button></span>
+                <span class="pull-right"><button title="Clear cache & reload schema" data-ng-click="reloadService();$event.stopPropagation();" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button></span>
 				{{service.api_name}}<br />
 				<small>{{service.description}}</small>
 			</accordion-heading>
