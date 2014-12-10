@@ -84,7 +84,7 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
     }
     $scope.reloadService = function(){
         var service = this.service;
-        $http.get(DSP_URL + "/rest/" + service.api_name + "/_schema?reload=true").then(function(response){
+        $http.get(DSP_URL + "/rest/" + service.api_name + "/_schema?refresh=true").then(function(response){
             //console.log( $scope.dbServices[$scope.service]);
             $scope.dbServices[service.service_index].tables = [];
             response.data.resource.forEach(function(table){
