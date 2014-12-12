@@ -647,7 +647,6 @@ label.error {
    padding:0px;
 }
 .column-listing .column-name{
-    display:inline-block;
     padding:10px 15px;
     width:95%;
 }
