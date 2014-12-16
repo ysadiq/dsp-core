@@ -357,7 +357,8 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Salesforce"},
 		{name: "Local File Storage"},
 		{name: "Remote File Storage"},
-		{name: "Email Service"}
+		{name: "Email Service"},
+		{name: "Push Service"}
 	];
 	Scope.serviceCreateOptions = [
 		{name: "Remote Web Service"},
@@ -366,11 +367,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		{name: "Salesforce"},
 		{name: "Local File Storage"},
 		{name: "Remote File Storage"},
-		{name: "Email Service"}
+		{name: "Email Service"},
+		{name: "Push Service"}
 	];
 	Scope.securityOptions = [
 		{name: "SSL", value: "SSL"},
 		{name: "TLS", value: "TLS"}
+	];
+	Scope.pushOptions = [
+		{name: "Amazon SNS", value: "aws sns"}
 	];
 	$( '.update_button' ).hide();
 
@@ -394,7 +399,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
 					break;
 				case "azure blob":
 					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
@@ -420,11 +425,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			switch ( Scope.service.storage_type ) {
 				case "aws dynamodb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "aws simpledb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "azure tables":
 					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
@@ -435,6 +440,14 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				case "mongodb":
 					Scope.service.credentials =
 					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db};
+					break;
+			}
+			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+		}
+		if ( Scope.service.type == "Push Service" ) {
+			switch ( Scope.service.storage_type ) {
+				case "aws sns":
+					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -502,10 +515,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
@@ -523,11 +536,11 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 			switch ( Scope.service.storage_type ) {
 				case "aws dynamodb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "aws simpledb":
 					Scope.service.credentials =
-					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, bucket_name: Scope.aws.bucket_name, region: Scope.aws.region};
+					{access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "azure tables":
 					Scope.service.credentials = {account_name: Scope.azure.account_name, account_key: Scope.azure.account_key, PartitionKey: Scope.azure.PartitionKey};
@@ -540,6 +553,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					{user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, dsn: Scope.mongodb.service.dsn, db: Scope.mongodb.service.db};
 					break;
 			}
+			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
+		}
+		if ( Scope.service.type == "Push Service" ) {
+			switch ( Scope.service.storage_type ) {
+				case "aws sns":
+					Scope.service.credentials = {access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
+					break;
+			}
+
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
 		}
 		Service.save(
@@ -587,42 +609,41 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 
 		switch ( Scope.service.type ) {
 			case "Local SQL DB":
-				$( '.base_url, .host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn, .nosql_type' ).hide();
-				break;
 			case "Local SQL DB Schema":
-				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.user, .pwd, .dsn,.nosql_type" ).hide();
+				$( ".base_url, .host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .push_type, .credentials, .native_format, .user, .pwd, .dsn, .nosql_type" ).hide();
 				break;
 			case "Remote SQL DB":
-				$( ".base_url,.host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
-				$( ".user, .pwd, .dsn" ).show();
-				break;
 			case "Remote SQL DB Schema":
-				$( ".base_url,.host,.command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+				$( ".base_url, .host, .command, .security, .port, .parameters, .headers, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".user, .pwd, .dsn" ).show();
 				break;
 			case "Script Service":
 			case "Remote Web Service":
-				$( ".user, .pwd,.host, .command, .security, .port, .dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+				$( ".user, .pwd, .host, .command, .security, .port, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".base_url, .parameters, .headers" ).show();
 				break;
 			case "Local File Storage":
-				$( ".user, .pwd,.host, .command, .security, .port,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+				$( ".user, .pwd, .host, .command, .security, .port, .base_url, .parameters, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".storage_name" ).show();
 				break;
 			case "Remote File Storage":
-				$( ".user, .host, .security,.command,  .port, .pwd,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+				$( ".user, .host, .security, .command, .port, .pwd, .base_url, .parameters, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".storage_name, .storage_type" ).show();
 				break;
 			case "NoSQL DB":
-				$( ".base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+				$( ".base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .push_type, .credentials, .native_format" ).hide();
 				$( ".nosql_type" ).show();
 				break;
 			case "Email Service":
-				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+				$( ".nosql_type , .base_url, .command, .parameters, .user, .pwd, .host, .port, .security.parameters, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format" ).hide();
 				Scope.showEmailFields();
 				break;
 			case "Salesforce":
-				$( ".nosql_type , .base_url, .command, .parameters , .user, .pwd,.host,.port, .security.parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format" ).hide();
+				$( ".nosql_type , .base_url, .command, .parameters, .user, .pwd, .host, .port, .security.parameters, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format" ).hide();
+				break;
+			case "Push Service":
+				$( ".user, .host, .security,.command,  .port, .pwd,.base_url, .parameters, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format,.nosql_type" ).hide();
+				$( ".push_type" ).show();
 				break;
 		}
 	};
@@ -636,16 +657,16 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		switch ( Scope.email_type ) {
 
 			case "default":
-				$( ".user, .pwd,.host,.port,.command,  .security, .base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
+				$( ".user, .pwd, .host, .port, .command, .security, .base_url, .parameters, .command, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".parameters" ).show();
 				break;
 			case "command":
-				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
+				$( ".user, .pwd, .host, .port, .command, .security, .base_url, .command, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
 				$( ".command, .parameters" ).show();
 				break;
 			case "smtp":
-				$( ".user, .pwd,.host,.port,.command,  .security,.base_url, .parameters, .command, .headers,.dsn ,.storage_name, .storage_type, .credentials, .native_format, .nosql_type" ).hide();
-				$( ".user, .pwd,.host,.port,  .security, .parameters" ).show();
+				$( ".user, .pwd, .host, .port, .command, .security, .base_url, .parameters, .command, .headers, .dsn, .storage_name, .storage_type, .push_type, .credentials, .native_format, .nosql_type" ).hide();
+				$( ".user, .pwd, .host, .port, .security, .parameters" ).show();
 				break;
 		}
 	};
@@ -756,7 +777,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					case "aws s3":
 						Scope.aws.access_key = fString.access_key;
 						Scope.aws.secret_key = fString.secret_key;
-						//Scope.aws.bucket_name = fString.bucket_name;
 						break;
 					case "azure blob":
 						Scope.azure.account_name = fString.account_name;
@@ -790,15 +810,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 				var fString = Scope.service.credentials;
 				switch ( Scope.service.storage_type ) {
 					case "aws dynamodb":
-						Scope.aws.access_key = fString.access_key;
-						Scope.aws.secret_key = fString.secret_key;
-						Scope.aws.region = fString.region;
-						//Scope.aws.bucket_name = fString.bucket_name;
-						break;
 					case "aws simpledb":
 						Scope.aws.access_key = fString.access_key;
 						Scope.aws.secret_key = fString.secret_key;
-						//Scope.aws.bucket_name = fString.bucket_name;
 						Scope.aws.region = fString.region;
 						break;
 					case "azure tables":
@@ -816,6 +830,19 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 						Scope.mongodb.service.user = fString.user;
 						Scope.mongodb.service.pwd = fString.pwd;
 						Scope.mongodb.service.db = fString.db;
+						break;
+				}
+			}
+		}
+		if ( Scope.service.type == "Push Service" ) {
+			Scope.aws = {};
+			if ( Scope.service.credentials ) {
+				var fString = Scope.service.credentials;
+				switch ( Scope.service.storage_type ) {
+					case "aws sns":
+						Scope.aws.access_key = fString.access_key;
+						Scope.aws.secret_key = fString.secret_key;
+						Scope.aws.region = fString.region;
 						break;
 				}
 			}

@@ -82,6 +82,17 @@ var SchemaCtrl = function( dfLoadingScreen, $scope, DSP_URL, DB, $http, getSchem
         }
 
     }
+    $scope.reloadService = function(){
+        var service = this.service;
+        $http.get(DSP_URL + "/rest/" + service.api_name + "/_schema?refresh=true").then(function(response){
+            //console.log( $scope.dbServices[$scope.service]);
+            $scope.dbServices[service.service_index].tables = [];
+            response.data.resource.forEach(function(table){
+                $scope.dbServices[service.service_index].tables.push(table);
+                //$scope.currentTables.push(table.name);
+            })
+        });
+    }
     $scope.loadServices();
     $scope.referenceFields  = [];
     $scope.loadNewSchema = function(table){
