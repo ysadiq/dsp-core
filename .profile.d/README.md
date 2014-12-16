@@ -1,2 +1,2 @@
-### Heroku Support
-This directory is used by Heroku for deployment script and configuration settings.
+### Heroku Support for DreamFactory
+This directory is used by [Heroku](https://heroku.com) for deployment script and configuration settings.

@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2015 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
+
 //	Already loaded? Bail...
 if ( defined( 'DSP_VERSION' ) )
 {
@@ -24,7 +26,7 @@ if ( defined( 'DSP_VERSION' ) )
 }
 
 //*************************************************************************
-//* Constants
+//* General Constants
 //*************************************************************************
 
 /**
@@ -35,6 +37,31 @@ const DSP_VERSION = '1.8.2';
  * @var string
  */
 const API_VERSION = '1.0';
+/**
+ * @var string
+ */
+const INSTALL_TYPE_KEY = 'dsp.install_type';
+/**
+ * @var string
+ */
+const DEFAULT_SUPPORT_EMAIL = 'support@dreamfactory.com';
+/**
+ * @var string
+ */
+const DEFAULT_ADMIN_RESOURCE_SCHEMA = '/admin.resource_schema.config.php';
+/**
+ * @var string
+ */
+const DEFAULT_CLOUD_API_ENDPOINT = 'http://api.cloud.dreamfactory.com';
+/**
+ * @var string
+ */
+const DEFAULT_INSTANCE_AUTH_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/credentials';
+
+//******************************************************************************
+//* Path Constants
+//******************************************************************************
+
 /**
  * @var string
  */
@@ -67,23 +94,3 @@ const COMMON_CONFIG_PATH = '/common.config.php';
  * @var string
  */
 const SERVICES_CONFIG_PATH = '/services.config.php';
-/**
- * @var string
- */
-const DEFAULT_CLOUD_API_ENDPOINT = 'http://api.cloud.dreamfactory.com';
-/**
- * @var string
- */
-const DEFAULT_INSTANCE_AUTH_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/credentials';
-/**
- * @var string
- */
-const DEFAULT_SUPPORT_EMAIL = 'support@dreamfactory.com';
-/**
- * @var string
- */
-const DEFAULT_ADMIN_RESOURCE_SCHEMA = '/admin.resource_schema.config.php';
-/**
- * @var string
- */
-const INSTALL_TYPE_KEY = 'dsp.install_type';

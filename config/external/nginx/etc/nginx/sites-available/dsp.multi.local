@@ -1,7 +1,7 @@
 ##	This file is part of the DreamFactory Services Platform(tm) (DSP)
 ##
 ##	DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
-##	Copyright 2012-2014 DreamFactory Software, Inc. <support@dreamfactory.com>
+##	Copyright 2012-2015 DreamFactory Software, Inc. <support@dreamfactory.com>
 ##
 ##	Licensed under the Apache License, Version 2.0 (the "License");
 ##	you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@
 server {
 	listen 80 default_server;
 
+	# Change to your preferred name. Remember to add it to your hosts file.
 	server_name dsp.local;
 
 	# Change these values accordingly
@@ -47,6 +48,8 @@ server {
 
 	# Change locations/names as you please
 	error_log /$error_log;
+	# For speed, access log is disabled. Change to your liking.
+	access_log off;
 	#access_log /$access_log combined;
 
 	# Our DSP locations
@@ -69,6 +72,8 @@ server {
 
 	# Change locations/names as you please
 	error_log /$error_log;
+	# For speed, access log is disabled. Change to your liking.
+	access_log off;
 	#access_log /$access_log combined;
 
 	# SSL config

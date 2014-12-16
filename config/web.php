@@ -3,7 +3,7 @@
  * This file is part of the DreamFactory Services Platform(tm) (DSP)
  *
  * DreamFactory Services Platform(tm) <http://github.com/dreamfactorysoftware/dsp-core>
- * Copyright 2012-2013 DreamFactory Software, Inc. <developer-support@dreamfactory.com>
+ * Copyright 2012-2013 DreamFactory Software, Inc. <support@dreamfactory.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,49 +17,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use DreamFactory\Platform\Utility\Fabric;
-use DreamFactory\Yii\Utility\Pii;
-use Kisma\Core\Utility\Log;
-
 /**
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
  */
-$_fabricHosted = false;
+use DreamFactory\Library\Utility\Includer;
+use DreamFactory\Platform\Utility\Fabric;
+use DreamFactory\Yii\Utility\Pii;
+use Kisma\Core\Utility\Log;
 
-if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php' ) )
-{
-    require __DIR__ . '/constants.config.php';
-}
+//******************************************************************************
+//* Variables
+//******************************************************************************
+
+/**
+ * @type bool Indicates if this a DreamFactory Enterprise(tm) instance
+ */
+$_fabricHosted = false;
+/**
+ * @type string The generic pattern for the /rest route
+ */
+$_restPathPattern = 'rest/<path:[0-9a-zA-Z-_@&#!=,:;\/\^\$\.\|\{\}\[\]\(\)\*\+\? ]+>';
+
+//******************************************************************************
+//* Includes
+//******************************************************************************
+
+/**
+ * Include the new DreamFactory constant provider object
+ */
+Includer::includeIfExists( __DIR__ . DIRECTORY_SEPARATOR . 'DreamFactory.php', true );
+
+//  Include our global constants
+Includer::includeIfExists( __DIR__ . '/constants.config.php', true );
 
 /**
  * Load any environment variables first thing as they may be used by the database config
  */
-/** @noinspection PhpIncludeInspection */
-if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
-{
-    if ( !empty( $_envConfig ) && is_array( $_envConfig ) )
-    {
-        foreach ( $_envConfig as $_key => $_value )
-        {
-            if ( !is_string( $_value ) )
-            {
-                $_value = json_encode( $_value );
-            }
-
-            if ( false === putenv( $_key . '=' . $_value ) )
-            {
-                Log::error( 'Error setting environment variable: ' . $_key . ' = ' . $_value );
-            }
-        }
-    }
-}
+DreamFactory::setEnvironmentVariables( $_envConfig );
 
 /**
  * Load up the database configuration, free edition, private hosted, or others.
  * Look for non-default database config to override.
  */
-if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
+if ( false === ( $_dbConfig = \DreamFactory::getConfigFile( 'database', true ) ) )
 {
     if ( Fabric::fabricHosted() )
     {
@@ -86,7 +87,7 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
             $_dbName = 'dreamfactory';
         }
 
-        // default config for local database
+        //  Default config for local database
         $_dbConfig = array(
             'connectionString'      => 'mysql:host=localhost;port=3306;dbname=' . $_dbName,
             'username'              => 'dsp_user',
@@ -103,67 +104,44 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
  * Load up the common configurations between the web and background apps,
  * setting globals whilst at it. REQUIRED file!
  */
-/** @noinspection PhpIncludeInspection */
-$_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
-
-$_restPathPattern = 'rest/<path:[0-9a-zA-Z-_@&#!=,:;\/\^\$\.\|\{\}\[\]\(\)\*\+\? ]+>';
+$_commonConfig = \DreamFactory::getConfigFile( 'common', true, true );
 
 //.........................................................................
 //. The configuration
 //.........................................................................
 
 return array(
-    /**
-     * Basics
-     */
+    /** Basics */
     'basePath'           => $_basePath . '/app',
     'name'               => $_appName,
     'runtimePath'        => $_logFilePath,
     'defaultController'  => $_defaultController,
-    /**
-     * Service Handling: The default system resource namespaces
-     *
-     * @todo have ResourceStore::resource() scan sub-directories based on $_REQUEST['path']  -- GHA
-     */
+    /** Service Handling: The default system resource namespaces */
     'resourceNamespaces' => array(
         'DreamFactory\\Platform\\Resources',
         'DreamFactory\\Platform\\Resources\\System',
         'DreamFactory\\Platform\\Resources\\User',
     ),
-    /**
-     * Service Handling: The default system model namespaces
-     *
-     * @todo have ResourceStore::model() scan sub-directories based on $_REQUEST['path'] -- GHA
-     */
+    /** Service Handling: The default system model namespaces */
     'modelNamespaces'    => array(
         'DreamFactory\\Platform\\Yii\\Models',
     ),
-    /**
-     * CORS Configuration
-     */
+    /** CORS Configuration */
     'corsWhitelist'      => array(),
     'autoAddHeaders'     => true,
     'extendedHeaders'    => true,
-    /**
-     * Preloads
-     */
+    /** Pre-loaded components, all else are lazy-loaded */
     'preload'            => array('log', 'session', 'db'),
-    /**
-     * Imports
-     */
+    /** Imports */
     'import'             => array(
         'system.utils.*',
         'application.models.*',
         'application.models.forms.*',
         'application.components.*',
     ),
-    /**
-     * Modules
-     */
+    /** Modules */
     'modules'            => array(),
-    /**
-     * Components
-     */
+    /** Components */
     'components'         => array(
         //	Asset management
         'assetManager' => array(
@@ -203,11 +181,8 @@ return array(
                     'pattern' => '<service:[_0-9a-zA-Z-]+>/<path:[0-9a-zA-Z-_@&#!=,:;\/\^\$\.\|\{\}\[\]\(\)\*\+\? ]+>',
                     'verb'    => 'GET'
                 ),
-                //  admin
-                //array('admin/<action>', 'pattern' => 'admin/<resource:[_0-9a-zA-Z-]+>/<action>/<id:[_0-9a-zA-Z-\/. ]+>'),
             ),
         ),
-        //	User configuration
         'user'         => array(
             'allowAutoLogin' => true,
             'loginUrl'       => array($_defaultController . '/login'),
@@ -230,9 +205,9 @@ return array(
                     //  Super Debug Mode
                     //'levels' => 'error, warning, info, debug, trace, notice',
                     // Normal debug mode
-                    //'levels'      => 'error, warning, info, debug, notice',
+                    'levels'      => 'error, warning, info, debug, notice',
                     // Production
-                    'levels'      => 'error, warning, info, notice, debug',
+                    //'levels'      => 'error, warning, notice',
                 ),
             ),
         ),

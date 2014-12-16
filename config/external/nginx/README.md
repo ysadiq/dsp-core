@@ -1,4 +1,6 @@
-## Usage with nginx (1.6.x on Ubuntu 14.04)
+## Usage with nginx
+These settings will work on Ubuntu 14.04+ and CentOS 5+.
+
 On Ubuntu systems, do the following:
 
  1. copy the files from `config/external/nginx/etc/nginx/sites-available` into your `/etc/nginx/sites-available/` directory.
