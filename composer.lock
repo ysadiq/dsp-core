@@ -872,12 +872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "ebd0f73fbe23d5da142437fc439f491f575163ab"
+                "reference": "5bee6fe56c2e8d1fc22b5188d49b6a2500df065f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ebd0f73fbe23d5da142437fc439f491f575163ab",
-                "reference": "ebd0f73fbe23d5da142437fc439f491f575163ab",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5bee6fe56c2e8d1fc22b5188d49b6a2500df065f",
+                "reference": "5bee6fe56c2e8d1fc22b5188d49b6a2500df065f",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +936,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-12-16 12:52:39"
+            "time": "2014-12-17 10:47:08"
         },
         {
             "name": "nikic/php-parser",
@@ -1476,12 +1476,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "4dd384da856982a1d7aa36138a21cb97619015a4"
+                "reference": "c2226f1a26e863af97285962a62342aa341968ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/4dd384da856982a1d7aa36138a21cb97619015a4",
-                "reference": "4dd384da856982a1d7aa36138a21cb97619015a4",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/c2226f1a26e863af97285962a62342aa341968ec",
+                "reference": "c2226f1a26e863af97285962a62342aa341968ec",
                 "shasum": ""
             },
             "require": {
@@ -1489,8 +1489,8 @@
             },
             "require-dev": {
                 "symfony/config": "~2.2",
-                "symfony/expression-language": "~2.4",
-                "symfony/yaml": "~2.0"
+                "symfony/expression-language": "~2.6",
+                "symfony/yaml": "~2.1"
             },
             "suggest": {
                 "symfony/config": "",
@@ -1524,7 +1524,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-12 16:24:25"
+            "time": "2014-12-16 20:28:59"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1533,12 +1533,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "50f680f99c702c831314c00220c222aaff8916f8"
+                "reference": "24f2c9ea9353cbb25dc40786272f0b4f42ba3d3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/50f680f99c702c831314c00220c222aaff8916f8",
-                "reference": "50f680f99c702c831314c00220c222aaff8916f8",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/24f2c9ea9353cbb25dc40786272f0b4f42ba3d3c",
+                "reference": "24f2c9ea9353cbb25dc40786272f0b4f42ba3d3c",
                 "shasum": ""
             },
             "require": {
@@ -1546,10 +1546,10 @@
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.0",
+                "symfony/config": "~2.0,>=2.0.5",
                 "symfony/dependency-injection": "~2.6",
                 "symfony/expression-language": "~2.6",
-                "symfony/stopwatch": "~2.2"
+                "symfony/stopwatch": "~2.3"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -1582,7 +1582,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-12 16:23:01"
+            "time": "2014-12-16 20:28:45"
         },
         {
             "name": "symfony/http-foundation",
