@@ -288,7 +288,8 @@ Scope = $scope;
 			"service_id": 0,
             "filters": [],
             "filter_op": "AND",
-            "show_filters": false
+            "show_filters": false,
+            "requestors": ["API"]
 		};
 
 		$scope.role.role_service_accesses.push( newAccess );
@@ -390,7 +391,8 @@ Scope = $scope;
             "component": "user",
             "filters": [],
             "filter_op": "AND",
-            "show_filters": false
+            "show_filters": false,
+            "requestors": ["API"]
         };
 
 		$scope.role.role_system_accesses.push( newAccess );
