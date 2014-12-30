@@ -439,7 +439,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					break;
 				case "mongodb":
 					Scope.service.credentials =
-					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db};
+					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db, options: Scope.mongodb.service.options};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -550,7 +550,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					break;
 				case "mongodb":
 					Scope.service.credentials =
-					{user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, dsn: Scope.mongodb.service.dsn, db: Scope.mongodb.service.db};
+					{user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, dsn: Scope.mongodb.service.dsn, db: Scope.mongodb.service.db, options: Scope.mongodb.service.options};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -729,6 +729,15 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
                 }
             )
         }
+        // mongodb services created before SSL added need ssl = false
+        if ( Scope.service.type === "NoSQL DB" && Scope.service.storage_type === "mongodb" ) {
+            if (!Scope.service.credentials.hasOwnProperty('options')) {
+                Scope.service.credentials.options = {};
+            }
+            if (!Scope.service.credentials.options.hasOwnProperty('ssl')) {
+                Scope.service.credentials.options.ssl = false;
+            }
+        }
         Scope.currentServiceId = Scope.service.id;
         Scope.service.credentials = Scope.service.credentials || {};
         var cString = $scope.service.credentials;
@@ -830,6 +839,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 						Scope.mongodb.service.user = fString.user;
 						Scope.mongodb.service.pwd = fString.pwd;
 						Scope.mongodb.service.db = fString.db;
+                        Scope.mongodb.service.options = fString.options;
 						break;
 				}
 			}
