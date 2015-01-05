@@ -438,8 +438,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					Scope.service.credentials = {dsn: Scope.couchdb.service.dsn, user: Scope.couchdb.service.user, pwd: Scope.couchdb.service.pwd};
 					break;
 				case "mongodb":
+					options = angular.copy(Scope.mongodb.service.options);
+					if (!options.ssl) delete options.ssl;
 					Scope.service.credentials =
-					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db, options: Scope.mongodb.service.options};
+					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db, options: options};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
@@ -549,8 +551,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					Scope.service.credentials = {user: Scope.couchdb.service.username, pwd: Scope.couchdb.service.username, dsn: Scope.couchdb.service.dsn};
 					break;
 				case "mongodb":
+					options = angular.copy(Scope.mongodb.service.options);
+					if (!options.ssl) delete options.ssl;
 					Scope.service.credentials =
-					{user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, dsn: Scope.mongodb.service.dsn, db: Scope.mongodb.service.db, options: Scope.mongodb.service.options};
+					{dsn: Scope.mongodb.service.dsn, user: Scope.mongodb.service.user, pwd: Scope.mongodb.service.pwd, db: Scope.mongodb.service.db, options: options};
 					break;
 			}
 			Scope.service.credentials = JSON.stringify( Scope.service.credentials );
