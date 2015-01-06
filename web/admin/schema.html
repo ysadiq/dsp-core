@@ -19,7 +19,7 @@
 			<accordion-heading>
                 <span class="pull-right"><button title="Clear cache & reload schema" data-ng-click="reloadService();$event.stopPropagation();" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button></span>
 				{{service.api_name}}<br />
-				<small>{{service.description}}</small>
+				<small>{{service.description}}&nbsp;</small>
 			</accordion-heading>
 			<div class="form-inline">
 				<input type="text" class="form-control" placeholder="New table name" data-ng-model="newTableName" />
@@ -137,6 +137,12 @@
 				<label>Foreign Key</label>
 				<input type="checkbox" data-ng-model="column.is_foreign_key" />
 				<br />
+                <label>Is Unique</label>
+                <input type="checkbox" data-ng-model="column.is_unique" />
+                <br />
+                <label>Is Index</label>
+                <input type="checkbox" data-ng-model="column.is_index" />
+                <br />
 
 				<label>Allow Null</label>
 				<input type="checkbox" data-ng-model="column.allow_null" />
@@ -171,11 +177,11 @@
 				<input class="form-control" type="text" data-ng-disabled=true data-ng-model="column.required" />
 				<br />
 
-				<!--<label>Validation</label>-->
-                <!--<textarea  data-ng-model="column.validation"  class="form-control" rows="5" cols="10" >-->
+				<label>Validation</label>
+                <textarea  data-ng-model="column.validation"  class="form-control" rows="5" cols="10" >
 
-                <!--</textarea>-->
-				<!--<br />-->
+                </textarea>
+				<br />
 
 				<div data-ng-show="column.type === 'string' || column.type === 'integer'">
 					<label>Value</label>

@@ -170,10 +170,11 @@ angular.module('dfUtility', [])
 
                         scope.btnText = '';
 
+                        var max = 1;
                         if (verbs.length == 0) {
                             scope.btnText = 'None Selected';
 
-                        } else if (verbs.length > 0 && verbs.length <= 3) {
+                        } else if (verbs.length > 0 && verbs.length <= max) {
 
                             angular.forEach(
                                 verbs, function (_value, _index) {
@@ -190,7 +191,7 @@ angular.module('dfUtility', [])
                                 }
                             )
 
-                        } else if (verbs.length > 3) {
+                        } else if (verbs.length > max) {
                             scope.btnText = verbs.length + ' Selected';
                         }
                     };
@@ -206,6 +207,112 @@ angular.module('dfUtility', [])
                                 scope.allowedVerbs, function (_value, _index) {
 
                                     scope._setVerbState(_value, true);
+                                }
+                            );
+
+                            scope._setButtonText();
+
+                        }
+                    );
+
+                    elem.css(
+                        {
+                            'display': 'inline-block', 'position': 'absolute'
+                        }
+                    );
+
+                }
+            }
+        }
+    ])
+    .directive('dfRequestorPicker', [
+        'DF_UTILITY_ASSET_PATH', function (DF_UTILITY_ASSET_PATH) {
+
+            return {
+                restrict: 'E',
+                scope: {
+                    allowedRequestors: '=?'
+                },
+                templateUrl: DF_UTILITY_ASSET_PATH + 'views/requestor-picker.html',
+                link: function (scope, elem, attrs) {
+
+                    scope.requestors = {
+                        API: {name: 'API', active: false},
+                        SCRIPT: {name: 'SCRIPT', active: false}
+                    };
+
+                    scope.btnText = 'None Selected';
+
+                    scope._setRequestorState = function (nameStr, stateBool) {
+                        var requestor = scope.requestors[nameStr];
+                        if (scope.requestors.hasOwnProperty(requestor.name)) {
+                            scope.requestors[requestor.name].active = stateBool;
+                        }
+                    };
+
+                    scope._toggleRequestorState = function (nameStr, event) {
+                        event.stopPropagation();
+
+                        if (scope.requestors.hasOwnProperty(scope.requestors[nameStr].name)) {
+                            scope.requestors[nameStr].active = !scope.requestors[nameStr].active;
+                        }
+
+                        scope.allowedRequestors = [];
+
+                        angular.forEach(
+                            scope.requestors, function (_obj) {
+                                if (_obj.active) {
+                                    scope.allowedRequestors.push(_obj.name);
+                                }
+                            }
+                        );
+                    };
+
+                    scope._isRequestorActive = function (requestorStr) {
+
+                        return scope.requestors[requestorStr].active
+                    };
+
+                    scope._setButtonText = function () {
+
+                        var requestors = scope.allowedRequestors;
+
+                        scope.btnText = '';
+
+                        if (requestors.length == 0) {
+                            scope.btnText = 'None Selected';
+
+                        } else {
+
+                            angular.forEach(
+                                requestors, function (_value, _index) {
+                                    if (scope._isRequestorActive(_value)) {
+                                        if (_index != requestors.length - 1) {
+                                            scope.btnText +=
+                                                (
+                                                    _value + ', '
+                                                    );
+                                        } else {
+                                            scope.btnText += _value
+                                        }
+                                    }
+                                }
+                            )
+
+                        }
+                    };
+
+                    scope.$watch(
+                        'allowedRequestors', function (newValue, oldValue) {
+
+                            if (!newValue) {
+                                return false;
+                            }
+
+                            angular.forEach(
+                                scope.allowedRequestors, function (_value, _index) {
+
+                                    scope._setRequestorState(_value, true);
                                 }
                             );
 
