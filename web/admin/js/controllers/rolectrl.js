@@ -283,13 +283,13 @@ Scope = $scope;
 	$scope.newServiceAccess = function() {
 
 		var newAccess = {
-			"verbs": [],
+			"verb_mask": 0,
 			"component": "*",
 			"service_id": 0,
             "filters": [],
             "filter_op": "AND",
             "show_filters": false,
-            "requestors": ["API"]
+            "requestor_mask": 1
 		};
 
 		$scope.role.role_service_accesses.push( newAccess );
@@ -392,7 +392,7 @@ Scope = $scope;
             "filters": [],
             "filter_op": "AND",
             "show_filters": false,
-            "requestors": ["API"]
+            "requestor_mask": 1
         };
 
 		$scope.role.role_system_accesses.push( newAccess );

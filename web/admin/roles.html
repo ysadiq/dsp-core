@@ -231,10 +231,10 @@
                                         </select>
                                     </div>
                                     <div class="col-xs-2 form-group">
-                                        <df-verb-picker data-allowed-verbs="service_access.verbs"></df-verb-picker>
+                                        <df-verb-picker data-allowed-verb-mask="service_access.verb_mask"></df-verb-picker>
                                     </div>
                                     <div class="col-xs-2 form-group">
-                                        <df-requestor-picker data-allowed-requestors="service_access.requestors"></df-requestor-picker>
+                                        <df-requestor-picker data-allowed-requestor-mask="service_access.requestor_mask"></df-requestor-picker>
                                     </div>
                                     <div class="col-xs-1 form-group">
                                         <div class="filter-control">
@@ -370,11 +370,11 @@
 
                                     </div>
                                     <div class="col-xs-3 form-group">
-                                        <df-verb-picker data-allowed-verbs="system_access.verbs"></df-verb-picker>
+                                        <df-verb-picker data-allowed-verb-mask="system_access.verb_mask"></df-verb-picker>
                                     </div>
 
                                     <div class="col-xs-3 form-group">
-                                        <df-requestor-picker data-allowed-requestors="system_access.requestors"></df-requestor-picker>
+                                        <df-requestor-picker data-allowed-requestor-mask="system_access.requestor_mask"></df-requestor-picker>
                                     </div>
 
                                     <div class="col-xs-1 form-group">
@@ -384,7 +384,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-xs-offset-2 form-group">
+                                    <div class="col-xs-1 form-group">
                                         <button type="button" class="btn btn-default btn-sm" data-ng-click="removeSystemAccess()">
                                             <i class="fa fa-trash-o fa-fw"></i>
                                         </button>
