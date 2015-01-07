@@ -393,6 +393,11 @@ We need to preload data but I'm not doing that today. MNM -->
                                 <label>Secret Key</label>
                                 <input class="form-control" type="text" ng-model="aws.secret_key"/>
                             </div>
+                            <div class="form-group">
+                                <label>Region</label>
+                                <select class="form-control" ng-options="region.value as region.name for region in awsRegions"
+                                    ng-model="aws.region"></select>
+                            </div>
                         </div>
                         <div class="sub-section azure_info" ng-show="service.storage_type =='azure blob'">
                             <div class="form-group">
