@@ -117,18 +117,19 @@ angular.module('dfUtility', [])
                 restrict: 'E',
                 scope: {
                     allowedVerbs: '=?',
+                    allowedVerbMask: '=?',
                     description: '=?'
                 },
                 templateUrl: DF_UTILITY_ASSET_PATH + 'views/verb-picker.html',
                 link: function (scope, elem, attrs) {
 
                     scope.verbs = {
-                        GET: {name: 'GET', active: false, description: ' (read)'},
-                        POST: {name: 'POST', active: false, description: ' (create)'},
-                        PUT: {name: 'PUT', active: false, description: ' (replace)'},
-                        PATCH: {name: 'PATCH', active: false, description: ' (update)'},
-                        MERGE: {name: 'MERGE', active: false, description: ' (update)'},
-                        DELETE: {name: 'DELETE', active: false, description: ' (remove)'}
+                        GET: {name: 'GET', active: false, description: ' (read)', mask: 1},
+                        POST: {name: 'POST', active: false, description: ' (create)', mask: 2},
+                        PUT: {name: 'PUT', active: false, description: ' (replace)', mask: 4},
+                        PATCH: {name: 'PATCH', active: false, description: ' (update)', mask: 8},
+                        MERGE: {name: 'MERGE', active: false, description: ' (update)', mask: 16},
+                        DELETE: {name: 'DELETE', active: false, description: ' (remove)', mask: 32}
                     };
 
                     scope.btnText = 'None Selected';
@@ -146,6 +147,7 @@ angular.module('dfUtility', [])
 
                         if (scope.verbs.hasOwnProperty(scope.verbs[nameStr].name)) {
                             scope.verbs[nameStr].active = !scope.verbs[nameStr].active;
+                            scope.allowedVerbMask = scope.allowedVerbMask ^ scope.verbs[nameStr].mask;
                         }
 
                         scope.allowedVerbs = [];
@@ -155,6 +157,7 @@ angular.module('dfUtility', [])
                                 if (_obj.active) {
                                     scope.allowedVerbs.push(_obj.name);
                                 }
+
                             }
                         );
                     };
@@ -166,7 +169,15 @@ angular.module('dfUtility', [])
 
                     scope._setButtonText = function () {
 
-                        var verbs = scope.allowedVerbs;
+                        var verbs = [];
+
+                        angular.forEach(scope.verbs, function (verbObj) {
+
+                            if (verbObj.active) {
+                                verbs.push(verbObj.name);
+                            }
+
+                        })
 
                         scope.btnText = '';
 
@@ -196,8 +207,7 @@ angular.module('dfUtility', [])
                         }
                     };
 
-                    scope.$watch(
-                        'allowedVerbs', function (newValue, oldValue) {
+                    scope.$watch('allowedVerbs', function (newValue, oldValue) {
 
                             if (!newValue) {
                                 return false;
@@ -212,14 +222,25 @@ angular.module('dfUtility', [])
 
                             scope._setButtonText();
 
-                        }
-                    );
+                        });
 
-                    elem.css(
-                        {
+                    scope.$watch('allowedVerbMask', function (n, o) {
+
+                        if (n == null && n == undefined) return false;
+
+                        angular.forEach(scope.verbs, function (verbObj) {
+
+                            if (n & verbObj.mask) {
+                                verbObj.active = true;
+                            }
+                        });
+
+                        scope._setButtonText();
+                    });
+
+                    elem.css({
                             'display': 'inline-block', 'position': 'absolute'
-                        }
-                    );
+                        });
 
                 }
             }
@@ -231,14 +252,15 @@ angular.module('dfUtility', [])
             return {
                 restrict: 'E',
                 scope: {
-                    allowedRequestors: '=?'
+                    allowedRequestors: '=?',
+                    allowedRequestorMask: '=?'
                 },
                 templateUrl: DF_UTILITY_ASSET_PATH + 'views/requestor-picker.html',
                 link: function (scope, elem, attrs) {
 
                     scope.requestors = {
-                        API: {name: 'API', active: false},
-                        SCRIPT: {name: 'SCRIPT', active: false}
+                        API: {name: 'API', active: false, mask: 1},
+                        SCRIPT: {name: 'SCRIPT', active: false, mask: 2}
                     };
 
                     scope.btnText = 'None Selected';
@@ -255,6 +277,7 @@ angular.module('dfUtility', [])
 
                         if (scope.requestors.hasOwnProperty(scope.requestors[nameStr].name)) {
                             scope.requestors[nameStr].active = !scope.requestors[nameStr].active;
+                            scope.allowedRequestorMask = scope.allowedRequestorMask ^ scope.requestors[nameStr].mask;
                         }
 
                         scope.allowedRequestors = [];
@@ -275,7 +298,14 @@ angular.module('dfUtility', [])
 
                     scope._setButtonText = function () {
 
-                        var requestors = scope.allowedRequestors;
+                        var requestors = [];
+
+                        angular.forEach(scope.requestors, function (rObj) {
+
+                            if (rObj.active) {
+                                requestors.push(rObj.name);
+                            }
+                        });
 
                         scope.btnText = '';
 
@@ -302,8 +332,7 @@ angular.module('dfUtility', [])
                         }
                     };
 
-                    scope.$watch(
-                        'allowedRequestors', function (newValue, oldValue) {
+                    scope.$watch('allowedRequestors', function (newValue, oldValue) {
 
                             if (!newValue) {
                                 return false;
@@ -318,8 +347,21 @@ angular.module('dfUtility', [])
 
                             scope._setButtonText();
 
-                        }
-                    );
+                        });
+
+                    scope.$watch('allowedRequestorMask', function (n, o) {
+
+                        if (n == null && n == undefined) return false;
+
+                        angular.forEach(scope.requestors, function (requestorObj) {
+
+                            if (n & requestorObj.mask) {
+                                requestorObj.active = true;
+                            }
+                        });
+
+                        scope._setButtonText();
+                    });
 
                     elem.css(
                         {
