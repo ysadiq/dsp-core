@@ -194,11 +194,14 @@
                                 <div class="col-xs-3">
                                     <label>Component</label>
                                 </div>
-                                <div class="col-xs-3">
+                                <div class="col-xs-2">
                                     <label>Access</label>
                                 </div>
                                 <div class="col-xs-2">
-                                    <label>Advanced Filters</label>
+                                    <label>Requestors</label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <label>Filters</label>
                                 </div>
                                 <div class="col-xs-1" >
                                     <label>
@@ -215,25 +218,28 @@
                             <li class="list-group-item" data-ng-repeat="service_access in role.role_service_accesses">
                                 <div class="row">
                                     <div class="col-xs-3 form-group">
-                                        <select class="form-control"
+                                        <select class="form-control input-sm"
                                                 data-ng-change="selectService()"
                                                 data-ng-model="service_access.service_id"
                                                 data-ng-options="service.id as service.name for service in Services.record">
                                         </select>
                                     </div>
                                     <div class="col-xs-3 form-group">
-                                        <select class="form-control"
+                                        <select class="form-control input-sm"
                                                 data-ng-model="service_access.component"
                                                 data-ng-options="component as component for component in ServiceComponents[serviceId2Index(service_access.service_id)]">
                                         </select>
                                     </div>
-                                    <div class="col-xs-3 form-group">
-                                        <df-verb-picker data-allowed-verbs="service_access.verbs"></df-verb-picker>
+                                    <div class="col-xs-2 form-group">
+                                        <df-verb-picker data-allowed-verb-mask="service_access.verb_mask"></df-verb-picker>
                                     </div>
                                     <div class="col-xs-2 form-group">
+                                        <df-requestor-picker data-allowed-requestor-mask="service_access.requestor_mask"></df-requestor-picker>
+                                    </div>
+                                    <div class="col-xs-1 form-group">
                                         <div class="filter-control">
-                                        <span data-ng-show="allowFilters(service_access.service_id)">{{service_access.filters.length}}
-                                            <a href="" data-ng-click="toggleServiceAccessFilter()">Show/Hide</a>
+                                        <span data-ng-show="allowFilters(service_access.service_id)">
+                                            <a href="" data-ng-click="toggleServiceAccessFilter()">{{service_access.filters.length}}</a>
                                         </span>
                                             <span data-ng-show="!allowFilters(service_access.service_id)">N/A</span>
                                         </div>
@@ -274,17 +280,17 @@
                                         </div>
                                         <div data-ng-repeat="service_access_filter in service_access.filters" class="row" style="margin-top: 15px;">
                                             <div class="col-xs-3 form-group">
-                                                <input class="form-control" data-ng-model="service_access_filter.name" type="text" />
+                                                <input class="form-control input-sm" data-ng-model="service_access_filter.name" type="text" />
                                             </div>
                                             <div class="col-xs-3 form-group">
-                                                <select class="form-control"
+                                                <select class="form-control input-sm"
                                                         data-ng-change="updateServiceAccessFilter()"
                                                         data-ng-model="service_access_filter.operator"
                                                         data-ng-options="op as op for op in FilterOps">
                                                 </select>
                                             </div>
                                             <div class="col-xs-3 form-group">
-                                                <input class="form-control" data-ng-model="service_access_filter.value"
+                                                <input class="form-control input-sm" data-ng-model="service_access_filter.value"
                                                        data-ng-disabled="service_access_filter.operator==='is null' || service_access_filter.operator==='is not null'"
                                                        type="text"/>
                                             </div>
@@ -329,17 +335,20 @@
 
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="col-xs-3">
+                                <div class="col-xs-4">
                                     <label>Component</label>
                                 </div>
                                 <div class="col-xs-3">
                                     <label>Access</label>
                                 </div>
                                 <div class="col-xs-3">
-                                    <label>Advanced Filters</label>
+                                    <label>Requestors</label>
+                                </div>
+                                <div class="col-xs-1">
+                                    <label>Filters</label>
                                 </div>
 
-                                <div class="col-xs-1 col-xs-offset-2" >
+                                <div class="col-xs-1" >
                                     <label>
                                         <button class="btn btn-default btn-sm" data-ng-click="newSystemAccess()">
                                             <i class="fa fa-plus fa-fw"></i>
@@ -353,25 +362,29 @@
                         <ul class="list-group">
                             <li class="list-group-item" data-ng-repeat="system_access in role.role_system_accesses">
                                 <div class="row">
-                                    <div class="col-xs-3 form-group">
-                                        <select class="form-control"
+                                    <div class="col-xs-4 form-group">
+                                        <select class="form-control input-sm"
                                                 data-ng-model="system_access.component"
                                                 data-ng-options="component.name as component.label for component in SystemComponents">
                                         </select>
 
                                     </div>
                                     <div class="col-xs-3 form-group">
-                                        <df-verb-picker data-allowed-verbs="system_access.verbs"></df-verb-picker>
+                                        <df-verb-picker data-allowed-verb-mask="system_access.verb_mask"></df-verb-picker>
                                     </div>
 
                                     <div class="col-xs-3 form-group">
+                                        <df-requestor-picker data-allowed-requestor-mask="system_access.requestor_mask"></df-requestor-picker>
+                                    </div>
+
+                                    <div class="col-xs-1 form-group">
                                         <div class="filter-control" >
-                                            <span>{{system_access.filters.length}}
-                                                <a href="" data-ng-click="toggleSystemAccessFilter()">Show/Hide</a>
+                                            <span>
+                                                <a href="" data-ng-click="toggleSystemAccessFilter()">{{system_access.filters.length}}</a>
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-xs-offset-2 form-group">
+                                    <div class="col-xs-1 form-group">
                                         <button type="button" class="btn btn-default btn-sm" data-ng-click="removeSystemAccess()">
                                             <i class="fa fa-trash-o fa-fw"></i>
                                         </button>
@@ -410,17 +423,17 @@
                                         </div>
                                         <div data-ng-repeat="system_access_filter in system_access.filters" class="row" style="margin-top: 15px;">
                                             <div class="col-xs-3 form-group">
-                                                <input class="form-control" data-ng-model="system_access_filter.name" type="text" />
+                                                <input class="form-control input-sm" data-ng-model="system_access_filter.name" type="text" />
                                             </div>
                                             <div class="col-xs-3 form-group">
-                                                <select class="form-control"
+                                                <select class="form-control input-sm"
                                                         data-ng-change="updateSystemAccessFilter()"
                                                         data-ng-model="system_access_filter.operator"
                                                         data-ng-options="op as op for op in FilterOps">
                                                 </select>
                                             </div>
                                             <div class="col-xs-3 form-group">
-                                                <input class="form-control" data-ng-model="system_access_filter.value"
+                                                <input class="form-control input-sm" data-ng-model="system_access_filter.value"
                                                        data-ng-disabled="system_access_filter.operator==='is null' || system_access_filter.operator==='is not null'"
                                                        type="text"/>
                                             </div>

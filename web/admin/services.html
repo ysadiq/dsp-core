@@ -366,6 +366,14 @@ We need to preload data but I'm not doing that today. MNM -->
                                 <label>Password</label>
                                 <input class="form-control" ng-model="mongodb.service.pwd" type="password"/>
                             </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-ng-model="mongodb.service.options.ssl" type="checkbox"/>
+                                        Connect with SSL (PHP driver and MongoDB server must support SSL)
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="section storage_type">

@@ -6,6 +6,7 @@
 composer.phar
 manifest.yml
 build/
+scripts/log
 web/assets/*
 web/apps/
 web/pbox
