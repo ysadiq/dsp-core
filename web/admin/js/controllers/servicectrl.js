@@ -399,10 +399,10 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "azure blob":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths,account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
 					break;
 				case "rackspace cloudfiles":
 					Scope.service.credentials =
@@ -517,7 +517,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 		if ( Scope.service.type == "Remote File Storage" ) {
 			switch ( Scope.service.storage_type ) {
 				case "aws s3":
-					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key};
+					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, access_key: Scope.aws.access_key, secret_key: Scope.aws.secret_key, region: Scope.aws.region};
 					break;
 				case "azure blob":
 					Scope.service.credentials = {private_paths : Scope.service.credentials.private_paths, account_name: Scope.azure.account_name, account_key: Scope.azure.account_key};
@@ -790,6 +790,7 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 					case "aws s3":
 						Scope.aws.access_key = fString.access_key;
 						Scope.aws.secret_key = fString.secret_key;
+						Scope.aws.region = fString.region;
 						break;
 					case "azure blob":
 						Scope.azure.account_name = fString.account_name;
