@@ -6,9 +6,11 @@
 composer.phar
 manifest.yml
 build/
+scripts/log
 web/assets/*
 web/apps/
 web/pbox
+web/portal-sandbox
 !web/static/
 config/database.config.php
 config/env.config.php
