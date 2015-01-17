@@ -780,7 +780,7 @@ We need to preload data but I'm not doing that today. MNM -->
                 <tr>
                     <th>Name</th>
                     <th>Value</th>
-
+                    <th>Pass From Client</th>
 
                     <th class="no-border">
                         <div class="btn-group pull-left">
@@ -800,6 +800,13 @@ We need to preload data but I'm not doing that today. MNM -->
                     </td>
                     <td>
                         <input class="form-control" data-ng-model="header.value" type="text" />
+                    </td>
+                    <td style="vertical-align: middle; text-align: center;">
+                        <!--<div class="checkbox">-->
+                        <!--<label>-->
+                        <input data-ng-model="header.pass_from_client" type="checkbox" />
+                        <!--</label>-->
+                        <!--</div>-->
                     </td>
 
                     <td class="no-border">
