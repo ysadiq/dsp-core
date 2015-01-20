@@ -908,7 +908,6 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
 	$scope.addClientParameter = function () {
 		if (!Scope.service.credentials.client_exclusions) {
 			Scope.service.credentials.client_exclusions = {
-				headers: [],
 				parameters: []
 			};
 
@@ -927,6 +926,9 @@ var ServiceCtrl = function(dfLoadingScreen, $scope, Service, SystemConfigDataSer
     $scope.addHeader = function(){
 
         $scope.header = {};
+		if ( Scope.service.type === "Remote Web Service" ) {
+			$scope.header['pass_from_client'] = false;
+		}
         $scope.service.headers.unshift($scope.header);
 
     }
