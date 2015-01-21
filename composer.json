@@ -56,10 +56,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable":     true,
+    "prefer-stable":     false,
     "require":           {
         "kisma/kisma":                          "~0.2",
-        "composer/installers":                  "~1.0",
+        "dreamfactory/installers":              "*",
         "jeremeamia/superclosure":              "~1.0",
         "dreamfactory/php-utils":               "~1.0",
         "dreamfactory/yii":                     "~1.1.13.14",
@@ -74,11 +74,8 @@
         "phpunit/dbunit":           "@stable"
     },
     "extra":             {
-        "branch-alias":    {
+        "branch-alias": {
             "dev-develop": "1.8.x-dev"
-        },
-        "installer-paths": {
-            "web/{$name}": ["type:dreamfactory-app"]
         }
     }
 }
