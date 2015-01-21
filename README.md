@@ -1,4 +1,4 @@
-## DreamFactory Services Platform(tm) Core Server v1.8.2
+## DreamFactory Services Platform(tm) Core Server v1.9.0
 
 [![Latest Stable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/stable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Total Downloads](https://poser.pugx.org/dreamfactory/dsp-core/downloads.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![Latest Unstable Version](https://poser.pugx.org/dreamfactory/dsp-core/v/unstable.svg)](https://packagist.org/packages/dreamfactory/dsp-core) [![License](https://poser.pugx.org/dreamfactory/dsp-core/license.svg)](https://packagist.org/packages/dreamfactory/dsp-core)[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/dreamfactorysoftware/dsp-core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -31,4 +31,3 @@ In a nutshell, DreamFactory enables developers to quickly hook up a wide variety
   to a project"](https://help.github.com/articles/fork-a-repo#contributing-to-a-project)
 * All pull requests must be in a ["git flow"](https://github.com/nvie/gitflow) feature branch to be considered.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
