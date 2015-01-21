@@ -162,6 +162,9 @@ $_instanceSettings = array_merge(
 //	Keep these out of the global space
 unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey );
 
+// Default admin app path - new uses composer-pulled dreamfactory, old was launchpad
+$_admin_app_path = "dreamfactory/dist";
+
 /** @noinspection PhpIncludeInspection */
 return array_merge(
     $_instanceSettings,
@@ -221,11 +224,17 @@ return array_merge(
          */
         'dsp.restricted_verbs'          => InstallationTypes::getRestrictedVerbs( $_installType ),
         /** The default application to start */
-        'dsp.default_app'               => '/launchpad/index.html',
-        /** The default landing pages for email confirmations */
+        'dsp.default_app'               => '/' . $_admin_app_path . '/index.html',
+        /** The old default landing pages for email confirmations
         'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
         'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
         'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
+         */
+        /** New admin app landing pages for email confirmations */
+        'dsp.confirm_invite_url'        => '/' . $_admin_app_path . '/user-invite',
+        'dsp.confirm_register_url'      => '/' . $_admin_app_path . '/register-confirm',
+        'dsp.confirm_reset_url'         => '/' . $_admin_app_path . '/reset-password',
+
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
         //-------------------------------------------------------------------------
