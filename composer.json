@@ -60,6 +60,7 @@
     "require":           {
         "kisma/kisma":                          "~0.2",
         "jeremeamia/superclosure":              "~1.0",
+        "dreamfactory/installers":              "*",
         "dreamfactory/dsp-admin":               "~0.9",
         "dreamfactory/lib-php-common-platform": "~1.9.0",
         "dreamfactory/php-utils":               "~1.0",
