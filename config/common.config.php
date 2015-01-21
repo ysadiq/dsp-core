@@ -17,9 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -68,10 +68,10 @@ if ( !is_dir( $_assetsPath ) )
 $_dspSalts = array();
 
 //  Load some keys
-$_keys = Pii::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
+$_keys = Includer::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
 /** @noinspection PhpIncludeInspection */
-if ( false !== ( $_salts = Pii::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
+if ( false !== ( $_salts = Includer::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_salts ) )
     {
@@ -162,6 +162,9 @@ $_instanceSettings = array_merge(
 //	Keep these out of the global space
 unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey );
 
+// Default admin app path - new uses composer-pulled dreamfactory, old was launchpad
+$_admin_app_path = "dreamfactory/dist";
+
 /** @noinspection PhpIncludeInspection */
 return array_merge(
     $_instanceSettings,
@@ -216,16 +219,36 @@ return array_merge(
         /** The type of installation */
         'dsp.install_type'              => $_installType,
         'dsp.install_name'              => $_installName,
-        /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
+        /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE').
+         * IBM Bluemix doesn't allow PATCH...
+         */
         'dsp.restricted_verbs'          => InstallationTypes::getRestrictedVerbs( $_installType ),
         /** The default application to start */
-        'dsp.default_app'               => '/launchpad/index.html',
-        /** The default landing pages for email confirmations */
+        'dsp.default_app'               => '/' . $_admin_app_path . '/index.html',
+        /** The old default landing pages for email confirmations
         'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
         'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
         'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
+         */
+        /** New admin app landing pages for email confirmations */
+        'dsp.confirm_invite_url'        => '/' . $_admin_app_path . '/user-invite',
+        'dsp.confirm_register_url'      => '/' . $_admin_app_path . '/register-confirm',
+        'dsp.confirm_reset_url'         => '/' . $_admin_app_path . '/reset-password',
+
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
+        //-------------------------------------------------------------------------
+        //	Date and Time Format Options
+        //  The default date and time formats used for in and out requests for
+        //  all database services, including stored procedures and system service resources.
+        //  Default values of null means no formatting is performed on date and time field values.
+        //  For options see https://github.com/dreamfactorysoftware/dsp-core/wiki/Database-Date-Time-Formats
+        //  Examples: 'm/d/y h:i:s A' or 'c' or DATE_COOKIE
+        //-------------------------------------------------------------------------
+        'dsp.db_time_format' => null,
+        'dsp.db_date_format' => null,
+        'dsp.db_datetime_format' => null,
+        'dsp.db_timestamp_format' => null,
         /** Enable/disable detailed CORS logging */
         'dsp.log_cors_info'             => false,
         //-------------------------------------------------------------------------
@@ -243,7 +266,8 @@ return array_merge(
         'dsp.enable_user_scripts'       => true,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
-        //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
+        //  If true, ALL events (with or without handlers) are written to the log.
+        //  Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
         'dsp.log_all_events'            => false,
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
