@@ -56,7 +56,7 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": false,
+    "_prefer-stable":    true,
     "require":           {
         "kisma/kisma":                          "~0.2",
         "jeremeamia/superclosure":              "~1.0",
