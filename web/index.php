@@ -28,7 +28,7 @@ use DreamFactory\Yii\Utility\Pii;
 /**
  * @type bool Global debug flag: If true, your logs will grow large and your performance will suffer, but fruitful information will be gathered.
  */
-const DSP_DEBUG = false;
+const DSP_DEBUG = true;
 /**
  * @type bool Global PHP-ERROR flag: If true, PHP-ERROR will be utilized if available. See https://github.com/JosephLenton/PHP-Error for more info.
  */
