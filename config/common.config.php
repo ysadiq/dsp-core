@@ -163,12 +163,6 @@ $_instanceSettings = array_merge(
 //	Keep these out of the global space
 unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey );
 
-<<<<<<< HEAD
-// Default admin app path - new uses composer-pulled dreamfactory, old was launchpad
-$_admin_app_path = "dreamfactory/dist/#";
-
-=======
->>>>>>> develop
 /** @noinspection PhpIncludeInspection */
 return array_merge(
     $_instanceSettings,

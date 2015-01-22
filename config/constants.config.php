@@ -90,4 +90,8 @@ const INSTALL_TYPE_KEY = 'dsp.install_type';
 /**
  * @var string
  */
+<<<<<<< HEAD
+=======
+//const DEFAULT_ADMIN_APP_PATH = '/dreamfactory/dist/#';
+>>>>>>> b4e12fa90336f7530de7a4113a965a9b8e24b162
 const DEFAULT_ADMIN_APP_PATH = '/launchpad';
