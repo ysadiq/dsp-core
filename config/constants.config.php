@@ -87,3 +87,7 @@ const DEFAULT_ADMIN_RESOURCE_SCHEMA = '/admin.resource_schema.config.php';
  * @var string
  */
 const INSTALL_TYPE_KEY = 'dsp.install_type';
+/**
+ * @var string
+ */
+const DEFAULT_ADMIN_APP_PATH = '/dreamfactory/dist/#';
