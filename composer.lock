@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3fdcc2ad5519669e4977526d607b8c22",
+    "hash": "0235066298759e6a2fa271a8696a5275",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -250,16 +250,16 @@
         },
         {
             "name": "dreamfactory/dsp-admin",
-            "version": "0.9.2",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/admin2.git",
-                "reference": "144b155646e550e10aba2a510f942bee21bd6c69"
+                "reference": "433c4ceb38541a633f7f79fe3f61e13e6e31ced5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/admin2/zipball/144b155646e550e10aba2a510f942bee21bd6c69",
-                "reference": "144b155646e550e10aba2a510f942bee21bd6c69",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/admin2/zipball/433c4ceb38541a633f7f79fe3f61e13e6e31ced5",
+                "reference": "433c4ceb38541a633f7f79fe3f61e13e6e31ced5",
                 "shasum": ""
             },
             "require": {
@@ -301,7 +301,7 @@
                 "remote web services",
                 "rest"
             ],
-            "time": "2015-01-22 19:52:24"
+            "time": "2015-01-23 20:42:58"
         },
         {
             "name": "dreamfactory/installer",
@@ -913,16 +913,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.75",
+            "version": "0.2.76",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "0d36026d97e63dad713b6ce22031b80a429506f1"
+                "reference": "ce8bee87b500be777af7a1e5d8b6701162284bb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/0d36026d97e63dad713b6ce22031b80a429506f1",
-                "reference": "0d36026d97e63dad713b6ce22031b80a429506f1",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/ce8bee87b500be777af7a1e5d8b6701162284bb2",
+                "reference": "ce8bee87b500be777af7a1e5d8b6701162284bb2",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-11-13 16:19:43"
+            "time": "2015-01-23 20:59:04"
         },
         {
             "name": "monolog/monolog",
@@ -1110,9 +1110,6 @@
             "include-path": [
                 "/"
             ],
-            "license": [
-                "New BSD\n License"
-            ],
             "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
         },
         {
@@ -1138,9 +1135,6 @@
             },
             "include-path": [
                 "/"
-            ],
-            "license": [
-                "PHP License"
             ],
             "description": "This is a PHP implementation of &quot;getopt&quot; supporting both\nshort and long options."
         },
@@ -1170,9 +1164,6 @@
             "include-path": [
                 "/"
             ],
-            "license": [
-                "BSD License"
-            ],
             "description": "PHP5 rewrite of HTTP_Request package (with parts of HTTP_Client). Provides\ncleaner API and pluggable Adapters:\n  * Socket adapter, based on old HTTP_Request code,\n  * Curl adapter, wraps around PHP's cURL extension,\n  * Mock adapter, to use for testing packages dependent on HTTP_Request2.\nSupports POST requests with data and file uploads, basic and digest\nauthentication, cookies, managing cookies across requests, proxies, gzip and\ndeflate encodings, redirects, monitoring the request progress with Observers..."
         },
         {
@@ -1198,9 +1189,6 @@
             },
             "include-path": [
                 "/"
-            ],
-            "license": [
-                "BSD Style"
             ],
             "description": "Mail_Mime provides classes to deal with the creation and manipulation of MIME messages.\nIt allows people to create e-mail messages consisting of:\n* Text Parts\n* HTML Parts\n* Inline HTML Images\n* Attachments\n* Attached messages\n\nIt supports big messages, base64 and quoted-printable encodings and\nnon-ASCII characters in filenames, subjects, recipients, etc. encoded\nusing RFC2047 and/or RFC2231."
         },
@@ -1229,9 +1217,6 @@
             "include-path": [
                 "/"
             ],
-            "license": [
-                "BSD Style"
-            ],
             "description": "Provides a class to deal with the decoding and interpreting of mime messages.\n This package used to be part of the Mail_Mime package, but has been split off."
         },
         {
@@ -1257,9 +1242,6 @@
             },
             "include-path": [
                 "/"
-            ],
-            "license": [
-                "BSD-3-Clause"
             ],
             "description": "Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of\n    relative URLs."
         },
@@ -1297,9 +1279,6 @@
             "include-path": [
                 "/"
             ],
-            "license": [
-                "New BSD License"
-            ],
             "description": "The PEAR package contains:\n * the PEAR installer, for creating, distributing\n   and installing packages\n * the PEAR_Exception PHP5 error handling mechanism\n * the PEAR_ErrorStack advanced error handling mechanism\n * the PEAR_Error error handling mechanism\n * the OS_Guess class for retrieving info about the OS\n   where PHP is running on\n * the System class for quick handling of common operations\n   with files and directories\n * the PEAR base class\n  Features in a nutshell:\n  * full support for channels\n  * pre-download dependency validation\n  * new package.xml 2.0 format allows tremendous flexibility while maintaining BC\n  * support for optional dependency groups and limited support for sub-packaging\n  * robust dependency support\n  * full dependency validation on uninstall\n  * remote install for hosts with only ftp access - no more problems with\n    restricted host installation\n  * full support for mirroring\n  * support for bundling several packages into a single tarball\n  * support for static dependencies on a url-based package\n  * support for custom file roles and installation tasks"
         },
         {
@@ -1325,9 +1304,6 @@
             },
             "include-path": [
                 "/"
-            ],
-            "license": [
-                "LGPL License"
             ],
             "description": "Structures_Graph is a package for creating and manipulating graph datastructures. It allows building of directed\nand undirected graphs, with data and metadata stored in nodes. The library provides functions for graph traversing\nas well as for characteristic extraction from the graph topology."
         },
@@ -1355,9 +1331,6 @@
             },
             "include-path": [
                 "/"
-            ],
-            "license": [
-                "BSD License"
             ],
             "description": "Selection of methods that are often needed when working with XML documents.  Functionality includes creating of attribute lists from arrays, creation of tags, validation of XML names and more."
         },
@@ -1777,7 +1750,6 @@
         "phpunit/dbunit": 0
     },
     "prefer-stable": true,
-    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }
