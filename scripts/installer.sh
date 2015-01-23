@@ -139,7 +139,7 @@ COMPOSER_OPTIONS="--no-dev --optimize-autoloader"
 NO_INTERACTION="--no-interaction"
 PHP=/usr/bin/php
 WEB_USER=www-data
-DARWIN_WEB_USER=_www
+DARWIN_WEB_USER=admin
 BLUEMIX_WEB_USER=vcap
 BITNAMI_WEB_USER=www-data
 BITNAMI_FULL_STACK=`[ -d "../../../properties.ini" ] && grep -c 'base_stack_name=Bitnami DreamFactory Stack' ../../../properties.ini`

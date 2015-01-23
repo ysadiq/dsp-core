@@ -1,11 +1,11 @@
 {
-    "name": "dreamfactory/dsp-core",
-    "description": "DreamFactory Services Platform(tm) Core",
-    "homepage": "https://www.dreamfactory.com/",
-    "config": {
+    "name":              "dreamfactory/dsp-core",
+    "description":       "DreamFactory Services Platform(tm) Core",
+    "homepage":          "https://www.dreamfactory.com/",
+    "config":            {
         "discard-changes": true
     },
-    "keywords": [
+    "keywords":          [
         "rest",
         "framework",
         "cloud-computing",
@@ -15,65 +15,66 @@
         "service bus",
         "esb"
     ],
-    "license": ["Apache-2.0"],
-    "authors": [
+    "license":           ["Apache-2.0"],
+    "authors":           [
         {
-            "name": "Jerry Ablan",
+            "name":  "Jerry Ablan",
             "email": "jerryablan@dreamfactory.com",
-            "role": "Lead Developer, server-side"
+            "role":  "Lead Developer, server-side"
         },
         {
-            "name": "Todd Appleton",
+            "name":  "Todd Appleton",
             "email": "toddappleton@dreamfactory.com",
-            "role": "Lead Developer and QA, client-side"
+            "role":  "Lead Developer and QA, client-side"
         },
         {
-            "name": "Lee Hicks",
+            "name":  "Lee Hicks",
             "email": "leehicks@dreamfactory.com",
-            "role": "Lead Developer, server-side"
+            "role":  "Lead Developer, server-side"
         },
         {
-            "name": "Michael Mandato",
+            "name":  "Michael Mandato",
             "email": "michaelmandato@dreamfactory.com",
-            "role": "Lead Developer, client-side"
+            "role":  "Lead Developer, client-side"
         },
         {
-            "name": "Jason Sykes",
+            "name":  "Jason Sykes",
             "email": "jasonsykes@dreamfactory.com",
-            "role": "Lead Developer, client-side"
+            "role":  "Lead Developer, client-side"
         }
     ],
-    "support": {
-        "email": "support@dreamfactory.com",
+    "support":           {
+        "email":  "support@dreamfactory.com",
         "issues": "https://github.com/dreamfactorysoftware/dsp-core/issues",
-        "wiki": "https://github.com/dreamfactorysoftware/dsp-core/wiki",
+        "wiki":   "https://github.com/dreamfactorysoftware/dsp-core/wiki",
         "source": "https://github.com/dreamfactorysoftware/dsp-core"
     },
-    "repositories": [
+    "repositories":      [
         {
             "type": "pear",
-            "url": "http://pear.php.net"
+            "url":  "http://pear.php.net"
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {
-        "kisma/kisma": "~0.2",
-        "jeremeamia/superclosure": "~1.0",
-        "dreamfactory/php-utils": "~1.0",
-        "dreamfactory/yii": "~1.1.13.12",
-        "dreamfactory/lib-php-common-platform": "~1.8.5"
+    "prefer-stable":    true,
+    "require":           {
+        "kisma/kisma":                          "~0.2",
+        "jeremeamia/superclosure":              "~1.0",
+        "dreamfactory/dsp-admin":               "~1.0.0",
+        "dreamfactory/lib-php-common-platform": "~1.9.0",
+        "dreamfactory/php-utils":               "~1.0.0",
+        "dreamfactory/yii":                     "~1.1.13.15"
     },
-    "require-dev": {
-        "phpunit/phpunit": "@stable",
-        "phpunit/php-invoker": "@stable",
+    "require-dev":       {
+        "phpunit/phpunit":          "@stable",
+        "phpunit/php-invoker":      "@stable",
         "phpunit/phpunit-selenium": "@stable",
-        "phpunit/phpunit-story": "@stable",
-        "phpunit/dbunit": "@stable"
+        "phpunit/phpunit-story":    "@stable",
+        "phpunit/dbunit":           "@stable"
     },
-    "extra": {
+    "extra":             {
         "branch-alias": {
-            "dev-develop": "1.8.x-dev"
+            "dev-develop": "1.9.x-dev"
         }
     }
 }

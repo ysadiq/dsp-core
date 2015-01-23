@@ -17,9 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -28,6 +28,7 @@ use Kisma\Core\Enums\LoggingLevels;
  * NOTE:   If you make changes to this file they will probably be lost
  *         during the next system update/upgrade.
  */
+/** @noinspection PhpIncludeInspection */
 require __DIR__ . CONSTANTS_CONFIG_PATH;
 
 //*************************************************************************
@@ -68,10 +69,10 @@ if ( !is_dir( $_assetsPath ) )
 $_dspSalts = array();
 
 //  Load some keys
-$_keys = Pii::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
+$_keys = Includer::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
 /** @noinspection PhpIncludeInspection */
-if ( false !== ( $_salts = Pii::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
+if ( false !== ( $_salts = Includer::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_salts ) )
     {
@@ -146,15 +147,16 @@ else
 $_instanceSettings = array_merge(
     $_identity,
     array(
-        LocalStorageTypes::STORAGE_BASE_PATH => $_storageBasePath,
-        LocalStorageTypes::STORAGE_PATH      => $_storagePath,
-        LocalStorageTypes::PRIVATE_PATH      => $_privatePath,
-        LocalStorageTypes::LOCAL_CONFIG_PATH => $_privatePath . '/config',
-        LocalStorageTypes::SNAPSHOT_PATH     => $_privatePath . '/snapshots',
-        LocalStorageTypes::APPLICATIONS_PATH => $_storagePath . '/applications',
-        LocalStorageTypes::LIBRARY_PATH      => $_storagePath . '/plugins',
-        LocalStorageTypes::PLUGINS_PATH      => $_storagePath . '/plugins',
-        LocalStorageTypes::SWAGGER_PATH      => $_storagePath . '/swagger',
+        LocalStorageTypes::STORAGE_BASE_PATH   => $_storageBasePath,
+        LocalStorageTypes::STORAGE_PATH        => $_storagePath,
+        LocalStorageTypes::PRIVATE_PATH        => $_privatePath,
+        LocalStorageTypes::LOCAL_CONFIG_PATH   => $_privatePath . '/config',
+        LocalStorageTypes::PRIVATE_CONFIG_PATH => $_privatePath . '/config',
+        LocalStorageTypes::SNAPSHOT_PATH       => $_privatePath . '/snapshots',
+        LocalStorageTypes::APPLICATIONS_PATH   => $_storagePath . '/applications',
+        LocalStorageTypes::LIBRARY_PATH        => $_storagePath . '/plugins',
+        LocalStorageTypes::PLUGINS_PATH        => $_storagePath . '/plugins',
+        LocalStorageTypes::SWAGGER_PATH        => $_storagePath . '/swagger',
     )
 );
 
@@ -215,16 +217,35 @@ return array_merge(
         /** The type of installation */
         'dsp.install_type'              => $_installType,
         'dsp.install_name'              => $_installName,
-        /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE'). IBM Bluemix doesn't allow PATCH... */
+        /** @var array An array of http verbs that are to not be used (i.e. array( 'PATCH', 'MERGE').
+         * IBM Bluemix doesn't allow PATCH...
+         */
         'dsp.restricted_verbs'          => InstallationTypes::getRestrictedVerbs( $_installType ),
         /** The default application to start */
-        'dsp.default_app'               => '/launchpad/index.html',
-        /** The default landing pages for email confirmations */
-        'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
-        'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
-        'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
+        'dsp.default_app'               => DEFAULT_ADMIN_APP_PATH . '/index.html',
+        /** The old default landing pages for email confirmations
+         * 'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
+         * 'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
+         * 'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
+         */
+        /** New admin app landing pages for email confirmations */
+        'dsp.confirm_invite_url'        => DEFAULT_ADMIN_APP_PATH . '/#/user-invite',
+        'dsp.confirm_register_url'      => DEFAULT_ADMIN_APP_PATH . '/#/register-confirm',
+        'dsp.confirm_reset_url'         => DEFAULT_ADMIN_APP_PATH . '/#/reset-password',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
+        //-------------------------------------------------------------------------
+        //	Date and Time Format Options
+        //  The default date and time formats used for in and out requests for
+        //  all database services, including stored procedures and system service resources.
+        //  Default values of null means no formatting is performed on date and time field values.
+        //  For options see https://github.com/dreamfactorysoftware/dsp-core/wiki/Database-Date-Time-Formats
+        //  Examples: 'm/d/y h:i:s A' or 'c' or DATE_COOKIE
+        //-------------------------------------------------------------------------
+        'dsp.db_time_format'            => null,
+        'dsp.db_date_format'            => null,
+        'dsp.db_datetime_format'        => null,
+        'dsp.db_timestamp_format'       => null,
         /** Enable/disable detailed CORS logging */
         'dsp.log_cors_info'             => false,
         //-------------------------------------------------------------------------
@@ -242,7 +263,8 @@ return array_merge(
         'dsp.enable_user_scripts'       => true,
         //  If true, events that have been dispatched to a handler are written to the log
         'dsp.log_events'                => true,
-        //  If true, ALL events (with or without handlers) are written to the log. Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
+        //  If true, ALL events (with or without handlers) are written to the log.
+        //  Trumps dsp.log_events. Be aware that enabling this can and will impact performance negatively.
         'dsp.log_all_events'            => false,
         //  If true, current request memory usage will be logged after script execution
         'dsp.log_script_memory_usage'   => false,
