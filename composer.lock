@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f3240bde16d8a98636c6e9765cbcffa1",
+    "hash": "0235066298759e6a2fa271a8696a5275",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -250,16 +250,16 @@
         },
         {
             "name": "dreamfactory/dsp-admin",
-            "version": "0.9.2",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/admin2.git",
-                "reference": "144b155646e550e10aba2a510f942bee21bd6c69"
+                "reference": "433c4ceb38541a633f7f79fe3f61e13e6e31ced5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/admin2/zipball/144b155646e550e10aba2a510f942bee21bd6c69",
-                "reference": "144b155646e550e10aba2a510f942bee21bd6c69",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/admin2/zipball/433c4ceb38541a633f7f79fe3f61e13e6e31ced5",
+                "reference": "433c4ceb38541a633f7f79fe3f61e13e6e31ced5",
                 "shasum": ""
             },
             "require": {
@@ -301,7 +301,7 @@
                 "remote web services",
                 "rest"
             ],
-            "time": "2015-01-22 19:52:24"
+            "time": "2015-01-23 20:42:58"
         },
         {
             "name": "dreamfactory/installer",
@@ -913,16 +913,16 @@
         },
         {
             "name": "kisma/kisma",
-            "version": "0.2.75",
+            "version": "0.2.76",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucifurious/kisma.git",
-                "reference": "0d36026d97e63dad713b6ce22031b80a429506f1"
+                "reference": "ce8bee87b500be777af7a1e5d8b6701162284bb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/0d36026d97e63dad713b6ce22031b80a429506f1",
-                "reference": "0d36026d97e63dad713b6ce22031b80a429506f1",
+                "url": "https://api.github.com/repos/lucifurious/kisma/zipball/ce8bee87b500be777af7a1e5d8b6701162284bb2",
+                "reference": "ce8bee87b500be777af7a1e5d8b6701162284bb2",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "php5",
                 "utility"
             ],
-            "time": "2014-11-13 16:19:43"
+            "time": "2015-01-23 20:59:04"
         },
         {
             "name": "monolog/monolog",
@@ -2770,7 +2770,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "dreamfactory/dsp-admin": 20,
         "phpunit/phpunit": 0,
         "phpunit/php-invoker": 0,
         "phpunit/phpunit-selenium": 0,
