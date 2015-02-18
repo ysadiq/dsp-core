@@ -309,12 +309,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/fabric-audit.git",
-                "reference": "cb33d6ff3f076f87b047adc4570cc3ea9bdee6a7"
+                "reference": "bee4c33db6e9578019abbff5be48e7672738ef08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/fabric-audit/zipball/cb33d6ff3f076f87b047adc4570cc3ea9bdee6a7",
-                "reference": "cb33d6ff3f076f87b047adc4570cc3ea9bdee6a7",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/fabric-audit/zipball/bee4c33db6e9578019abbff5be48e7672738ef08",
+                "reference": "bee4c33db6e9578019abbff5be48e7672738ef08",
                 "shasum": ""
             },
             "require": {
@@ -354,7 +354,7 @@
                 "queue",
                 "utility"
             ],
-            "time": "2015-02-18 16:38:40"
+            "time": "2015-02-18 18:10:21"
         },
         {
             "name": "dreamfactory/installer",
@@ -503,12 +503,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "e6dbfc8fdb1d4427abcc8c5b4661a684e1446b91"
+                "reference": "5bb784dec5fbdb3669a29cc5f231c8dda6dff634"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/e6dbfc8fdb1d4427abcc8c5b4661a684e1446b91",
-                "reference": "e6dbfc8fdb1d4427abcc8c5b4661a684e1446b91",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/5bb784dec5fbdb3669a29cc5f231c8dda6dff634",
+                "reference": "5bb784dec5fbdb3669a29cc5f231c8dda6dff634",
                 "shasum": ""
             },
             "require": {
@@ -573,7 +573,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2015-02-18 16:51:30"
+            "time": "2015-02-18 18:18:51"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
