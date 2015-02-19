@@ -14,6 +14,8 @@
             var folder = $('#folder').val();
             var app = $('#app').val();
             var token = $('#token').val();
+            var username = $('#username').val();
+            var password = $('#password').val();
 
             var json = null;
 
@@ -41,6 +43,9 @@
 						if(token != '') {
 							xhr.setRequestHeader("X-DreamFactory-Session-Token", token);
 						}
+                        if(username && password){
+                            xhr.setRequestHeader("Authorization", "Basic "+btoa(username+':'+password));
+                        }
                     },
                     success: function(json){
                         $('#out').html(JSON.stringify(json, null, '\t'));
@@ -101,6 +106,14 @@
 		X-DreamFactory-Session-Token:
 		<input type="text" id="token" value="" size="80"/>
 	</div>
+    <div>
+        HTTP Auth username:
+        <input type="text" id="username" value="" size="20"/>
+    </div>
+    <div>
+        HTTP Auth password:
+        <input type="text" id="password" value="" size="20"/>
+    </div>
     <br/>
     <button onclick="go()">SUBMIT</button>
 </div>

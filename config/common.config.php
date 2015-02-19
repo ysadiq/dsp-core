@@ -28,6 +28,7 @@ use Kisma\Core\Enums\LoggingLevels;
  * NOTE:   If you make changes to this file they will probably be lost
  *         during the next system update/upgrade.
  */
+/** @noinspection PhpIncludeInspection */
 require __DIR__ . CONSTANTS_CONFIG_PATH;
 
 //*************************************************************************
@@ -221,11 +222,16 @@ return array_merge(
          */
         'dsp.restricted_verbs'          => InstallationTypes::getRestrictedVerbs( $_installType ),
         /** The default application to start */
-        'dsp.default_app'               => '/launchpad/index.html',
-        /** The default landing pages for email confirmations */
-        'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
-        'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
-        'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
+        'dsp.default_app'               => DEFAULT_ADMIN_APP_PATH . '/index.html',
+        /** The old default landing pages for email confirmations
+         * 'dsp.confirm_invite_url'        => '/' . $_defaultController . '/confirmInvite',
+         * 'dsp.confirm_register_url'      => '/' . $_defaultController . '/confirmRegister',
+         * 'dsp.confirm_reset_url'         => '/' . $_defaultController . '/confirmPassword',
+         */
+        /** New admin app landing pages for email confirmations */
+        'dsp.confirm_invite_url'        => DEFAULT_ADMIN_APP_PATH . '/#/user-invite',
+        'dsp.confirm_register_url'      => DEFAULT_ADMIN_APP_PATH . '/#/register-confirm',
+        'dsp.confirm_reset_url'         => DEFAULT_ADMIN_APP_PATH . '/#/reset-password',
         /** The default number of records to return at once for database queries */
         'dsp.db_max_records_returned'   => 1000,
         //-------------------------------------------------------------------------
@@ -236,10 +242,10 @@ return array_merge(
         //  For options see https://github.com/dreamfactorysoftware/dsp-core/wiki/Database-Date-Time-Formats
         //  Examples: 'm/d/y h:i:s A' or 'c' or DATE_COOKIE
         //-------------------------------------------------------------------------
-        'dsp.db_time_format' => null,
-        'dsp.db_date_format' => null,
-        'dsp.db_datetime_format' => null,
-        'dsp.db_timestamp_format' => null,
+        'dsp.db_time_format'            => null,
+        'dsp.db_date_format'            => null,
+        'dsp.db_datetime_format'        => null,
+        'dsp.db_timestamp_format'       => null,
         /** Enable/disable detailed CORS logging */
         'dsp.log_cors_info'             => false,
         //-------------------------------------------------------------------------
