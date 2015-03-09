@@ -203,7 +203,7 @@ return array_merge(
         'dsp.allow_remote_logins'       => false,
         'dsp.allow_admin_remote_logins' => false,
         /** Hosts to be treated as hosted */
-        'dsp.allowed_hosts'             => array('jablan.cloud.dreamfactory.com'),
+        'dsp.hpp_hosts'                 => array('jablan.cloud.dreamfactory.com'),
         /** User data */
         'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
         /** Default services */
