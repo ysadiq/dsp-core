@@ -78,6 +78,10 @@ const DEFAULT_INSTANCE_AUTH_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/
 /**
  * @var string
  */
+const DEFAULT_METADATA_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/metadata';
+/**
+ * @var string
+ */
 const DEFAULT_SUPPORT_EMAIL = 'support@dreamfactory.com';
 /**
  * @var string
