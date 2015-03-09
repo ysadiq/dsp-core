@@ -64,7 +64,8 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
     if ( Fabric::fabricHosted() )
     {
         $_fabricHosted = true;
-        $_dbConfig = Fabric::initialize();
+        list( $_dbConfig, $_metadata ) = Fabric::initialize();
+        $_commonConfig['dsp.metadata'] = $_metadata;
     }
     else
     {
