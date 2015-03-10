@@ -37,7 +37,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="author" content="DreamFactory Software, Inc.">
     <meta name="language" content="en" />
-    <link rel="shortcut icon" href="/img/df_logo_factory-32x32.png" />
+    <link rel="shortcut icon" href="/img/df-icon-256x256.png" />
 
     <!-- Bootstrap 3 CSS -->
     <link rel="stylesheet"
