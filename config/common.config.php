@@ -195,6 +195,7 @@ return array_merge(
         'dsp.fabric_hosted'             => $_fabricHosted,
         'dsp.no_persistent_storage'     => false,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
+        'dsp.metadata_endpoint'         => DEFAULT_METADATA_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
         //  Any keys included from config/keys.config.php
@@ -202,6 +203,8 @@ return array_merge(
         /** Remote Logins */
         'dsp.allow_remote_logins'       => false,
         'dsp.allow_admin_remote_logins' => false,
+        /** Hosts to be treated as hosted private platforms */
+        'dsp.hpp_hosts'                 => array(),
         /** User data */
         'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
         /** Default services */

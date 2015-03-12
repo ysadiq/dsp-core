@@ -75,7 +75,8 @@ else
 {
     if ( Fabric::fabricHosted() )
     {
-        $_dbConfig = Fabric::initialize();
+        list( $_dbConfig, $_metadata ) = Fabric::initialize();
+        $_commonConfig['dsp.metadata'] = $_metadata;
     }
     else
     {

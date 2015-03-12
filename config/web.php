@@ -25,6 +25,7 @@ use Kisma\Core\Utility\Log;
  * web.php
  * This is the main configuration file for the DreamFactory Services Platform server application.
  */
+$_metadata = null;
 $_fabricHosted = false;
 
 if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php' ) )
@@ -64,7 +65,7 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
     if ( Fabric::fabricHosted() )
     {
         $_fabricHosted = true;
-        $_dbConfig = Fabric::initialize();
+        list( $_dbConfig, $_metadata ) = Fabric::initialize();
     }
     else
     {
@@ -105,6 +106,12 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
  */
 /** @noinspection PhpIncludeInspection */
 $_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
+
+//  Add in our new metadata
+if ( !empty( $_metadata ) )
+{
+    $_commonConfig['dsp.metadata'] = $_metadata;
+}
 
 $_restPathPattern = 'rest/<path:[0-9a-zA-Z-_@&#!=,:;\/\^\$\.\|\{\}\[\]\(\)\*\+\? ]+>';
 

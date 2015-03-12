@@ -30,7 +30,7 @@ if ( defined( 'DSP_VERSION' ) )
 /**
  * @var string
  */
-const DSP_VERSION = '1.9.0';
+const DSP_VERSION = '1.9.1';
 /**
  * @var string
  */
@@ -75,6 +75,10 @@ const DEFAULT_CLOUD_API_ENDPOINT = 'http://api.cloud.dreamfactory.com';
  * @var string
  */
 const DEFAULT_INSTANCE_AUTH_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/credentials';
+/**
+ * @var string
+ */
+const DEFAULT_METADATA_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/metadata';
 /**
  * @var string
  */
