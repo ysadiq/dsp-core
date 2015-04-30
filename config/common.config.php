@@ -71,6 +71,9 @@ $_dspSalts = array();
 //  Load some keys
 $_keys = Includer::includeIfExists( __DIR__ . KEYS_CONFIG_PATH, true ) ?: array();
 
+//  DFE check
+$_dfe = Includer::includeIfExists( __DIR__ . DFE_CONFIG_PATH, true ) ?: array();
+
 /** @noinspection PhpIncludeInspection */
 if ( false !== ( $_salts = Includer::includeIfExists( __DIR__ . SALT_CONFIG_PATH, true ) ) )
 {
@@ -290,5 +293,6 @@ return array_merge(
         'dsp.chat_launchpad'            => false,
         'dsp.chat_admin'                => true,
     ),
-    $_dspSalts
+    $_dspSalts,
+    $_dfe
 );

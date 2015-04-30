@@ -94,5 +94,8 @@ const INSTALL_TYPE_KEY = 'dsp.install_type';
 /**
  * @var string
  */
-const DEFAULT_ADMIN_APP_PATH = '/dreamfactory/dist';
-//const DEFAULT_ADMIN_APP_PATH = '/launchpad';
+const DEFAULT_ADMIN_APP_PATH = '/dreamfactory/dist';    //'/launchpad';
+/**
+ * @var string
+ */
+const DFE_CONFIG_PATH = '/dfe.config.php';
