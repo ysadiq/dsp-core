@@ -204,7 +204,7 @@ return array_merge(
         'dsp.allow_remote_logins'       => false,
         'dsp.allow_admin_remote_logins' => false,
         /** Hosts to be treated as hosted private platforms */
-        'dsp.hpp_hosts'                 => array(),
+        'dsp.hpp_hosts'                 => array('dfe-tester.cloud.dreamfactory.com'),
         /** User data */
         'adminEmail'                    => DEFAULT_SUPPORT_EMAIL,
         /** Default services */
