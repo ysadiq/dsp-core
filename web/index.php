@@ -33,6 +33,31 @@ const DSP_DEBUG = false;
  * @type bool Global PHP-ERROR flag: If true, PHP-ERROR will be utilized if available. See https://github.com/JosephLenton/PHP-Error for more info.
  */
 const DSP_DEBUG_PHP_ERROR = false;
+/**
+ * @type string The location and name of the maintenance mode marker
+ */
+const MAINTENANCE_MARKER = '/var/www/.fabric_maintenance';
+/**
+ * @type string The redirect to the maintenance page
+ */
+const MAINTENANCE_URI = '/static/dreamfactory/maintenance.php';
+
+//******************************************************************************
+//* Maintenance Mode Check
+//******************************************************************************
+
+if ( is_file( MAINTENANCE_MARKER ) )
+{
+    if ( isset( $_SERVER, $_SERVER['REQUEST_URI'] ) && MAINTENANCE_URI != $_SERVER['REQUEST_URI'] )
+    {
+        header( 'Location: ' . MAINTENANCE_URI . '?from=' . urlencode( $_SERVER['REQUEST_URI'] ) );
+        die();
+    }
+}
+
+//******************************************************************************
+//* The Guts
+//******************************************************************************
 
 $_class = 'DreamFactory\\Platform\\Yii\\Components\\Platform' . ( 'cli' == PHP_SAPI ? 'Console' : 'Web' ) . 'Application';
 
