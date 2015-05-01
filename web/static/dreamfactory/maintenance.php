@@ -22,18 +22,35 @@
     <link rel="stylesheet" href="/css/maintenance.css">
 
     <script src="/static/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        html, body {
+            min-width: 800px;
+        }
+
+        .jumbotron {
+            min-width:   635px;
+            width:       100%;
+            padding-top: 16px;
+        }
+
+        .jumbotron > h1 {
+            margin-bottom: 24px;
+        }
+
+        #last-checked {
+            display:     inline-block;
+            color:       rgba(60, 118, 61, 1.0);
+            font-size:   17px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body class="maintenance-page">
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid df-navbar">
+    <div class="container-fluid">
         <div class="navbar-header">
             <div class="pull-left df-logo"><a href="/"><img src="/img/logo-navbar-194x42.png"></a></div>
-            <!--            <span class="pull-left df-logo"><a href="/"><img src="/img/df-apple-touch-icon.png"></a></span>--><!--            <span class="pull-left df-brand"><span class="dream-orange">Dream</span>Factory</span>-->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
-                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
-                    class="icon-bar"></span> <span class="icon-bar"></span>
-            </button>
         </div>
 
         <div id="navbar-container"></div>
@@ -43,9 +60,7 @@
 <div class="container-fluid maintenance">
     <div class="jumbotron">
         <h1><i class="fa fa-fw fa-exclamation-circle text-danger"></i>Platform Offline
-            <small class="pull-right text-warning" style="font-size: 18px; padding-top: 43px;">last checked at <?php echo date(
-                    'Y-m-d H:i:s'
-                ); ?></small>
+            <small class="pull-right"></small>
         </h1>
 
         <p>The system is currently undergoing maintenance.</p>
@@ -54,6 +69,7 @@
 
         <p style="margin-bottom: 0;">
             <button class="btn btn-warning btn-refresh"><i class="fa fa-fw fa-refresh"></i>Refresh</button>
+            <span id="last-checked"></span>
         </p>
     </div>
 </div>
@@ -79,22 +95,82 @@
     </div>
 </div>
 
-<script src="/static/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script>
 jQuery(function($) {
     var _fromUri = '<?php echo filter_input(INPUT_GET,'from',FILTER_SANITIZE_STRING);?>';
+    var _page = window.top.location.href;
 
+    /**
+     * Refreshes the page
+     * @private
+     */
     if (_fromUri.length) {
+        //  Start check in 10s, increment 5s each time up to one minute
+        var _checkInterval = 10000;
+
+        //  Refresh the entire page
+        var _refreshPage = function() {
+            window.top.location.href = _fromUri;
+        };
+
+        //  Refresh the last update time
+        var _refreshTime = function() {
+            var _date = new Date();
+
+            //  Reset the color
+            $('#last-checked').css({
+                color: 'rgba(60, 118, 61, 1.0)'
+            }).animate({opacity: 1.0}, 0, function() {
+                $(this).html('last checked at ' + _date.toString()).animate({
+                    opacity: 0.40
+                }, 5000, function() {
+                    _checkInterval += 5000;
+
+                    if (_checkInterval > 60000) {
+                        _checkInterval = 60000;
+                    }
+
+                    //  Check again in a minute
+                    window.setTimeout(_checkSite, _checkInterval);
+                });
+            });
+        };
+
+        //  Do the site check
+        var _checkSite = function() {
+            var _last = window.top.location.href;
+
+            $.ajax({
+                method:      'GET',
+                url:         '/',
+                processData: false
+            }).complete(function(xhr) {
+                switch (xhr.status) {
+                    case 500:   //  ISE
+                    case 404:   //  Not found
+                    case 200:   //  OK
+                        if (window.top.location.href != _last) {
+                            _refreshPage();
+                        } else {
+                            _refreshTime();
+                        }
+                        break;
+
+                    default:
+                        _refreshPage();
+                        break;
+                }
+            });
+        };
+
         $('.btn-refresh').on('click', function(e) {
             e.preventDefault();
             window.top.location.href = _fromUri;
         });
 
-        window.setTimeout(function() {
-            window.top.location.href = _fromUri;
-        }, 30000);
+        //  Kick it all off
+        _checkSite();
     }
-
 });
 </script>
 </body>
