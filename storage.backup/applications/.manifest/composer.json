@@ -1,0 +1,5 @@
+{
+    "require": {
+        "dreamfactory/portal-sandbox": "dev-develop"
+    }
+}
