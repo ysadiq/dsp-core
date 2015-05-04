@@ -33,6 +33,7 @@ use DreamFactory\Platform\Resources\User\Session;
 use DreamFactory\Platform\Services\AsgardService;
 use DreamFactory\Platform\Services\SwaggerManager;
 use DreamFactory\Platform\Services\SystemManager;
+use DreamFactory\Platform\Utility\Enterprise;
 use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Platform\Utility\Platform;
 use DreamFactory\Platform\Utility\ResourceStore;
@@ -101,6 +102,11 @@ class WebController extends BaseWebController
         if ( !empty( $_error ) )
         {
             $this->_remoteError = $_error . ( !empty( $_message ) ? ' (' . $_message . ')' : null );
+        }
+
+        if ( Enterprise::isManagedInstance() )
+        {
+            Log::debug( 'This host is an enterprise-managed instance.' );
         }
     }
 
