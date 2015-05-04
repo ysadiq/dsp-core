@@ -20,6 +20,7 @@
 use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
+use DreamFactory\Platform\Utility\Enterprise;
 use Kisma\Core\Enums\LoggingLevels;
 
 /**
@@ -132,6 +133,18 @@ if ( $_fabricHosted )
         'dsp.storage_id'         => $_storageKey,
         'dsp.private_storage_id' => \Kisma::get( 'platform.private_storage_key' ),
         'dsp_name'               => \Kisma::get( 'platform.dsp_name' ),
+    );
+}
+else if ( Enterprise::isManagedInstance() )
+{
+    $_storagePath = Enterprise::getStoragePath();
+    $_privatePath = Enterprise::getPrivatePath();
+    $_ownerPrivatePath = Enterprise::getOwnerPrivatePath();
+
+    $_identity = array(
+        'dsp.storage_id'         => basename( $_storagePath ),
+        'dsp.private_storage_id' => basename( $_storagePath ),
+        'dsp_name'               => \Kisma::get( 'platform.host_name' ),
     );
 }
 else
