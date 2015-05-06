@@ -126,8 +126,8 @@ $_storageKey = \Kisma::get( 'platform.storage_key' );
  */
 if ( Enterprise::isManagedInstance() )
 {
-    $_logPath = Enterprise::getStoragePath() . DIRECTORY_SEPARATOR . 'logs';
-    Log::debug( 'Enterprise-managed instance. Logs will be written to "' . $_logPath . '".' );
+    $_logFilePath = Enterprise::getLogPath();
+    Log::debug( '>> Enterprise-managed instance found <<' );
 
     $_fabricHosted = false;
     $_installType = InstallationTypes::DFE_INSTANCE;
