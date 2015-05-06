@@ -221,8 +221,9 @@ return array(
         ),
         'clientScript' => array(
             'scriptMap' => array(
-                'jquery.js'     => false,
-                'jquery.min.js' => false,
+                'jquery.js'            => false,
+                'jquery.ba-bbq.min.js' => false,
+                'jquery.min.js'        => false,
             ),
         ),
         //	Logging configuration
