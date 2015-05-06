@@ -22,6 +22,7 @@ use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Enterprise;
 use Kisma\Core\Enums\LoggingLevels;
+use Kisma\Core\Utility\Log;
 
 /**
  * This file contains any application-level parameters that are to be shared between the background and web services
@@ -125,6 +126,9 @@ $_storageKey = \Kisma::get( 'platform.storage_key' );
  */
 if ( Enterprise::isManagedInstance() )
 {
+    $_logPath = Enterprise::getStoragePath() . DIRECTORY_SEPARATOR . 'logs';
+    Log::debug( 'Enterprise-managed instance. Logs will be written to "' . $_logPath . '".' );
+
     $_fabricHosted = false;
     $_installType = InstallationTypes::DFE_INSTANCE;
     $_installName = 'DreamFactory Enterprise';
@@ -140,6 +144,8 @@ if ( Enterprise::isManagedInstance() )
 }
 elseif ( $_fabricHosted )
 {
+    Log::debug( 'Fabric-hosted instance' );
+
     $_storagePath = $_storageBasePath = LocalStorageTypes::FABRIC_STORAGE_BASE_PATH . '/' . $_storageKey;
     $_privatePath = \Kisma::get( 'platform.private_path' );
     $_storagePath = $_storageBasePath . ( version_compare( DSP_VERSION, '2.0.0', '<' ) ? '/blob' : null );
@@ -152,6 +158,8 @@ elseif ( $_fabricHosted )
 }
 else
 {
+    Log::debug( 'Stand-alone instance' );
+
     $_storagePath = $_storageBasePath = $_basePath . LocalStorageTypes::LOCAL_STORAGE_BASE_PATH;
     $_privatePath = $_basePath . '/storage/.private';
 
