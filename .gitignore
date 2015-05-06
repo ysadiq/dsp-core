@@ -3,6 +3,7 @@
 /log
 /storage/
 !/storage/.private
+storage.backup/
 composer.phar
 manifest.yml
 build/
