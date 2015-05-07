@@ -5,7 +5,6 @@
 /storage.backup/
 !/storage/.private
 storage.backup/
->>>>>>> develop
 composer.phar
 manifest.yml
 build/
