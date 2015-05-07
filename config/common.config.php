@@ -101,6 +101,7 @@ if ( false !== ( $_salts = Includer::includeIfExists( __DIR__ . SALT_CONFIG_PATH
         'app.app_name'      => $_appName,
         'app.project_root'  => $_basePath,
         'app.vendor_path'   => $_vendorPath,
+        'app.dfe_instance'  => false,
         'app.log_path'      => $_logFilePath,
         'app.log_file_name' => $_logFileName,
         'app.install_type'  => array($_installType => $_installName),
@@ -132,19 +133,36 @@ if ( Enterprise::isManagedInstance() )
     $_fabricHosted = false;
     $_installType = InstallationTypes::DFE_INSTANCE;
     $_installName = 'DreamFactory Enterprise';
-    $_storagePath = Enterprise::getStoragePath();
+    $_storageBasePath = $_storagePath = Enterprise::getStoragePath();
     $_privatePath = Enterprise::getPrivatePath();
     $_ownerPrivatePath = Enterprise::getOwnerPrivatePath();
+    $_storageKey = basename( dirname( $_storagePath ) );
+
+    \Kisma::set( 'platform.storage_key', $_storageKey );
 
     $_identity = array(
-        'dsp.storage_id'         => basename( $_storagePath ),
-        'dsp.private_storage_id' => basename( $_storagePath ),
-        'dsp_name'               => \Kisma::get( 'platform.host_name' ),
+        'dsp.storage_id'         => $_storageKey,
+        'dsp.private_storage_id' => $_storageKey,
+        'dsp_name'               => Enterprise::getInstanceName(),
+        'dsp.metadata'           => Enterprise::getInstanceMetadata(),
     );
+
+    /**
+     * Application Paths
+     */
+    \Kisma::set(
+        array(
+            'app.log_path'      => $_logFilePath,
+            'app.install_type'  => array($_installType => $_installName),
+            'app.fabric_hosted' => false,
+            'app.dfe_instance'  => true,
+        )
+    );
+
 }
 elseif ( $_fabricHosted )
 {
-    Log::debug( 'Fabric-hosted instance' );
+    Log::debug( '>> Hosted instance found <<' );
 
     $_storagePath = $_storageBasePath = LocalStorageTypes::FABRIC_STORAGE_BASE_PATH . '/' . $_storageKey;
     $_privatePath = \Kisma::get( 'platform.private_path' );
@@ -158,7 +176,7 @@ elseif ( $_fabricHosted )
 }
 else
 {
-    Log::debug( 'Stand-alone instance' );
+    Log::debug( '>> Stand-alone instance found <<' );
 
     $_storagePath = $_storageBasePath = $_basePath . LocalStorageTypes::LOCAL_STORAGE_BASE_PATH;
     $_privatePath = $_basePath . '/storage/.private';
@@ -218,11 +236,12 @@ return array_merge(
         'base_path'                     => $_basePath,
         /** DSP Information */
         'dsp.version'                   => DSP_VERSION,
-        'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
         'dsp.fabric_hosted'             => $_fabricHosted,
         'dsp.no_persistent_storage'     => false,
         'cloud.endpoint'                => DEFAULT_CLOUD_API_ENDPOINT,
-        'dsp.metadata_endpoint'         => DEFAULT_METADATA_ENDPOINT,
+        /** 2015-05-07 GHA : I believe these are unused */
+        //'dsp.auth_endpoint'             => DEFAULT_INSTANCE_AUTH_ENDPOINT,
+        //'dsp.metadata_endpoint'         => DEFAULT_METADATA_ENDPOINT,
         /** OAuth salt */
         'oauth.salt'                    => 'rW64wRUk6Ocs+5c7JwQ{69U{]MBdIHqmx9Wj,=C%S#cA%+?!cJMbaQ+juMjHeEx[dlSe%h%kcI',
         //  Any keys included from config/keys.config.php

@@ -17,8 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
+use DreamFactory\Platform\Utility\Enterprise;
 use DreamFactory\Platform\Utility\Fabric;
-use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Utility\Log;
 
 /**
@@ -37,7 +38,7 @@ if ( !defined( 'DSP_VERSION' ) && file_exists( __DIR__ . '/constants.config.php'
  * Load any environment variables first thing as they may be used by the database config
  */
 /** @noinspection PhpIncludeInspection */
-if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
+if ( false !== ( $_envConfig = Includer::includeIfExists( __DIR__ . ENV_CONFIG_PATH, true ) ) )
 {
     if ( !empty( $_envConfig ) && is_array( $_envConfig ) )
     {
@@ -60,9 +61,16 @@ if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, 
  * Load up the database configuration, free edition, private hosted, or others.
  * Look for non-default database config to override.
  */
-if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
+if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
 {
-    if ( Fabric::fabricHosted() )
+    if ( Enterprise::isManagedInstance() )
+    {
+        $_fabricHosted = false;
+        $_dfeInstance = true;
+        $_metadata = Enterprise::getInstanceMetadata();
+        $_dbConfig = Enterprise::getDbConfig();
+    }
+    else if ( Fabric::fabricHosted() )
     {
         $_fabricHosted = true;
         list( $_dbConfig, $_metadata ) = Fabric::initialize();
