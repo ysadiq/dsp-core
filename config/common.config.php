@@ -21,6 +21,7 @@ use DreamFactory\Library\Utility\Includer;
 use DreamFactory\Platform\Enums\InstallationTypes;
 use DreamFactory\Platform\Enums\LocalStorageTypes;
 use DreamFactory\Platform\Utility\Enterprise;
+use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Enums\LoggingLevels;
 use Kisma\Core\Utility\Log;
 
@@ -37,6 +38,8 @@ require __DIR__ . CONSTANTS_CONFIG_PATH;
 //* Global Configuration Settings
 //*************************************************************************
 
+//  Start out non-managed
+$_managed = false;
 //  The installation type
 $_installType = InstallationTypes::determineType( false, $_installName );
 //  Special fabric-hosted indicator
@@ -124,23 +127,27 @@ $_storageKey = \Kisma::get( 'platform.storage_key' );
 /**
  * Set up and return the common settings...
  */
-if ( Enterprise::isManagedInstance() )
+if ( false !== ( $_managed = Enterprise::isManagedInstance() ) )
 {
-    $_logFilePath = Enterprise::getLogPath();
-    Log::debug( '>> Enterprise-managed instance found <<' );
+    //  Overwrite the initial log location
+    Pii::alias( 'application.log', $_logFilePath = Enterprise::getLogPath() );
+    \Kisma::set( 'app.log_path', $_logFilePath );
 
     $_fabricHosted = false;
+    $_instanceName = Enterprise::getInstanceName();
     $_installType = InstallationTypes::DFE_INSTANCE;
     $_installName = 'DreamFactory Enterprise';
-    $_storagePath = Enterprise::getStoragePath();
+    $_storageBasePath = $_storagePath = Enterprise::getStoragePath();
     $_privatePath = Enterprise::getPrivatePath();
     $_ownerPrivatePath = Enterprise::getOwnerPrivatePath();
 
     $_identity = array(
-        'dsp.storage_id'         => basename( $_storagePath ),
-        'dsp.private_storage_id' => basename( $_storagePath ),
-        'dsp_name'               => \Kisma::get( 'platform.host_name' ),
+        'dsp.storage_id'         => $_instanceName,
+        'dsp.private_storage_id' => '.private',
+        'dsp_name'               => $_instanceName,
     );
+
+    Log::debug( '>> Managed instance "' . $_instanceName . '" found <<' );
 }
 elseif ( $_fabricHosted )
 {
@@ -188,7 +195,7 @@ $_instanceSettings = array_merge(
 );
 
 //	Keep these out of the global space
-unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey );
+unset( $_storageBasePath, $_storagePath, $_privatePath, $_identity, $_storageKey, $_instanceName );
 
 /** @noinspection PhpIncludeInspection */
 return array_merge(
@@ -204,9 +211,15 @@ return array_merge(
         /** The base path */
         'app.base_path'                 => $_basePath,
         /** The private path */
-        'app.private_path'              => $_basePath . $_instanceSettings[LocalStorageTypes::PRIVATE_PATH],
+        'app.private_path'              =>
+            $_managed
+                ? $_instanceSettings[LocalStorageTypes::PRIVATE_PATH]
+                : $_basePath . $_instanceSettings[LocalStorageTypes::PRIVATE_PATH],
         /** The plugins path */
-        'app.plugins_path'              => $_basePath . $_instanceSettings[LocalStorageTypes::PLUGINS_PATH],
+        'app.plugins_path'              =>
+            $_managed
+                ? $_instanceSettings[LocalStorageTypes::PLUGINS_PATH]
+                : $_basePath . $_instanceSettings[LocalStorageTypes::PLUGINS_PATH],
         /** Enable/disable the internal profiler */
         'app.enable_profiler'           => false,
         //  I do not believe this is being utilized

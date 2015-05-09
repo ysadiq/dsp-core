@@ -74,11 +74,11 @@ const DEFAULT_CLOUD_API_ENDPOINT = 'http://api.cloud.dreamfactory.com';
 /**
  * @var string
  */
-const DEFAULT_INSTANCE_AUTH_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/credentials';
+const DEFAULT_INSTANCE_AUTH_ENDPOINT = 'http://dfe-console.local/api/v1/ops/credentials';
 /**
  * @var string
  */
-const DEFAULT_METADATA_ENDPOINT = 'http://cerberus.fabric.dreamfactory.com/api/instance/metadata';
+const DEFAULT_METADATA_ENDPOINT = 'http://dfe-console.local/api/v1/ops/metadata';
 /**
  * @var string
  */
