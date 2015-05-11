@@ -503,12 +503,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "43a4826e094cde6a92e616246389691fd93c32b9"
+                "reference": "db41277c8d83955045ad750b30599b78a6c8e461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/43a4826e094cde6a92e616246389691fd93c32b9",
-                "reference": "43a4826e094cde6a92e616246389691fd93c32b9",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/db41277c8d83955045ad750b30599b78a6c8e461",
+                "reference": "db41277c8d83955045ad750b30599b78a6c8e461",
                 "shasum": ""
             },
             "require": {
@@ -518,7 +518,7 @@
                 "dreamfactory/fabric-audit": "~1.0",
                 "dreamfactory/javascript-sdk": "~1.0",
                 "dreamfactory/lib-php-common": "~1.5.0",
-                "dreamfactory/lib-php-common-yii": "~1.5.0",
+                "dreamfactory/lib-php-common-yii": "dev-develop as dev-master",
                 "dreamfactory/oasys": "*",
                 "dreamfactory/php-utils": "~1.0",
                 "dreamfactory/yii": "~1.1.13.15",
@@ -573,20 +573,20 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2015-05-10 22:55:35"
+            "time": "2015-05-11 17:32:50"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
-            "version": "1.5.15",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "c9fca106234f11781f0f6f32672d2ce86b3db0c0"
+                "reference": "e70c35020348b6a764fd7247d9013d963f4f7b60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/c9fca106234f11781f0f6f32672d2ce86b3db0c0",
-                "reference": "c9fca106234f11781f0f6f32672d2ce86b3db0c0",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/e70c35020348b6a764fd7247d9013d963f4f7b60",
+                "reference": "e70c35020348b6a764fd7247d9013d963f4f7b60",
                 "shasum": ""
             },
             "require": {
@@ -636,7 +636,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2015-02-27 17:48:11"
+            "time": "2015-05-11 17:31:52"
         },
         {
             "name": "dreamfactory/oasys",
