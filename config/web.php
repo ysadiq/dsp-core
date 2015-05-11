@@ -17,6 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use DreamFactory\Library\Utility\Includer;
+use DreamFactory\Platform\Utility\Enterprise;
 use DreamFactory\Platform\Utility\Fabric;
 use DreamFactory\Yii\Utility\Pii;
 use Kisma\Core\Utility\Log;
@@ -57,14 +59,24 @@ if ( false !== ( $_envConfig = Pii::includeIfExists( __DIR__ . ENV_CONFIG_PATH, 
 }
 
 /**
+ * Load up the common configurations between the web and background apps,
+ * setting globals whilst at it. REQUIRED file!
+ */
+/** @noinspection PhpIncludeInspection */
+$_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
+
+/**
  * Load up the database configuration, free edition, private hosted, or others.
  * Look for non-default database config to override.
  */
-if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
+if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
 {
-    if ( Fabric::fabricHosted() )
+    if ( $_managed )
     {
-        $_fabricHosted = true;
+        $_metadata = Enterprise::getConfig( 'metadata' );
+    }
+    else if ( $_fabricHosted )
+    {
         list( $_dbConfig, $_metadata ) = Fabric::initialize();
     }
     else
@@ -100,12 +112,6 @@ if ( false === ( $_dbConfig = Pii::includeIfExists( __DIR__ . DATABASE_CONFIG_PA
         );
     }
 }
-/**
- * Load up the common configurations between the web and background apps,
- * setting globals whilst at it. REQUIRED file!
- */
-/** @noinspection PhpIncludeInspection */
-$_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
 
 //  Add in our new metadata
 if ( !empty( $_metadata ) )
@@ -240,7 +246,7 @@ return array(
                     // Normal debug mode
                     //'levels'      => 'error, warning, info, debug, notice',
                     // Production
-                    'levels'      => 'error, warning, info, notice, debug',
+                    'levels'      => 'error warning info notice debug trace',
                 ),
             ),
         ),

@@ -59,6 +59,8 @@ $_logFilePath = $_basePath . '/log';
 $_logFileName = basename( \Kisma::get( 'app.log_file_name' ) );
 //  Finally the name of our app
 $_appName = 'DreamFactory Services Platform';
+//  Some blank variables to carry on the good work
+$_dbConfig = $_metadata = null;
 
 //  Ensure the assets path exists so Yii doesn't puke.
 $_assetsPath = $_docRoot . '/assets';
@@ -131,15 +133,19 @@ if ( false !== ( $_managed = Enterprise::isManagedInstance() ) )
 {
     //  Overwrite the initial log location
     Pii::alias( 'application.log', $_logFilePath = Enterprise::getLogPath() );
-    \Kisma::set( 'app.log_path', $_logFilePath );
+    \Kisma::set( array('app.log_path' => $_logFilePath, 'app.managed_instance' => true,) );
 
     $_fabricHosted = false;
-    $_instanceName = Enterprise::getInstanceName();
+
+    \Kisma::set( 'platform.dsp_name', $_instanceName = Enterprise::getInstanceName() );
+
     $_installType = InstallationTypes::DFE_INSTANCE;
     $_installName = 'DreamFactory Enterprise';
     $_storageBasePath = $_storagePath = Enterprise::getStoragePath();
     $_privatePath = Enterprise::getPrivatePath();
     $_ownerPrivatePath = Enterprise::getOwnerPrivatePath();
+    $_dbConfig = Enterprise::getConfig( 'db' );
+    $_metadata = Enterprise::getConfig( 'metadata' );
 
     $_identity = array(
         'dsp.storage_id'         => $_instanceName,
