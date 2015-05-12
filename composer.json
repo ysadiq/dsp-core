@@ -53,6 +53,10 @@
         {
             "type": "pear",
             "url":  "http://pear.php.net"
+        },
+        {
+            "type": "git",
+            "url": "git://github.com/ysadiq/lib-php-common-platform.git"
         }
     ],
     "minimum-stability": "dev",
@@ -61,7 +65,7 @@
         "kisma/kisma":                          "~0.2",
         "jeremeamia/superclosure":              "~1.0",
         "dreamfactory/dsp-admin":               "~1.0.11",
-        "dreamfactory/lib-php-common-platform": "~1.9.4",
+        "dreamfactory/lib-php-common-platform": "dev-olm",
         "dreamfactory/php-utils":               "~1.0.0",
         "dreamfactory/yii":                     "~1.1.13.15"
     },
