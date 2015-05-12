@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "0294c5a11e0ad6a25d7f5437332ab326",
@@ -503,12 +503,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "db41277c8d83955045ad750b30599b78a6c8e461"
+                "reference": "3ddc07e377f5e99c8bf3544ad14745a624741fd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/db41277c8d83955045ad750b30599b78a6c8e461",
-                "reference": "db41277c8d83955045ad750b30599b78a6c8e461",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/3ddc07e377f5e99c8bf3544ad14745a624741fd0",
+                "reference": "3ddc07e377f5e99c8bf3544ad14745a624741fd0",
                 "shasum": ""
             },
             "require": {
@@ -573,7 +573,7 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2015-05-11 17:32:50"
+            "time": "2015-05-11 22:44:22"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
@@ -581,12 +581,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "e70c35020348b6a764fd7247d9013d963f4f7b60"
+                "reference": "1a5ec50ac9a77091bb814ab89fdd95a2fd08412e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/e70c35020348b6a764fd7247d9013d963f4f7b60",
-                "reference": "e70c35020348b6a764fd7247d9013d963f4f7b60",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/1a5ec50ac9a77091bb814ab89fdd95a2fd08412e",
+                "reference": "1a5ec50ac9a77091bb814ab89fdd95a2fd08412e",
                 "shasum": ""
             },
             "require": {
@@ -636,7 +636,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2015-05-11 17:31:52"
+            "time": "2015-05-11 22:02:14"
         },
         {
             "name": "dreamfactory/oasys",
