@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b00330fc1c550964f7764ad7792d86e2",
+    "hash": "0294c5a11e0ad6a25d7f5437332ab326",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -499,16 +499,16 @@
         },
         {
             "name": "dreamfactory/lib-php-common-platform",
-            "version": "1.9.5",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-platform.git",
-                "reference": "4a0053c85425e8399232ef33bc50260704408890"
+                "reference": "db41277c8d83955045ad750b30599b78a6c8e461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/4a0053c85425e8399232ef33bc50260704408890",
-                "reference": "4a0053c85425e8399232ef33bc50260704408890",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-platform/zipball/db41277c8d83955045ad750b30599b78a6c8e461",
+                "reference": "db41277c8d83955045ad750b30599b78a6c8e461",
                 "shasum": ""
             },
             "require": {
@@ -518,7 +518,7 @@
                 "dreamfactory/fabric-audit": "~1.0",
                 "dreamfactory/javascript-sdk": "~1.0",
                 "dreamfactory/lib-php-common": "~1.5.0",
-                "dreamfactory/lib-php-common-yii": "~1.5.0",
+                "dreamfactory/lib-php-common-yii": "dev-develop as dev-master",
                 "dreamfactory/oasys": "*",
                 "dreamfactory/php-utils": "~1.0",
                 "dreamfactory/yii": "~1.1.13.15",
@@ -573,20 +573,20 @@
                 "dsp-core",
                 "sdk"
             ],
-            "time": "2015-05-05 19:21:22"
+            "time": "2015-05-11 17:32:50"
         },
         {
             "name": "dreamfactory/lib-php-common-yii",
-            "version": "1.5.15",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/lib-php-common-yii.git",
-                "reference": "c9fca106234f11781f0f6f32672d2ce86b3db0c0"
+                "reference": "e70c35020348b6a764fd7247d9013d963f4f7b60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/c9fca106234f11781f0f6f32672d2ce86b3db0c0",
-                "reference": "c9fca106234f11781f0f6f32672d2ce86b3db0c0",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/lib-php-common-yii/zipball/e70c35020348b6a764fd7247d9013d963f4f7b60",
+                "reference": "e70c35020348b6a764fd7247d9013d963f4f7b60",
                 "shasum": ""
             },
             "require": {
@@ -636,7 +636,7 @@
                 "sdk",
                 "yii"
             ],
-            "time": "2015-02-27 17:48:11"
+            "time": "2015-05-11 17:31:52"
         },
         {
             "name": "dreamfactory/oasys",
@@ -694,16 +694,16 @@
         },
         {
             "name": "dreamfactory/php-utils",
-            "version": "1.0.10",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dreamfactorysoftware/php-utils.git",
-                "reference": "647eed6a8e4a16b1d28b1dcc0ad509ccd5b4214a"
+                "reference": "9f0e78312dbd968b68d61a5f9a01fdb153a017a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/647eed6a8e4a16b1d28b1dcc0ad509ccd5b4214a",
-                "reference": "647eed6a8e4a16b1d28b1dcc0ad509ccd5b4214a",
+                "url": "https://api.github.com/repos/dreamfactorysoftware/php-utils/zipball/9f0e78312dbd968b68d61a5f9a01fdb153a017a2",
+                "reference": "9f0e78312dbd968b68d61a5f9a01fdb153a017a2",
                 "shasum": ""
             },
             "require": {
@@ -741,7 +741,7 @@
                 "dreamfactory",
                 "utility"
             ],
-            "time": "2015-02-26 03:08:07"
+            "time": "2015-05-08 20:24:38"
         },
         {
             "name": "dreamfactory/yii",
@@ -1650,17 +1650,17 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.6.6",
+            "version": "v2.6.7",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "8e9007012226b4bd41f8afed855c452cf5edc3a6"
+                "reference": "b575c160af001d3525ee733085bcc4ec7c8e1b51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/8e9007012226b4bd41f8afed855c452cf5edc3a6",
-                "reference": "8e9007012226b4bd41f8afed855c452cf5edc3a6",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/b575c160af001d3525ee733085bcc4ec7c8e1b51",
+                "reference": "b575c160af001d3525ee733085bcc4ec7c8e1b51",
                 "shasum": ""
             },
             "require": {
@@ -1697,31 +1697,31 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony DependencyInjection Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.6.6",
+            "version": "v2.6.7",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "70f7c8478739ad21e3deef0d977b38c77f1fb284"
+                "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/70f7c8478739ad21e3deef0d977b38c77f1fb284",
-                "reference": "70f7c8478739ad21e3deef0d977b38c77f1fb284",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/672593bc4b0043a0acf91903bb75a1c82d8f2e02",
+                "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02",
                 "shasum": ""
             },
             "require": {
@@ -1756,31 +1756,31 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony EventDispatcher Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-13 17:37:22"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v2.6.6",
+            "version": "v2.6.7",
             "target-dir": "Symfony/Component/HttpFoundation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "8a6337233f08f7520de97f4ffd6f00e947d892f9"
+                "reference": "8a0d00980ef9f6b47ddbf24bdfbf70fead760816"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/8a6337233f08f7520de97f4ffd6f00e947d892f9",
-                "reference": "8a6337233f08f7520de97f4ffd6f00e947d892f9",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/8a0d00980ef9f6b47ddbf24bdfbf70fead760816",
+                "reference": "8a0d00980ef9f6b47ddbf24bdfbf70fead760816",
                 "shasum": ""
             },
             "require": {
@@ -1810,17 +1810,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony HttpFoundation Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-04-01 16:50:12"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         }
     ],
     "packages-dev": [
@@ -2941,17 +2941,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.6",
+            "version": "v2.6.7",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4"
+                "reference": "f157ab074e453ecd4c0fa775f721f6e67a99d9e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/174f009ed36379a801109955fc5a71a49fe62dd4",
-                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/f157ab074e453ecd4c0fa775f721f6e67a99d9e2",
+                "reference": "f157ab074e453ecd4c0fa775f721f6e67a99d9e2",
                 "shasum": ""
             },
             "require": {
@@ -2977,22 +2977,37 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/lib-php-common-platform"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-develop",
+            "package": "dreamfactory/php-utils"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "dreamfactory/lib-php-common-platform": 20,
+        "dreamfactory/php-utils": 20,
         "phpunit/phpunit": 0,
         "phpunit/php-invoker": 0,
         "phpunit/phpunit-selenium": 0,

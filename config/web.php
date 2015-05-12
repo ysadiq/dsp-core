@@ -58,21 +58,39 @@ if ( false !== ( $_envConfig = Includer::includeIfExists( __DIR__ . ENV_CONFIG_P
 }
 
 /**
+ * Load up the common configurations between the web and background apps,
+ * setting globals whilst at it. REQUIRED file!
+ */
+/** @noinspection PhpIncludeInspection */
+$_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
+
+/**
  * Load up the database configuration, free edition, private hosted, or others.
  * Look for non-default database config to override.
  */
 if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONFIG_PATH, true ) ) )
 {
-    if ( Enterprise::isManagedInstance() )
+    if ( $_managed )
     {
-        $_fabricHosted = false;
-        $_dfeInstance = true;
-        $_metadata = Enterprise::getInstanceMetadata();
-        $_dbConfig = Enterprise::getDbConfig();
+        $_data = (array)Enterprise::getConfig( 'db' );
+        $_metadata = (array)Enterprise::getConfig( 'env' );
+
+        // default config for local database
+        $_dbConfig = array(
+            'connectionString'      => 'mysql:host=localhost;port=3306;dbname=' . $_data['database'],
+            'username'              => $_data['username'],
+            'password'              => $_data['password'],
+            'emulatePrepare'        => true,
+            'charset'               => 'utf8',
+            'enableProfiling'       => defined( 'YII_DEBUG' ),
+            'enableParamLogging'    => defined( 'YII_DEBUG' ),
+            'schemaCachingDuration' => 3600,
+        );
+
+        unset( $_data );
     }
-    else if ( Fabric::fabricHosted() )
+    else if ( $_fabricHosted )
     {
-        $_fabricHosted = true;
         list( $_dbConfig, $_metadata ) = Fabric::initialize();
     }
     else
@@ -108,12 +126,6 @@ if ( false === ( $_dbConfig = Includer::includeIfExists( __DIR__ . DATABASE_CONF
         );
     }
 }
-/**
- * Load up the common configurations between the web and background apps,
- * setting globals whilst at it. REQUIRED file!
- */
-/** @noinspection PhpIncludeInspection */
-$_commonConfig = require( __DIR__ . COMMON_CONFIG_PATH );
 
 //  Add in our new metadata
 if ( !empty( $_metadata ) )
@@ -248,7 +260,7 @@ return array(
                     // Normal debug mode
                     //'levels'      => 'error, warning, info, debug, notice',
                     // Production
-                    'levels'      => 'error, warning, info, notice, debug',
+                    'levels'      => 'error warning info notice debug trace',
                 ),
             ),
         ),

@@ -1,9 +1,10 @@
 .idea/
-vendor/
-log/
-storage/
+/vendor
+/log
+/storage/
+/storage.backup/
+!/storage/.private
 storage.backup/
-!storage/.private/
 composer.phar
 manifest.yml
 build/
