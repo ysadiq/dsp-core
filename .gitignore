@@ -1,8 +1,8 @@
 .idea/
 /vendor
 /log
-/storage/
-!/storage/.private
+storage/*
+!storage/uploads/
 composer.phar
 manifest.yml
 build/
