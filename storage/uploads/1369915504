@@ -1,0 +1,4 @@
+name,description,frequency,createdAt,lastModified,tags,weight,featured,liveStreamingURL
+asd,asd,123,"Sun, 26 May 2013 14:23:49","Thu, 30 May 2013 11:56:57","asd, test, name",5,on,www.tst.com
+hgf,yfy,326,"Sun, 26 May 2013 14:26:36","Thu, 30 May 2013 11:57:20","hgf, name, test",36,on,www.olitintl.com
+ioj,ioi,321,"Sun, 26 May 2013 14:26:45","Thu, 30 May 2013 11:58:20","test, new test,name",36,on,http://www.newtest.com
