@@ -3,6 +3,7 @@
 /log
 storage/*
 !storage/uploads/
+!storage/.private/scripts/
 composer.phar
 manifest.yml
 build/
